@@ -33,7 +33,7 @@ return new class extends Migration
             $table->string('personal_id', 11)->unique();
             $table->dateTime('hired_at');
             $table->date('date_of_birth');
-            $table->string('cellphone', 15)->unique();
+            $table->string('cellphone', 20)->unique();
             $table->enum('status', EmployeeStatus::all());
             $table->enum('marriage', MaritalStatus::all());
             $table->enum('gender', Gender::all());

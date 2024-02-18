@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasManyPositions;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class PaymentType extends Model
 {
-    use HasFactory;
+    use HasFactory, HasManyPositions;
     protected $fillable = ['name', 'description'];
 }

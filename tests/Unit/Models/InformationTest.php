@@ -2,10 +2,18 @@
 
 namespace Tests\Unit\Models;
 
+use App\Models\Afp;
+use App\Models\Ars;
 use Tests\TestCase;
+use App\Models\Bank;
+use App\Models\Site;
+use App\Models\Employee;
+use App\Models\Supervisor;
 use App\Models\Information;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class InformationTest extends TestCase
 {
