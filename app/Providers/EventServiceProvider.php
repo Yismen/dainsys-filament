@@ -3,6 +3,10 @@
 namespace App\Providers;
 
 use App\Events\EmployeeSaved;
+use App\Events\SuspensionUpdated;
+use App\Events\TerminationCreated;
+use App\Listeners\SuspendEmployee;
+use App\Listeners\TerminateEmployee;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
 use App\Listeners\UpdateEmployeeFullName;
@@ -22,6 +26,12 @@ class EventServiceProvider extends ServiceProvider
         ],
         EmployeeSaved::class => [
             UpdateEmployeeFullName::class
+        ],
+        SuspensionUpdated::class => [
+            SuspendEmployee::class,
+        ],
+        TerminationCreated::class => [
+            TerminateEmployee::class,
         ],
     ];
 
