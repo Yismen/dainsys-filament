@@ -6,9 +6,8 @@ use App\Models\Employee;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
-class EmployeeCreated extends Mailable implements ShouldQueue
+class EmployeeReactivated extends Mailable
 {
     use Queueable;
     use SerializesModels;
@@ -24,6 +23,6 @@ class EmployeeCreated extends Mailable implements ShouldQueue
     {
         return $this
             ->to(MailingService::subscribers($this))
-            ->markdown('dainsys::mail.employee-created');
+            ->markdown('dainsys::mail.employee-reactivated');
     }
 }

@@ -7,6 +7,7 @@ use Tests\TestCase;
 use App\Events\SuspensionUpdated;
 use App\Listeners\SuspendEmployee;
 use Illuminate\Support\Facades\Event;
+use App\Listeners\SendEmployeeSuspendedEmail;
 
 class SuspensionUpdatedTest extends TestCase
 {
@@ -15,6 +16,6 @@ class SuspensionUpdatedTest extends TestCase
     {
         Event::fake();
         Event::assertListening(SuspensionUpdated::class, SuspendEmployee::class);
-        // Event::assertListening(SuspensionUpdated::class, SendEmployeeSuspendedEmail::class);
+        Event::assertListening(SuspensionUpdated::class, SendEmployeeSuspendedEmail::class);
     }
 }

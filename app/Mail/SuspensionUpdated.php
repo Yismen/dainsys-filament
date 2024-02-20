@@ -2,28 +2,28 @@
 
 namespace App\Mail;
 
-use App\Models\Employee;
+use App\Models\Suspension;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class EmployeeCreated extends Mailable implements ShouldQueue
+class SuspensionUpdated extends Mailable implements ShouldQueue
 {
     use Queueable;
     use SerializesModels;
 
-    public Employee $employee;
+    public Suspension $suspension;
 
-    public function __construct(Employee $employee)
+    public function __construct(Suspension $suspension)
     {
-        $this->employee = $employee;
+        $this->suspension = $suspension;
     }
 
     public function build()
     {
         return $this
             ->to(MailingService::subscribers($this))
-            ->markdown('dainsys::mail.employee-created');
+            ->markdown('dainsys::mail.suspension-updated');
     }
 }

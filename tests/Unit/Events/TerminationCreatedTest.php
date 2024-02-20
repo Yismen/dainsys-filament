@@ -7,7 +7,7 @@ use Tests\TestCase;
 use App\Events\TerminationCreated;
 use App\Listeners\TerminateEmployee;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Listeners\SendEmployeeTerminatedEmail;
 
 class TerminationCreatedTest extends TestCase
 {
@@ -17,5 +17,6 @@ class TerminationCreatedTest extends TestCase
     {
         Event::fake();
         Event::assertListening(TerminationCreated::class, TerminateEmployee::class);
+        Event::assertListening(TerminationCreated::class, SendEmployeeTerminatedEmail::class);
     }
 }

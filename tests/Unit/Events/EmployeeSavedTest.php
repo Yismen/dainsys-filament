@@ -8,7 +8,7 @@ use App\Events\EmployeeSaved;
 use Illuminate\Support\Facades\Event;
 use App\Listeners\UpdateEmployeeFullName;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Dainsys\HumanResource\Listeners\UpdateFullName;
+use App\Listeners\UpdateFullName;
 
 class EmployeeSavedTest extends TestCase
 {
