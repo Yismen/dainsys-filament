@@ -18,10 +18,11 @@ return new class extends Migration
         Schema::create('positions', function (Blueprint $table) {
             $table->id();
             $table->string('name', 500)->unique();
-            $table->foreignIdFor(Department::class)->constrained('departments');
-            $table->foreignIdFor(PaymentType::class)->constrained('payment_types');
+            $table->foreignIdFor(Department::class)->constrained('departments')->cascadeOnDelete();
+            $table->foreignIdFor(PaymentType::class)->constrained('payment_types')->cascadeOnDelete();
             $table->integer('salary')->unsigned();
             $table->text('description')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

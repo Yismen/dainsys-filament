@@ -5,12 +5,13 @@ namespace App\Models;
 use App\Events\SuspensionUpdated;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\BelongsToEmployee;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Traits\BelongsToSuspensionType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Suspension extends Model
 {
-    use HasFactory, BelongsToEmployee, BelongsToSuspensionType;
+    use HasFactory, SoftDeletes, BelongsToEmployee, BelongsToSuspensionType;
 
     protected $fillable = ['employee_id', 'suspension_type_id', 'starts_at', 'ends_at', 'comments'];
 

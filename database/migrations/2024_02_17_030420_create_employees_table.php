@@ -38,13 +38,14 @@ return new class extends Migration
             $table->enum('marriage', MaritalStatus::all());
             $table->enum('gender', Gender::all());
             $table->boolean('kids')->default(false);
-            $table->foreignIdFor(Site::class)->constrained('sites');
-            $table->foreignIdFor(Project::class)->constrained('projects');
-            $table->foreignIdFor(Position::class)->constrained('positions');
-            $table->foreignIdFor(Citizenship::class)->constrained('citizenships');
-            $table->foreignIdFor(Supervisor::class)->nullable()->constrained('supervisors');
-            $table->foreignIdFor(Afp::class)->nullable()->constrained('afps');
-            $table->foreignIdFor(Ars::class)->nullable()->constrained('arss');
+            $table->foreignIdFor(Site::class)->constrained('sites')->cascadeOnDelete();
+            $table->foreignIdFor(Project::class)->constrained('projects')->cascadeOnDelete();
+            $table->foreignIdFor(Position::class)->constrained('positions')->cascadeOnDelete();
+            $table->foreignIdFor(Citizenship::class)->constrained('citizenships')->cascadeOnDelete();
+            $table->foreignIdFor(Supervisor::class)->nullable()->constrained('supervisors')->cascadeOnDelete();
+            $table->foreignIdFor(Afp::class)->nullable()->constrained('afps')->cascadeOnDelete();
+            $table->foreignIdFor(Ars::class)->nullable()->constrained('arss')->cascadeOnDelete();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

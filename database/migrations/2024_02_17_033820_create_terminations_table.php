@@ -19,11 +19,12 @@ return new class extends Migration
         Schema::create('terminations', function (Blueprint $table) {
             $table->id();
             $table->date('date');
-            $table->foreignIdFor(Employee::class)->constrained('employees');
-            $table->foreignIdFor(TerminationType::class)->constrained('termination_types');
-            $table->foreignIdFor(TerminationReason::class)->constrained('termination_reasons');
+            $table->foreignIdFor(Employee::class)->constrained('employees')->cascadeOnDelete();
+            $table->foreignIdFor(TerminationType::class)->constrained('termination_types')->cascadeOnDelete();
+            $table->foreignIdFor(TerminationReason::class)->constrained('termination_reasons')->cascadeOnDelete();
             $table->boolean('rehireable')->default(true);
             $table->text('comments')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

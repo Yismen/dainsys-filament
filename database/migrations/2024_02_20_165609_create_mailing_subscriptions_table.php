@@ -15,7 +15,8 @@ return new class extends Migration
         Schema::create('mailing_subscriptions', function (Blueprint $table) {
             $table->id();
             $table->string('mailable', 1200);
-            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(User::class)->constrained('users')->cascadeOnDelete();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

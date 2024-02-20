@@ -13,6 +13,7 @@ class AfpTest extends TestCase
     /** @test */
     public function afps_model_interacts_with_db_table()
     {
+        $this->withoutExceptionHandling();
         $data = Afp::factory()->make();
 
         Afp::create($data->toArray());

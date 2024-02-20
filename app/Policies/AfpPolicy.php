@@ -10,6 +10,12 @@ class AfpPolicy
 {
     use HandlesAuthorization;
 
+    public function before(User $user, string $ability): bool|null
+    {
+
+        return true;
+    }
+
     /**
      * Determine whether the user can view any models.
      *

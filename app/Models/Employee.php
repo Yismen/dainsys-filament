@@ -17,11 +17,12 @@ use App\Models\Traits\BelongsToDepartment;
 use App\Models\Traits\BelongsToSupervisor;
 use App\Models\Traits\HasManyTerminations;
 use App\Models\Traits\BelongsToCitizenship;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Employee extends Model
 {
-    use HasFactory, BelongsToSite, BelongsToProject, HasInformation, BelongsToPosition, BelongsToDepartment, BelongsToCitizenship, BelongsToSupervisor, BelongsToAfp, BelongsToArs, HasManyTerminations, HasManySuspensions;
+    use HasFactory, SoftDeletes, BelongsToSite, BelongsToProject, HasInformation, BelongsToPosition, BelongsToDepartment, BelongsToCitizenship, BelongsToSupervisor, BelongsToAfp, BelongsToArs, HasManyTerminations, HasManySuspensions;
     protected $casts = [
         'date_of_birth' => 'datetime:Y-m-d',
         'hired_at' => 'datetime:Y-m-d',

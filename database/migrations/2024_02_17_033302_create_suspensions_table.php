@@ -17,11 +17,12 @@ return new class extends Migration
     {
         Schema::create('suspensions', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Employee::class)->constrained('employees');
-            $table->foreignIdFor(SuspensionType::class)->constrained('suspension_types');
+            $table->foreignIdFor(Employee::class)->constrained('employees')->cascadeOnDelete();
+            $table->foreignIdFor(SuspensionType::class)->constrained('suspension_types')->cascadeOnDelete();
             $table->date('starts_at');
             $table->date('ends_at');
             $table->text('comments')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

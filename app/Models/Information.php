@@ -9,11 +9,12 @@ use App\Models\Traits\BelongsToSite;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\BelongsToEmployee;
 use App\Models\Traits\BelongsToSupervisor;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Information extends Model
 {
-    use HasFactory, BelongsToSupervisor, BelongsToAfp, BelongsToArs, BelongsToBank, BelongsToSite, BelongsToEmployee;
+    use HasFactory, SoftDeletes, BelongsToSupervisor, BelongsToAfp, BelongsToArs, BelongsToBank, BelongsToSite, BelongsToEmployee;
     protected $fillable = ['phone', 'email', 'photo_url', 'address', 'company_id', 'informationable_id', 'informationable_type'];
 
     protected $table = 'informations';
