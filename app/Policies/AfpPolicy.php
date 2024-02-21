@@ -8,13 +8,7 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 
 class AfpPolicy
 {
-    use HandlesAuthorization;
-
-    public function before(User $user, string $ability): bool|null
-    {
-
-        return true;
-    }
+    use HandlesAuthorization, \App\Policies\Traits\CheckPermission;
 
     /**
      * Determine whether the user can view any models.
