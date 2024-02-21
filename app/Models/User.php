@@ -6,8 +6,10 @@ namespace App\Models;
 
 use Filament\Panel;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\FilamentUser;
+use Spatie\Permission\Traits\HasPermissions;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Traits\HasManyMailingSubscriptions;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,7 +18,7 @@ use Jeffgreco13\FilamentBreezy\Traits\TwoFactorAuthenticatable;
 
 class User extends Authenticatable implements FilamentUser
 {
-    use HasApiTokens, HasFactory, Notifiable, TwoFactorAuthenticatable, SoftDeletes, HasManyMailingSubscriptions;
+    use HasApiTokens, HasFactory, Notifiable, TwoFactorAuthenticatable, SoftDeletes, HasRoles, HasManyMailingSubscriptions;
 
     /**
      * The attributes that are mass assignable.
