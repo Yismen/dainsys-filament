@@ -43,7 +43,7 @@ class AppPanelProvider extends PanelProvider
                     ->enableTwoFactorAuthentication()
             ])
             ->colors([
-                'primary' => Color::Lime,
+                'primary' => Color::Amber,
             ])
             ->discoverResources(in: app_path('Filament/App/Resources'), for: 'App\\Filament\\App\\Resources')
             ->discoverPages(in: app_path('Filament/App/Pages'), for: 'App\\Filament\\App\\Pages')
