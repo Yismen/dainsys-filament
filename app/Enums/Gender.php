@@ -2,12 +2,14 @@
 
 namespace App\Enums;
 
-use App\Enums\Traits\AsEnum;
+use App\Enums\Traits\EnumNames;
+use App\Enums\Traits\EnumValues;
+use App\Enums\Traits\EnumToArray;
 use App\Enums\Contracts\EnumContract;
 
 enum Gender: string implements EnumContract
 {
-    use AsEnum;
+    use EnumNames, EnumValues, EnumToArray;
 
     case Male = 'Male';
     case Female = 'Female';

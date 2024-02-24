@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Enums;
 
-use Tests\TestCase;
-use App\Enums\EmployeeStatus;
 
+use App\Enums\EmployeeStatus;
+use PHPUnit\Framework\TestCase;
 
 class EmployeeStatusTest extends TestCase
 {
