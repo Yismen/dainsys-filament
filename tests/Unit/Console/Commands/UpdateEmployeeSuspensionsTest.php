@@ -29,13 +29,13 @@ class UpdateEmployeeSuspensionsTest extends TestCase
             'starts_at' => now()->subDay(),
             'ends_at' => now()->addDay(),
         ]);
-        $current->update(['status' => EmployeeStatus::CURRENT]);
+        $current->update(['status' => EmployeeStatus::Current]);
 
         $this->artisan(UpdateEmployeeSuspensions::class);
 
         $this->assertDatabaseHas('employees', [
             'id' => $current->id,
-            'status' => EmployeeStatus::SUSPENDED,
+            'status' => EmployeeStatus::Suspended,
         ]);
     }
 
@@ -48,13 +48,13 @@ class UpdateEmployeeSuspensionsTest extends TestCase
             'starts_at' => now()->subDay(),
             'ends_at' => now()->addDay(),
         ]);
-        $current->update(['status' => EmployeeStatus::INACTIVE]);
+        $current->update(['status' => EmployeeStatus::Inactive]);
 
         $this->artisan(UpdateEmployeeSuspensions::class);
 
         $this->assertDatabaseHas('employees', [
             'id' => $current->id,
-            'status' => EmployeeStatus::INACTIVE,
+            'status' => EmployeeStatus::Inactive,
         ]);
     }
 
@@ -73,7 +73,7 @@ class UpdateEmployeeSuspensionsTest extends TestCase
 
         $this->assertDatabaseMissing('employees', [
             'id' => $inactive->id,
-            'status' => EmployeeStatus::SUSPENDED,
+            'status' => EmployeeStatus::Suspended,
         ]);
     }
 
@@ -86,13 +86,13 @@ class UpdateEmployeeSuspensionsTest extends TestCase
             'starts_at' => now()->addDay(),
             'ends_at' => now()->addDay(),
         ]);
-        $current->update(['status' => EmployeeStatus::CURRENT]);
+        $current->update(['status' => EmployeeStatus::Current]);
 
         $this->artisan(UpdateEmployeeSuspensions::class);
 
         $this->assertDatabaseHas('employees', [
             'id' => $current->id,
-            'status' => EmployeeStatus::CURRENT,
+            'status' => EmployeeStatus::Current,
         ]);
     }
 
@@ -105,13 +105,13 @@ class UpdateEmployeeSuspensionsTest extends TestCase
             'starts_at' => now()->subDay(),
             'ends_at' => now()->subDay(),
         ]);
-        $current->update(['status' => EmployeeStatus::CURRENT]);
+        $current->update(['status' => EmployeeStatus::Current]);
 
         $this->artisan(UpdateEmployeeSuspensions::class);
 
         $this->assertDatabaseHas('employees', [
             'id' => $current->id,
-            'status' => EmployeeStatus::CURRENT,
+            'status' => EmployeeStatus::Current,
         ]);
     }
 
@@ -124,13 +124,13 @@ class UpdateEmployeeSuspensionsTest extends TestCase
             'starts_at' => now()->addDay(),
             'ends_at' => now()->addDay(),
         ]);
-        $current->update(['status' => EmployeeStatus::SUSPENDED]);
+        $current->update(['status' => EmployeeStatus::Suspended]);
 
         $this->artisan(UpdateEmployeeSuspensions::class);
 
         $this->assertDatabaseHas('employees', [
             'id' => $current->id,
-            'status' => EmployeeStatus::CURRENT,
+            'status' => EmployeeStatus::Current,
         ]);
     }
 
@@ -143,13 +143,13 @@ class UpdateEmployeeSuspensionsTest extends TestCase
             'starts_at' => now()->subDay(),
             'ends_at' => now()->subDay(),
         ]);
-        $current->update(['status' => EmployeeStatus::SUSPENDED]);
+        $current->update(['status' => EmployeeStatus::Suspended]);
 
         $this->artisan(UpdateEmployeeSuspensions::class);
 
         $this->assertDatabaseHas('employees', [
             'id' => $current->id,
-            'status' => EmployeeStatus::CURRENT,
+            'status' => EmployeeStatus::Current,
         ]);
     }
 }

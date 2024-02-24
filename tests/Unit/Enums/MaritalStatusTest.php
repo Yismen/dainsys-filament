@@ -27,6 +27,6 @@ class MaritalStatusTest extends TestCase
             'Married' => 'Married',
             'Divorced' => 'Divorced',
             'Free Union' => 'Free Union',
-        ], MaritalStatus::all());
+        ], MaritalStatus::toArray());
     }
 }

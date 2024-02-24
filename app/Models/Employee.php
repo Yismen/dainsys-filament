@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\Gender;
+use App\Enums\MaritalStatus;
 use App\Enums\EmployeeStatus;
 use App\Events\EmployeeSaved;
 use App\Events\EmployeeCreated;
@@ -26,6 +28,9 @@ class Employee extends Model
     protected $casts = [
         'date_of_birth' => 'datetime:Y-m-d',
         'hired_at' => 'datetime:Y-m-d',
+        'status' => EmployeeStatus::class,
+        'marriage' => MaritalStatus::class,
+        'gender' => Gender::class,
     ];
 
     protected $fillable = ['first_name', 'second_first_name', 'last_name', 'second_last_name', 'full_name', 'personal_id', 'hired_at', 'date_of_birth', 'cellphone', 'status', 'marriage', 'gender', 'kids', 'site_id', 'project_id', 'position_id', 'citizenship_id', 'supervisor_id', 'afp_id', 'ars_id'];
@@ -56,28 +61,28 @@ class Employee extends Model
 
     public function scopeCurrent($query)
     {
-        $query->where('status', EmployeeStatus::CURRENT);
+        $query->where('status', EmployeeStatus::Current);
     }
 
     public function scopeSuspended($query)
     {
-        $query->where('status', EmployeeStatus::SUSPENDED);
+        $query->where('status', EmployeeStatus::Suspended);
     }
 
     public function scopeInactive($query)
     {
-        $query->where('status', EmployeeStatus::INACTIVE);
+        $query->where('status', EmployeeStatus::Inactive);
     }
 
     public function scopeNotInactive($query)
     {
-        $query->where('status', '<>', EmployeeStatus::INACTIVE);
+        $query->where('status', '<>', EmployeeStatus::Inactive);
     }
 
     public function scopeHasActiveSuspension($query)
     {
         $query->with('suspensions')
-            ->where('status', '<>', EmployeeStatus::INACTIVE)
+            ->where('status', '<>', EmployeeStatus::Inactive)
             ->where(function ($query) {
                 $query->whereHas('suspensions', function ($suspensions) {
                     $suspensions->active();
@@ -97,7 +102,7 @@ class Employee extends Model
 
     public function shouldBeSuspended(): bool
     {
-        if ($this->status === EmployeeStatus::INACTIVE) {
+        if ($this->status === EmployeeStatus::Inactive) {
             return false;
         }
 
@@ -106,7 +111,7 @@ class Employee extends Model
 
     public function shouldNotBeSuspended(): bool
     {
-        if ($this->status === EmployeeStatus::INACTIVE) {
+        if ($this->status === EmployeeStatus::Inactive) {
             return false;
         }
 
@@ -115,11 +120,11 @@ class Employee extends Model
 
     public function suspend()
     {
-        $this->updateQuietly(['status' => EmployeeStatus::SUSPENDED]);
+        $this->updateQuietly(['status' => EmployeeStatus::Suspended]);
     }
 
     public function unSuspend()
     {
-        $this->updateQuietly(['status' => EmployeeStatus::CURRENT]);
+        $this->updateQuietly(['status' => EmployeeStatus::Current]);
     }
 }

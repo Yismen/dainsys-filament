@@ -2,9 +2,14 @@
 
 namespace App\Enums;
 
-class Gender extends AbstractEnum
+use App\Enums\Traits\AsEnum;
+use App\Enums\Contracts\EnumContract;
+
+enum Gender: string implements EnumContract
 {
-    public const MALE = 'Male';
-    public const FEMALE = 'Female';
-    public const UNDEFINED = 'Undefined';
+    use AsEnum;
+
+    case Male = 'Male';
+    case Female = 'Female';
+    // case Undefined = 'Undefined';
 }

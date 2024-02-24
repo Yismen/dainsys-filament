@@ -14,7 +14,7 @@ class GenderTest extends TestCase
         $this->assertEquals([
             'Male',
             'Female',
-            'Undefined',
+            // 'Undefined',
         ], Gender::values());
     }
 
@@ -24,7 +24,7 @@ class GenderTest extends TestCase
         $this->assertEquals([
             'Male' => 'Male',
             'Female' => 'Female',
-            'Undefined' => 'Undefined',
-        ], Gender::all());
+            // 'Undefined' => 'Undefined',
+        ], Gender::toArray());
     }
 }

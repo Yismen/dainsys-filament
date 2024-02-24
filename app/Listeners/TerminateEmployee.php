@@ -10,6 +10,6 @@ class TerminateEmployee
 {
     public function handle(TerminationCreated $event)
     {
-        $event->termination->employee->updateQuietly(['status' => EmployeeStatus::INACTIVE]);
+        $event->termination->employee->updateQuietly(['status' => EmployeeStatus::Inactive]);
     }
 }

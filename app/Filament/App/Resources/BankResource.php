@@ -8,6 +8,7 @@ use Filament\Tables;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\App\Resources\BankResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -23,13 +24,16 @@ class BankResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->autofocus()
-                    ->maxLength(500),
-                Forms\Components\Textarea::make('description')
-                    ->maxLength(65535)
-                    ->columnSpanFull(),
+                Section::make('')
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
+                            ->required()
+                            ->autofocus()
+                            ->maxLength(500),
+                        Forms\Components\Textarea::make('description')
+                            ->maxLength(65535)
+                            ->columnSpanFull(),
+                    ])
             ]);
     }
 

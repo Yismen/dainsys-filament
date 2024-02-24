@@ -2,13 +2,14 @@
 
 namespace App\Filament\App\Resources;
 
-use Filament\Forms;
 use Filament\Tables;
 use App\Models\Position;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Support\Forms\PositionSchema;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\App\Resources\PositionResource\Pages;
 use App\Filament\App\Resources\PositionResource\RelationManagers;
@@ -23,36 +24,9 @@ class PositionResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('department_id')
-                    ->relationship('department', 'name')
-                    ->autofocus()
-                    ->required()
-                    ->createOptionForm([
-                        Forms\Components\TextInput::make('name')
-                            ->required()
-                            ->autofocus(),
-                        Forms\Components\TextInput::make('description'),
-                    ]),
-                Forms\Components\Select::make('payment_type_id')
-                    ->relationship('paymentType', 'name')
-                    ->required()
-                    ->createOptionForm([
-                        Forms\Components\TextInput::make('name')
-                            ->required()
-                            ->autofocus(),
-                        Forms\Components\TextInput::make('description'),
-                    ]),
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->unique()
-                    ->maxLength(500),
-                Forms\Components\TextInput::make('salary')
-                    ->required()
-                    ->minValue(0)
-                    ->numeric(),
-                Forms\Components\Textarea::make('description')
-                    ->maxLength(65535)
-                    ->columnSpanFull(),
+                Section::make('asdf')
+                    ->schema(PositionSchema::toArray())
+                    ->columns(2)
             ]);
     }
 

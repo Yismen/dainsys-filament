@@ -25,6 +25,6 @@ class EmployeeStatusTest extends TestCase
             'Current' => 'Current',
             'Inactive' => 'Inactive',
             'Suspended' => 'Suspended',
-        ], EmployeeStatus::all());
+        ], EmployeeStatus::toArray());
     }
 }

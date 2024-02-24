@@ -47,7 +47,7 @@ class EmployeesSuspended extends Command
                 'project',
                 'suspensions' => fn ($query) => $query->active()
             ])
-            ->where('status', EmployeeStatus::SUSPENDED)
+            ->where('status', EmployeeStatus::Suspended)
             ->whereHas('suspensions', function ($query) {
                 $query->active();
             })

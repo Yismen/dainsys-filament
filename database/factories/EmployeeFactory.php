@@ -45,9 +45,9 @@ class EmployeeFactory extends Factory
             'hired_at' => now(),
             'date_of_birth' => Carbon::parse(),
             'cellphone' => $this->faker->phoneNumber(),
-            'status' => array_rand(EmployeeStatus::all()),
-            'marriage' => array_rand(MaritalStatus::all()),
-            'gender' => array_rand(Gender::all()),
+            'status' => array_rand(EmployeeStatus::toArray()),
+            'marriage' => array_rand(MaritalStatus::toArray()),
+            'gender' => array_rand(Gender::toArray()),
             'kids' => $this->faker->randomElement([0, 1]),
             'site_id' => Site::factory(),
             'project_id' => Project::factory(),
@@ -63,7 +63,7 @@ class EmployeeFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'status' => EmployeeStatus::CURRENT,
+                'status' => EmployeeStatus::Current,
             ];
         });
     }
@@ -72,7 +72,7 @@ class EmployeeFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'status' => EmployeeStatus::INACTIVE,
+                'status' => EmployeeStatus::Inactive,
             ];
         });
     }
@@ -81,7 +81,7 @@ class EmployeeFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'status' => EmployeeStatus::SUSPENDED,
+                'status' => EmployeeStatus::Suspended,
             ];
         });
     }

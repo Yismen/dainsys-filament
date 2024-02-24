@@ -8,7 +8,9 @@ use Filament\Forms\Form;
 use Filament\Tables\Table;
 use App\Models\Citizenship;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Support\Forms\CitizenshipSchema;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\App\Resources\CitizenshipResource\Pages;
 use App\Filament\App\Resources\CitizenshipResource\RelationManagers;
@@ -23,12 +25,8 @@ class CitizenshipResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(500),
-                Forms\Components\Textarea::make('description')
-                    ->maxLength(65535)
-                    ->columnSpanFull(),
+                Section::make('')
+                    ->schema(CitizenshipSchema::toArray())
             ]);
     }
 

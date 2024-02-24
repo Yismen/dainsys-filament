@@ -9,6 +9,7 @@ use Filament\Tables\Table;
 use App\Models\PaymentType;
 use Filament\Resources\Resource;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Support\Forms\PaymentTypeSchema;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\App\Resources\PaymentTypeResource\Pages;
 use App\Filament\App\Resources\PaymentTypeResource\RelationManagers;
@@ -22,15 +23,7 @@ class PaymentTypeResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->autofocus()
-                    ->required()
-                    ->maxLength(500),
-                Forms\Components\Textarea::make('description')
-                    ->maxLength(65535)
-                    ->columnSpanFull(),
-            ]);
+            ->schema(PaymentTypeSchema::toArray());
     }
 
     public static function table(Table $table): Table

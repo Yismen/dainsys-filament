@@ -31,7 +31,7 @@ class EmployeesSuspendedTest extends TestCase
             'starts_at' => now()->subDay(),
             'ends_at' => now()->addDay(),
         ]);
-        $current->update(['status' => EmployeeStatus::SUSPENDED]);
+        $current->update(['status' => EmployeeStatus::Suspended]);
 
         $this->artisan(EmployeesSuspended::class);
 

@@ -9,6 +9,7 @@ use App\Models\Supervisor;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Support\Forms\SupervisorSchema;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\App\Resources\SupervisorResource\Pages;
 use App\Filament\App\Resources\SupervisorResource\RelationManagers;
@@ -22,15 +23,7 @@ class SupervisorResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->autofocus()
-                    ->maxLength(500),
-                Forms\Components\Textarea::make('description')
-                    ->maxLength(65535)
-                    ->columnSpanFull(),
-            ]);
+            ->schema(SupervisorSchema::toArray());
     }
 
     public static function table(Table $table): Table

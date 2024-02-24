@@ -2,10 +2,15 @@
 
 namespace App\Enums;
 
+use App\Enums\Traits\AsEnum;
+use App\Enums\Contracts\EnumContract;
 
-class EmployeeStatus extends AbstractEnum
+
+enum EmployeeStatus: string implements EnumContract
 {
-    public const CURRENT = 'Current';
-    public const INACTIVE = 'Inactive';
-    public const SUSPENDED = 'Suspended';
+    use AsEnum;
+
+    case Current = 'Current';
+    case Inactive = 'Inactive';
+    case Suspended = 'Suspended';
 }

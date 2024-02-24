@@ -47,12 +47,12 @@ class UpdateEmployeeSuspensions extends Command
         $shouldActivateCount = $shouldActivate->count();
 
         if ($shouldSuspendCount) {
-            $shouldSuspend->each->updateQuietly(['status' => EmployeeStatus::SUSPENDED]);
+            $shouldSuspend->each->updateQuietly(['status' => EmployeeStatus::Suspended]);
             $this->info("{$shouldSuspendCount} employees suspended!");
         }
 
         if ($shouldActivateCount) {
-            $shouldActivate->each->updateQuietly(['status' => EmployeeStatus::CURRENT]);
+            $shouldActivate->each->updateQuietly(['status' => EmployeeStatus::Current]);
             $this->info("{$shouldActivateCount} suspended employees activated!");
         }
 

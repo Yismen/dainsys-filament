@@ -8,7 +8,9 @@ use Filament\Forms\Form;
 use App\Models\Department;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Support\Forms\DepartmentSchema;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\App\Resources\DepartmentResource\Pages;
 use App\Filament\App\Resources\DepartmentResource\RelationManagers;
@@ -23,13 +25,8 @@ class DepartmentResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->autofocus()
-                    ->maxLength(500),
-                Forms\Components\Textarea::make('description')
-                    ->maxLength(65535)
-                    ->columnSpanFull(),
+                Section::make()
+                    ->schema(DepartmentSchema::toArray())
             ]);
     }
 
