@@ -11,6 +11,7 @@ use App\Models\TerminationReason;
 use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Support\Forms\TerminationReasonSchema;
 use App\Filament\HumanResource\Resources\TerminationReasonResource\Pages;
 use App\Filament\HumanResource\Resources\TerminationReasonResource\RelationManagers;
 
@@ -25,15 +26,7 @@ class TerminationReasonResource extends Resource
         return $form
             ->schema([
                 Section::make('')
-                    ->schema([
-                        Forms\Components\TextInput::make('name')
-                            ->required()
-                            ->autofocus()
-                            ->maxLength(500),
-                        Forms\Components\Textarea::make('description')
-                            ->maxLength(65535)
-                            ->columnSpanFull(),
-                    ])
+                    ->schema(TerminationReasonSchema::toArray())
             ]);
     }
 

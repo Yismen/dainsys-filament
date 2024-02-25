@@ -11,6 +11,7 @@ use Filament\Resources\Resource;
 use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Support\Forms\TerminationTypeSchema;
 use App\Filament\HumanResource\Resources\TerminationTypeResource\Pages;
 use App\Filament\HumanResource\Resources\TerminationTypeResource\RelationManagers;
 
@@ -25,15 +26,7 @@ class TerminationTypeResource extends Resource
         return $form
             ->schema([
                 Section::make('')
-                    ->schema([
-                        Forms\Components\TextInput::make('name')
-                            ->required()
-                            ->autofocus()
-                            ->maxLength(500),
-                        Forms\Components\Textarea::make('description')
-                            ->maxLength(65535)
-                            ->columnSpanFull(),
-                    ])
+                    ->schema(TerminationTypeSchema::toArray())
             ]);
     }
 
