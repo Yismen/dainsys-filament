@@ -8,6 +8,7 @@ use Filament\Forms\Form;
 use Filament\Tables\Table;
 use App\Models\PaymentType;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Support\Forms\PaymentTypeSchema;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -23,7 +24,10 @@ class PaymentTypeResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema(PaymentTypeSchema::toArray());
+            ->schema([
+                Section::make('')
+                    ->schema(PaymentTypeSchema::toArray())
+            ]);
     }
 
     public static function table(Table $table): Table

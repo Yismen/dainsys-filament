@@ -55,11 +55,11 @@ class User extends Authenticatable implements FilamentUser
     {
         $panel_id = $panel->getId();
 
-        return true;
         return auth()->user()->hasAnyRole([
+            'Super Admin',
+            'super-admin',
             $panel_id,
             str($panel_id)->headline()->value
         ]);
-        return str_ends_with($this->email, '@yourdomain.com') && $this->hasVerifiedEmail();
     }
 }

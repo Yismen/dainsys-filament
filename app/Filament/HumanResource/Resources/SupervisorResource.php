@@ -8,6 +8,7 @@ use Filament\Forms\Form;
 use App\Models\Supervisor;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Support\Forms\SupervisorSchema;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -23,7 +24,10 @@ class SupervisorResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema(SupervisorSchema::toArray());
+            ->schema([
+                Section::make('')
+                    ->schema(SupervisorSchema::toArray())
+            ]);
     }
 
     public static function table(Table $table): Table

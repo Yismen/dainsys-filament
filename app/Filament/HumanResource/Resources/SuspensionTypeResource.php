@@ -8,8 +8,10 @@ use Filament\Forms\Form;
 use Filament\Tables\Table;
 use App\Models\SuspensionType;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Support\Forms\SuspensionTypeSchema;
 use App\Filament\HumanResource\Resources\SuspensionTypeResource\Pages;
 use App\Filament\HumanResource\Resources\SuspensionTypeResource\RelationManagers;
 
@@ -23,13 +25,8 @@ class SuspensionTypeResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->autofocus()
-                    ->maxLength(500),
-                Forms\Components\Textarea::make('description')
-                    ->maxLength(65535)
-                    ->columnSpanFull(),
+                Section::make('')
+                    ->schema(SuspensionTypeSchema::toArray())
             ]);
     }
 

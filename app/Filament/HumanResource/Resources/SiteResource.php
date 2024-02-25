@@ -8,10 +8,11 @@ use Filament\Tables;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Support\Forms\SiteSchema;
-use App\Filament\HumanResource\Resources\SiteResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\HumanResource\Resources\SiteResource\Pages;
 use App\Filament\HumanResource\Resources\SiteResource\RelationManagers;
 
 class SiteResource extends Resource
@@ -23,7 +24,10 @@ class SiteResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema(SiteSchema::toArray());
+            ->schema([
+                Section::make('')
+                    ->schema(SiteSchema::toArray())
+            ]);
     }
 
     public static function table(Table $table): Table
