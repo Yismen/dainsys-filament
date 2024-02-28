@@ -138,24 +138,4 @@ class InformationTest extends TestCase
         $this->assertInstanceOf(MorphOne::class, $afp->information());
         $this->assertInstanceOf(BelongsTo::class, (new Information())->afp());
     }
-
-    /** @test */
-    public function information_model_morph_supervisor()
-    {
-        $supervisor = Supervisor::factory()->create();
-        $data = [
-            'phone' => 'phone',
-            'email' => 'email',
-            'photo_url' => 'photo',
-            'address' => 'address',
-            'company_id' => 'asdfasdf',
-        ];
-
-        $supervisor->information()->create($data);
-
-        $this->assertDatabaseHas('informations', $data);
-        $this->assertNotNull($supervisor->information);
-        $this->assertInstanceOf(MorphOne::class, $supervisor->information());
-        $this->assertInstanceOf(BelongsTo::class, (new Information())->supervisor());
-    }
 }

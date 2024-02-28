@@ -10,6 +10,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Supervisor extends Model
 {
-    use HasFactory, SoftDeletes, HasManyEmployees, HasInformation;
+    use HasFactory, SoftDeletes, HasManyEmployees;
     protected $fillable = ['name', 'description'];
 }

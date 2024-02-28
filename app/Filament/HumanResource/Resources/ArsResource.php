@@ -11,9 +11,10 @@ use Filament\Resources\Resource;
 use Filament\Forms\Components\Section;
 use App\Filament\Support\Forms\ArsSchema;
 use Illuminate\Database\Eloquent\Builder;
-use App\Filament\HumanResource\Resources\ArsResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\HumanResource\Resources\ArsResource\Pages;
 use App\Filament\HumanResource\Resources\ArsResource\RelationManagers;
+use App\Filament\HumanResource\Resources\InformationResource\RelationManagers\InformationRelationManager;
 
 class ArsResource extends Resource
 {
@@ -70,7 +71,7 @@ class ArsResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            InformationRelationManager::class
         ];
     }
 

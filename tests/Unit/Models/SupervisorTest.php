@@ -23,14 +23,6 @@ class SupervisorTest extends TestCase
     }
 
     /** @test */
-    public function supervisors_model_morph_one_information()
-    {
-        $supervisor = Supervisor::factory()->create();
-
-        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Relations\MorphOne::class, $supervisor->information());
-    }
-
-    /** @test */
     public function supervisors_model_has_many_employees()
     {
         $supervisor = Supervisor::factory()->create();

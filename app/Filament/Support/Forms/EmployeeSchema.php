@@ -72,7 +72,8 @@ final class EmployeeSchema
                 ->required()
                 ->options(EmployeeStatus::toArray())
                 ->enum(EmployeeStatus::class)
-                ->hidden()
+                ->visibleOn('view')
+                // ->hidden()
                 ->default(EmployeeStatus::Current),
             Forms\Components\Select::make('gender')
                 ->required()

@@ -10,9 +10,10 @@ use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Builder;
-use App\Filament\HumanResource\Resources\BankResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\HumanResource\Resources\BankResource\Pages;
 use App\Filament\HumanResource\Resources\BankResource\RelationManagers;
+use App\Filament\HumanResource\Resources\InformationResource\RelationManagers\InformationRelationManager;
 
 class BankResource extends Resource
 {
@@ -77,7 +78,7 @@ class BankResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            InformationRelationManager::class
         ];
     }
 

@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\HumanResource\Resources\AfpResource\Pages;
 use App\Filament\HumanResource\Resources\AfpResource\RelationManagers;
+use App\Filament\HumanResource\Resources\InformationResource\RelationManagers\InformationRelationManager;
 
 class AfpResource extends Resource
 {
@@ -68,7 +69,8 @@ class AfpResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+
+            InformationRelationManager::class
         ];
     }
 

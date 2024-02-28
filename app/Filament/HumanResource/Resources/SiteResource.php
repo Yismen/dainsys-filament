@@ -14,6 +14,7 @@ use App\Filament\Support\Forms\SiteSchema;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\HumanResource\Resources\SiteResource\Pages;
 use App\Filament\HumanResource\Resources\SiteResource\RelationManagers;
+use App\Filament\HumanResource\Resources\InformationResource\RelationManagers\InformationRelationManager;
 
 class SiteResource extends Resource
 {
@@ -70,7 +71,7 @@ class SiteResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            InformationRelationManager::class
         ];
     }
 
