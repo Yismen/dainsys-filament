@@ -4,6 +4,7 @@ namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use App\Services\MailingService;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -23,6 +24,6 @@ class EmployeesSuspended extends Mailable implements ShouldQueue
     {
         return $this
             ->to(MailingService::subscribers($this))
-            ->markdown('dainsys::mail.employees-suspended');
+            ->markdown('mail.employees-suspended');
     }
 }

@@ -15,6 +15,11 @@ class Suspension extends Model
 
     protected $fillable = ['employee_id', 'suspension_type_id', 'starts_at', 'ends_at', 'comments'];
 
+    protected $casts = [
+        'starts_at' => 'date:Y-m-d',
+        'ends_at' => 'date:Y-m-d',
+    ];
+
     protected $dispatchesEvents = [
         'saved' => SuspensionUpdated::class,
     ];

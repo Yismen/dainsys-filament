@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\BelongsToEmployee;
 use App\Models\Traits\BelongsToSupervisor;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Information extends Model
@@ -18,4 +19,9 @@ class Information extends Model
     protected $fillable = ['phone', 'email', 'photo_url', 'address', 'company_id', 'informationable_id', 'informationable_type'];
 
     protected $table = 'informations';
+
+    public function informationable(): MorphTo
+    {
+        return $this->morphTo();
+    }
 }

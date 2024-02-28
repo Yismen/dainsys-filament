@@ -12,6 +12,7 @@ use App\Models\Supervisor;
 use App\Models\Information;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -27,6 +28,14 @@ class InformationTest extends TestCase
         $this->assertDatabaseHas('informations', $data->only([
             'phone', 'email', 'photo_url', 'address', 'company_id', 'informationable_id', 'informationable_type'
         ]));
+    }
+
+    /** @test */
+    public function information_model_morph_to_informationable()
+    {
+        $information = Information::factory()->create();
+
+        $this->assertInstanceOf(MorphTo::class, $information->informationable());
     }
 
     /** @test */

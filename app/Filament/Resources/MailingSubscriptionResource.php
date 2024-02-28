@@ -1,24 +1,27 @@
 <?php
 
-namespace App\Filament\HumanResource\Resources;
+namespace App\Filament\Resources;
 
 use Filament\Forms;
+use App\Models\User;
 use Filament\Tables;
 use Filament\Forms\Form;
-use App\Models\Suspension;
 use Filament\Tables\Table;
+use App\Services\MailingService;
 use Filament\Resources\Resource;
+use App\Models\MailingSubscription;
 use Filament\Forms\Components\Section;
+use Filament\Tables\Enums\FiltersLayout;
+use function Laravel\Prompts\multiselect;
 use Illuminate\Database\Eloquent\Builder;
-use App\Filament\Support\Forms\EmployeeSchema;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Support\Forms\SuspensionTypeSchema;
-use App\Filament\HumanResource\Resources\SuspensionResource\Pages;
-use App\Filament\HumanResource\Resources\SuspensionResource\RelationManagers;
 
-class SuspensionResource extends Resource
+use App\Filament\Resources\MailingSubscriptionResource\Pages;
+use App\Filament\Resources\MailingSubscriptionResource\RelationManagers;
+
+class MailingSubscriptionResource extends Resource
 {
-    protected static ?string $model = Suspension::class;
+    protected static ?string $model = MailingSubscription::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -29,28 +32,17 @@ class SuspensionResource extends Resource
                 Section::make('')
                     ->columns(2)
                     ->schema([
-                        Forms\Components\Select::make('employee_id')
-                            ->relationship('employee', 'full_name')
+                        Forms\Components\Select::make('user_id')
+                            ->relationship('user', 'name')
+                            ->autofocus()
                             ->searchable()
                             ->preload()
-                            ->createOptionForm(EmployeeSchema::toArray())
-                            ->createOptionModalHeading('Add New Employee')
                             ->required(),
-                        Forms\Components\Select::make('suspension_type_id')
-                            ->createOptionForm(SuspensionTypeSchema::toArray())
-                            ->createOptionModalHeading('Add New Suspen Type')
-                            ->relationship('suspensionType', 'name')
-                            ->required(),
-                        Forms\Components\DatePicker::make('starts_at')
-                            ->default(now())
-                            ->required(),
-                        Forms\Components\DatePicker::make('ends_at')
-                            ->default(now())
-                            ->required(),
-                        Forms\Components\Textarea::make('comments')
-                            ->maxLength(65535)
-                            ->columnSpanFull(),
+                        Forms\Components\Select::make('mailable')
+                            ->required()
+                            ->options(MailingService::toArray()),
                     ])
+
             ]);
     }
 
@@ -58,22 +50,11 @@ class SuspensionResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('employee.full_name')
+                Tables\Columns\TextColumn::make('user.name')
                     ->numeric()
-                    ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('suspensionType.name')
-                    ->numeric()
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('starts_at')
-                    ->date()
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('ends_at')
-                    ->date()
-                    ->searchable()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('mailable')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()
@@ -89,7 +70,13 @@ class SuspensionResource extends Resource
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
-            ])
+                Tables\Filters\SelectFilter::make('mailable')
+                    ->options(MailingService::toArray()),
+                Tables\Filters\SelectFilter::make('user_id')
+                    ->label('User')
+                    ->options(User::query()->orderBy('name')->pluck('name', 'id')),
+            ], layout: FiltersLayout::AboveContentCollapsible)
+            ->filtersFormColumns(3)
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
@@ -113,10 +100,10 @@ class SuspensionResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListSuspensions::route('/'),
-            'create' => Pages\CreateSuspension::route('/create'),
-            'view' => Pages\ViewSuspension::route('/{record}'),
-            'edit' => Pages\EditSuspension::route('/{record}/edit'),
+            'index' => Pages\ListMailingSubscriptions::route('/'),
+            'create' => Pages\CreateMailingSubscription::route('/create'),
+            'view' => Pages\ViewMailingSubscription::route('/{record}'),
+            'edit' => Pages\EditMailingSubscription::route('/{record}/edit'),
         ];
     }
 

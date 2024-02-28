@@ -12,6 +12,7 @@ use Filament\Models\Contracts\FilamentUser;
 use Spatie\Permission\Traits\HasPermissions;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Traits\HasManyMailingSubscriptions;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Jeffgreco13\FilamentBreezy\Traits\TwoFactorAuthenticatable;
@@ -61,5 +62,15 @@ class User extends Authenticatable implements FilamentUser
             $panel_id,
             str($panel_id)->headline()->value
         ]);
+    }
+
+    /**
+     * Get all of the mailingSubscriptions for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function mailingSubscriptions(): HasMany
+    {
+        return $this->hasMany(MailingSubscription::class);
     }
 }

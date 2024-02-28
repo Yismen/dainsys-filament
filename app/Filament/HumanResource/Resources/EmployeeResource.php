@@ -6,6 +6,7 @@ use Filament\Tables;
 use App\Models\Employee;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use App\Enums\EmployeeStatus;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Builder;
@@ -57,6 +58,7 @@ class EmployeeResource extends Resource
                 Tables\Columns\TextColumn::make('cellphone')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('status')
+                    ->badge()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('citizenship.name')
                     ->numeric()
@@ -109,6 +111,9 @@ class EmployeeResource extends Resource
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
+                Tables\Filters\SelectFilter::make('status')
+                    ->options(EmployeeStatus::toArray())
+                // ->query(fn ($q, $status) => $q->where('Status', $status))
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),

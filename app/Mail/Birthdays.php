@@ -4,6 +4,7 @@ namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use App\Services\MailingService;
 use Illuminate\Support\Collection;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -28,6 +29,6 @@ class Birthdays extends Mailable implements ShouldQueue
         return $this
             ->subject("Birthdays {$this->type}")
             ->to(MailingService::subscribers($this))
-            ->markdown('dainsys::mail.birthdays');
+            ->markdown('mail.birthdays');
     }
 }

@@ -5,6 +5,7 @@ namespace App\Mail;
 use App\Models\Employee;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use App\Services\MailingService;
 use Illuminate\Queue\SerializesModels;
 
 class EmployeeReactivated extends Mailable
@@ -23,6 +24,6 @@ class EmployeeReactivated extends Mailable
     {
         return $this
             ->to(MailingService::subscribers($this))
-            ->markdown('dainsys::mail.employee-reactivated');
+            ->markdown('mail.employee-reactivated');
     }
 }
