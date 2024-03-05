@@ -6,6 +6,7 @@ use Filament\Pages;
 use Filament\Panel;
 use Filament\Widgets;
 use Filament\PanelProvider;
+use Filament\Navigation\MenuItem;
 use Filament\Support\Colors\Color;
 use Filament\Http\Middleware\Authenticate;
 use Jeffgreco13\FilamentBreezy\BreezyCore;
@@ -18,6 +19,7 @@ use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use App\Filament\HumanResource\Pages\UserMailingSubscriptions;
 use Althinect\FilamentSpatieRolesPermissions\FilamentSpatieRolesPermissionsPlugin;
 
 class HumanResourcePanelProvider extends PanelProvider
@@ -30,6 +32,12 @@ class HumanResourcePanelProvider extends PanelProvider
             ->login()
             ->registration()
             ->passwordReset()
+            ->userMenuItems([
+                'user-menu' => MenuItem::make()
+                    ->label('Mailing Subscriptions')
+                    ->icon('heroicon-o-rectangle-stack')
+                    ->url(UserMailingSubscriptions::getUrl())
+            ])
             ->plugins([
                 // FilamentSpatieRolesPermissionsPlugin::make(),
                 BreezyCore::make()
