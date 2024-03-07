@@ -56,12 +56,13 @@ class User extends Authenticatable implements FilamentUser
     {
         $panel_id = $panel->getId();
 
-        return auth()->user()->hasAnyRole([
-            'Super Admin',
-            'super-admin',
-            $panel_id,
-            str($panel_id)->headline()->value
-        ]);
+        return auth()->user()
+            ->hasAnyRole([
+                'Super Admin',
+                'super-admin',
+                $panel_id,
+                str($panel_id)->headline()->value
+            ]);
     }
 
     /**
