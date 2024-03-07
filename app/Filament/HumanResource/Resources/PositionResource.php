@@ -24,7 +24,7 @@ class PositionResource extends Resource
     {
         return $form
             ->schema([
-                Section::make('asdf')
+                Section::make('')
                     ->schema(PositionSchema::toArray())
                     ->columns(2)
             ]);
