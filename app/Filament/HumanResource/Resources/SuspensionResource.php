@@ -4,6 +4,7 @@ namespace App\Filament\HumanResource\Resources;
 
 use Filament\Forms;
 use Filament\Tables;
+use Filament\Forms\Get;
 use Filament\Forms\Form;
 use App\Models\Suspension;
 use Filament\Tables\Table;
@@ -32,6 +33,7 @@ class SuspensionResource extends Resource
                         Forms\Components\Select::make('employee_id')
                             ->relationship('employee', 'full_name')
                             ->searchable()
+                            ->autofocus()
                             ->preload()
                             ->createOptionForm(EmployeeSchema::toArray())
                             ->createOptionModalHeading('Add New Employee')
@@ -40,12 +42,16 @@ class SuspensionResource extends Resource
                             ->createOptionForm(SuspensionTypeSchema::toArray())
                             ->createOptionModalHeading('Add New Suspen Type')
                             ->relationship('suspensionType', 'name')
+                            ->searchable()
+                            ->preload()
                             ->required(),
                         Forms\Components\DatePicker::make('starts_at')
                             ->default(now())
+                            ->maxDate(fn (Get $get) => $get('ends_at'))
                             ->required(),
                         Forms\Components\DatePicker::make('ends_at')
                             ->default(now())
+                            ->minDate(fn (Get $get) => $get('starts_at'))
                             ->required(),
                         Forms\Components\Textarea::make('comments')
                             ->maxLength(65535)

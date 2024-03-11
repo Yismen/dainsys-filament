@@ -14,11 +14,15 @@ final class PositionSchema
                 ->relationship('department', 'name')
                 ->autofocus()
                 ->required()
+                ->searchable()
+                ->preload()
                 ->createOptionModalHeading('New Department')
                 ->createOptionForm(DepartmentSchema::toArray()),
             Forms\Components\Select::make('payment_type_id')
                 ->relationship('paymentType', 'name')
                 ->required()
+                ->searchable()
+                ->preload()
                 ->createOptionForm(PaymentTypeSchema::toArray())
                 ->createOptionModalHeading('New Payment Type'),
             Forms\Components\TextInput::make('name')
@@ -27,6 +31,7 @@ final class PositionSchema
                 ->maxLength(500),
             Forms\Components\TextInput::make('salary')
                 ->required()
+                ->prefix('$')
                 ->minValue(0)
                 ->numeric(),
             Forms\Components\Textarea::make('description')

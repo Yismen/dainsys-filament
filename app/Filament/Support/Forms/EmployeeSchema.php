@@ -33,8 +33,13 @@ final class EmployeeSchema
                 ->required(),
             Forms\Components\Select::make('position_id')
                 ->relationship('position', 'name')
+                ->searchable()
+                ->preload()
                 ->createOptionModalHeading('New Position')
                 ->createOptionForm(PositionSchema::toArray())
+                ->getOptionLabelFromRecordUsing(function (\Illuminate\Database\Eloquent\Model $record) {
+                    return $record->details;
+                })
                 ->required(),
             Forms\Components\Select::make('supervisor_id')
                 ->relationship('supervisor', 'name')
@@ -59,6 +64,7 @@ final class EmployeeSchema
                 ->maxLength(20),
             Forms\Components\DateTimePicker::make('hired_at')
                 ->default(now())
+                ->maxDate(now()->endOfDay())
                 ->disabledDates([
                     today()->subDay(),
                     now()->addDay()
