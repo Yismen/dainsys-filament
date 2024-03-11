@@ -36,7 +36,7 @@ class HumanResourcePanelProvider extends PanelProvider
                 'user-menu' => MenuItem::make()
                     ->label('Mailing Subscriptions')
                     ->icon('heroicon-o-rectangle-stack')
-                    ->url(UserMailingSubscriptions::getUrl())
+                    ->url('/human-resource/user-mailing-subscriptions')
             ])
             ->plugins([
                 // FilamentSpatieRolesPermissionsPlugin::make(),
