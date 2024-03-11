@@ -64,14 +64,4 @@ class User extends Authenticatable implements FilamentUser
                 str($panel_id)->headline()->value
             ]);
     }
-
-    /**
-     * Get all of the mailingSubscriptions for the User
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function mailingSubscriptions(): HasMany
-    {
-        return $this->hasMany(MailingSubscription::class);
-    }
 }
