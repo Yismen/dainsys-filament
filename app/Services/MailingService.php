@@ -34,7 +34,7 @@ class MailingService
                 $reflection = new ReflectionClass($class);
 
                 if ($file->isFile() && $reflection->implementsInterface(Mailable::class)) {
-                    self::$files[$class] = $class;
+                    self::$files[$class] = str($class)->afterLast("\\")->headline();
                 }
             }
         }
