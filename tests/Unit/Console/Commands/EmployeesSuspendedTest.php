@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Console\Commands;
+namespace Tests\Unit\Console\Commands;
 
 use Tests\TestCase;
 use App\Models\Employee;
