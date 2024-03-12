@@ -120,6 +120,14 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
+    public function employees_model_has_one_punch()
+    {
+        $employee = Employee::factory()->createQuietly();
+
+        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Relations\HasOne::class, $employee->punch());
+    }
+
+    /** @test */
     public function employees_model_has_many_terminations()
     {
         $employee = Employee::factory()->createQuietly();
