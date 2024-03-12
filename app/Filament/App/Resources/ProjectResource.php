@@ -11,12 +11,15 @@ use Filament\Resources\Resource;
 use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Support\Forms\ProjectSchema;
+use App\Filament\Traits\HumanResourceAdminMenu;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\App\Resources\ProjectResource\Pages;
 use App\Filament\App\Resources\ProjectResource\RelationManagers;
 
 class ProjectResource extends Resource
 {
+    use HumanResourceAdminMenu;
+
     protected static ?string $model = Project::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';

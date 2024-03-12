@@ -12,13 +12,16 @@ use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Section;
 use App\Filament\Support\Forms\AfpSchema;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Traits\HumanResourceAdminMenu;
 use App\Filament\App\Resources\AfpResource\Pages;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\App\Resources\AfpResource\RelationManagers;
 use App\Filament\App\Resources\InformationResource\RelationManagers\InformationRelationManager;
 
 class AfpResource extends Resource
 {
+    use HumanResourceAdminMenu;
+
     protected static ?string $model = Afp::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';

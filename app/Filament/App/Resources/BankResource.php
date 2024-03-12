@@ -10,13 +10,16 @@ use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Traits\HumanResourceAdminMenu;
 use App\Filament\App\Resources\BankResource\Pages;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\App\Resources\BankResource\RelationManagers;
 use App\Filament\App\Resources\InformationResource\RelationManagers\InformationRelationManager;
 
 class BankResource extends Resource
 {
+    use HumanResourceAdminMenu;
+
     protected static ?string $model = Bank::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';

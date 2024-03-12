@@ -10,6 +10,7 @@ use App\Models\Citizenship;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Traits\HumanResourceAdminMenu;
 use App\Filament\Support\Forms\CitizenshipSchema;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\App\Resources\CitizenshipResource\Pages;
@@ -17,6 +18,7 @@ use App\Filament\App\Resources\CitizenshipResource\RelationManagers;
 
 class CitizenshipResource extends Resource
 {
+    use HumanResourceAdminMenu;
     protected static ?string $model = Citizenship::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';

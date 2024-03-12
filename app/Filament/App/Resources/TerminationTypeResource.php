@@ -10,6 +10,7 @@ use App\Models\TerminationType;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Traits\HumanResourceAdminMenu;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Support\Forms\TerminationTypeSchema;
 use App\Filament\App\Resources\TerminationTypeResource\Pages;
@@ -17,6 +18,8 @@ use App\Filament\App\Resources\TerminationTypeResource\RelationManagers;
 
 class TerminationTypeResource extends Resource
 {
+    use HumanResourceAdminMenu;
+
     protected static ?string $model = TerminationType::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';

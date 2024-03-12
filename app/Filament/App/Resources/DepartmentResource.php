@@ -10,6 +10,7 @@ use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Traits\HumanResourceAdminMenu;
 use App\Filament\Support\Forms\DepartmentSchema;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\App\Resources\DepartmentResource\Pages;
@@ -17,6 +18,7 @@ use App\Filament\App\Resources\DepartmentResource\RelationManagers;
 
 class DepartmentResource extends Resource
 {
+    use HumanResourceAdminMenu;
     protected static ?string $model = Department::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';

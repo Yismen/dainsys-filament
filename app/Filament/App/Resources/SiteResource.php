@@ -11,13 +11,16 @@ use Filament\Resources\Resource;
 use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Support\Forms\SiteSchema;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Traits\HumanResourceAdminMenu;
 use App\Filament\App\Resources\SiteResource\Pages;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\App\Resources\SiteResource\RelationManagers;
 use App\Filament\App\Resources\InformationResource\RelationManagers\InformationRelationManager;
 
 class SiteResource extends Resource
 {
+    use HumanResourceAdminMenu;
+
     protected static ?string $model = Site::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';

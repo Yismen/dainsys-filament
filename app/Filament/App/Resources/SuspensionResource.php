@@ -12,6 +12,7 @@ use Filament\Resources\Resource;
 use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Support\Forms\EmployeeSchema;
+use App\Filament\Traits\HumanResourceSupportMenu;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Support\Forms\SuspensionTypeSchema;
 use App\Filament\App\Resources\SuspensionResource\Pages;
@@ -19,6 +20,8 @@ use App\Filament\App\Resources\SuspensionResource\RelationManagers;
 
 class SuspensionResource extends Resource
 {
+    use HumanResourceSupportMenu;
+
     protected static ?string $model = Suspension::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';

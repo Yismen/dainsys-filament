@@ -10,6 +10,7 @@ use App\Models\PaymentType;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Traits\HumanResourceAdminMenu;
 use App\Filament\Support\Forms\PaymentTypeSchema;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\App\Resources\PaymentTypeResource\Pages;
@@ -17,6 +18,8 @@ use App\Filament\App\Resources\PaymentTypeResource\RelationManagers;
 
 class PaymentTypeResource extends Resource
 {
+    use HumanResourceAdminMenu;
+
     protected static ?string $model = PaymentType::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';

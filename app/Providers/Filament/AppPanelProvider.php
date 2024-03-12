@@ -8,6 +8,7 @@ use Filament\Widgets;
 use Filament\PanelProvider;
 use Filament\Navigation\MenuItem;
 use Filament\Support\Colors\Color;
+use Filament\Navigation\NavigationGroup;
 use Filament\Http\Middleware\Authenticate;
 use Jeffgreco13\FilamentBreezy\BreezyCore;
 use Illuminate\Session\Middleware\StartSession;
@@ -81,6 +82,14 @@ class AppPanelProvider extends PanelProvider
             ])
             ->collapsibleNavigationGroups()
             ->sidebarCollapsibleOnDesktop()
+            ->navigationGroups([
+                NavigationGroup::make('Human Resources Admin')
+                    ->icon('heroicon-o-users')
+                    ->collapsed(),
+                NavigationGroup::make('Human Resources Support')
+                    ->icon('heroicon-o-users')
+                    ->collapsed(),
+            ])
             ->authMiddleware([
                 Authenticate::class,
             ]);
