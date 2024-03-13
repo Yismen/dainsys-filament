@@ -14,7 +14,6 @@ use App\Filament\Support\Forms\EmployeeSchema;
 use App\Filament\Traits\HumanResourceSupportMenu;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\App\Resources\EmployeeResource\Pages;
-use App\Filament\App\Resources\EmployeeResource\RelationManagers;
 use App\Filament\App\Resources\InformationResource\RelationManagers\InformationRelationManager;
 
 class EmployeeResource extends Resource
@@ -135,7 +134,8 @@ class EmployeeResource extends Resource
     public static function getRelations(): array
     {
         return [
-            InformationRelationManager::class
+            InformationRelationManager::class,
+            \App\Filament\App\Resources\EmployeeResource\RelationManagers\PunchRelationManager::class,
         ];
     }
 

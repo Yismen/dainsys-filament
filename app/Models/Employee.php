@@ -7,6 +7,7 @@ use App\Enums\MaritalStatus;
 use App\Enums\EmployeeStatus;
 use App\Events\EmployeeSaved;
 use App\Events\EmployeeCreated;
+use App\Models\Traits\HasOnePunch;
 use App\Models\Traits\BelongsToAfp;
 use App\Models\Traits\BelongsToArs;
 use App\Models\Traits\BelongsToSite;
@@ -25,6 +26,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Employee extends Model
 {
     use HasFactory, SoftDeletes, BelongsToSite, BelongsToProject, HasInformation, BelongsToPosition, BelongsToDepartment, BelongsToCitizenship, BelongsToSupervisor, BelongsToAfp, BelongsToArs, HasManyTerminations, HasManySuspensions;
+    use HasOnePunch;
     protected $casts = [
         'date_of_birth' => 'datetime:Y-m-d',
         'hired_at' => 'datetime:Y-m-d',
