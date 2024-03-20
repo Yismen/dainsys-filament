@@ -48,6 +48,17 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
+    public function employee_model_uses_soft_delete()
+    {
+        Mail::fake();
+        $employee = Employee::factory()->create();
+
+        $employee->delete();
+
+        $this->assertSoftDeleted(Employee::class, $employee->only('id'));
+    }
+
+    /** @test */
     public function employees_model_morph_one_information()
     {
         $employee = Employee::factory()->createQuietly();

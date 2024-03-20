@@ -21,4 +21,14 @@ class SuspensionTypeTest extends TestCase
             'name', 'description'
         ]));
     }
+
+    /** @test */
+    public function suspension_type_model_uses_soft_delete()
+    {
+        $suspension_type = SuspensionType::factory()->create();
+
+        $suspension_type->delete();
+
+        $this->assertSoftDeleted(SuspensionType::class, $suspension_type->only(['id']));
+    }
 }

@@ -23,6 +23,16 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
+    public function project_model_uses_soft_delete()
+    {
+        $project = Project::factory()->create();
+
+        $project->delete();
+
+        $this->assertSoftDeleted(Project::class, $project->only('id'));
+    }
+
+    /** @test */
     public function projects_model_has_many_employees()
     {
         $project = Project::factory()->create();

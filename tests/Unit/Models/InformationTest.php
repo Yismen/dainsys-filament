@@ -31,6 +31,16 @@ class InformationTest extends TestCase
     }
 
     /** @test */
+    public function information_model_uses_soft_delete()
+    {
+        $information = Information::factory()->create();
+
+        $information->delete();
+
+        $this->assertSoftDeleted(Information::class, $information->only(['id']));
+    }
+
+    /** @test */
     public function information_model_morph_to_informationable()
     {
         $information = Information::factory()->create();

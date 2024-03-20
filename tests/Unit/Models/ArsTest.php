@@ -23,6 +23,16 @@ class ArsTest extends TestCase
     }
 
     /** @test */
+    public function ars_model_uses_soft_delete()
+    {
+        $ars = Ars::factory()->create();
+
+        $ars->delete();
+
+        $this->assertSoftDeleted(Ars::class, $ars->toArray());
+    }
+
+    /** @test */
     public function arss_model_morph_one_information()
     {
         $ars = Ars::factory()->create();

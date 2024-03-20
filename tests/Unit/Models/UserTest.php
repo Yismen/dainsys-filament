@@ -19,6 +19,19 @@ class UserTest extends TestCase
             'name', 'email', 'email_verified_at', 'remember_token'
         ]));
     }
+
+
+
+    /** @test */
+    public function user_model_uses_soft_delete()
+    {
+        $user = User::factory()->create();
+
+        $user->delete();
+
+        $this->assertSoftDeleted(User::class, $user->toArray());
+    }
+
     /** @test */
     public function users_model_has_many_mailing_subscriptions()
     {

@@ -23,6 +23,16 @@ class PaymentTypeTest extends TestCase
     }
 
     /** @test */
+    public function payment_type_model_uses_soft_delete()
+    {
+        $payment_type = PaymentType::factory()->create();
+
+        $payment_type->delete();
+
+        $this->assertSoftDeleted(PaymentType::class, $payment_type->only(['id']));
+    }
+
+    /** @test */
     public function payment_types_model_has_many_positions()
     {
         $payment_type = PaymentType::factory()->create();

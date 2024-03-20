@@ -25,6 +25,17 @@ class PunchTest extends TestCase
     }
 
     /** @test */
+    public function punch_model_uses_soft_delete()
+    {
+        Mail::fake();
+        $punch = Punch::factory()->create();
+
+        $punch->delete();
+
+        $this->assertSoftDeleted(Punch::class, $punch->only(['id']));
+    }
+
+    /** @test */
     public function punches_model_belongs_to_one_employee()
     {
         Mail::fake();

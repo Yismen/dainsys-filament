@@ -28,6 +28,16 @@ class PositionTest extends TestCase
     }
 
     /** @test */
+    public function position_model_uses_soft_delete()
+    {
+        $position = Position::factory()->create();
+
+        $position->delete();
+
+        $this->assertSoftDeleted(Position::class, $position->only(['id']));
+    }
+
+    /** @test */
     public function positions_model_has_many_employees()
     {
         $position = Position::factory()->create();

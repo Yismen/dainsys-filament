@@ -23,6 +23,16 @@ class BankTest extends TestCase
     }
 
     /** @test */
+    public function bank_model_uses_soft_delete()
+    {
+        $bank = Bank::factory()->create();
+
+        $bank->delete();
+
+        $this->assertSoftDeleted(Bank::class, $bank->toArray());
+    }
+
+    /** @test */
     public function banks_model_morph_one_information()
     {
         $bank = Bank::factory()->create();

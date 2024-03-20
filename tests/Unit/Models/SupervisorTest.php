@@ -23,6 +23,16 @@ class SupervisorTest extends TestCase
     }
 
     /** @test */
+    public function supervisor_model_uses_soft_delete()
+    {
+        $supervisor = Supervisor::factory()->create();
+
+        $supervisor->delete();
+
+        $this->assertSoftDeleted(Supervisor::class, $supervisor->only(['id']));
+    }
+
+    /** @test */
     public function supervisors_model_has_many_employees()
     {
         $supervisor = Supervisor::factory()->create();

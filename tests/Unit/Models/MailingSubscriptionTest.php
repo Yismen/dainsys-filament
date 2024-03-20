@@ -23,6 +23,16 @@ class MailingSubscriptionTest extends TestCase
     }
 
     /** @test */
+    public function mailing_subscription_model_uses_soft_delete()
+    {
+        $mailing_subscription = MailingSubscription::factory()->create();
+
+        $mailing_subscription->delete();
+
+        $this->assertSoftDeleted(MailingSubscription::class, $mailing_subscription->only(['id']));
+    }
+
+    /** @test */
     public function mailing_subscriptions_model_belongs_to_a_user()
     {
         $mailing_subscription = MailingSubscription::factory()->create();

@@ -22,6 +22,16 @@ class DepartmentTest extends TestCase
     }
 
     /** @test */
+    public function department_model_uses_soft_delete()
+    {
+        $department = Department::factory()->create();
+
+        $department->delete();
+
+        $this->assertSoftDeleted(Department::class, $department->only(['id']));
+    }
+
+    /** @test */
     public function departments_model_has_many_positions()
     {
         $department = Department::factory()->create();

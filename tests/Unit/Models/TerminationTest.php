@@ -28,6 +28,18 @@ class TerminationTest extends TestCase
     }
 
     /** @test */
+    public function termination_model_uses_soft_delete()
+    {
+        Mail::fake();
+        $termination = Termination::factory()->create();
+
+
+        $termination->delete();
+
+        $this->assertSoftDeleted(Termination::class, $termination->only(['id', 'employee_id']));
+    }
+
+    /** @test */
     public function terminations_model_belongs_to_employee()
     {
         Mail::fake();

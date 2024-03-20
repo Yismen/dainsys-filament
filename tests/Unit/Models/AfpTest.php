@@ -24,6 +24,16 @@ class AfpTest extends TestCase
     }
 
     /** @test */
+    public function afp_model_uses_soft_delete()
+    {
+        $afp = Afp::factory()->create();
+
+        $afp->delete();
+
+        $this->assertSoftDeleted(Afp::class, $afp->toArray());
+    }
+
+    /** @test */
     public function afps_model_morph_one_information()
     {
         $afp = Afp::factory()->create();

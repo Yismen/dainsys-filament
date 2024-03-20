@@ -21,4 +21,14 @@ class TerminationTypeTest extends TestCase
             'name', 'description'
         ]));
     }
+
+    /** @test */
+    public function termination_type_model_uses_soft_delete()
+    {
+        $termination_type = TerminationType::factory()->create();
+
+        $termination_type->delete();
+
+        $this->assertSoftDeleted(TerminationType::class, $termination_type->toArray());
+    }
 }

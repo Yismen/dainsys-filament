@@ -23,6 +23,16 @@ class CitizenshipTest extends TestCase
     }
 
     /** @test */
+    public function citizenship_model_uses_soft_delete()
+    {
+        $citizenship = Citizenship::factory()->create();
+
+        $citizenship->delete();
+
+        $this->assertSoftDeleted(Citizenship::class, $citizenship->toArray());
+    }
+
+    /** @test */
     public function citizenships_model_has_many_employees()
     {
         $citizenship = Citizenship::factory()->create();

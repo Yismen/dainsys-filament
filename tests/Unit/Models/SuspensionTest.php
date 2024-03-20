@@ -29,6 +29,17 @@ class SuspensionTest extends TestCase
     }
 
     /** @test */
+    public function suspension_model_uses_soft_delete()
+    {
+        Mail::fake();
+        $suspension = Suspension::factory()->create();
+
+        $suspension->delete();
+
+        $this->assertSoftDeleted(Suspension::class, $suspension->only(['id']));
+    }
+
+    /** @test */
     public function suspensions_model_belongs_to_employee()
     {
         Mail::fake();

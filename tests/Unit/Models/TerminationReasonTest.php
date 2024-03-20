@@ -21,4 +21,14 @@ class TerminationReasonTest extends TestCase
             'name', 'description'
         ]));
     }
+
+    /** @test */
+    public function termination_reason_model_uses_soft_delete()
+    {
+        $termination_reason = TerminationReason::factory()->create();
+
+        $termination_reason->delete();
+
+        $this->assertSoftDeleted(TerminationReason::class, $termination_reason->only(['id']));
+    }
 }

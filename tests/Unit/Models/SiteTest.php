@@ -23,6 +23,16 @@ class SiteTest extends TestCase
     }
 
     /** @test */
+    public function site_model_uses_soft_delete()
+    {
+        $site = Site::factory()->create();
+
+        $site->delete();
+
+        $this->assertSoftDeleted(Site::class, $site->only(['id']));
+    }
+
+    /** @test */
     public function sites_model_morph_one_information()
     {
         $site = Site::factory()->create();
