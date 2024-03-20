@@ -89,6 +89,9 @@ class AppPanelProvider extends PanelProvider
                 NavigationGroup::make('Human Resources Support')
                     ->icon('heroicon-o-users')
                     ->collapsed(),
+                NavigationGroup::make('Workforce')
+                    ->icon('heroicon-o-arrows-pointing-in')
+                    ->collapsed(),
             ])
             ->authMiddleware([
                 Authenticate::class,
