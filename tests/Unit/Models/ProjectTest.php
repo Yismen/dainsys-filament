@@ -29,4 +29,12 @@ class ProjectTest extends TestCase
 
         $this->assertInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class, $project->employees());
     }
+
+    /** @test */
+    public function projects_model_has_many_campaigns()
+    {
+        $project = Project::factory()->create();
+
+        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class, $project->campaigns());
+    }
 }
