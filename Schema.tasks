@@ -1,0 +1,19 @@
+☐ information  
+    ✔ Has many Ars @done (3/23/2024, 3:24:58 PM)
+    ✔ Has many AFP @done (3/23/2024, 3:25:14 PM)
+    has many employees
+☐ Ars
+    ☐ Has Many employees
+    ☐ Has information
+☐ Afp
+    ☐ Has many informations
+    ☐ Has many employees 
+☐ Bank
+    ☐ Has many informations
+    ☐ Has many employees 
+    ☐ Has many employees 
+☐ Department
+    ☐ Has many employees
+☐ Payment type
+    ☐ Has many informations
+    ☐ Has many employees
