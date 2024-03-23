@@ -10,6 +10,7 @@ use Filament\Tables\Table;
 use App\Enums\RevenueTypes;
 use App\Enums\CampaignSources;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Traits\WorkforceSupportMenu;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -28,34 +29,38 @@ class CampaignResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Select::make('project_id')
-                    ->searchable()
-                    ->preload()
-                    ->relationship('project', 'name')
-                    ->required(),
-                Forms\Components\Select::make('source')
-                    ->options(CampaignSources::toArray())
-                    ->required()
-                    ->searchable()
-                    ->preload(),
-                Forms\Components\Select::make('revenue_type')
-                    ->options(RevenueTypes::toArray())
-                    ->required()
-                    ->searchable()
-                    ->preload(),
-                Forms\Components\TextInput::make('goal')
-                    ->required()
-                    ->minValue(0)
-                    ->step(0.10)
-                    ->numeric(),
-                Forms\Components\TextInput::make('rate')
-                    ->required()
-                    ->minValue(0)
-                    ->step(0.10)
-                    ->numeric(),
+                Section::make('')
+                    ->columns(2)
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\Select::make('project_id')
+                            ->searchable()
+                            ->preload()
+                            ->relationship('project', 'name')
+                            ->required(),
+                        Forms\Components\Select::make('source')
+                            ->options(CampaignSources::toArray())
+                            ->required()
+                            ->searchable()
+                            ->preload(),
+                        Forms\Components\Select::make('revenue_type')
+                            ->options(RevenueTypes::toArray())
+                            ->required()
+                            ->searchable()
+                            ->preload(),
+                        Forms\Components\TextInput::make('goal')
+                            ->required()
+                            ->minValue(0)
+                            ->step(0.10)
+                            ->numeric(),
+                        Forms\Components\TextInput::make('rate')
+                            ->required()
+                            ->minValue(0)
+                            ->step(0.10)
+                            ->numeric(),
+                    ])
             ]);
     }
 
