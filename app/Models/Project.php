@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasInformation;
 use App\Models\Traits\HasManyCampaigns;
 use App\Models\Traits\HasManyEmployees;
 use Illuminate\Database\Eloquent\Model;
@@ -14,6 +15,7 @@ class Project extends Model
     use SoftDeletes;
     use HasManyEmployees;
     use HasManyCampaigns;
+    use HasInformation;
 
     protected $fillable = ['name', 'description'];
 }

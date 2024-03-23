@@ -6,6 +6,7 @@ use App\Models\Traits\BelongsToAfp;
 use App\Models\Traits\BelongsToArs;
 use App\Models\Traits\BelongsToBank;
 use App\Models\Traits\BelongsToSite;
+use App\Models\Traits\BelongsToProject;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\BelongsToEmployee;
 use App\Models\Traits\BelongsToSupervisor;
@@ -15,7 +16,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Information extends Model
 {
-    use HasFactory, SoftDeletes, BelongsToSupervisor, BelongsToAfp, BelongsToArs, BelongsToBank, BelongsToSite, BelongsToEmployee;
+    use HasFactory, SoftDeletes, BelongsToSupervisor, BelongsToAfp, BelongsToArs, BelongsToBank, BelongsToSite, BelongsToEmployee, BelongsToProject;
     protected $fillable = ['phone', 'email', 'photo_url', 'address', 'company_id', 'informationable_id', 'informationable_type'];
 
     protected $table = 'informations';

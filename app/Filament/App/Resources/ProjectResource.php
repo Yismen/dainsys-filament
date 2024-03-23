@@ -15,6 +15,7 @@ use App\Filament\Traits\HumanResourceAdminMenu;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\App\Resources\ProjectResource\Pages;
 use App\Filament\App\Resources\ProjectResource\RelationManagers;
+use App\Filament\App\Resources\InformationResource\RelationManagers\InformationRelationManager;
 
 class ProjectResource extends Resource
 {
@@ -74,7 +75,7 @@ class ProjectResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            InformationRelationManager::class
         ];
     }
 

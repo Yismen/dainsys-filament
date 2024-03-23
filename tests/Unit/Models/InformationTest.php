@@ -148,4 +148,24 @@ class InformationTest extends TestCase
         $this->assertInstanceOf(MorphOne::class, $afp->information());
         $this->assertInstanceOf(BelongsTo::class, (new Information())->afp());
     }
+
+    /** @test */
+    public function information_model_morph_project()
+    {
+        $project = Afp::factory()->create();
+        $data = [
+            'phone' => 'phone',
+            'email' => 'email',
+            'photo_url' => 'photo',
+            'address' => 'address',
+            'company_id' => 'asdfasdf',
+        ];
+
+        $project->information()->create($data);
+
+        $this->assertDatabaseHas('informations', $data);
+        $this->assertNotNull($project->information);
+        $this->assertInstanceOf(MorphOne::class, $project->information());
+        $this->assertInstanceOf(BelongsTo::class, (new Information())->project());
+    }
 }

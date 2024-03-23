@@ -47,4 +47,12 @@ class ProjectTest extends TestCase
 
         $this->assertInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class, $project->campaigns());
     }
+
+    /** @test */
+    public function projects_model_morph_one_information()
+    {
+        $project = Project::factory()->create();
+
+        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Relations\MorphOne::class, $project->information());
+    }
 }
