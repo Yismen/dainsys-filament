@@ -147,6 +147,14 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
+    public function employees_model_has_many_loginNames()
+    {
+        $employee = Employee::factory()->createQuietly();
+
+        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class, $employee->loginNames());
+    }
+
+    /** @test */
     public function employees_model_has_many_suspensions()
     {
         $employee = Employee::factory()->createQuietly();

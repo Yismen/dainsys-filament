@@ -15,6 +15,7 @@ use App\Models\Traits\HasInformation;
 use App\Models\Traits\BelongsToProject;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\BelongsToPosition;
+use App\Models\Traits\HasManyLoginNames;
 use App\Models\Traits\HasManySuspensions;
 use App\Models\Traits\BelongsToDepartment;
 use App\Models\Traits\BelongsToSupervisor;
@@ -25,7 +26,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Employee extends Model
 {
-    use HasFactory, SoftDeletes, BelongsToSite, BelongsToProject, HasInformation, BelongsToPosition, BelongsToDepartment, BelongsToCitizenship, BelongsToSupervisor, BelongsToAfp, BelongsToArs, HasManyTerminations, HasManySuspensions;
+    use HasFactory, SoftDeletes, BelongsToSite, BelongsToProject, HasInformation, BelongsToPosition, BelongsToDepartment, BelongsToCitizenship, BelongsToSupervisor, BelongsToAfp, BelongsToArs, HasManyTerminations, HasManySuspensions, HasManyLoginNames;
     use HasOnePunch;
     protected $casts = [
         'date_of_birth' => 'datetime:Y-m-d',
