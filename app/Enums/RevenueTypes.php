@@ -11,8 +11,8 @@ enum RevenueTypes: string implements EnumContract
 {
     use EnumNames, EnumValues, EnumToArray;
 
-    case LoginTime = 'Login Time';
-    case ProductionTime = 'Production Time';
-    case TalkTime = 'Talk Time';
+    case LoginTime = 'LoginTime';
+    case ProductionTime = 'ProductionTime';
+    case TalkTime = 'TalkTime';
     case Sales = 'Sales';
 }
