@@ -5,20 +5,21 @@ namespace App\Filament\App\Resources;
 use Filament\Forms;
 use Filament\Tables;
 use Filament\Forms\Form;
-use App\Models\Universal;
 use Filament\Tables\Table;
+use App\Models\BankAccount;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Builder;
-use App\Filament\Traits\WorkforceSupportMenu;
+use App\Filament\Traits\HumanResourceSupportMenu;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\App\Resources\UniversalResource\Pages;
-use App\Filament\App\Resources\UniversalResource\RelationManagers;
+use App\Filament\App\Resources\BankAccountResource\Pages;
+use App\Filament\App\Resources\BankAccountResource\RelationManagers;
 
-class UniversalResource extends Resource
+class BankAccountResource extends Resource
 {
-    use WorkforceSupportMenu;
+    use HumanResourceSupportMenu;
 
-    protected static ?string $model = Universal::class;
+    protected static ?string $model = BankAccount::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -26,13 +27,26 @@ class UniversalResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('employee_id')
-                    ->relationship('employee', 'full_name')
-                    ->required(),
-                Forms\Components\DatePicker::make('date_since')
-                    ->required(),
-                Forms\Components\Textarea::make('comments')
-                    ->columnSpanFull(),
+                Section::make('')
+                    ->columns(3)
+                    ->schema([
+                        Forms\Components\Select::make('employee_id')
+                            ->relationship('employee', 'full_name')
+                            ->searchable()
+                            ->autofocus()
+                            ->unique(ignoreRecord: true)
+                            ->preload()
+                            ->required(),
+                        Forms\Components\Select::make('bank_id')
+                            ->relationship('bank', 'name')
+                            ->searchable()
+                            ->preload()
+                            ->required(),
+                        Forms\Components\TextInput::make('account')
+                            ->required()
+                            ->unique(ignoreRecord: true)
+                            ->maxLength(255),
+                    ])
             ]);
     }
 
@@ -42,11 +56,12 @@ class UniversalResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('employee.full_name')
                     ->numeric()
-                    ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('date_since')
-                    ->date()
+                Tables\Columns\TextColumn::make('bank.name')
+                    ->numeric()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('account')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()
@@ -85,9 +100,9 @@ class UniversalResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListUniversals::route('/'),
-            'create' => Pages\CreateUniversal::route('/create'),
-            'edit' => Pages\EditUniversal::route('/{record}/edit'),
+            'index' => Pages\ListBankAccounts::route('/'),
+            'create' => Pages\CreateBankAccount::route('/create'),
+            'edit' => Pages\EditBankAccount::route('/{record}/edit'),
         ];
     }
 

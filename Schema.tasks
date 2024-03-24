@@ -20,7 +20,12 @@
 ☐ Employee
     ✔ Has many login names @done (3/23/2024, 3:56:59 PM)
         ✔ Add login name relation manager @done (3/23/2024, 4:36:30 PM)
+    ☐ Has a bank account
+    ☐ Is universal
 ☐ Login Name (employee_id, login)
     ✔ Belongs to employee @done (3/23/2024, 3:57:08 PM)
 ☐ Downtime Reason
     ☐ Has many performances
+☐ bank account
+    ☐ Belongs to a bank
+    ☐ belongs to a employee
