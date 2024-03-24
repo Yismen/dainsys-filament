@@ -10,12 +10,15 @@ use App\Models\Performance;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Traits\WorkforceSupportMenu;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\App\Resources\PerformanceResource\Pages;
 use App\Filament\App\Resources\PerformanceResource\RelationManagers;
 
 class PerformanceResource extends Resource
 {
+    use WorkforceSupportMenu;
+
     protected static ?string $model = Performance::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
@@ -94,8 +97,10 @@ class PerformanceResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('unique_id')
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('file')
+                    ->limit(20)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('date')
                     ->date()
