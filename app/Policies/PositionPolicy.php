@@ -4,11 +4,9 @@ namespace App\Policies;
 
 use App\Models\Position;
 use Illuminate\Foundation\Auth\User;
-use Illuminate\Auth\Access\HandlesAuthorization;
 
 class PositionPolicy
 {
-    use HandlesAuthorization, \App\Policies\Traits\CheckPermission;
 
     /**
      * Determine whether the user can view any models.

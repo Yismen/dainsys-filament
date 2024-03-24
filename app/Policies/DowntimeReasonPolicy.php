@@ -5,11 +5,9 @@ namespace App\Policies;
 use App\Models\User;
 use App\Models\DowntimeReason;
 use Illuminate\Auth\Access\Response;
-use App\Policies\Traits\CheckPermission;
 
 class DowntimeReasonPolicy
 {
-    use CheckPermission;
     /**
      * Determine whether the user can view any models.
      */

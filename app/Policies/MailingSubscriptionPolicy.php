@@ -4,11 +4,9 @@ namespace App\Policies;
 
 use App\Models\MailingSubscription;
 use Illuminate\Foundation\Auth\User;
-use Illuminate\Auth\Access\HandlesAuthorization;
 
 class MailingSubscriptionPolicy
 {
-    use HandlesAuthorization, \App\Policies\Traits\CheckPermission;
 
     /**
      * Determine whether the user can view any models.

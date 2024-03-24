@@ -5,11 +5,9 @@ namespace App\Policies;
 use App\Models\User;
 use App\Models\LoginName;
 use Illuminate\Auth\Access\Response;
-use App\Policies\Traits\CheckPermission;
 
 class LoginNamePolicy
 {
-    use CheckPermission;
     /**
      * Determine whether the user can view any models.
      */

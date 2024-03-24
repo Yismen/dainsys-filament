@@ -5,11 +5,9 @@ namespace App\Policies;
 use App\Models\User;
 use App\Models\Punch;
 use Illuminate\Auth\Access\Response;
-use Illuminate\Auth\Access\HandlesAuthorization;
 
 class PunchPolicy
 {
-    use HandlesAuthorization, \App\Policies\Traits\CheckPermission;
     /**
      * Determine whether the user can view any models.
      */
