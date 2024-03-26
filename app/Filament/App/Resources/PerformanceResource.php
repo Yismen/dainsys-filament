@@ -30,11 +30,9 @@ class PerformanceResource extends Resource
                 Section::make('')
                     ->columns(2)
                     ->schema([
-                        Forms\Components\TextInput::make('unique_id')
-                            ->required()
-                            ->maxLength(255),
                         Forms\Components\TextInput::make('file')
                             ->required()
+                            ->visible(false)
                             ->maxLength(255),
                         Forms\Components\DatePicker::make('date')
                             ->required(),
@@ -96,11 +94,9 @@ class PerformanceResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('unique_id')
-                    ->toggleable(isToggledHiddenByDefault: true)
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('file')
                     ->limit(20)
+                    ->toggleable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('date')
                     ->date()

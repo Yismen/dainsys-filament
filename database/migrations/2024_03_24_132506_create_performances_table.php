@@ -17,7 +17,6 @@ return new class extends Migration
     {
         Schema::create('performances', function (Blueprint $table) {
             $table->id();
-            $table->string('unique_id')->unique();
             $table->string('file')->index();
             $table->date('date');
             $table->foreignIdFor(Employee::class);

@@ -20,7 +20,7 @@ class PerformanceTest extends TestCase
         Performance::create($data->toArray());
 
         $this->assertDatabaseHas('performances', $data->only([
-            'unique_id', 'file', 'date', 'employee_id', 'campaign_id', 'campaign_goal', 'login_time', 'production_time', 'talk_time', 'billable_time', 'attempts', 'contacts', 'successes', 'upsales', 'revenue', 'downtime_reason_id', 'reporter_id',
+            'file', 'date', 'employee_id', 'campaign_id', 'campaign_goal', 'login_time', 'production_time', 'talk_time', 'billable_time', 'attempts', 'contacts', 'successes', 'upsales', 'revenue', 'downtime_reason_id', 'reporter_id',
         ]));
     }
 

@@ -32,7 +32,6 @@ class PerformanceImport implements ToModel, WithHeadingRow, WithMapping, WithChu
     public function map($row): array
     {
         return [
-            'unique_id' => $row['unique_id'],
             'file' => $this->filename,
             'date' => Carbon::parse($row['date']),
             'employee_id' => $row['employee_id'],
@@ -60,7 +59,6 @@ class PerformanceImport implements ToModel, WithHeadingRow, WithMapping, WithChu
     public function rules(): array
     {
         return [
-            '*.unique_id' => ['required'],
             '*.file' => ['required'],
             '*.date' => ['required', 'date'],
             '*.employee_id' => ['exists:employees,id'],

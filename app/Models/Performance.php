@@ -20,7 +20,7 @@ class Performance extends Model
     use BelongsToDowntimeReason;
 
     protected $fillable = [
-        'unique_id', 'file', 'date', 'employee_id', 'campaign_id', 'campaign_goal', 'login_time', 'production_time', 'talk_time', 'billable_time', 'attempts', 'contacts', 'successes', 'upsales', 'revenue', 'downtime_reason_id', 'reporter_id',
+        'file', 'date', 'employee_id', 'campaign_id', 'campaign_goal', 'login_time', 'production_time', 'talk_time', 'billable_time', 'attempts', 'contacts', 'successes', 'upsales', 'revenue', 'downtime_reason_id', 'reporter_id',
     ];
 
     public function reporter(): BelongsTo

@@ -21,7 +21,6 @@ class PerformanceFactory extends Factory
     public function definition(): array
     {
         return [
-            'unique_id' => $this->faker->unique()->word(),
             'file' => $this->faker->word(),
             'date' => now()->format('Y-m-d'),
             'employee_id' => Employee::factory(),
