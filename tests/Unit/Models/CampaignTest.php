@@ -39,4 +39,12 @@ class CampaignTest extends TestCase
 
         $this->assertInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class, $campaign->project());
     }
+
+    /** @test */
+    public function campaigns_model_has_many_performances()
+    {
+        $campaign = Campaign::factory()->create();
+
+        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class, $campaign->performances());
+    }
 }

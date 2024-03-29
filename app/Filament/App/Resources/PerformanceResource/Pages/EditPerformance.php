@@ -2,9 +2,9 @@
 
 namespace App\Filament\App\Resources\PerformanceResource\Pages;
 
-use App\Filament\App\Resources\PerformanceResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
+use App\Filament\App\Resources\PerformanceResource;
 
 class EditPerformance extends EditRecord
 {

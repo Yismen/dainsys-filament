@@ -12,7 +12,7 @@ enum MaritalStatus: string implements EnumContract
     use EnumNames, EnumValues, EnumToArray;
 
     case Single = 'Single';
-    case Maried = 'Married';
+    case Married = 'Married';
     case Divorced = 'Divorced';
-    case Free_Union = 'Free Union';
+    case FreeUnion = 'Free Union';
 }

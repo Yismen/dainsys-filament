@@ -33,6 +33,7 @@ return new class extends Migration
             $table->double('revenue', 15, 8)->unsigned()->default(0);
             $table->foreignIdFor(DowntimeReason::class)->nullable();
             $table->foreignIdFor(Supervisor::class, 'reporter_id')->nullable();
+            $table->unique(['date', 'campaign_id', 'employee_id']);
             $table->softDeletes();
             $table->timestamps();
         });

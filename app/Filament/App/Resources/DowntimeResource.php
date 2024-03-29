@@ -7,9 +7,11 @@ use Filament\Tables;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use App\Models\Performance;
+use App\Rules\UniqueByColumns;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Validation\Rules\Unique;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Traits\WorkforceSupportMenu;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -37,6 +39,12 @@ class DowntimeResource extends Resource
                             ->minDate(now()->subDays(30))
                             ->maxDate(now())
                             ->default(now())
+                            ->unique(modifyRuleUsing: function (Unique $rule, callable $get) { // $get callable is used
+                                return $rule
+                                    ->where('date', $get('date')) // get the current value in the 'school_id' field
+                                    ->where('employee_id', $get('employee_id'))
+                                    ->where('campaign_id', $get('campaign_id'));
+                            }, ignoreRecord: true)
                             ->required(),
                         Forms\Components\Select::make('employee_id')
                             ->relationship('employee', 'full_name')
@@ -114,6 +122,7 @@ class DowntimeResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('revenue')
                     ->numeric()
+                    ->money()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('downtimeReason.name')
                     ->numeric()

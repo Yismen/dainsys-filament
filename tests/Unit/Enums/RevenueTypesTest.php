@@ -12,9 +12,9 @@ class RevenueTypesTest extends TestCase
     public function values_method_return_specific_values()
     {
         $this->assertEquals([
-            'LoginTime',
-            'ProductionTime',
-            'TalkTime',
+            'Login Time',
+            'Production Time',
+            'Talk Time',
             'Sales',
         ], RevenueTypes::values());
     }
@@ -23,9 +23,9 @@ class RevenueTypesTest extends TestCase
     public function all_method_return_associative_array()
     {
         $this->assertEquals([
-            'LoginTime' => 'LoginTime',
-            'ProductionTime' => 'ProductionTime',
-            'TalkTime' => 'TalkTime',
+            'LoginTime' => 'Login Time',
+            'ProductionTime' => 'Production Time',
+            'TalkTime' => 'Talk Time',
             'Sales' => 'Sales',
         ], RevenueTypes::toArray());
     }

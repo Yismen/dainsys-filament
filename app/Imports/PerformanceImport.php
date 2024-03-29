@@ -4,16 +4,23 @@ namespace App\Imports;
 
 use Carbon\Carbon;
 use App\Models\Performance;
+use App\Jobs\UpdateRevenueAndBillable;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Events\AfterBatch;
+use Maatwebsite\Excel\Events\AfterImport;
+use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithUpserts;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
+use Maatwebsite\Excel\Concerns\RegistersEventListeners;
 
-class PerformanceImport implements ToModel, WithHeadingRow, WithMapping, WithChunkReading, WithBatchInserts, WithValidation, WithUpserts
+class PerformanceImport implements ToModel, WithHeadingRow, WithMapping, WithChunkReading, WithBatchInserts, WithValidation, WithUpserts, WithEvents
 {
+    use RegistersEventListeners;
+
     protected string $filename;
     public function __construct(string $filename)
     {
@@ -86,5 +93,9 @@ class PerformanceImport implements ToModel, WithHeadingRow, WithMapping, WithChu
     public function batchSize(): int
     {
         return 1000;
+    }
+    public static function afterImport(AfterImport $event)
+    {
+        UpdateRevenueAndBillable::dispatch(now());
     }
 }

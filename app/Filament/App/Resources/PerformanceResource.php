@@ -10,6 +10,7 @@ use App\Models\Performance;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Columns\Summarizers\Sum;
 use App\Filament\Traits\WorkforceSupportMenu;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\App\Resources\PerformanceResource\Pages;
@@ -112,36 +113,48 @@ class PerformanceResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('login_time')
                     ->numeric()
+                    ->summarize(Sum::make())
                     ->sortable(),
                 Tables\Columns\TextColumn::make('production_time')
                     ->numeric()
+                    ->summarize(Sum::make())
                     ->sortable(),
                 Tables\Columns\TextColumn::make('talk_time')
                     ->numeric()
+                    ->summarize(Sum::make())
                     ->sortable(),
                 Tables\Columns\TextColumn::make('billable_time')
                     ->numeric()
+                    ->summarize(Sum::make())
                     ->sortable(),
                 Tables\Columns\TextColumn::make('attempts')
                     ->numeric()
+                    ->summarize(Sum::make())
                     ->sortable(),
                 Tables\Columns\TextColumn::make('contacts')
                     ->numeric()
+                    ->summarize(Sum::make())
                     ->sortable(),
                 Tables\Columns\TextColumn::make('successes')
                     ->numeric()
+                    ->summarize(Sum::make())
                     ->sortable(),
                 Tables\Columns\TextColumn::make('upsales')
                     ->numeric()
+                    ->summarize(Sum::make())
                     ->sortable(),
                 Tables\Columns\TextColumn::make('revenue')
                     ->numeric()
+                    ->summarize(Sum::make()->money())
+                    ->money()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('downtimeReason.name')
                     ->numeric()
+                    ->toggleable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('reporter.name')
                     ->numeric()
+                    ->toggleable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime()
