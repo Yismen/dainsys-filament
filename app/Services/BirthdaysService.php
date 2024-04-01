@@ -86,8 +86,8 @@ class BirthdaysService
                 $this->date->month
             )->where(
                 fn ($q) => $q
-                    ->whereDay('date_of_birth', '>=', $this->date->copy()->startOfMonth()->day)
-                    ->orWhereDay('date_of_birth', '<=', $this->date->copy()->endOfMonth()->day)
+                    ->whereDay('date_of_birth', '>=', $this->date->copy()->startOfMonth())
+                    ->orWhereDay('date_of_birth', '<=', $this->date->copy()->endOfMonth())
             );
     }
 

@@ -12,6 +12,8 @@ use Filament\Resources\Resource;
 use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rules\Unique;
+use Filament\Tables\Columns\Layout\Panel;
+use Filament\Tables\Columns\Layout\Split;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Traits\WorkforceSupportMenu;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -61,6 +63,7 @@ class DowntimeResource extends Resource
                         Forms\Components\TextInput::make('login_time')
                             ->required()
                             ->numeric()
+                            ->step(.0001)
                             ->minValue(.10)
                             ->default(0.00000000),
                         Forms\Components\Select::make('downtime_reason_id')
@@ -81,67 +84,84 @@ class DowntimeResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('file')
-                    ->limit(20)
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('date')
-                    ->date()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('employee.full_name')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('campaign.name')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('campaign_goal')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('login_time')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('production_time')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('talk_time')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('billable_time')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('attempts')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('contacts')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('successes')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('upsales')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('revenue')
-                    ->numeric()
-                    ->money()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('downtimeReason.name')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('reporter.name')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('deleted_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                Split::make([
+                    Tables\Columns\TextColumn::make('date')
+                        ->date()
+                        ->sortable(),
+                    Tables\Columns\TextColumn::make('employee.full_name')
+                        ->numeric()
+                        ->sortable(),
+                    Tables\Columns\TextColumn::make('campaign.name')
+                        ->numeric()
+                        ->formatStateUsing(fn ($state) => 'Campaign: ' . $state)
+                        ->sortable(),
+                    Tables\Columns\TextColumn::make('login_time')
+                        ->numeric()
+                        ->formatStateUsing(fn ($state) => 'Login Time: ' . $state)
+                        ->sortable(),
+                ]),
+                Panel::make([
+                    Tables\Columns\TextColumn::make('file')
+                        ->formatStateUsing(fn ($state) => 'File: ' . $state)
+                        ->searchable(),
+                    Tables\Columns\TextColumn::make('campaign_goal')
+                        ->numeric()
+                        ->formatStateUsing(fn ($state) => 'Goal: ' . $state)
+                        ->sortable(),
+                    Tables\Columns\TextColumn::make('production_time')
+                        ->numeric()
+                        ->formatStateUsing(fn ($state) => 'Production Time: ' . $state)
+                        ->sortable(),
+                    Tables\Columns\TextColumn::make('talk_time')
+                        ->numeric()
+                        ->formatStateUsing(fn ($state) => 'Talk Time: ' . $state)
+                        ->sortable(),
+                    Tables\Columns\TextColumn::make('billable_time')
+                        ->numeric()
+                        ->formatStateUsing(fn ($state) => 'Billable Time: ' . $state)
+                        ->sortable(),
+                    // Tables\Columns\TextColumn::make('attempts')
+                    //     ->numeric()
+                    //     ->sortable(),
+                    // Tables\Columns\TextColumn::make('contacts')
+                    //     ->numeric()
+                    //     ->sortable(),
+                    // Tables\Columns\TextColumn::make('successes')
+                    //     ->numeric()
+                    //     ->sortable(),
+                    // Tables\Columns\TextColumn::make('upsales')
+                    //     ->numeric()
+                    //     ->sortable(),
+                    Tables\Columns\TextColumn::make('revenue')
+                        ->numeric()
+                        ->money()
+                        ->formatStateUsing(fn ($state) => 'Revenue: $' . $state)
+                        ->sortable(),
+                    Tables\Columns\TextColumn::make('downtimeReason.name')
+                        ->numeric()
+                        ->formatStateUsing(fn ($state) => 'Downtime Reason: ' . $state)
+                        ->sortable(),
+                    Tables\Columns\TextColumn::make('reporter.name')
+                        ->numeric()
+                        ->formatStateUsing(fn ($state) => 'Reported By: ' . $state)
+                        ->sortable(),
+                    Tables\Columns\TextColumn::make('deleted_at')
+                        ->dateTime()
+                        ->sortable()
+                        ->toggleable(isToggledHiddenByDefault: true),
+                    Tables\Columns\TextColumn::make('created_at')
+                        ->dateTime()
+                        ->sortable()
+                        ->formatStateUsing(fn ($state) => 'Created At: ' . $state)
+                        ->toggleable(isToggledHiddenByDefault: true),
+                    Tables\Columns\TextColumn::make('updated_at')
+                        ->dateTime()
+                        ->sortable()
+                        ->formatStateUsing(fn ($state) => 'Update At: ' . $state)
+                        ->toggleable(isToggledHiddenByDefault: true),
+
+                ])
+                    ->collapsible()
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),

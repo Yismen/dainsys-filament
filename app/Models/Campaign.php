@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\RevenueTypes;
+use App\Enums\CampaignSources;
 use App\Models\Traits\BelongsToProject;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -20,7 +21,8 @@ class Campaign extends Model
     protected $fillable = ['name', 'project_id', 'source', 'revenue_type', 'goal', 'rate'];
 
     protected $casts =  [
-        'revenue_type' => RevenueTypes::class
+        'source' => CampaignSources::class,
+        'revenue_type' => RevenueTypes::class,
     ];
 
     public function scopeIsDowntime(Builder $builder)

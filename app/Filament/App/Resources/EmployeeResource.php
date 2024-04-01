@@ -9,6 +9,8 @@ use Filament\Tables\Table;
 use App\Enums\EmployeeStatus;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Section;
+use Filament\Tables\Columns\Layout\Panel;
+use Filament\Tables\Columns\Layout\Split;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Support\Forms\EmployeeSchema;
 use App\Filament\Traits\HumanResourceSupportMenu;
@@ -39,79 +41,68 @@ class EmployeeResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('full_name')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('site.name')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('project.name')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('position.name')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('personal_id')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('hired_at')
-                    ->date()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('date_of_birth')
-                    ->date()
-                    ->toggleable(isToggledHiddenByDefault: true)
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('cellphone')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('status')
-                    ->badge()
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('citizenship.name')
-                    ->numeric()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('first_name')
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('second_first_name')
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('last_name')
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('second_last_name')
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('supervisor.name')
-                    ->numeric()
-                    ->toggleable(isToggledHiddenByDefault: true)
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('afp.name')
-                    ->numeric()
-                    ->toggleable(isToggledHiddenByDefault: true)
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('ars.name')
-                    ->numeric()
-                    ->toggleable(isToggledHiddenByDefault: true)
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('marriage')
-                    ->toggleable(isToggledHiddenByDefault: true)
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('gender')
-                    ->toggleable(isToggledHiddenByDefault: true)
-                    ->searchable(),
-                Tables\Columns\IconColumn::make('kids')
-                    ->boolean(),
-                Tables\Columns\TextColumn::make('deleted_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                Split::make([
+                    Tables\Columns\ImageColumn::make('information.photo_url')
+                        ->grow(false)
+                        ->circular(),
+                    Tables\Columns\TextColumn::make('full_name')
+                        ->searchable(),
+                    Tables\Columns\TextColumn::make('cellphone')
+                        ->icon('heroicon-o-phone')
+                        ->searchable(),
+                    Tables\Columns\TextColumn::make('site.name')
+                        ->sortable(),
+                    Tables\Columns\TextColumn::make('project.name')
+                        ->sortable(),
+                    Tables\Columns\TextColumn::make('position.details')
+                        ->sortable(),
+                    Tables\Columns\TextColumn::make('status')
+                        ->badge()
+                        ->searchable(),
+                ]),
+                Panel::make([
+                    Tables\Columns\TextColumn::make('personal_id')
+                        ->formatStateUsing(fn ($state) => 'Personal ID: ' . $state)
+                        ->searchable(),
+                    Tables\Columns\TextColumn::make('hired_at')
+                        ->date()
+                        ->formatStateUsing(fn ($state) => 'Hired At: ' . $state)
+                        ->sortable(),
+                    Tables\Columns\TextColumn::make('date_of_birth')
+                        ->date()
+                        ->formatStateUsing(fn ($state) => 'Birthday: ' . $state->format('M-d'))
+                        ->sortable(),
+                    Tables\Columns\TextColumn::make('citizenship.name')
+                        ->formatStateUsing(fn ($state) => 'Nationality: ' . $state)
+                        ->sortable(),
+                    Tables\Columns\TextColumn::make('supervisor.name')
+                        ->formatStateUsing(fn ($state) => 'Supervisor: ' . $state)
+                        ->sortable(),
+                    Tables\Columns\TextColumn::make('afp.name')
+                        ->formatStateUsing(fn ($state) => 'AFP: ' . $state)
+                        ->sortable(),
+                    Tables\Columns\TextColumn::make('ars.name')
+                        ->formatStateUsing(fn ($state) => 'ARS: ' . $state)
+                        ->sortable(),
+                    Tables\Columns\TextColumn::make('marriage')
+                        ->formatStateUsing(fn ($state) => 'Marital Status: ' . $state->value)
+                        ->searchable(),
+                    Tables\Columns\TextColumn::make('gender')
+                        ->formatStateUsing(fn ($state) => 'Gender: ' . $state->value)
+                        ->searchable(),
+                    Tables\Columns\IconColumn::make('kids')
+                        // ->formatStateUsing(fn ($state) => 'Has Kids: ' . $state)
+                        ->boolean(),
+                    Tables\Columns\TextColumn::make('created_at')
+                        ->formatStateUsing(fn ($state) => 'Created Ar: ' . $state)
+                        ->dateTime()
+                        ->sortable(),
+                    Tables\Columns\TextColumn::make('updated_at')
+                        ->formatStateUsing(fn ($state) => 'Last Update: ' . $state)
+                        ->dateTime()
+                        ->sortable(),
+                ])->collapsible()
+                    ->collapsed(true)
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),

@@ -62,7 +62,7 @@ class BirthdaysServiceTest extends TestCase
     public function birthdays_service_returns_birthdays_for_this_month()
     {
         $employee_this_month = Employee::factory()->current()->createQuietly(['date_of_birth' => $this->date->copy()->startOfMonth()]);
-        $employee_last_month = Employee::factory()->current()->createQuietly(['date_of_birth' => $this->date->copy()->subMonth()]);
+        $employee_last_month = Employee::factory()->current()->createQuietly(['date_of_birth' => $this->date->copy()->startOfMonth()->subMonth()]);
 
         $birthdays = $this->service->handle('this_month');
 
@@ -73,8 +73,8 @@ class BirthdaysServiceTest extends TestCase
     /** @test */
     public function birthdays_service_returns_birthdays_for_last_month()
     {
-        $employee_this_month = Employee::factory()->current()->createQuietly(['date_of_birth' => $this->date->copy()]);
-        $employee_last_month = Employee::factory()->current()->createQuietly(['date_of_birth' => $this->date->copy()->subMonth()]);
+        $employee_this_month = Employee::factory()->current()->createQuietly(['date_of_birth' => $this->date->copy()->startOfMonth()]);
+        $employee_last_month = Employee::factory()->current()->createQuietly(['date_of_birth' => $this->date->copy()->startOfMonth()->subMonth()]);
 
         $birthdays = $this->service->handle('last_month');
 

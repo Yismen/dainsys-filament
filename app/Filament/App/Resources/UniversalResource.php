@@ -8,6 +8,7 @@ use Filament\Forms\Form;
 use App\Models\Universal;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Traits\WorkforceSupportMenu;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -26,13 +27,18 @@ class UniversalResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('employee_id')
-                    ->relationship('employee', 'full_name')
-                    ->required(),
-                Forms\Components\DatePicker::make('date_since')
-                    ->required(),
-                Forms\Components\Textarea::make('comments')
-                    ->columnSpanFull(),
+                Section::make('')
+                    ->columns(2)
+                    ->schema([
+                        Forms\Components\Select::make('employee_id')
+                            ->relationship('employee', 'full_name')
+                            ->searchable()
+                            ->required(),
+                        Forms\Components\DatePicker::make('date_since')
+                            ->required(),
+                        Forms\Components\Textarea::make('comments')
+                            ->columnSpanFull(),
+                    ])
             ]);
     }
 
