@@ -33,7 +33,9 @@ class TerminationResource extends Resource
                     ->columns(2)
                     ->schema([
                         Forms\Components\Select::make('employee_id')
-                            ->relationship('employee', 'first_name')
+                            ->relationship('employee', 'full_name')
+                            ->autofocus()
+                            ->searchable()
                             ->required(),
                         Forms\Components\Select::make('termination_type_id')
                             ->relationship('terminationType', 'name')
@@ -62,7 +64,7 @@ class TerminationResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('employee.id')
+                Tables\Columns\TextColumn::make('employee.full_name')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('terminationType.name')

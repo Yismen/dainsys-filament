@@ -35,7 +35,6 @@ class BankAccountResource extends Resource
                             ->searchable()
                             ->autofocus()
                             ->unique(ignoreRecord: true)
-                            ->preload()
                             ->required(),
                         Forms\Components\Select::make('bank_id')
                             ->relationship('bank', 'name')

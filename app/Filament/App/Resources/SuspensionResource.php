@@ -37,7 +37,6 @@ class SuspensionResource extends Resource
                             ->relationship('employee', 'full_name')
                             ->searchable()
                             ->autofocus()
-                            ->preload()
                             ->createOptionForm(EmployeeSchema::toArray())
                             ->createOptionModalHeading('Add New Employee')
                             ->required(),

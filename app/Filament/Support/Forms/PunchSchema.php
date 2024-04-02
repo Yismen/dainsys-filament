@@ -27,7 +27,6 @@ final class PunchSchema
                 )
                 ->searchable()
                 ->unique(ignoreRecord: true)
-                ->preload()
                 ->required(),
         ];
     }
