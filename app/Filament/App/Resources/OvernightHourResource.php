@@ -11,12 +11,15 @@ use Filament\Resources\Resource;
 use Filament\Forms\Components\Section;
 use Illuminate\Validation\Rules\Unique;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Traits\WorkforceSupportMenu;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\App\Resources\OvernightHourResource\Pages;
 use App\Filament\App\Resources\OvernightHourResource\RelationManagers;
 
 class OvernightHourResource extends Resource
 {
+    use WorkforceSupportMenu;
+
     protected static ?string $model = OvernightHour::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
