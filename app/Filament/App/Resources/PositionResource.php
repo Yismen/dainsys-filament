@@ -9,8 +9,8 @@ use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Builder;
-use App\Filament\Traits\HumanResourceAdminMenu;
 use App\Filament\Support\Forms\PositionSchema;
+use App\Filament\Traits\HumanResourceAdminMenu;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\App\Resources\PositionResource\Pages;
 use App\Filament\App\Resources\PositionResource\RelationManagers;
@@ -37,14 +37,15 @@ class PositionResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('name')
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('department.name')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('paymentType.name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('salary')
                     ->numeric()
                     ->sortable(),

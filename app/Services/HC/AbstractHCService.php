@@ -2,11 +2,11 @@
 
 namespace App\Services\HC;
 
+use App\Services\Traits\HasFilters;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use App\Services\Traits\HasFilters;
 
 abstract class AbstractHCService implements HCContract
 {
