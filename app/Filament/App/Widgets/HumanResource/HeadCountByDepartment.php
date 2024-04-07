@@ -2,36 +2,14 @@
 
 namespace App\Filament\App\Widgets\HumanResource;
 
-use App\Services\HC\ByDepartment;
-use Filament\Widgets\ChartWidget;
-use App\Filament\App\Widgets\Traits\HasColors;
-use App\Filament\App\Widgets\Traits\HasMaxHeight;
+use App\Models\Department;
 
-class HeadCountByDepartment extends ChartWidget
+class HeadCountByDepartment extends BaseHumanResourcesWidget
 {
-    use HasColors;
-    use HasMaxHeight;
-
     protected static ?string $heading = 'Head Count by Department';
 
-    protected function getData(): array
+    protected function getModel(): string
     {
-        $service = (new ByDepartment())->count();
-
-        return [
-            'datasets' => [
-                [
-                    'label' => 'Employees By Department',
-                    'data' => $service->pluck('employees_count'),
-                    'backgroundColor' => $this->getManyColors($service->pluck('name')->count()),
-                ],
-            ],
-            'labels' => $service->pluck('name'),
-        ];
-    }
-
-    protected function getType(): string
-    {
-        return 'doughnut';
+        return Department::class;
     }
 }

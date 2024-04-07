@@ -2,11 +2,11 @@
 
 namespace App\Services\HC;
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Eloquent\Builder;
 use App\Models\Employee;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 use App\Services\Traits\HasFilters;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 
 abstract class AbstractEmployeesService implements HCContract
 {
@@ -18,7 +18,7 @@ abstract class AbstractEmployeesService implements HCContract
 
     protected string $field;
 
-    protected array $filters = [];
+    protected array $filters = ['site'];
 
     public function __construct()
     {
@@ -40,7 +40,6 @@ abstract class AbstractEmployeesService implements HCContract
     public function list($value = null): Collection
     {
         $this->value = $value;
-
         return $this->parseFilters($this->filters, $this->query)
             ->orderBy('full_name')
             ->get()

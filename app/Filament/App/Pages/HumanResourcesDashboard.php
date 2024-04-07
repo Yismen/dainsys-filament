@@ -2,12 +2,17 @@
 
 namespace App\Filament\App\Pages;
 
+use Filament\Forms\Form;
+use App\Services\SiteService;
 use Filament\Pages\Dashboard;
+use Filament\Forms\Components\Section;
 use App\Filament\Traits\HumanResourceAdminMenu;
+use Filament\Pages\Dashboard\Concerns\HasFiltersForm;
 
 class HumanResourcesDashboard extends Dashboard
 {
     use HumanResourceAdminMenu;
+    use HasFiltersForm;
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
@@ -26,9 +31,23 @@ class HumanResourcesDashboard extends Dashboard
             \App\Filament\App\Widgets\HumanResource\HeadCountByPosition::class,
             \App\Filament\App\Widgets\HumanResource\HeadCountByAfp::class,
             \App\Filament\App\Widgets\HumanResource\HeadCountByArs::class,
-            // MonthlyEmployees::class,
-            // MonthlyAttrition::class,
+            // \App\Filament\App\Widgets\HumanResource\MonthlyEmployees::class,
+            // \App\Filament\App\Widgets\HumanResource\MonthlyAttrition::class,
         ];
+    }
+
+    public function filtersForm(Form $form): Form
+    {
+        return $form
+            ->schema([
+                Section::make()
+                    ->schema([
+                        \Filament\Forms\Components\Select::make('site')
+                            ->options(SiteService::list())
+                        // ...
+                    ])
+                    ->columns(3),
+            ]);
     }
 
     public function getHeaderWidgetsColumns(): int | string | array

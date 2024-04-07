@@ -7,6 +7,6 @@ trait HasMaxHeight
 
     protected function getMaxHeight(): ?string
     {
-        return '400px';
+        return '350px';
     }
 }

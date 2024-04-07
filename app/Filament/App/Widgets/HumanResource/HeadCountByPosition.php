@@ -2,36 +2,14 @@
 
 namespace App\Filament\App\Widgets\HumanResource;
 
-use App\Services\HC\ByPosition;
-use Filament\Widgets\ChartWidget;
-use App\Filament\App\Widgets\Traits\HasColors;
-use App\Filament\App\Widgets\Traits\HasMaxHeight;
+use App\Models\Position;
 
-class HeadCountByPosition extends ChartWidget
+class HeadCountByPosition extends BaseHumanResourcesWidget
 {
-    use HasColors;
-    use HasMaxHeight;
-
     protected static ?string $heading = 'Head Count by Position';
 
-    protected function getData(): array
+    protected function getModel(): string
     {
-        $service = (new ByPosition())->count();
-
-        return [
-            'datasets' => [
-                [
-                    // 'label' => 'Employees By Position',
-                    'data' => $service->pluck('employees_count'),
-                    'backgroundColor' => $this->getManyColors($service->pluck('name')->count()),
-                ],
-            ],
-            'labels' => $service->pluck('name'),
-        ];
-    }
-
-    protected function getType(): string
-    {
-        return 'doughnut';
+        return Position::class;
     }
 }
