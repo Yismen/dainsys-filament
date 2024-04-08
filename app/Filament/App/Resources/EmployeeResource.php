@@ -9,13 +9,16 @@ use Filament\Tables\Table;
 use App\Enums\EmployeeStatus;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Section;
+use pxlrbt\FilamentExcel\Columns\Column;
 use Filament\Tables\Columns\Layout\Panel;
 use Filament\Tables\Columns\Layout\Split;
 use Illuminate\Database\Eloquent\Builder;
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
 use App\Filament\Support\Forms\EmployeeSchema;
 use App\Filament\Traits\HumanResourceSupportMenu;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\App\Resources\EmployeeResource\Pages;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 use App\Filament\App\Resources\EmployeeResource\RelationManagers\LoginNamesRelationManager;
 use App\Filament\App\Resources\InformationResource\RelationManagers\InformationRelationManager;
 
@@ -126,6 +129,34 @@ class EmployeeResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                     Tables\Actions\ForceDeleteBulkAction::make(),
                     Tables\Actions\RestoreBulkAction::make(),
+                ]),
+                ExportBulkAction::make()->exports([
+                    ExcelExport::make()->withColumns([
+                        Column::make('id'),
+                        Column::make('full_name'),
+                        Column::make('personal_id'),
+                        Column::make('hired_at'),
+                        Column::make('date_of_birth'),
+                        Column::make('cellphone'),
+                        Column::make('status'),
+                        Column::make('marriage'),
+                        Column::make('gender'),
+                        Column::make('kids'),
+                        Column::make('site.name')
+                            ->heading('Site'),
+                        Column::make('project.name')
+                            ->heading('Project'),
+                        Column::make('position.name')
+                            ->heading('Position'),
+                        Column::make('citizenship.name')
+                            ->heading('Citizenship'),
+                        Column::make('supervisor.name')
+                            ->heading('Supervisor'),
+                        Column::make('afp.name')
+                            ->heading('Afp'),
+                        Column::make('ars.name')
+                            ->heading('Ars'),
+                    ])
                 ]),
             ]);
     }
