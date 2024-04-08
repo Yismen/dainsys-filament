@@ -107,8 +107,15 @@ class EmployeeResource extends Resource
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
                 Tables\Filters\SelectFilter::make('status')
-                    ->options(EmployeeStatus::toArray())
-                // ->query(fn ($q, $status) => $q->where('Status', $status))
+                    ->options(EmployeeStatus::toArray()),
+                Tables\Filters\SelectFilter::make('site')
+                    ->relationship('site', 'name'),
+                Tables\Filters\SelectFilter::make('project')
+                    ->relationship('project', 'name'),
+                Tables\Filters\SelectFilter::make('position')
+                    ->relationship('position', 'name'),
+                // Tables\Filters\SelectFilter::make('department')
+                //     ->relationship('department', 'name'),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
