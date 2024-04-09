@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Services\BirthdaysService;
+use function Laravel\Prompts\select;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Birthdays as MailBirthdays;
 
@@ -15,7 +16,7 @@ class Birthdays extends Command
      * @var string
      */
     protected $signature = 'dainsys:birthdays
-                            {type=today} The type of report. Options are today, yesterday, tomorrow, this_week, last_week, next_week, this_month, next_month, last_month';
+                            {type? : The type of report. Valid options are today, yesterday, tomorrow, this_month, next_month, last_month}';
 
     /**
      * The console command description.
@@ -23,6 +24,18 @@ class Birthdays extends Command
      * @var string
      */
     protected $description = 'Sends a list of employees having birthdays in the given period';
+
+    protected ?array $reportTypes = [
+        'today' => 'Today',
+        'yesterday' => 'Yesterday',
+        'tomorrow' => 'Tomorrow',
+        // 'this_week' => 'This Week',
+        // 'last_week' => 'Last Week',
+        // 'next_week' => 'Next Week',
+        'this_month' => 'This Month',
+        'last_month' => 'Last Month',
+        'next_month' => 'Next Month',
+    ];
 
     /**
      * Create a new command instance.
@@ -41,7 +54,17 @@ class Birthdays extends Command
      */
     public function handle(BirthdaysService $birthdays)
     {
-        $type = $this->argument('type');
+        $type = $this->argument('type') ?: select(
+            label: 'Type of report',
+            options: $this->reportTypes,
+            default: 'today',
+            scroll: 5,
+        );
+
+        if (!array_key_exists($type, $this->reportTypes)) {
+            $this->error('Invalid report. Valid options are ' . join(", ", array_keys($this->reportTypes)));
+            return 1;
+        }
 
         $birthdays = $birthdays->handle($type);
 
