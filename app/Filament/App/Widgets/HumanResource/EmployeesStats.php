@@ -21,7 +21,11 @@ class EmployeesStats extends BaseWidget
                     ->current()
                     ->when($this->filters['site'], function ($employeeQuery) {
                         $employeeQuery->whereHas('site', function ($siteQuery) {
-                            $siteQuery->where('id', $this->filters['site']);
+                            $siteQuery->when(
+                                is_array($this->filters['site']),
+                                fn ($query) => $query->whereIn('id', $this->filters['site']),
+                                fn ($query) => $query->where('id', $this->filters['site'])
+                            );
                         });
                     })
                     ->count()

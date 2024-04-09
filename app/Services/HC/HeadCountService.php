@@ -22,12 +22,16 @@ class HeadCountService
     public function filters(array $filters): self
     {
         foreach ($filters as $relationship => $value) {
-            if ($value || strlen($value)) {
+            if ($value) {
                 self::$model->whereHas('employees', function ($employees) use ($relationship, $value) {
                     $employees
                         ->notInactive()
                         ->whereHas($relationship, function ($query) use ($value) {
-                            $query->where('id', $value);
+                            $query->when(
+                                is_array($value),
+                                fn ($q) => $q->whereIn('id', $value),
+                                fn ($q) => $q->where('id', $value)
+                            );
                         });
                 });
             }

@@ -2,6 +2,7 @@
 
 namespace App\Filament\App\Pages;
 
+use Filament\Forms\Set;
 use Filament\Forms\Form;
 use App\Services\SiteService;
 use Filament\Pages\Dashboard;
@@ -44,14 +45,33 @@ class HumanResourcesDashboard extends Dashboard
                     ->schema([
                         \Filament\Forms\Components\Select::make('site')
                             ->options(SiteService::list())
-                        // ...
+                            ->multiple()
+                            ->live()
+                            ->suffixAction(
+                                \Filament\Forms\Components\Actions\Action::make('clear')
+                                    ->icon('heroicon-m-x-mark')
+                                    ->color('danger')
+                                    ->visible(function ($state) {
+                                        return $state;
+                                    })
+                                    ->action(function (Set $set) {
+                                        $set('site', []);
+                                    })
+                            )
                     ])
-                    ->columns(3),
+                    ->columns(2),
+                // ...
+
             ]);
     }
 
     public function getHeaderWidgetsColumns(): int | string | array
     {
         return 4;
+    }
+
+    public function persistsFiltersInSession(): bool
+    {
+        return false;
     }
 }
