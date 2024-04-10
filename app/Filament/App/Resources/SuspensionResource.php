@@ -12,6 +12,7 @@ use Filament\Resources\Resource;
 use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Support\Forms\EmployeeSchema;
+use App\Filament\Support\Forms\SuspensionSchema;
 use App\Filament\Traits\HumanResourceSupportMenu;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Support\Forms\SuspensionTypeSchema;
@@ -32,33 +33,7 @@ class SuspensionResource extends Resource
             ->schema([
                 Section::make('')
                     ->columns(2)
-                    ->schema([
-                        Forms\Components\Select::make('employee_id')
-                            ->relationship('employee', 'full_name')
-                            ->searchable()
-                            ->autofocus()
-                            ->createOptionForm(EmployeeSchema::toArray())
-                            ->createOptionModalHeading('Add New Employee')
-                            ->required(),
-                        Forms\Components\Select::make('suspension_type_id')
-                            ->createOptionForm(SuspensionTypeSchema::toArray())
-                            ->createOptionModalHeading('Add New Suspen Type')
-                            ->relationship('suspensionType', 'name')
-                            ->searchable()
-                            ->preload()
-                            ->required(),
-                        Forms\Components\DatePicker::make('starts_at')
-                            ->default(now())
-                            ->maxDate(fn (Get $get) => $get('ends_at'))
-                            ->required(),
-                        Forms\Components\DatePicker::make('ends_at')
-                            ->default(now())
-                            ->minDate(fn (Get $get) => $get('starts_at'))
-                            ->required(),
-                        Forms\Components\Textarea::make('comments')
-                            ->maxLength(65535)
-                            ->columnSpanFull(),
-                    ])
+                    ->schema(SuspensionSchema::toArray())
             ]);
     }
 
