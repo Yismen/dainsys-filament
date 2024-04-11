@@ -35,6 +35,7 @@ class UniversalResource extends Resource
                             ->searchable()
                             ->required(),
                         Forms\Components\DatePicker::make('date_since')
+                            ->native(false)
                             ->required(),
                         Forms\Components\Textarea::make('comments')
                             ->columnSpanFull(),

@@ -48,6 +48,7 @@ class TerminationResource extends Resource
                             ->createOptionModalHeading('Create Termination Reason')
                             ->required(),
                         Forms\Components\DatePicker::make('date')
+                            ->native(false)
                             ->default(now())
                             ->required(),
                         Forms\Components\Toggle::make('rehireable')

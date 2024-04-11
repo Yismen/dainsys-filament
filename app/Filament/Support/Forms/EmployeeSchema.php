@@ -71,6 +71,7 @@ final class EmployeeSchema
                 ])
                 ->required(),
             Forms\Components\DatePicker::make('date_of_birth')
+                ->native(false)
                 ->default(now()->subYears(20))
                 ->maxDate(now()->addDays(5))
                 ->required(),

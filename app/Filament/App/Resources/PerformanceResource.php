@@ -38,6 +38,7 @@ class PerformanceResource extends Resource
                             ->visible(false)
                             ->maxLength(255),
                         Forms\Components\DatePicker::make('date')
+                            ->native(false)
                             ->required(),
                         Forms\Components\Select::make('employee_id')
                             ->relationship('employee', 'full_name')

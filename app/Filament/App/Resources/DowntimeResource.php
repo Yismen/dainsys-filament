@@ -38,6 +38,7 @@ class DowntimeResource extends Resource
                     ->columns(2)
                     ->schema([
                         Forms\Components\DatePicker::make('date')
+                            ->native(false)
                             ->minDate(now()->subDays(30))
                             ->maxDate(now())
                             ->default(now())

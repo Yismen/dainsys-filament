@@ -32,6 +32,7 @@ class OvernightHourResource extends Resource
                     ->columns(3)
                     ->schema([
                         Forms\Components\DatePicker::make('date')
+                            ->native(false)
                             ->unique(modifyRuleUsing: function (Unique $rule, callable $get) { // $get callable is used
                                 return $rule
                                     ->where('date', $get('date')) // get the current value in the 'school_id' field

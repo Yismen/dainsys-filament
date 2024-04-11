@@ -26,11 +26,13 @@ final class SuspensionSchema
                 ->preload()
                 ->required(),
             Forms\Components\DatePicker::make('starts_at')
+                ->native(false)
                 ->default(now())
                 ->minDate(now()->subDays(10))
                 ->live()
                 ->required(),
             Forms\Components\DatePicker::make('ends_at')
+                ->native(false)
                 ->default(now())
                 ->live()
                 ->minDate(fn (Get $get) => $get('starts_at'))

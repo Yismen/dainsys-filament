@@ -35,6 +35,7 @@ class HolidayResource extends Resource
                             ->autofocus()
                             ->maxLength(255),
                         Forms\Components\DatePicker::make('date')
+                            ->native(false)
                             ->unique(ignoreRecord: true)
                             ->required(),
                         Forms\Components\Textarea::make('description')
