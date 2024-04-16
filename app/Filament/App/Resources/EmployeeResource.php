@@ -19,7 +19,9 @@ use App\Filament\Traits\HumanResourceSupportMenu;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\App\Resources\EmployeeResource\Pages;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
+use App\Filament\App\Resources\EmployeeResource\RelationManagers\PunchRelationManager;
 use App\Filament\App\Resources\EmployeeResource\RelationManagers\LoginNamesRelationManager;
+use App\Filament\App\Resources\EmployeeResource\RelationManagers\SuspensionsRelationManager;
 use App\Filament\App\Resources\InformationResource\RelationManagers\InformationRelationManager;
 
 class EmployeeResource extends Resource
@@ -165,8 +167,9 @@ class EmployeeResource extends Resource
     {
         return [
             InformationRelationManager::class,
-            \App\Filament\App\Resources\EmployeeResource\RelationManagers\PunchRelationManager::class,
+            PunchRelationManager::class,
             LoginNamesRelationManager::class,
+            SuspensionsRelationManager::class
         ];
     }
 
