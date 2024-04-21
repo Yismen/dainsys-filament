@@ -93,6 +93,36 @@ return [
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
 
+        'livevox' => [
+            'driver' => 'sqlsrv',
+            'url' => env('DATABASE_URL'),
+            'host' => env('LIVEVOX_DB_HOST', 'localhost'),
+            'port' => env('LIVEVOX_DB_PORT', '1433'),
+            'database' => env('LIVEVOX_DB_DATABASE', 'forge'),
+            'username' => env('LIVEVOX_DB_USERNAME', 'forge'),
+            'password' => env('LIVEVOX_DB_PASSWORD', ''),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            // 'encrypt' => env('DB_ENCRYPT', 'yes'),
+            // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
+        ],
+
+        'ringcentral' => [
+            'driver' => 'sqlsrv',
+            'url' => env('DATABASE_URL'),
+            'host' => env('RINGCENTRAL_DB_HOST', 'localhost'),
+            'port' => env('RINGCENTRAL_DB_PORT', '1433'),
+            'database' => env('RINGCENTRAL_DB_DATABASE', 'forge'),
+            'username' => env('RINGCENTRAL_DB_USERNAME', 'forge'),
+            'password' => env('RINGCENTRAL_DB_PASSWORD', ''),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            // 'encrypt' => env('DB_ENCRYPT', 'yes'),
+            // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
+        ],
+
     ],
 
     /*
@@ -125,7 +155,7 @@ return [
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),
+            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_') . '_database_'),
         ],
 
         'default' => [
