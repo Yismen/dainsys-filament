@@ -121,7 +121,8 @@ class EmployeeResource extends Resource
                     ->relationship('position', 'name'),
                 // Tables\Filters\SelectFilter::make('department')
                 //     ->relationship('department', 'name'),
-            ])
+            ], layout: \Filament\Tables\Enums\FiltersLayout::Modal)
+            ->filtersFormColumns(4)
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
