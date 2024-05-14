@@ -16,7 +16,9 @@ class BirthdaysTest extends TestCase
     /** @test */
     public function birthdays_command_run_sucessfully()
     {
-        $this->artisan('dainsys:birthdays')
+        $this->withoutExceptionHandling();
+        Mail::fake();
+        $this->artisan('dainsys:birthdays', ['type' => 'today'])
             ->assertSuccessful();
     }
 
@@ -26,7 +28,7 @@ class BirthdaysTest extends TestCase
         Mail::fake();
         $employee1 = Employee::factory()->current()->create(['date_of_birth' => now()]);
 
-        $this->artisan(Birthdays::class, ['today']);
+        $this->artisan(Birthdays::class, ['type' => 'today']);
 
         Mail::assertQueued(MailBirthdays::class);
     }
@@ -37,7 +39,7 @@ class BirthdaysTest extends TestCase
         Mail::fake();
         $employee1 = Employee::factory()->current()->create(['date_of_birth' => now()->addDay()]);
 
-        $this->artisan(Birthdays::class, ['today']);
+        $this->artisan(Birthdays::class, ['type' => 'today']);
 
         Mail::assertNotQueued(MailBirthdays::class);
     }

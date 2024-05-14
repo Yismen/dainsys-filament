@@ -54,12 +54,7 @@ class Birthdays extends Command
      */
     public function handle(BirthdaysService $birthdays)
     {
-        $type = $this->argument('type') ?: select(
-            label: 'Type of report',
-            options: $this->reportTypes,
-            default: 'today',
-            scroll: 5,
-        );
+        $type = $this->argument('type') ;
 
         if (!array_key_exists($type, $this->reportTypes)) {
             $this->error('Invalid report. Valid options are ' . join(", ", array_keys($this->reportTypes)));

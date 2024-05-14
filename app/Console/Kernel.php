@@ -18,10 +18,10 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
         $schedule->command(UpdateEmployeeSuspensions::class)->dailyAt('03:00');
         $schedule->command(EmployeesSuspended::class)->dailyAt('03:05');
-        $schedule->command(Birthdays::class, ['today'])->dailyAt('04:00');
-        $schedule->command(Birthdays::class, ['this_month'])->monthlyOn(1, '04:01');
-        $schedule->command(Birthdays::class, ['last_month'])->monthlyOn(1, '04:05');
-        $schedule->command(Birthdays::class, ['next_month'])->monthlyOn(25, '04:10');
+        $schedule->command(Birthdays::class, ['type' => 'today'])->dailyAt('04:00');
+        $schedule->command(Birthdays::class, ['type' => 'this_month'])->monthlyOn(1, '04:01');
+        $schedule->command(Birthdays::class, ['type' => 'last_month'])->monthlyOn(1, '04:05');
+        $schedule->command(Birthdays::class, ['type' => 'next_month'])->monthlyOn(25, '04:10');
     }
 
     /**
