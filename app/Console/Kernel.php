@@ -7,6 +7,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use App\Console\Commands\EmployeesSuspended;
 use App\Console\Commands\UpdateEmployeeSuspensions;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Console\Commands\LiveVox\PublishingProductionReport;
 
 class Kernel extends ConsoleKernel
 {
@@ -22,6 +23,12 @@ class Kernel extends ConsoleKernel
         $schedule->command(Birthdays::class, ['type' => 'this_month'])->monthlyOn(1, '04:01');
         $schedule->command(Birthdays::class, ['type' => 'last_month'])->monthlyOn(1, '04:05');
         $schedule->command(Birthdays::class, ['type' => 'next_month'])->monthlyOn(25, '04:10');
+        //Publishing
+        $schedule->command(PublishingProductionReport::class, [
+            '--date' => now()->format('Y-m-d'),
+            '--subject' => 'Publishing Hourly Production Report',
+
+        ]);
     }
 
     /**

@@ -22,7 +22,7 @@ class PublishingProductionReport extends Command
     protected $signature = 'dainsys:livevox-publishing-production-report
     {--D|date= : string:Date or range of dates. Default is now()}
     {--S|subject= : string:Subject of the email to be sent}
-    {--F|force : activate to sed the report even if data is the same}
+    {--F|force : activate to send the report even if data is the same}
     ';
 
     protected $description = 'Send production report to subscribers';
