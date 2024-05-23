@@ -20,7 +20,7 @@ class MailingService
         return self::getFiles();
     }
 
-    protected static function getFiles()
+    protected static function getFiles(): array
     {
         return Cache::rememberForever('mailing_files_list', function () {
             $path = app_path('Mail');
