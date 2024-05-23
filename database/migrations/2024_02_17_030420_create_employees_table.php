@@ -38,6 +38,7 @@ return new class extends Migration
             $table->string('marriage')->default(MaritalStatus::Single);
             $table->string('gender')->default(Gender::Male);
             $table->boolean('kids')->default(false);
+            $table->string('punch', 10)->unique();
             $table->foreignIdFor(Site::class)->constrained('sites')->cascadeOnDelete();
             $table->foreignIdFor(Project::class)->constrained('projects')->cascadeOnDelete();
             $table->foreignIdFor(Position::class)->constrained('positions')->cascadeOnDelete();

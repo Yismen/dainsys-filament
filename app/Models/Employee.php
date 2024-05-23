@@ -7,7 +7,6 @@ use App\Enums\MaritalStatus;
 use App\Enums\EmployeeStatus;
 use App\Events\EmployeeSaved;
 use App\Events\EmployeeCreated;
-use App\Models\Traits\HasOnePunch;
 use App\Models\Traits\BelongsToAfp;
 use App\Models\Traits\BelongsToArs;
 use App\Models\Traits\BelongsToSite;
@@ -27,7 +26,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Employee extends Model
 {
     use HasFactory, SoftDeletes, BelongsToSite, BelongsToProject, HasInformation, BelongsToPosition, BelongsToDepartment, BelongsToCitizenship, BelongsToSupervisor, BelongsToAfp, BelongsToArs, HasManyTerminations, HasManySuspensions, HasManyLoginNames;
-    use HasOnePunch;
+
     protected $casts = [
         'date_of_birth' => 'datetime:Y-m-d',
         'hired_at' => 'datetime:Y-m-d',
@@ -36,7 +35,7 @@ class Employee extends Model
         'gender' => Gender::class,
     ];
 
-    protected $fillable = ['first_name', 'second_first_name', 'last_name', 'second_last_name', 'full_name', 'personal_id', 'hired_at', 'date_of_birth', 'cellphone', 'status', 'marriage', 'gender', 'kids', 'site_id', 'project_id', 'position_id', 'citizenship_id', 'supervisor_id', 'afp_id', 'ars_id'];
+    protected $fillable = ['first_name', 'second_first_name', 'last_name', 'second_last_name', 'full_name', 'personal_id', 'hired_at', 'date_of_birth', 'cellphone', 'status', 'marriage', 'gender', 'kids', 'punch', 'site_id', 'project_id', 'position_id', 'citizenship_id', 'supervisor_id', 'afp_id', 'ars_id'];
 
     protected $dispatchesEvents = [
         'saved' => EmployeeSaved::class,

@@ -19,7 +19,6 @@ use App\Filament\Traits\HumanResourceSupportMenu;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\App\Resources\EmployeeResource\Pages;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
-use App\Filament\App\Resources\EmployeeResource\RelationManagers\PunchRelationManager;
 use App\Filament\App\Resources\EmployeeResource\RelationManagers\LoginNamesRelationManager;
 use App\Filament\App\Resources\EmployeeResource\RelationManagers\SuspensionsRelationManager;
 use App\Filament\App\Resources\InformationResource\RelationManagers\InformationRelationManager;
@@ -98,6 +97,9 @@ class EmployeeResource extends Resource
                     Tables\Columns\IconColumn::make('kids')
                         // ->formatStateUsing(fn ($state) => 'Has Kids: ' . $state)
                         ->boolean(),
+                    Tables\Columns\TextColumn::make('punch')
+                        ->formatStateUsing(fn ($state) => 'Punch: ' . $state)
+                        ->searchable(),
                     Tables\Columns\TextColumn::make('created_at')
                         ->formatStateUsing(fn ($state) => 'Created Ar: ' . $state)
                         ->dateTime()
@@ -145,6 +147,7 @@ class EmployeeResource extends Resource
                         Column::make('marriage'),
                         Column::make('gender'),
                         Column::make('kids'),
+                        Column::make('punch'),
                         Column::make('site.name')
                             ->heading('Site'),
                         Column::make('project.name')
@@ -168,7 +171,6 @@ class EmployeeResource extends Resource
     {
         return [
             InformationRelationManager::class,
-            PunchRelationManager::class,
             LoginNamesRelationManager::class,
             SuspensionsRelationManager::class
         ];

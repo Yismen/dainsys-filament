@@ -49,6 +49,7 @@ class EmployeeFactory extends Factory
             'marriage' => MaritalStatus::Single,
             'gender' => Gender::Male,
             'kids' => $this->faker->randomElement([0, 1]),
+            'punch' => rand(10000, 99999),
             'site_id' => Site::factory(),
             'project_id' => Project::factory(),
             'position_id' => Position::factory(),

@@ -35,6 +35,7 @@ class EmployeeTest extends TestCase
             'cellphone',
             'status',
             'marriage',
+            'punch',
             'gender',
             'kids',
             'site_id',
@@ -128,14 +129,6 @@ class EmployeeTest extends TestCase
         $employee = Employee::factory()->createQuietly();
 
         $this->assertInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class, $employee->ars());
-    }
-
-    /** @test */
-    public function employees_model_has_one_punch()
-    {
-        $employee = Employee::factory()->createQuietly();
-
-        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Relations\HasOne::class, $employee->punch());
     }
 
     /** @test */

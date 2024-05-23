@@ -99,6 +99,11 @@ final class EmployeeSchema
                 ->default(MaritalStatus::Single),
             Forms\Components\Toggle::make('kids')
                 ->required(),
+            Forms\Components\TextInput::make('punch')
+                ->required()
+                ->unique(ignoreRecord: true)
+                ->minLength(4)
+                ->maxLength(10),
             Forms\Components\Select::make('afp_id')
                 ->relationship('afp', 'name')
                 ->createOptionModalHeading('New Afp')
