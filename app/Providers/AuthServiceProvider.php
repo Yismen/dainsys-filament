@@ -27,7 +27,7 @@ class AuthServiceProvider extends ServiceProvider
         Gate::before(function (User $user, string $ability) {
             $model = str(request()->segment(2))->singular()->studly();
 
-            return $user->hasAnyRole(['Super Admin', 'super admin']) || $user->hasAnyPermission([str($ability)->kebab() . ' ' . $model]);
+            return $user->hasAnyRole(['Super Admin', 'super admin', 'super-admin', 'super_admin']) || $user->hasAnyPermission([str($ability)->kebab() . ' ' . $model]);
         });
     }
 }
