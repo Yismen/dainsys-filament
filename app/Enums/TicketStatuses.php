@@ -6,7 +6,7 @@ use App\Enums\Traits\EnumNames;
 use App\Enums\Traits\EnumValues;
 use App\Enums\Traits\EnumToArray;
 use App\Enums\Contracts\EnumContract;
-use Dainsys\Support\Enums\Traits\AsArray;
+use App\Enums\Traits\AsArray;
 
 enum TicketStatuses: int implements EnumContract
 {

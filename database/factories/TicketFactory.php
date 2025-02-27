@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use App\Enums\TicketStatuses;
 use App\Enums\TicketPriorities;
 use App\Models\TicketDepartment;
@@ -20,17 +21,83 @@ class TicketFactory extends Factory
     public function definition(): array
     {
         return [
-            'owner_id' => UserFactory::new(),
+            'owner_id' => User::factory(),
             'department_id' => TicketDepartment::factory(),
             'subject' => $this->faker->sentence(),
             'description' => $this->faker->sentence(4),
-            // 'assigned_to' => UserFactory::new(),
-            // 'assigned_at' => now(),
-            // 'expected_at' => now(),
-            // 'completed_at' => now(),
-            // 'reference' => 'watever',
+            'assigned_to' => null,
+            'assigned_at' => null,
+            'expected_at' => null,
+            'completed_at' => null,
+            'reference' => 'watever',
             'status' => TicketStatuses::Pending->value,
             'priority' => TicketPriorities::Normal->value,
         ];
+    }
+
+    public function unassigned()
+    {
+        return $this->state(function (array $atributes) {
+            return [
+                'assigned_to' => null,
+                'assigned_at' => null,
+            ];
+        });
+    }
+
+    public function assigned()
+    {
+        return $this->state(function (array $atributes) {
+            return [
+                'assigned_to' => User::factory()->create(),
+                'assigned_at' => now(),
+            ];
+        });
+    }
+
+    public function inProgress()
+    {
+        return $this->state(function (array $atributes) {
+            return [
+                'assigned_to' => User::factory()->create(),
+                'assigned_at' => now(),
+            ];
+        });
+    }
+
+    public function completed()
+    {
+        return $this->state(function (array $atributes) {
+            return [
+                'completed_at' => now(),
+            ];
+        });
+    }
+
+    public function incompleted()
+    {
+        return $this->state(function (array $atributes) {
+            return [
+                'completed_at' => null,
+            ];
+        });
+    }
+
+    public function compliant()
+    {
+        return $this->state(function (array $atributes) {
+            return [
+                'completed_at' => now(),
+            ];
+        });
+    }
+
+    public function noncompliant()
+    {
+        return $this->state(function (array $atributes) {
+            return [
+                'completed_at' => now()->addDays(50),
+            ];
+        });
     }
 }

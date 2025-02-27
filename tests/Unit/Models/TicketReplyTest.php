@@ -3,8 +3,12 @@
 namespace Tests\Unit\Models;
 
 use Tests\TestCase;
+use App\Models\User;
+use App\Models\Ticket;
 use App\Models\TicketReply;
+use App\Events\TicketCreatedEvent;
 use Illuminate\Support\Facades\Event;
+use App\Events\TicketReplyCreatedEvent;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -39,6 +43,7 @@ class TicketReplyTest extends TestCase
         $reply = TicketReply::factory()->create();
 
         $this->assertInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class, $reply->ticket());
+        $this->assertInstanceOf(Ticket::class, $reply->ticket);
     }
 
     /** @test */
@@ -47,13 +52,18 @@ class TicketReplyTest extends TestCase
         $reply = TicketReply::factory()->create();
 
         $this->assertInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class, $reply->user());
+        $this->assertInstanceOf(User::class, $reply->user);
     }
 
     /** @test */
     public function repy_model_emits_event_when_reply_is_created()
     {
+        Event::fake([
+            TicketReplyCreatedEvent::class
+        ]);
+
         $reply = TicketReply::factory()->create();
 
-        Event::assertDispatched(ReplyCreatedEvent::class);
+        Event::assertDispatched(TicketReplyCreatedEvent::class);
     }
 }

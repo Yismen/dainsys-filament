@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Services\Console\Commands;
+namespace Tests\Feature\Console\Commands;
 
 use Tests\TestCase;
 use App\Models\Employee;
@@ -152,4 +152,16 @@ class UpdateEmployeeSuspensionsTest extends TestCase
             'status' => EmployeeStatus::Current,
         ]);
     }
+
+    /** @test */
+    // public function command_is_schedulled_for_evey_thirty_minutes()
+    // {
+    //     $addedToScheduler = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
+    //         ->filter(function ($element) {
+    //             return str($element->command)->contains('support:update-ticket-status');
+    //         })->first();
+
+    //     $this->assertNotNull($addedToScheduler);
+    //     $this->assertEquals('0,30 * * * *', $addedToScheduler->expression);
+    // }
 }

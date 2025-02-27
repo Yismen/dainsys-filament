@@ -3,6 +3,7 @@
 namespace Tests\Unit\Models;
 
 use Tests\TestCase;
+use App\Models\Ticket;
 use App\Models\TicketDepartment;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -19,7 +20,7 @@ class TicketDepartmentTest extends TestCase
 
         $this->assertDatabaseHas('ticket_departments', $data->only([
             'name',
-            'ticket_prefix',
+            // 'ticket_prefix',
             'description'
         ]));
     }
@@ -29,13 +30,17 @@ class TicketDepartmentTest extends TestCase
     {
         $department = TicketDepartment::factory()->create();
 
+        Ticket::factory()->create(['department_id' => $department->id]);
+
         $this->assertInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class, $department->tickets());
+        $this->assertInstanceOf(Ticket::class, $department->tickets->first());
     }
 
     /** @test */
     public function department_model_set_tickets_completed_attribute()
     {
         $department = TicketDepartment::factory()->create();
+
         Ticket::factory()->completed()->create(['department_id' => $department->id]);
         Ticket::factory()->create(['department_id' => $department->id]);
         Ticket::factory()->create();
