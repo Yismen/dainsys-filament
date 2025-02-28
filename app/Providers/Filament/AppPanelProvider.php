@@ -31,7 +31,7 @@ class AppPanelProvider extends PanelProvider
             ->id('app')
             ->path('app')
             ->login()
-            ->registration()
+            // ->registration()
             ->passwordReset()
             ->userMenuItems([
                 'user-menu' => MenuItem::make()
