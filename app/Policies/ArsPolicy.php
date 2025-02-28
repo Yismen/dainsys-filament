@@ -2,91 +2,105 @@
 
 namespace App\Policies;
 
+use Illuminate\Auth\Access\Response;
 use App\Models\Ars;
-use Illuminate\Foundation\Auth\User;
+use App\Models\User;
 
 class ArsPolicy
 {
-
     /**
      * Determine whether the user can view any models.
-     *
-     * @param  \App\Models\User                      $user
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user): bool
     {
-        return false;
+        return $user->checkPermissionTo('view-any Ars');
     }
 
     /**
      * Determine whether the user can view the model.
-     *
-     * @param  \App\Models\User                      $user
-     * @param  \App\Models\Ars                       $site
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Ars $site)
+    public function view(User $user, Ars $ars): bool
     {
-        return false;
+        return $user->checkPermissionTo('view Ars');
     }
 
     /**
      * Determine whether the user can create models.
-     *
-     * @param  \App\Models\User                      $user
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
-        return false;
+        return $user->checkPermissionTo('create Ars');
     }
 
     /**
      * Determine whether the user can update the model.
-     *
-     * @param  \App\Models\User                      $user
-     * @param  \App\Models\Ars                       $site
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Ars $site)
+    public function update(User $user, Ars $ars): bool
     {
-        return false;
+        return $user->checkPermissionTo('update Ars');
     }
 
     /**
      * Determine whether the user can delete the model.
-     *
-     * @param  \App\Models\User                      $user
-     * @param  \App\Models\Ars                       $site
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Ars $site)
+    public function delete(User $user, Ars $ars): bool
     {
-        return false;
+        return $user->checkPermissionTo('delete Ars');
+    }
+
+    /**
+     * Determine whether the user can delete any models.
+     */
+    public function deleteAny(User $user): bool
+    {
+        return $user->checkPermissionTo('delete-any Ars');
     }
 
     /**
      * Determine whether the user can restore the model.
-     *
-     * @param  \App\Models\User                      $user
-     * @param  \App\Models\Ars                       $site
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, Ars $site)
+    public function restore(User $user, Ars $ars): bool
     {
-        return false;
+        return $user->checkPermissionTo('restore Ars');
+    }
+
+    /**
+     * Determine whether the user can restore any models.
+     */
+    public function restoreAny(User $user): bool
+    {
+        return $user->checkPermissionTo('restore-any Ars');
+    }
+
+    /**
+     * Determine whether the user can replicate the model.
+     */
+    public function replicate(User $user, Ars $ars): bool
+    {
+        return $user->checkPermissionTo('replicate Ars');
+    }
+
+    /**
+     * Determine whether the user can reorder the models.
+     */
+    public function reorder(User $user): bool
+    {
+        return $user->checkPermissionTo('reorder Ars');
     }
 
     /**
      * Determine whether the user can permanently delete the model.
-     *
-     * @param  \App\Models\User                      $user
-     * @param  \App\Models\Ars                       $site
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, Ars $site)
+    public function forceDelete(User $user, Ars $ars): bool
     {
-        return false;
+        return $user->checkPermissionTo('force-delete Ars');
+    }
+
+    /**
+     * Determine whether the user can permanently delete any models.
+     */
+    public function forceDeleteAny(User $user): bool
+    {
+        return $user->checkPermissionTo('force-delete-any Ars');
     }
 }

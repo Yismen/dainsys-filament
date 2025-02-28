@@ -2,91 +2,105 @@
 
 namespace App\Policies;
 
+use Illuminate\Auth\Access\Response;
 use App\Models\TerminationType;
-use Illuminate\Foundation\Auth\User;
+use App\Models\User;
 
 class TerminationTypePolicy
 {
-
     /**
      * Determine whether the user can view any models.
-     *
-     * @param  \App\Models\User                      $user
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user): bool
     {
-        return false;
+        return $user->checkPermissionTo('view-any TerminationType');
     }
 
     /**
      * Determine whether the user can view the model.
-     *
-     * @param  \App\Models\User                      $user
-     * @param  \App\Models\TerminationType           $site
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, TerminationType $site)
+    public function view(User $user, TerminationType $terminationtype): bool
     {
-        return false;
+        return $user->checkPermissionTo('view TerminationType');
     }
 
     /**
      * Determine whether the user can create models.
-     *
-     * @param  \App\Models\User                      $user
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
-        return false;
+        return $user->checkPermissionTo('create TerminationType');
     }
 
     /**
      * Determine whether the user can update the model.
-     *
-     * @param  \App\Models\User                      $user
-     * @param  \App\Models\TerminationType           $site
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, TerminationType $site)
+    public function update(User $user, TerminationType $terminationtype): bool
     {
-        return false;
+        return $user->checkPermissionTo('update TerminationType');
     }
 
     /**
      * Determine whether the user can delete the model.
-     *
-     * @param  \App\Models\User                      $user
-     * @param  \App\Models\TerminationType           $site
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, TerminationType $site)
+    public function delete(User $user, TerminationType $terminationtype): bool
     {
-        return false;
+        return $user->checkPermissionTo('delete TerminationType');
+    }
+
+    /**
+     * Determine whether the user can delete any models.
+     */
+    public function deleteAny(User $user): bool
+    {
+        return $user->checkPermissionTo('delete-any TerminationType');
     }
 
     /**
      * Determine whether the user can restore the model.
-     *
-     * @param  \App\Models\User                      $user
-     * @param  \App\Models\TerminationType           $site
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, TerminationType $site)
+    public function restore(User $user, TerminationType $terminationtype): bool
     {
-        return false;
+        return $user->checkPermissionTo('restore TerminationType');
+    }
+
+    /**
+     * Determine whether the user can restore any models.
+     */
+    public function restoreAny(User $user): bool
+    {
+        return $user->checkPermissionTo('restore-any TerminationType');
+    }
+
+    /**
+     * Determine whether the user can replicate the model.
+     */
+    public function replicate(User $user, TerminationType $terminationtype): bool
+    {
+        return $user->checkPermissionTo('replicate TerminationType');
+    }
+
+    /**
+     * Determine whether the user can reorder the models.
+     */
+    public function reorder(User $user): bool
+    {
+        return $user->checkPermissionTo('reorder TerminationType');
     }
 
     /**
      * Determine whether the user can permanently delete the model.
-     *
-     * @param  \App\Models\User                      $user
-     * @param  \App\Models\TerminationType           $site
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, TerminationType $site)
+    public function forceDelete(User $user, TerminationType $terminationtype): bool
     {
-        return false;
+        return $user->checkPermissionTo('force-delete TerminationType');
+    }
+
+    /**
+     * Determine whether the user can permanently delete any models.
+     */
+    public function forceDeleteAny(User $user): bool
+    {
+        return $user->checkPermissionTo('force-delete-any TerminationType');
     }
 }

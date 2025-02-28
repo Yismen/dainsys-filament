@@ -2,9 +2,9 @@
 
 namespace App\Policies;
 
-use App\Models\User;
-use App\Models\Campaign;
 use Illuminate\Auth\Access\Response;
+use App\Models\Campaign;
+use App\Models\User;
 
 class CampaignPolicy
 {
@@ -13,7 +13,7 @@ class CampaignPolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return $user->checkPermissionTo('view-any Campaign');
     }
 
     /**
@@ -21,7 +21,7 @@ class CampaignPolicy
      */
     public function view(User $user, Campaign $campaign): bool
     {
-        return false;
+        return $user->checkPermissionTo('view Campaign');
     }
 
     /**
@@ -29,7 +29,7 @@ class CampaignPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return $user->checkPermissionTo('create Campaign');
     }
 
     /**
@@ -37,7 +37,7 @@ class CampaignPolicy
      */
     public function update(User $user, Campaign $campaign): bool
     {
-        return false;
+        return $user->checkPermissionTo('update Campaign');
     }
 
     /**
@@ -45,7 +45,15 @@ class CampaignPolicy
      */
     public function delete(User $user, Campaign $campaign): bool
     {
-        return false;
+        return $user->checkPermissionTo('delete Campaign');
+    }
+
+    /**
+     * Determine whether the user can delete any models.
+     */
+    public function deleteAny(User $user): bool
+    {
+        return $user->checkPermissionTo('delete-any Campaign');
     }
 
     /**
@@ -53,7 +61,31 @@ class CampaignPolicy
      */
     public function restore(User $user, Campaign $campaign): bool
     {
-        return false;
+        return $user->checkPermissionTo('restore Campaign');
+    }
+
+    /**
+     * Determine whether the user can restore any models.
+     */
+    public function restoreAny(User $user): bool
+    {
+        return $user->checkPermissionTo('restore-any Campaign');
+    }
+
+    /**
+     * Determine whether the user can replicate the model.
+     */
+    public function replicate(User $user, Campaign $campaign): bool
+    {
+        return $user->checkPermissionTo('replicate Campaign');
+    }
+
+    /**
+     * Determine whether the user can reorder the models.
+     */
+    public function reorder(User $user): bool
+    {
+        return $user->checkPermissionTo('reorder Campaign');
     }
 
     /**
@@ -61,6 +93,14 @@ class CampaignPolicy
      */
     public function forceDelete(User $user, Campaign $campaign): bool
     {
-        return false;
+        return $user->checkPermissionTo('force-delete Campaign');
+    }
+
+    /**
+     * Determine whether the user can permanently delete any models.
+     */
+    public function forceDeleteAny(User $user): bool
+    {
+        return $user->checkPermissionTo('force-delete-any Campaign');
     }
 }

@@ -3,25 +3,25 @@
 namespace App\Policies;
 
 use Illuminate\Auth\Access\Response;
-use App\Models\Suspension;
+
 use App\Models\User;
 
-class SuspensionPolicy
+class UserPolicy
 {
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        return $user->checkPermissionTo('view-any Suspension');
+        return $user->checkPermissionTo('view-any User');
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Suspension $suspension): bool
+    public function view(User $user, User $model): bool
     {
-        return $user->checkPermissionTo('view Suspension');
+        return $user->checkPermissionTo('view User');
     }
 
     /**
@@ -29,23 +29,23 @@ class SuspensionPolicy
      */
     public function create(User $user): bool
     {
-        return $user->checkPermissionTo('create Suspension');
+        return $user->checkPermissionTo('create User');
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Suspension $suspension): bool
+    public function update(User $user, User $model): bool
     {
-        return $user->checkPermissionTo('update Suspension');
+        return $user->checkPermissionTo('update User');
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Suspension $suspension): bool
+    public function delete(User $user, User $model): bool
     {
-        return $user->checkPermissionTo('delete Suspension');
+        return $user->checkPermissionTo('delete User');
     }
 
     /**
@@ -53,15 +53,15 @@ class SuspensionPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->checkPermissionTo('delete-any Suspension');
+        return $user->checkPermissionTo('delete-any User');
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Suspension $suspension): bool
+    public function restore(User $user, User $model): bool
     {
-        return $user->checkPermissionTo('restore Suspension');
+        return $user->checkPermissionTo('restore User');
     }
 
     /**
@@ -69,15 +69,15 @@ class SuspensionPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->checkPermissionTo('restore-any Suspension');
+        return $user->checkPermissionTo('restore-any User');
     }
 
     /**
      * Determine whether the user can replicate the model.
      */
-    public function replicate(User $user, Suspension $suspension): bool
+    public function replicate(User $user, User $model): bool
     {
-        return $user->checkPermissionTo('replicate Suspension');
+        return $user->checkPermissionTo('replicate User');
     }
 
     /**
@@ -85,15 +85,15 @@ class SuspensionPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->checkPermissionTo('reorder Suspension');
+        return $user->checkPermissionTo('reorder User');
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Suspension $suspension): bool
+    public function forceDelete(User $user, User $model): bool
     {
-        return $user->checkPermissionTo('force-delete Suspension');
+        return $user->checkPermissionTo('force-delete User');
     }
 
     /**
@@ -101,6 +101,6 @@ class SuspensionPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->checkPermissionTo('force-delete-any Suspension');
+        return $user->checkPermissionTo('force-delete-any User');
     }
 }

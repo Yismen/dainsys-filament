@@ -2,91 +2,105 @@
 
 namespace App\Policies;
 
+use Illuminate\Auth\Access\Response;
 use App\Models\SuspensionType;
-use Illuminate\Foundation\Auth\User;
+use App\Models\User;
 
 class SuspensionTypePolicy
 {
-
     /**
      * Determine whether the user can view any models.
-     *
-     * @param  \App\Models\User                      $user
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user): bool
     {
-        return false;
+        return $user->checkPermissionTo('view-any SuspensionType');
     }
 
     /**
      * Determine whether the user can view the model.
-     *
-     * @param  \App\Models\User                      $user
-     * @param  \App\Models\SuspensionType            $site
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, SuspensionType $site)
+    public function view(User $user, SuspensionType $suspensiontype): bool
     {
-        return false;
+        return $user->checkPermissionTo('view SuspensionType');
     }
 
     /**
      * Determine whether the user can create models.
-     *
-     * @param  \App\Models\User                      $user
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
-        return false;
+        return $user->checkPermissionTo('create SuspensionType');
     }
 
     /**
      * Determine whether the user can update the model.
-     *
-     * @param  \App\Models\User                      $user
-     * @param  \App\Models\SuspensionType            $site
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, SuspensionType $site)
+    public function update(User $user, SuspensionType $suspensiontype): bool
     {
-        return false;
+        return $user->checkPermissionTo('update SuspensionType');
     }
 
     /**
      * Determine whether the user can delete the model.
-     *
-     * @param  \App\Models\User                      $user
-     * @param  \App\Models\SuspensionType            $site
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, SuspensionType $site)
+    public function delete(User $user, SuspensionType $suspensiontype): bool
     {
-        return false;
+        return $user->checkPermissionTo('delete SuspensionType');
+    }
+
+    /**
+     * Determine whether the user can delete any models.
+     */
+    public function deleteAny(User $user): bool
+    {
+        return $user->checkPermissionTo('delete-any SuspensionType');
     }
 
     /**
      * Determine whether the user can restore the model.
-     *
-     * @param  \App\Models\User                      $user
-     * @param  \App\Models\SuspensionType            $site
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, SuspensionType $site)
+    public function restore(User $user, SuspensionType $suspensiontype): bool
     {
-        return false;
+        return $user->checkPermissionTo('restore SuspensionType');
+    }
+
+    /**
+     * Determine whether the user can restore any models.
+     */
+    public function restoreAny(User $user): bool
+    {
+        return $user->checkPermissionTo('restore-any SuspensionType');
+    }
+
+    /**
+     * Determine whether the user can replicate the model.
+     */
+    public function replicate(User $user, SuspensionType $suspensiontype): bool
+    {
+        return $user->checkPermissionTo('replicate SuspensionType');
+    }
+
+    /**
+     * Determine whether the user can reorder the models.
+     */
+    public function reorder(User $user): bool
+    {
+        return $user->checkPermissionTo('reorder SuspensionType');
     }
 
     /**
      * Determine whether the user can permanently delete the model.
-     *
-     * @param  \App\Models\User                      $user
-     * @param  \App\Models\SuspensionType            $site
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, SuspensionType $site)
+    public function forceDelete(User $user, SuspensionType $suspensiontype): bool
     {
-        return false;
+        return $user->checkPermissionTo('force-delete SuspensionType');
+    }
+
+    /**
+     * Determine whether the user can permanently delete any models.
+     */
+    public function forceDeleteAny(User $user): bool
+    {
+        return $user->checkPermissionTo('force-delete-any SuspensionType');
     }
 }

@@ -2,91 +2,105 @@
 
 namespace App\Policies;
 
+use Illuminate\Auth\Access\Response;
 use App\Models\Bank;
-use Illuminate\Foundation\Auth\User;
+use App\Models\User;
 
 class BankPolicy
 {
-
     /**
      * Determine whether the user can view any models.
-     *
-     * @param  \App\Models\User                      $user
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user): bool
     {
-        return false;
+        return $user->checkPermissionTo('view-any Bank');
     }
 
     /**
      * Determine whether the user can view the model.
-     *
-     * @param  \App\Models\User                      $user
-     * @param  \App\Models\Bank                      $site
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Bank $site)
+    public function view(User $user, Bank $bank): bool
     {
-        return false;
+        return $user->checkPermissionTo('view Bank');
     }
 
     /**
      * Determine whether the user can create models.
-     *
-     * @param  \App\Models\User                      $user
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
-        return false;
+        return $user->checkPermissionTo('create Bank');
     }
 
     /**
      * Determine whether the user can update the model.
-     *
-     * @param  \App\Models\User                      $user
-     * @param  \App\Models\Bank                      $site
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Bank $site)
+    public function update(User $user, Bank $bank): bool
     {
-        return false;
+        return $user->checkPermissionTo('update Bank');
     }
 
     /**
      * Determine whether the user can delete the model.
-     *
-     * @param  \App\Models\User                      $user
-     * @param  \App\Models\Bank                      $site
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Bank $site)
+    public function delete(User $user, Bank $bank): bool
     {
-        return false;
+        return $user->checkPermissionTo('delete Bank');
+    }
+
+    /**
+     * Determine whether the user can delete any models.
+     */
+    public function deleteAny(User $user): bool
+    {
+        return $user->checkPermissionTo('delete-any Bank');
     }
 
     /**
      * Determine whether the user can restore the model.
-     *
-     * @param  \App\Models\User                      $user
-     * @param  \App\Models\Bank                      $site
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, Bank $site)
+    public function restore(User $user, Bank $bank): bool
     {
-        return false;
+        return $user->checkPermissionTo('restore Bank');
+    }
+
+    /**
+     * Determine whether the user can restore any models.
+     */
+    public function restoreAny(User $user): bool
+    {
+        return $user->checkPermissionTo('restore-any Bank');
+    }
+
+    /**
+     * Determine whether the user can replicate the model.
+     */
+    public function replicate(User $user, Bank $bank): bool
+    {
+        return $user->checkPermissionTo('replicate Bank');
+    }
+
+    /**
+     * Determine whether the user can reorder the models.
+     */
+    public function reorder(User $user): bool
+    {
+        return $user->checkPermissionTo('reorder Bank');
     }
 
     /**
      * Determine whether the user can permanently delete the model.
-     *
-     * @param  \App\Models\User                      $user
-     * @param  \App\Models\Bank                      $site
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, Bank $site)
+    public function forceDelete(User $user, Bank $bank): bool
     {
-        return false;
+        return $user->checkPermissionTo('force-delete Bank');
+    }
+
+    /**
+     * Determine whether the user can permanently delete any models.
+     */
+    public function forceDeleteAny(User $user): bool
+    {
+        return $user->checkPermissionTo('force-delete-any Bank');
     }
 }

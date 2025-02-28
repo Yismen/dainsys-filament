@@ -2,91 +2,105 @@
 
 namespace App\Policies;
 
+use Illuminate\Auth\Access\Response;
 use App\Models\Afp;
-use Illuminate\Foundation\Auth\User;
+use App\Models\User;
 
 class AfpPolicy
 {
-
     /**
      * Determine whether the user can view any models.
-     *
-     * @param  \App\Models\User                      $user
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user): bool
     {
-        return false;
+        return $user->checkPermissionTo('view-any Afp');
     }
 
     /**
      * Determine whether the user can view the model.
-     *
-     * @param  \App\Models\User                      $user
-     * @param  \App\Models\Afp                       $site
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Afp $site)
+    public function view(User $user, Afp $afp): bool
     {
-        return false;
+        return $user->checkPermissionTo('view Afp');
     }
 
     /**
      * Determine whether the user can create models.
-     *
-     * @param  \App\Models\User                      $user
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
-        return false;
+        return $user->checkPermissionTo('create Afp');
     }
 
     /**
      * Determine whether the user can update the model.
-     *
-     * @param  \App\Models\User                      $user
-     * @param  \App\Models\Afp                       $site
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Afp $site)
+    public function update(User $user, Afp $afp): bool
     {
-        return false;
+        return $user->checkPermissionTo('update Afp');
     }
 
     /**
      * Determine whether the user can delete the model.
-     *
-     * @param  \App\Models\User                      $user
-     * @param  \App\Models\Afp                       $site
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Afp $site)
+    public function delete(User $user, Afp $afp): bool
     {
-        return false;
+        return $user->checkPermissionTo('delete Afp');
+    }
+
+    /**
+     * Determine whether the user can delete any models.
+     */
+    public function deleteAny(User $user): bool
+    {
+        return $user->checkPermissionTo('delete-any Afp');
     }
 
     /**
      * Determine whether the user can restore the model.
-     *
-     * @param  \App\Models\User                      $user
-     * @param  \App\Models\Afp                       $site
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, Afp $site)
+    public function restore(User $user, Afp $afp): bool
     {
-        return false;
+        return $user->checkPermissionTo('restore Afp');
+    }
+
+    /**
+     * Determine whether the user can restore any models.
+     */
+    public function restoreAny(User $user): bool
+    {
+        return $user->checkPermissionTo('restore-any Afp');
+    }
+
+    /**
+     * Determine whether the user can replicate the model.
+     */
+    public function replicate(User $user, Afp $afp): bool
+    {
+        return $user->checkPermissionTo('replicate Afp');
+    }
+
+    /**
+     * Determine whether the user can reorder the models.
+     */
+    public function reorder(User $user): bool
+    {
+        return $user->checkPermissionTo('reorder Afp');
     }
 
     /**
      * Determine whether the user can permanently delete the model.
-     *
-     * @param  \App\Models\User                      $user
-     * @param  \App\Models\Afp                       $site
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, Afp $site)
+    public function forceDelete(User $user, Afp $afp): bool
     {
-        return false;
+        return $user->checkPermissionTo('force-delete Afp');
+    }
+
+    /**
+     * Determine whether the user can permanently delete any models.
+     */
+    public function forceDeleteAny(User $user): bool
+    {
+        return $user->checkPermissionTo('force-delete-any Afp');
     }
 }
