@@ -2,21 +2,26 @@
 
 namespace App\Filament\App\Pages;
 
-use Filament\Forms\Form;
 use Filament\Pages\Page;
-use App\Services\MailingService;
-use Filament\Forms\Components\Section;
+use Filament\Tables\Table;
+use Filament\Support\Colors\Color;
+use App\Models\MailingSubscription;
+use Filament\Tables\Actions\Action;
 use Filament\Forms\Contracts\HasForms;
+use Filament\Support\Enums\ActionSize;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Contracts\HasTable;
+use Illuminate\Database\Eloquent\Model;
 use Filament\Notifications\Notification;
 use Filament\Actions\Contracts\HasActions;
-use Filament\Forms\Components\CheckboxList;
-use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Actions\Concerns\InteractsWithActions;
 
-class UserMailingSubscriptions extends Page implements HasForms, HasActions
+class UserMailingSubscriptions extends Page implements HasForms, HasTable, HasActions
 {
     use InteractsWithForms;
+    use InteractsWithTable;
     use InteractsWithActions;
 
     public ?array $data = [];
@@ -37,49 +42,30 @@ class UserMailingSubscriptions extends Page implements HasForms, HasActions
         $this->form->fill(['mailables' => auth()->user()->mailingSubscriptions->pluck('mailable')->toArray()]);
     }
 
-    public function form(Form $form): Form
+    public function table(Table $table): Table
     {
-        return $form
-            ->schema([
-                Section::make('')
-                    ->schema([
-                        CheckboxList::make('mailables')
-                            ->options(MailingService::toArray())
-                            ->searchable()
-                            ->columns(2)
-                            ->bulkToggleable(),
-                        // ...
-                    ])
+        return $table
+            ->query(MailingSubscription::query()->where('user_id', auth()->user()->id))
+            ->columns([
+                TextColumn::make('mailable')
+                    ->searchable()
+                    ->sortable()
+                    ->formatStateUsing(function ($state) {
+                        return str($state)->after('App\\Mail\\')
+                            ->headline();
+                    })
             ])
-            ->statePath('data');
-    }
+            ->actions([
+                Action::make(__('Unsusbscribe'))
+                    ->button()
+                    ->requiresConfirmation()
+                    ->action(function (Model $record) {
+                        $record->delete();
+                    })
+                    ->icon('heroicon-o-trash')
+                    ->size(ActionSize::Small)
+                    ->color(Color::Red),
 
-    public function syncMailables(): void
-    {
-        auth()->user()
-            ->mailingSubscriptions()
-            ->forceDelete();
-
-        $inserts = array_map(function ($element) {
-            return ['mailable' => $element];
-        }, array_unique($this->form->getState()['mailables']));
-
-        auth()->user()
-            ->mailingSubscriptions()
-            ->createMany($inserts);
-
-        Notification::make()
-            ->title('Saved successfully')
-            ->success()
-            ->send();
-    }
-
-    public function getFormActions()
-    {
-        return [
-            Action::make('save')
-                ->requiresConfirmation()
-                ->submit('syncMailables'),
-        ];
+            ]);
     }
 }

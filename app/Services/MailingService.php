@@ -22,7 +22,7 @@ class MailingService
 
     protected static function getFiles(): array
     {
-        return Cache::rememberForever('mailing_files_list', function () {
+        return Cache::remember('mailing_files_list', now()->addDay(), function () {
             $path = app_path('Mail');
             $filesystem = new Filesystem();
 
