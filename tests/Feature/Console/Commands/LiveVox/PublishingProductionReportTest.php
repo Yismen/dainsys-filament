@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Commands\LiveVox;
+namespace Tests\Feature\Console\Commands\LiveVox;
 
 use Tests\TestCase;
 use Mockery\MockInterface;
