@@ -60,8 +60,8 @@ class User extends Authenticatable implements FilamentUser
             ->hasAnyRole([
                 'Super Admin',
                 'super-admin',
-                $panel_id,
-                str($panel_id)->headline()->value
+                $panel_id . "-user",
+                $panel_id . "-manager",
             ]);
     }
 }
