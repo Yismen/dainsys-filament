@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name', 500)->unique();
             $table->string('ticket_prefix', 8)->nullable()->index();
             $table->text('description')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

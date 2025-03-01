@@ -10,6 +10,7 @@ use App\Events\TicketCreatedEvent;
 use Illuminate\Support\Facades\Event;
 use App\Events\TicketReplyCreatedEvent;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TicketReplyTest extends TestCase
@@ -35,6 +36,22 @@ class TicketReplyTest extends TestCase
             'ticket_id',
             'content'
         ]));
+    }
+
+    /** @test */
+    public function model_uses_soft_delete()
+    {
+        $this->assertTrue(
+            in_array(SoftDeletes::class, class_uses(TicketReply::class))
+        );
+
+        $ticket_reply = TicketReply::factory()->create();
+
+        $ticket_reply->delete();
+
+        $this->assertSoftDeleted(TicketReply::class, [
+            'id' => $ticket_reply->id
+        ]);
     }
 
     /** @test */

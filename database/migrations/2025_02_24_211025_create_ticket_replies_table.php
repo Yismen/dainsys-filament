@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class)->constrained(resolve(User::class)->getTable());
             $table->foreignIdFor(Ticket::class)->constrained(resolve(Ticket::class)->getTable());
             $table->text('content');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

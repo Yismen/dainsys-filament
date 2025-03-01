@@ -5,6 +5,7 @@ namespace Tests\Unit\Models;
 use Tests\TestCase;
 use App\Models\Ticket;
 use App\Models\TicketDepartment;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TicketDepartmentTest extends TestCase
@@ -23,6 +24,22 @@ class TicketDepartmentTest extends TestCase
             // 'ticket_prefix',
             'description'
         ]));
+    }
+
+    /** @test */
+    public function model_uses_soft_delete()
+    {
+        $this->assertTrue(
+            in_array(SoftDeletes::class, class_uses(TicketDepartment::class))
+        );
+
+        $ticket_department = TicketDepartment::factory()->create();
+
+        $ticket_department->delete();
+
+        $this->assertSoftDeleted(TicketDepartment::class, [
+            'id' => $ticket_department->id
+        ]);
     }
 
     /** @test */

@@ -29,6 +29,7 @@ return new class extends Migration
             $table->string('priority')->default(TicketPriorities::Normal->value);
             $table->dateTime('expected_at')->nullable();
             $table->string('reference', 50)->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

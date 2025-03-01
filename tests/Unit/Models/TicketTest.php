@@ -16,6 +16,7 @@ use App\Events\TicketCompletedEvent;
 use App\Traits\EnsureDateNotWeekend;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TicketTest extends TestCase
@@ -54,6 +55,22 @@ class TicketTest extends TestCase
 
         $this->assertInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class, $ticket->owner());
         $this->assertInstanceOf(User::class, $ticket->owner);
+    }
+
+    /** @test */
+    public function model_uses_soft_delete()
+    {
+        $this->assertTrue(
+            in_array(SoftDeletes::class, class_uses(Ticket::class))
+        );
+
+        $ticket = Ticket::factory()->create();
+
+        $ticket->delete();
+
+        $this->assertSoftDeleted(Ticket::class, [
+            'id' => $ticket->id
+        ]);
     }
 
     /** @test */
