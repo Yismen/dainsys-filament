@@ -2,9 +2,9 @@
 
 namespace App\Policies;
 
-use Illuminate\Auth\Access\Response;
-use App\Models\TicketReply;
 use App\Models\User;
+use App\Models\TicketReply;
+use Illuminate\Auth\Access\Response;
 
 class TicketReplyPolicy
 {
