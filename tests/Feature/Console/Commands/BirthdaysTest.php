@@ -23,6 +23,18 @@ class BirthdaysTest extends TestCase
     }
 
     /** @test */
+    public function command_is_schedulled_for_daily_at_401_am()
+    {
+        $addedToScheduler = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
+            ->filter(function ($element) {
+                return str($element->command)->contains('dainsys:birthdays');
+            })->first();
+
+        $this->assertNotNull($addedToScheduler);
+        $this->assertEquals('0 4 * * *', $addedToScheduler->expression);
+    }
+
+    /** @test */
     public function birthdays_command_sends_email()
     {
         Mail::fake();

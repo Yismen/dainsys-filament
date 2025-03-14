@@ -5,6 +5,7 @@ namespace App\Console;
 use App\Console\Commands\Birthdays;
 use Illuminate\Console\Scheduling\Schedule;
 use App\Console\Commands\EmployeesSuspended;
+use App\Console\Commands\UpdateTicketStatus;
 use App\Console\Commands\UpdateEmployeeSuspensions;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Console\Commands\LiveVox\PublishingProductionReport;
@@ -29,6 +30,8 @@ class Kernel extends ConsoleKernel
             '--subject' => 'Publishing Hourly Production Report',
 
         ]);
+
+        $schedule->command(UpdateTicketStatus::class)->everyThirtyMinutes();
     }
 
     /**

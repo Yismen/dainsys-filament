@@ -21,6 +21,18 @@ class UpdateEmployeeSuspensionsTest extends TestCase
     }
 
     /** @test */
+    public function command_is_schedulled_for_daily_at_300_am()
+    {
+        $addedToScheduler = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
+            ->filter(function ($element) {
+                return str($element->command)->contains('dainsys:update-employee-suspensions');
+            })->first();
+
+        $this->assertNotNull($addedToScheduler);
+        $this->assertEquals('0 3 * * *', $addedToScheduler->expression);
+    }
+
+    /** @test */
     public function current_employees_are_suspended()
     {
         $current = Employee::factory()->createQuietly();

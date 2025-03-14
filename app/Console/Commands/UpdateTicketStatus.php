@@ -13,7 +13,7 @@ class UpdateTicketStatus extends Command
      *
      * @var string
      */
-    protected $signature = 'support:update-ticket-status';
+    protected $signature = 'dainsys:update-ticket-status';
 
     /**
      * The console command description.
@@ -41,7 +41,7 @@ class UpdateTicketStatus extends Command
      */
     public function handle(): int
     {
-        $this->tickets = Ticket::incompleted()->with('subject')->get();
+        $this->tickets = Ticket::incompleted()->get();
 
         $this->tickets->each(function (Ticket $ticket) {
             $ticket->touch();

@@ -22,6 +22,18 @@ class EmployeesSuspendedTest extends TestCase
     }
 
     /** @test */
+    public function command_is_schedulled_for_daily_at_305_am()
+    {
+        $addedToScheduler = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
+            ->filter(function ($element) {
+                return str($element->command)->contains('dainsys:employees-suspended');
+            })->first();
+
+        $this->assertNotNull($addedToScheduler);
+        $this->assertEquals('5 3 * * *', $addedToScheduler->expression);
+    }
+
+    /** @test */
     public function employees_suspended_sends_email()
     {
         Mail::fake();
