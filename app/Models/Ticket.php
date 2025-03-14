@@ -29,10 +29,12 @@ class Ticket extends Model
     use SoftDeletes;
 
     protected $fillable = ['owner_id', 'department_id', 'subject', 'description', 'reference', 'images', 'status', 'priority', 'expected_at', 'assigned_to', 'assigned_at', 'completed_at'];
+
     protected $casts = [
         'assigned_at' => 'datetime',
         'expected_at' => 'datetime',
         'completed_at' => 'datetime',
+        'images' => 'array',
         'status' => TicketStatuses::class,
         'priority' => TicketPriorities::class,
     ];
@@ -41,6 +43,12 @@ class Ticket extends Model
     protected static function booted()
     {
         parent::booted();
+
+        static::creating(function ($model) {
+            if (auth()->check()) {
+                $model->owner_id = auth()->user()->id;
+            }
+        });
 
         static::created(function ($model) {
             $model->updateQuietly([

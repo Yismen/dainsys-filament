@@ -23,9 +23,9 @@ class RevenueTypesTest extends TestCase
     public function all_method_return_associative_array()
     {
         $this->assertEquals([
-            'Login Time' => 'Login Time',
-            'Production Time' => 'Production Time',
-            'Talk Time' => 'Talk Time',
+            'Login Time' => 'LoginTime',
+            'Production Time' => 'ProductionTime',
+            'Talk Time' => 'TalkTime',
             'Sales' => 'Sales',
         ], RevenueTypes::toArray());
     }

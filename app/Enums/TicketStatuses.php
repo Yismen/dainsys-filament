@@ -2,11 +2,11 @@
 
 namespace App\Enums;
 
+use App\Enums\Traits\AsArray;
 use App\Enums\Traits\EnumNames;
 use App\Enums\Traits\EnumValues;
 use App\Enums\Traits\EnumToArray;
 use App\Enums\Contracts\EnumContract;
-use App\Enums\Traits\AsArray;
 
 enum TicketStatuses: int implements EnumContract
 {

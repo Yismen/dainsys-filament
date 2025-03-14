@@ -8,7 +8,6 @@ use Filament\Forms\Form;
 use Filament\Tables\Table;
 use App\Models\TicketDepartment;
 use Filament\Resources\Resource;
-use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Support\Resources\TicketDepartmentResource\Pages;
@@ -24,7 +23,7 @@ class TicketDepartmentResource extends Resource
     {
         return $form
             ->schema([
-                Section::make('')
+                Forms\Components\Section::make('')
                     ->schema([
                         Forms\Components\TextInput::make('name')
                             ->required()

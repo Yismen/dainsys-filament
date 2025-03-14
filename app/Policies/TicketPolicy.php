@@ -2,9 +2,9 @@
 
 namespace App\Policies;
 
-use Illuminate\Auth\Access\Response;
-use App\Models\Ticket;
 use App\Models\User;
+use App\Models\Ticket;
+use Illuminate\Auth\Access\Response;
 
 class TicketPolicy
 {
@@ -45,7 +45,7 @@ class TicketPolicy
      */
     public function delete(User $user, Ticket $ticket): bool
     {
-        return $user->checkPermissionTo('delete Ticket');
+        return $ticket->owner_id === $user->id;
     }
 
     /**
@@ -53,7 +53,7 @@ class TicketPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->checkPermissionTo('delete-any Ticket');
+        return false;
     }
 
     /**
@@ -61,7 +61,7 @@ class TicketPolicy
      */
     public function restore(User $user, Ticket $ticket): bool
     {
-        return $user->checkPermissionTo('restore Ticket');
+        return $ticket->owner_id === $user->id;
     }
 
     /**
@@ -69,7 +69,7 @@ class TicketPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->checkPermissionTo('restore-any Ticket');
+        return false;
     }
 
     /**
@@ -77,7 +77,7 @@ class TicketPolicy
      */
     public function replicate(User $user, Ticket $ticket): bool
     {
-        return $user->checkPermissionTo('replicate Ticket');
+        return false;
     }
 
     /**
@@ -93,7 +93,7 @@ class TicketPolicy
      */
     public function forceDelete(User $user, Ticket $ticket): bool
     {
-        return $user->checkPermissionTo('force-delete Ticket');
+        return false;
     }
 
     /**
@@ -101,6 +101,6 @@ class TicketPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->checkPermissionTo('force-delete-any Ticket');
+        return false;
     }
 }
