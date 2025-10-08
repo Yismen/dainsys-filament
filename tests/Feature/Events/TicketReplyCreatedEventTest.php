@@ -1,45 +1,31 @@
 <?php
 
-namespace Tests\Feature\Events;
-
-use Tests\TestCase;
 use App\Models\TicketReply;
 use App\Mail\TicketReplyCreatedMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Event;
 use App\Events\TicketReplyCreatedEvent;
 use App\Listeners\SendTicketReplyCreatedMail;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class TicketReplyCreatedEventTest extends TestCase
-{
-    use RefreshDatabase;
+test('event is dispatched', function () {
+    Event::fake([
+        TicketReplyCreatedEvent::class
+    ]);
 
-    /** @test */
-    public function event_is_dispatched()
-    {
-        Event::fake([
-            TicketReplyCreatedEvent::class
-        ]);
+    // $this->supportSuperAdminUser();
+    $reply = TicketReply::factory()->create();
 
-        // $this->supportSuperAdminUser();
+    Event::assertDispatched(TicketReplyCreatedEvent::class);
+    Event::assertListening(
+        TicketReplyCreatedEvent::class,
+        SendTicketReplyCreatedMail::class
+    );
+});
 
-        $reply = TicketReply::factory()->create();
+test('when reply is created an email is sent', function () {
+    Mail::fake();
 
-        Event::assertDispatched(TicketReplyCreatedEvent::class);
-        Event::assertListening(
-            TicketReplyCreatedEvent::class,
-            SendTicketReplyCreatedMail::class
-        );
-    }
+    $reply = TicketReply::factory()->create();
 
-    /** @test */
-    public function when_reply_is_created_an_email_is_sent()
-    {
-        Mail::fake();
-
-        $reply = TicketReply::factory()->create();
-
-        Mail::assertQueued(TicketReplyCreatedMail::class);
-    }
-}
+    Mail::assertQueued(TicketReplyCreatedMail::class);
+});

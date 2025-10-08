@@ -1,32 +1,21 @@
 <?php
 
-namespace Tests\Unit\Enums;
-
-
 use App\Enums\MaritalStatus;
-use PHPUnit\Framework\TestCase;
 
-class MaritalStatusTest extends TestCase
-{
-    /** @test */
-    public function values_method_return_specific_values()
-    {
-        $this->assertEquals([
-            'Single',
-            'Married',
-            'Divorced',
-            'Free Union',
-        ], MaritalStatus::values());
-    }
+test('values method return specific values', function () {
+    expect(MaritalStatus::values())->toEqual([
+        'Single',
+        'Married',
+        'Divorced',
+        'Free Union',
+    ]);
+});
 
-    /** @test */
-    public function all_method_return_associative_array()
-    {
-        $this->assertEquals([
-            'Single' => 'Single',
-            'Married' => 'Married',
-            'Divorced' => 'Divorced',
-            'Free Union' => 'FreeUnion',
-        ], MaritalStatus::toArray());
-    }
-}
+test('all method return associative array', function () {
+    expect(MaritalStatus::toArray())->toEqual([
+        'Single' => 'Single',
+        'Married' => 'Married',
+        'Divorced' => 'Divorced',
+        'Free Union' => 'FreeUnion',
+    ]);
+});

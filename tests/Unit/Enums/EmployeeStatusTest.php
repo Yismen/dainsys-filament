@@ -1,30 +1,19 @@
 <?php
 
-namespace Tests\Unit\Enums;
-
-
 use App\Enums\EmployeeStatus;
-use PHPUnit\Framework\TestCase;
 
-class EmployeeStatusTest extends TestCase
-{
-    /** @test */
-    public function values_method_return_specific_values()
-    {
-        $this->assertEquals([
-            'Current',
-            'Inactive',
-            'Suspended',
-        ], EmployeeStatus::values());
-    }
+test('values method return specific values', function () {
+    expect(EmployeeStatus::values())->toEqual([
+        'Current',
+        'Inactive',
+        'Suspended',
+    ]);
+});
 
-    /** @test */
-    public function all_method_return_associative_array()
-    {
-        $this->assertEquals([
-            'Current' => 'Current',
-            'Inactive' => 'Inactive',
-            'Suspended' => 'Suspended',
-        ], EmployeeStatus::toArray());
-    }
-}
+test('all method return associative array', function () {
+    expect(EmployeeStatus::toArray())->toEqual([
+        'Current' => 'Current',
+        'Inactive' => 'Inactive',
+        'Suspended' => 'Suspended',
+    ]);
+});

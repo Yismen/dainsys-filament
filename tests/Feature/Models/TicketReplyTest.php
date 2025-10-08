@@ -1,0 +1,64 @@
+<?php
+
+use App\Models\User;
+use App\Models\Ticket;
+use App\Models\TicketReply;
+use App\Events\TicketCreatedEvent;
+use Illuminate\Support\Facades\Event;
+use App\Events\TicketReplyCreatedEvent;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+
+
+beforeEach(function () {
+    Event::fake();
+});
+
+test('replies model interacts with db table', function () {
+    $data = TicketReply::factory()->make();
+
+    TicketReply::create($data->toArray());
+
+    $this->assertDatabaseHas('ticket_replies', $data->only([
+        'user_id',
+        'ticket_id',
+        'content'
+    ]));
+});
+
+test('model uses soft delete', function () {
+    expect(in_array(SoftDeletes::class, class_uses(TicketReply::class)))->toBeTrue();
+
+    $ticket_reply = TicketReply::factory()->create();
+
+    $ticket_reply->delete();
+
+    $this->assertSoftDeleted(TicketReply::class, [
+        'id' => $ticket_reply->id
+    ]);
+});
+
+test('replies model belongs to one ticket', function () {
+    $reply = TicketReply::factory()->create();
+
+    expect($reply->ticket())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
+    expect($reply->ticket)->toBeInstanceOf(Ticket::class);
+});
+
+test('replies model belongs to one user', function () {
+    $reply = TicketReply::factory()->create();
+
+    expect($reply->user())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
+    expect($reply->user)->toBeInstanceOf(User::class);
+});
+
+test('repy model emits event when reply is created', function () {
+    Event::fake([
+        TicketReplyCreatedEvent::class
+    ]);
+
+    $reply = TicketReply::factory()->create();
+
+    Event::assertDispatched(TicketReplyCreatedEvent::class);
+});

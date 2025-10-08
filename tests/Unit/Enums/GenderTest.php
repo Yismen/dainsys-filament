@@ -1,30 +1,19 @@
 <?php
 
-namespace Tests\Unit\Enums;
-
-
 use App\Enums\Gender;
-use PHPUnit\Framework\TestCase;
 
-class GenderTest extends TestCase
-{
-    /** @test */
-    public function values_method_return_specific_values()
-    {
-        $this->assertEquals([
-            'Male',
-            'Female',
-            // 'Undefined',
-        ], Gender::values());
-    }
+test('values method return specific values', function () {
+    expect(Gender::values())->toEqual([
+        'Male',
+        'Female',
+        // 'Undefined',
+    ]);
+});
 
-    /** @test */
-    public function all_method_return_associative_array()
-    {
-        $this->assertEquals([
-            'Male' => 'Male',
-            'Female' => 'Female',
-            // 'Undefined' => 'Undefined',
-        ], Gender::toArray());
-    }
-}
+test('all method return associative array', function () {
+    expect(Gender::toArray())->toEqual([
+        'Male' => 'Male',
+        'Female' => 'Female',
+        // 'Undefined' => 'Undefined',
+    ]);
+});

@@ -1,66 +1,48 @@
 <?php
 
-namespace Tests\Feature\Console\Commands;
-
-use Tests\TestCase;
 use App\Models\Ticket;
 use App\Enums\TicketStatuses;
 use App\Console\Commands\UpdateTicketStatus;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class UpdateTicketStatusTest extends TestCase
-{
-    use RefreshDatabase;
+test('example', function () {
+    expect(true)->toBeTrue();
+});
 
-    /** @test */
+test('command is schedulled for evey thirty minutes', function () {
+    $addedToScheduler = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
+        ->filter(function ($element) {
+            return str($element->command)->contains('dainsys:update-ticket-status');
+        })->first();
 
-    public function testExample()
-    {
-        $this->assertTrue(true);
-    }
+    expect($addedToScheduler)->not->toBeNull();
+    expect($addedToScheduler->expression)->toEqual('*/30 * * * *');
+});
 
-    /** @test */
-    public function command_is_schedulled_for_evey_thirty_minutes()
-    {
-        $addedToScheduler = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
-            ->filter(function ($element) {
-                return str($element->command)->contains('dainsys:update-ticket-status');
-            })->first();
+test('update tickets status', function () {
+    $ticket = Ticket::factory()->create();
 
-        $this->assertNotNull($addedToScheduler);
-        $this->assertEquals('*/30 * * * *', $addedToScheduler->expression);
-    }
+    $this->travelTo(now()->addDays(50));
+    $this->artisan(UpdateTicketStatus::class);
 
-    /** @test */
-    public function update_tickets_status()
-    {
-        $ticket = Ticket::factory()->create();
+    $this->assertDatabaseHas(Ticket::class, [
+        'status' => TicketStatuses::PendingExpired
+    ]);
+});
 
-        $this->travelTo(now()->addDays(50));
-        $this->artisan(UpdateTicketStatus::class);
+test('update tickets only updates ticket 2 tickets', function () {
+    $ticket_1 = Ticket::factory()->completed()->create();
+    $ticket_2 = Ticket::factory()->create();
 
-        $this->assertDatabaseHas(Ticket::class, [
-            'status' => TicketStatuses::PendingExpired
-        ]);
-    }
+    $this->travelTo(now()->addDays(50));
+    $this->artisan(UpdateTicketStatus::class);
 
-    /** @test */
-    public function update_tickets_only_updates_ticket_2_tickets()
-    {
-        $ticket_1 = Ticket::factory()->completed()->create();
-        $ticket_2 = Ticket::factory()->create();
+    $this->assertDatabaseHas(Ticket::class, [
+        'id' => $ticket_1->id,
+        'status' => TicketStatuses::Completed
+    ]);
 
-        $this->travelTo(now()->addDays(50));
-        $this->artisan(UpdateTicketStatus::class);
-
-        $this->assertDatabaseHas(Ticket::class, [
-            'id' => $ticket_1->id,
-            'status' => TicketStatuses::Completed
-        ]);
-
-        $this->assertDatabaseHas(Ticket::class, [
-            'id' => $ticket_2->id,
-            'status' => TicketStatuses::PendingExpired
-        ]);
-    }
-}
+    $this->assertDatabaseHas(Ticket::class, [
+        'id' => $ticket_2->id,
+        'status' => TicketStatuses::PendingExpired
+    ]);
+});

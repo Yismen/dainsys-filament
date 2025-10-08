@@ -1,0 +1,33 @@
+<?php
+
+use App\Models\Ars;
+
+test('arss model interacts with db table', function () {
+    $data = Ars::factory()->make();
+
+    Ars::create($data->toArray());
+
+    $this->assertDatabaseHas(Ars::class, $data->only([
+        'name', 'description'
+    ]));
+});
+
+test('ars model uses soft delete', function () {
+    $ars = Ars::factory()->create();
+
+    $ars->delete();
+
+    $this->assertSoftDeleted(Ars::class, $ars->toArray());
+});
+
+test('arss model morph one information', function () {
+    $ars = Ars::factory()->create();
+
+    expect($ars->information())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\MorphOne::class);
+});
+
+test('arss model has many employees', function () {
+    $ars = Ars::factory()->create();
+
+    expect($ars->employees())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
+});
