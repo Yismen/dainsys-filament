@@ -22,7 +22,9 @@ test('performance model uses soft delete', function () {
 
     $performance->delete();
 
-    $this->assertSoftDeleted(Performance::class, $performance->only(['id']));
+    $this->assertSoftDeleted(Performance::class, [
+        'id' => $performance->id
+    ]);
 });
 
 test('performance model belongs to employee', function () {

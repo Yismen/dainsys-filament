@@ -14,6 +14,7 @@ class Ars extends Model
     use HasManyEmployees;
     use HasInformation;
     use SoftDeletes;
+
     protected $fillable = ['name', 'description'];
 
     protected $table = 'arss';

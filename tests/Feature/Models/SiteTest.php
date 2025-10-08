@@ -17,7 +17,9 @@ test('site model uses soft delete', function () {
 
     $site->delete();
 
-    $this->assertSoftDeleted(Site::class, $site->only(['id']));
+    $this->assertSoftDeleted(Site::class, [
+        'id' => $site->id
+    ]);
 });
 
 test('sites model morph one information', function () {

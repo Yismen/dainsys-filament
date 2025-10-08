@@ -17,7 +17,9 @@ test('payment type model uses soft delete', function () {
 
     $payment_type->delete();
 
-    $this->assertSoftDeleted(PaymentType::class, $payment_type->only(['id']));
+    $this->assertSoftDeleted(PaymentType::class, [
+        'id' => $payment_type->id
+    ]);
 });
 
 test('payment types model has many positions', function () {

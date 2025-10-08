@@ -20,5 +20,7 @@ test('holiday model uses soft delete', function () {
 
     $holiday->delete();
 
-    $this->assertSoftDeleted(Holiday::class, $holiday->only(['id']));
+    $this->assertSoftDeleted(Holiday::class, [
+        'id' => $holiday->id
+    ]);
 });

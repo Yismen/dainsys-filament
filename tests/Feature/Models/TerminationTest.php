@@ -24,7 +24,9 @@ test('termination model uses soft delete', function () {
 
     $termination->delete();
 
-    $this->assertSoftDeleted(Termination::class, $termination->only(['id', 'employee_id']));
+    $this->assertSoftDeleted(Termination::class, [
+        'id' => $termination->id
+    ]);
 });
 
 test('terminations model belongs to employee', function () {

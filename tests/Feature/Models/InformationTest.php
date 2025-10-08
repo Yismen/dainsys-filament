@@ -26,7 +26,9 @@ test('information model uses soft delete', function () {
 
     $information->delete();
 
-    $this->assertSoftDeleted(Information::class, $information->only(['id']));
+    $this->assertSoftDeleted(Information::class, [
+        'id' => $information->id
+    ]);
 });
 
 test('information model morph to informationable', function () {

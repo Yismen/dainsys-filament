@@ -22,7 +22,9 @@ test('position model uses soft delete', function () {
 
     $position->delete();
 
-    $this->assertSoftDeleted(Position::class, $position->only(['id']));
+    $this->assertSoftDeleted(Position::class, [
+        'id' => $position->id
+    ]);
 });
 
 test('positions model has many employees', function () {

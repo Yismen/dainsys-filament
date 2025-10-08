@@ -17,7 +17,9 @@ test('mailing subscription model uses soft delete', function () {
 
     $mailing_subscription->delete();
 
-    $this->assertSoftDeleted(MailingSubscription::class, $mailing_subscription->only(['id']));
+    $this->assertSoftDeleted(MailingSubscription::class, [
+        'id' => $mailing_subscription->id
+    ]);
 });
 
 test('mailing subscriptions model belongs to a user', function () {

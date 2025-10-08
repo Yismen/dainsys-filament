@@ -17,5 +17,7 @@ test('termination reason model uses soft delete', function () {
 
     $termination_reason->delete();
 
-    $this->assertSoftDeleted(TerminationReason::class, $termination_reason->only(['id']));
+    $this->assertSoftDeleted(TerminationReason::class, [
+        'id' => $termination_reason->id
+    ]);
 });

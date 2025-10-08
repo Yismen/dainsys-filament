@@ -45,7 +45,9 @@ test('employee model uses soft delete', function () {
 
     $employee->delete();
 
-    $this->assertSoftDeleted(Employee::class, $employee->only('id'));
+    $this->assertSoftDeleted(Employee::class, [
+        'id' => $employee->id
+    ]);
 });
 
 test('employees model morph one information', function () {

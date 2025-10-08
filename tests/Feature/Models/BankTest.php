@@ -17,7 +17,9 @@ test('bank model uses soft delete', function () {
 
     $bank->delete();
 
-    $this->assertSoftDeleted(Bank::class, $bank->toArray());
+    $this->assertSoftDeleted(Bank::class, [
+        'id' => $bank->id
+    ]);
 });
 
 test('banks model morph one information', function () {

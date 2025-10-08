@@ -17,5 +17,7 @@ test('termination type model uses soft delete', function () {
 
     $termination_type->delete();
 
-    $this->assertSoftDeleted(TerminationType::class, $termination_type->toArray());
+    $this->assertSoftDeleted(TerminationType::class, [
+        'id' => $termination_type->id
+    ]);
 });

@@ -24,7 +24,9 @@ test('suspension model uses soft delete', function () {
 
     $suspension->delete();
 
-    $this->assertSoftDeleted(Suspension::class, $suspension->only(['id']));
+    $this->assertSoftDeleted(Suspension::class, [
+        'id' => $suspension->id
+    ]);
 });
 
 test('suspensions model belongs to employee', function () {

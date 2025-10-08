@@ -17,7 +17,9 @@ test('project model uses soft delete', function () {
 
     $project->delete();
 
-    $this->assertSoftDeleted(Project::class, $project->only('id'));
+    $this->assertSoftDeleted(Project::class, [
+        'id' => $project->id
+    ]);
 });
 
 test('projects model has many employees', function () {

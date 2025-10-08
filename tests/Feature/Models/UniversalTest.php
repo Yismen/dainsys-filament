@@ -20,7 +20,9 @@ test('universal model uses soft delete', function () {
 
     $universal->delete();
 
-    $this->assertSoftDeleted(Universal::class, $universal->only(['id']));
+    $this->assertSoftDeleted(Universal::class, [
+        'id' => $universal->id
+    ]);
 });
 
 test('universals model belongs to employee', function () {

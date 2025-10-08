@@ -20,7 +20,9 @@ test('bank account model uses soft delete', function () {
 
     $bank_account->delete();
 
-    $this->assertSoftDeleted(BankAccount::class, $bank_account->only(['id']));
+    $this->assertSoftDeleted(BankAccount::class, [
+        'id' => $bank_account->id
+    ]);
 });
 
 test('bank accounts model belongs to employee', function () {

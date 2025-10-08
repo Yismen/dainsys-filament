@@ -17,7 +17,9 @@ test('citizenship model uses soft delete', function () {
 
     $citizenship->delete();
 
-    $this->assertSoftDeleted(Citizenship::class, $citizenship->toArray());
+    $this->assertSoftDeleted(Citizenship::class, [
+        'id' => $citizenship->id
+    ]);
 });
 
 test('citizenships model has many employees', function () {

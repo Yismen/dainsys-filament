@@ -20,7 +20,9 @@ test('downtime reason model uses soft delete', function () {
 
     $downtime_reason->delete();
 
-    $this->assertSoftDeleted(DowntimeReason::class, $downtime_reason->only(['id']));
+    $this->assertSoftDeleted(DowntimeReason::class, [
+        'id' => $downtime_reason->id
+    ]);
 });
 
 /** @test */

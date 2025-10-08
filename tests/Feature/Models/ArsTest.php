@@ -17,7 +17,9 @@ test('ars model uses soft delete', function () {
 
     $ars->delete();
 
-    $this->assertSoftDeleted(Ars::class, $ars->toArray());
+    $this->assertSoftDeleted(Ars::class, [
+        'id' => $ars->id
+    ]);
 });
 
 test('arss model morph one information', function () {

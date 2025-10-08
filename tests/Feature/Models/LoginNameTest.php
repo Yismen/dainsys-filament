@@ -20,7 +20,9 @@ test('login name model uses soft delete', function () {
 
     $login_name->delete();
 
-    $this->assertSoftDeleted(LoginName::class, $login_name->only(['id']));
+    $this->assertSoftDeleted(LoginName::class, [
+        'id' => $login_name->id
+    ]);
 });
 
 test('login names model belongs to one employee', function () {

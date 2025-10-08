@@ -71,7 +71,7 @@ class PublishingProductionReport extends Command
 
     protected function emailRecipients()
     {
-        if ($this->shouldSendEmail()) {
+        if ($this->reportDataChanged()) {
             $recipients = MailingService::subscribers(LiveVoxProductionReportMail::class);
 
             Mail::to($recipients)
@@ -86,7 +86,7 @@ class PublishingProductionReport extends Command
         }
     }
 
-    protected function shouldSendEmail(): bool
+    protected function reportDataChanged(): bool
     {
         if ($this->option('force')) {
             return true;

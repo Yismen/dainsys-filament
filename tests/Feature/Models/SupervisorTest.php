@@ -17,7 +17,9 @@ test('supervisor model uses soft delete', function () {
 
     $supervisor->delete();
 
-    $this->assertSoftDeleted(Supervisor::class, $supervisor->only(['id']));
+    $this->assertSoftDeleted(Supervisor::class, [
+        'id' => $supervisor->id
+    ]);
 });
 
 test('supervisors model has many employees', function () {

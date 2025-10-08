@@ -19,7 +19,9 @@ test('user model uses soft delete', function () {
 
     $user->delete();
 
-    $this->assertSoftDeleted(User::class, $user->toArray());
+    $this->assertSoftDeleted(User::class, [
+        'id' => $user->id
+    ]);
 });
 
 test('users model has many mailing subscriptions', function () {

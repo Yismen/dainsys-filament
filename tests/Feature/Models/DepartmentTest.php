@@ -17,7 +17,9 @@ test('department model uses soft delete', function () {
 
     $department->delete();
 
-    $this->assertSoftDeleted(Department::class, $department->only(['id']));
+    $this->assertSoftDeleted(Department::class, [
+        'id' => $department->id
+    ]);
 });
 
 test('departments model has many positions', function () {

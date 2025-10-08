@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\LiveVox\LivevoxAgentSession;
 use App\Models\Services\LivevoxAgentSessionService;
 use App\Console\Commands\LiveVox\PublishingProductionReport;
-
+use Illuminate\Support\Facades\Cache;
 
 beforeEach(function () {
     Mail::fake();
@@ -27,12 +27,15 @@ it('accepts parameters and options', function () {
     $command->assertSuccessful();
 });
 
-test('file is deleted', function () {
+
+test('file is deleted after email is sent', function () {
     Storage::fake();
+    Cache::flush();
 
     $this->artisan(PublishingProductionReport::class, [
         '--date' => '2024-03-12,2024-03-12',
         '--subject' => 'Publishing Hourly Report',
+        // '--force' => true,
     ]);
 
     Storage::assertMissing('livevox_publishing_production_report.xlsx');

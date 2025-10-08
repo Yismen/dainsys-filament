@@ -17,5 +17,7 @@ test('suspension type model uses soft delete', function () {
 
     $suspension_type->delete();
 
-    $this->assertSoftDeleted(SuspensionType::class, $suspension_type->only(['id']));
+    $this->assertSoftDeleted(SuspensionType::class, [
+        'id' => $suspension_type->id
+    ]);
 });

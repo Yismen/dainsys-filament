@@ -17,7 +17,9 @@ test('campaign model uses soft delete', function () {
 
     $campaign->delete();
 
-    $this->assertSoftDeleted(Campaign::class, $campaign->toArray());
+    $this->assertSoftDeleted(Campaign::class, [
+        'id' => $campaign->id
+    ]);
 });
 
 test('campaigns model belongs to project', function () {
