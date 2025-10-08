@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Support\Resources;
+namespace Tests\Filament\Support\Resources;
 
 use Tests\TestCase;
 use App\Models\User;

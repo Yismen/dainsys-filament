@@ -2,11 +2,20 @@
 
 namespace App\Filament\App\Resources\InformationResource\RelationManagers;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\FileUpload;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\CreateAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
 use Filament\Forms;
 use Filament\Tables;
-use Filament\Forms\Form;
 use Filament\Tables\Table;
-use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -15,29 +24,29 @@ class InformationRelationManager extends RelationManager
 {
     protected static string $relationship = 'information';
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Section::make('')
                     ->columns(2)
                     ->schema([
-                        Forms\Components\TextInput::make('phone')
+                        TextInput::make('phone')
                             ->required()
                             ->minLength(10)
                             ->maxLength(255),
-                        Forms\Components\TextInput::make('email')
+                        TextInput::make('email')
                             ->email()
                             ->minLength(5)
                             ->maxLength(255),
-                        Forms\Components\TextInput::make('address')
+                        TextInput::make('address')
                             ->required()
                             ->minLength(5)
                             ->maxLength(255),
-                        Forms\Components\TextInput::make('company_id')
+                        TextInput::make('company_id')
                             ->minLength(2)
                             ->maxLength(255),
-                        Forms\Components\FileUpload::make('photo_url')
+                        FileUpload::make('photo_url')
                             ->directory('informations_photo')
                             ->image()
                             ->imageEditor()
@@ -52,26 +61,26 @@ class InformationRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('address')
             ->columns([
-                Tables\Columns\ImageColumn::make('photo_url')
+                ImageColumn::make('photo_url')
                     ->circular(),
-                Tables\Columns\TextColumn::make('phone'),
-                Tables\Columns\TextColumn::make('email'),
-                Tables\Columns\TextColumn::make('address'),
-                Tables\Columns\TextColumn::make('company_id'),
+                TextColumn::make('phone'),
+                TextColumn::make('email'),
+                TextColumn::make('address'),
+                TextColumn::make('company_id'),
             ])
             ->filters([
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                CreateAction::make(),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->recordActions([
+                EditAction::make(),
+                DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }

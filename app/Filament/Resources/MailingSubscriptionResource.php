@@ -2,15 +2,29 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\TrashedFilter;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Actions\ViewAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\ForceDeleteBulkAction;
+use Filament\Actions\RestoreBulkAction;
+use App\Filament\Resources\MailingSubscriptionResource\Pages\ListMailingSubscriptions;
+use App\Filament\Resources\MailingSubscriptionResource\Pages\CreateMailingSubscription;
+use App\Filament\Resources\MailingSubscriptionResource\Pages\ViewMailingSubscription;
+use App\Filament\Resources\MailingSubscriptionResource\Pages\EditMailingSubscription;
 use Filament\Forms;
 use App\Models\User;
 use Filament\Tables;
-use Filament\Forms\Form;
 use Filament\Tables\Table;
 use App\Services\MailingService;
 use Filament\Resources\Resource;
 use App\Models\MailingSubscription;
-use Filament\Forms\Components\Section;
 use Filament\Tables\Enums\FiltersLayout;
 use function Laravel\Prompts\multiselect;
 use Illuminate\Database\Eloquent\Builder;
@@ -23,22 +37,23 @@ class MailingSubscriptionResource extends Resource
 {
     protected static ?string $model = MailingSubscription::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string | \BackedEnum | null $navigationIcon =  'heroicon-o-rectangle-stack';
 
-    public static function form(Form $form): Form
+
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Section::make('')
                     ->columns(2)
                     ->schema([
-                        Forms\Components\Select::make('user_id')
+                        Select::make('user_id')
                             ->relationship('user', 'name')
                             ->autofocus()
                             ->searchable()
                             ->preload()
                             ->required(),
-                        Forms\Components\Select::make('mailable')
+                        Select::make('mailable')
                             ->required()
                             ->options(MailingService::toArray()),
                     ])
@@ -50,42 +65,42 @@ class MailingSubscriptionResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user.name')
+                TextColumn::make('user.name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('mailable')
+                TextColumn::make('mailable')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('deleted_at')
+                TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\TrashedFilter::make(),
-                Tables\Filters\SelectFilter::make('mailable')
+                TrashedFilter::make(),
+                SelectFilter::make('mailable')
                     ->options(MailingService::toArray()),
-                Tables\Filters\SelectFilter::make('user_id')
+                SelectFilter::make('user_id')
                     ->label('User')
                     ->options(User::query()->orderBy('name')->pluck('name', 'id')),
             ], layout: FiltersLayout::AboveContentCollapsible)
             ->filtersFormColumns(3)
-            ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                ViewAction::make(),
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
+                    ForceDeleteBulkAction::make(),
+                    RestoreBulkAction::make(),
                 ]),
             ]);
     }
@@ -100,10 +115,10 @@ class MailingSubscriptionResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListMailingSubscriptions::route('/'),
-            'create' => Pages\CreateMailingSubscription::route('/create'),
-            'view' => Pages\ViewMailingSubscription::route('/{record}'),
-            'edit' => Pages\EditMailingSubscription::route('/{record}/edit'),
+            'index' => ListMailingSubscriptions::route('/'),
+            'create' => CreateMailingSubscription::route('/create'),
+            'view' => ViewMailingSubscription::route('/{record}'),
+            'edit' => EditMailingSubscription::route('/{record}/edit'),
         ];
     }
 

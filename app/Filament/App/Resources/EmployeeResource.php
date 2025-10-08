@@ -2,13 +2,26 @@
 
 namespace App\Filament\App\Resources;
 
+use BackedEnum;
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Filters\TrashedFilter;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Actions\ViewAction;
+use Filament\Actions\EditAction;
+use App\Filament\App\Resources\EmployeeResource\Pages\ListEmployees;
+use App\Filament\App\Resources\EmployeeResource\Pages\CreateEmployee;
+use App\Filament\App\Resources\EmployeeResource\Pages\ViewEmployee;
+use App\Filament\App\Resources\EmployeeResource\Pages\EditEmployee;
 use Filament\Tables;
 use App\Models\Employee;
-use Filament\Forms\Form;
 use Filament\Tables\Table;
 use App\Enums\EmployeeStatus;
 use Filament\Resources\Resource;
-use Filament\Forms\Components\Section;
 use pxlrbt\FilamentExcel\Columns\Column;
 use Filament\Tables\Columns\Layout\Panel;
 use Filament\Tables\Columns\Layout\Split;
@@ -29,12 +42,12 @@ class EmployeeResource extends Resource
 
     protected static ?string $model = Employee::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string | BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Section::make('')
                     ->columns(2)
                     ->schema(EmployeeSchema::toArray())
@@ -46,65 +59,65 @@ class EmployeeResource extends Resource
         return $table
             ->columns([
                 Split::make([
-                    Tables\Columns\ImageColumn::make('information.photo_url')
+                    ImageColumn::make('information.photo_url')
                         ->grow(false)
                         ->circular(),
-                    Tables\Columns\TextColumn::make('full_name')
+                    TextColumn::make('full_name')
                         ->searchable(),
-                    Tables\Columns\TextColumn::make('cellphone')
+                    TextColumn::make('cellphone')
                         ->icon('heroicon-o-phone')
                         ->searchable(),
-                    Tables\Columns\TextColumn::make('site.name')
+                    TextColumn::make('site.name')
                         ->sortable(),
-                    Tables\Columns\TextColumn::make('project.name')
+                    TextColumn::make('project.name')
                         ->sortable(),
-                    Tables\Columns\TextColumn::make('position.details')
+                    TextColumn::make('position.details')
                         ->sortable(),
-                    Tables\Columns\TextColumn::make('status')
+                    TextColumn::make('status')
                         ->badge()
                         ->searchable(),
                 ]),
                 Panel::make([
-                    Tables\Columns\TextColumn::make('personal_id')
+                    TextColumn::make('personal_id')
                         ->formatStateUsing(fn ($state) => 'Personal ID: ' . $state)
                         ->searchable(),
-                    Tables\Columns\TextColumn::make('hired_at')
+                    TextColumn::make('hired_at')
                         ->date()
                         ->formatStateUsing(fn ($state) => 'Hired At: ' . $state)
                         ->sortable(),
-                    Tables\Columns\TextColumn::make('date_of_birth')
+                    TextColumn::make('date_of_birth')
                         ->date()
                         ->formatStateUsing(fn ($state) => 'Birthday: ' . $state->format('M-d'))
                         ->sortable(),
-                    Tables\Columns\TextColumn::make('citizenship.name')
+                    TextColumn::make('citizenship.name')
                         ->formatStateUsing(fn ($state) => 'Nationality: ' . $state)
                         ->sortable(),
-                    Tables\Columns\TextColumn::make('supervisor.name')
+                    TextColumn::make('supervisor.name')
                         ->formatStateUsing(fn ($state) => 'Supervisor: ' . $state)
                         ->sortable(),
-                    Tables\Columns\TextColumn::make('afp.name')
+                    TextColumn::make('afp.name')
                         ->formatStateUsing(fn ($state) => 'AFP: ' . $state)
                         ->sortable(),
-                    Tables\Columns\TextColumn::make('ars.name')
+                    TextColumn::make('ars.name')
                         ->formatStateUsing(fn ($state) => 'ARS: ' . $state)
                         ->sortable(),
-                    Tables\Columns\TextColumn::make('marriage')
+                    TextColumn::make('marriage')
                         ->formatStateUsing(fn ($state) => 'Marital Status: ' . $state->value)
                         ->searchable(),
-                    Tables\Columns\TextColumn::make('gender')
+                    TextColumn::make('gender')
                         ->formatStateUsing(fn ($state) => 'Gender: ' . $state->value)
                         ->searchable(),
-                    Tables\Columns\IconColumn::make('kids')
+                    IconColumn::make('kids')
                         // ->formatStateUsing(fn ($state) => 'Has Kids: ' . $state)
                         ->boolean(),
-                    Tables\Columns\TextColumn::make('punch')
+                    TextColumn::make('punch')
                         ->formatStateUsing(fn ($state) => 'Punch: ' . $state)
                         ->searchable(),
-                    Tables\Columns\TextColumn::make('created_at')
+                    TextColumn::make('created_at')
                         ->formatStateUsing(fn ($state) => 'Created Ar: ' . $state)
                         ->dateTime()
                         ->sortable(),
-                    Tables\Columns\TextColumn::make('updated_at')
+                    TextColumn::make('updated_at')
                         ->formatStateUsing(fn ($state) => 'Last Update: ' . $state)
                         ->dateTime()
                         ->sortable(),
@@ -112,24 +125,24 @@ class EmployeeResource extends Resource
                     ->collapsed(true)
             ])
             ->filters([
-                Tables\Filters\TrashedFilter::make(),
-                Tables\Filters\SelectFilter::make('status')
+                TrashedFilter::make(),
+                SelectFilter::make('status')
                     ->options(EmployeeStatus::toArray()),
-                Tables\Filters\SelectFilter::make('site')
+                SelectFilter::make('site')
                     ->relationship('site', 'name'),
-                Tables\Filters\SelectFilter::make('project')
+                SelectFilter::make('project')
                     ->relationship('project', 'name'),
-                Tables\Filters\SelectFilter::make('position')
+                SelectFilter::make('position')
                     ->relationship('position', 'name'),
                 // Tables\Filters\SelectFilter::make('department')
                 //     ->relationship('department', 'name'),
-            ], layout: \Filament\Tables\Enums\FiltersLayout::Modal)
+            ], layout: FiltersLayout::Modal)
             ->filtersFormColumns(4)
-            ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                ViewAction::make(),
+                EditAction::make(),
             ])
-            ->bulkActions([
+            ->toolbarActions([
                 // Tables\Actions\BulkActionGroup::make([
                 //     Tables\Actions\DeleteBulkAction::make(),
                 //     Tables\Actions\ForceDeleteBulkAction::make(),
@@ -179,10 +192,10 @@ class EmployeeResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListEmployees::route('/'),
-            'create' => Pages\CreateEmployee::route('/create'),
-            'view' => Pages\ViewEmployee::route('/{record}'),
-            'edit' => Pages\EditEmployee::route('/{record}/edit'),
+            'index' => ListEmployees::route('/'),
+            'create' => CreateEmployee::route('/create'),
+            'view' => ViewEmployee::route('/{record}'),
+            'edit' => EditEmployee::route('/{record}/edit'),
         ];
     }
 

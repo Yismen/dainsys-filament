@@ -2,14 +2,26 @@
 
 namespace App\Filament\App\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\TrashedFilter;
+use Filament\Actions\ViewAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\ForceDeleteBulkAction;
+use Filament\Actions\RestoreBulkAction;
+use App\Filament\App\Resources\SuspensionResource\Pages\ListSuspensions;
+use App\Filament\App\Resources\SuspensionResource\Pages\CreateSuspension;
+use App\Filament\App\Resources\SuspensionResource\Pages\ViewSuspension;
+use App\Filament\App\Resources\SuspensionResource\Pages\EditSuspension;
 use Filament\Forms;
 use Filament\Tables;
 use Filament\Forms\Get;
-use Filament\Forms\Form;
 use App\Models\Suspension;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
-use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Support\Forms\EmployeeSchema;
 use App\Filament\Support\Forms\SuspensionSchema;
@@ -25,12 +37,12 @@ class SuspensionResource extends Resource
 
     protected static ?string $model = Suspension::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string | \BackedEnum | null $navigationIcon =  'heroicon-o-rectangle-stack';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Section::make('')
                     ->columns(2)
                     ->schema(SuspensionSchema::toArray())
@@ -41,47 +53,47 @@ class SuspensionResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('employee.full_name')
+                TextColumn::make('employee.full_name')
                     ->numeric()
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('suspensionType.name')
+                TextColumn::make('suspensionType.name')
                     ->numeric()
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('starts_at')
+                TextColumn::make('starts_at')
                     ->date()
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('ends_at')
+                TextColumn::make('ends_at')
                     ->date()
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('deleted_at')
+                TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\TrashedFilter::make(),
+                TrashedFilter::make(),
             ])
-            ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                ViewAction::make(),
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
+                    ForceDeleteBulkAction::make(),
+                    RestoreBulkAction::make(),
                 ]),
             ]);
     }
@@ -96,10 +108,10 @@ class SuspensionResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListSuspensions::route('/'),
-            'create' => Pages\CreateSuspension::route('/create'),
-            'view' => Pages\ViewSuspension::route('/{record}'),
-            'edit' => Pages\EditSuspension::route('/{record}/edit'),
+            'index' => ListSuspensions::route('/'),
+            'create' => CreateSuspension::route('/create'),
+            'view' => ViewSuspension::route('/{record}'),
+            'edit' => EditSuspension::route('/{record}/edit'),
         ];
     }
 

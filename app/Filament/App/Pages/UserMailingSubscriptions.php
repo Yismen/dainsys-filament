@@ -2,13 +2,14 @@
 
 namespace App\Filament\App\Pages;
 
+use BackedEnum;
+use Filament\Actions\Action;
+use Filament\Support\Enums\Size;
 use Filament\Pages\Page;
 use Filament\Tables\Table;
 use Filament\Support\Colors\Color;
 use App\Models\MailingSubscription;
-use Filament\Tables\Actions\Action;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Support\Enums\ActionSize;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
 use Illuminate\Database\Eloquent\Model;
@@ -26,11 +27,11 @@ class UserMailingSubscriptions extends Page implements HasForms, HasTable, HasAc
 
     public ?array $data = [];
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static string | BackedEnum | null $navigationIcon = 'heroicon-o-document-text';
 
     protected static bool $shouldRegisterNavigation = false;
 
-    protected static string $view = 'filament.app.pages.user-mailing-subscriptions';
+    protected string $view = 'filament.app.pages.user-mailing-subscriptions';
 
     protected ?string $subheading = 'Here you can opt in to receive specific emails when certain events hapens.';
     /**
@@ -55,7 +56,7 @@ class UserMailingSubscriptions extends Page implements HasForms, HasTable, HasAc
                             ->headline();
                     })
             ])
-            ->actions([
+            ->recordActions([
                 Action::make(__('Unsusbscribe'))
                     ->button()
                     ->requiresConfirmation()
@@ -63,7 +64,7 @@ class UserMailingSubscriptions extends Page implements HasForms, HasTable, HasAc
                         $record->delete();
                     })
                     ->icon('heroicon-o-trash')
-                    ->size(ActionSize::Small)
+                    ->size(Size::Small)
                     ->color(Color::Red),
 
             ]);

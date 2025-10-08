@@ -6,7 +6,7 @@ use App\Models\Department;
 
 class HeadCountByDepartment extends BaseHumanResourcesWidget
 {
-    protected static ?string $heading = 'Head Count by Department';
+    protected ?string $heading = 'Head Count by Department';
 
     protected function getModel(): string
     {

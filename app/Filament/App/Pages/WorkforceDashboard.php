@@ -2,6 +2,7 @@
 
 namespace App\Filament\App\Pages;
 
+use BackedEnum;
 use Filament\Pages\Page;
 use Filament\Pages\Dashboard;
 use App\Filament\Traits\WorkforceSupportMenu;
@@ -10,7 +11,7 @@ class WorkforceDashboard extends Dashboard
 {
     use WorkforceSupportMenu;
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static string | BackedEnum | null $navigationIcon = 'heroicon-o-document-text';
 
     // protected static string $view = 'filament.app.pages.workforce-dashboard';
     protected static string $routePath = 'workforce';

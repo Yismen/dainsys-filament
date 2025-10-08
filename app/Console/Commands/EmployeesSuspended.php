@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Employee;
 use App\Enums\EmployeeStatus;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
@@ -41,7 +42,7 @@ class EmployeesSuspended extends Command
     {
         $this->call(UpdateEmployeeSuspensions::class);
 
-        $employees = \App\Models\Employee::query()
+        $employees = Employee::query()
             ->with([
                 'site',
                 'project',

@@ -6,7 +6,7 @@ use App\Models\Ars;
 
 class HeadCountByArs extends BaseHumanResourcesWidget
 {
-    protected static ?string $heading = 'Head Count by Ars';
+    protected ?string $heading = 'Head Count by Ars';
 
     protected function getModel(): string
     {

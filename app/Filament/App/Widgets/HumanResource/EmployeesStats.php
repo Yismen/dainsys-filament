@@ -41,12 +41,12 @@ class EmployeesStats extends BaseWidget
     {
         return Employee::query()
             ->$scope()
-            ->when($this->filters['site'], function ($employeeQuery) {
+            ->when($this->pageFilters['site'], function ($employeeQuery) {
                 $employeeQuery->whereHas('site', function ($siteQuery) {
                     $siteQuery->when(
-                        is_array($this->filters['site']),
-                        fn ($query) => $query->whereIn('id', $this->filters['site']),
-                        fn ($query) => $query->where('id', $this->filters['site'])
+                        is_array($this->pageFilters['site']),
+                        fn ($query) => $query->whereIn('id', $this->pageFilters['site']),
+                        fn ($query) => $query->where('id', $this->pageFilters['site'])
                     );
                 });
             })->count();

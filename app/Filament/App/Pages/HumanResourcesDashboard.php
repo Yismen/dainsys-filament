@@ -2,11 +2,21 @@
 
 namespace App\Filament\App\Pages;
 
-use Filament\Forms\Set;
-use Filament\Forms\Form;
+use BackedEnum;
+use App\Filament\App\Widgets\HumanResource\EmployeesStats;
+use App\Filament\App\Widgets\HumanResource\HeadCountBySite;
+use App\Filament\App\Widgets\HumanResource\HeadCountByDepartment;
+use App\Filament\App\Widgets\HumanResource\HeadCountByProject;
+use App\Filament\App\Widgets\HumanResource\HeadCountByPosition;
+use App\Filament\App\Widgets\HumanResource\HeadCountByAfp;
+use App\Filament\App\Widgets\HumanResource\HeadCountByArs;
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Actions\Action;
+use Filament\Schemas\Components\Utilities\Set;
 use App\Services\SiteService;
 use Filament\Pages\Dashboard;
-use Filament\Forms\Components\Section;
 use App\Filament\Traits\HumanResourceAdminMenu;
 use Filament\Pages\Dashboard\Concerns\HasFiltersForm;
 
@@ -15,7 +25,7 @@ class HumanResourcesDashboard extends Dashboard
     use HumanResourceAdminMenu;
     use HasFiltersForm;
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static string | BackedEnum | null $navigationIcon = 'heroicon-o-document-text';
 
     // protected static string $view = 'filament.app.pages.human-resources-dashboard';
     protected static string $routePath = 'human-resource';
@@ -25,30 +35,30 @@ class HumanResourcesDashboard extends Dashboard
     public function getWidgets(): array
     {
         return [
-            \App\Filament\App\Widgets\HumanResource\EmployeesStats::class,
-            \App\Filament\App\Widgets\HumanResource\HeadCountBySite::class,
-            \App\Filament\App\Widgets\HumanResource\HeadCountByDepartment::class,
-            \App\Filament\App\Widgets\HumanResource\HeadCountByProject::class,
-            \App\Filament\App\Widgets\HumanResource\HeadCountByPosition::class,
-            \App\Filament\App\Widgets\HumanResource\HeadCountByAfp::class,
-            \App\Filament\App\Widgets\HumanResource\HeadCountByArs::class,
+            EmployeesStats::class,
+            HeadCountBySite::class,
+            HeadCountByDepartment::class,
+            HeadCountByProject::class,
+            HeadCountByPosition::class,
+            HeadCountByAfp::class,
+            HeadCountByArs::class,
             // \App\Filament\App\Widgets\HumanResource\MonthlyEmployees::class,
             // \App\Filament\App\Widgets\HumanResource\MonthlyAttrition::class,
         ];
     }
 
-    public function filtersForm(Form $form): Form
+    public function filtersForm(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Section::make()
                     ->schema([
-                        \Filament\Forms\Components\Select::make('site')
+                        Select::make('site')
                             ->options(SiteService::list())
                             ->multiple()
                             ->live()
                             ->suffixAction(
-                                \Filament\Forms\Components\Actions\Action::make('clear')
+                                Action::make('clear')
                                     ->icon('heroicon-m-x-mark')
                                     ->color('danger')
                                     ->visible(function ($state) {
@@ -65,7 +75,7 @@ class HumanResourcesDashboard extends Dashboard
             ]);
     }
 
-    public function getHeaderWidgetsColumns(): int | string | array
+    public function getHeaderWidgetsColumns(): int|array
     {
         return 4;
     }

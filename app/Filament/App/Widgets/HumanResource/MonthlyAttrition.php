@@ -6,7 +6,7 @@ use Filament\Widgets\ChartWidget;
 
 class MonthlyAttrition extends ChartWidget
 {
-    protected static ?string $heading = 'Montly Attrition';
+    protected ?string $heading = 'Montly Attrition';
 
     protected function getData(): array
     {

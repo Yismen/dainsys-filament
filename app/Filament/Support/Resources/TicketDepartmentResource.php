@@ -2,9 +2,24 @@
 
 namespace App\Filament\Support\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\TrashedFilter;
+use Filament\Actions\ViewAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\ForceDeleteBulkAction;
+use Filament\Actions\RestoreBulkAction;
+use App\Filament\Support\Resources\TicketDepartmentResource\Pages\ListTicketDepartments;
+use App\Filament\Support\Resources\TicketDepartmentResource\Pages\CreateTicketDepartment;
+use App\Filament\Support\Resources\TicketDepartmentResource\Pages\ViewTicketDepartment;
+use App\Filament\Support\Resources\TicketDepartmentResource\Pages\EditTicketDepartment;
 use Filament\Forms;
 use Filament\Tables;
-use Filament\Forms\Form;
 use Filament\Tables\Table;
 use App\Models\TicketDepartment;
 use Filament\Resources\Resource;
@@ -17,23 +32,23 @@ class TicketDepartmentResource extends Resource
 {
     protected static ?string $model = TicketDepartment::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string | \BackedEnum | null $navigationIcon =  'heroicon-o-rectangle-stack';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Section::make('')
+        return $schema
+            ->components([
+                Section::make('')
                     ->schema([
-                        Forms\Components\TextInput::make('name')
+                        TextInput::make('name')
                             ->required()
                             ->minLength(3)
                             ->maxLength(500)
                             ->unique(ignoreRecord: true),
-                        Forms\Components\TextInput::make('ticket_prefix')
+                        TextInput::make('ticket_prefix')
                             ->visibleOn('view')
                             ->maxLength(8),
-                        Forms\Components\Textarea::make('description')
+                        Textarea::make('description')
                             ->columnSpanFull(),
                     ])
                     ->columns(2)
@@ -44,35 +59,35 @@ class TicketDepartmentResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('ticket_prefix')
+                TextColumn::make('ticket_prefix')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('deleted_at')
+                TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\TrashedFilter::make(),
+                TrashedFilter::make(),
             ])
-            ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                ViewAction::make(),
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
+                    ForceDeleteBulkAction::make(),
+                    RestoreBulkAction::make(),
                 ]),
             ]);
     }
@@ -87,10 +102,10 @@ class TicketDepartmentResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListTicketDepartments::route('/'),
-            'create' => Pages\CreateTicketDepartment::route('/create'),
-            'view' => Pages\ViewTicketDepartment::route('/{record}'),
-            'edit' => Pages\EditTicketDepartment::route('/{record}/edit'),
+            'index' => ListTicketDepartments::route('/'),
+            'create' => CreateTicketDepartment::route('/create'),
+            'view' => ViewTicketDepartment::route('/{record}'),
+            'edit' => EditTicketDepartment::route('/{record}/edit'),
         ];
     }
 

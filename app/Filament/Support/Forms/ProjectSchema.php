@@ -2,6 +2,8 @@
 
 namespace App\Filament\Support\Forms;
 
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms;
 
 final class ProjectSchema
@@ -9,12 +11,12 @@ final class ProjectSchema
     public static function toArray(): array
     {
         return [
-            Forms\Components\TextInput::make('name')
+            TextInput::make('name')
                 ->required()
                 ->autofocus()
                 ->unique()
                 ->maxLength(500),
-            Forms\Components\Textarea::make('description')
+            Textarea::make('description')
                 ->maxLength(65535)
                 ->columnSpanFull(),
         ];

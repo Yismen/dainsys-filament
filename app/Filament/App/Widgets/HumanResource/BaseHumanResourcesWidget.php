@@ -20,7 +20,7 @@ abstract class BaseHumanResourcesWidget extends ChartWidget
     protected function getData(): array
     {
         $service = HeadCountService::make($this->getModel())
-            ->filters(['site' => $this->filters['site'] ?? null])
+            ->filters(['site' => $this->pageFilters['site'] ?? null])
             ->get();
 
         return [

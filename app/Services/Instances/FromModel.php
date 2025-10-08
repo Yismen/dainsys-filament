@@ -2,6 +2,7 @@
 
 namespace App\Services\Instances;
 
+use Throwable;
 use InvalidArgumentException;
 use App\Contracts\InstanceFromNameContract;
 
@@ -24,7 +25,7 @@ class FromModel implements InstanceFromNameContract
             ]);
         try {
             return new $string();
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             throw new InvalidArgumentException("Class {$string} Not Found");
         }
     }

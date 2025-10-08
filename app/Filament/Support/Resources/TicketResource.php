@@ -2,10 +2,30 @@
 
 namespace App\Filament\Support\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Filters\TrashedFilter;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Actions\ViewAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\ForceDeleteBulkAction;
+use Filament\Actions\RestoreBulkAction;
+use App\Filament\Support\Resources\TicketResource\Pages\ListTickets;
+use App\Filament\Support\Resources\TicketResource\Pages\CreateTicket;
+use App\Filament\Support\Resources\TicketResource\Pages\ViewTicket;
+use App\Filament\Support\Resources\TicketResource\Pages\EditTicket;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\Ticket;
-use Filament\Forms\Form;
 use Filament\Tables\Table;
 use App\Enums\TicketStatuses;
 use App\Enums\TicketPriorities;
@@ -22,50 +42,50 @@ class TicketResource extends Resource
 {
     protected static ?string $model = Ticket::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string | \BackedEnum | null $navigationIcon =  'heroicon-o-rectangle-stack';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Section::make('')
+        return $schema
+            ->components([
+                Section::make('')
                     ->schema([
                         // Forms\Components\Select::make('owner_id')
                         //     ->relationship('owner', 'name')
                         //     ->required(),
-                        Forms\Components\TextInput::make('reference')
+                        TextInput::make('reference')
                             ->visibleOn('view')
                             ->maxLength(50),
-                        Forms\Components\Select::make('department_id')
+                        Select::make('department_id')
                             ->relationship('department', 'name')
                             ->required(),
-                        Forms\Components\TextInput::make('subject')
+                        TextInput::make('subject')
                             ->required()
                             ->maxLength(300),
-                        Forms\Components\Textarea::make('description')
+                        Textarea::make('description')
                             ->required()
                             ->columnSpanFull(),
-                        Forms\Components\FileUpload::make('images')
+                        FileUpload::make('images')
                             ->image()
                             ->imageEditor()
                             ->multiple()
                             ->columnSpanFull(),
-                        Forms\Components\Select::make('priority')
+                        Select::make('priority')
                             ->options(TicketPriorities::class)
                             ->required()
                             ->default(TicketPriorities::Normal),
-                        Forms\Components\TextInput::make('status')
+                        TextInput::make('status')
                             ->formatStateUsing(fn($state) => TicketStatuses::from($state)->name)
                             ->required()
                             ->visibleOn('view'),
-                        Forms\Components\DateTimePicker::make('completed_at')
+                        DateTimePicker::make('completed_at')
                             ->visibleOn('view'),
-                        Forms\Components\DateTimePicker::make('expected_at')
+                        DateTimePicker::make('expected_at')
                             ->visibleOn('view'),
-                        Forms\Components\TextInput::make('assigned_to')
+                        TextInput::make('assigned_to')
                             ->numeric()
                             ->visibleOn('view'),
-                        Forms\Components\DateTimePicker::make('assigned_at')
+                        DateTimePicker::make('assigned_at')
                             ->visibleOn('view'),
                     ])
                     ->columns(2)
@@ -79,68 +99,68 @@ class TicketResource extends Resource
                 // Tables\Columns\TextColumn::make('owner.name')
                 //     ->numeric()
                 //     ->sortable(),
-                Tables\Columns\TextColumn::make('reference')
+                TextColumn::make('reference')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('department.name')
+                TextColumn::make('department.name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('subject')
+                TextColumn::make('subject')
                     ->searchable(),
-                Tables\Columns\ImageColumn::make('images')
+                ImageColumn::make('images')
                     ->stacked()
                     ->circular()
                     ->limit(3)
                     ->limitedRemainingText()
                     ->extraImgAttributes(['loading' => 'lazy']),
-                Tables\Columns\TextColumn::make('status')
+                TextColumn::make('status')
                     ->formatStateUsing(fn($state) => $state->name)
                     ->searchable(),
-                Tables\Columns\TextColumn::make('assigned_to')
+                TextColumn::make('assigned_to')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('assigned_at')
+                TextColumn::make('assigned_at')
                     ->dateTime()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('completed_at')
+                TextColumn::make('completed_at')
                     ->dateTime()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('priority')
+                TextColumn::make('priority')
                     ->formatStateUsing(fn($state) => $state->name)
                     ->searchable(),
-                Tables\Columns\TextColumn::make('expected_at')
+                TextColumn::make('expected_at')
                     ->dateTime()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('deleted_at')
+                TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\TrashedFilter::make(),
+                TrashedFilter::make(),
                 SelectFilter::make('status')
                     ->multiple()
                     ->options(TicketStatuses::toArray())
                     ->default(TicketStatuses::Pending->value),
-            ], layout: \Filament\Tables\Enums\FiltersLayout::AboveContentCollapsible)
+            ], layout: FiltersLayout::AboveContentCollapsible)
             // ->filtersFormColumns(3)
-            ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                ViewAction::make(),
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
+                    ForceDeleteBulkAction::make(),
+                    RestoreBulkAction::make(),
                 ]),
             ]);
     }
@@ -155,10 +175,10 @@ class TicketResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListTickets::route('/'),
-            'create' => Pages\CreateTicket::route('/create'),
-            'view' => Pages\ViewTicket::route('/{record}'),
-            'edit' => Pages\EditTicket::route('/{record}/edit'),
+            'index' => ListTickets::route('/'),
+            'create' => CreateTicket::route('/create'),
+            'view' => ViewTicket::route('/{record}'),
+            'edit' => EditTicket::route('/{record}/edit'),
         ];
     }
 

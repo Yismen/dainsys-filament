@@ -6,7 +6,7 @@ use App\Models\Project;
 
 class HeadCountByProject extends BaseHumanResourcesWidget
 {
-    protected static ?string $heading = 'Head Count by Project';
+    protected ?string $heading = 'Head Count by Project';
 
     protected function getModel(): string
     {

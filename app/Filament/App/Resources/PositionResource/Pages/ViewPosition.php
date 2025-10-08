@@ -2,6 +2,7 @@
 
 namespace App\Filament\App\Resources\PositionResource\Pages;
 
+use Filament\Actions\EditAction;
 use App\Filament\App\Resources\PositionResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
@@ -13,7 +14,7 @@ class ViewPosition extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\EditAction::make(),
+            EditAction::make(),
         ];
     }
 }

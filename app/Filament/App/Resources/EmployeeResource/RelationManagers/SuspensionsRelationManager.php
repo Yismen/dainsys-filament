@@ -2,10 +2,19 @@
 
 namespace App\Filament\App\Resources\EmployeeResource\RelationManagers;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\DatePicker;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Forms\Components\Textarea;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\CreateAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
 use Filament\Forms;
 use Filament\Tables;
-use Filament\Forms\Get;
-use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -16,31 +25,31 @@ class SuspensionsRelationManager extends RelationManager
 {
     protected static string $relationship = 'suspensions';
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->columns(3)
-            ->schema([
-                Forms\Components\Select::make('suspension_type_id')
+            ->components([
+                Select::make('suspension_type_id')
                     ->createOptionForm(SuspensionTypeSchema::toArray())
                     ->createOptionModalHeading('Add New Suspen Type')
                     ->relationship('suspensionType', 'name')
                     ->searchable()
                     ->preload()
                     ->required(),
-                Forms\Components\DatePicker::make('starts_at')
+                DatePicker::make('starts_at')
                     ->native(false)
                     ->default(now())
                     ->minDate(now()->subDays(10))
                     ->live()
                     ->required(),
-                Forms\Components\DatePicker::make('ends_at')
+                DatePicker::make('ends_at')
                     ->native(false)
                     ->default(now())
                     ->live()
                     ->minDate(fn (Get $get) => $get('starts_at'))
                     ->required(),
-                Forms\Components\Textarea::make('comments')
+                Textarea::make('comments')
                     ->maxLength(65535)
                     ->columnSpanFull(),
             ]);
@@ -51,27 +60,27 @@ class SuspensionsRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('employees')
             ->columns([
-                Tables\Columns\TextColumn::make('suspensionType.name')
+                TextColumn::make('suspensionType.name')
                     ->numeric()
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('starts_at')
+                TextColumn::make('starts_at')
                     ->date()
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('ends_at')
+                TextColumn::make('ends_at')
                     ->date()
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('deleted_at')
+                TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -80,15 +89,15 @@ class SuspensionsRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                CreateAction::make(),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->recordActions([
+                EditAction::make(),
+                DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }

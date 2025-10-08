@@ -6,7 +6,7 @@ use App\Models\Afp;
 
 class HeadCountByAfp extends BaseHumanResourcesWidget
 {
-    protected static ?string $heading = 'Head Count by Afp';
+    protected ?string $heading = 'Head Count by Afp';
 
     protected function getModel(): string
     {

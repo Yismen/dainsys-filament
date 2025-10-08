@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands\LiveVox;
 
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use App\Services\HelpersService;
@@ -98,7 +99,7 @@ class PublishingProductionReport extends Command
             $this->date_to,
         ]))->kebab()->toString();
 
-        $file_content = \PhpOffice\PhpSpreadsheet\IOFactory::load(Storage::path($this->file_name));
+        $file_content = IOFactory::load(Storage::path($this->file_name));
         $hours = collect($file_content->getAllSheets()[0]->toArray())->skip(1)->sum(function ($record) {
             return $record[3];
         });

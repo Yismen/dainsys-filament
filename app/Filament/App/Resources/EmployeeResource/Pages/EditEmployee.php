@@ -2,9 +2,15 @@
 
 namespace App\Filament\App\Resources\EmployeeResource\Pages;
 
+use Filament\Actions\ViewAction;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\DatePicker;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms;
 use Filament\Actions;
-use Filament\Forms\Get;
 use Filament\Actions\Action;
 // use Filament\Forms\Components\Actions\Action;
 use App\Enums\EmployeeStatus;
@@ -22,7 +28,7 @@ class EditEmployee extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\ViewAction::make(),
+            ViewAction::make(),
             // Actions\DeleteAction::make(),
             // Actions\ForceDeleteAction::make(),
             // Actions\RestoreAction::make(),
@@ -31,8 +37,8 @@ class EditEmployee extends EditRecord
                 ->color('warning')
                 ->icon('heroicon-o-archive-box-arrow-down')
                 ->requiresConfirmation()
-                ->form([
-                    Forms\Components\Select::make('suspension_type_id')
+                ->schema([
+                    Select::make('suspension_type_id')
                         ->label('Suspension Type')
                         ->createOptionForm(SuspensionTypeSchema::toArray())
                         ->createOptionModalHeading('Add New Suspen Type')
@@ -40,20 +46,20 @@ class EditEmployee extends EditRecord
                         ->searchable()
                         ->preload()
                         ->required(),
-                    Forms\Components\DatePicker::make('starts_at')
+                    DatePicker::make('starts_at')
                         ->native(false)
                         ->default(now())
                         ->minDate(now()->subDays(10))
                         ->live()
                         ->required(),
-                    Forms\Components\DatePicker::make('ends_at')
+                    DatePicker::make('ends_at')
                         ->native(false)
                         ->default(now())
                         ->native(false)
                         ->live()
                         ->minDate(fn (Get $get) => $get('starts_at'))
                         ->required(),
-                    Forms\Components\Textarea::make('comments')
+                    Textarea::make('comments')
                         ->maxLength(65535)
                         ->columnSpanFull(),
                 ])
@@ -66,27 +72,27 @@ class EditEmployee extends EditRecord
                 ->visible(fn (Model $record) => $record->status !== EmployeeStatus::Inactive)
                 ->icon('heroicon-o-x-circle')
                 ->requiresConfirmation()
-                ->form([
-                    Forms\Components\Select::make('termination_type_id')
+                ->schema([
+                    Select::make('termination_type_id')
                         ->label('Termination type')
                         ->relationship('terminations.terminationType', 'name')
                         ->createOptionForm(TerminationTypeSchema::toArray())
                         ->createOptionModalHeading('Create Termination Type')
                         ->required(),
-                    Forms\Components\Select::make('termination_reason_id')
+                    Select::make('termination_reason_id')
                         ->label('Termination reason')
                         ->relationship('terminations.terminationReason', 'name')
                         ->createOptionForm(TerminationReasonSchema::toArray())
                         ->createOptionModalHeading('Create Termination Reason')
                         ->required(),
-                    Forms\Components\DatePicker::make('date')
+                    DatePicker::make('date')
                         ->native(false)
                         ->default(now())
                         ->required(),
-                    Forms\Components\Toggle::make('rehireable')
+                    Toggle::make('rehireable')
                         ->default(true)
                         ->required(),
-                    Forms\Components\Textarea::make('comments')
+                    Textarea::make('comments')
                         ->maxLength(65535)
                         ->columnSpanFull(),
                 ])
@@ -98,8 +104,8 @@ class EditEmployee extends EditRecord
                 ->visible(fn (Model $record) => $record->status === EmployeeStatus::Inactive)
                 ->icon('heroicon-o-x-circle')
                 ->requiresConfirmation()
-                ->form([
-                    Forms\Components\DateTimePicker::make('hired_at')
+                ->schema([
+                    DateTimePicker::make('hired_at')
                         ->native(false)
                         ->default(now()->format('Y-m-d'))
                         ->maxDate(now()->addDays(10))

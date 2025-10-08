@@ -2,15 +2,27 @@
 
 namespace App\Filament\App\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\TrashedFilter;
+use Filament\Actions\EditAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\ForceDeleteBulkAction;
+use Filament\Actions\RestoreBulkAction;
+use App\Filament\App\Resources\CampaignResource\Pages\ListCampaigns;
+use App\Filament\App\Resources\CampaignResource\Pages\CreateCampaign;
+use App\Filament\App\Resources\CampaignResource\Pages\EditCampaign;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\Campaign;
-use Filament\Forms\Form;
 use Filament\Tables\Table;
 use App\Enums\RevenueTypes;
 use App\Enums\CampaignSources;
 use Filament\Resources\Resource;
-use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Traits\WorkforceSupportMenu;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -23,39 +35,39 @@ class CampaignResource extends Resource
 
     protected static ?string $model = Campaign::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string | \BackedEnum | null $navigationIcon =  'heroicon-o-rectangle-stack';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Section::make('')
                     ->columns(2)
                     ->schema([
-                        Forms\Components\TextInput::make('name')
+                        TextInput::make('name')
                             ->required()
                             ->maxLength(255),
-                        Forms\Components\Select::make('project_id')
+                        Select::make('project_id')
                             ->searchable()
                             ->preload()
                             ->relationship('project', 'name')
                             ->required(),
-                        Forms\Components\Select::make('source')
+                        Select::make('source')
                             ->options(CampaignSources::toArray())
                             ->required()
                             ->searchable()
                             ->preload(),
-                        Forms\Components\Select::make('revenue_type')
+                        Select::make('revenue_type')
                             ->options(RevenueTypes::toArray())
                             ->required()
                             ->searchable()
                             ->preload(),
-                        Forms\Components\TextInput::make('goal')
+                        TextInput::make('goal')
                             ->required()
                             ->minValue(0)
                             ->step(0.10)
                             ->numeric(),
-                        Forms\Components\TextInput::make('rate')
+                        TextInput::make('rate')
                             ->required()
                             ->minValue(0)
                             ->step(0.10)
@@ -68,45 +80,45 @@ class CampaignResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('project.name')
+                TextColumn::make('project.name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('source')
+                TextColumn::make('source')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('revenue_type')
+                TextColumn::make('revenue_type')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('goal')
+                TextColumn::make('goal')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('rate')
+                TextColumn::make('rate')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('deleted_at')
+                TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\TrashedFilter::make(),
+                TrashedFilter::make(),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
+                    ForceDeleteBulkAction::make(),
+                    RestoreBulkAction::make(),
                 ]),
             ]);
     }
@@ -121,9 +133,9 @@ class CampaignResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCampaigns::route('/'),
-            'create' => Pages\CreateCampaign::route('/create'),
-            'edit' => Pages\EditCampaign::route('/{record}/edit'),
+            'index' => ListCampaigns::route('/'),
+            'create' => CreateCampaign::route('/create'),
+            'edit' => EditCampaign::route('/{record}/edit'),
         ];
     }
 
