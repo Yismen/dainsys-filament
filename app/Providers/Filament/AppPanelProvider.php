@@ -34,6 +34,7 @@ class AppPanelProvider extends PanelProvider
             ->path('app')
             ->login()
             // ->registration()
+            ->viteTheme('resources/css/filament/admin/theme.css')
             ->passwordReset()
             ->userMenuItems([
                 'user-menu' => MenuItem::make()

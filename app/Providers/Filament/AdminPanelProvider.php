@@ -34,6 +34,7 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             // ->registration()
             ->passwordReset()
+            ->viteTheme('resources/css/filament/admin/theme.css')
             ->plugins([
                 FilamentSpatieRolesPermissionsPlugin::make(),
                 BreezyCore::make()

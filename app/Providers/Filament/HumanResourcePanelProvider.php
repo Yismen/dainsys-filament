@@ -31,6 +31,7 @@ class HumanResourcePanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Amber,
             ])
+            ->viteTheme('resources/css/filament/admin/theme.css')
             ->discoverResources(in: app_path('Filament/HumanResource/Resources'), for: 'App\\Filament\\HumanResource\\Resources')
             ->discoverPages(in: app_path('Filament/HumanResource/Pages'), for: 'App\\Filament\\HumanResource\\Pages')
             ->pages([
