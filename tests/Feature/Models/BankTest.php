@@ -8,7 +8,7 @@ test('banks model interacts with db table', function () {
     Bank::create($data->toArray());
 
     $this->assertDatabaseHas('banks', $data->only([
-        'name', 'description'
+        'name', 'person_of_contact', 'description'
     ]));
 });
 

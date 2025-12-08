@@ -11,5 +11,5 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Bank extends Model
 {
     use HasFactory, HasManyEmployees, HasInformation, SoftDeletes;
-    protected $fillable = ['name', 'description'];
+    protected $fillable = ['name', 'person_of_contact', 'description'];
 }
