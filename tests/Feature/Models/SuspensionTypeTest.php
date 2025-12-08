@@ -1,23 +1,30 @@
 <?php
 
-use App\Models\SuspensionType;
+use App\Models\SuspensionReason;
 
-test('suspension types model interacts with db table', function () {
-    $data = SuspensionType::factory()->make();
+test('suspension reasons model interacts with db table', function () {
+    $data = SuspensionReason::factory()->make();
 
-    SuspensionType::create($data->toArray());
+    SuspensionReason::create($data->toArray());
 
-    $this->assertDatabaseHas('suspension_types', $data->only([
+    $this->assertDatabaseHas('suspension_reasons', $data->only([
         'name', 'description'
     ]));
 });
 
-test('suspension type model uses soft delete', function () {
-    $suspension_type = SuspensionType::factory()->create();
+test('suspension reason model uses soft delete', function () {
+    $suspension_reason = SuspensionReason::factory()->create();
 
-    $suspension_type->delete();
+    $suspension_reason->delete();
 
-    $this->assertSoftDeleted(SuspensionType::class, [
-        'id' => $suspension_type->id
+    $this->assertSoftDeleted(SuspensionReason::class, [
+        'id' => $suspension_reason->id
     ]);
+});
+
+test('suspension reasons model has many suspensions', function () {
+    $suspension_reason = SuspensionReason::factory()->create();
+
+    expect($suspension_reason->suspensions->first())->toBeInstanceOf(\App\Models\Suspension::class);
+    expect($suspension_reason->suspensions())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
 });

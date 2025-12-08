@@ -25,11 +25,13 @@ test('client model uses soft delete', function () {
 test('clients model morph one information', function () {
     $client = Client::factory()->create();
 
+    expect($client->information)->toBeInstanceOf(\App\Models\Information::class);
     expect($client->information())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\MorphOne::class);
 });
 
 test('clients model has many employees', function () {
     $client = Client::factory()->create();
 
+    expect($client->employees->first())->toBeInstanceOf(\App\Models\Employee::class);
     expect($client->employees())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
 });

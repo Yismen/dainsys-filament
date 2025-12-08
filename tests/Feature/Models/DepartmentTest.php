@@ -25,11 +25,13 @@ test('department model uses soft delete', function () {
 test('departments model has many positions', function () {
     $department = Department::factory()->create();
 
+    expect($department->positions->first())->toBeInstanceOf(\App\Models\Position::class);
     expect($department->positions())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
 });
 
 test('departments model has many employees', function () {
     $department = Department::factory()->create();
 
+    expect($department->employees->first())->toBeInstanceOf(\App\Models\Employee::class);
     expect($department->employees())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasManyThrough::class);
 });

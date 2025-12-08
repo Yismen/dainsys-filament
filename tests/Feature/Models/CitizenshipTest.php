@@ -25,5 +25,6 @@ test('citizenship model uses soft delete', function () {
 test('citizenships model has many employees', function () {
     $citizenship = Citizenship::factory()->create();
 
+    expect($citizenship->employees->first())->toBeInstanceOf(\App\Models\Employee::class);
     expect($citizenship->employees())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
 });

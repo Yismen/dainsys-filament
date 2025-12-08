@@ -25,5 +25,6 @@ test('payment type model uses soft delete', function () {
 test('payment types model has many positions', function () {
     $payment_type = PaymentType::factory()->create();
 
+    expect($payment_type->positions->first())->toBeInstanceOf(\App\Models\Position::class);
     expect($payment_type->positions())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
 });

@@ -25,11 +25,13 @@ test('campaign model uses soft delete', function () {
 test('campaigns model belongs to project', function () {
     $campaign = Campaign::factory()->create();
 
+    expect($campaign->project)->toBeInstanceOf(\App\Models\Project::class);
     expect($campaign->project())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
 });
 
 test('campaigns model has many performances', function () {
     $campaign = Campaign::factory()->create();
 
+    expect($campaign->performances)->toBeInstanceOf(\Illuminate\Database\Eloquent\Collection::class);
     expect($campaign->performances())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
 });

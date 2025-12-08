@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\Bank;
+use App\Models\BankAccount;
+use App\Models\Employee;
 
 test('banks model interacts with db table', function () {
     $data = Bank::factory()->make();
@@ -28,8 +30,16 @@ test('banks model morph one information', function () {
     expect($bank->information())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\MorphOne::class);
 });
 
+test('has many accounts', function () {
+    $bank = Bank::factory()->create();
+
+    expect($bank->accounts->first())->toBeInstanceOf(BankAccount::class);
+    expect($bank->accounts())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
+});
+
 test('banks model has many employees', function () {
     $bank = Bank::factory()->create();
 
+    expect($bank->employees->first())->toBeInstanceOf(Employee::class);
     expect($bank->employees())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
 });

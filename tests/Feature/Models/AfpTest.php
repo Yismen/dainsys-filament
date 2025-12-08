@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\Afp;
+use App\Models\Employee;
+use App\Models\Information;
 
 test('afps model interacts with db table', function () {
     $data = Afp::factory()->make();
@@ -25,11 +27,14 @@ test('afp model uses soft delete', function () {
 test('afps model morph one information', function () {
     $afp = Afp::factory()->create();
 
+    expect($afp->information)->toBeInstanceOf(Information::class);
     expect($afp->information())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\MorphOne::class);
 });
 
 test('afps model has many employees', function () {
     $afp = Afp::factory()->create();
 
+
+    expect($afp->employees->first())->toBeInstanceOf(Employee::class);
     expect($afp->employees())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
 });

@@ -29,5 +29,6 @@ test('login names model belongs to one employee', function () {
     Mail::fake();
     $login_name = LoginName::factory()->create();
 
+    expect($login_name->employee)->toBeInstanceOf(\App\Models\Employee::class);
     expect($login_name->employee())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
 });

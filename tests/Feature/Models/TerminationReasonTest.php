@@ -21,3 +21,17 @@ test('termination reason model uses soft delete', function () {
         'id' => $termination_reason->id
     ]);
 });
+
+test('termination reasons model has many employees', function () {
+    $termination_reason = TerminationReason::factory()->create();
+
+    expect($termination_reason->employees->first())->toBeInstanceOf(\App\Models\Employee::class);
+    expect($termination_reason->employees())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
+});
+
+test('termination reasons model has many terminations', function () {
+    $termination_reason = TerminationReason::factory()->create();
+
+    expect($termination_reason->terminations->first())->toBeInstanceOf(\App\Models\Termination::class);
+    expect($termination_reason->terminations())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
+});

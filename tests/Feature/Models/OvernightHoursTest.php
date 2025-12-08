@@ -3,6 +3,8 @@
 use App\Models\OvernightHour;
 use Illuminate\Support\Facades\Mail;
 
+dump("This test file is deprecated. Overnight hours are now handled via the payroll hours model.");
+
 test('overnight hours model interacts with db table', function () {
     Mail::fake();
     $data = OvernightHour::factory()->make();

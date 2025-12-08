@@ -14,7 +14,7 @@ test('suspensions model interacts with db table', function () {
     Suspension::create($data->toArray());
 
     $this->assertDatabaseHas('suspensions', $data->only([
-        'employee_id', 'suspension_type_id', 'comments'
+        'date', 'employee_id', 'suspension_reason_id', 'start_date', 'end_date', 'comments'
     ]));
 });
 
@@ -36,7 +36,7 @@ test('suspensions model belongs to employee', function () {
     expect($suspension->employee())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
 });
 
-test('suspensions model belongs to suspension type', function () {
+test('suspensions model belongs to suspension reason', function () {
     Mail::fake();
     $suspension = Suspension::factory()->create();
 

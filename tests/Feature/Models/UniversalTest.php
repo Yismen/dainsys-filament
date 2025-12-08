@@ -29,5 +29,6 @@ test('universals model belongs to employee', function () {
     Mail::fake();
     $universal = Universal::factory()->create();
 
+    expect($universal->employee)->toBeInstanceOf(\App\Models\Employee::class);
     expect($universal->employee())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
 });

@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\Site;
+use App\Models\Employee;
+use App\Models\Information;
 
 test('sites model interacts with db table', function () {
     $data = Site::factory()->make();
@@ -25,11 +27,13 @@ test('site model uses soft delete', function () {
 test('sites model morph one information', function () {
     $site = Site::factory()->create();
 
+    expect($site->information)->toBeInstanceOf(Information::class);
     expect($site->information())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\MorphOne::class);
 });
 
 test('sites model has many employees', function () {
     $site = Site::factory()->create();
 
+    expect($site->employees->first())->toBeInstanceOf(Employee::class);
     expect($site->employees())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
 });

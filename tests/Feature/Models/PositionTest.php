@@ -11,8 +11,8 @@ test('position model interacts with positions table', function () {
     $this->assertDatabaseHas('positions', $data->only([
         'name',
         'department_id',
-        'payment_type_id',
-        // 'salary',
+        'payment_type',
+        'salary',
         'description',
     ]));
 });
@@ -30,17 +30,13 @@ test('position model uses soft delete', function () {
 test('positions model has many employees', function () {
     $position = Position::factory()->create();
 
+    expect($position->employees->first())->toBeInstanceOf(\App\Models\Employee::class);
     expect($position->employees())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
 });
 
 test('positions model belongs to department', function () {
     $position = Position::factory()->create();
 
+    expect($position->department)->toBeInstanceOf(\App\Models\Department::class);
     expect($position->department())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
-});
-
-test('positions model belongs to payment type', function () {
-    $position = Position::factory()->create();
-
-    expect($position->paymentType())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
 });

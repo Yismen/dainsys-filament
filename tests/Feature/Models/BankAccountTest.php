@@ -29,6 +29,7 @@ test('bank accounts model belongs to employee', function () {
     Mail::fake();
     $bank_account = BankAccount::factory()->create();
 
+    expect($bank_account->employee)->toBeInstanceOf(\App\Models\Employee::class);
     expect($bank_account->employee())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
 });
 
@@ -36,5 +37,6 @@ test('bank accounts model belongs to bank', function () {
     Mail::fake();
     $bank_account = BankAccount::factory()->create();
 
+    expect($bank_account->bank)->toBeInstanceOf(\App\Models\Bank::class);
     expect($bank_account->bank())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
 });

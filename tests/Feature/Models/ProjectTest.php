@@ -25,17 +25,20 @@ test('project model uses soft delete', function () {
 test('projects model has many employees', function () {
     $project = Project::factory()->create();
 
+    expect($project->employees->first())->toBeInstanceOf(\App\Models\Employee::class);
     expect($project->employees())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
 });
 
 test('projects model has many campaigns', function () {
     $project = Project::factory()->create();
 
+    expect($project->campaigns->first())->toBeInstanceOf(\App\Models\Campaign::class);
     expect($project->campaigns())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
 });
 
 test('projects model morph one information', function () {
     $project = Project::factory()->create();
 
+    expect($project->information)->toBeInstanceOf(\App\Models\Information::class);
     expect($project->information())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\MorphOne::class);
 });

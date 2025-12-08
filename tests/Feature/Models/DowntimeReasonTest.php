@@ -3,6 +3,8 @@
 use App\Models\DowntimeReason;
 use Illuminate\Support\Facades\Mail;
 
+use function Laravel\Prompts\text;
+
 test('downtime reasons model interacts with db table', function () {
     Mail::fake();
     $data = DowntimeReason::factory()->make();
@@ -25,10 +27,10 @@ test('downtime reason model uses soft delete', function () {
     ]);
 });
 
-/** @test */
-// public function downtime_reasons_model_has_many_performances()
-// {
-//     Mail::fake();
-//     $downtime_reason = DowntimeReason::factory()->create();
-//     $this->assertInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class, $downtime_reason->performances());
-// }
+test('downtime reasons model has many downtimes', function () {
+    Mail::fake();
+    $downtime_reason = DowntimeReason::factory()->create();
+
+    expect($downtime_reason->downtimes->first())->toBeInstanceOf(\App\Models\Downtime::class);
+    expect($downtime_reason->downtimes())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
+});
