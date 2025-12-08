@@ -2,24 +2,28 @@
 
 namespace App\Providers\Filament;
 
+use Filament\Pages;
+use Filament\Panel;
+use App\Models\User;
+use Filament\Widgets;
+use Filament\PanelProvider;
+use Filament\Actions\Action;
 use Filament\Pages\Dashboard;
+use Filament\Support\Colors\Color;
 use Filament\Widgets\AccountWidget;
 use Filament\Widgets\FilamentInfoWidget;
 use Filament\Http\Middleware\Authenticate;
+use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Cookie\Middleware\EncryptCookies;
 use Filament\Http\Middleware\AuthenticateSession;
+use App\Filament\App\Pages\UserMailingSubscriptions;
+use Illuminate\Routing\Middleware\SubstituteBindings;
+use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Filament\Pages;
-use Filament\Panel;
-use Filament\PanelProvider;
-use Filament\Support\Colors\Color;
-use Filament\Widgets;
-use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
-use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
-use Illuminate\Routing\Middleware\SubstituteBindings;
-use Illuminate\Session\Middleware\StartSession;
-use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use App\Filament\HumanResource\Pages\HumanResourcesDashboard;
 
 class HumanResourcePanelProvider extends PanelProvider
 {
@@ -35,8 +39,15 @@ class HumanResourcePanelProvider extends PanelProvider
             ->discoverResources(in: app_path('Filament/HumanResource/Resources'), for: 'App\\Filament\\HumanResource\\Resources')
             ->discoverPages(in: app_path('Filament/HumanResource/Pages'), for: 'App\\Filament\\HumanResource\\Pages')
             ->pages([
-                Dashboard::class,
+                HumanResourcesDashboard::class,
+                UserMailingSubscriptions::class,
             ])
+            // ->userMenuItems([
+            //     Action::make('mailing-subscriptions')
+            //         ->label('Mailing Subscriptions')
+            //         ->icon('heroicon-o-rectangle-stack')
+            //         ->url('admin/user-mailing-subscriptions'),
+            // ])
             ->discoverWidgets(in: app_path('Filament/HumanResource/Widgets'), for: 'App\\Filament\\HumanResource\\Widgets')
             ->widgets([
                 AccountWidget::class,
@@ -53,6 +64,8 @@ class HumanResourcePanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
+            ->collapsibleNavigationGroups()
+            ->sidebarCollapsibleOnDesktop()
             ->authMiddleware([
                 Authenticate::class,
             ]);

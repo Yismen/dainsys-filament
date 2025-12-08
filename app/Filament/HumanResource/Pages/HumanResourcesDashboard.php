@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\App\Pages;
+namespace App\Filament\HumanResource\Pages;
 
 use BackedEnum;
 use App\Filament\App\Widgets\HumanResource\EmployeesStats;
@@ -17,12 +17,10 @@ use Filament\Actions\Action;
 use Filament\Schemas\Components\Utilities\Set;
 use App\Services\SiteService;
 use Filament\Pages\Dashboard;
-use App\Filament\Traits\HumanResourceAdminMenu;
 use Filament\Pages\Dashboard\Concerns\HasFiltersForm;
 
 class HumanResourcesDashboard extends Dashboard
 {
-    use HumanResourceAdminMenu;
     use HasFiltersForm;
 
     protected static string | BackedEnum | null $navigationIcon = 'heroicon-o-document-text';

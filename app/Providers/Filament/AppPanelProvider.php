@@ -8,14 +8,12 @@ use Filament\Pages;
 use Filament\Panel;
 use Filament\Widgets;
 use Filament\PanelProvider;
-use Filament\Navigation\MenuItem;
 use Filament\Support\Colors\Color;
 use Filament\Navigation\NavigationGroup;
 use Filament\Http\Middleware\Authenticate;
 use Jeffgreco13\FilamentBreezy\BreezyCore;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
-use App\Filament\App\Pages\UserMailingSubscriptions;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
@@ -24,6 +22,7 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Althinect\FilamentSpatieRolesPermissions\FilamentSpatieRolesPermissionsPlugin;
+use Filament\Actions\Action;
 
 class AppPanelProvider extends PanelProvider
 {
@@ -37,10 +36,10 @@ class AppPanelProvider extends PanelProvider
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->passwordReset()
             ->userMenuItems([
-                'user-menu' => MenuItem::make()
+                Action::make('mailing-subscriptions')
                     ->label('Mailing Subscriptions')
                     ->icon('heroicon-o-rectangle-stack')
-                    ->url('/app/user-mailing-subscriptions')
+                    ->url('app/user-mailing-subscriptions'),
             ])
             ->plugins([
                 // FilamentSpatieRolesPermissionsPlugin::make(),
