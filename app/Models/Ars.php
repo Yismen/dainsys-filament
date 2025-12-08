@@ -15,7 +15,7 @@ class Ars extends Model
     use HasInformation;
     use SoftDeletes;
 
-    protected $fillable = ['name', 'description'];
+    protected $fillable = ['name', 'person_of_contact', 'description'];
 
     protected $table = 'arss';
 }

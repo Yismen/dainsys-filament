@@ -8,7 +8,7 @@ test('arss model interacts with db table', function () {
     Ars::create($data->toArray());
 
     $this->assertDatabaseHas(Ars::class, $data->only([
-        'name', 'description'
+        'name', 'person_of_contact', 'description'
     ]));
 });
 
