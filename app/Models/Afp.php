@@ -14,5 +14,5 @@ class Afp extends Model
     use HasInformation;
     use HasManyEmployees;
     use SoftDeletes;
-    protected $fillable = ['name', 'description'];
+    protected $fillable = ['name', 'person_of_contact', 'description'];
 }

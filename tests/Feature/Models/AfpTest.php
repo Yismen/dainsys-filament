@@ -8,7 +8,7 @@ test('afps model interacts with db table', function () {
     Afp::create($data->toArray());
 
     $this->assertDatabaseHas(Afp::class, $data->only([
-        'name', 'description'
+        'name', 'person_of_contact', 'description'
     ]));
 });
 
