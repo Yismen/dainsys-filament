@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('sites', function (Blueprint $table) {
             $table->id();
             $table->string('name', 500)->unique();
+            $table->string('person_of_contact')->nullable();
             $table->text('description')->nullable();
             $table->softDeletes();
             $table->timestamps();

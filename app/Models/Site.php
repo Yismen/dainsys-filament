@@ -11,5 +11,5 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Site extends Model
 {
     use HasFactory, SoftDeletes, HasManyEmployees, HasInformation;
-    protected $fillable = ['name', 'description'];
+    protected $fillable = ['name', 'person_of_contact', 'description'];
 }

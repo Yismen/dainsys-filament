@@ -26,6 +26,7 @@ class SiteFactory extends Factory
     {
         return [
             'name' => $this->faker->company(),
+            'person_of_contact' => $this->faker->name(),
             'description' => $this->faker->email(),
         ];
     }
