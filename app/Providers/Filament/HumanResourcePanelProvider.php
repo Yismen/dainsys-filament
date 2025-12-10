@@ -39,8 +39,8 @@ class HumanResourcePanelProvider extends PanelProvider
             ->discoverResources(in: app_path('Filament/HumanResource/Resources'), for: 'App\\Filament\\HumanResource\\Resources')
             ->discoverPages(in: app_path('Filament/HumanResource/Pages'), for: 'App\\Filament\\HumanResource\\Pages')
             ->pages([
-                HumanResourcesDashboard::class,
-                UserMailingSubscriptions::class,
+                // HumanResourcesDashboard::class,
+                // UserMailingSubscriptions::class,
             ])
             // ->userMenuItems([
             //     Action::make('mailing-subscriptions')

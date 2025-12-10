@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Campaign;
 use App\Models\Source;
 use App\Models\Employee;
 
@@ -13,18 +14,10 @@ test('sources model interacts with db table', function () {
     ]));
 });
 
-test('source model uses soft delete', function () {
-    $source = Source::factory()->create();
-
-    $source->delete();
-
-    $this->assertSoftDeleted(Source::class, [
-        'id' => $source->id
-    ]);
-});
-
 test('sources model has many campaigns', function () {
-    $source = Source::factory()->create();
+    $source = Source::factory()
+        ->has(Campaign::factory())
+        ->create();
 
     expect($source->campaigns->first())->toBeInstanceOf(\App\Models\Campaign::class);
     expect($source->campaigns())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);

@@ -14,6 +14,8 @@ use App\Models\Supervisor;
 use App\Models\Citizenship;
 use App\Enums\MaritalStatus;
 use App\Enums\EmployeeStatus;
+use App\Enums\PersonalIdTypes;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -40,23 +42,15 @@ class EmployeeFactory extends Factory
             'second_first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
             'second_last_name' => $this->faker->lastName(),
-            'full_name' => $this->faker->name(),
+            'personal_id_type' => PersonalIdTypes::DominicanId,
             'personal_id' => rand(10000000000, 99999999999),
-            'hired_at' => now(),
             'date_of_birth' => now(),
             'cellphone' => $this->faker->phoneNumber(),
             'status' => EmployeeStatus::Current,
-            'marriage' => MaritalStatus::Single,
+            // 'marriage' => MaritalStatus::Single,
             'gender' => Gender::Male,
-            'kids' => $this->faker->randomElement([0, 1]),
-            'punch' => rand(10000, 99999),
-            'site_id' => Site::factory(),
-            'project_id' => Project::factory(),
-            'position_id' => Position::factory(),
+            'has_kids' => $this->faker->randomElement([0, 1]),
             'citizenship_id' => Citizenship::factory(),
-            'supervisor_id' => Supervisor::factory(),
-            'afp_id' => Afp::factory(),
-            'ars_id' => Ars::factory(),
         ];
     }
 
@@ -85,5 +79,14 @@ class EmployeeFactory extends Factory
                 'status' => EmployeeStatus::Suspended,
             ];
         });
+    }
+
+    public function hired(Date|null $date = null) {
+        if (!$date) {
+            $date = now();
+        }
+        
+        dd($date, $this);
+
     }
 }

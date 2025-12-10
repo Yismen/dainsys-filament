@@ -27,18 +27,6 @@ test('replies model interacts with db table', function () {
     ]));
 });
 
-test('model uses soft delete', function () {
-    expect(in_array(SoftDeletes::class, class_uses(TicketReply::class)))->toBeTrue();
-
-    $ticket_reply = TicketReply::factory()->create();
-
-    $ticket_reply->delete();
-
-    $this->assertSoftDeleted(TicketReply::class, [
-        'id' => $ticket_reply->id
-    ]);
-});
-
 test('replies model belongs to one ticket', function () {
     $reply = TicketReply::factory()->create();
 

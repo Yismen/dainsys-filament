@@ -2,8 +2,7 @@
 # Employee Terminated
 
 Employee <b>{{ $termination->employee->full_name }}</b> was terminated with termination by {{
-$termination->terminationType->name }}, with termination date {{ $termination->date->format('Y-m-d') }}. The termination
-reason is {{ $termination->terminationReason->name }}.
+$termination->termination_type }}, with termination date {{ $termination->date->format('Y-m-d') }}. .
 
 {{-- @component('mail::button', ['url' => ''])
 {{ str(__('dainsys::messages.profile'))->headline() }}

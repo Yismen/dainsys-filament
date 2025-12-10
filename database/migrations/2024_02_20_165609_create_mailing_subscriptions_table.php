@@ -13,9 +13,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('mailing_subscriptions', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('mailable', 1200);
-            $table->foreignIdFor(User::class)->constrained('users')->cascadeOnDelete();
+            $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete();
             $table->softDeletes();
             $table->timestamps();
         });

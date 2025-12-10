@@ -16,13 +16,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tickets', function (Blueprint $table) {
-            $table->id();
-            $table->foreignIdFor(User::class, 'owner_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignIdFor(TicketDepartment::class, 'department_id')->constrained('ticket_departments')->cascadeOnDelete();
+            $table->uuid('id')->primary();
+            $table->foreignUuid('owner_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignUuid('department_id')->constrained('ticket_departments')->cascadeOnDelete();
             $table->string('subject', 300);
             $table->text('description');
             $table->string('status')->default(TicketStatuses::Pending->value);
-            $table->foreignIdFor(User::class, 'assigned_to')->nullable()->constrained('users')->cascadeOnDelete();
+            $table->foreignUuid('assigned_to')->nullable()->constrained('users')->cascadeOnDelete();
             $table->dateTime('assigned_at')->nullable();
             $table->text('images')->nullable();
             $table->dateTime('completed_at')->nullable();

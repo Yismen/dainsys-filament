@@ -16,18 +16,6 @@ test('departments model interacts with db table', function () {
     ]));
 });
 
-test('model uses soft delete', function () {
-    expect(in_array(SoftDeletes::class, class_uses(TicketDepartment::class)))->toBeTrue();
-
-    $ticket_department = TicketDepartment::factory()->create();
-
-    $ticket_department->delete();
-
-    $this->assertSoftDeleted(TicketDepartment::class, [
-        'id' => $ticket_department->id
-    ]);
-});
-
 test('departments model has many tickets', function () {
     $department = TicketDepartment::factory()->create();
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Source;
 use App\Models\Project;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -13,13 +14,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('campaigns', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('name')->unique();
-            $table->foreignIdFor(Project::class)->constrained()->cascadeOnDelete();
-            $table->string('source');
+            $table->foreignUuid('project_id')->constrained()->cascadeOnDelete();
+            $table->foreignUuid('source_id')->constrained()->cascadeOnDelete();
             $table->string('revenue_type');
-            $table->float('goal');
-            $table->float('rate');
+            $table->float('sph_goal');
+            $table->float('revenue_rate');
+            $table->text('description')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

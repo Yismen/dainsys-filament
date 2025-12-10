@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Employee;
 use App\Models\Position;
 use Illuminate\Support\Facades\Mail;
 
@@ -11,27 +12,10 @@ test('position model interacts with positions table', function () {
     $this->assertDatabaseHas('positions', $data->only([
         'name',
         'department_id',
-        'payment_type',
-        'salary',
+        'salary_type',
+        // 'salary',
         'description',
     ]));
-});
-
-test('position model uses soft delete', function () {
-    $position = Position::factory()->create();
-
-    $position->delete();
-
-    $this->assertSoftDeleted(Position::class, [
-        'id' => $position->id
-    ]);
-});
-
-test('positions model has many employees', function () {
-    $position = Position::factory()->create();
-
-    expect($position->employees->first())->toBeInstanceOf(\App\Models\Employee::class);
-    expect($position->employees())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
 });
 
 test('positions model belongs to department', function () {
@@ -39,4 +23,40 @@ test('positions model belongs to department', function () {
 
     expect($position->department)->toBeInstanceOf(\App\Models\Department::class);
     expect($position->department())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
+});
+
+it('cast salary as money', function () {
+    $data = Position::factory()->make([
+        'salary' => 150
+    ]);
+
+    $position = Position::create($data->toArray());
+
+    expect((float)$position->salary)->toBe(150.0);
+    $this->assertDatabaseHas('positions', [
+        'id' => $position->id,
+        'salary' => 15000,
+    ]);
+});
+
+test('position model has many hires', function () {
+    $position = Position::factory()
+        ->hasHires()
+        ->create();
+
+    expect($position->hires->first())->toBeInstanceOf(\App\Models\Hire::class);
+    expect($position->hires())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
+});
+
+
+test('position model has many employees', function () {
+    $employee = Employee::factory()->create();
+    $position = Position::factory()
+        ->hasHires(1, [
+            'employee_id' => $employee->id,
+        ])
+        ->create();
+
+    expect($position->employees->first())->toBeInstanceOf(Employee::class);
+    expect($position->employees())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasManyThrough::class);
 });

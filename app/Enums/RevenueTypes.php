@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-use App\Models\Performance;
+use App\Models\Production;
 use App\Enums\Traits\EnumNames;
 use App\Enums\Traits\EnumValues;
 use App\Enums\Traits\EnumToArray;
@@ -12,28 +12,42 @@ enum RevenueTypes: string implements EnumContract
 {
     use EnumNames, EnumValues, EnumToArray;
 
-    case LoginTime = 'Login Time';
-    case ProductionTime = 'Production Time';
-    case TalkTime = 'Talk Time';
-    case Sales = 'Sales';
+    case Downtime = 'downtime';
+    case LoginTime = 'login time';
+    case ProductionTime = 'production time';
+    case TalkTime = 'talk time';
+    case Conversions = 'conversions';
 
-    public function performanceRevenue(Performance $performance): float
+    public function calculateRevenue(Production $production): float
     {
         return match ($this) {
-            self::LoginTime => $performance->login_time * $performance->campaign->rate,
-            self::ProductionTime => $performance->production_time * $performance->campaign->rate,
-            self::TalkTime => $performance->talk_time * $performance->campaign->rate,
-            self::Sales => $performance->successes * $performance->campaign->rate,
+            self::Downtime => 0,
+            self::LoginTime => $production->total_time * $production->campaign->revenue_rate,
+            self::ProductionTime => $production->production_time * $production->campaign->revenue_rate,
+            self::TalkTime => $production->talk_time * $production->campaign->revenue_rate,
+            self::Conversions => $production->conversions * $production->campaign->revenue_rate,
         };
     }
 
-    public function performanceBillableTime(Performance $performance): float
+    public function productionRevenue(Production $production): float
     {
         return match ($this) {
-            self::LoginTime => $performance->login_time ?? 0,
-            self::ProductionTime => $performance->production_time ?? 0,
-            self::TalkTime => $performance->talk_time ?? 0,
-            self::Sales => $performance->production_time ?? 0,
+            self::Downtime => $production->total_time * $production->campaign->revenue_rate,
+            self::LoginTime => $production->total_time * $production->campaign->revenue_rate,
+            self::ProductionTime => $production->production_time * $production->campaign->revenue_rate,
+            self::TalkTime => $production->talk_time * $production->campaign->revenue_rate,
+            self::Conversions => $production->conversions * $production->campaign->revenue_rate,
+        };
+    }
+
+    public function calculateBillableHours(Production $production): float
+    {
+        return match ($this) {
+            self::Downtime => 0,
+            self::LoginTime => $production->total_time ?? 0,
+            self::ProductionTime => $production->production_time ?? 0,
+            self::TalkTime => $production->talk_time ?? 0,
+            self::Conversions => $production->production_time ?? 0,
         };
     }
 }

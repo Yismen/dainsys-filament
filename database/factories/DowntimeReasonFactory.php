@@ -18,6 +18,7 @@ class DowntimeReasonFactory extends Factory
     {
         return [
             'name' => $this->faker->unique()->text(),
+            'description' => $this->faker->sentence(),
         ];
     }
 }

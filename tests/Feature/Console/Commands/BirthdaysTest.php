@@ -4,10 +4,19 @@ use App\Models\Employee;
 use App\Console\Commands\Birthdays;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Birthdays as MailBirthdays;
+use App\Models\Hire;
+use Illuminate\Support\Facades\Event;
+
+beforeEach(function () {
+    Event::fake();
+    Mail::fake();
+    $this->employee = Employee::factory()->current()->create(['date_of_birth' => now()]);
+
+    Hire::factory()->for($this->employee)->create();
+});
 
 test('birthdays command run sucessfully', function () {
     $this->withoutExceptionHandling();
-    Mail::fake();
     $this->artisan('dainsys:birthdays', ['type' => 'today'])
         ->assertSuccessful();
 });
@@ -23,17 +32,13 @@ test('command is schedulled for daily at 401 am', function () {
 });
 
 test('birthdays command sends email', function () {
-    Mail::fake();
-    $employee1 = Employee::factory()->current()->create(['date_of_birth' => now()]);
-
     $this->artisan(Birthdays::class, ['type' => 'today']);
 
     Mail::assertQueued(MailBirthdays::class);
 });
 
 test('birthdays command doesnot send email if service is empty', function () {
-    Mail::fake();
-    $employee1 = Employee::factory()->current()->create(['date_of_birth' => now()->addDay()]);
+    $this->employee->update(['date_of_birth' => now()->addDay()]);
 
     $this->artisan(Birthdays::class, ['type' => 'today']);
 

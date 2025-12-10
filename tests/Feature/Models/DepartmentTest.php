@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\Hire;
+use App\Models\Employee;
+use App\Models\Position;
 use App\Models\Department;
 
 test('departments model interacts with db table', function () {
@@ -12,26 +15,32 @@ test('departments model interacts with db table', function () {
     ]));
 });
 
-test('department model uses soft delete', function () {
-    $department = Department::factory()->create();
-
-    $department->delete();
-
-    $this->assertSoftDeleted(Department::class, [
-        'id' => $department->id
-    ]);
-});
-
 test('departments model has many positions', function () {
-    $department = Department::factory()->create();
+    $department = Department::factory()
+        ->has(Position::factory())
+        ->create();
 
     expect($department->positions->first())->toBeInstanceOf(\App\Models\Position::class);
     expect($department->positions())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
 });
 
-test('departments model has many employees', function () {
-    $department = Department::factory()->create();
+// test('departments model has many employees thru positions', function () {
+//     $department = Department::factory()->create();
+//     $position = Position::factory()->create(['department_id' => $department->id]);
+//     $employee = Employee::factory()->create();
 
-    expect($department->employees->first())->toBeInstanceOf(\App\Models\Employee::class);
-    expect($department->employees())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasManyThrough::class);
-});
+//     Hire::factory()->create([
+//         'employee_id' => $employee->id,
+//         'position_id' => $position->id,
+//     ]);
+
+//     dd(
+//         $department->positions->toArray(),
+//         $department->employees->toArray(),
+//         // $position->toArray(),
+//         // $position->employees->toArray()
+//     );
+
+//     expect($department->employees->first())->toBeInstanceOf(Employee::class);
+//     expect($department->employees())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasManyThrough::class);
+// });

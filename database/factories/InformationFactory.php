@@ -29,7 +29,7 @@ class InformationFactory extends Factory
         return [
             'phone' => $this->faker->phoneNumber(),
             'email' => $this->faker->email(),
-            'photo_url' => $this->faker->url(),
+            'photos' => [],
             'address' => $this->faker->address(),
             'company_id' => Str::random(10),
             'informationable_id' => 1,

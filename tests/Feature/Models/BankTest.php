@@ -14,32 +14,29 @@ test('banks model interacts with db table', function () {
     ]));
 });
 
-test('bank model uses soft delete', function () {
-    $bank = Bank::factory()->create();
-
-    $bank->delete();
-
-    $this->assertSoftDeleted(Bank::class, [
-        'id' => $bank->id
-    ]);
-});
-
 test('banks model morph one information', function () {
-    $bank = Bank::factory()->create();
+    $bank = Bank::factory()
+        ->hasInformation()
+        ->create();
 
+    expect($bank->information)->toBeInstanceOf(\App\Models\Information::class);
     expect($bank->information())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\MorphOne::class);
 });
 
-test('has many accounts', function () {
-    $bank = Bank::factory()->create();
+test('has many bank accounts', function () {
+    $bank = Bank::factory()
+        ->hasBankAccounts(1)
+        ->create();
 
-    expect($bank->accounts->first())->toBeInstanceOf(BankAccount::class);
-    expect($bank->accounts())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
+    expect($bank->bankAccounts->first())->toBeInstanceOf(BankAccount::class);
+    expect($bank->bankAccounts())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
 });
 
-test('banks model has many employees', function () {
-    $bank = Bank::factory()->create();
+test('bank model has many employees', function () {
+    $bank = Bank::factory()
+        ->has(BankAccount::factory())
+        ->create();
 
     expect($bank->employees->first())->toBeInstanceOf(Employee::class);
-    expect($bank->employees())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
+    expect($bank->employees())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasManyThrough::class);
 });

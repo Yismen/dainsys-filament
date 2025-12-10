@@ -20,7 +20,6 @@ class UniversalFactory extends Factory
         return [
             'employee_id' => Employee::factory(),
             'date_since' => now()->format('Y-m-d'),
-            'comments' => $this->faker->text(),
         ];
     }
 }

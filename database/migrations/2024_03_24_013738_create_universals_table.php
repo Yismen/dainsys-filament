@@ -13,10 +13,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('universals', function (Blueprint $table) {
-            $table->id();
-            $table->foreignIdFor(Employee::class)->constrained()->cascadeOnDelete();
+            $table->uuid('id')->primary();
+            $table->foreignUuid('employee_id')->constrained()->cascadeOnDelete();
             $table->date('date_since');
-            $table->text('comments')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

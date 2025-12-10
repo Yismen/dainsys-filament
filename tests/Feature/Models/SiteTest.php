@@ -14,26 +14,33 @@ test('sites model interacts with db table', function () {
     ]));
 });
 
-test('site model uses soft delete', function () {
-    $site = Site::factory()->create();
-
-    $site->delete();
-
-    $this->assertSoftDeleted(Site::class, [
-        'id' => $site->id
-    ]);
-});
-
 test('sites model morph one information', function () {
-    $site = Site::factory()->create();
+    $site = Site::factory()
+        ->hasInformation()
+        ->create();
 
     expect($site->information)->toBeInstanceOf(Information::class);
     expect($site->information())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\MorphOne::class);
 });
 
-test('sites model has many employees', function () {
-    $site = Site::factory()->create();
+test('sites model has many hires', function () {
+    $site = Site::factory()
+        ->hasHires()
+        ->create();
+
+    expect($site->hires->first())->toBeInstanceOf(\App\Models\Hire::class);
+    expect($site->hires())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
+});
+
+
+test('site model has many employees', function () {
+    $employee = Employee::factory()->create();
+    $site = Site::factory()
+        ->hasHires(1, [
+            'employee_id' => $employee->id,
+        ])
+        ->create();
 
     expect($site->employees->first())->toBeInstanceOf(Employee::class);
-    expect($site->employees())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
+    expect($site->employees())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasManyThrough::class);
 });

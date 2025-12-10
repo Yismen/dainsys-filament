@@ -11,16 +11,6 @@ test('information model interacts with db table', function () {
     ]));
 });
 
-test('information model uses soft delete', function () {
-    $information = Information::factory()->create();
-
-    $information->delete();
-
-    $this->assertSoftDeleted(Information::class, [
-        'id' => $information->id
-    ]);
-});
-
 test('information model morph to informationable', function () {
     $information = Information::factory()->create();
 

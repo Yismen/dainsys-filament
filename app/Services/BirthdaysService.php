@@ -50,12 +50,12 @@ class BirthdaysService
                 'name' => $employee->full_name,
                 'date_of_birth' => $employee->date_of_birth->format('Y-m-d'),
                 'age' => $employee->date_of_birth->age . ' years old',
-                'site' => $employee->site->name,
-                'project' => $employee->project->name,
-                'position' => $employee->position->name,
-                'department' => $employee->position->department->name,
-                'supervisor' => optional($employee->supervisor)->name,
-                'photo' => optional($employee->information)->photo_url,
+                'site' => $employee->site?->name,
+                'project' => $employee->project?->name,
+                'position' => $employee->position?->name,
+                'department' => $employee->position?->department->name,
+                'supervisor' => $employee->supervisor?->name,
+                'photo' => $employee->information?->photo_url,
             ];
         });
     }

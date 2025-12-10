@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\TerminationTypes;
 use App\Models\Employee;
 use App\Models\Termination;
 use App\Models\TerminationType;
@@ -30,10 +31,8 @@ class TerminationFactory extends Factory
         return [
             'employee_id' => Employee::factory(),
             'date' => now(),
-            'termination_type_id' => TerminationType::factory(),
-            'termination_reason_id' => TerminationReason::factory(),
-            'rehireable' => $this->faker->randomElement([0, 1]),
-            'comments' => $this->faker->paragraph(),
+            'termination_type' => TerminationTypes::Resignation,
+            'is_rehireable' => $this->faker->randomElement([0, 1]),
         ];
     }
 }

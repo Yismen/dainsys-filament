@@ -14,10 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('informations', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('phone', 50);
             $table->string('email', 200)->nullable();
-            $table->string('photo_url', 2000)->nullable();
+            $table->string('photos', 2000)->nullable();
             $table->text('address')->nullable();
             $table->string('company_id', 200)->comment('Internal company id, like a punch id. Can also be the company tax id or any other unique identifier')->nullable();
             $table->integer('informationable_id')->unsigned();

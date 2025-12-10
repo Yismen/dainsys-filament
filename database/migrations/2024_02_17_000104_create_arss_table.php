@@ -12,7 +12,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('arss', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('name', 500)->unique();
             $table->string('person_of_contact')->nullable();
             $table->text('description')->nullable();

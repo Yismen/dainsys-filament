@@ -1,8 +1,7 @@
 <?php
 
 use App\Models\Employee;
-use App\Models\TerminationType;
-use App\Models\TerminationReason;
+use App\Enums\TerminationTypes;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -17,13 +16,11 @@ return new class extends Migration
     public function up()
     {
         Schema::create('terminations', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->date('date');
-            $table->foreignIdFor(Employee::class)->constrained('employees')->cascadeOnDelete();
-            $table->foreignIdFor(TerminationType::class)->constrained('termination_types')->cascadeOnDelete();
-            $table->foreignIdFor(TerminationReason::class)->constrained('termination_reasons')->cascadeOnDelete();
-            $table->boolean('rehireable')->default(true);
-            $table->text('comments')->nullable();
+            $table->foreignUuid('employee_id')->constrained('employees')->cascadeOnDelete();
+            $table->text('termination_type')->default(TerminationTypes::Resignation);
+            $table->boolean('is_rehireable')->default(true);
             $table->softDeletes();
             $table->timestamps();
         });

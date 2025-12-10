@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Traits\BelongsToBank;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\BelongsToEmployee;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -14,6 +15,7 @@ class BankAccount extends Model
     use SoftDeletes;
     use BelongsToEmployee;
     use BelongsToBank;
+    use HasUuids;
 
     protected $fillable = ['employee_id', 'bank_id', 'account'];
 }

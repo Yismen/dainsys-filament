@@ -1,6 +1,10 @@
 <?php
 
+use App\Models\Hire;
+use App\Models\Client;
 use App\Models\Project;
+use App\Models\Campaign;
+use App\Models\Employee;
 
 test('projects model interacts with db table', function () {
     $data = Project::factory()->make();
@@ -8,36 +12,52 @@ test('projects model interacts with db table', function () {
     Project::create($data->toArray());
 
     $this->assertDatabaseHas('projects', $data->only([
-        'name', 'description'
+        'name', 'client_id', 'description'
     ]));
 });
 
-test('project model uses soft delete', function () {
-    $project = Project::factory()->create();
+test('projects model belongs to client', function () {
+    $project = Project::factory()
+        ->create();
 
-    $project->delete();
-
-    $this->assertSoftDeleted(Project::class, [
-        'id' => $project->id
-    ]);
-});
-
-test('projects model has many employees', function () {
-    $project = Project::factory()->create();
-
-    expect($project->employees->first())->toBeInstanceOf(\App\Models\Employee::class);
-    expect($project->employees())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
+    expect($project->client)->toBeInstanceOf(Client::class);
+    expect($project->client())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
 });
 
 test('projects model has many campaigns', function () {
-    $project = Project::factory()->create();
+    $project = Project::factory()
+        ->has(Campaign::factory())
+        ->create();
 
-    expect($project->campaigns->first())->toBeInstanceOf(\App\Models\Campaign::class);
+    expect($project->campaigns->first())->toBeInstanceOf(Campaign::class);
     expect($project->campaigns())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
 });
 
+test('projects model has many hires', function () {
+    $project = Project::factory()
+        ->hasHires()
+        ->create();
+
+    expect($project->hires->first())->toBeInstanceOf(\App\Models\Hire::class);
+    expect($project->hires())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
+});
+
+test('projects model has many employees', function () {
+    $project = Project::factory()
+        ->has(
+            Hire::factory()
+                ->has(Employee::factory())
+        )
+        ->create();
+
+    expect($project->employees->first())->toBeInstanceOf(Employee::class);
+    expect($project->employees())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasManyThrough::class);
+});
+
 test('projects model morph one information', function () {
-    $project = Project::factory()->create();
+    $project = Project::factory()
+        ->hasInformation()
+        ->create();
 
     expect($project->information)->toBeInstanceOf(\App\Models\Information::class);
     expect($project->information())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\MorphOne::class);

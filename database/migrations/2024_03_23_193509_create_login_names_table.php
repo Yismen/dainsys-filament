@@ -13,8 +13,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('login_names', function (Blueprint $table) {
-            $table->id();
-            $table->foreignIdFor(Employee::class)->constrained()->cascadeOnDelete();
+            $table->uuid('id')->primary();
+            $table->foreignUuid('employee_id')->constrained()->cascadeOnDelete();
             $table->string('login_name', 1000);
             $table->softDeletes();
             $table->timestamps();

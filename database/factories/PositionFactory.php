@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Models\Position;
 use App\Models\Department;
-use App\Models\PaymentType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -29,7 +28,7 @@ class PositionFactory extends Factory
         return [
             'name' => $this->faker->company(),
             'department_id' => Department::factory(),
-            'payment_type_id' => PaymentType::factory(),
+            'salary_type' => $this->faker->randomElement(['Hourly', 'Salary']),
             'salary' => rand(80, 200),
             'description' => $this->faker->paragraph(),
         ];

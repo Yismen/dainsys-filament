@@ -4,18 +4,20 @@ use App\Enums\RevenueTypes;
 
 test('values method return specific values', function () {
     expect(RevenueTypes::values())->toEqual([
-        'Login Time',
-        'Production Time',
-        'Talk Time',
-        'Sales',
+        'downtime',
+        'login time',
+        'production time',
+        'talk time',
+        'conversions',
     ]);
 });
 
 test('all method return associative array', function () {
     expect(RevenueTypes::toArray())->toEqual([
-        'Login Time' => 'LoginTime',
-        'Production Time' => 'ProductionTime',
-        'Talk Time' => 'TalkTime',
-        'Sales' => 'Sales',
+        'downtime' => 'Downtime',
+        'login time' => 'LoginTime',
+        'production time' => 'ProductionTime',
+        'talk time' => 'TalkTime',
+        'conversions' => 'Conversions',
     ]);
 });

@@ -3,17 +3,24 @@
 namespace App\Models;
 
 use App\Events\SuspensionUpdated;
+use App\Models\Traits\HasManyComments;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\BelongsToEmployee;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Traits\BelongsToSuspensionType;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Suspension extends Model
 {
-    use HasFactory, SoftDeletes, BelongsToEmployee, BelongsToSuspensionType;
+    use HasFactory;
+    use SoftDeletes;
+    use BelongsToEmployee;
+    use BelongsToSuspensionType;
+    use HasManyComments;
+    use HasUuids;
 
-    protected $fillable = ['employee_id', 'suspension_type_id', 'starts_at', 'ends_at', 'comments'];
+    protected $fillable = ['employee_id', 'suspension_type_id', 'starts_at', 'ends_at'];
 
     protected $casts = [
         'starts_at' => 'date:Y-m-d',

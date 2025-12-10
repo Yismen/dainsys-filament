@@ -1,62 +1,50 @@
 <?php
 
 use App\Models\Termination;
-use App\Events\TerminationCreated;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+beforeEach(function () {
+    Event::fake([
+        \App\Events\TerminationCreated::class,
+    ]);
+});
 
 
 test('terminations model interacts with db table', function () {
-    Mail::fake();
     $data = Termination::factory()->make();
 
     Termination::create($data->toArray());
 
     $this->assertDatabaseHas('terminations', $data->only([
-        'date', 'employee_id', 'termination_type', 'termination_reason_id', 'comments', 'is_rehireable'
+        // 'date',
+        'employee_id',
+        'termination_type',
+        'is_rehireable',
     ]));
 });
 
-test('termination model uses soft delete', function () {
-    Mail::fake();
-    $termination = Termination::factory()->create();
+// it('casts date as date format Y-m-d', function () {
+//     $termination = Termination::factory()->create(['date' => now()]);
 
-    $termination->delete();
+//     dd($termination->date == now()->format('Y-m-d'));
+// });
 
-    $this->assertSoftDeleted(Termination::class, [
-        'id' => $termination->id
-    ]);
+it('casts is_rehireable as boolean', function () {
+    $termination = Termination::factory()->create(['is_rehireable' => 1]);
+
+    expect($termination->is_rehireable)->toBeTrue();
 });
 
 test('terminations model belongs to employee', function () {
-    Mail::fake();
     $termination = Termination::factory()->create();
 
     expect($termination->employee)->toBeInstanceOf(\App\Models\Employee::class);
     expect($termination->employee())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
 });
 
-test('terminations model belongs to termination reason', function () {
-    Mail::fake();
-    $termination = Termination::factory()->create();
-
-    expect($termination->terminationReason)->toBeInstanceOf(\App\Models\TerminationReason::class);
-    expect($termination->terminationReason())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
-});
-
 test('termination model fires event when created', function () {
-    Mail::fake();
-    Event::fake();
     $termination = Termination::factory()->create();
 
-    Event::assertDispatched(TerminationCreated::class);
+    Event::assertDispatched(\App\Events\TerminationCreated::class);
 });
 
-/** @test */
-// public function email_is_sent_when_termination_is_created()
-// {
-//     Mail::fake();
-//     Termination::factory()->create();
-//     Mail::assertQueued(MailTerminationCreated::class);
-// }

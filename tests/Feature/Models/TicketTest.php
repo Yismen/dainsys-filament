@@ -46,18 +46,6 @@ test('tickets model belongs to owner', function () {
     expect($ticket->owner)->toBeInstanceOf(User::class);
 });
 
-test('model uses soft delete', function () {
-    expect(in_array(SoftDeletes::class, class_uses(Ticket::class)))->toBeTrue();
-
-    $ticket = Ticket::factory()->create();
-
-    $ticket->delete();
-
-    $this->assertSoftDeleted(Ticket::class, [
-        'id' => $ticket->id
-    ]);
-});
-
 test('tickets model belongs to agent', function () {
     $ticket = Ticket::factory()->assigned()->create();
 

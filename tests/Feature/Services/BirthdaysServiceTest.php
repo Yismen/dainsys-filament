@@ -3,15 +3,13 @@
 use App\Models\Employee;
 use App\Services\BirthdaysService;
 
-
-
 beforeEach(function () {
     $this->service = new BirthdaysService();
     $this->date = now();
 });
 
 test('birthdays service returns birthdays for today', function () {
-    $employee_today = Employee::factory()->current()->createQuietly(['date_of_birth' => $this->date->copy()]);
+    $employee_today = Employee::factory()->createQuietly(['date_of_birth' => $this->date->copy()]);
     $employee_yesterday = Employee::factory()->current()->createQuietly(['date_of_birth' => $this->date->copy()->subDay()]);
 
     $birthdays = $this->service->handle('today');

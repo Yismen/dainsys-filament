@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Source;
+use App\Models\Project;
 use App\Models\Campaign;
 
 test('campaigns model interacts with db table', function () {
@@ -8,30 +10,43 @@ test('campaigns model interacts with db table', function () {
     Campaign::create($data->toArray());
 
     $this->assertDatabaseHas('campaigns', $data->only([
-        'name', 'project_id', 'source', 'revenue_type', 'goal', 'rate'
+        'name', 'project_id', 'source_id', 'revenue_type', 'sph_goal', 'revenue_rate', 'description'
     ]));
 });
 
-test('campaign model uses soft delete', function () {
+test('campaigns model belongs to related models', function (string $modelClass, string $relationship) {
     $campaign = Campaign::factory()->create();
 
-    $campaign->delete();
+    expect($campaign->$relationship)->toBeInstanceOf($modelClass);
+    expect($campaign->$relationship())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
+})->with([
+    [Project::class, 'project'],
+    [Source::class, 'source'],
+]);
 
-    $this->assertSoftDeleted(Campaign::class, [
-        'id' => $campaign->id
+test('campaigns model has many productions', function () {
+    $campaign = Campaign::factory()
+        ->has(\App\Models\Production::factory())->create();
+
+    expect($campaign->productions->first())->toBeInstanceOf(\App\Models\Production::class);
+    expect($campaign->productions())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
+});
+
+test('campaigns model casts revenue_type to RevenueTypes enum', function () {
+    $campaign = Campaign::factory()->create([
+        'revenue_type' => 'login time'
     ]);
+
+    expect($campaign->revenue_type)->toBeInstanceOf(\App\Enums\RevenueTypes::class);
+    expect($campaign->revenue_type->value)->toBe('login time');
 });
 
-test('campaigns model belongs to project', function () {
-    $campaign = Campaign::factory()->create();
+// test('isDowntime scope works as expected', function () {
+//     $downtimeCampaign = Campaign::factory()->create(['revenue_type' => 'Downtime']);
+//     $normalCampaign = Campaign::factory()->create(['revenue_type' => 'Login Time']);
 
-    expect($campaign->project)->toBeInstanceOf(\App\Models\Project::class);
-    expect($campaign->project())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
-});
+//     $downtimeCampaigns = Campaign::isDowntime()->get();
 
-test('campaigns model has many performances', function () {
-    $campaign = Campaign::factory()->create();
-
-    expect($campaign->performances)->toBeInstanceOf(\Illuminate\Database\Eloquent\Collection::class);
-    expect($campaign->performances())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
-});
+//     expect($downtimeCampaigns->contains($downtimeCampaign))->toBeTrue();
+//     expect($downtimeCampaigns->contains($normalCampaign))->toBeFalse();
+// });

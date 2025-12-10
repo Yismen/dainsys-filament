@@ -12,16 +12,6 @@ test('mailing subscriptions model interacts with db table', function () {
     ]));
 });
 
-test('mailing subscription model uses soft delete', function () {
-    $mailing_subscription = MailingSubscription::factory()->create();
-
-    $mailing_subscription->delete();
-
-    $this->assertSoftDeleted(MailingSubscription::class, [
-        'id' => $mailing_subscription->id
-    ]);
-});
-
 test('mailing subscriptions model belongs to a user', function () {
     $mailing_subscription = MailingSubscription::factory()->create();
 

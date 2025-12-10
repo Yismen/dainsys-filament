@@ -14,26 +14,23 @@ test('arss model interacts with db table', function () {
     ]));
 });
 
-test('ars model uses soft delete', function () {
-    $ars = Ars::factory()->create();
+test('arss model has many social securities', function () {
+    $ars = Ars::factory()
+        ->hasSocialSecurities(1)
+        ->create();
 
-    $ars->delete();
-
-    $this->assertSoftDeleted(Ars::class, [
-        'id' => $ars->id
-    ]);
-});
-
-test('arss model morph one information', function () {
-    $ars = Ars::factory()->create();
-
-    expect($ars->information)->toBeInstanceOf(Information::class);
-    expect($ars->information())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\MorphOne::class);
+    expect($ars->socialSecurities->first())->toBeInstanceOf(\App\Models\SocialSecurity::class);
+    expect($ars->socialSecurities())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
 });
 
 test('arss model has many employees', function () {
-    $ars = Ars::factory()->create();
+    $employee = Employee::factory()->create();
+    $ars = Ars::factory()
+        ->hasSocialSecurities(1, [
+            'employee_id' => $employee->id,
+        ])
+        ->create();
 
     expect($ars->employees->first())->toBeInstanceOf(Employee::class);
-    expect($ars->employees())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
+    expect($ars->employees())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasManyThrough::class);
 });

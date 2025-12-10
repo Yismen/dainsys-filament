@@ -12,8 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('downtime_reasons', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('name');
+            $table->text('description')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

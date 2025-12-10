@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('payment_types', function (Blueprint $table) {
-            $table->id();
+        Schema::create('salary_types', function (Blueprint $table) {
+            $table->uuid('id')->primary();
             $table->string('name', 500)->unique();
             $table->text('description')->nullable();
             $table->softDeletes();
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('payment_types');
+        Schema::dropIfExists('salary_types');
     }
 };

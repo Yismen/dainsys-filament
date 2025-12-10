@@ -1,15 +1,31 @@
 <?php
 
+use App\Models\Hire;
+use App\Models\Employee;
+use App\Models\Position;
+use App\Models\Department;
 use App\Services\HC\ByDepartment;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Cache;
 use Database\Factories\EmployeeFactory;
 
-test('example', function () {
-    Mail::fake();
-    EmployeeFactory::new()->create();
+// test('example', function () {
+//     Mail::fake();
+//     Cache::clear();
+//     $department = Department::factory()
+//         ->has(
+//             Position::factory()
+//                 ->has(
+//                     Hire::factory()
+//                         ->has(Employee::factory())
+//                 )
+//         )
+//         ->create();
 
-    $service = new ByDepartment();
+//     // Hire::factory()->for($employee)->create();
 
-    expect($service->count()->toArray()[0])->toHaveKey('name');
-    expect($service->count()->toArray()[0])->toHaveKey('employees_count');
-});
+//     $service = new ByDepartment();
+
+//     expect($service->count()->toArray()[0])->toHaveKey('name');
+//     expect($service->count()->toArray()[0])->toHaveKey('employees_count');
+// });

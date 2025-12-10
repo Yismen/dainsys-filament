@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Department;
-use App\Models\PaymentType;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -16,10 +15,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('positions', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('name', 500)->unique();
-            $table->foreignIdFor(Department::class)->constrained('departments')->cascadeOnDelete();
-            $table->foreignIdFor(PaymentType::class)->constrained('payment_types')->cascadeOnDelete();
+            $table->foreignUuid('department_id')->constrained('departments')->cascadeOnDelete();
+            $table->text('salary_type');
             $table->integer('salary')->unsigned();
             $table->text('description')->nullable();
             $table->softDeletes();

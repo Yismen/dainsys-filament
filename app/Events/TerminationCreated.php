@@ -15,6 +15,6 @@ class TerminationCreated
 
     public function __construct(Termination $termination)
     {
-        $this->termination = $termination->load(['employee', 'terminationType', 'terminationReason']);
+        $this->termination = $termination->load(['employee']);
     }
 }

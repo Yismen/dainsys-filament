@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Source;
 use App\Models\Project;
 use App\Enums\RevenueTypes;
-use App\Enums\CampaignSources;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -22,10 +22,11 @@ class CampaignFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'project_id' => Project::factory(),
-            'source' => CampaignSources::Inbound->value,
-            'revenue_type' => RevenueTypes::Sales->value,
-            'goal' => rand(3, 40),
-            'rate' => rand(10, 30),
+            'source_id' => Source::factory(),
+            'revenue_type' => RevenueTypes::LoginTime,
+            'sph_goal' => rand(3, 40),
+            'revenue_rate' => rand(10, 30),
+            'description' => $this->faker->sentence(),
         ];
     }
 }

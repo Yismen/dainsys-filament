@@ -14,9 +14,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('ticket_replies', function (Blueprint $table) {
-            $table->id();
-            $table->foreignIdFor(User::class)->constrained(resolve(User::class)->getTable());
-            $table->foreignIdFor(Ticket::class)->constrained(resolve(Ticket::class)->getTable());
+            $table->uuid('id')->primary();
+            $table->foreignUuid('user_id')->constrained(resolve(User::class)->getTable());
+            $table->foreignUuid('ticket_id')->constrained(resolve(Ticket::class)->getTable());
             $table->text('content');
             $table->softDeletes();
             $table->timestamps();

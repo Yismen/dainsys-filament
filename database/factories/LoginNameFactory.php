@@ -18,8 +18,8 @@ class LoginNameFactory extends Factory
     public function definition(): array
     {
         return [
-            'employee_id' => Employee::factory(),
             'login_name' => $this->faker->unique()->text(),
+            'employee_id' => Employee::factory(),
         ];
     }
 }

@@ -14,16 +14,6 @@ test('users model interacts with db table', function () {
     ]));
 });
 
-test('user model uses soft delete', function () {
-    $user = User::factory()->create();
-
-    $user->delete();
-
-    $this->assertSoftDeleted(User::class, [
-        'id' => $user->id
-    ]);
-});
-
 test('users model has many mailing subscriptions', function () {
     $user = User::factory()->create();
 

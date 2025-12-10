@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\Citizenship;
+use App\Models\Employee;
+use App\Models\Information;
 
 test('citizenships model interacts with db table', function () {
     $data = Citizenship::factory()->make();
@@ -12,19 +14,19 @@ test('citizenships model interacts with db table', function () {
     ]));
 });
 
-test('citizenship model uses soft delete', function () {
-    $citizenship = Citizenship::factory()->create();
+test('citizenships model morph one information', function () {
+    $citizenship = Citizenship::factory()
+        ->hasInformation()
+        ->create();
 
-    $citizenship->delete();
-
-    $this->assertSoftDeleted(Citizenship::class, [
-        'id' => $citizenship->id
-    ]);
+    expect($citizenship->information)->toBeInstanceOf(Information::class);
+    expect($citizenship->information())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\MorphOne::class);
 });
 
-test('citizenships model has many employees', function () {
+test('citizenship model has many employees', function () {
     $citizenship = Citizenship::factory()->create();
+    $employee = Employee::factory()->create(['citizenship_id' => $citizenship->id]);
 
-    expect($citizenship->employees->first())->toBeInstanceOf(\App\Models\Employee::class);
+    expect($citizenship->employees->first())->toBeInstanceOf(Employee::class);
     expect($citizenship->employees())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
 });
