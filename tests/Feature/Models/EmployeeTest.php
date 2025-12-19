@@ -19,7 +19,7 @@ use App\Models\Information;
 use App\Models\PayrollHour;
 use App\Models\Termination;
 use App\Models\SocialSecurity;
-use App\Events\EmployeeCreated;
+use App\Events\EmployeeHiredEvent;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Database\Eloquent\Relations\HasOne;

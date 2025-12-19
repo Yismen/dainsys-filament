@@ -6,7 +6,7 @@ use App\Enums\Gender;
 use App\Enums\MaritalStatus;
 use App\Enums\EmployeeStatus;
 use App\Events\EmployeeSaved;
-use App\Events\EmployeeCreated;
+use App\Events\EmployeeHiredEvent;
 use App\Models\Traits\BelongsToAfp;
 use App\Models\Traits\BelongsToArs;
 use App\Models\Traits\BelongsToSite;

@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Events\EmployeeSaved;
-use App\Events\EmployeeCreated;
+use App\Events\EmployeeHiredEvent;
 use App\Events\SuspensionUpdated;
 use App\Events\TerminationCreated;
 use App\Events\TicketCreatedEvent;
@@ -45,7 +45,7 @@ class EventServiceProvider extends ServiceProvider
         EmployeeSaved::class => [
             UpdateEmployeeFullName::class
         ],
-        EmployeeCreated::class => [
+        EmployeeHiredEvent::class => [
             SendEmployeeCreatedEmail::class,
         ],
         SuspensionUpdated::class => [
