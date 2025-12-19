@@ -48,4 +48,8 @@ class Hire extends Model
         'supervisor_id',
         'punch',
     ];
+
+    protected $dispatchesEvents = [
+        'created' => EmployeeHiredEvent::class
+    ];
 }

@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Models\Employee;
+use App\Models\Hire;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
 
@@ -11,13 +11,13 @@ class EmployeeHiredEvent
     use Dispatchable;
     use SerializesModels;
 
-    public Employee $employee;
+    public Hire $hire;
 
-    public function __construct(Employee $employee)
+    public function __construct(Hire $hire)
     {
-        $this->employee = $employee->load([
-            'site',
-            'project',
-        ]);
+        // $this->hire = $hire->load([
+        //     'site',
+        //     'project',
+        // ]);
     }
 }
