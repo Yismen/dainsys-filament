@@ -16,7 +16,7 @@ return new class extends Migration
             $table->date('date');
             $table->foreignId('employee_id')->constrained()->onDelete('cascade');
             $table->date('week_ending_at')->nullable();
-            $table->string('payroll_id')->nullable();
+            $table->date('payroll_ending_at')->nullable();
             $table->float('total_hours')->default(0);
             $table->float('regular_hours')->default(0);
             $table->float('nightly_hours')->default(0);

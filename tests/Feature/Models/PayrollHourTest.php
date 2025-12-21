@@ -15,7 +15,7 @@ test('downtime model interacts with db table', function () {
         'date',
         // 'total_hours',
         'employee_id',
-        // 'payroll_id',
+        // 'payroll_ending_at',
         // 'week_ending
         'regular_hours',
         'nightly_hours',
@@ -39,6 +39,15 @@ it('casts date attribute to date object', function () {
 
     expect($payrollHour->date)->toBeInstanceOf(\Illuminate\Support\Carbon::class);
     expect($payrollHour->date->toDateString())->toBe('2025-08-15');
+});
+
+it('casts payroll ending at attribute to date object', function () {
+    $payrollHour = PayrollHour::factory()->create([
+        'date' => '2025-08-15',
+    ]);
+
+    expect($payrollHour->payroll_ending_at)->toBeInstanceOf(\Illuminate\Support\Carbon::class);
+    expect($payrollHour->payroll_ending_at->toDateString())->toBe('2025-08-15');
 });
 
 it('casts week ending at attribute to date object', function () {
@@ -76,30 +85,30 @@ it('calculates total hours from components minus nightly hours', function () {
 });
 
 // it generate payroll id on update
-it('generates payroll id to format YYYYMM15 on update when date is before or equal to the 15', function () {
+it('generates payroll id to format YYYY-MM-15 on update when date is before or equal to the 15', function () {
     $payrollHour = PayrollHour::factory()->create([
-        'payroll_id' => null,
+        'payroll_ending_at' => null,
         'date' => Carbon::parse('2025-08-13'),
     ]);
 
-    expect($payrollHour->payroll_id)->toBe('PAYROLL-'.'20250815');
+    expect($payrollHour->payroll_ending_at->format('Y-m-d'))->toBe('2025-08-15');
 
     $payrollHour->update(['date' => '2025-12-03']);
 
-    expect($payrollHour->payroll_id)->toBe('PAYROLL-20251215');
+    expect($payrollHour->payroll_ending_at->format('Y-m-d'))->toBe('2025-12-15');
 });
 
-it('generates payroll id to format YYYYMMEOM on update when date is afterthe 15', function () {
+it('generates payroll id to format YYYY-MM-EOM on update when date is after the 15', function () {
     $payrollHour = PayrollHour::factory()->create([
-        'payroll_id' => null,
+        'payroll_ending_at' => null,
         'date' => Date::parse('2025-08-18'),
     ]);
 
-    expect($payrollHour->payroll_id)->toBe('PAYROLL-'.'20250831');
+    expect($payrollHour->payroll_ending_at->format('Y-m-d'))->toBe('2025-08-31');
 
     $payrollHour->update(['date' => '2025-12-21']);
 
-    expect($payrollHour->payroll_id)->toBe('PAYROLL-20251231');
+    expect($payrollHour->payroll_ending_at->format('Y-m-d'))->toBe('2025-12-31');
 });
 
 it('calculates the week ending field based on date', function () {

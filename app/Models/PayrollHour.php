@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
 
 class PayrollHour extends Model
 {
@@ -21,7 +22,7 @@ class PayrollHour extends Model
         'employee_id',
         'date',
         // 'total_hours',
-        // 'payroll_id'
+        // 'payroll_ending_at'
         // 'week_ending_at'
         'regular_hours',
         'nightly_hours',
@@ -34,6 +35,7 @@ class PayrollHour extends Model
     protected $casts = [
         'date' => 'date',
         'week_ending_at' => 'date',
+        'payroll_ending_at' => 'date',
     ];
 
     protected static function boot()
@@ -42,7 +44,7 @@ class PayrollHour extends Model
 
         static::saved(function (PayrollHour $payrollHour) {
             $payrollHour->total_hours = $payrollHour->calculateTotalHours();
-            $payrollHour->payroll_id = $payrollHour->generatePayrollId();
+            $payrollHour->payroll_ending_at = $payrollHour->generatePayrollId();
             $payrollHour->week_ending_at = $payrollHour->date->copy()->endOfWeek();
 
             $payrollHour->saveQuietly();
@@ -58,14 +60,13 @@ class PayrollHour extends Model
             + $this->day_off_hours;
     }
 
-    protected function generatePayrollId()
+    protected function generatePayrollId(): Carbon
     {
         $date = $this->date;
 
-        $date = $date->day <= 15 ?
+        return $date->day <= 15 ?
             $date->startOfMonth()->addDays(14) :
             $date->endOfMonth();
 
-        return 'PAYROLL-'.$date->format('Ymd');
     }
 }
