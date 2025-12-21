@@ -15,6 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->date('date');
             $table->foreignId('employee_id')->constrained()->onDelete('cascade');
+            $table->date('week_ending_at')->nullable();
             $table->string('payroll_id')->nullable();
             $table->float('total_hours')->default(0);
             $table->float('regular_hours')->default(0);

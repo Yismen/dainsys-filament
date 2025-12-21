@@ -20,6 +20,8 @@ class PayrollHour extends Model
         'employee_id',
         'date',
         // 'total_hours',
+        // 'payroll_id'
+        // 'week_ending_at'
         'regular_hours',
         'nightly_hours',
         'overtime_hours',
@@ -30,6 +32,7 @@ class PayrollHour extends Model
 
     protected $casts = [
         'date' => 'date',
+        'week_ending_at' => 'date',
     ];
 
     protected static function boot()
@@ -39,6 +42,7 @@ class PayrollHour extends Model
         static::saved(function (PayrollHour $payrollHour) {
             $payrollHour->total_hours = $payrollHour->calculateTotalHours();
             $payrollHour->payroll_id = $payrollHour->generatePayrollId();
+            $payrollHour->week_ending_at = $payrollHour->date->copy()->endOfWeek();
 
             $payrollHour->saveQuietly();
         });
@@ -57,6 +61,10 @@ class PayrollHour extends Model
     {
         $date = $this->date;
 
-        return 'PAYROLL-' . $date->endOfMonth()->format('Ymd');
+        $date = $date->day <= 15 ?
+            $date->startOfMonth()->addDays(14) :
+            $date->endOfMonth();
+
+        return 'PAYROLL-' . $date->format('Ymd');
     }
 }
