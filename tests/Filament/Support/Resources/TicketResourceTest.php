@@ -1,24 +1,15 @@
 <?php
 
-use App\Models\User;
-use App\Models\Ticket;
-use Livewire\Livewire;
-use Illuminate\Support\Arr;
-use Filament\Facades\Filament;
-use Filament\Actions\DeleteAction;
-use Illuminate\Support\Facades\Cache;
-use Filament\Resources\Pages\EditRecord;
-use Spatie\Permission\Models\Permission;
-use Filament\Resources\Pages\ListRecords;
-use Filament\Resources\Pages\CreateRecord;
 use App\Filament\Support\Resources\TicketResource;
+use App\Filament\Support\Resources\TicketResource\Pages\CreateTicket;
 use App\Filament\Support\Resources\TicketResource\Pages\EditTicket;
 use App\Filament\Support\Resources\TicketResource\Pages\ViewTicket;
-use App\Filament\Support\Resources\TicketResource\Pages\ListTickets;
-use App\Filament\Support\Resources\TicketResource\Pages\CreateTicket;
-
-
-
+use App\Models\Ticket;
+use App\Models\User;
+use Filament\Actions\DeleteAction;
+use Filament\Facades\Filament;
+use Illuminate\Support\Arr;
+use Livewire\Livewire;
 
 uses(\Illuminate\Foundation\Testing\WithFaker::class);
 

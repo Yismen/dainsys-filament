@@ -3,27 +3,24 @@
 namespace App\Models;
 
 use App\Casts\AsMoney;
-use App\Models\Supervisor;
 use App\Enums\RevenueTypes;
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\BelongsToCampaign;
 use App\Models\Traits\BelongsToEmployee;
 use App\Models\Traits\BelongsToSupervisor;
-use App\Models\Traits\BelongsToRevenueType;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\Traits\BelongsToDowntimeReason;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Production extends Model
 {
-    use HasFactory;
-    use SoftDeletes;
     use BelongsToCampaign;
     use BelongsToEmployee;
     use BelongsToSupervisor;
+    use HasFactory;
     use HasUuids;
+    use SoftDeletes;
 
     protected $fillable = [
         'unique_id',

@@ -1,10 +1,9 @@
 <?php
 
+use App\Console\Commands\UpdateEmployeeSuspensions;
+use App\Enums\EmployeeStatus;
 use App\Models\Employee;
 use App\Models\Suspension;
-use App\Enums\EmployeeStatus;
-use App\Console\Commands\UpdateEmployeeSuspensions;
-
 
 test('install command creates site', function () {
     $this->artisan('dainsys:update-employee-suspensions')

@@ -3,9 +3,9 @@
 namespace App\Events;
 
 use App\Models\Ticket;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
 
 class TicketCompletedEvent
 {
@@ -14,6 +14,7 @@ class TicketCompletedEvent
     use SerializesModels;
 
     public Ticket $ticket;
+
     public string $comment;
 
     public function __construct(Ticket $ticket, string $comment = '')

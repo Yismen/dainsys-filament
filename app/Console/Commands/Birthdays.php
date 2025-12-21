@@ -2,11 +2,10 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
-use App\Services\BirthdaysService;
-use function Laravel\Prompts\select;
-use Illuminate\Support\Facades\Mail;
 use App\Mail\Birthdays as MailBirthdays;
+use App\Services\BirthdaysService;
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Mail;
 
 class Birthdays extends Command
 {
@@ -54,10 +53,11 @@ class Birthdays extends Command
      */
     public function handle(BirthdaysService $birthdays)
     {
-        $type = $this->argument('type') ;
+        $type = $this->argument('type');
 
-        if (!array_key_exists($type, $this->reportTypes)) {
-            $this->error('Invalid report. Valid options are ' . join(", ", array_keys($this->reportTypes)));
+        if (! array_key_exists($type, $this->reportTypes)) {
+            $this->error('Invalid report. Valid options are '.implode(', ', array_keys($this->reportTypes)));
+
             return 1;
         }
 

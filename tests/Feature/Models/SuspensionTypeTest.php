@@ -15,7 +15,7 @@ test('suspension types model interacts with db table', function () {
     SuspensionType::create($data->toArray());
 
     $this->assertDatabaseHas('suspension_types', $data->only([
-        'name', 'description'
+        'name', 'description',
     ]));
 });
 

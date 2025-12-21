@@ -2,22 +2,24 @@
 
 namespace App\Listeners;
 
-use App\Models\Ticket;
-use App\Mail\TicketCompletedMail;
-use App\Services\RecipientsService;
 use App\Events\TicketCompletedEvent;
-use Illuminate\Support\Facades\Mail;
+use App\Mail\TicketCompletedMail;
+use App\Models\Ticket;
+use App\Services\RecipientsService;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Mail;
 
 class SendTicketCompletedMail
 {
     protected Ticket $ticket;
+
     protected string $comment;
+
     protected RecipientsService $recipientsService;
 
     public function __construct()
     {
-        $this->recipientsService = new RecipientsService();
+        $this->recipientsService = new RecipientsService;
     }
 
     public function handle(TicketCompletedEvent $event)

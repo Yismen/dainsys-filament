@@ -2,9 +2,9 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Facades\Cache;
-use App\Models\Employee;
 use App\Enums\EmployeeStatus;
+use App\Models\Employee;
+use Illuminate\Support\Facades\Cache;
 
 class EmployeesNotInactiveService implements ServicesContract
 {

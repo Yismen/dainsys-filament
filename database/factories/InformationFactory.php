@@ -2,10 +2,10 @@
 
 namespace Database\Factories;
 
-use App\Models\Site;
 use App\Models\Information;
-use Illuminate\Support\Str;
+use App\Models\Site;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Information>

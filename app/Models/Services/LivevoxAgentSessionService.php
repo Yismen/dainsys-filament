@@ -2,9 +2,9 @@
 
 namespace App\Models\Services;
 
+use App\Models\LiveVox\LivevoxAgentSession;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
-use App\Models\LiveVox\LivevoxAgentSession;
 
 class LivevoxAgentSessionService
 {
@@ -15,10 +15,9 @@ class LivevoxAgentSessionService
         protected array $group_columns = [
             'report_date',
             'service_name',
-            'agent_name'
+            'agent_name',
         ]
-    ) {
-    }
+    ) {}
 
     public function query(): Builder
     {

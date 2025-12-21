@@ -1,16 +1,16 @@
 <?php
 
-use App\Models\User;
-use App\Models\Ticket;
-use App\Mail\TicketAssignedMail;
 use App\Events\TicketAssignedEvent;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Event;
 use App\Listeners\SendTicketAssignedMail;
+use App\Mail\TicketAssignedMail;
+use App\Models\Ticket;
+use App\Models\User;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Mail;
 
 test('event is dispatched', function () {
     Event::fake([
-        TicketAssignedEvent::class
+        TicketAssignedEvent::class,
     ]);
 
     $ticket = Ticket::factory()->create();

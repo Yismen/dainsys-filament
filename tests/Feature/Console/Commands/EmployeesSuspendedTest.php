@@ -1,10 +1,10 @@
 <?php
 
+use App\Console\Commands\EmployeesSuspended;
+use App\Enums\EmployeeStatus;
 use App\Models\Employee;
 use App\Models\Suspension;
-use App\Enums\EmployeeStatus;
 use Illuminate\Support\Facades\Mail;
-use App\Console\Commands\EmployeesSuspended;
 
 test('employees suspended run sucessfully', function () {
     $this->artisan('dainsys:employees-suspended')

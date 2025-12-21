@@ -2,19 +2,20 @@
 
 namespace App\Services;
 
-use App\Models\User;
 use App\Models\Ticket;
-use Illuminate\Database\Eloquent\Collection;
+use App\Models\User;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Collection;
 
 class RecipientsService
 {
     protected Ticket $ticket;
+
     protected Collection $recipients;
 
     public function __construct()
     {
-        $this->recipients = new Collection();
+        $this->recipients = new Collection;
     }
 
     public function ofTicket(Ticket $ticket): self
@@ -31,6 +32,7 @@ class RecipientsService
                 if (is_subclass_of($user, MustVerifyEmail::class) && $user->email_verified_at === null) {
                     return false;
                 }
+
                 return $user?->email;
             });
 

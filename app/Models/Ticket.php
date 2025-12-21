@@ -2,33 +2,32 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
-use Illuminate\Support\Str;
-use App\Enums\TicketStatuses;
 use App\Enums\TicketPriorities;
-use App\Models\TicketDepartment;
+use App\Enums\TicketStatuses;
+use App\Events\TicketAssignedEvent;
+use App\Events\TicketCompletedEvent;
 use App\Events\TicketCreatedEvent;
 use App\Events\TicketDeletedEvent;
-use App\Events\TicketAssignedEvent;
 use App\Events\TicketReopenedEvent;
-use App\Events\TicketCompletedEvent;
 use App\Traits\EnsureDateNotWeekend;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class Ticket extends Model
 {
-    use HasFactory;
     use EnsureDateNotWeekend;
-    use SoftDeletes;
+    use HasFactory;
     use HasUuids;
+    use SoftDeletes;
 
     protected $fillable = ['owner_id', 'department_id', 'subject', 'description', 'reference', 'images', 'status', 'priority', 'expected_at', 'assigned_to', 'assigned_at', 'completed_at'];
 
@@ -40,7 +39,6 @@ class Ticket extends Model
         'status' => TicketStatuses::class,
         'priority' => TicketPriorities::class,
     ];
-
 
     protected static function booted()
     {
@@ -150,7 +148,7 @@ class Ticket extends Model
     {
         $this->replies()->createQuietly([
             'user_id' => auth()->user()->id,
-            'content' => $comment
+            'content' => $comment,
         ]);
 
         $this->complete($comment);
@@ -158,7 +156,7 @@ class Ticket extends Model
 
     public function isAssigned(): bool
     {
-        return !is_null($this->assigned_to);
+        return ! is_null($this->assigned_to);
     }
 
     public function isAssignedTo(User $user): bool
@@ -250,7 +248,7 @@ class Ticket extends Model
 
     public function getImagePathAttribute()
     {
-        return Storage::url($this->image) . '?' . Str::random(5);
+        return Storage::url($this->image).'?'.Str::random(5);
     }
 
     // public function getPriorityAttribute()
@@ -301,6 +299,6 @@ class Ticket extends Model
             return ++$latest_reference->reference;
         }
 
-        return $this->department->ticket_prefix . '000001';
+        return $this->department->ticket_prefix.'000001';
     }
 }

@@ -8,7 +8,7 @@ test('social securities model interacts with db table', function () {
     SocialSecurity::create($data->toArray());
 
     $this->assertDatabaseHas('social_securities', $data->only([
-        'employee_id', 'ars_id', 'afp_id', 'number'
+        'employee_id', 'ars_id', 'afp_id', 'number',
     ]));
 });
 

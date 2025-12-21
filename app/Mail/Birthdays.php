@@ -2,12 +2,12 @@
 
 namespace App\Mail;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Mail\Mailable;
 use App\Services\MailingService;
-use Illuminate\Support\Collection;
-use Illuminate\Queue\SerializesModels;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Mail\Mailable;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Collection;
 
 class Birthdays extends Mailable implements ShouldQueue
 {

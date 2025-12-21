@@ -1,8 +1,14 @@
 <?php
 
-use App\Models\Supervisor;
 use App\Models\Employee;
 use App\Models\Information;
+use App\Models\Supervisor;
+
+beforeEach(function () {
+    \Illuminate\Support\Facades\Event::fake([
+        \App\Events\EmployeeHiredEvent::class,
+    ]);
+});
 
 test('supervisors model interacts with db table', function () {
     $data = Supervisor::factory()->make();
@@ -10,7 +16,7 @@ test('supervisors model interacts with db table', function () {
     Supervisor::create($data->toArray());
 
     $this->assertDatabaseHas('supervisors', $data->only([
-        'name', 'description'
+        'name', 'description',
     ]));
 });
 
@@ -31,7 +37,6 @@ test('supervisors model has many hires', function () {
     expect($supervisor->hires->first())->toBeInstanceOf(\App\Models\Hire::class);
     expect($supervisor->hires())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
 });
-
 
 test('supervisor model has many employees', function () {
     $employee = Employee::factory()->create();

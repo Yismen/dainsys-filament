@@ -9,6 +9,6 @@ class ByArs extends AbstractHCService
 {
     protected function model(): Model
     {
-        return new Ars();
+        return new Ars;
     }
 }

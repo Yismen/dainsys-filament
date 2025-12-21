@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Facades\Cache;
 use App\Models\Site;
+use Illuminate\Support\Facades\Cache;
 
 class SiteService implements ServicesContract
 {

@@ -23,7 +23,7 @@ class PayrollHourFactory extends Factory
             'regular_hours' => $this->faker->randomFloat(2, 0, 8),
             'nightly_hours' => $this->faker->randomFloat(2, 0, 4),
             'overtime_hours' => $this->faker->randomFloat(2, 0, 4),
-            'holiday_hours' => $this->faker->   randomFloat(2, 0, 8),
+            'holiday_hours' => $this->faker->randomFloat(2, 0, 8),
             'day_off_hours' => $this->faker->randomFloat(2, 0, 8),
         ];
     }

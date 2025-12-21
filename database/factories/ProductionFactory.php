@@ -2,11 +2,10 @@
 
 namespace Database\Factories;
 
+use App\Enums\RevenueTypes;
 use App\Models\Campaign;
 use App\Models\Employee;
 use App\Models\Supervisor;
-use App\Enums\RevenueTypes;
-use App\Models\DowntimeReason;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

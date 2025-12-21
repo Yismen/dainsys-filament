@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\TicketDepartment>
@@ -19,7 +19,7 @@ class TicketDepartmentFactory extends Factory
     {
         return [
             'name' => $this->faker->sentence(2),
-            'ticket_prefix' => str(Str::random(5))->upper() . '-',
+            'ticket_prefix' => str(Str::random(5))->upper().'-',
             'description' => $this->faker->paragraph(),
         ];
     }

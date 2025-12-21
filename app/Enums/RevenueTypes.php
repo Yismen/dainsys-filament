@@ -2,15 +2,15 @@
 
 namespace App\Enums;
 
-use App\Models\Production;
-use App\Enums\Traits\EnumNames;
-use App\Enums\Traits\EnumValues;
-use App\Enums\Traits\EnumToArray;
 use App\Enums\Contracts\EnumContract;
+use App\Enums\Traits\EnumNames;
+use App\Enums\Traits\EnumToArray;
+use App\Enums\Traits\EnumValues;
+use App\Models\Production;
 
 enum RevenueTypes: string implements EnumContract
 {
-    use EnumNames, EnumValues, EnumToArray;
+    use EnumNames, EnumToArray, EnumValues;
 
     case Downtime = 'downtime';
     case LoginTime = 'login time';

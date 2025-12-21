@@ -1,8 +1,14 @@
 <?php
 
-use App\Models\Site;
 use App\Models\Employee;
 use App\Models\Information;
+use App\Models\Site;
+
+beforeEach(function () {
+    \Illuminate\Support\Facades\Event::fake([
+        \App\Events\EmployeeHiredEvent::class,
+    ]);
+});
 
 test('sites model interacts with db table', function () {
     $data = Site::factory()->make();
@@ -10,7 +16,7 @@ test('sites model interacts with db table', function () {
     Site::create($data->toArray());
 
     $this->assertDatabaseHas('sites', $data->only([
-        'name', 'person_of_contact', 'description'
+        'name', 'person_of_contact', 'description',
     ]));
 });
 
@@ -31,7 +37,6 @@ test('sites model has many hires', function () {
     expect($site->hires->first())->toBeInstanceOf(\App\Models\Hire::class);
     expect($site->hires())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
 });
-
 
 test('site model has many employees', function () {
     $employee = Employee::factory()->create();

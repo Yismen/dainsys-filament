@@ -2,33 +2,32 @@
 
 namespace App\Imports;
 
-use Carbon\Carbon;
-use App\Models\Performance;
 use App\Jobs\UpdateRevenueAndBillable;
+use App\Models\Performance;
+use Carbon\Carbon;
+use Maatwebsite\Excel\Concerns\RegistersEventListeners;
 use Maatwebsite\Excel\Concerns\ToModel;
-use Maatwebsite\Excel\Events\AfterBatch;
-use Maatwebsite\Excel\Events\AfterImport;
-use Maatwebsite\Excel\Concerns\WithEvents;
-use Maatwebsite\Excel\Concerns\WithMapping;
-use Maatwebsite\Excel\Concerns\WithUpserts;
-use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
-use Maatwebsite\Excel\Concerns\RegistersEventListeners;
+use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithUpserts;
+use Maatwebsite\Excel\Concerns\WithValidation;
+use Maatwebsite\Excel\Events\AfterImport;
 
-class PerformanceImport implements ToModel, WithHeadingRow, WithMapping, WithChunkReading, WithBatchInserts, WithValidation, WithUpserts, WithEvents
+class PerformanceImport implements ToModel, WithBatchInserts, WithChunkReading, WithEvents, WithHeadingRow, WithMapping, WithUpserts, WithValidation
 {
     use RegistersEventListeners;
 
     protected string $filename;
+
     public function __construct(string $filename)
     {
         $this->filename = $filename;
     }
+
     /**
-     * @param array $row
-     *
      * @return \Illuminate\Database\Eloquent\Model|null
      */
     public function model(array $row)
@@ -63,6 +62,7 @@ class PerformanceImport implements ToModel, WithHeadingRow, WithMapping, WithChu
     {
         return ['employee_id', 'campaign_id', 'date'];
     }
+
     public function rules(): array
     {
         return [
@@ -94,6 +94,7 @@ class PerformanceImport implements ToModel, WithHeadingRow, WithMapping, WithChu
     {
         return 1000;
     }
+
     public static function afterImport(AfterImport $event)
     {
         UpdateRevenueAndBillable::dispatch(now());

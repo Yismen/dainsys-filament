@@ -2,7 +2,6 @@
 
 use App\Models\Campaign;
 use App\Models\Source;
-use App\Models\Employee;
 
 test('sources model interacts with db table', function () {
     $source = Source::factory()->make();
@@ -10,7 +9,7 @@ test('sources model interacts with db table', function () {
     Source::create($source->toArray());
 
     $this->assertDatabaseHas('sources', $source->only([
-        'name', 'description'
+        'name', 'description',
     ]));
 });
 

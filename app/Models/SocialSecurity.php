@@ -4,22 +4,20 @@ namespace App\Models;
 
 use App\Models\Traits\BelongsToAfp;
 use App\Models\Traits\BelongsToArs;
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\BelongsToEmployee;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class SocialSecurity extends Model
 {
-    use HasFactory;
-    use SoftDeletes;
     use BelongsToAfp;
-    use BelongsToEmployee;
     use BelongsToArs;
+    use BelongsToEmployee;
+    use HasFactory;
     use HasUuids;
+    use SoftDeletes;
 
     protected $table = 'social_securities';
 

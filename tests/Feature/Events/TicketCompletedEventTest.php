@@ -1,16 +1,16 @@
 <?php
 
-use App\Models\User;
-use App\Models\Ticket;
-use App\Mail\TicketCompletedMail;
 use App\Events\TicketCompletedEvent;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Event;
 use App\Listeners\SendTicketCompletedMail;
+use App\Mail\TicketCompletedMail;
+use App\Models\Ticket;
+use App\Models\User;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Mail;
 
 test('event is dispatched', function () {
     Event::fake([
-        TicketCompletedEvent::class
+        TicketCompletedEvent::class,
     ]);
 
     // $this->supportSuperAdminUser();

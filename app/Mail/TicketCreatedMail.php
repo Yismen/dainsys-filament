@@ -2,11 +2,11 @@
 
 namespace App\Mail;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Mail\Mailable;
 use App\Models\Ticket;
-use Illuminate\Queue\SerializesModels;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Mail\Mailable;
+use Illuminate\Queue\SerializesModels;
 
 class TicketCreatedMail extends Mailable implements ShouldQueue
 {
@@ -25,8 +25,6 @@ class TicketCreatedMail extends Mailable implements ShouldQueue
         return $this
             ->subject("Ticket #{$this->ticket->reference} Created")
             ->priority($this->ticket->mail_priority)
-            ->markdown('mail.support.ticket-created')
-
-        ;
+            ->markdown('mail.support.ticket-created');
     }
 }

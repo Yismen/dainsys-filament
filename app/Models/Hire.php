@@ -2,42 +2,31 @@
 
 namespace App\Models;
 
-use App\Enums\Gender;
-use App\Enums\MaritalStatus;
-use App\Enums\EmployeeStatus;
-use App\Events\EmployeeSaved;
 use App\Events\EmployeeHiredEvent;
-use App\Models\Traits\BelongsToAfp;
-use App\Models\Traits\BelongsToArs;
-use App\Models\Traits\BelongsToSite;
-use App\Models\Traits\HasInformation;
-use App\Models\Traits\HasManyComments;
-use App\Models\Traits\BelongsToProject;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Traits\BelongsToCitizenship;
 use App\Models\Traits\BelongsToEmployee;
 use App\Models\Traits\BelongsToPosition;
-use App\Models\Traits\HasManyLoginNames;
-use App\Models\Traits\HasManySuspensions;
-use App\Models\Traits\BelongsToDepartment;
+use App\Models\Traits\BelongsToProject;
+use App\Models\Traits\BelongsToSite;
 use App\Models\Traits\BelongsToSupervisor;
-use App\Models\Traits\HasManyTerminations;
-use App\Models\Traits\BelongsToCitizenship;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Traits\HasManyComments;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Hire extends Model
 {
-    use HasFactory;
-    use SoftDeletes;
-    use BelongsToEmployee;
-    use BelongsToSite;
-    use BelongsToProject;
-    use BelongsToPosition;
     use BelongsToCitizenship;
+    use BelongsToEmployee;
+    use BelongsToPosition;
+    use BelongsToProject;
+    use BelongsToSite;
     use BelongsToSupervisor;
+    use HasFactory;
     use HasManyComments;
     use HasUuids;
+    use SoftDeletes;
 
     protected $fillable = [
         'date',
@@ -50,6 +39,6 @@ class Hire extends Model
     ];
 
     protected $dispatchesEvents = [
-        'created' => EmployeeHiredEvent::class
+        'created' => EmployeeHiredEvent::class,
     ];
 }

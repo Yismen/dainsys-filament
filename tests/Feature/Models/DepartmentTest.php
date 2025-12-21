@@ -1,9 +1,9 @@
 <?php
 
-use App\Models\Hire;
-use App\Models\Employee;
-use App\Models\Position;
 use App\Models\Department;
+use App\Models\Employee;
+use App\Models\Hire;
+use App\Models\Position;
 
 test('departments model interacts with db table', function () {
     $data = Department::factory()->make();
@@ -11,7 +11,7 @@ test('departments model interacts with db table', function () {
     Department::create($data->toArray());
 
     $this->assertDatabaseHas('departments', $data->only([
-        'name', 'description'
+        'name', 'description',
     ]));
 });
 

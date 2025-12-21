@@ -9,6 +9,6 @@ class BySite extends AbstractHCService
 {
     protected function model(): Model
     {
-        return new Site();
+        return new Site;
     }
 }

@@ -4,7 +4,6 @@ namespace App\Listeners;
 
 use App\Events\SuspensionUpdated;
 
-
 class SuspendEmployee
 {
     public function handle(SuspensionUpdated $event)

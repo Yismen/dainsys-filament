@@ -9,7 +9,6 @@ beforeEach(function () {
     ]);
 });
 
-
 test('terminations model interacts with db table', function () {
     $data = Termination::factory()->make();
 
@@ -47,4 +46,3 @@ test('termination model fires event when created', function () {
 
     Event::assertDispatched(\App\Events\TerminationCreated::class);
 });
-

@@ -8,7 +8,7 @@ test('mailing subscriptions model interacts with db table', function () {
     MailingSubscription::create($data->toArray());
 
     $this->assertDatabaseHas('mailing_subscriptions', $data->only([
-        'mailable', 'user_id'
+        'mailable', 'user_id',
     ]));
 });
 

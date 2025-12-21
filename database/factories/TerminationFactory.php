@@ -5,8 +5,6 @@ namespace Database\Factories;
 use App\Enums\TerminationTypes;
 use App\Models\Employee;
 use App\Models\Termination;
-use App\Models\TerminationType;
-use App\Models\TerminationReason;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

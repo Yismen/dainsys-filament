@@ -2,17 +2,17 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TicketDepartment extends Model
 {
     use HasFactory;
-    use SoftDeletes;
     use HasUuids;
+    use SoftDeletes;
 
     protected $fillable = ['name', 'ticket_prefix', 'description'];
 
@@ -70,9 +70,9 @@ class TicketDepartment extends Model
 
         $parsed = $count === 1
             ? str($words[0])->limit(4, '')->upper()
-            : join('', [
+            : implode('', [
                 str($words[0])->limit(2, '')->upper(),
-                str($words[1] ?? '')->limit(2, '')->upper()
+                str($words[1] ?? '')->limit(2, '')->upper(),
             ]);
 
         $parsed = str($parsed)->finish('-');
@@ -80,6 +80,7 @@ class TicketDepartment extends Model
 
         if ($exists) {
             $rand = str()->random(1);
+
             return str($exists->ticket_prefix)->substrReplace(str($rand)->upper(), 4, 0);
         }
 

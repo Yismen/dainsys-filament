@@ -1,12 +1,19 @@
 <?php
 
+use App\Enums\RevenueTypes;
+use App\Events\EmployeeHiredEvent;
 use App\Models\Campaign;
 use App\Models\Employee;
+use App\Models\Hire;
 use App\Models\Production;
 use App\Models\Supervisor;
-use App\Enums\RevenueTypes;
-use App\Models\Hire;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Event;
+
+beforeEach(function () {
+    Event::fake([
+        EmployeeHiredEvent::class,
+    ]);
+});
 
 test('production model interacts with db table', function () {
     $data = Production::factory()->make();
@@ -76,8 +83,8 @@ it('updates revenue type and revenue rate and sph_goal based on the campaign whe
     $production = Production::factory()->create(['campaign_id' => $campaign->id]);
 
     expect($production->revenue_type)->toBe($campaign->revenue_type);
-    expect((float)$production->revenue_rate)->toBe((float)$campaign->revenue_rate);
-    expect((float)$production->sph_goal)->toBe((float)$campaign->sph_goal);
+    expect((float) $production->revenue_rate)->toBe((float) $campaign->revenue_rate);
+    expect((float) $production->sph_goal)->toBe((float) $campaign->sph_goal);
     $this->assertDatabaseHas('productions', [
         'id' => $production->id,
         'revenue_type' => RevenueTypes::LoginTime->value,
@@ -95,8 +102,8 @@ it('updates revenue type and revenue rate and sph_goal based on the campaign whe
     $production->update(['campaign_id' => $campaign_2->id]);
 
     expect($production->revenue_type)->toBe($campaign_2->revenue_type);
-    expect((float)$production->revenue_rate)->toBe((float)$campaign_2->revenue_rate);
-    expect((float)$production->sph_goal)->toBe((float)$campaign_2->sph_goal);
+    expect((float) $production->revenue_rate)->toBe((float) $campaign_2->revenue_rate);
+    expect((float) $production->sph_goal)->toBe((float) $campaign_2->sph_goal);
     $this->assertDatabaseHas('productions', [
         'id' => $production->id,
         'revenue_type' => RevenueTypes::TalkTime->value,
@@ -115,8 +122,8 @@ it('keeps revenue type and revenue rate and sph_goal if any other field that is 
     $production->update(['employee_id' => Employee::factory()->create()->id]);
 
     expect($production->revenue_type)->toBe(RevenueTypes::LoginTime);
-    expect((float)$production->revenue_rate)->toBe((float)5);
-    expect((float)$production->sph_goal)->toBe((float)5);
+    expect((float) $production->revenue_rate)->toBe((float) 5);
+    expect((float) $production->sph_goal)->toBe((float) 5);
     $this->assertDatabaseHas('productions', [
         'id' => $production->id,
         'revenue_type' => RevenueTypes::LoginTime->value,
@@ -133,7 +140,7 @@ it('updates supervisor id based on employee when created', function () {
         'employee_id' => $employee->id,
         'supervisor_id' => null,
     ])
-    ->create();
+        ->create();
 
     expect($production->supervisor_id)->toBe($production->employee->supervisor->id);
 });
@@ -149,7 +156,7 @@ it('updates supervisor id based on employee when employee is changed', function 
         'employee_id' => $employee->id,
         'supervisor_id' => null,
     ])
-    ->create();
+        ->create();
 
     $production->update(['employee_id' => $employee2->id]);
 
@@ -163,7 +170,7 @@ it('keeps supervisor id if employee is not changed even if supervisor has change
     $production = Production::factory([
         'employee_id' => $employee->id,
     ])
-    ->create();
+        ->create();
 
     // updated the supervisor for the employee
     Hire::factory()->for($employee)->for(Supervisor::factory())->create();
@@ -171,10 +178,9 @@ it('keeps supervisor id if employee is not changed even if supervisor has change
 
     $production->touch();
 
-    //keep original supervisor because the employee was not changed
+    // keep original supervisor because the employee was not changed
     expect($production->supervisor_id)->toBe($supervisor->id);
 });
-
 
 test('billable time and revenuve are updated properly when revenue type is login time', function () {
     $campaign = Campaign::factory()->create(['revenue_type' => RevenueTypes::LoginTime, 'revenue_rate' => 5]);

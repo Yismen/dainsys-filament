@@ -2,21 +2,18 @@
 
 namespace App\Filament\Resources\RoleResource\RelationManagers;
 
-use Filament\Schemas\Schema;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Select;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Actions\CreateAction;
 use Filament\Actions\AttachAction;
-use Filament\Actions\EditAction;
-use Filament\Actions\DetachAction;
 use Filament\Actions\BulkActionGroup;
-use Filament\Forms;
-use Filament\Tables;
-use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Actions\CreateAction;
+use Filament\Actions\DetachAction;
+use Filament\Actions\EditAction;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Schemas\Schema;
+use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
 
 class RolesRelationManager extends RelationManager
 {
@@ -58,7 +55,7 @@ class RolesRelationManager extends RelationManager
             ->recordActions([
                 EditAction::make(),
                 // Tables\Actions\DeleteAction::make(),
-                DetachAction::make()
+                DetachAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

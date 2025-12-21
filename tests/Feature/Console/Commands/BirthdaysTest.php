@@ -1,11 +1,11 @@
 <?php
 
-use App\Models\Employee;
 use App\Console\Commands\Birthdays;
-use Illuminate\Support\Facades\Mail;
 use App\Mail\Birthdays as MailBirthdays;
+use App\Models\Employee;
 use App\Models\Hire;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Mail;
 
 beforeEach(function () {
     Event::fake();

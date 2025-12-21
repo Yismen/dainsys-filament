@@ -2,8 +2,8 @@
 
 namespace App\Services\Attrition;
 
-use Illuminate\Database\Eloquent\Builder;
 use App\Models\Employee;
+use Illuminate\Database\Eloquent\Builder;
 
 class ActivesEndService extends BaseAttritionService
 {

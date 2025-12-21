@@ -1,9 +1,9 @@
 <?php
 
 use App\Events\SuspensionUpdated;
+use App\Listeners\SendEmployeeSuspendedEmail;
 use App\Listeners\SuspendEmployee;
 use Illuminate\Support\Facades\Event;
-use App\Listeners\SendEmployeeSuspendedEmail;
 
 test('suspension updated event update employee status', function () {
     Event::fake();

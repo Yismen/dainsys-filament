@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\Suspension;
 use App\Events\SuspensionUpdated;
+use App\Models\Suspension;
 use Illuminate\Support\Facades\Event;
 
 beforeEach(function () {

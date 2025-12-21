@@ -1,9 +1,9 @@
 <?php
 
 use App\Events\TerminationCreated;
+use App\Listeners\SendEmployeeTerminatedEmail;
 use App\Listeners\TerminateEmployee;
 use Illuminate\Support\Facades\Event;
-use App\Listeners\SendEmployeeTerminatedEmail;
 
 test('employee terminated event changes employee status', function () {
     Event::fake();

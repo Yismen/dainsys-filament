@@ -2,11 +2,10 @@
 
 namespace App\Events;
 
-
 use App\Models\TicketReply;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
 
 class TicketReplyCreatedEvent
 {

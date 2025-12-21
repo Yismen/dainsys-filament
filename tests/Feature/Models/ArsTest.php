@@ -2,7 +2,6 @@
 
 use App\Models\Ars;
 use App\Models\Employee;
-use App\Models\Information;
 
 test('arss model interacts with db table', function () {
     $data = Ars::factory()->make();
@@ -10,7 +9,7 @@ test('arss model interacts with db table', function () {
     Ars::create($data->toArray());
 
     $this->assertDatabaseHas(Ars::class, $data->only([
-        'name', 'person_of_contact', 'description'
+        'name', 'person_of_contact', 'description',
     ]));
 });
 

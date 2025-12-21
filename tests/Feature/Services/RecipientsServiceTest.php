@@ -1,18 +1,18 @@
 <?php
 
-use App\Models\User;
 use App\Models\Ticket;
+use App\Models\User;
 use App\Services\RecipientsService;
 
 test('service can be initialized', function () {
-    $service = new RecipientsService();
+    $service = new RecipientsService;
 
     expect($service)->toBeInstanceOf(RecipientsService::class);
 });
 
 test('service collection contains ticket owner', function () {
     $ticket = Ticket::factory()->createQuietly();
-    $service = new RecipientsService();
+    $service = new RecipientsService;
 
     $recipients = $service->ofTicket($ticket)->owner()->get();
 
@@ -23,7 +23,7 @@ test('service collection contains super admin user', function () {
     $super_admin_user = User::factory()->create();
     $ticket = Ticket::factory()->createQuietly(['owner_id' => $super_admin_user->id]);
 
-    $service = new RecipientsService();
+    $service = new RecipientsService;
     $recipients = $service
         ->ofTicket($ticket)
         ->superAdmins()
@@ -37,7 +37,7 @@ test('service collection contains departmet admins', function () {
     $department_admin = User::factory()->create();
     $ticket = Ticket::factory()->createQuietly(['owner_id' => $department_admin->id]);
 
-    $service = new RecipientsService();
+    $service = new RecipientsService;
     $recipients = $service
         ->ofTicket($ticket)
         ->superAdmins()
@@ -52,7 +52,7 @@ test('service collection contains departmet agents', function () {
     $user = User::factory()->create();
     $ticket = Ticket::factory()->createQuietly();
 
-    $service = new RecipientsService();
+    $service = new RecipientsService;
     $recipients = $service
         ->ofTicket($ticket)
         ->superAdmins()

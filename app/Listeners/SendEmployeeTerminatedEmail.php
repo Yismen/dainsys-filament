@@ -2,9 +2,9 @@
 
 namespace App\Listeners;
 
-use Illuminate\Support\Facades\Mail;
 use App\Events\TerminationCreated;
 use App\Mail\TerminationCreated as MailTerminationCreated;
+use Illuminate\Support\Facades\Mail;
 
 class SendEmployeeTerminatedEmail
 {

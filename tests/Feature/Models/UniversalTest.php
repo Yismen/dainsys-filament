@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Universal;
-use Illuminate\Support\Facades\Mail;
 
 test('universals model interacts with db table', function () {
     $data = Universal::factory()->make();
@@ -9,7 +8,7 @@ test('universals model interacts with db table', function () {
     Universal::create($data->toArray());
 
     $this->assertDatabaseHas('universals', $data->only([
-        'employee_id', 'date_since'
+        'employee_id', 'date_since',
     ]));
 });
 

@@ -1,15 +1,15 @@
 <?php
 
-use App\Models\TicketReply;
-use App\Mail\TicketReplyCreatedMail;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Event;
 use App\Events\TicketReplyCreatedEvent;
 use App\Listeners\SendTicketReplyCreatedMail;
+use App\Mail\TicketReplyCreatedMail;
+use App\Models\TicketReply;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Mail;
 
 test('event is dispatched', function () {
     Event::fake([
-        TicketReplyCreatedEvent::class
+        TicketReplyCreatedEvent::class,
     ]);
 
     // $this->supportSuperAdminUser();

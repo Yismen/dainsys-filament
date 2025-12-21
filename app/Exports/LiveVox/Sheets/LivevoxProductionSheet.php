@@ -2,13 +2,13 @@
 
 namespace App\Exports\LiveVox\Sheets;
 
+use App\Models\Services\LivevoxAgentSessionService;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\FromQuery;
-use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Concerns\WithHeadings;
-use App\Models\Services\LivevoxAgentSessionService;
+use Maatwebsite\Excel\Concerns\WithTitle;
 
-class LivevoxProductionSheet implements FromQuery, WithTitle, WithHeadings
+class LivevoxProductionSheet implements FromQuery, WithHeadings, WithTitle
 {
     protected array $default_group_columns = [
         'report_date' => 'Date',
@@ -20,9 +20,8 @@ class LivevoxProductionSheet implements FromQuery, WithTitle, WithHeadings
         protected string|array $service_name,
         protected Carbon $date_from,
         protected array $group_columns,
-        protected Carbon|null $date_to,
-    ) {
-    }
+        protected ?Carbon $date_to,
+    ) {}
 
     public function query()
     {
@@ -40,7 +39,6 @@ class LivevoxProductionSheet implements FromQuery, WithTitle, WithHeadings
     {
         return 'Production';
     }
-
 
     public function headings(): array
     {

@@ -16,7 +16,7 @@ trait HasFilters
     protected function parseFilters(array $filters, Builder $query): Builder
     {
         foreach ($filters as $name => $value) {
-            if (!$value || strlen(trim($value)) === 0) {
+            if (! $value || strlen(trim($value)) === 0) {
                 return $query;
             }
 
@@ -28,6 +28,7 @@ trait HasFilters
                     // dd($split, $split[2], $value);
                     $query = $query->whereHas($split[0], fn ($q) => $q->whereHas($split[1], fn ($q) => $q->where($split[2], 'like', $value)));
                 }
+
                 return $query;
             }
 

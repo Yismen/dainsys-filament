@@ -3,9 +3,9 @@
 namespace Tests;
 
 use App\Models\User;
-use Spatie\Permission\Models\Permission;
 use Illuminate\Foundation\Auth\User as AuthUser;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Spatie\Permission\Models\Permission;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -26,7 +26,7 @@ abstract class TestCase extends BaseTestCase
         $user = User::factory()->create();
 
         foreach ($actions as $action) {
-            $permission = $action . ' ' . $model_name;
+            $permission = $action.' '.$model_name;
 
             Permission::create(['name' => $permission]);
             $user->givePermissionTo($permission);

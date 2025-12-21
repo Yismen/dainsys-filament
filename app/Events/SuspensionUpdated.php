@@ -3,8 +3,8 @@
 namespace App\Events;
 
 use App\Models\Suspension;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
 
 class SuspensionUpdated
 {
@@ -17,7 +17,7 @@ class SuspensionUpdated
     {
         $this->suspension = $suspension->load([
             'employee' => fn ($q) => $q->with(['site', 'project', 'position']),
-            'suspensionType'
+            'suspensionType',
         ]);
     }
 }

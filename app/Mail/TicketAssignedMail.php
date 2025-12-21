@@ -4,9 +4,9 @@ namespace App\Mail;
 
 use App\Models\Ticket;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class TicketAssignedMail extends Mailable implements ShouldQueue
 {
@@ -26,10 +26,8 @@ class TicketAssignedMail extends Mailable implements ShouldQueue
             ->subject("Ticket #{$this->ticket->reference} Assigned")
             ->priority($this->ticket->mail_priority)
             ->markdown('mail.support.ticket-assigned', [
-                'user' => $this->ticket->owner
+                'user' => $this->ticket->owner,
                 // 'user' => $this->ticket->audits()->latest()->first()?->user
-            ])
-
-        ;
+            ]);
     }
 }

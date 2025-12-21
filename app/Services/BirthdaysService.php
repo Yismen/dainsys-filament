@@ -2,21 +2,23 @@
 
 namespace App\Services;
 
-use Carbon\Carbon;
 use App\Models\Employee;
-use InvalidArgumentException;
-use Illuminate\Support\Collection;
 use App\Services\Traits\HasFilters;
-use Illuminate\Support\Facades\Cache;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
+use InvalidArgumentException;
 
 class BirthdaysService
 {
     use HasFilters;
 
     protected string $type;
+
     protected Carbon $date;
+
     protected Builder $query;
+
     protected array $types = [
         'today',
         'yesterday',
@@ -36,8 +38,8 @@ class BirthdaysService
 
     public function handle(string $type = 'today'): Collection
     {
-        if (!in_array($type, $this->types)) {
-            throw new InvalidArgumentException('Invalid argument passed. options are ' . join(', ', $this->types));
+        if (! in_array($type, $this->types)) {
+            throw new InvalidArgumentException('Invalid argument passed. options are '.implode(', ', $this->types));
         }
         $this->type = $type;
         $this->date = now();
@@ -49,7 +51,7 @@ class BirthdaysService
                 'id' => $employee->id,
                 'name' => $employee->full_name,
                 'date_of_birth' => $employee->date_of_birth->format('Y-m-d'),
-                'age' => $employee->date_of_birth->age . ' years old',
+                'age' => $employee->date_of_birth->age.' years old',
                 'site' => $employee->site?->name,
                 'project' => $employee->project?->name,
                 'position' => $employee->position?->name,
@@ -127,8 +129,8 @@ class BirthdaysService
                 config('database.default') === 'sqlite',
                 fn ($q) => $q->orderByRaw('strftime("%m%d"), date_of_birth'),
                 fn ($q) => $q
-                    // ->orderByRaw('MONTH(date_of_birth)', 'ASC')
-                    // ->orderByRaw('DAY(date_of_birth)', 'ASC')
+                // ->orderByRaw('MONTH(date_of_birth)', 'ASC')
+                // ->orderByRaw('DAY(date_of_birth)', 'ASC')
             )
             ->notInactive();
 

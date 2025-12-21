@@ -3,12 +3,12 @@
 namespace App\Console;
 
 use App\Console\Commands\Birthdays;
-use Illuminate\Console\Scheduling\Schedule;
 use App\Console\Commands\EmployeesSuspended;
-use App\Console\Commands\UpdateTicketStatus;
-use App\Console\Commands\UpdateEmployeeSuspensions;
-use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Console\Commands\LiveVox\PublishingProductionReport;
+use App\Console\Commands\UpdateEmployeeSuspensions;
+use App\Console\Commands\UpdateTicketStatus;
+use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
         $schedule->command(Birthdays::class, ['type' => 'this_month'])->monthlyOn(1, '04:01');
         $schedule->command(Birthdays::class, ['type' => 'last_month'])->monthlyOn(1, '04:05');
         $schedule->command(Birthdays::class, ['type' => 'next_month'])->monthlyOn(25, '04:10');
-        //Publishing
+        // Publishing
         $schedule->command(PublishingProductionReport::class, [
             '--date' => now()->format('Y-m-d'),
             '--subject' => 'Publishing Hourly Production Report',
@@ -39,7 +39,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands(): void
     {
-        $this->load(__DIR__ . '/Commands');
+        $this->load(__DIR__.'/Commands');
 
         require base_path('routes/console.php');
     }

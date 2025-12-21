@@ -1,8 +1,8 @@
 <?php
 
-use App\Models\Source;
-use App\Models\Project;
 use App\Models\Campaign;
+use App\Models\Project;
+use App\Models\Source;
 
 test('campaigns model interacts with db table', function () {
     $data = Campaign::factory()->make();
@@ -10,7 +10,7 @@ test('campaigns model interacts with db table', function () {
     Campaign::create($data->toArray());
 
     $this->assertDatabaseHas('campaigns', $data->only([
-        'name', 'project_id', 'source_id', 'revenue_type', 'sph_goal', 'revenue_rate', 'description'
+        'name', 'project_id', 'source_id', 'revenue_type', 'sph_goal', 'revenue_rate', 'description',
     ]));
 });
 
@@ -34,7 +34,7 @@ test('campaigns model has many productions', function () {
 
 test('campaigns model casts revenue_type to RevenueTypes enum', function () {
     $campaign = Campaign::factory()->create([
-        'revenue_type' => 'login time'
+        'revenue_type' => 'login time',
     ]);
 
     expect($campaign->revenue_type)->toBeInstanceOf(\App\Enums\RevenueTypes::class);

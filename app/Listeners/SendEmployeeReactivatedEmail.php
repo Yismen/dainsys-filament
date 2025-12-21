@@ -2,9 +2,9 @@
 
 namespace App\Listeners;
 
-use Illuminate\Support\Facades\Mail;
 use App\Events\EmployeeReactivated;
 use App\Mail\EmployeeReactivated as MailEmployeeReactivated;
+use Illuminate\Support\Facades\Mail;
 
 class SendEmployeeReactivatedEmail
 {

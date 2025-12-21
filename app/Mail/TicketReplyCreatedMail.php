@@ -2,11 +2,11 @@
 
 namespace App\Mail;
 
+use App\Models\TicketReply;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use App\Models\TicketReply;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class TicketReplyCreatedMail extends Mailable implements ShouldQueue
 {
@@ -28,9 +28,7 @@ class TicketReplyCreatedMail extends Mailable implements ShouldQueue
             ->subject("Ticket #{$ticket->reference} Has Been Replied")
             ->priority($ticket->mail_priority)
             ->markdown('mail.support.reply-created', [
-                'user' => $this->reply?->user
-            ])
-
-        ;
+                'user' => $this->reply?->user,
+            ]);
     }
 }

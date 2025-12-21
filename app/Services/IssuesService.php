@@ -2,15 +2,16 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Facades\Cache;
 use App\Models\Employee;
 use App\Services\Traits\HasFilters;
+use Illuminate\Support\Facades\Cache;
 
 class IssuesService
 {
     use HasFilters;
 
     protected array $items = [];
+
     protected array $fiters = [];
 
     public function handle()
@@ -25,10 +26,10 @@ class IssuesService
 
     protected function cacheKey(string $name): string
     {
-        $key = join('_', [
+        $key = implode('_', [
             $name,
-            join('_', array_keys($this->filters)),
-            join('_', $this->filters)
+            implode('_', array_keys($this->filters)),
+            implode('_', $this->filters),
         ]);
 
         return $key;

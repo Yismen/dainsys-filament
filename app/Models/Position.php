@@ -3,41 +3,40 @@
 namespace App\Models;
 
 use App\Casts\AsMoney;
-use App\Models\Traits\HasManyHires;
-use App\Models\Traits\HasManyEmployees;
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\BelongsToDepartment;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Traits\HasManyHires;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Position extends Model
 {
-    use HasFactory;
-    use SoftDeletes;
     use BelongsToDepartment;
+    use HasFactory;
     use HasManyHires;
     use HasUuids;
+    use SoftDeletes;
 
     protected $fillable = ['name', 'department_id', 'salary_type', 'salary', 'description'];
 
     protected $appends = [
-        'details'
+        'details',
     ];
 
     public $casts = [
-        'salary' => AsMoney::class
+        'salary' => AsMoney::class,
     ];
 
     public function details(): Attribute
     {
         return Attribute::make(
-            get: fn (mixed $value, array $attributes) => join(", ", [
+            get: fn (mixed $value, array $attributes) => implode(', ', [
                 $this->name,
                 $this->department->name,
-                "$" . $this->salary,
-                $this->salary_type
+                '$'.$this->salary,
+                $this->salary_type,
             ])
         );
     }

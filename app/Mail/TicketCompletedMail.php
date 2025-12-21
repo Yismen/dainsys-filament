@@ -4,9 +4,9 @@ namespace App\Mail;
 
 use App\Models\Ticket;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class TicketCompletedMail extends Mailable implements ShouldQueue
 {
@@ -29,10 +29,8 @@ class TicketCompletedMail extends Mailable implements ShouldQueue
             ->subject("Ticket #{$this->ticket->reference} Completed")
             ->priority($this->ticket->mail_priority)
             ->markdown('mail.support.ticket-completed', [
-                'user' => $this->ticket->owner
+                'user' => $this->ticket->owner,
                 // 'user' => $this->ticket->audits()->latest()->first()?->user
-            ])
-
-        ;
+            ]);
     }
 }

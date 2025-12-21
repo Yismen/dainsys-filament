@@ -2,16 +2,15 @@
 
 namespace App\Enums;
 
-use App\Enums\Traits\EnumNames;
-use App\Enums\Traits\EnumValues;
-use App\Enums\Traits\EnumToArray;
 use App\Enums\Contracts\EnumContract;
-use App\Enums\Traits\AsArray;
+use App\Enums\Traits\EnumNames;
+use App\Enums\Traits\EnumToArray;
+use App\Enums\Traits\EnumValues;
 
 enum TicketPriorities: int implements EnumContract
 {
-    use EnumToArray;
     use EnumNames;
+    use EnumToArray;
     use EnumValues;
 
     case Normal = 1;
@@ -32,10 +31,10 @@ enum TicketPriorities: int implements EnumContract
     public function period()
     {
         return match ($this) {
-            self::Normal => '48 ' . __('support::messages.hours'),
-            self::Medium => '24 ' . __('support::messages.hours'),
-            self::High => '4 ' . __('support::messages.hours'),
-            self::Emergency => '30 ' . __('support::messages.minutes'),
+            self::Normal => '48 '.__('support::messages.hours'),
+            self::Medium => '24 '.__('support::messages.hours'),
+            self::High => '4 '.__('support::messages.hours'),
+            self::Emergency => '30 '.__('support::messages.minutes'),
         };
     }
 }

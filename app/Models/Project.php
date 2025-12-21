@@ -2,25 +2,24 @@
 
 namespace App\Models;
 
-use App\Models\Traits\HasManyHires;
-use App\Models\Traits\HasInformation;
 use App\Models\Traits\BelongsToClient;
+use App\Models\Traits\HasInformation;
 use App\Models\Traits\HasManyCampaigns;
-use App\Models\Traits\HasManyEmployees;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Traits\HasManyHires;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Project extends Model
 {
-    use HasFactory;
-    use SoftDeletes;
     use BelongsToClient;
+    use HasFactory;
+    use HasInformation;
     use HasManyCampaigns;
     use HasManyHires;
-    use HasInformation;
     use HasUuids;
+    use SoftDeletes;
 
     protected $fillable = ['name', 'client_id', 'description'];
 

@@ -15,11 +15,14 @@ class AttritionService
     protected AttritionContract $terminations;
 
     protected array $data = [];
+
     protected Carbon $date_from;
+
     protected Carbon $date_to;
+
     protected array $filters;
 
-    public function __construct(Carbon $date_from = null, Carbon $date_to = null, array $filters)
+    public function __construct(?Carbon $date_from, ?Carbon $date_to, array $filters)
     {
         $this->date_from = $date_from ?: now();
         $this->date_to = $date_to ?: now();

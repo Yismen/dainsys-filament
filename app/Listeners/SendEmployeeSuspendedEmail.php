@@ -2,9 +2,9 @@
 
 namespace App\Listeners;
 
-use Illuminate\Support\Facades\Mail;
 use App\Events\SuspensionUpdated;
 use App\Mail\SuspensionUpdated as MailSuspensionUpdated;
+use Illuminate\Support\Facades\Mail;
 
 class SendEmployeeSuspendedEmail
 {

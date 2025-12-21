@@ -2,26 +2,27 @@
 
 namespace App\Models;
 
+use App\Models\Traits\BelongsToCampaign;
+use App\Models\Traits\BelongsToDowntimeReason;
+use App\Models\Traits\BelongsToEmployee;
 use App\Models\Traits\HasManyComments;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Model;
-use App\Models\Traits\BelongsToCampaign;
-use App\Models\Traits\BelongsToEmployee;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\Traits\BelongsToDowntimeReason;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Downtime extends Model
 {
+    use BelongsToCampaign;
+
+    use BelongsToDowntimeReason;
+    use BelongsToEmployee;
     /** @use HasFactory<\Database\Factories\DowntimeFactory> */
     use HasFactory;
-    use SoftDeletes;
-    use BelongsToEmployee;
-    use BelongsToCampaign;
-    use BelongsToDowntimeReason;
     use HasManyComments;
     use HasUuids;
+    use SoftDeletes;
 
     protected $fillable = [
         'date',

@@ -20,8 +20,6 @@ abstract class LivevoxModel extends Model
 
     /**
      * Return a string representing the name of the table in livevox
-     *
-     * @return string
      */
     abstract public function overrideTableName(): string;
 }

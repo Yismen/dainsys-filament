@@ -2,7 +2,6 @@
 
 use App\Models\Ticket;
 use App\Models\TicketDepartment;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 test('departments model interacts with db table', function () {
     $data = TicketDepartment::factory()->make();
@@ -12,7 +11,7 @@ test('departments model interacts with db table', function () {
     $this->assertDatabaseHas('ticket_departments', $data->only([
         'name',
         // 'ticket_prefix',
-        'description'
+        'description',
     ]));
 });
 
@@ -63,7 +62,7 @@ test('departments model parse prefix to all caps and dash at the end', function 
     $department = TicketDepartment::factory()->create(['name' => 'craziness']);
 
     $this->assertDatabaseHas(TicketDepartment::class, [
-        'ticket_prefix' => 'CRAZ-'
+        'ticket_prefix' => 'CRAZ-',
     ]);
 });
 

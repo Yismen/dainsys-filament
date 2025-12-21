@@ -12,7 +12,7 @@ class HeadCountService
 
     public static function make(string|Model $model): self
     {
-        self::$instance = new self();
+        self::$instance = new self;
 
         self::$model = (new $model)->query();
 

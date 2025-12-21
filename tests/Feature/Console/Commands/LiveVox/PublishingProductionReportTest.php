@@ -1,13 +1,10 @@
 <?php
 
-use Mockery\MockInterface;
-use Illuminate\Support\Facades\Mail;
-use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Support\Facades\Storage;
-use App\Models\LiveVox\LivevoxAgentSession;
-use App\Models\Services\LivevoxAgentSessionService;
 use App\Console\Commands\LiveVox\PublishingProductionReport;
+use App\Models\Services\LivevoxAgentSessionService;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 beforeEach(function () {
     Mail::fake();
@@ -26,7 +23,6 @@ it('accepts parameters and options', function () {
 
     $command->assertSuccessful();
 });
-
 
 test('file is deleted after email is sent', function () {
     Storage::fake();

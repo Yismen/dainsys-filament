@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\LoginName;
-use Illuminate\Support\Facades\Mail;
 
 test('login names model interacts with db table', function () {
     $data = LoginName::factory()->make();
@@ -9,7 +8,7 @@ test('login names model interacts with db table', function () {
     LoginName::create($data->toArray());
 
     $this->assertDatabaseHas('login_names', $data->only([
-        'login_name', 'employee_id'
+        'login_name', 'employee_id',
     ]));
 });
 

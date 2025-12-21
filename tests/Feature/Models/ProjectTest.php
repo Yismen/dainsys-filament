@@ -1,10 +1,16 @@
 <?php
 
-use App\Models\Hire;
-use App\Models\Client;
-use App\Models\Project;
 use App\Models\Campaign;
+use App\Models\Client;
 use App\Models\Employee;
+use App\Models\Hire;
+use App\Models\Project;
+
+beforeEach(function () {
+    \Illuminate\Support\Facades\Event::fake([
+        \App\Events\EmployeeHiredEvent::class,
+    ]);
+});
 
 test('projects model interacts with db table', function () {
     $data = Project::factory()->make();
@@ -12,7 +18,7 @@ test('projects model interacts with db table', function () {
     Project::create($data->toArray());
 
     $this->assertDatabaseHas('projects', $data->only([
-        'name', 'client_id', 'description'
+        'name', 'client_id', 'description',
     ]));
 });
 

@@ -4,11 +4,10 @@ namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Content;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Mail\Mailables\Attachment;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Mail\Mailables\Content;
+use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Queue\SerializesModels;
 
 class LiveVoxProductionReportMail extends Mailable
 {
@@ -20,8 +19,7 @@ class LiveVoxProductionReportMail extends Mailable
     public function __construct(
         public string $title,
         protected array $attachment_files,
-    ) {
-    }
+    ) {}
 
     /**
      * Get the message envelope.

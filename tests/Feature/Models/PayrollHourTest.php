@@ -82,13 +82,12 @@ it('generates payroll id to format YYYYMM15 on update when date is before or equ
         'date' => Carbon::parse('2025-08-13'),
     ]);
 
-    expect($payrollHour->payroll_id)->toBe('PAYROLL-' . '20250815');
+    expect($payrollHour->payroll_id)->toBe('PAYROLL-'.'20250815');
 
     $payrollHour->update(['date' => '2025-12-03']);
 
     expect($payrollHour->payroll_id)->toBe('PAYROLL-20251215');
 });
-
 
 it('generates payroll id to format YYYYMMEOM on update when date is afterthe 15', function () {
     $payrollHour = PayrollHour::factory()->create([
@@ -96,7 +95,7 @@ it('generates payroll id to format YYYYMMEOM on update when date is afterthe 15'
         'date' => Date::parse('2025-08-18'),
     ]);
 
-    expect($payrollHour->payroll_id)->toBe('PAYROLL-' . '20250831');
+    expect($payrollHour->payroll_id)->toBe('PAYROLL-'.'20250831');
 
     $payrollHour->update(['date' => '2025-12-21']);
 

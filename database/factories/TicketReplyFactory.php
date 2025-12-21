@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\User;
 use App\Models\Ticket;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -21,7 +21,7 @@ class TicketReplyFactory extends Factory
         return [
             'user_id' => User::factory(),
             'ticket_id' => Ticket::factory(),
-            'content' => $this->faker->paragraph()
+            'content' => $this->faker->paragraph(),
         ];
     }
 }

@@ -2,32 +2,29 @@
 
 use App\Models\Afp;
 use App\Models\Ars;
-use App\Models\Hire;
-use App\Models\Site;
-use App\Models\Project;
+use App\Models\Citizenship;
+use App\Models\Department;
 use App\Models\Downtime;
 use App\Models\Employee;
-use App\Models\Position;
+use App\Models\Hire;
+use App\Models\Information;
 use App\Models\LoginName;
-use App\Models\Universal;
-use App\Models\Department;
+use App\Models\PayrollHour;
+use App\Models\Position;
 use App\Models\Production;
+use App\Models\Project;
+use App\Models\Site;
+use App\Models\SocialSecurity;
 use App\Models\Supervisor;
 use App\Models\Suspension;
-use App\Models\Citizenship;
-use App\Models\Information;
-use App\Models\PayrollHour;
 use App\Models\Termination;
-use App\Models\SocialSecurity;
-use App\Events\EmployeeHiredEvent;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
+use App\Models\Universal;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
-
+use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Mail;
 
 test('employee model interacts with employees table', function () {
     Event::fake();
@@ -52,13 +49,12 @@ test('employee model interacts with employees table', function () {
     ]));
 });
 
-
 test('employee model update full name when saved', function () {
     Mail::fake();
     $employee = Employee::factory()->create();
 
     $name = trim(
-        join(' ', array_filter([
+        implode(' ', array_filter([
             $employee->first_name,
             $employee->second_first_name,
             $employee->last_name,
@@ -68,7 +64,7 @@ test('employee model update full name when saved', function () {
 
     $this->assertDatabaseHas('employees', [
         'id' => $employee->id,
-        'full_name' => $name
+        'full_name' => $name,
     ]);
 });
 

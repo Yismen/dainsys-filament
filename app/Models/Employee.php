@@ -2,51 +2,43 @@
 
 namespace App\Models;
 
+use App\Enums\EmployeeStatus;
 use App\Enums\Gender;
 use App\Enums\MaritalStatus;
-use App\Enums\EmployeeStatus;
 use App\Events\EmployeeSaved;
-use App\Events\EmployeeHiredEvent;
-use App\Models\Traits\BelongsToAfp;
-use App\Models\Traits\BelongsToArs;
-use App\Models\Traits\BelongsToSite;
+use App\Models\Traits\BelongsToCitizenship;
 use App\Models\Traits\HasInformation;
-use App\Models\Traits\BelongsToProject;
 use App\Models\Traits\HasManyDowntimes;
 use App\Models\Traits\HasManyHires;
+use App\Models\Traits\HasManyLoginNames;
 use App\Models\Traits\HasManyPayrollHours;
 use App\Models\Traits\HasManyProductions;
+use App\Models\Traits\HasManySuspensions;
+use App\Models\Traits\HasManyTerminations;
 use App\Models\Traits\HasRelationsThruHire;
 use App\Models\Traits\HasRelationsThruSocialSecurity;
-use Illuminate\Database\Eloquent\Concerns\HasUlids;
-use Illuminate\Database\Eloquent\Model;
-use App\Models\Traits\BelongsToPosition;
-use App\Models\Traits\HasManyLoginNames;
-use App\Models\Traits\HasManySuspensions;
-use App\Models\Traits\BelongsToDepartment;
-use App\Models\Traits\HasManyTerminations;
-use App\Models\Traits\BelongsToCitizenship;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Employee extends Model
 {
-    use HasFactory;
-    use SoftDeletes;
-    use HasInformation;
     use BelongsToCitizenship;
+    use HasFactory;
+    use HasInformation;
+    use HasManyDowntimes;
     use HasManyHires;
-    use HasManyTerminations;
-    use HasManySuspensions;
     use HasManyLoginNames;
+    use HasManyPayrollHours;
+    use HasManyProductions;
+    use HasManySuspensions;
+    use HasManyTerminations;
     use HasRelationsThruHire;
     use HasRelationsThruSocialSecurity;
-    use HasManyProductions;
-    use HasManyDowntimes;
-    use HasManyPayrollHours;
     use HasUuids;
+    use SoftDeletes;
 
     protected $fillable = [
         'first_name',
@@ -78,12 +70,10 @@ class Employee extends Model
         'gender' => Gender::class,
     ];
 
-
     protected $dispatchesEvents = [
         // 'saved' => EmployeeSaved::class,
         // 'created' => EmployeeCreated::class
     ];
-
 
     protected static function boot()
     {
@@ -97,7 +87,7 @@ class Employee extends Model
     public function updateFullName()
     {
         $this->full_name = trim(
-            join(' ', array_filter([
+            implode(' ', array_filter([
                 $this->first_name,
                 $this->second_first_name,
                 $this->last_name,

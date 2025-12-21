@@ -1,18 +1,9 @@
 <?php
 
-use App\Models\Afp;
-use App\Models\Ars;
-use App\Models\Bank;
-use App\Models\Site;
 use App\Models\Comment;
-use App\Models\Employee;
-use App\Models\Supervisor;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Mail;
 
 beforeEach(function () {
     Mail::fake();
@@ -23,7 +14,7 @@ test('comment model interacts with db table', function () {
     $data = Comment::factory()->create();
 
     $this->assertDatabaseHas('comments', $data->only([
-        'text', 'commentable_id', 'commentable_type'
+        'text', 'commentable_id', 'commentable_type',
     ]));
 });
 

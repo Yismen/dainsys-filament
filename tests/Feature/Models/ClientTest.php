@@ -1,12 +1,12 @@
 <?php
 
-use App\Models\Hire;
-use App\Models\Client;
-use App\Models\Project;
 use App\Models\Campaign;
+use App\Models\Client;
 use App\Models\Employee;
-use App\Models\Production;
+use App\Models\Hire;
 use App\Models\Information;
+use App\Models\Production;
+use App\Models\Project;
 
 test('clients model interacts with db table', function () {
     $data = Client::factory()->make();
@@ -14,7 +14,7 @@ test('clients model interacts with db table', function () {
     Client::create($data->toArray());
 
     $this->assertDatabaseHas('clients', $data->only([
-        'name', 'person_of_contact', 'description'
+        'name', 'person_of_contact', 'description',
     ]));
 });
 

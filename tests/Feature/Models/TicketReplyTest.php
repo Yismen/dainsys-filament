@@ -1,15 +1,10 @@
 <?php
 
-use App\Models\User;
+use App\Events\TicketReplyCreatedEvent;
 use App\Models\Ticket;
 use App\Models\TicketReply;
-use App\Events\TicketCreatedEvent;
+use App\Models\User;
 use Illuminate\Support\Facades\Event;
-use App\Events\TicketReplyCreatedEvent;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Database\Eloquent\SoftDeletes;
-
-
 
 beforeEach(function () {
     Event::fake();
@@ -23,7 +18,7 @@ test('replies model interacts with db table', function () {
     $this->assertDatabaseHas('ticket_replies', $data->only([
         'user_id',
         'ticket_id',
-        'content'
+        'content',
     ]));
 });
 
@@ -43,7 +38,7 @@ test('replies model belongs to one user', function () {
 
 test('repy model emits event when reply is created', function () {
     Event::fake([
-        TicketReplyCreatedEvent::class
+        TicketReplyCreatedEvent::class,
     ]);
 
     $reply = TicketReply::factory()->create();

@@ -3,20 +3,19 @@
 namespace App\Models;
 
 use App\Models\Traits\HasInformation;
-use App\Models\Traits\HasManyEmployees;
 use App\Models\Traits\HasManyProjects;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Client extends Model
 {
     use HasFactory;
-    use SoftDeletes;
     use HasInformation;
     use HasManyProjects;
     use HasUuids;
+    use SoftDeletes;
 
     protected $fillable = ['name', 'person_of_contact', 'description'];
 
@@ -36,7 +35,6 @@ class Client extends Model
     //         'production_id' // Local key on Hires table...
     //     );
     // }
-
 
     // public function employees()
     // {

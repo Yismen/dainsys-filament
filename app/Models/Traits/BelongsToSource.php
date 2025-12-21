@@ -2,7 +2,6 @@
 
 namespace App\Models\Traits;
 
-
 use App\Models\Source;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 

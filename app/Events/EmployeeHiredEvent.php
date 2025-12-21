@@ -3,8 +3,8 @@
 namespace App\Events;
 
 use App\Models\Hire;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
 
 class EmployeeHiredEvent
 {
@@ -15,9 +15,10 @@ class EmployeeHiredEvent
 
     public function __construct(Hire $hire)
     {
-        // $this->hire = $hire->load([
-        //     'site',
-        //     'project',
-        // ]);
+        $this->hire = $hire->load([
+            'employee',
+            'site',
+            'project',
+        ]);
     }
 }

@@ -2,9 +2,9 @@
 
 namespace App\Services\Instances;
 
-use Throwable;
-use InvalidArgumentException;
 use App\Contracts\InstanceFromNameContract;
+use InvalidArgumentException;
+use Throwable;
 
 class FromModel implements InstanceFromNameContract
 {
@@ -19,12 +19,12 @@ class FromModel implements InstanceFromNameContract
     {
         $string = str($class)->contains($this->namespace) ?
             $class :
-            join('\\', [
+            implode('\\', [
                 $this->namespace,
-                $class
+                $class,
             ]);
         try {
-            return new $string();
+            return new $string;
         } catch (Throwable $th) {
             throw new InvalidArgumentException("Class {$string} Not Found");
         }

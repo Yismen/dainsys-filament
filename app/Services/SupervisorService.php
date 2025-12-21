@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Facades\Cache;
 use App\Models\Supervisor;
+use Illuminate\Support\Facades\Cache;
 
 class SupervisorService implements ServicesContract
 {

@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Facades\Cache;
 use App\Models\Department;
+use Illuminate\Support\Facades\Cache;
 
 class DepartmentService implements ServicesContract
 {

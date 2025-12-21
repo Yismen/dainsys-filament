@@ -2,21 +2,14 @@
 
 namespace Database\Factories;
 
-use Carbon\Carbon;
-use App\Models\Afp;
-use App\Models\Ars;
-use App\Models\Site;
-use App\Enums\Gender;
-use App\Models\Project;
-use App\Models\Employee;
-use App\Models\Position;
-use App\Models\Supervisor;
-use App\Models\Citizenship;
-use App\Enums\MaritalStatus;
 use App\Enums\EmployeeStatus;
+use App\Enums\Gender;
+use App\Enums\MaritalStatus;
 use App\Enums\PersonalIdTypes;
-use Illuminate\Support\Facades\Date;
+use App\Models\Citizenship;
+use App\Models\Employee;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Date;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Employee>
@@ -81,11 +74,12 @@ class EmployeeFactory extends Factory
         });
     }
 
-    public function hired(Date|null $date = null) {
-        if (!$date) {
+    public function hired(?Date $date = null)
+    {
+        if (! $date) {
             $date = now();
         }
-        
+
         dd($date, $this);
 
     }

@@ -2,21 +2,22 @@
 
 namespace App\Listeners;
 
-use App\Models\Ticket;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\TicketDeletedMail;
-use Illuminate\Database\Eloquent\Collection;
 use App\Events\TicketDeletedEvent;
+use App\Mail\TicketDeletedMail;
+use App\Models\Ticket;
 use App\Services\RecipientsService;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Mail;
 
 class SendTicketDeletedMail
 {
     protected Ticket $ticket;
+
     protected RecipientsService $recipientsService;
 
     public function __construct()
     {
-        $this->recipientsService = new RecipientsService();
+        $this->recipientsService = new RecipientsService;
     }
 
     public function handle(TicketDeletedEvent $event)

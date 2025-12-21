@@ -1,20 +1,16 @@
 <?php
 
-use App\Models\User;
-use App\Models\Ticket;
-use App\Models\TicketReply;
-use App\Enums\TicketStatuses;
 use App\Enums\TicketPriorities;
-use App\Models\TicketDepartment;
-use App\Events\TicketCreatedEvent;
+use App\Enums\TicketStatuses;
 use App\Events\TicketAssignedEvent;
-use App\Events\TicketReopenedEvent;
 use App\Events\TicketCompletedEvent;
+use App\Events\TicketCreatedEvent;
+use App\Events\TicketReopenedEvent;
+use App\Models\Ticket;
+use App\Models\TicketDepartment;
+use App\Models\TicketReply;
+use App\Models\User;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Database\Eloquent\SoftDeletes;
-
-
 
 uses(\App\Traits\EnsureDateNotWeekend::class);
 
@@ -126,17 +122,17 @@ test('ticket model updates reference correcly', function () {
 
     $this->assertDatabaseHas(Ticket::class, [
         'id' => $ticket_1->id,
-        'reference' => $department_1->ticket_prefix . '000001',
+        'reference' => $department_1->ticket_prefix.'000001',
     ]);
 
     $this->assertDatabaseHas(Ticket::class, [
         'id' => $ticket_2->id,
-        'reference' => $department_2->ticket_prefix . '000001',
+        'reference' => $department_2->ticket_prefix.'000001',
     ]);
 
     $this->assertDatabaseHas(Ticket::class, [
         'id' => $ticket_3->id,
-        'reference' => $department_1->ticket_prefix . '000002',
+        'reference' => $department_1->ticket_prefix.'000002',
     ]);
 });
 

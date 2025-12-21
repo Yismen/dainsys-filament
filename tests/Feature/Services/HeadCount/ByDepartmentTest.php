@@ -1,13 +1,12 @@
 <?php
 
-use App\Models\Hire;
-use App\Models\Employee;
-use App\Models\Position;
 use App\Models\Department;
+use App\Models\Employee;
+use App\Models\Hire;
+use App\Models\Position;
 use App\Services\HC\ByDepartment;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Cache;
-use Database\Factories\EmployeeFactory;
+use Illuminate\Support\Facades\Mail;
 
 // test('example', function () {
 //     Mail::fake();

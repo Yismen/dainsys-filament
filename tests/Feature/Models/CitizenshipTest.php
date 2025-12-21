@@ -10,7 +10,7 @@ test('citizenships model interacts with db table', function () {
     Citizenship::create($data->toArray());
 
     $this->assertDatabaseHas('citizenships', $data->only([
-        'name', 'description'
+        'name', 'description',
     ]));
 });
 

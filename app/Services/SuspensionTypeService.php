@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Facades\Cache;
 use App\Models\SuspensionType;
+use Illuminate\Support\Facades\Cache;
 
 class SuspensionTypeService implements ServicesContract
 {

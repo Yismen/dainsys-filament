@@ -10,11 +10,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PayrollHour extends Model
 {
+    use BelongsToEmployee;
+
     /** @use HasFactory<\Database\Factories\PayrollHourFactory> */
     use HasFactory;
-    use SoftDeletes;
-    use BelongsToEmployee;
     use HasUuids;
+    use SoftDeletes;
 
     protected $fillable = [
         'employee_id',
@@ -65,6 +66,6 @@ class PayrollHour extends Model
             $date->startOfMonth()->addDays(14) :
             $date->endOfMonth();
 
-        return 'PAYROLL-' . $date->format('Ymd');
+        return 'PAYROLL-'.$date->format('Ymd');
     }
 }

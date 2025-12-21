@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\User;
 use App\Models\MailingSubscription;
+use App\Models\User;
 
 test('users model interacts with db table', function () {
     $data = User::factory()->create();
@@ -10,7 +10,7 @@ test('users model interacts with db table', function () {
         'name',
         'email',
         'email_verified_at',
-        'remember_token'
+        'remember_token',
     ]));
 });
 

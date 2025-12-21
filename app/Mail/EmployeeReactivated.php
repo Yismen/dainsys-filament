@@ -3,9 +3,9 @@
 namespace App\Mail;
 
 use App\Models\Employee;
+use App\Services\MailingService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
-use App\Services\MailingService;
 use Illuminate\Queue\SerializesModels;
 
 class EmployeeReactivated extends Mailable

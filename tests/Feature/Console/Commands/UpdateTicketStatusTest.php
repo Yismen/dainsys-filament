@@ -1,8 +1,8 @@
 <?php
 
-use App\Models\Ticket;
-use App\Enums\TicketStatuses;
 use App\Console\Commands\UpdateTicketStatus;
+use App\Enums\TicketStatuses;
+use App\Models\Ticket;
 
 test('example', function () {
     expect(true)->toBeTrue();
@@ -25,7 +25,7 @@ test('update tickets status', function () {
     $this->artisan(UpdateTicketStatus::class);
 
     $this->assertDatabaseHas(Ticket::class, [
-        'status' => TicketStatuses::PendingExpired
+        'status' => TicketStatuses::PendingExpired,
     ]);
 });
 
@@ -38,11 +38,11 @@ test('update tickets only updates ticket 2 tickets', function () {
 
     $this->assertDatabaseHas(Ticket::class, [
         'id' => $ticket_1->id,
-        'status' => TicketStatuses::Completed
+        'status' => TicketStatuses::Completed,
     ]);
 
     $this->assertDatabaseHas(Ticket::class, [
         'id' => $ticket_2->id,
-        'status' => TicketStatuses::PendingExpired
+        'status' => TicketStatuses::PendingExpired,
     ]);
 });

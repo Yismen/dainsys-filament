@@ -2,34 +2,34 @@
 
 namespace App\Providers;
 
-use App\Events\EmployeeSaved;
 use App\Events\EmployeeHiredEvent;
+use App\Events\EmployeeReactivated;
+use App\Events\EmployeeSaved;
 use App\Events\SuspensionUpdated;
 use App\Events\TerminationCreated;
+use App\Events\TicketAssignedEvent;
+use App\Events\TicketCompletedEvent;
 use App\Events\TicketCreatedEvent;
 use App\Events\TicketDeletedEvent;
-use App\Listeners\SuspendEmployee;
-use App\Events\EmployeeReactivated;
-use App\Events\TicketAssignedEvent;
 use App\Events\TicketReopenedEvent;
-use App\Events\TicketCompletedEvent;
-use App\Listeners\TerminateEmployee;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Auth\Events\Registered;
 use App\Events\TicketReplyCreatedEvent;
+use App\Listeners\SendEmployeeCreatedEmail;
+use App\Listeners\SendEmployeeReactivatedEmail;
+use App\Listeners\SendEmployeeSuspendedEmail;
+use App\Listeners\SendEmployeeTerminatedEmail;
+use App\Listeners\SendTicketAssignedMail;
+use App\Listeners\SendTicketCompletedMail;
 use App\Listeners\SendTicketCreatedMail;
 use App\Listeners\SendTicketDeletedMail;
-use App\Listeners\SendTicketAssignedMail;
 use App\Listeners\SendTicketReopenedMail;
-use App\Listeners\UpdateEmployeeFullName;
-use App\Listeners\SendTicketCompletedMail;
-use App\Listeners\SendEmployeeCreatedEmail;
-use App\Listeners\SendEmployeeSuspendedEmail;
 use App\Listeners\SendTicketReplyCreatedMail;
-use App\Listeners\SendEmployeeTerminatedEmail;
-use App\Listeners\SendEmployeeReactivatedEmail;
+use App\Listeners\SuspendEmployee;
+use App\Listeners\TerminateEmployee;
+use App\Listeners\UpdateEmployeeFullName;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Event;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -43,7 +43,7 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
         EmployeeSaved::class => [
-            UpdateEmployeeFullName::class
+            UpdateEmployeeFullName::class,
         ],
         EmployeeHiredEvent::class => [
             SendEmployeeCreatedEmail::class,
@@ -76,7 +76,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         TicketReplyCreatedEvent::class => [
             SendTicketReplyCreatedMail::class,
-        ]
+        ],
     ];
 
     /**

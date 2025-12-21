@@ -1,8 +1,8 @@
 <?php
 
 use App\Events\EmployeeReactivated;
-use Illuminate\Support\Facades\Event;
 use App\Listeners\SendEmployeeReactivatedEmail;
+use Illuminate\Support\Facades\Event;
 
 test('employee reactivated event send notification email', function () {
     Event::fake();

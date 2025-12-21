@@ -1,8 +1,9 @@
 <?php
 
+use App\Events\EmployeeHiredEvent;
 use App\Models\Employee;
 use App\Models\Position;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Event;
 
 test('position model interacts with positions table', function () {
     $data = Position::factory()->make();
@@ -27,12 +28,12 @@ test('positions model belongs to department', function () {
 
 it('cast salary as money', function () {
     $data = Position::factory()->make([
-        'salary' => 150
+        'salary' => 150,
     ]);
 
     $position = Position::create($data->toArray());
 
-    expect((float)$position->salary)->toBe(150.0);
+    expect((float) $position->salary)->toBe(150.0);
     $this->assertDatabaseHas('positions', [
         'id' => $position->id,
         'salary' => 15000,
@@ -40,6 +41,10 @@ it('cast salary as money', function () {
 });
 
 test('position model has many hires', function () {
+    Event::fake([
+        EmployeeHiredEvent::class,
+    ]);
+
     $position = Position::factory()
         ->hasHires()
         ->create();
@@ -48,8 +53,10 @@ test('position model has many hires', function () {
     expect($position->hires())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
 });
 
-
 test('position model has many employees', function () {
+    Event::fake([
+        EmployeeHiredEvent::class,
+    ]);
     $employee = Employee::factory()->create();
     $position = Position::factory()
         ->hasHires(1, [

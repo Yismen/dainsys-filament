@@ -2,18 +2,20 @@
 
 namespace App\Mail;
 
+use App\Exports\TicketsExpiredExport;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
-use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Attachment;
-use App\Exports\TicketsExpiredExport;
+use Illuminate\Queue\SerializesModels;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TicketsExpiredMail extends Mailable
 {
     use Queueable;
     use SerializesModels;
+
     public string $file_name;
+
     public $tickets;
 
     public function __construct($tickets, $file_name = null)
@@ -29,8 +31,7 @@ class TicketsExpiredMail extends Mailable
         return $this
             ->subject('Tickets Expired Report')
             ->priority(0)
-            ->markdown('mail.tickets-expired')
-        ;
+            ->markdown('mail.tickets-expired');
     }
 
     public function attachments(): array

@@ -5,17 +5,18 @@ namespace App\Models;
 use App\Models\Traits\HasInformation;
 use App\Models\Traits\HasManyBankAccounts;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Bank extends Model
 {
     use HasFactory;
     use HasInformation;
     use HasManyBankAccounts;
-    use SoftDeletes;
     use HasUuids;
+    use SoftDeletes;
+
     protected $fillable = ['name', 'person_of_contact', 'description'];
 
     public function employees(): \Illuminate\Database\Eloquent\Relations\HasManyThrough

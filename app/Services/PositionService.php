@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Facades\Cache;
 use App\Models\Position;
+use Illuminate\Support\Facades\Cache;
 
 class PositionService implements ServicesContract
 {

@@ -9,6 +9,6 @@ class ByAfp extends AbstractHCService
 {
     protected function model(): Model
     {
-        return new Afp();
+        return new Afp;
     }
 }

@@ -3,11 +3,11 @@
 namespace App\Mail;
 
 use App\Models\Suspension;
-use Illuminate\Bus\Queueable;
-use Illuminate\Mail\Mailable;
 use App\Services\MailingService;
-use Illuminate\Queue\SerializesModels;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Mail\Mailable;
+use Illuminate\Queue\SerializesModels;
 
 class SuspensionUpdated extends Mailable implements ShouldQueue
 {

@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\Source;
-use App\Models\Project;
 use App\Enums\RevenueTypes;
+use App\Models\Project;
+use App\Models\Source;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

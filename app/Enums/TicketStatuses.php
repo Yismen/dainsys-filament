@@ -2,16 +2,15 @@
 
 namespace App\Enums;
 
-use App\Enums\Traits\AsArray;
-use App\Enums\Traits\EnumNames;
-use App\Enums\Traits\EnumValues;
-use App\Enums\Traits\EnumToArray;
 use App\Enums\Contracts\EnumContract;
+use App\Enums\Traits\EnumNames;
+use App\Enums\Traits\EnumToArray;
+use App\Enums\Traits\EnumValues;
 
 enum TicketStatuses: int implements EnumContract
 {
-    use EnumToArray;
     use EnumNames;
+    use EnumToArray;
     use EnumValues;
 
     case Pending = 1;
@@ -20,6 +19,7 @@ enum TicketStatuses: int implements EnumContract
     case InProgressExpired = 4;
     case Completed = 5;
     case CompletedExpired = 6;
+
     public function class(): string
     {
         return match ($this) {

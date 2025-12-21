@@ -1,23 +1,14 @@
 <?php
 
-use App\Models\User;
-use Livewire\Livewire;
-use Filament\Facades\Filament;
-use App\Models\TicketDepartment;
-use Filament\Actions\DeleteAction;
-use Illuminate\Support\Facades\Cache;
-use Filament\Resources\Pages\EditRecord;
-use Spatie\Permission\Models\Permission;
-use Filament\Resources\Pages\ListRecords;
-use Filament\Resources\Pages\CreateRecord;
 use App\Filament\Support\Resources\TicketDepartmentResource;
+use App\Filament\Support\Resources\TicketDepartmentResource\Pages\CreateTicketDepartment;
 use App\Filament\Support\Resources\TicketDepartmentResource\Pages\EditTicketDepartment;
 use App\Filament\Support\Resources\TicketDepartmentResource\Pages\ViewTicketDepartment;
-use App\Filament\Support\Resources\TicketDepartmentResource\Pages\ListTicketDepartments;
-use App\Filament\Support\Resources\TicketDepartmentResource\Pages\CreateTicketDepartment;
-
-
-
+use App\Models\TicketDepartment;
+use App\Models\User;
+use Filament\Actions\DeleteAction;
+use Filament\Facades\Filament;
+use Livewire\Livewire;
 
 uses(\Illuminate\Foundation\Testing\WithFaker::class);
 

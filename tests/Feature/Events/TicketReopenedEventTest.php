@@ -1,15 +1,15 @@
 <?php
 
-use App\Models\Ticket;
-use App\Mail\TicketReopenedMail;
 use App\Events\TicketReopenedEvent;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Event;
 use App\Listeners\SendTicketReopenedMail;
+use App\Mail\TicketReopenedMail;
+use App\Models\Ticket;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Mail;
 
 test('event is dispatched', function () {
     Event::fake([
-        TicketReopenedEvent::class
+        TicketReopenedEvent::class,
     ]);
 
     // $this->supportSuperAdminUser();

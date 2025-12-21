@@ -4,7 +4,7 @@ use App\Models\Employee;
 use App\Services\BirthdaysService;
 
 beforeEach(function () {
-    $this->service = new BirthdaysService();
+    $this->service = new BirthdaysService;
     $this->date = now();
 });
 

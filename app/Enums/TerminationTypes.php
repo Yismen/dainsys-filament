@@ -2,17 +2,15 @@
 
 namespace App\Enums;
 
-use App\Enums\Traits\EnumNames;
-use App\Enums\Traits\EnumValues;
-use App\Enums\Traits\EnumToArray;
-use Filament\Support\Colors\Color;
 use App\Enums\Contracts\EnumContract;
-use Filament\Support\Contracts\HasIcon;
+use App\Enums\Traits\EnumNames;
+use App\Enums\Traits\EnumToArray;
+use App\Enums\Traits\EnumValues;
 use Filament\Support\Contracts\HasColor;
 
 enum TerminationTypes: string implements EnumContract, HasColor
 {
-    use EnumNames, EnumValues, EnumToArray;
+    use EnumNames, EnumToArray, EnumValues;
 
     case Resignation = 'resignation'; // Renuncia
     case Termination = 'termination'; // desahucio

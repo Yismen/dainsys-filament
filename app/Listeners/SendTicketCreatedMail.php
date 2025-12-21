@@ -2,20 +2,21 @@
 
 namespace App\Listeners;
 
-use App\Models\Ticket;
-use App\Mail\TicketCreatedMail;
 use App\Events\TicketCreatedEvent;
+use App\Mail\TicketCreatedMail;
+use App\Models\Ticket;
 use App\Services\RecipientsService;
 use Illuminate\Support\Facades\Mail;
 
 class SendTicketCreatedMail
 {
     protected Ticket $ticket;
+
     protected RecipientsService $recipientsService;
 
     public function __construct()
     {
-        $this->recipientsService = new RecipientsService();
+        $this->recipientsService = new RecipientsService;
     }
 
     public function handle(TicketCreatedEvent $event)

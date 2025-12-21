@@ -2,16 +2,16 @@
 
 namespace App\Console\Commands\LiveVox;
 
-use PhpOffice\PhpSpreadsheet\IOFactory;
-use Carbon\Carbon;
-use Illuminate\Console\Command;
+use App\Exports\LiveVox\LivevoxProductionReport;
+use App\Mail\LiveVoxProductionReportMail;
 use App\Services\HelpersService;
 use App\Services\MailingService;
+use Carbon\Carbon;
+use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
-use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
-use App\Mail\LiveVoxProductionReportMail;
-use App\Exports\LiveVox\LivevoxProductionReport;
+use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class PublishingProductionReport extends Command
 {
@@ -49,7 +49,7 @@ class PublishingProductionReport extends Command
         $this->date_from = Carbon::parse($dates[0]);
         $this->date_to = Carbon::parse($dates[1] ?? $dates[0]);
         $this->subject = $this->option('subject')
-            ? $this->option('subject') . ', From ' . $this->date_from->format('m-d-Y') . ' To ' . $this->date_to->format('m-d-Y')
+            ? $this->option('subject').', From '.$this->date_from->format('m-d-Y').' To '.$this->date_to->format('m-d-Y')
             : 'Publishing Production Report';
 
         return $this;
@@ -82,7 +82,7 @@ class PublishingProductionReport extends Command
 
             Storage::delete($this->file_name);
 
-            $this->line($this->subject . ' sent');
+            $this->line($this->subject.' sent');
         }
     }
 
@@ -92,7 +92,7 @@ class PublishingProductionReport extends Command
             return true;
         }
 
-        $cache_key = str(join('-', [
+        $cache_key = str(implode('-', [
             $this->subject,
             $this->file_name,
             $this->date_from,
@@ -106,6 +106,7 @@ class PublishingProductionReport extends Command
 
         if ($hours === cache()->get($cache_key)) {
             $this->warn('No updates for this report. Report not sent! You can upse the --force option');
+
             return false;
         }
 

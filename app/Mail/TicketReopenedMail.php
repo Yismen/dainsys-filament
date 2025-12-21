@@ -4,9 +4,9 @@ namespace App\Mail;
 
 use App\Models\Ticket;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class TicketReopenedMail extends Mailable implements ShouldQueue
 {
@@ -26,10 +26,8 @@ class TicketReopenedMail extends Mailable implements ShouldQueue
             ->subject("Ticket #{$this->ticket->reference} Reopened")
             ->priority($this->ticket->mail_priority)
             ->markdown('mail.support.ticket-reopened', [
-                'user' => $this->ticket->owner
+                'user' => $this->ticket->owner,
                 // 'user' => $this->ticket->audits()->latest()->first()?->user
-            ])
-
-        ;
+            ]);
     }
 }
