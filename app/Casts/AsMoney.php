@@ -12,7 +12,7 @@ class AsMoney implements CastsAttributes
         string $key,
         mixed $value,
         array $attributes
-    ): mixed {
+    ): float {
         return $value / 100;
     }
 

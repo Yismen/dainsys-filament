@@ -16,7 +16,6 @@ beforeEach(function () {
 });
 
 test('birthdays command run sucessfully', function () {
-    $this->withoutExceptionHandling();
     $this->artisan('dainsys:birthdays', ['type' => 'today'])
         ->assertSuccessful();
 });
@@ -30,6 +29,11 @@ test('command is schedulled for daily at 401 am', function () {
     expect($addedToScheduler)->not->toBeNull();
     expect($addedToScheduler->expression)->toEqual('0 4 * * *');
 });
+
+it('trows exception if report type is not registered in the command', function () {
+    $this->artisan('dainsys:birthdays', ['invalid' => 'Invalid']);
+
+})->throws(Exception::class);
 
 test('birthdays command sends email', function () {
     $this->artisan(Birthdays::class, ['type' => 'today']);
