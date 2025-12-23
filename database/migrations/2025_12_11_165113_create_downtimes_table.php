@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('downtimes', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->date('date');
-            $table->foreignId('employee_id')->constrained()->onDelete('cascade');
-            $table->foreignId('campaign_id')->constrained()->onDelete('cascade');
-            $table->foreignId('downtime_reason_id')->constrained()->onDelete('cascade');
+            $table->foreignUuid('employee_id')->constrained('employees')->onDelete('cascade');
+            $table->foreignUuid('campaign_id')->constrained()->onDelete('cascade');
+            $table->foreignUuid('downtime_reason_id')->constrained()->onDelete('cascade');
             $table->float('time');
-            $table->foreignId('requester_id')->nullable()->constrained('users')->onDelete('cascade');
-            $table->foreignId('aprover_id')->nullable()->constrained('users')->onDelete('cascade');
+            $table->foreignUuid('requester_id')->nullable()->constrained('users')->onDelete('cascade');
+            $table->foreignUuid('aprover_id')->nullable()->constrained('users')->onDelete('cascade');
             $table->dateTime('converted_to_payroll_at')->nullable();
             $table->softDeletes();
             $table->timestamps();

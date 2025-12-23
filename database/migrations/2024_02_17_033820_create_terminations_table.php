@@ -18,7 +18,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->date('date');
             $table->foreignUuid('employee_id')->constrained('employees')->cascadeOnDelete();
-            $table->text('termination_type')->default(TerminationTypes::Resignation);
+            $table->text('termination_type');
             $table->boolean('is_rehireable')->default(true);
             $table->softDeletes();
             $table->timestamps();

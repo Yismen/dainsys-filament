@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('payroll_hours', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->date('date');
-            $table->foreignId('employee_id')->constrained()->onDelete('cascade');
+            $table->foreignUuid('employee_id')->constrained()->onDelete('cascade');
             $table->date('week_ending_at')->nullable();
             $table->date('payroll_ending_at')->nullable();
             $table->float('total_hours')->default(0);
