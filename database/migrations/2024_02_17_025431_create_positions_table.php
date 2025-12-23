@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignUuid('department_id')->constrained('departments')->cascadeOnDelete();
             $table->text('salary_type');
             $table->integer('salary')->unsigned();
+            $table->text('details')->nullable();
             $table->text('description')->nullable();
             $table->softDeletes();
             $table->timestamps();

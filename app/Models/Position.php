@@ -21,24 +21,24 @@ class Position extends Model
 
     protected $fillable = ['name', 'department_id', 'salary_type', 'salary', 'description'];
 
-    protected $appends = [
-        'details',
-    ];
-
     public $casts = [
         'salary' => AsMoney::class,
     ];
 
-    public function details(): Attribute
+    protected static function boot()
     {
-        return Attribute::make(
-            get: fn (mixed $value, array $attributes) => implode(', ', [
-                $this->name,
-                $this->department->name,
-                '$'.$this->salary,
-                $this->salary_type,
-            ])
-        );
+        parent::boot();
+
+        static::saved(function (Position $position) {
+            $position->details = implode(', ', [
+                $position->name,
+                $position->department->name,
+                '$' . $position->salary,
+                $position->salary_type,
+            ]);
+
+            $position->saveQuietly();
+        });
     }
 
     public function employees(): \Illuminate\Database\Eloquent\Relations\HasManyThrough

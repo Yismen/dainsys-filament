@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Event;
 test('position model interacts with positions table', function () {
     $data = Position::factory()->make();
 
+
     Position::create($data->toArray());
 
     $this->assertDatabaseHas('positions', $data->only([
@@ -66,4 +67,24 @@ test('position model has many employees', function () {
 
     expect($position->employees->first())->toBeInstanceOf(Employee::class);
     expect($position->employees())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasManyThrough::class);
+});
+
+it('updates the description field', function () {
+    Event::fake([
+        EmployeeHiredEvent::class,
+    ]);
+    $employee = Employee::factory()->create();
+    $position = Position::factory()
+        ->hasHires(1, [
+            'employee_id' => $employee->id,
+        ])
+        ->create();
+
+    expect($position->details)->toBe(join(', ', [
+        $position->name,
+        $position->department->name,
+        '$' . $position->salary,
+        $position->salary_type,
+    ]));
+
 });

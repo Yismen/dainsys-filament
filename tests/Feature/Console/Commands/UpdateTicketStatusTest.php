@@ -1,11 +1,15 @@
 <?php
 
-use App\Console\Commands\UpdateTicketStatus;
-use App\Enums\TicketStatuses;
 use App\Models\Ticket;
+use App\Enums\TicketStatuses;
+use Illuminate\Support\Facades\Event;
+use App\Console\Commands\UpdateTicketStatus;
+use App\Events\TicketCreatedEvent;
 
-test('example', function () {
-    expect(true)->toBeTrue();
+beforeEach(function () {
+    Event::fake([
+        TicketCreatedEvent::class,
+    ]);
 });
 
 test('command is schedulled for evey thirty minutes', function () {

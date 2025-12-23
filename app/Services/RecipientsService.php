@@ -46,7 +46,6 @@ class RecipientsService
     public function superAdmins(): self
     {
         $super_admins = User::query()
-            // ->with('user')
             ->get()
             ->filter(function ($user) {
                 return $user?->email;
@@ -69,9 +68,12 @@ class RecipientsService
             // ->where('role', DepartmentRolesEnum::Admin)
             // ->with('user')
             ->get()
-            ->map->user->filter(function ($user) {
-                return $user?->email;
-            });
+            // ->map->user->filter(function ($user) {
+            //     return $user?->email;
+            // })
+            ;
+
+        dd($admins);
 
         if ($admins->count()) {
             $this->recipients = $this->recipients
@@ -114,47 +116,48 @@ class RecipientsService
 
     public function departmentAdmins($ticket = null): self
     {
-        $ticket = $ticket ?: $this->ticket;
+        // $ticket = $ticket ?: $this->ticket;
 
-        $admins = Ticket::query()
-            // ->where('role', DepartmentRolesEnum::Admin)
-            ->where('department_id', $ticket->department_id)
-            // ->with('user')
-            ->get()
-            ->map->user->filter(function ($user) {
-                return $user?->email;
-            });
+        // $admins = Ticket::query()
+        //     // ->where('role', DepartmentRolesEnum::Admin)
+        //     ->where('department_id', $ticket->department_id)
+        //     // ->with('user')
+        //     ->get()
+        //     // ->map->user->filter(function ($user) {
+        //     //     return $user?->email;
+        //     // })
+        //     ;
 
-        if ($admins->count()) {
-            $this->recipients = $this->recipients
-                ->filter(function ($user) {
-                    return $user?->email;
-                })
-                ->merge($admins);
-        }
+        // if ($admins->count()) {
+        //     $this->recipients = $this->recipients
+        //         ->filter(function ($user) {
+        //             return $user?->email;
+        //         })
+        //         ->merge($admins);
+        // }
 
         return $this;
     }
 
     public function departmentAgents($ticket = null): self
     {
-        $ticket = $ticket ?: $this->ticket;
+        // $ticket = $ticket ?: $this->ticket;
 
-        $agents = Ticket::query()
-            // ->with('user')
-            // ->where('role', DepartmentRolesEnum::Agent)
-            ->where('department_id', $ticket->department_id)->get()
-            ->map->user->filter(function ($user) {
-                return $user?->email;
-            });
+        // $agents = Ticket::query()
+        //     // ->with('user')
+        //     // ->where('role', DepartmentRolesEnum::Agent)
+        //     ->where('department_id', $ticket->department_id)->get()
+        //     ->map->user->filter(function ($user) {
+        //         return $user?->email;
+        //     });
 
-        if ($agents->count()) {
-            $this->recipients = $this->recipients
-                ->filter(function ($user) {
-                    return $user?->email;
-                })
-                ->merge($agents);
-        }
+        // if ($agents->count()) {
+        //     $this->recipients = $this->recipients
+        //         ->filter(function ($user) {
+        //             return $user?->email;
+        //         })
+        //         ->merge($agents);
+        // }
 
         return $this;
     }

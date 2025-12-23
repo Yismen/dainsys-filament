@@ -19,7 +19,7 @@ class PayrollHourFactory extends Factory
         return [
             'employee_id' => \App\Models\Employee::factory(),
             'date' => $this->faker->date(),
-            'total_hours' => $this->faker->randomFloat(2, 1, 12),
+            // 'total_hours' => $this->faker->randomFloat(2, 1, 12),
             'regular_hours' => $this->faker->randomFloat(2, 0, 8),
             'nightly_hours' => $this->faker->randomFloat(2, 0, 4),
             'overtime_hours' => $this->faker->randomFloat(2, 0, 4),
