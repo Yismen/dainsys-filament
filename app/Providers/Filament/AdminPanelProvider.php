@@ -19,6 +19,7 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\NavigationItem;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 
@@ -34,6 +35,18 @@ class AdminPanelProvider extends PanelProvider
             // ->registration()
             ->passwordReset()
             ->viteTheme('resources/css/filament/admin/theme.css')
+            ->navigationItems([
+                NavigationItem::make()
+                    ->label('Pulse')
+                    ->icon('heroicon-o-bolt')
+                    ->url(fn (): string => route('pulse'))
+                    ->openUrlInNewTab(),
+                // NavigationItem::make()
+                //     ->label('Telescope')
+                //     ->icon('heroicon-o-cursor-arrow-ripple')
+                //     ->url(fn (): string => route('telescope'))
+                //     ->openUrlInNewTab(),
+            ])
             ->plugins([
                 FilamentLogViewer::make(),
                 BreezyCore::make()
