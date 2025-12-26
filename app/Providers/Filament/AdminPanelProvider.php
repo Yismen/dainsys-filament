@@ -37,14 +37,22 @@ class AdminPanelProvider extends PanelProvider
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->navigationItems([
                 NavigationItem::make()
+                    ->group('System')
                     ->label('Pulse')
                     ->icon('heroicon-o-bolt')
                     ->url(fn (): string => route('pulse'))
                     ->openUrlInNewTab(),
                 NavigationItem::make()
+                    ->group('System')
                     ->label('Telescope')
                     ->icon('heroicon-o-cursor-arrow-ripple')
                     ->url(fn (): string => route('telescope'))
+                    ->openUrlInNewTab(),
+                NavigationItem::make()
+                    ->group('System')
+                    ->label('Horizon')
+                    ->icon('heroicon-o-arrow-trending-up')
+                    ->url(fn (): string => route('horizon.index'))
                     ->openUrlInNewTab(),
             ])
             ->plugins([
