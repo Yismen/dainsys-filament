@@ -41,11 +41,11 @@ class AdminPanelProvider extends PanelProvider
                     ->icon('heroicon-o-bolt')
                     ->url(fn (): string => route('pulse'))
                     ->openUrlInNewTab(),
-                // NavigationItem::make()
-                //     ->label('Telescope')
-                //     ->icon('heroicon-o-cursor-arrow-ripple')
-                //     ->url(fn (): string => route('telescope'))
-                //     ->openUrlInNewTab(),
+                NavigationItem::make()
+                    ->label('Telescope')
+                    ->icon('heroicon-o-cursor-arrow-ripple')
+                    ->url(fn (): string => route('telescope'))
+                    ->openUrlInNewTab(),
             ])
             ->plugins([
                 FilamentLogViewer::make(),

@@ -31,5 +31,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('viewPulse', function (User $user) {
             return $user->isSuperAdmin();
         });
+
+        Gate::define('viewTelescope', function (User $user) {
+            return $user->isSuperAdmin();
+        });
     }
 }

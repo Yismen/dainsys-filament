@@ -32,6 +32,8 @@ class Kernel extends ConsoleKernel
         ]);
 
         $schedule->command(UpdateTicketStatus::class)->everyThirtyMinutes();
+
+        Schedule::command('telescope:prune --hours=48')->daily();
     }
 
     /**
