@@ -5,18 +5,19 @@ namespace Tests;
 use App\Models\User;
 use Illuminate\Foundation\Auth\User as AuthUser;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
-use Spatie\Permission\Models\Permission;
+use App\Models\Permission;
+use App\Models\Role;
 
 abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
 
-    public function createUserWithPermissionTo(string $permission): AuthUser
+    public function createUserWithPermissionTo(string $permissionName): AuthUser
     {
         $user = User::factory()->create();
 
-        Permission::create(['name' => $permission]);
-        $user->givePermissionTo($permission);
+        Permission::firstOrCreate(['name' => $permissionName]);
+        $user->givePermissionTo($permissionName);
 
         return $user;
     }
@@ -26,11 +27,22 @@ abstract class TestCase extends BaseTestCase
         $user = User::factory()->create();
 
         foreach ($actions as $action) {
-            $permission = $action.' '.$model_name;
+            $permissionName = $action.' '.$model_name;
 
-            Permission::create(['name' => $permission]);
-            $user->givePermissionTo($permission);
+            Permission::firstOrCreate(['name' => $permissionName]);
+            $user->givePermissionTo($permissionName);
         }
+
+        return $user;
+    }
+
+    public function createSuperAdminUser(): AuthUser
+    {
+        $user = User::factory()->create();
+        $role = 'Super Admin';
+
+        Role::create(['name' => $role]);
+        $user->assignRole($role);
 
         return $user;
     }
