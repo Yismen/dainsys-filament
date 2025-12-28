@@ -108,7 +108,7 @@ it('displays Ars list page correctly', function () {
 test('create Ars page works correctly', function () {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Ars'));
 
-    $name = 'new AFP';
+    $name = 'new ARS';
     livewire(CreateArs::class)
         ->fillForm([
             'name' => $name,
@@ -125,7 +125,7 @@ test('edit Ars page works correctly', function () {
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Ars'));
 
-    $newName = 'Updated AFP Name';
+    $newName = 'Updated ARS Name';
     livewire(EditArs::class, ['record' => $ars->getKey()])
         ->fillForm([
             'name' => $newName,
@@ -162,39 +162,52 @@ test('form validation require fields on create and edit pages', function () {
 test('Ars name must be unique on create and edit pages', function () {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Ars'));
 
-    $existingArs = Ars::factory()->create(['name' => 'Unique AFP']);
+    $existingArs = Ars::factory()->create(['name' => 'Unique ARS']);
 
     // Test CreateArs uniqueness validation
     livewire(CreateArs::class)
         ->fillForm([
-            'name' => 'Unique AFP', // Invalid: name must be unique
+            'name' => 'Unique ARS', // Invalid: name must be unique
         ])
         ->call('create')
         ->assertHasFormErrors(['name' => 'unique']);
     // Test EditArs uniqueness validation
-    $arsToEdit = Ars::factory()->create(['name' => 'Another AFP']);
+    $arsToEdit = Ars::factory()->create(['name' => 'Another ARS']);
     livewire(EditArs::class, ['record' => $arsToEdit->getKey()])
         ->fillForm([
-            'name' => 'Unique AFP', // Invalid: name must be unique
+            'name' => 'Unique ARS', // Invalid: name must be unique
         ])
         ->call('save')
         ->assertHasFormErrors(['name' => 'unique']);
 });
 
 it('allows updating Ars without changing name to trigger uniqueness validation', function () {
-    $ars = Ars::factory()->create(['name' => 'Existing AFP']);
+    $ars = Ars::factory()->create(['name' => 'Existing ARS']);
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Ars'));
 
     livewire(EditArs::class, ['record' => $ars->getKey()])
         ->fillForm([
-            'name' => 'Existing AFP', // Same name, should not trigger uniqueness error
+            'name' => 'Existing ARS', // Same name, should not trigger uniqueness error
         ])
         ->call('save')
         ->assertHasNoErrors();
 
     $this->assertDatabaseHas('arss', [
         'id' => $ars->id,
-        'name' => 'Existing AFP',
+        'name' => 'Existing ARS',
     ]);
+});
+
+it('autofocus the name field on create and edit pages', function () {
+    actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Ars'));
+
+    // Test CreateArs autofocus
+    livewire(CreateArs::class)
+        ->assertSeeHtml('autofocus');
+
+    // Test EditArs autofocus
+    $ars = Ars::factory()->create();
+    livewire(EditArs::class, ['record' => $ars->getKey()])
+        ->assertSeeHtml('autofocus');
 });

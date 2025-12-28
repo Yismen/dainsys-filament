@@ -198,3 +198,16 @@ it('allows updating Afp without changing name to trigger uniqueness validation',
         'name' => 'Existing AFP',
     ]);
 });
+
+it('autofocus the name field on create and edit pages', function () {
+    actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Afp'));
+
+    // Test CreateAfp autofocus
+    livewire(CreateAfp::class)
+        ->assertSeeHtml('autofocus');
+
+    // Test EditAfp autofocus
+    $afp = Afp::factory()->create();
+    livewire(EditAfp::class, ['record' => $afp->getKey()])
+        ->assertSeeHtml('autofocus');
+});

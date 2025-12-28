@@ -111,7 +111,7 @@ it('displays Supervisor list page correctly', function () {
 test('create Supervisor page works correctly', function () {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Supervisor'));
 
-    $name = 'new AFP';
+    $name = 'new Supervisor';
     livewire(CreateSupervisor::class)
         ->fillForm([
             'name' => $name,
@@ -128,7 +128,7 @@ test('edit Supervisor page works correctly', function () {
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Supervisor'));
 
-    $newName = 'Updated AFP Name';
+    $newName = 'Updated Supervisor Name';
     livewire(EditSupervisor::class, ['record' => $supervisor->getKey()])
         ->fillForm([
             'name' => $newName,
@@ -165,39 +165,52 @@ test('form validation require fields on create and edit pages', function () {
 test('Supervisor name must be unique on create and edit pages', function () {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Supervisor'));
 
-    $existingSupervisor = Supervisor::factory()->create(['name' => 'Unique AFP']);
+    $existingSupervisor = Supervisor::factory()->create(['name' => 'Unique Supervisor']);
 
     // Test CreateSupervisor uniqueness validation
     livewire(CreateSupervisor::class)
         ->fillForm([
-            'name' => 'Unique AFP', // Invalid: name must be unique
+            'name' => 'Unique Supervisor', // Invalid: name must be unique
         ])
         ->call('create')
         ->assertHasFormErrors(['name' => 'unique']);
     // Test EditSupervisor uniqueness validation
-    $supervisorToEdit = Supervisor::factory()->create(['name' => 'Another AFP']);
+    $supervisorToEdit = Supervisor::factory()->create(['name' => 'Another Supervisor']);
     livewire(EditSupervisor::class, ['record' => $supervisorToEdit->getKey()])
         ->fillForm([
-            'name' => 'Unique AFP', // Invalid: name must be unique
+            'name' => 'Unique Supervisor', // Invalid: name must be unique
         ])
         ->call('save')
         ->assertHasFormErrors(['name' => 'unique']);
 });
 
 it('allows updating Supervisor without changing name to trigger uniqueness validation', function () {
-    $supervisor = Supervisor::factory()->create(['name' => 'Existing AFP']);
+    $supervisor = Supervisor::factory()->create(['name' => 'Existing Supervisor']);
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Supervisor'));
 
     livewire(EditSupervisor::class, ['record' => $supervisor->getKey()])
         ->fillForm([
-            'name' => 'Existing AFP', // Same name, should not trigger uniqueness error
+            'name' => 'Existing Supervisor', // Same name, should not trigger uniqueness error
         ])
         ->call('save')
         ->assertHasNoErrors();
 
     $this->assertDatabaseHas('supervisors', [
         'id' => $supervisor->id,
-        'name' => 'Existing AFP',
+        'name' => 'Existing Supervisor',
     ]);
+});
+
+it('autofocus the name field on create and edit pages', function () {
+    actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Supervisor'));
+
+    // Test CreateSupervisor autofocus
+    livewire(CreateSupervisor::class)
+        ->assertSeeHtml('autofocus');
+
+    // Test EditSupervisor autofocus
+    $supervisor = Supervisor::factory()->create();
+    livewire(EditSupervisor::class, ['record' => $supervisor->getKey()])
+        ->assertSeeHtml('autofocus');
 });

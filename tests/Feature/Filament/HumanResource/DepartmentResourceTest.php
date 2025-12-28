@@ -108,7 +108,7 @@ it('displays Department list page correctly', function () {
 test('create Department page works correctly', function () {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Department'));
 
-    $name = 'new AFP';
+    $name = 'new Department';
     livewire(CreateDepartment::class)
         ->fillForm([
             'name' => $name,
@@ -125,7 +125,7 @@ test('edit Department page works correctly', function () {
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Department'));
 
-    $newName = 'Updated AFP Name';
+    $newName = 'Updated Department Name';
     livewire(EditDepartment::class, ['record' => $department->getKey()])
         ->fillForm([
             'name' => $newName,
@@ -162,39 +162,52 @@ test('form validation require fields on create and edit pages', function () {
 test('Department name must be unique on create and edit pages', function () {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Department'));
 
-    $existingDepartment = Department::factory()->create(['name' => 'Unique AFP']);
+    $existingDepartment = Department::factory()->create(['name' => 'Unique Department']);
 
     // Test CreateDepartment uniqueness validation
     livewire(CreateDepartment::class)
         ->fillForm([
-            'name' => 'Unique AFP', // Invalid: name must be unique
+            'name' => 'Unique Department', // Invalid: name must be unique
         ])
         ->call('create')
         ->assertHasFormErrors(['name' => 'unique']);
     // Test EditDepartment uniqueness validation
-    $departmentToEdit = Department::factory()->create(['name' => 'Another AFP']);
+    $departmentToEdit = Department::factory()->create(['name' => 'Another Department']);
     livewire(EditDepartment::class, ['record' => $departmentToEdit->getKey()])
         ->fillForm([
-            'name' => 'Unique AFP', // Invalid: name must be unique
+            'name' => 'Unique Department', // Invalid: name must be unique
         ])
         ->call('save')
         ->assertHasFormErrors(['name' => 'unique']);
 });
 
 it('allows updating Department without changing name to trigger uniqueness validation', function () {
-    $department = Department::factory()->create(['name' => 'Existing AFP']);
+    $department = Department::factory()->create(['name' => 'Existing Department']);
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Department'));
 
     livewire(EditDepartment::class, ['record' => $department->getKey()])
         ->fillForm([
-            'name' => 'Existing AFP', // Same name, should not trigger uniqueness error
+            'name' => 'Existing Department', // Same name, should not trigger uniqueness error
         ])
         ->call('save')
         ->assertHasNoErrors();
 
     $this->assertDatabaseHas('departments', [
         'id' => $department->id,
-        'name' => 'Existing AFP',
+        'name' => 'Existing Department',
     ]);
+});
+
+it('autofocus the name field on create and edit pages', function () {
+    actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Department'));
+
+    // Test CreateDepartment autofocus
+    livewire(CreateDepartment::class)
+        ->assertSeeHtml('autofocus');
+
+    // Test EditDepartment autofocus
+    $department = Department::factory()->create();
+    livewire(EditDepartment::class, ['record' => $department->getKey()])
+        ->assertSeeHtml('autofocus');
 });

@@ -108,7 +108,7 @@ it('displays Site list page correctly', function () {
 test('create Site page works correctly', function () {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Site'));
 
-    $name = 'new AFP';
+    $name = 'new Site';
     livewire(CreateSite::class)
         ->fillForm([
             'name' => $name,
@@ -125,7 +125,7 @@ test('edit Site page works correctly', function () {
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Site'));
 
-    $newName = 'Updated AFP Name';
+    $newName = 'Updated Site Name';
     livewire(EditSite::class, ['record' => $site->getKey()])
         ->fillForm([
             'name' => $newName,
@@ -162,39 +162,52 @@ test('form validation require fields on create and edit pages', function () {
 test('Site name must be unique on create and edit pages', function () {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Site'));
 
-    $existingSite = Site::factory()->create(['name' => 'Unique AFP']);
+    $existingSite = Site::factory()->create(['name' => 'Unique Site']);
 
     // Test CreateSite uniqueness validation
     livewire(CreateSite::class)
         ->fillForm([
-            'name' => 'Unique AFP', // Invalid: name must be unique
+            'name' => 'Unique Site', // Invalid: name must be unique
         ])
         ->call('create')
         ->assertHasFormErrors(['name' => 'unique']);
     // Test EditSite uniqueness validation
-    $siteToEdit = Site::factory()->create(['name' => 'Another AFP']);
+    $siteToEdit = Site::factory()->create(['name' => 'Another Site']);
     livewire(EditSite::class, ['record' => $siteToEdit->getKey()])
         ->fillForm([
-            'name' => 'Unique AFP', // Invalid: name must be unique
+            'name' => 'Unique Site', // Invalid: name must be unique
         ])
         ->call('save')
         ->assertHasFormErrors(['name' => 'unique']);
 });
 
 it('allows updating Site without changing name to trigger uniqueness validation', function () {
-    $site = Site::factory()->create(['name' => 'Existing AFP']);
+    $site = Site::factory()->create(['name' => 'Existing Site']);
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Site'));
 
     livewire(EditSite::class, ['record' => $site->getKey()])
         ->fillForm([
-            'name' => 'Existing AFP', // Same name, should not trigger uniqueness error
+            'name' => 'Existing Site', // Same name, should not trigger uniqueness error
         ])
         ->call('save')
         ->assertHasNoErrors();
 
     $this->assertDatabaseHas('sites', [
         'id' => $site->id,
-        'name' => 'Existing AFP',
+        'name' => 'Existing Site',
     ]);
+});
+
+it('autofocus the name field on create and edit pages', function () {
+    actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Site'));
+
+    // Test CreateSite autofocus
+    livewire(CreateSite::class)
+        ->assertSeeHtml('autofocus');
+
+    // Test EditSite autofocus
+    $site = Site::factory()->create();
+    livewire(EditSite::class, ['record' => $site->getKey()])
+        ->assertSeeHtml('autofocus');
 });

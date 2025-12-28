@@ -108,7 +108,7 @@ it('displays Bank list page correctly', function () {
 test('create Bank page works correctly', function () {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Bank'));
 
-    $name = 'new AFP';
+    $name = 'new Bank';
     livewire(CreateBank::class)
         ->fillForm([
             'name' => $name,
@@ -125,7 +125,7 @@ test('edit Bank page works correctly', function () {
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Bank'));
 
-    $newName = 'Updated AFP Name';
+    $newName = 'Updated Bank Name';
     livewire(EditBank::class, ['record' => $bank->getKey()])
         ->fillForm([
             'name' => $newName,
@@ -162,39 +162,52 @@ test('form validation require fields on create and edit pages', function () {
 test('Bank name must be unique on create and edit pages', function () {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Bank'));
 
-    $existingBank = Bank::factory()->create(['name' => 'Unique AFP']);
+    $existingBank = Bank::factory()->create(['name' => 'Unique Bank']);
 
     // Test CreateBank uniqueness validation
     livewire(CreateBank::class)
         ->fillForm([
-            'name' => 'Unique AFP', // Invalid: name must be unique
+            'name' => 'Unique Bank', // Invalid: name must be unique
         ])
         ->call('create')
         ->assertHasFormErrors(['name' => 'unique']);
     // Test EditBank uniqueness validation
-    $bankToEdit = Bank::factory()->create(['name' => 'Another AFP']);
+    $bankToEdit = Bank::factory()->create(['name' => 'Another Bank']);
     livewire(EditBank::class, ['record' => $bankToEdit->getKey()])
         ->fillForm([
-            'name' => 'Unique AFP', // Invalid: name must be unique
+            'name' => 'Unique Bank', // Invalid: name must be unique
         ])
         ->call('save')
         ->assertHasFormErrors(['name' => 'unique']);
 });
 
 it('allows updating Bank without changing name to trigger uniqueness validation', function () {
-    $bank = Bank::factory()->create(['name' => 'Existing AFP']);
+    $bank = Bank::factory()->create(['name' => 'Existing Bank']);
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Bank'));
 
     livewire(EditBank::class, ['record' => $bank->getKey()])
         ->fillForm([
-            'name' => 'Existing AFP', // Same name, should not trigger uniqueness error
+            'name' => 'Existing Bank', // Same name, should not trigger uniqueness error
         ])
         ->call('save')
         ->assertHasNoErrors();
 
     $this->assertDatabaseHas('banks', [
         'id' => $bank->id,
-        'name' => 'Existing AFP',
+        'name' => 'Existing Bank',
     ]);
+});
+
+it('autofocus the name field on create and edit pages', function () {
+    actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Bank'));
+
+    // Test CreateBank autofocus
+    livewire(CreateBank::class)
+        ->assertSeeHtml('autofocus');
+
+    // Test EditBank autofocus
+    $bank = Bank::factory()->create();
+    livewire(EditBank::class, ['record' => $bank->getKey()])
+        ->assertSeeHtml('autofocus');
 });

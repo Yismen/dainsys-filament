@@ -15,7 +15,8 @@ class SupervisorForm
                 TextInput::make('name')
                     ->required()
                     ->maxLength(255)
-                    ->unique(ignoreRecord: true),
+                    ->unique(ignoreRecord: true)
+                    ->autofocus(),
                 Textarea::make('description')
                     ->columnSpanFull(),
             ]);

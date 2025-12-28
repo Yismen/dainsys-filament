@@ -15,7 +15,8 @@ class SiteForm
                 TextInput::make('name')
                     ->required()
                     ->maxLength(255)
-                    ->unique(ignoreRecord: true),
+                    ->unique(ignoreRecord: true)
+                    ->autofocus(),
                 TextInput::make('person_of_contact'),
                 Textarea::make('description')
                     ->columnSpanFull(),
