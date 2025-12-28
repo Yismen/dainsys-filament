@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\SalaryTypes;
 use App\Models\Department;
 use App\Models\Position;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -28,7 +29,7 @@ class PositionFactory extends Factory
         return [
             'name' => $this->faker->company(),
             'department_id' => Department::factory(),
-            'salary_type' => $this->faker->randomElement(['Hourly', 'Salary']),
+            'salary_type' => SalaryTypes::values()[array_rand(SalaryTypes::values())],
             'salary' => rand(80, 200),
             'description' => $this->faker->paragraph(),
         ];

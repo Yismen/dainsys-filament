@@ -3,12 +3,15 @@
 use App\Models\Afp;
 use App\Models\User;
 use App\Models\Permission;
-use function Livewire\before;
+use Termwind\Components\Li;
 
+use Spatie\FlareClient\View;
+use function Livewire\before;
 use Filament\Facades\Filament;
 use function Pest\Livewire\livewire;
 use function Pest\Laravel\{actingAs, get};
 use App\Filament\HumanResource\Resources\Afps\Pages\EditAfp;
+use App\Filament\HumanResource\Resources\Afps\Pages\ViewAfp;
 use App\Filament\HumanResource\Resources\Afps\Pages\ListAfps;
 use App\Filament\HumanResource\Resources\Afps\Pages\CreateAfp;
 
@@ -21,22 +24,22 @@ beforeEach(function () {
 
     $this->resource_routes = [
         'index' => [
-            'route' => 'filament.human-resource.resources.afps.index',
+            'route' => ListAfps::getRouteName(),
             'params' => [],
             'permission' => ['view-any'],
         ],
         'create' => [
-            'route' => 'filament.human-resource.resources.afps.create',
+            'route' => CreateAfp::getRouteName(),
             'params' => [],
             'permission' => ['create', 'view-any'],
         ],
         'edit' => [
-            'route' => 'filament.human-resource.resources.afps.edit',
+            'route' => EditAfp::getRouteName(),
             'params' => ['record' => $afp->getKey()],
             'permission' => ['update', 'edit', 'view-any'],
         ],
         'view' => [
-            'route' => 'filament.human-resource.resources.afps.view',
+            'route' => ViewAfp::getRouteName(),
             'params' => ['record' => $afp->getKey()],
             'permission' => ['view', 'view-any'],
         ],

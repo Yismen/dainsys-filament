@@ -10,12 +10,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Termination extends Model
+class Termination extends \App\Models\BaseModels\AppModel
 {
     use BelongsToEmployee;
-    use HasFactory;
     use HasManyComments;
-    use HasUuids;
     use SoftDeletes;
 
     protected $fillable = ['employee_id', 'date', 'termination_type', 'is_rehireable'];

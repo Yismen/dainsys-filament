@@ -10,13 +10,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class SocialSecurity extends Model
+class SocialSecurity extends \App\Models\BaseModels\AppModel
 {
     use BelongsToAfp;
     use BelongsToArs;
     use BelongsToEmployee;
-    use HasFactory;
-    use HasUuids;
     use SoftDeletes;
 
     protected $table = 'social_securities';

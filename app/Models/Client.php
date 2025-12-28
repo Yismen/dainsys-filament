@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\BaseModels\AppModel;
 use App\Models\Traits\HasInformation;
 use App\Models\Traits\HasManyProjects;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -9,13 +10,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Client extends Model
+class Client extends AppModel
 {
-    use HasFactory;
     use HasInformation;
     use HasManyProjects;
-    use HasUuids;
-    use SoftDeletes;
 
     protected $fillable = ['name', 'person_of_contact', 'description'];
 

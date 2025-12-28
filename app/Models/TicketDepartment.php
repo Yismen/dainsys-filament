@@ -8,10 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class TicketDepartment extends Model
+class TicketDepartment extends \App\Models\BaseModels\AppModel
 {
-    use HasFactory;
-    use HasUuids;
     use SoftDeletes;
 
     protected $fillable = ['name', 'ticket_prefix', 'description'];

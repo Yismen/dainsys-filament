@@ -9,12 +9,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Site extends Model
+class Site extends \App\Models\BaseModels\AppModel
 {
-    use HasFactory;
     use HasInformation;
     use HasManyHires;
-    use HasUuids;
     use SoftDeletes;
 
     protected $fillable = ['name', 'person_of_contact', 'description'];

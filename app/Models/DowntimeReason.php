@@ -8,11 +8,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class DowntimeReason extends Model
+class DowntimeReason extends \App\Models\BaseModels\AppModel
 {
-    use HasFactory;
     use HasManyDowntimes;
-    use HasUuids;
     use SoftDeletes;
 
     protected $fillable = ['name', 'description'];

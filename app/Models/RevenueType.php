@@ -8,13 +8,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class RevenueType extends Model
+class RevenueType extends \App\Models\BaseModels\AppModel
 {
     /** @use HasFactory<\Database\Factories\RevenueTypeFactory> */
     use HasFactory;
 
     use HasManyCampaigns;
-    use HasUuids;
     use SoftDeletes;
 
     protected $fillable = ['name', 'description'];

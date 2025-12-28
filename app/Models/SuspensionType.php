@@ -9,11 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class SuspensionType extends Model
+class SuspensionType extends \App\Models\BaseModels\AppModel
 {
-    use HasFactory;
     use HasManySuspensions;
-    use HasUuids;
     use SoftDeletes;
 
     protected $fillable = ['name', 'description'];

@@ -11,14 +11,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Department extends Model
+class Department extends \App\Models\BaseModels\AppModel
 {
-    use HasFactory;
     use HasManyEmployeesThruPositions;
     use HasManyPositions;
-    use HasUuids;
     use SoftDeletes;
-    use InteractsWithModelCaching;
+    
 
     protected $fillable = ['name', 'description'];
 

@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Role extends \Spatie\Permission\Models\Role
 {
-    use HasUuids;
     use SoftDeletes;
+    use HasUuids;
 }

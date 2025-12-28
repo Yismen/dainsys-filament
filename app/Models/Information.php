@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Information extends Model
+class Information extends \App\Models\BaseModels\AppModel
 {
     use BelongsToAfp;
     use BelongsToArs;
@@ -24,8 +24,6 @@ class Information extends Model
     use BelongsToProject;
     use BelongsToSite;
     use BelongsToSupervisor;
-    use HasFactory;
-    use HasUuids;
     use SoftDeletes;
 
     protected $fillable = ['phone', 'email', 'photos', 'address', 'company_id', 'informationable_id', 'informationable_type'];

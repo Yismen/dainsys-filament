@@ -11,6 +11,7 @@ use function Pest\Laravel\{actingAs, get};
 use App\Filament\HumanResource\Resources\Sites\Pages\EditSite;
 use App\Filament\HumanResource\Resources\Sites\Pages\ListSites;
 use App\Filament\HumanResource\Resources\Sites\Pages\CreateSite;
+use App\Filament\HumanResource\Resources\Sites\Pages\ViewSite;
 
 beforeEach(function () {
     // Seed roles/permissions if applicable
@@ -21,22 +22,22 @@ beforeEach(function () {
 
     $this->resource_routes = [
         'index' => [
-            'route' => 'filament.human-resource.resources.sites.index',
+            'route' => ListSites::getRouteName(),
             'params' => [],
             'permission' => ['view-any'],
         ],
         'create' => [
-            'route' => 'filament.human-resource.resources.sites.create',
+            'route' => CreateSite::getRouteName(),
             'params' => [],
             'permission' => ['create', 'view-any'],
         ],
         'edit' => [
-            'route' => 'filament.human-resource.resources.sites.edit',
+            'route' => EditSite::getRouteName(),
             'params' => ['record' => $site->getKey()],
             'permission' => ['update', 'edit', 'view-any'],
         ],
         'view' => [
-            'route' => 'filament.human-resource.resources.sites.view',
+            'route' => ViewSite::getRouteName(),
             'params' => ['record' => $site->getKey()],
             'permission' => ['view', 'view-any'],
         ],

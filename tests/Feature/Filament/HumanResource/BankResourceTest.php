@@ -3,12 +3,14 @@
 use App\Models\Bank;
 use App\Models\User;
 use App\Models\Permission;
-use function Livewire\before;
+use Termwind\Components\Li;
 
+use function Livewire\before;
 use Filament\Facades\Filament;
 use function Pest\Livewire\livewire;
 use function Pest\Laravel\{actingAs, get};
 use App\Filament\HumanResource\Resources\Banks\Pages\EditBank;
+use App\Filament\HumanResource\Resources\Banks\Pages\ViewBank;
 use App\Filament\HumanResource\Resources\Banks\Pages\ListBanks;
 use App\Filament\HumanResource\Resources\Banks\Pages\CreateBank;
 
@@ -21,22 +23,22 @@ beforeEach(function () {
 
     $this->resource_routes = [
         'index' => [
-            'route' => 'filament.human-resource.resources.banks.index',
+            'route' => ListBanks::getRouteName(),
             'params' => [],
             'permission' => ['view-any'],
         ],
         'create' => [
-            'route' => 'filament.human-resource.resources.banks.create',
+            'route' => CreateBank::getRouteName(),
             'params' => [],
             'permission' => ['create', 'view-any'],
         ],
         'edit' => [
-            'route' => 'filament.human-resource.resources.banks.edit',
+            'route' => EditBank::getRouteName(),
             'params' => ['record' => $bank->getKey()],
             'permission' => ['update', 'edit', 'view-any'],
         ],
         'view' => [
-            'route' => 'filament.human-resource.resources.banks.view',
+            'route' => ViewBank::getRouteName(),
             'params' => ['record' => $bank->getKey()],
             'permission' => ['view', 'view-any'],
         ],

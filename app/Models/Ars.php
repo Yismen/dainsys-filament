@@ -2,18 +2,17 @@
 
 namespace App\Models;
 
+use App\Models\BaseModels\AppModel;
 use App\Models\Traits\HasInformation;
+use App\Traits\Models\InteractsWithModelCaching;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Ars extends Model
+class Ars extends AppModel
 {
-    use HasFactory;
     use HasInformation;
-    use HasUuids;
-    use SoftDeletes;
 
     protected $fillable = ['name', 'person_of_contact', 'description'];
 

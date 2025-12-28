@@ -11,13 +11,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Suspension extends Model
+class Suspension extends \App\Models\BaseModels\AppModel
 {
     use BelongsToEmployee;
     use BelongsToSuspensionType;
-    use HasFactory;
     use HasManyComments;
-    use HasUuids;
     use SoftDeletes;
 
     protected $fillable = ['employee_id', 'suspension_type_id', 'starts_at', 'ends_at'];

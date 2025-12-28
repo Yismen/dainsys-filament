@@ -22,11 +22,9 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-class Ticket extends Model
+class Ticket extends \App\Models\BaseModels\AppModel
 {
     use EnsureDateNotWeekend;
-    use HasFactory;
-    use HasUuids;
     use SoftDeletes;
 
     protected $fillable = ['owner_id', 'department_id', 'subject', 'description', 'reference', 'images', 'status', 'priority', 'expected_at', 'assigned_to', 'assigned_at', 'completed_at'];

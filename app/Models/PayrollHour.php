@@ -9,13 +9,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 
-class PayrollHour extends Model
+class PayrollHour extends \App\Models\BaseModels\AppModel
 {
     use BelongsToEmployee;
 
     /** @use HasFactory<\Database\Factories\PayrollHourFactory> */
-    use HasFactory;
-    use HasUuids;
     use SoftDeletes;
 
     protected $fillable = [

@@ -8,11 +8,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class MailingSubscription extends Model
+class MailingSubscription extends \App\Models\BaseModels\AppModel
 {
     use BelongsToUser;
-    use HasFactory;
-    use HasUuids;
     use SoftDeletes;
 
     protected $fillable = ['mailable', 'user_id'];

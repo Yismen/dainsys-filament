@@ -9,10 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class TicketReply extends Model
+class TicketReply extends \App\Models\BaseModels\AppModel
 {
-    use HasFactory;
-    use HasUuids;
     use SoftDeletes;
 
     protected $fillable = ['user_id', 'ticket_id', 'content'];

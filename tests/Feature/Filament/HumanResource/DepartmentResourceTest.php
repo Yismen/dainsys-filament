@@ -1,14 +1,16 @@
 <?php
 
-use App\Models\Department;
 use App\Models\User;
+use App\Models\Department;
 use App\Models\Permission;
 use function Livewire\before;
 
 use Filament\Facades\Filament;
 use function Pest\Livewire\livewire;
 use function Pest\Laravel\{actingAs, get};
+use phpDocumentor\Reflection\PseudoTypes\List_;
 use App\Filament\HumanResource\Resources\Departments\Pages\EditDepartment;
+use App\Filament\HumanResource\Resources\Departments\Pages\ViewDepartment;
 use App\Filament\HumanResource\Resources\Departments\Pages\ListDepartments;
 use App\Filament\HumanResource\Resources\Departments\Pages\CreateDepartment;
 
@@ -21,22 +23,22 @@ beforeEach(function () {
 
     $this->resource_routes = [
         'index' => [
-            'route' => 'filament.human-resource.resources.departments.index',
+            'route' => ListDepartments::getRouteName(),
             'params' => [],
             'permission' => ['view-any'],
         ],
         'create' => [
-            'route' => 'filament.human-resource.resources.departments.create',
+            'route' => CreateDepartment::getRouteName(),
             'params' => [],
             'permission' => ['create', 'view-any'],
         ],
         'edit' => [
-            'route' => 'filament.human-resource.resources.departments.edit',
+            'route' => EditDepartment::getRouteName(),
             'params' => ['record' => $department->getKey()],
             'permission' => ['update', 'edit', 'view-any'],
         ],
         'view' => [
-            'route' => 'filament.human-resource.resources.departments.view',
+            'route' => ViewDepartment::getRouteName(),
             'params' => ['record' => $department->getKey()],
             'permission' => ['view', 'view-any'],
         ],

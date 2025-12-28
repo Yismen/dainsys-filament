@@ -23,10 +23,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Employee extends Model
+class Employee extends \App\Models\BaseModels\AppModel
 {
     use BelongsToCitizenship;
-    use HasFactory;
     use HasInformation;
     use HasManyDowntimes;
     use HasManyHires;
@@ -37,7 +36,6 @@ class Employee extends Model
     use HasManyTerminations;
     use HasRelationsThruHire;
     use HasRelationsThruSocialSecurity;
-    use HasUuids;
     use SoftDeletes;
 
     protected $fillable = [

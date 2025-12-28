@@ -10,6 +10,7 @@ use function Pest\Livewire\livewire;
 use function Pest\Laravel\{actingAs, get};
 use App\Filament\HumanResource\Resources\Ars\Pages\EditArs;
 use App\Filament\HumanResource\Resources\Ars\Pages\ListArs;
+use App\Filament\HumanResource\Resources\Ars\Pages\ViewArs;
 use App\Filament\HumanResource\Resources\Ars\Pages\CreateArs;
 
 beforeEach(function () {
@@ -21,22 +22,22 @@ beforeEach(function () {
 
     $this->resource_routes = [
         'index' => [
-            'route' => 'filament.human-resource.resources.ars.index',
+            'route' => ListArs::getRouteName(),
             'params' => [],
             'permission' => ['view-any'],
         ],
         'create' => [
-            'route' => 'filament.human-resource.resources.ars.create',
+            'route' => CreateArs::getRouteName(),
             'params' => [],
             'permission' => ['create', 'view-any'],
         ],
         'edit' => [
-            'route' => 'filament.human-resource.resources.ars.edit',
+            'route' => EditArs::getRouteName(),
             'params' => ['record' => $ars->getKey()],
             'permission' => ['update', 'edit', 'view-any'],
         ],
         'view' => [
-            'route' => 'filament.human-resource.resources.ars.view',
+            'route' => ViewArs::getRouteName(),
             'params' => ['record' => $ars->getKey()],
             'permission' => ['view', 'view-any'],
         ],

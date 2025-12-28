@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Hire extends Model
+class Hire extends \App\Models\BaseModels\AppModel
 {
     use BelongsToCitizenship;
     use BelongsToEmployee;
@@ -23,9 +23,7 @@ class Hire extends Model
     use BelongsToProject;
     use BelongsToSite;
     use BelongsToSupervisor;
-    use HasFactory;
     use HasManyComments;
-    use HasUuids;
     use SoftDeletes;
 
     protected $fillable = [

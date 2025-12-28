@@ -11,14 +11,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Project extends Model
+class Project extends \App\Models\BaseModels\AppModel
 {
     use BelongsToClient;
-    use HasFactory;
     use HasInformation;
     use HasManyCampaigns;
     use HasManyHires;
-    use HasUuids;
     use SoftDeletes;
 
     protected $fillable = ['name', 'client_id', 'description'];

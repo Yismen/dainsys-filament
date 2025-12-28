@@ -13,14 +13,12 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Position extends Model
+class Position extends \App\Models\BaseModels\AppModel
 {
     use BelongsToDepartment;
-    use HasFactory;
     use HasManyHires;
-    use HasUuids;
     use SoftDeletes;
-    use InteractsWithModelCaching;
+    
 
     protected $fillable = ['name', 'department_id', 'salary_type', 'salary', 'description'];
 

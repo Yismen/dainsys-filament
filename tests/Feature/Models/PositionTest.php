@@ -84,7 +84,7 @@ it('updates the description field', function () {
         $position->name,
         $position->department->name,
         '$' . $position->salary,
-        $position->salary_type,
+        $position->salary_type->name,
     ]));
 
 });

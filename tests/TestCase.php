@@ -41,7 +41,7 @@ abstract class TestCase extends BaseTestCase
         $user = User::factory()->create();
         $role = 'Super Admin';
 
-        Role::create(['name' => $role]);
+        Role::create(['name' => $role, 'guard_name' => 'web']);
         $user->assignRole($role);
 
         return $user;
