@@ -18,7 +18,7 @@ class HolidayFactory extends Factory
     {
         return [
             'name' => $this->faker->unique()->name(),
-            'date' => now()->format('Y-m-d'),
+            'date' => $this->faker->unique()->date(),
             'description' => $this->faker->text(),
         ];
     }
