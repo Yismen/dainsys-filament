@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Traits\HasManyEmployeesThruPositions;
 use App\Models\Traits\HasManyPositions;
+use App\Traits\Models\InteractsWithModelCaching;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +18,7 @@ class Department extends Model
     use HasManyPositions;
     use HasUuids;
     use SoftDeletes;
+    use InteractsWithModelCaching;
 
     protected $fillable = ['name', 'description'];
 

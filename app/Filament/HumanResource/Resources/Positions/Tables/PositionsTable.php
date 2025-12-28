@@ -2,6 +2,7 @@
 
 namespace App\Filament\HumanResource\Resources\Positions\Tables;
 
+use Dom\Text;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -18,9 +19,6 @@ class PositionsTable
     {
         return $table
             ->columns([
-                TextColumn::make('id')
-                    ->label('ID')
-                    ->searchable(),
                 TextColumn::make('name')
                     ->searchable(),
                 TextColumn::make('department.name')
@@ -28,6 +26,12 @@ class PositionsTable
                 TextColumn::make('salary')
                     ->numeric()
                     ->sortable(),
+                TextColumn::make('salary_type')
+                    ->sortable(),
+                // TextColumn::make('details'),
+                TextColumn::make('description')
+                    ->limit(50)
+                    ->wrap(),
                 TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()

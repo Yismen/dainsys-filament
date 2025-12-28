@@ -18,12 +18,11 @@ class PositionInfolist
                 TextEntry::make('department.name')
                     ->label('Department'),
                 TextEntry::make('salary_type')
-                    ->columnSpanFull(),
+                    ->label('Salary Type'),
                 TextEntry::make('salary')
                     ->numeric(),
                 TextEntry::make('details')
-                    ->placeholder('-')
-                    ->columnSpanFull(),
+                    ->placeholder('-'),
                 TextEntry::make('description')
                     ->placeholder('-')
                     ->columnSpanFull(),
