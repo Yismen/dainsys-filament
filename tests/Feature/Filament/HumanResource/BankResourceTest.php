@@ -1,0 +1,200 @@
+<?php
+
+use App\Models\Bank;
+use App\Models\User;
+use App\Models\Permission;
+use function Livewire\before;
+
+use Filament\Facades\Filament;
+use function Pest\Livewire\livewire;
+use function Pest\Laravel\{actingAs, get};
+use App\Filament\HumanResource\Resources\Banks\Pages\EditBank;
+use App\Filament\HumanResource\Resources\Banks\Pages\ListBanks;
+use App\Filament\HumanResource\Resources\Banks\Pages\CreateBank;
+
+beforeEach(function () {
+    // Seed roles/permissions if applicable
+    Filament::setCurrentPanel(
+        Filament::getPanel('human-resource'), // Where `app` is the ID of the panel you want to test.
+    );
+    $bank = Bank::factory()->create();
+
+    $this->resource_routes = [
+        'index' => [
+            'route' => 'filament.human-resource.resources.banks.index',
+            'params' => [],
+            'permission' => ['view-any'],
+        ],
+        'create' => [
+            'route' => 'filament.human-resource.resources.banks.create',
+            'params' => [],
+            'permission' => ['create', 'view-any'],
+        ],
+        'edit' => [
+            'route' => 'filament.human-resource.resources.banks.edit',
+            'params' => ['record' => $bank->getKey()],
+            'permission' => ['update', 'edit', 'view-any'],
+        ],
+        'view' => [
+            'route' => 'filament.human-resource.resources.banks.view',
+            'params' => ['record' => $bank->getKey()],
+            'permission' => ['view', 'view-any'],
+        ],
+    ];
+});
+
+it('require users to be authenticated to access Bank resource pages', function (string $method) {
+    $response = get(route( $this->resource_routes[$method]['route'],
+    $this->resource_routes[$method]['params']));
+
+    $response->assertRedirect(route('filament.human-resource.auth.login'));
+})->with([
+    'index' ,
+    'create' ,
+    'edit',
+    'view',
+]);
+
+it('require users to have correct permissions to access Bank resource pages', function (string $method) {
+    actingAs(User::factory()->create());
+
+    $response = get(route( $this->resource_routes[$method]['route'],
+    $this->resource_routes[$method]['params']));
+    $response->assertForbidden();
+})->with([
+    'index' ,
+    'create' ,
+    'edit',
+    'view',
+]);
+
+it('allows super admin users to access Bank resource pages', function (string $method) {
+    actingAs($this->createSuperAdminUser());
+
+    $response = get(route( $this->resource_routes[$method]['route'],
+    $this->resource_routes[$method]['params']));
+
+    $response->assertOk();
+})->with([
+    'index' ,
+    'create' ,
+    'edit',
+    'view',
+]);
+
+it('allow users with correct permissions to access Bank resource pages', function (string $method) {
+    actingAs($this->createUserWithPermissionsToActions( $this->resource_routes[$method]['permission'], 'Bank'));
+
+    $response = get(route( $this->resource_routes[$method]['route'],
+    $this->resource_routes[$method]['params']));
+
+    $response->assertOk();
+})->with([
+    'index',
+    'create',
+    'edit',
+    'view',
+]);
+
+it('displays Bank list page correctly', function () {
+    $banks = Bank::factory()->count(5)->create();
+
+    actingAs($this->createUserWithPermissionTo('view-any Bank'));
+
+    livewire(ListBanks::class)
+        ->assertCanSeeTableRecords($banks);
+});
+
+test('create Bank page works correctly', function () {
+    actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Bank'));
+
+    $name = 'new AFP';
+    livewire(CreateBank::class)
+        ->fillForm([
+            'name' => $name,
+        ])
+        ->call('create');
+
+    $this->assertDatabaseHas('banks', [
+        'name' => $name,
+    ]);
+});
+
+test('edit Bank page works correctly', function () {
+    $bank = Bank::factory()->create();
+
+    actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Bank'));
+
+    $newName = 'Updated AFP Name';
+    livewire(EditBank::class, ['record' => $bank->getKey()])
+        ->fillForm([
+            'name' => $newName,
+        ])
+        ->call('save')
+        ->assertHasNoErrors();
+
+    $this->assertDatabaseHas('banks', [
+        'id' => $bank->id,
+        'name' => $newName,
+    ]);
+});
+
+test('form validation require fields on create and edit pages', function () {
+    actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Bank'));
+
+    // Test CreateBank validation
+    livewire(CreateBank::class)
+        ->fillForm([
+            'name' => '', // Invalid: name is required
+        ])
+        ->call('create')
+        ->assertHasFormErrors(['name' => 'required']);
+    // Test EditBank validation
+    $bank = Bank::factory()->create();
+    livewire(EditBank::class, ['record' => $bank->getKey()])
+        ->fillForm([
+            'name' => '', // Invalid: name is required
+        ])
+        ->call('save')
+        ->assertHasFormErrors(['name' => 'required']);
+});
+
+test('Bank name must be unique on create and edit pages', function () {
+    actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Bank'));
+
+    $existingBank = Bank::factory()->create(['name' => 'Unique AFP']);
+
+    // Test CreateBank uniqueness validation
+    livewire(CreateBank::class)
+        ->fillForm([
+            'name' => 'Unique AFP', // Invalid: name must be unique
+        ])
+        ->call('create')
+        ->assertHasFormErrors(['name' => 'unique']);
+    // Test EditBank uniqueness validation
+    $bankToEdit = Bank::factory()->create(['name' => 'Another AFP']);
+    livewire(EditBank::class, ['record' => $bankToEdit->getKey()])
+        ->fillForm([
+            'name' => 'Unique AFP', // Invalid: name must be unique
+        ])
+        ->call('save')
+        ->assertHasFormErrors(['name' => 'unique']);
+});
+
+it('allows updating Bank without changing name to trigger uniqueness validation', function () {
+    $bank = Bank::factory()->create(['name' => 'Existing AFP']);
+
+    actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Bank'));
+
+    livewire(EditBank::class, ['record' => $bank->getKey()])
+        ->fillForm([
+            'name' => 'Existing AFP', // Same name, should not trigger uniqueness error
+        ])
+        ->call('save')
+        ->assertHasNoErrors();
+
+    $this->assertDatabaseHas('banks', [
+        'id' => $bank->id,
+        'name' => 'Existing AFP',
+    ]);
+});
