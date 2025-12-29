@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Enums\EmployeeStatus;
-use App\Enums\Gender;
+use App\Enums\Genders;
 use App\Enums\MaritalStatus;
 use App\Enums\PersonalIdTypes;
 use App\Models\Citizenship;
@@ -37,11 +37,11 @@ class EmployeeFactory extends Factory
             'second_last_name' => $this->faker->lastName(),
             'personal_id_type' => PersonalIdTypes::DominicanId,
             'personal_id' => rand(10000000000, 99999999999),
-            'date_of_birth' => now(),
+            'date_of_birth' => now()->subYears(18)->format('Y-m-d'),
             'cellphone' => $this->faker->phoneNumber(),
             'status' => EmployeeStatus::Current,
             // 'marriage' => MaritalStatus::Single,
-            'gender' => Gender::Male,
+            'gender' => Genders::Male,
             'has_kids' => $this->faker->randomElement([0, 1]),
             'citizenship_id' => Citizenship::factory(),
         ];

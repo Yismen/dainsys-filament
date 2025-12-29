@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Enums\EmployeeStatus;
-use App\Enums\Gender;
+use App\Enums\Genders;
 use App\Enums\MaritalStatus;
 use App\Events\EmployeeSaved;
 use App\Models\Traits\BelongsToCitizenship;
@@ -65,7 +65,7 @@ class Employee extends \App\Models\BaseModels\AppModel
         'date_of_birth' => 'date:Y-m-d',
         'status' => EmployeeStatus::class,
         'marriage' => MaritalStatus::class,
-        'gender' => Gender::class,
+        'gender' => Genders::class,
     ];
 
     protected $dispatchesEvents = [

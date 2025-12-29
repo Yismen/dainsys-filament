@@ -3,7 +3,7 @@
 namespace App\Filament\HumanResource\Resources\Employees\Schemas;
 
 use App\Enums\EmployeeStatus;
-use App\Enums\Gender;
+use App\Enums\Genders;
 use App\Models\Citizenship;
 use App\Services\ModelListService;
 use Filament\Forms\Components\DatePicker;
@@ -38,8 +38,8 @@ class EmployeeForm
                     ->unique(ignoreRecord: true)
                     ->required(),
                 DatePicker::make('date_of_birth')
-                    ->default(now()->subYears(18))
-                    ->maxDate(now()->subYears(16))
+                    ->default(now()->subYears(18)->format('Y-m-d'))
+                    ->maxDate(now()->subYears(16)->format('Y-m-d'))
                     ->required(),
                 TextInput::make('cellphone')
                     ->unique(ignoreRecord: true)
@@ -48,7 +48,7 @@ class EmployeeForm
                     ->tel()
                     ->required(),
                 Select::make('gender')
-                    ->options(Gender::class)
+                    ->options(Genders::class)
                     ->required(),
                 Toggle::make('has_kids')
                     ->required(),

@@ -1,7 +1,7 @@
 <?php
 
 use App\Enums\EmployeeStatus;
-use App\Enums\Gender;
+use App\Enums\Genders;
 use App\Enums\PersonalIdTypes;
 use App\Models\Employee;
 use App\Models\User;
@@ -121,7 +121,7 @@ test('create Employee page works correctly', function () {
     $personal_id = '12345678999';
     $date_of_birth = '1990-01-01';
     $cellphone = '8091234567';
-    $gender = Gender::Male->value;
+    $gender = Genders::Male->value;
     $has_kids = true;
     $citizenship_id = Citizenship::factory()->create()->id;
     livewire(CreateEmployee::class)
@@ -166,7 +166,7 @@ test('edit Employee page works correctly', function () {
     $newPersonalId = '98765432100';
     $newDateOfBirth = '1985-05-15';
     $newCellphone = '8297654321';
-    $newGender = Gender::Female->value;
+    $newGender = Genders::Female->value;
     $newHasKids = false;
     $newCitizenshipId = Citizenship::factory()->create()->id;
 
