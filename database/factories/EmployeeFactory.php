@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Enums\EmployeeStatus;
+use App\Enums\EmployeeStatuses;
 use App\Enums\Genders;
 use App\Enums\PersonalIdTypes;
 use App\Models\Citizenship;
@@ -38,7 +38,7 @@ class EmployeeFactory extends Factory
             'personal_id' => rand(10000000000, 99999999999),
             'date_of_birth' => now()->subYears(18)->format('Y-m-d'),
             'cellphone' => $this->faker->phoneNumber(),
-            'status' => EmployeeStatus::Current,
+            'status' => EmployeeStatuses::Hired,
             'gender' => Genders::Male,
             'has_kids' => $this->faker->randomElement([0, 1]),
             'citizenship_id' => Citizenship::factory(),
@@ -49,7 +49,7 @@ class EmployeeFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'status' => EmployeeStatus::Current,
+                'status' => EmployeeStatuses::Hired,
             ];
         });
     }
@@ -58,7 +58,7 @@ class EmployeeFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'status' => EmployeeStatus::Terminated,
+                'status' => EmployeeStatuses::Terminated,
             ];
         });
     }
@@ -67,7 +67,7 @@ class EmployeeFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'status' => EmployeeStatus::Suspended,
+                'status' => EmployeeStatuses::Suspended,
             ];
         });
     }

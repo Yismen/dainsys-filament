@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Enums\EmployeeStatus;
+use App\Enums\EmployeeStatuses;
 use App\Models\Employee;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
@@ -48,7 +48,7 @@ class EmployeesSuspended extends Command
                 'project',
                 'suspensions' => fn ($query) => $query->active(),
             ])
-            ->where('status', EmployeeStatus::Suspended)
+            ->where('status', EmployeeStatuses::Suspended)
             ->whereHas('suspensions', function ($query) {
                 $query->active();
             })

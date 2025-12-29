@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\EmployeeStatus;
+use App\Enums\EmployeeStatuses;
 use App\Enums\Genders;
 use App\Events\EmployeeSaved;
 use App\Models\Traits\BelongsToCitizenship;
@@ -62,7 +62,7 @@ class Employee extends \App\Models\BaseModels\AppModel
 
     protected $casts = [
         'date_of_birth' => 'date:Y-m-d',
-        'status' => EmployeeStatus::class,
+        'status' => EmployeeStatuses::class,
         'gender' => Genders::class,
     ];
 
@@ -101,28 +101,28 @@ class Employee extends \App\Models\BaseModels\AppModel
 
     public function scopeCurrent($query)
     {
-        $query->where('status', EmployeeStatus::Current);
+        $query->where('status', EmployeeStatuses::Hired);
     }
 
     public function scopeSuspended($query)
     {
-        $query->where('status', EmployeeStatus::Suspended);
+        $query->where('status', EmployeeStatuses::Suspended);
     }
 
     public function scopeInactive($query)
     {
-        $query->where('status', EmployeeStatus::Terminated);
+        $query->where('status', EmployeeStatuses::Terminated);
     }
 
     public function scopeNotInactive($query)
     {
-        $query->where('status', '<>', EmployeeStatus::Terminated);
+        $query->where('status', '<>', EmployeeStatuses::Terminated);
     }
 
     public function scopeHasActiveSuspension($query)
     {
         $query->with('suspensions')
-            ->where('status', '<>', EmployeeStatus::Terminated)
+            ->where('status', '<>', EmployeeStatuses::Terminated)
             ->where(function ($query) {
                 $query->whereHas('suspensions', function ($suspensions) {
                     $suspensions->active();
@@ -142,7 +142,7 @@ class Employee extends \App\Models\BaseModels\AppModel
 
     public function shouldBeSuspended(): bool
     {
-        if ($this->status === EmployeeStatus::Terminated) {
+        if ($this->status === EmployeeStatuses::Terminated) {
             return false;
         }
 
@@ -151,7 +151,7 @@ class Employee extends \App\Models\BaseModels\AppModel
 
     public function shouldNotBeSuspended(): bool
     {
-        if ($this->status === EmployeeStatus::Terminated) {
+        if ($this->status === EmployeeStatuses::Terminated) {
             return false;
         }
 
@@ -160,12 +160,12 @@ class Employee extends \App\Models\BaseModels\AppModel
 
     public function suspend()
     {
-        $this->updateQuietly(['status' => EmployeeStatus::Suspended]);
+        $this->updateQuietly(['status' => EmployeeStatuses::Suspended]);
     }
 
     public function unSuspend()
     {
-        $this->updateQuietly(['status' => EmployeeStatus::Current]);
+        $this->updateQuietly(['status' => EmployeeStatuses::Hired]);
     }
 
     public function supervisor(): HasOneThrough

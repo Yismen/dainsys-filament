@@ -1,7 +1,7 @@
 <?php
 
 use App\Console\Commands\EmployeesSuspended;
-use App\Enums\EmployeeStatus;
+use App\Enums\EmployeeStatuses;
 use App\Models\Employee;
 use App\Models\Suspension;
 use Illuminate\Support\Facades\Mail;
@@ -29,7 +29,7 @@ test('employees suspended sends email', function () {
         'starts_at' => now()->subDay(),
         'ends_at' => now()->addDay(),
     ]);
-    $current->update(['status' => EmployeeStatus::Suspended]);
+    $current->update(['status' => EmployeeStatuses::Suspended]);
 
     $this->artisan(EmployeesSuspended::class);
 

@@ -1,9 +1,9 @@
 <?php
 
-use App\Enums\EmployeeStatus;
+use App\Enums\EmployeeStatuses;
 
 test('values method return specific values', function () {
-    expect(EmployeeStatus::values())->toEqual([
+    expect(EmployeeStatuses::values())->toEqual([
         'Created',
         'Hired',
         'Suspended',
@@ -12,7 +12,7 @@ test('values method return specific values', function () {
 });
 
 test('all method return associative array', function () {
-    expect(EmployeeStatus::toArray())->toEqual([
+    expect(EmployeeStatuses::toArray())->toEqual([
         'Created' => 'Created',
         'Hired' => 'Hired',
         'Suspended' => 'Suspended',

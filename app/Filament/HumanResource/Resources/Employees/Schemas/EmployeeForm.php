@@ -2,7 +2,7 @@
 
 namespace App\Filament\HumanResource\Resources\Employees\Schemas;
 
-use App\Enums\EmployeeStatus;
+use App\Enums\EmployeeStatuses;
 use App\Enums\Genders;
 use App\Models\Citizenship;
 use App\Services\ModelListService;

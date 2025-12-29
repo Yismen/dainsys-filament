@@ -8,7 +8,7 @@ use App\Enums\Traits\EnumToArray;
 use App\Enums\Traits\EnumValues;
 use Filament\Support\Contracts\HasColor;
 
-enum EmployeeStatus: string implements EnumContract, HasColor
+enum EmployeeStatuses: string implements EnumContract, HasColor
 {
     use EnumNames, EnumToArray, EnumValues;
 

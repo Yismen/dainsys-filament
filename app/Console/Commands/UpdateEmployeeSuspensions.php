@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Enums\EmployeeStatus;
+use App\Enums\EmployeeStatuses;
 use App\Services\EmployeesNeedingRemoveSuspension;
 use App\Services\EmployeesNeedingSuspension;
 use Illuminate\Console\Command;
@@ -47,12 +47,12 @@ class UpdateEmployeeSuspensions extends Command
         $shouldActivateCount = $shouldActivate->count();
 
         if ($shouldSuspendCount) {
-            $shouldSuspend->each->updateQuietly(['status' => EmployeeStatus::Suspended]);
+            $shouldSuspend->each->updateQuietly(['status' => EmployeeStatuses::Suspended]);
             $this->info("{$shouldSuspendCount} employees suspended!");
         }
 
         if ($shouldActivateCount) {
-            $shouldActivate->each->updateQuietly(['status' => EmployeeStatus::Current]);
+            $shouldActivate->each->updateQuietly(['status' => EmployeeStatuses::Hired]);
             $this->info("{$shouldActivateCount} suspended employees activated!");
         }
 

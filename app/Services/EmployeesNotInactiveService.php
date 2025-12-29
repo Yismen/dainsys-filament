@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Enums\EmployeeStatus;
+use App\Enums\EmployeeStatuses;
 use App\Models\Employee;
 use Illuminate\Support\Facades\Cache;
 
@@ -12,7 +12,7 @@ class EmployeesNotInactiveService implements ServicesContract
     {
         return Cache::rememberForever('employees_not_inactive_list', function () {
             return Employee::query()
-                ->where('status', '<>', EmployeeStatus::Terminated)
+                ->where('status', '<>', EmployeeStatuses::Terminated)
                 ->orderBy('full_name')
                 ->pluck('full_name', 'id');
         });
