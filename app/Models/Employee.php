@@ -111,18 +111,18 @@ class Employee extends \App\Models\BaseModels\AppModel
 
     public function scopeInactive($query)
     {
-        $query->where('status', EmployeeStatus::Inactive);
+        $query->where('status', EmployeeStatus::Terminated);
     }
 
     public function scopeNotInactive($query)
     {
-        $query->where('status', '<>', EmployeeStatus::Inactive);
+        $query->where('status', '<>', EmployeeStatus::Terminated);
     }
 
     public function scopeHasActiveSuspension($query)
     {
         $query->with('suspensions')
-            ->where('status', '<>', EmployeeStatus::Inactive)
+            ->where('status', '<>', EmployeeStatus::Terminated)
             ->where(function ($query) {
                 $query->whereHas('suspensions', function ($suspensions) {
                     $suspensions->active();
@@ -142,7 +142,7 @@ class Employee extends \App\Models\BaseModels\AppModel
 
     public function shouldBeSuspended(): bool
     {
-        if ($this->status === EmployeeStatus::Inactive) {
+        if ($this->status === EmployeeStatus::Terminated) {
             return false;
         }
 
@@ -151,7 +151,7 @@ class Employee extends \App\Models\BaseModels\AppModel
 
     public function shouldNotBeSuspended(): bool
     {
-        if ($this->status === EmployeeStatus::Inactive) {
+        if ($this->status === EmployeeStatus::Terminated) {
             return false;
         }
 

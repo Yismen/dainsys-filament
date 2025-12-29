@@ -58,7 +58,7 @@ class EmployeeFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'status' => EmployeeStatus::Inactive,
+                'status' => EmployeeStatus::Terminated,
             ];
         });
     }

@@ -12,24 +12,26 @@ enum EmployeeStatus: string implements EnumContract, HasColor
 {
     use EnumNames, EnumToArray, EnumValues;
 
-    case Current = 'Current';
-    case Inactive = 'Inactive';
+    case Created = 'Created';
+    case Hired = 'Hired';
     case Suspended = 'Suspended';
+    case Terminated = 'Terminated';
 
     public function getColor(): ?string
     {
         return match ($this) {
-            self::Current => 'success',
-            self::Inactive => 'danger',
+            self::Created => 'primary',
+            self::Hired => 'success',
             self::Suspended => 'warning',
+            self::Terminated => 'danger',
         };
     }
 
     // public function getIcon(): ?string
     // {
     //     return match ($this) {
-    //         self::Current => 'heroicon-check-circle',
-    //         self::Inactive => 'heroicon-x',
+    //         self::Created => 'heroicon-check-circle',
+    //         self::Terminated => 'heroicon-x',
     //         self::Suspended => 'heroicon-question-mark-circle',
     //     };
     // }

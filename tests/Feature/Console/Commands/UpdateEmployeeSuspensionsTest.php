@@ -44,13 +44,13 @@ test('inactive employees are not suspended', function () {
         'starts_at' => now()->subDay(),
         'ends_at' => now()->addDay(),
     ]);
-    $current->update(['status' => EmployeeStatus::Inactive]);
+    $current->update(['status' => EmployeeStatus::Terminated]);
 
     $this->artisan(UpdateEmployeeSuspensions::class);
 
     $this->assertDatabaseHas('employees', [
         'id' => $current->id,
-        'status' => EmployeeStatus::Inactive,
+        'status' => EmployeeStatus::Terminated,
     ]);
 });
 

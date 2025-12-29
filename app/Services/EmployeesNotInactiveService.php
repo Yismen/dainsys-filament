@@ -12,7 +12,7 @@ class EmployeesNotInactiveService implements ServicesContract
     {
         return Cache::rememberForever('employees_not_inactive_list', function () {
             return Employee::query()
-                ->where('status', '<>', EmployeeStatus::Inactive)
+                ->where('status', '<>', EmployeeStatus::Terminated)
                 ->orderBy('full_name')
                 ->pluck('full_name', 'id');
         });
