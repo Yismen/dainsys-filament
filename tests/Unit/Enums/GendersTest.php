@@ -1,9 +1,9 @@
 <?php
 
-use App\Enums\Gender;
+use App\Enums\Genders;
 
 test('values method return specific values', function () {
-    expect(Gender::values())->toEqual([
+    expect(Genders::values())->toEqual([
         'Male',
         'Female',
         // 'Undefined',
@@ -11,7 +11,7 @@ test('values method return specific values', function () {
 });
 
 test('all method return associative array', function () {
-    expect(Gender::toArray())->toEqual([
+    expect(Genders::toArray())->toEqual([
         'Male' => 'Male',
         'Female' => 'Female',
         // 'Undefined' => 'Undefined',

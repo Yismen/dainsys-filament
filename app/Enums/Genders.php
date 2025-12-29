@@ -7,7 +7,7 @@ use App\Enums\Traits\EnumNames;
 use App\Enums\Traits\EnumToArray;
 use App\Enums\Traits\EnumValues;
 
-enum Gender: string implements EnumContract
+enum Genders: string implements EnumContract
 {
     use EnumNames, EnumToArray, EnumValues;
 
