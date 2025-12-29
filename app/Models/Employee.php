@@ -62,7 +62,7 @@ class Employee extends \App\Models\BaseModels\AppModel
     ];
 
     protected $casts = [
-        'date_of_birth' => 'date',
+        'date_of_birth' => 'date:Y-m-d',
         'status' => EmployeeStatus::class,
         'marriage' => MaritalStatus::class,
         'gender' => Gender::class,
