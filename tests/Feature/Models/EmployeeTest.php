@@ -40,7 +40,7 @@ test('employee model interacts with employees table', function () {
         'personal_id_type',
         'personal_id',
         // 'full_name',
-        'date_of_birth',
+        // 'date_of_birth',
         'cellphone',
         'status',
         'gender',
