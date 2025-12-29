@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Enums\EmployeeStatus;
 use App\Enums\Genders;
-use App\Enums\MaritalStatus;
 use App\Events\EmployeeSaved;
 use App\Models\Traits\BelongsToCitizenship;
 use App\Models\Traits\HasInformation;
@@ -64,7 +63,6 @@ class Employee extends \App\Models\BaseModels\AppModel
     protected $casts = [
         'date_of_birth' => 'date:Y-m-d',
         'status' => EmployeeStatus::class,
-        'marriage' => MaritalStatus::class,
         'gender' => Genders::class,
     ];
 

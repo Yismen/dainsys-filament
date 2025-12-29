@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Enums\EmployeeStatus;
 use App\Enums\Genders;
-use App\Enums\MaritalStatus;
 use App\Enums\PersonalIdTypes;
 use App\Models\Citizenship;
 use App\Models\Employee;
@@ -40,7 +39,6 @@ class EmployeeFactory extends Factory
             'date_of_birth' => now()->subYears(18)->format('Y-m-d'),
             'cellphone' => $this->faker->phoneNumber(),
             'status' => EmployeeStatus::Current,
-            // 'marriage' => MaritalStatus::Single,
             'gender' => Genders::Male,
             'has_kids' => $this->faker->randomElement([0, 1]),
             'citizenship_id' => Citizenship::factory(),
