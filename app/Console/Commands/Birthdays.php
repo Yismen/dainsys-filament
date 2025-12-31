@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Mail\Birthdays as MailBirthdays;
+use App\Mail\BirthdaysMail;
 use App\Services\BirthdaysService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
@@ -64,7 +64,7 @@ class Birthdays extends Command
         $birthdays = $birthdays->handle($type);
 
         if ($birthdays->count()) {
-            Mail::send(new MailBirthdays($birthdays, str($type)->headline()));
+            Mail::send(new BirthdaysMail($birthdays, str($type)->headline()));
 
             $this->info("Mail sent for {$birthdays->count()} employees having birthday {$type}");
         } else {

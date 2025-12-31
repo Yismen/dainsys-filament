@@ -32,7 +32,7 @@ class InformationFactory extends Factory
             'photos' => [],
             'address' => $this->faker->address(),
             'company_id' => Str::random(10),
-            'informationable_id' => 1,
+            'informationable_id' => Site::factory(),
             'informationable_type' => Site::class,
         ];
     }

@@ -55,7 +55,7 @@ class EmployeesSuspended extends Command
             ->get();
 
         if ($employees->count() > 0) {
-            Mail::send(new \App\Mail\EmployeesSuspended($employees));
+            Mail::send(new \App\Mail\EmployeesSuspendedMail($employees));
             $this->info('Employees suspended report sent');
         } else {
             $this->warn('Nothing to send!');

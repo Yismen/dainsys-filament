@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('photos', 2000)->nullable();
             $table->text('address')->nullable();
             $table->string('company_id', 200)->comment('Internal company id, like a punch id. Can also be the company tax id or any other unique identifier')->nullable();
-            $table->integer('informationable_id')->unsigned();
+            $table->string('informationable_id');
             $table->string('informationable_type', 200);
             $table->softDeletes();
             $table->timestamps();

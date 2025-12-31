@@ -2,28 +2,29 @@
 
 namespace App\Mail;
 
-use App\Models\Employee;
+use App\Models\Termination;
 use App\Services\MailingService;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class EmployeeReactivated extends Mailable
+class MailTerminationCreatedMail extends Mailable implements ShouldQueue
 {
     use Queueable;
     use SerializesModels;
 
-    public Employee $employee;
+    public Termination $termination;
 
-    public function __construct(Employee $employee)
+    public function __construct(Termination $termination)
     {
-        $this->employee = $employee;
+        $this->termination = $termination;
     }
 
     public function build()
     {
         return $this
             ->to(MailingService::subscribers($this))
-            ->markdown('mail.employee-reactivated');
+            ->markdown('mail.termination-created');
     }
 }

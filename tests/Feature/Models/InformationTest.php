@@ -7,8 +7,12 @@ use Illuminate\Support\Facades\Mail;
 test('information model interacts with db table', function () {
     $data = Information::factory()->create();
 
-    $this->assertDatabaseHas('informations', $data->only([
-    ]));
+    $this->assertDatabaseHas('informations', [
+        'id' => $data->id,
+        'phone' => $data->phone,
+        'email' => $data->email,
+        'address' => $data->address,
+    ]);
 });
 
 test('information model morph to informationable', function () {
@@ -18,7 +22,6 @@ test('information model morph to informationable', function () {
 });
 
 test('information model morph relationship to informationable', function ($modelClass) {
-    Mail::fake();
     $relationship = $modelClass::factory()->create();
 
     $data = [

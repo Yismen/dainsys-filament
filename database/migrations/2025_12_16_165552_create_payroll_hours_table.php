@@ -23,6 +23,7 @@ return new class extends Migration
             $table->float('overtime_hours')->default(0);
             $table->float('holiday_hours')->default(0);
             $table->float('day_off_hours')->default(0);
+
             $table->timestamps();
             $table->softDeletes();
         });

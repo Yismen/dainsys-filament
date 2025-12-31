@@ -2,29 +2,33 @@
 
 namespace App\Mail;
 
-use App\Models\Suspension;
 use App\Services\MailingService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Collection;
 
-class SuspensionUpdated extends Mailable implements ShouldQueue
+class BirthdaysMail extends Mailable implements ShouldQueue
 {
     use Queueable;
     use SerializesModels;
 
-    public Suspension $suspension;
+    public Collection $birthdays;
 
-    public function __construct(Suspension $suspension)
+    public string $type;
+
+    public function __construct(Collection $birthdays, string $type)
     {
-        $this->suspension = $suspension;
+        $this->birthdays = $birthdays;
+        $this->type = $type;
     }
 
     public function build()
     {
         return $this
+            ->subject("Birthdays {$this->type}")
             ->to(MailingService::subscribers($this))
-            ->markdown('mail.suspension-updated');
+            ->markdown('mail.birthdays');
     }
 }

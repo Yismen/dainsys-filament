@@ -4,7 +4,7 @@ use App\Console\Commands\Birthdays;
 use App\Events\EmployeeHiredEvent;
 use App\Events\SuspensionUpdatedEvent;
 use App\Events\TerminationCreatedEvent;
-use App\Mail\Birthdays as MailBirthdays;
+use App\Mail\BirthdaysMail;
 use App\Models\Employee;
 use App\Models\Hire;
 use Illuminate\Support\Facades\Event;
@@ -49,7 +49,7 @@ test('birthdays command sends email', function () {
 
     $this->artisan(Birthdays::class, ['type' => 'today']);
 
-    Mail::assertQueued(MailBirthdays::class);
+    Mail::assertQueued(BirthdaysMail::class);
 });
 
 test('birthdays command doesnot send email if service is empty', function () {
@@ -57,5 +57,5 @@ test('birthdays command doesnot send email if service is empty', function () {
 
     $this->artisan(Birthdays::class, ['type' => 'today']);
 
-    Mail::assertNotQueued(MailBirthdays::class);
+    Mail::assertNotQueued(BirthdaysMail::class);
 });

@@ -5,11 +5,10 @@ namespace App\Mail;
 use App\Models\Employee;
 use App\Services\MailingService;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class EmployeeCreated extends Mailable implements ShouldQueue
+class EmployeeReactivatedMail extends Mailable
 {
     use Queueable;
     use SerializesModels;
@@ -25,6 +24,6 @@ class EmployeeCreated extends Mailable implements ShouldQueue
     {
         return $this
             ->to(MailingService::subscribers($this))
-            ->markdown('mail.employee-created');
+            ->markdown('mail.employee-reactivated');
     }
 }

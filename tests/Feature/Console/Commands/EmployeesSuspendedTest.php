@@ -9,7 +9,7 @@ use App\Events\TerminationCreatedEvent;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Event;
 use App\Console\Commands\EmployeesSuspended;
-use App\Mail\EmployeesSuspended as EmployeeSuspendedMail;
+use App\Mail\EmployeesSuspendedMail;
 
 beforeEach(function () {
     Event::fake([
@@ -48,7 +48,7 @@ test('employees suspended sends email', function () {
 
         $this->artisan(EmployeesSuspended::class);
 
-    Mail::assertQueued(EmployeeSuspendedMail::class);
+    Mail::assertQueued(EmployeesSuspendedMail::class);
 });
 
 test('employees suspended does not sends email if there is not employees suspended', function () {
@@ -58,7 +58,7 @@ test('employees suspended does not sends email if there is not employees suspend
 
     $this->artisan(EmployeesSuspended::class);
 
-    Mail::assertNotQueued(EmployeeSuspendedMail::class);
+    Mail::assertNotQueued(EmployeesSuspendedMail::class);
 });
 
 // /** @test */
