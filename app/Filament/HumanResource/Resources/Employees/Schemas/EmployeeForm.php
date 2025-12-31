@@ -10,6 +10,7 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 
 class EmployeeForm
@@ -18,6 +19,11 @@ class EmployeeForm
     {
         return $schema
             ->components([
+                TextEntry::make('status')
+                    ->columnSpanFull()
+                    ->badge()
+                    ->hiddenLabel()
+                    ->visibleOn('edit'),
                 TextInput::make('first_name')
                     ->autofocus()
                     ->maxLength(255)
