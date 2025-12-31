@@ -6,7 +6,7 @@ use App\Models\Employee;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class EmployeeReactivated
+class EmployeeReactivatedEvent
 {
     use Dispatchable;
     use SerializesModels;

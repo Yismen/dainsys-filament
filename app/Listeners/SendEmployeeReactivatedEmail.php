@@ -2,13 +2,13 @@
 
 namespace App\Listeners;
 
-use App\Events\EmployeeReactivated;
+use App\Events\EmployeeReactivatedEvent;
 use App\Mail\EmployeeReactivated as MailEmployeeReactivated;
 use Illuminate\Support\Facades\Mail;
 
 class SendEmployeeReactivatedEmail
 {
-    public function handle(EmployeeReactivated $event)
+    public function handle(EmployeeReactivatedEvent $event)
     {
         Mail::send(new MailEmployeeReactivated($event->employee));
     }

@@ -8,7 +8,6 @@ use function Livewire\before;
 use Filament\Facades\Filament;
 use function Pest\Livewire\livewire;
 use function Pest\Laravel\{actingAs, get};
-use phpDocumentor\Reflection\PseudoTypes\List_;
 use App\Filament\HumanResource\Resources\Departments\Pages\EditDepartment;
 use App\Filament\HumanResource\Resources\Departments\Pages\ViewDepartment;
 use App\Filament\HumanResource\Resources\Departments\Pages\ListDepartments;

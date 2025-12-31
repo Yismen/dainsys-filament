@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Event;
 
 beforeEach(function () {
     Event::fake([
-        \App\Events\SuspensionUpdated::class,
+        \App\Events\SuspensionUpdatedEvent::class,
         EmployeeHiredEvent::class,
     ]);
 });

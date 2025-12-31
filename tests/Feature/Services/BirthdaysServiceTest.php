@@ -2,9 +2,9 @@
 
 use App\Models\Hire;
 use App\Models\Employee;
-use App\Events\SuspensionUpdated;
+use App\Events\SuspensionUpdatedEvent;
 use App\Events\EmployeeHiredEvent;
-use App\Events\TerminationCreated;
+use App\Events\TerminationCreatedEvent;
 use App\Models\Suspension;
 use App\Models\Termination;
 use App\Services\BirthdaysService;
@@ -15,8 +15,8 @@ beforeEach(function () {
 
     Event::fake([
         EmployeeHiredEvent::class,
-        SuspensionUpdated::class,
-        TerminationCreated::class,
+        SuspensionUpdatedEvent::class,
+        TerminationCreatedEvent::class,
     ]);
 });
 

@@ -3,10 +3,9 @@
 namespace App\Providers;
 
 use App\Events\EmployeeHiredEvent;
-use App\Events\EmployeeReactivated;
-use App\Events\EmployeeSaved;
-use App\Events\SuspensionUpdated;
-use App\Events\TerminationCreated;
+use App\Events\EmployeeReactivatedEvent;
+use App\Events\SuspensionUpdatedEvent;
+use App\Events\TerminationCreatedEvent;
 use App\Events\TicketAssignedEvent;
 use App\Events\TicketCompletedEvent;
 use App\Events\TicketCreatedEvent;
@@ -23,9 +22,6 @@ use App\Listeners\SendTicketCreatedMail;
 use App\Listeners\SendTicketDeletedMail;
 use App\Listeners\SendTicketReopenedMail;
 use App\Listeners\SendTicketReplyCreatedMail;
-use App\Listeners\SuspendEmployee;
-use App\Listeners\TerminateEmployee;
-use App\Listeners\UpdateEmployeeFullName;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -42,21 +38,16 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        EmployeeSaved::class => [
-            UpdateEmployeeFullName::class,
-        ],
         EmployeeHiredEvent::class => [
             SendEmployeeCreatedEmail::class,
         ],
-        SuspensionUpdated::class => [
-            SuspendEmployee::class,
+        SuspensionUpdatedEvent::class => [
             SendEmployeeSuspendedEmail::class,
         ],
-        TerminationCreated::class => [
-            TerminateEmployee::class,
+        TerminationCreatedEvent::class => [
             SendEmployeeTerminatedEmail::class,
         ],
-        EmployeeReactivated::class => [
+        EmployeeReactivatedEvent::class => [
             SendEmployeeReactivatedEmail::class,
         ],
         TicketAssignedEvent::class => [

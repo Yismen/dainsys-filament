@@ -209,11 +209,11 @@ test('form validation require fields on create and edit pages', function () {
     // Test CreateEmployee validation
     livewire(CreateEmployee::class)
         ->fillForm([
-            'first_name' => '', 
-            'last_name' => '', 
-            'personal_id_type' => '', 
-            'personal_id' => '', 
-            'date_of_birth' => '', 
+            'first_name' => '',
+            'last_name' => '',
+            'personal_id_type' => '',
+            'personal_id' => '',
+            'date_of_birth' => '',
             'cellphone' => '',
             'gender' => '',
             'has_kids' => null,
@@ -235,10 +235,10 @@ test('form validation require fields on create and edit pages', function () {
     livewire(EditEmployee::class, ['record' => $employee->getKey()])
         ->fillForm([
             'first_name' => '', // Invalid: name is required
-            'last_name' => '', 
-            'personal_id_type' => '', 
-            'personal_id' => '', 
-            'date_of_birth' => '', 
+            'last_name' => '',
+            'personal_id_type' => '',
+            'personal_id' => '',
+            'date_of_birth' => '',
             'cellphone' => '',
             'gender' => '',
             'has_kids' => null,

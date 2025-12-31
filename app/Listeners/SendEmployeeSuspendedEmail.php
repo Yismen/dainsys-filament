@@ -2,13 +2,13 @@
 
 namespace App\Listeners;
 
-use App\Events\SuspensionUpdated;
+use App\Events\SuspensionUpdatedEvent;
 use App\Mail\SuspensionUpdated as MailSuspensionUpdated;
 use Illuminate\Support\Facades\Mail;
 
 class SendEmployeeSuspendedEmail
 {
-    public function handle(SuspensionUpdated $event)
+    public function handle(SuspensionUpdatedEvent $event)
     {
         Mail::send(new MailSuspensionUpdated($event->suspension));
     }

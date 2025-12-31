@@ -2,8 +2,8 @@
 
 use App\Console\Commands\Birthdays;
 use App\Events\EmployeeHiredEvent;
-use App\Events\SuspensionUpdated;
-use App\Events\TerminationCreated;
+use App\Events\SuspensionUpdatedEvent;
+use App\Events\TerminationCreatedEvent;
 use App\Mail\Birthdays as MailBirthdays;
 use App\Models\Employee;
 use App\Models\Hire;
@@ -13,8 +13,8 @@ use Illuminate\Support\Facades\Mail;
 beforeEach(function () {
     Event::fake([
         EmployeeHiredEvent::class,
-        SuspensionUpdated::class,
-        TerminationCreated::class,
+        SuspensionUpdatedEvent::class,
+        TerminationCreatedEvent::class,
     ]);
     Mail::fake();
     $this->employee = Employee::factory()->create(['date_of_birth' => now()]);

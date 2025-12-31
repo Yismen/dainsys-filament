@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Events\TerminationCreated;
+use App\Events\TerminationCreatedEvent;
 use App\Models\Traits\HasManyComments;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\BelongsToEmployee;
@@ -20,7 +20,7 @@ class Termination extends \App\Models\BaseModels\AppModel
     protected $fillable = ['employee_id', 'date', 'termination_type', 'is_rehireable'];
 
     protected $dispatchesEvents = [
-        'created' => TerminationCreated::class,
+        'created' => TerminationCreatedEvent::class,
     ];
 
     protected $casts = [

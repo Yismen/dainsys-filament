@@ -21,9 +21,9 @@ use App\Models\Termination;
 use App\Models\SocialSecurity;
 use App\Models\SuspensionType;
 use App\Enums\EmployeeStatuses;
-use App\Events\SuspensionUpdated;
+use App\Events\SuspensionUpdatedEvent;
 use App\Events\EmployeeHiredEvent;
-use App\Events\TerminationCreated;
+use App\Events\TerminationCreatedEvent;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Event;
 use App\Exceptions\EmployeeCantBeSuspended;
@@ -38,8 +38,8 @@ use App\Exceptions\TerminationDateCantBeLowerThanHireDate;
 beforeEach(function () {
     Mail::fake();
     Event::fake([
-        SuspensionUpdated::class,
-        TerminationCreated::class,
+        SuspensionUpdatedEvent::class,
+        TerminationCreatedEvent::class,
         EmployeeHiredEvent::class,
     ]);
 });

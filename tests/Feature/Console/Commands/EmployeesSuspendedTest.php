@@ -3,9 +3,9 @@
 use App\Models\Employee;
 use App\Models\Suspension;
 use App\Enums\EmployeeStatuses;
-use App\Events\SuspensionUpdated;
+use App\Events\SuspensionUpdatedEvent;
 use App\Events\EmployeeHiredEvent;
-use App\Events\TerminationCreated;
+use App\Events\TerminationCreatedEvent;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Event;
 use App\Console\Commands\EmployeesSuspended;
@@ -13,9 +13,9 @@ use App\Mail\EmployeesSuspended as EmployeeSuspendedMail;
 
 beforeEach(function () {
     Event::fake([
-        SuspensionUpdated::class,
+        SuspensionUpdatedEvent::class,
         EmployeeHiredEvent::class,
-        TerminationCreated::class,
+        TerminationCreatedEvent::class,
     ]);
 
     Mail::fake();

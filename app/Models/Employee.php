@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Enums\EmployeeStatuses;
 use App\Enums\Genders;
 use App\Enums\PersonalIdTypes;
-use App\Events\EmployeeSaved;
 use App\Models\Traits\BelongsToCitizenship;
 use App\Models\Traits\HasInformation;
 use App\Models\Traits\HasManyDowntimes;
