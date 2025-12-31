@@ -28,9 +28,9 @@ class TerminationFactory extends Factory
     {
         return [
             'employee_id' => Employee::factory(),
-            'date' => now(),
+            'date' => now()->format('Y-m-d'),
             'termination_type' => TerminationTypes::Resignation,
-            'is_rehireable' => $this->faker->randomElement([0, 1]),
+            'is_rehireable' => 1,
         ];
     }
 }

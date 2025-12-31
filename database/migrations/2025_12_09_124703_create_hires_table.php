@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('hires', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->date('date');
             $table->foreignUuid('employee_id')->constrained()->onDelete('cascade');
             $table->foreignUuid('site_id')->constrained()->onDelete('cascade');
             $table->foreignUuid('project_id')->constrained()->onDelete('cascade');
             $table->foreignUuid('position_id')->constrained()->onDelete('cascade');
             $table->foreignUuid('supervisor_id')->constrained()->onDelete('cascade');
-            $table->date('date');
             $table->string('punch')->nullable()->unique();
             $table->softDeletes();
             $table->timestamps();

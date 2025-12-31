@@ -1,10 +1,25 @@
 <?php
 
-use App\Console\Commands\EmployeesSuspended;
-use App\Enums\EmployeeStatuses;
 use App\Models\Employee;
 use App\Models\Suspension;
+use App\Enums\EmployeeStatuses;
+use App\Events\SuspensionUpdated;
+use App\Events\EmployeeHiredEvent;
+use App\Events\TerminationCreated;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Event;
+use App\Console\Commands\EmployeesSuspended;
+use App\Mail\EmployeesSuspended as EmployeeSuspendedMail;
+
+beforeEach(function () {
+    Event::fake([
+        SuspensionUpdated::class,
+        EmployeeHiredEvent::class,
+        TerminationCreated::class,
+    ]);
+
+    Mail::fake();
+});
 
 test('employees suspended run sucessfully', function () {
     $this->artisan('dainsys:employees-suspended')
@@ -22,27 +37,28 @@ test('command is schedulled for daily at 305 am', function () {
 });
 
 test('employees suspended sends email', function () {
-    Mail::fake();
-    $current = Employee::factory()->createQuietly();
-    Suspension::factory()->createQuietly([
-        'employee_id' => $current->id,
-        'starts_at' => now()->subDay(),
-        'ends_at' => now()->addDay(),
-    ]);
-    $current->update(['status' => EmployeeStatuses::Suspended]);
+    $employee = Employee::factory()
+        ->hasHires()
+        ->create();
+        Suspension::factory()->create([
+            'employee_id' => $employee->id,
+            'starts_at' => now(),
+            'ends_at' => now()->addDay(),
+        ]);
 
-    $this->artisan(EmployeesSuspended::class);
+        $this->artisan(EmployeesSuspended::class);
 
-    Mail::assertQueued(\App\Mail\EmployeesSuspended::class);
+    Mail::assertQueued(EmployeeSuspendedMail::class);
 });
 
 test('employees suspended does not sends email if there is not employees suspended', function () {
-    Mail::fake();
-    $current = Employee::factory()->current()->createQuietly();
+    $employee = Employee::factory()
+        ->hasHires()
+        ->create();
 
     $this->artisan(EmployeesSuspended::class);
 
-    Mail::assertNotQueued(\App\Mail\EmployeesSuspended::class);
+    Mail::assertNotQueued(EmployeeSuspendedMail::class);
 });
 
 // /** @test */

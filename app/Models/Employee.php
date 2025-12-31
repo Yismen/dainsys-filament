@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\EmployeeStatuses;
 use App\Enums\Genders;
+use App\Enums\PersonalIdTypes;
 use App\Events\EmployeeSaved;
 use App\Models\Traits\BelongsToCitizenship;
 use App\Models\Traits\HasInformation;
@@ -21,6 +22,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
 
 class Employee extends \App\Models\BaseModels\AppModel
 {
@@ -35,7 +37,6 @@ class Employee extends \App\Models\BaseModels\AppModel
     use HasManyTerminations;
     use HasRelationsThruHire;
     use HasRelationsThruSocialSecurity;
-    use SoftDeletes;
 
     protected $fillable = [
         'first_name',
@@ -47,7 +48,7 @@ class Employee extends \App\Models\BaseModels\AppModel
         'personal_id',
         'date_of_birth',
         'cellphone',
-        'status',
+        // 'status',
         'gender',
         'has_kids',
         'citizenship_id',
@@ -64,6 +65,8 @@ class Employee extends \App\Models\BaseModels\AppModel
         'date_of_birth' => 'date:Y-m-d',
         'status' => EmployeeStatuses::class,
         'gender' => Genders::class,
+        'has_kids' => 'boolean',
+        'personal_id_type' => PersonalIdTypes::class,
     ];
 
     protected $dispatchesEvents = [
@@ -75,33 +78,51 @@ class Employee extends \App\Models\BaseModels\AppModel
     {
         parent::boot();
 
+        static::created(function (Employee $employee) {
+            $employee->status = EmployeeStatuses::Created;
+
+            $employee->saveQuietly();
+        });
+
         static::saved(function ($employee) {
-            $employee->updateFullName();
+            $employee->full_name = $employee->getFullName();
+            $employee->status = $employee->getStatus();
+
+            $employee->saveQuietly();
         });
     }
 
-    public function updateFullName()
+    public function supervisor(): HasOneThrough
     {
-        $this->full_name = trim(
-            implode(' ', array_filter([
-                $this->first_name,
-                $this->second_first_name,
-                $this->last_name,
-                $this->second_last_name,
-            ]))
+        return $this->hasOneThrough(
+            Supervisor::class,
+            Hire::class,
+            'employee_id', // Foreign key on hires table...
+            'id', // Foreign key on supervisors table...
+            'id', // Local key on employees table...
+            'supervisor_id' // Local key on hires table...
         );
-
-        $this->saveQuietly();
     }
 
-    public function getTenureAttribute()
+    // public function getTenureAttribute()
+    // {
+    //     return $this->hired_at->diffInDays(now());
+    // }
+
+    public function scopeActive($query)
     {
-        return $this->hired_at->diffInDays(now());
+        $query->whereIn('status', [
+            EmployeeStatuses::Hired,
+            EmployeeStatuses::Suspended,
+        ]);
     }
 
     public function scopeCurrent($query)
     {
-        $query->where('status', EmployeeStatuses::Hired);
+        $query->whereIn('status', [
+            EmployeeStatuses::Hired,
+            EmployeeStatuses::Suspended,
+        ]);
     }
 
     public function scopeSuspended($query)
@@ -116,13 +137,16 @@ class Employee extends \App\Models\BaseModels\AppModel
 
     public function scopeNotInactive($query)
     {
-        $query->where('status', '<>', EmployeeStatuses::Terminated);
+        $query->whereIn('status', [
+            EmployeeStatuses::Hired,
+            EmployeeStatuses::Suspended,
+        ]);
     }
 
     public function scopeHasActiveSuspension($query)
     {
         $query->with('suspensions')
-            ->where('status', '<>', EmployeeStatuses::Terminated)
+            ->current()
             ->where(function ($query) {
                 $query->whereHas('suspensions', function ($suspensions) {
                     $suspensions->active();
@@ -158,25 +182,53 @@ class Employee extends \App\Models\BaseModels\AppModel
         return $this->suspensions()->active()->count() === 0;
     }
 
-    public function suspend()
+    public function latestHire(): null|Hire
     {
-        $this->updateQuietly(['status' => EmployeeStatuses::Suspended]);
+        return $this->hires()->latest('date')->first();
     }
 
-    public function unSuspend()
+    public function latestTermination(): null|Termination
     {
-        $this->updateQuietly(['status' => EmployeeStatuses::Hired]);
+        return $this->terminations()->latest('date')->first();
     }
 
-    public function supervisor(): HasOneThrough
+    public function latestActiveSuspension():null|Suspension
     {
-        return $this->hasOneThrough(
-            Supervisor::class,
-            Hire::class,
-            'employee_id', // Foreign key on hires table...
-            'id', // Foreign key on supervisors table...
-            'id', // Local key on employees table...
-            'supervisor_id' // Local key on hires table...
+        return $this->suspensions()
+            ->active()
+            ->latest('starts_at')
+            ->first();
+    }
+
+    protected function getStatus()
+    {
+        $latestHire = $this->latestHire();
+        $latestActiveSuspension = $this->latestActiveSuspension();
+        $latestTermination = $this->latestTermination();
+
+        if ($latestHire && $latestHire?->date > $latestTermination?->date) { // the employee is active
+            if($latestActiveSuspension) { // active but suspended
+                return EmployeeStatuses::Suspended;
+            }
+            return EmployeeStatuses::Hired;
+        }
+
+        if($latestTermination && $latestTermination?->date >= $latestHire?->date) { // should be terminated
+            return EmployeeStatuses::Terminated;
+        }
+
+        return EmployeeStatuses::Created;
+    }
+
+    protected function getFullName()
+    {
+        return trim(
+            implode(' ', array_filter([
+                $this->first_name,
+                $this->second_first_name,
+                $this->last_name,
+                $this->second_last_name,
+            ]))
         );
     }
 }

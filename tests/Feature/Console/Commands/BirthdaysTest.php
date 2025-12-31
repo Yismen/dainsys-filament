@@ -1,6 +1,9 @@
 <?php
 
 use App\Console\Commands\Birthdays;
+use App\Events\EmployeeHiredEvent;
+use App\Events\SuspensionUpdated;
+use App\Events\TerminationCreated;
 use App\Mail\Birthdays as MailBirthdays;
 use App\Models\Employee;
 use App\Models\Hire;
@@ -8,9 +11,13 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 
 beforeEach(function () {
-    Event::fake();
+    Event::fake([
+        EmployeeHiredEvent::class,
+        SuspensionUpdated::class,
+        TerminationCreated::class,
+    ]);
     Mail::fake();
-    $this->employee = Employee::factory()->current()->create(['date_of_birth' => now()]);
+    $this->employee = Employee::factory()->create(['date_of_birth' => now()]);
 
     Hire::factory()->for($this->employee)->create();
 });
@@ -36,6 +43,10 @@ it('trows exception if report type is not registered in the command', function (
 })->throws(Exception::class);
 
 test('birthdays command sends email', function () {
+    Employee::factory()
+        ->hasHires()
+        ->create();
+
     $this->artisan(Birthdays::class, ['type' => 'today']);
 
     Mail::assertQueued(MailBirthdays::class);
@@ -48,14 +59,3 @@ test('birthdays command doesnot send email if service is empty', function () {
 
     Mail::assertNotQueued(MailBirthdays::class);
 });
-
-// /** @test */
-// public function command_is_schedulled_for_evey_thirty_minutes()
-// {
-//     $addedToScheduler = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
-//         ->filter(function ($element) {
-//             return str($element->command)->contains('support:update-ticket-status');
-//         })->first();
-//     $this->assertNotNull($addedToScheduler);
-//     $this->assertEquals('0,30 * * * *', $addedToScheduler->expression);
-// }

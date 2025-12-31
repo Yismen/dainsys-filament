@@ -9,9 +9,9 @@ class ActivesEndService extends BaseAttritionService
 {
     protected function query(): Builder
     {
-        return Employee::where('hired_at', '<=', $this->date_to)
+        return Employee::query()
             ->where(function ($query) {
-                $query->notInactive()
+                $query->current()
                     ->orWhereHas('terminations', function ($query) {
                         $query->where('date', '>', $this->date_to);
                     });

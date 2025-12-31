@@ -38,47 +38,47 @@ class EmployeeFactory extends Factory
             'personal_id' => rand(10000000000, 99999999999),
             'date_of_birth' => now()->subYears(18)->format('Y-m-d'),
             'cellphone' => $this->faker->phoneNumber(),
-            'status' => EmployeeStatuses::Hired,
+            // 'status' => EmployeeStatuses::Hired,
             'gender' => Genders::Male,
             'has_kids' => $this->faker->randomElement([0, 1]),
             'citizenship_id' => Citizenship::factory(),
         ];
     }
 
-    public function current(): Factory
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'status' => EmployeeStatuses::Hired,
-            ];
-        });
-    }
+    // public function current(): Factory
+    // {
+    //     return $this->state(function (array $attributes) {
+    //         return [
+    //             'status' => EmployeeStatuses::Hired,
+    //         ];
+    //     });
+    // }
 
-    public function inactive(): Factory
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'status' => EmployeeStatuses::Terminated,
-            ];
-        });
-    }
+    // public function inactive(): Factory
+    // {
+    //     return $this->state(function (array $attributes) {
+    //         return [
+    //             'status' => EmployeeStatuses::Terminated,
+    //         ];
+    //     });
+    // }
 
-    public function suspended(): Factory
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'status' => EmployeeStatuses::Suspended,
-            ];
-        });
-    }
+    // public function suspended(): Factory
+    // {
+    //     return $this->state(function (array $attributes) {
+    //         return [
+    //             'status' => EmployeeStatuses::Suspended,
+    //         ];
+    //     });
+    // }
 
-    public function hired(?Date $date = null)
-    {
-        if (! $date) {
-            $date = now();
-        }
+    // public function hired(?Date $date = null)
+    // {
+    //     if (! $date) {
+    //         $date = now();
+    //     }
 
-        dd($date, $this);
+    //     dd($date, $this);
 
-    }
+    // }
 }

@@ -166,15 +166,15 @@ it('updates supervisor id based on employee when employee is changed', function 
 it('keeps supervisor id if employee is not changed even if supervisor has changed for the employee', function () {
     $supervisor = Supervisor::factory()->create();
     $employee = Employee::factory()->create();
-    Hire::factory()->for($employee)->for($supervisor)->create();
+    $hire = Hire::factory()->for($employee)->for($supervisor)->create();
     $production = Production::factory([
         'employee_id' => $employee->id,
     ])
         ->create();
 
     // updated the supervisor for the employee
-    Hire::factory()->for($employee)->for(Supervisor::factory())->create();
-    $employee->save();
+    $newSupervisor = Supervisor::factory()->create();
+    $hire->update(['supervisor_id' => $newSupervisor->id]);
 
     $production->touch();
 

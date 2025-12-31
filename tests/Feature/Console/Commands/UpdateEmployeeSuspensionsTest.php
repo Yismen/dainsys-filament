@@ -1,9 +1,23 @@
 <?php
 
-use App\Console\Commands\UpdateEmployeeSuspensions;
-use App\Enums\EmployeeStatuses;
+use App\Models\Hire;
 use App\Models\Employee;
 use App\Models\Suspension;
+use App\Models\Termination;
+use App\Enums\EmployeeStatuses;
+use App\Events\SuspensionUpdated;
+use App\Events\EmployeeHiredEvent;
+use App\Events\TerminationCreated;
+use Illuminate\Support\Facades\Event;
+use App\Console\Commands\UpdateEmployeeSuspensions;
+
+beforeEach(function () {
+    Event::fake([
+        EmployeeHiredEvent::class,
+        SuspensionUpdated::class,
+        TerminationCreated::class,
+    ]);
+});
 
 test('install command creates site', function () {
     $this->artisan('dainsys:update-employee-suspensions')
@@ -21,13 +35,14 @@ test('command is schedulled for daily at 300 am', function () {
 });
 
 test('current employees are suspended', function () {
-    $current = Employee::factory()->createQuietly();
-    Suspension::factory()->createQuietly([
+    $current = Employee::factory()
+        ->hasHires()
+        ->create();
+    Suspension::factory()->create([
         'employee_id' => $current->id,
-        'starts_at' => now()->subDay(),
+        'starts_at' => now(),
         'ends_at' => now()->addDay(),
     ]);
-    $current->update(['status' => EmployeeStatuses::Hired]);
 
     $this->artisan(UpdateEmployeeSuspensions::class);
 
@@ -38,13 +53,11 @@ test('current employees are suspended', function () {
 });
 
 test('inactive employees are not suspended', function () {
-    $current = Employee::factory()->inactive()->createQuietly();
-    Suspension::factory()->createQuietly([
-        'employee_id' => $current->id,
-        'starts_at' => now()->subDay(),
-        'ends_at' => now()->addDay(),
-    ]);
-    $current->update(['status' => EmployeeStatuses::Terminated]);
+    $current = Employee::factory()
+        ->hasHires()
+        ->create();
+
+    Termination::factory()->for($current)->create();
 
     $this->artisan(UpdateEmployeeSuspensions::class);
 
@@ -54,31 +67,16 @@ test('inactive employees are not suspended', function () {
     ]);
 });
 
-test('inactive employees should not be suspended', function () {
-    $inactive = Employee::factory()->inactive()->createQuietly();
+test('employee is not suspended if starts at is after now', function () {
+    $current = Employee::factory()
+        ->create();
+    Hire::factory()->for($current)->create(['date' => now()->subDays(10)]);
 
-    Suspension::factory()->createQuietly([
-        'employee_id' => $inactive->id,
-        'starts_at' => now()->subDay(),
-        'ends_at' => now()->addDay(),
-    ]);
-
-    $this->artisan(UpdateEmployeeSuspensions::class);
-
-    $this->assertDatabaseMissing('employees', [
-        'id' => $inactive->id,
-        'status' => EmployeeStatuses::Suspended,
-    ]);
-});
-
-test('employee is not suspended if starts at is before now', function () {
-    $current = Employee::factory()->createQuietly();
-    Suspension::factory()->createQuietly([
+    Suspension::factory()->create([
         'employee_id' => $current->id,
         'starts_at' => now()->addDay(),
         'ends_at' => now()->addDay(),
     ]);
-    $current->update(['status' => EmployeeStatuses::Hired]);
 
     $this->artisan(UpdateEmployeeSuspensions::class);
 
@@ -88,14 +86,14 @@ test('employee is not suspended if starts at is before now', function () {
     ]);
 });
 
-test('employee is not suspended if ends at is after now', function () {
-    $current = Employee::factory()->createQuietly();
-    Suspension::factory()->createQuietly([
+test('employee is not suspended if ends at is before now', function () {
+    $current = Employee::factory()->create();
+    Hire::factory()->for($current)->create(['date' => now()->subDays(5)]);
+    Suspension::factory()->create([
         'employee_id' => $current->id,
         'starts_at' => now()->subDay(),
         'ends_at' => now()->subDay(),
     ]);
-    $current->update(['status' => EmployeeStatuses::Hired]);
 
     $this->artisan(UpdateEmployeeSuspensions::class);
 
@@ -106,13 +104,20 @@ test('employee is not suspended if ends at is after now', function () {
 });
 
 test('suspended employees are activated if today is prior to starts at', function () {
-    $current = Employee::factory()->suspended()->createQuietly();
-    Suspension::factory()->createQuietly([
+    $current = Employee::factory()->create();
+    Hire::factory()->for($current)->create();
+    Suspension::factory()->create([
         'employee_id' => $current->id,
-        'starts_at' => now()->addDay(),
+        'starts_at' => now(),
         'ends_at' => now()->addDay(),
     ]);
-    $current->update(['status' => EmployeeStatuses::Suspended]);
+
+    $this->assertDatabaseHas('employees', [
+        'id' => $current->id,
+        'status' => EmployeeStatuses::Suspended,
+    ]);
+
+    $this->travelTo(now()->subDays(5));
 
     $this->artisan(UpdateEmployeeSuspensions::class);
 
@@ -123,13 +128,21 @@ test('suspended employees are activated if today is prior to starts at', functio
 });
 
 test('suspended employees are activated if today is after ends at', function () {
-    $current = Employee::factory()->suspended()->createQuietly();
-    Suspension::factory()->createQuietly([
+    $current = Employee::factory()->create();
+    Hire::factory()->for($current)->create();
+    Suspension::factory()->create([
         'employee_id' => $current->id,
-        'starts_at' => now()->subDay(),
-        'ends_at' => now()->subDay(),
+        'starts_at' => now(),
+        'ends_at' => now()->addDay(),
     ]);
-    $current->update(['status' => EmployeeStatuses::Suspended]);
+
+    $this->assertDatabaseHas('employees', [
+        'id' => $current->id,
+        'status' => EmployeeStatuses::Suspended,
+    ]);
+
+    $this->travelTo(now()->addDays(5));
+
 
     $this->artisan(UpdateEmployeeSuspensions::class);
 
@@ -138,14 +151,3 @@ test('suspended employees are activated if today is after ends at', function () 
         'status' => EmployeeStatuses::Hired,
     ]);
 });
-
-/** @test */
-// public function command_is_schedulled_for_evey_thirty_minutes()
-// {
-//     $addedToScheduler = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
-//         ->filter(function ($element) {
-//             return str($element->command)->contains('support:update-ticket-status');
-//         })->first();
-//     $this->assertNotNull($addedToScheduler);
-//     $this->assertEquals('0,30 * * * *', $addedToScheduler->expression);
-// }

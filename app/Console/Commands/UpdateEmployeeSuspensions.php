@@ -40,23 +40,23 @@ class UpdateEmployeeSuspensions extends Command
      */
     public function handle()
     {
-        $shouldSuspend = EmployeesNeedingSuspension::list();
-        $shouldActivate = EmployeesNeedingRemoveSuspension::list();
+        $employeesTosuspend = EmployeesNeedingSuspension::list();
+        $SuspendedEmployeesToActivate = EmployeesNeedingRemoveSuspension::list();
 
-        $shouldSuspendCount = $shouldSuspend->count();
-        $shouldActivateCount = $shouldActivate->count();
+        $employeesTosuspendCount = $employeesTosuspend->count();
+        $SuspendedEmployeesToActivateCount = $SuspendedEmployeesToActivate->count();
 
-        if ($shouldSuspendCount) {
-            $shouldSuspend->each->updateQuietly(['status' => EmployeeStatuses::Suspended]);
-            $this->info("{$shouldSuspendCount} employees suspended!");
+        if ($employeesTosuspendCount) {
+            $employeesTosuspend->each->touch();
+            $this->info("{$employeesTosuspendCount} employees suspended!");
         }
 
-        if ($shouldActivateCount) {
-            $shouldActivate->each->updateQuietly(['status' => EmployeeStatuses::Hired]);
-            $this->info("{$shouldActivateCount} suspended employees activated!");
+        if ($SuspendedEmployeesToActivateCount) {
+            $SuspendedEmployeesToActivate->each->touch();
+            $this->info("{$SuspendedEmployeesToActivateCount} suspended employees activated!");
         }
 
-        if ($shouldActivateCount === 0 && $shouldActivateCount === 0) {
+        if ($SuspendedEmployeesToActivateCount === 0 && $SuspendedEmployeesToActivateCount === 0) {
             $this->warn('No status change needed for employees!');
         }
 

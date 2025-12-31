@@ -9,7 +9,8 @@ class ActivesStartService extends BaseAttritionService
 {
     protected function query(): Builder
     {
-        return Employee::where('hired_at', '<', $this->date_from)
+        return Employee::query()
+            // ->where('hired_at', '<', $this->date_from)
             // ->filter(request()->all())
             // ->forDefaultSites()
             ->where(function ($query) {

@@ -42,7 +42,6 @@ class BirthdaysService
             throw new InvalidArgumentException('Invalid argument passed. options are '.implode(', ', $this->types));
         }
         $this->type = $type;
-        $this->date = now();
 
         $birthdays = $this->$type()->get();
 
@@ -65,19 +64,19 @@ class BirthdaysService
     protected function today()
     {
         return $this->query
-            ->whereMonth('date_of_birth', $this->date->month)->whereDay('date_of_birth', $this->date->day);
+            ->whereMonth('date_of_birth', now()->month)->whereDay('date_of_birth', now()->day);
     }
 
     protected function yesterday()
     {
         return $this->query
-            ->whereMonth('date_of_birth', $this->date->copy()->subDay()->month)->whereDay('date_of_birth', $this->date->copy()->subDay()->day);
+            ->whereMonth('date_of_birth', now()->subDay()->month)->whereDay('date_of_birth', now()->subDay()->day);
     }
 
     protected function tomorrow()
     {
         return $this->query
-            ->whereMonth('date_of_birth', $this->date->copy()->addDay()->month)->whereDay('date_of_birth', $this->date->copy()->addDay()->day);
+            ->whereMonth('date_of_birth', now()->addDay()->month)->whereDay('date_of_birth', now()->addDay()->day);
     }
 
     protected function this_month()
@@ -85,11 +84,11 @@ class BirthdaysService
         return $this->query
             ->whereMonth(
                 'date_of_birth',
-                $this->date->month
+                now()->month
             )->where(
                 fn ($q) => $q
-                    ->whereDay('date_of_birth', '>=', $this->date->copy()->startOfMonth())
-                    ->orWhereDay('date_of_birth', '<=', $this->date->copy()->endOfMonth())
+                    ->whereDay('date_of_birth', '>=', now()->startOfMonth())
+                    ->orWhereDay('date_of_birth', '<=', now()->endOfMonth())
             );
     }
 
@@ -98,11 +97,11 @@ class BirthdaysService
         return $this->query
             ->whereMonth(
                 'date_of_birth',
-                $this->date->copy()->subMonth()->month
+                now()->startOfMonth()->subMonth()->month
             )->where(
                 fn ($q) => $q
-                    ->whereDay('date_of_birth', '>=', $this->date->copy()->subMonth()->startOfMonth()->day)
-                    ->orWhereDay('date_of_birth', '<=', $this->date->copy()->subMonth()->endOfMonth()->day)
+                    ->whereDay('date_of_birth', '>=', now()->startOfMonth()->subMonth()->day)
+                    ->WhereDay('date_of_birth', '<=', now()->endOfMonth()->subMonth()->day)
             );
     }
 
@@ -111,11 +110,11 @@ class BirthdaysService
         return $this->query
             ->whereMonth(
                 'date_of_birth',
-                $this->date->copy()->addMonth()->month
+                now()->startOfMonth()->addMonth()->month
             )->where(
                 fn ($q) => $q
-                    ->whereDay('date_of_birth', '>=', $this->date->copy()->addMonth()->startOfMonth()->day)
-                    ->orWhereDay('date_of_birth', '<=', $this->date->copy()->addMonth()->endOfMonth()->day)
+                    ->whereDay('date_of_birth', '>=', now()->startOfMonth()->addMonth()->day)
+                    ->orWhereDay('date_of_birth', '<=', now()->endOfMonth()->addMonth()->day)
             );
     }
 

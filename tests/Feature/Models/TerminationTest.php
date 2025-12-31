@@ -1,48 +1,95 @@
 <?php
 
+use App\Models\Hire;
+use App\Models\Employee;
+use App\Models\Suspension;
 use App\Models\Termination;
+use Illuminate\Support\Carbon;
+use App\Events\EmployeeHiredEvent;
+use App\Events\SuspensionUpdated;
+use App\Events\TerminationCreated;
 use Illuminate\Support\Facades\Event;
+use App\Exceptions\EmployeeCantBeTerminated;
+use App\Exceptions\TerminationDateCantBeLowerThanHireDate;
 
 beforeEach(function () {
     Event::fake([
-        \App\Events\TerminationCreated::class,
+        TerminationCreated::class,
+        EmployeeHiredEvent::class,
+        SuspensionUpdated::class
     ]);
 });
 
 test('terminations model interacts with db table', function () {
-    $data = Termination::factory()->make();
+    $employee = Employee::factory()->create();
+    Hire::factory()->for($employee)->create(['date' => now()->subDay()]);
+    $termination = Termination::factory()->for($employee)->create();
 
-    Termination::create($data->toArray());
-
-    $this->assertDatabaseHas('terminations', $data->only([
-        // 'date',
-        'employee_id',
-        'termination_type',
-        'is_rehireable',
-    ]));
+    $this->assertDatabaseHas('terminations', [
+        'id' => $termination->id,
+        'date' => $termination->date->format('Y-m-d'),
+        'employee_id' => $termination->employee_id,
+        'termination_type' => $termination->termination_type,
+        'is_rehireable' => 1,
+    ]);
 });
 
-// it('casts date as date format Y-m-d', function () {
-//     $termination = Termination::factory()->create(['date' => now()]);
+it('casts date as date format Y-m-d', function () {
+    $employee = Employee::factory()->create();
+    Hire::factory()->for($employee)->create(['date' => now()->subDay()]);
+    $termination = Termination::factory()->for($employee)->create();
 
-//     dd($termination->date == now()->format('Y-m-d'));
-// });
+    expect($termination->date)->toBeInstanceOf(Carbon::class);
+});
 
 it('casts is_rehireable as boolean', function () {
-    $termination = Termination::factory()->create(['is_rehireable' => 1]);
+    $employee = Employee::factory()->create();
+    Hire::factory()->for($employee)->create(['date' => now()->subDay()]);
+    $termination = Termination::factory()->for($employee)->create(['is_rehireable' => 1]);
 
     expect($termination->is_rehireable)->toBeTrue();
 });
 
 test('terminations model belongs to employee', function () {
-    $termination = Termination::factory()->create();
+    $employee = Employee::factory()->create();
+    Hire::factory()->for($employee)->create(['date' => now()->subDay()]);
+    $termination = Termination::factory()->for($employee)->create();
 
-    expect($termination->employee)->toBeInstanceOf(\App\Models\Employee::class);
+    expect($termination->employee)->toBeInstanceOf(Employee::class);
     expect($termination->employee())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
 });
 
 test('termination model fires event when created', function () {
-    $termination = Termination::factory()->create();
+    $employee = Employee::factory()->create();
+    Hire::factory()->for($employee)->create(['date' => now()->subDay()]);
+    Termination::factory()->for($employee)->create();
 
-    Event::assertDispatched(\App\Events\TerminationCreated::class);
+    Event::assertDispatched(TerminationCreated::class);
 });
+
+test('employees with status of Created cannot be terminated', function () {
+
+    $employee = Employee::factory()->create();
+
+    Termination::factory()->for($employee)->create();
+})->throws(EmployeeCantBeTerminated::class);
+
+test('suspended employee cannot be terminated', function () {
+
+    $employee = Employee::factory()->create();
+    Hire::factory()->for($employee)->create();
+
+    Suspension::factory()->for($employee)->create([
+        'starts_at' => now(),
+        "ends_at" => now()->addDays(10)
+    ]);
+
+    Termination::factory()->for($employee)->create(['date' => now()->addDays(2)]);
+})->throws(EmployeeCantBeTerminated::class);
+
+test('termination date cannot be prior to hire date', function(){
+    $employee = Employee::factory()->create();
+    Hire::factory()->for($employee)->create(['date' => now()]);
+
+    Termination::factory()->for($employee)->create(['date' => now()->subDay()]);
+})->throws(TerminationDateCantBeLowerThanHireDate::class);

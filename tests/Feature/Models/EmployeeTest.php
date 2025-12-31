@@ -2,32 +2,49 @@
 
 use App\Models\Afp;
 use App\Models\Ars;
-use App\Models\Citizenship;
-use App\Models\Department;
+use App\Models\Hire;
+use App\Models\Site;
+use App\Models\Project;
 use App\Models\Downtime;
 use App\Models\Employee;
-use App\Models\Hire;
-use App\Models\Information;
-use App\Models\LoginName;
-use App\Models\PayrollHour;
 use App\Models\Position;
+use App\Models\LoginName;
+use App\Models\Universal;
+use App\Models\Department;
 use App\Models\Production;
-use App\Models\Project;
-use App\Models\Site;
-use App\Models\SocialSecurity;
 use App\Models\Supervisor;
 use App\Models\Suspension;
+use App\Models\Citizenship;
+use App\Models\Information;
+use App\Models\PayrollHour;
 use App\Models\Termination;
-use App\Models\Universal;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOneThrough;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
-use Illuminate\Support\Facades\Event;
+use App\Models\SocialSecurity;
+use App\Models\SuspensionType;
+use App\Enums\EmployeeStatuses;
+use App\Events\SuspensionUpdated;
+use App\Events\EmployeeHiredEvent;
+use App\Events\TerminationCreated;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Event;
+use App\Exceptions\EmployeeCantBeSuspended;
+use App\Exceptions\EmployeeCantBeTerminated;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Exceptions\SuspensionDateCantBeLowerThanHireDate;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
+use App\Exceptions\TerminationDateCantBeLowerThanHireDate;
+
+beforeEach(function () {
+    Mail::fake();
+    Event::fake([
+        SuspensionUpdated::class,
+        TerminationCreated::class,
+        EmployeeHiredEvent::class,
+    ]);
+});
 
 test('employee model interacts with employees table', function () {
-    Event::fake();
     $data = Employee::factory()->make();
 
     Employee::create($data->toArray());
@@ -42,7 +59,7 @@ test('employee model interacts with employees table', function () {
         // 'full_name',
         // 'date_of_birth',
         'cellphone',
-        'status',
+        // 'status',
         'gender',
         'has_kids',
         'citizenship_id',
@@ -50,7 +67,6 @@ test('employee model interacts with employees table', function () {
 });
 
 test('employee model update full name when saved', function () {
-    Mail::fake();
     $employee = Employee::factory()->create();
 
     $name = trim(
@@ -132,4 +148,32 @@ test('employees model belongs to citizenship', function () {
     expect($employee->citizenship())->toBeInstanceOf(BelongsTo::class);
 });
 
-// is universal
+it('sets status as Created by default when employee is created', function () {
+    $employee = Employee::factory()->create();
+
+    $this->assertEquals($employee->status, EmployeeStatuses::Created);
+});
+
+it('sets status to Hired when employee is hired', function () {
+    $employee = Employee::factory()->create();
+    Hire::factory()->for($employee)->create();
+
+    $this->assertEquals($employee->fresh()->status, EmployeeStatuses::Hired);
+});
+
+it('sets status to Suspended when employee is suspended', function () {
+    $employee = Employee::factory()->create();
+    Hire::factory()->for($employee)->create(['date' => now()->subDays(10)]);
+
+    Suspension::factory()->for($employee)->create(['starts_at' => now()]);
+
+    $this->assertEquals($employee->fresh()->status, EmployeeStatuses::Suspended);
+});
+
+it('sets status as Terminated when employee is terminated', function () {
+    $employee = Employee::factory()->create();
+    Hire::factory()->for($employee)->create(['date' => now()->subDays(10)]);
+    Termination::factory()->for($employee)->create(['date' => now()]);
+
+    $this->assertEquals($employee->fresh()->status, EmployeeStatuses::Terminated);
+});

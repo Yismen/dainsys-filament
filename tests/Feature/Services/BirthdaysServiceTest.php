@@ -1,16 +1,32 @@
 <?php
 
+use App\Models\Hire;
 use App\Models\Employee;
+use App\Events\SuspensionUpdated;
+use App\Events\EmployeeHiredEvent;
+use App\Events\TerminationCreated;
+use App\Models\Suspension;
+use App\Models\Termination;
 use App\Services\BirthdaysService;
+use Illuminate\Support\Facades\Event;
 
 beforeEach(function () {
-    $this->service = new BirthdaysService;
-    $this->date = now();
+    $this->service = new BirthdaysService();
+
+    Event::fake([
+        EmployeeHiredEvent::class,
+        SuspensionUpdated::class,
+        TerminationCreated::class,
+    ]);
 });
 
 test('birthdays service returns birthdays for today', function () {
-    $employee_today = Employee::factory()->createQuietly(['date_of_birth' => $this->date->copy()]);
-    $employee_yesterday = Employee::factory()->current()->createQuietly(['date_of_birth' => $this->date->copy()->subDay()]);
+    $employee_today = Employee::factory()
+        ->hasHires()
+        ->create(['date_of_birth' => now()]);
+    $employee_yesterday = Employee::factory()
+        ->hasHires()
+        ->create(['date_of_birth' => now()->subDay()]);
 
     $birthdays = $this->service->handle('today');
 
@@ -19,8 +35,12 @@ test('birthdays service returns birthdays for today', function () {
 });
 
 test('birthdays service returns birthdays for yesterday', function () {
-    $employee_yesterday = Employee::factory()->current()->createQuietly(['date_of_birth' => $this->date->copy()->subDay()]);
-    $employee_today = Employee::factory()->current()->createQuietly(['date_of_birth' => $this->date->copy()]);
+    $employee_yesterday = Employee::factory()
+        ->hasHires()
+        ->create(['date_of_birth' => now()->subDay()]);
+    $employee_today = Employee::factory()
+        ->hasHires()
+        ->create(['date_of_birth' => now()]);
 
     $birthdays = $this->service->handle('yesterday');
 
@@ -29,8 +49,12 @@ test('birthdays service returns birthdays for yesterday', function () {
 });
 
 test('birthdays service returns birthdays for tomorrow', function () {
-    $employee_tomorrow = Employee::factory()->current()->createQuietly(['date_of_birth' => $this->date->copy()->addDay()]);
-    $employee_today = Employee::factory()->current()->createQuietly(['date_of_birth' => $this->date->copy()]);
+    $employee_tomorrow = Employee::factory()
+        ->hasHires()
+        ->create(['date_of_birth' => now()->addDay()]);
+    $employee_today = Employee::factory()
+        ->hasHires()
+        ->create(['date_of_birth' => now()]);
 
     $birthdays = $this->service->handle('tomorrow');
 
@@ -39,8 +63,12 @@ test('birthdays service returns birthdays for tomorrow', function () {
 });
 
 test('birthdays service returns birthdays for this month', function () {
-    $employee_this_month = Employee::factory()->current()->createQuietly(['date_of_birth' => $this->date->copy()->startOfMonth()]);
-    $employee_last_month = Employee::factory()->current()->createQuietly(['date_of_birth' => $this->date->copy()->startOfMonth()->subMonth()]);
+    $employee_this_month = Employee::factory()
+        ->hasHires()
+        ->create(['date_of_birth' => now()->startOfMonth()]);
+    $employee_last_month = Employee::factory()
+        ->hasHires()
+        ->create(['date_of_birth' => now()->startOfMonth()->subMonth()]);
 
     $birthdays = $this->service->handle('this_month');
 
@@ -49,8 +77,12 @@ test('birthdays service returns birthdays for this month', function () {
 });
 
 test('birthdays service returns birthdays for last month', function () {
-    $employee_this_month = Employee::factory()->current()->createQuietly(['date_of_birth' => $this->date->copy()->startOfMonth()]);
-    $employee_last_month = Employee::factory()->current()->createQuietly(['date_of_birth' => $this->date->copy()->startOfMonth()->subMonth()]);
+    $employee_this_month = Employee::factory()
+        ->hasHires()
+        ->create(['date_of_birth' => now()->startOfMonth()]);
+    $employee_last_month = Employee::factory()
+        ->hasHires()
+        ->create(['date_of_birth' => now()->startOfMonth()->subMonth()]);
 
     $birthdays = $this->service->handle('last_month');
 
@@ -59,8 +91,12 @@ test('birthdays service returns birthdays for last month', function () {
 });
 
 test('birthdays service returns birthdays for next month', function () {
-    $employee_this_month = Employee::factory()->current()->createQuietly(['date_of_birth' => $this->date->copy()]);
-    $employee_next_month = Employee::factory()->current()->createQuietly(['date_of_birth' => $this->date->copy()->addMonth()]);
+    $employee_this_month = Employee::factory()
+        ->hasHires()
+        ->create(['date_of_birth' => now()]);
+    $employee_next_month = Employee::factory()
+        ->hasHires()
+        ->create(['date_of_birth' => now()->addMonth()]);
 
     $birthdays = $this->service->handle('next_month');
 
@@ -69,15 +105,32 @@ test('birthdays service returns birthdays for next month', function () {
 });
 
 test('birthdays service includes suspended employees', function () {
-    $employee_today = Employee::factory()->suspended()->createQuietly(['date_of_birth' => $this->date->copy()]);
+    $suspended_employee = Employee::factory()
+        ->hasHires()
+        ->create(['date_of_birth' => now()]);
+
+    Suspension::factory()->for($suspended_employee)->create();
 
     $birthdays = $this->service->handle('today');
 
-    expect($birthdays->contains('id', $employee_today->id))->toBeTrue();
+    expect($birthdays->contains('id', $suspended_employee->id))->toBeTrue();
+});
+
+test('birthdays service doesnt include created or unhired employees', function () {
+    Employee::factory()
+        ->create(['date_of_birth' => now()]);
+
+    $birthdays = $this->service->handle('today');
+
+    expect($birthdays)->toBeEmpty();
 });
 
 test('birthdays service doesnt include inactive employees', function () {
-    $employee_today = Employee::factory()->inactive()->createQuietly(['date_of_birth' => $this->date->copy()]);
+    $employee_today = Employee::factory()
+        ->hasHires()
+        ->create(['date_of_birth' => now()]);
+
+    Termination::factory()->for($employee_today)->create();
 
     $birthdays = $this->service->handle('today');
 

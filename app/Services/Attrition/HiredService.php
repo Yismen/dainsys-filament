@@ -12,7 +12,8 @@ class HiredService extends BaseAttritionService
         return Employee::query()
             // ->forDefaultSites()
             // ->filter(request()->all())
-            ->whereDate('hired_at', '>=', $this->date_from)
-            ->whereDate('hired_at', '<=', $this->date_to);
+            // ->whereDate('hired_at', '>=', $this->date_from)
+            // ->whereDate('hired_at', '<=', $this->date_to)
+            ;
     }
 }
