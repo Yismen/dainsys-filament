@@ -28,7 +28,7 @@ class TerminationFactory extends Factory
     {
         return [
             'employee_id' => Employee::factory(),
-            'date' => now()->format('Y-m-d'),
+            'date' => now(),
             'termination_type' => TerminationTypes::Resignation,
             'is_rehireable' => 1,
         ];

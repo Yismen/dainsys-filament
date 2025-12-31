@@ -83,7 +83,7 @@ class Employee extends \App\Models\BaseModels\AppModel
             $employee->saveQuietly();
         });
 
-        static::saved(function ($employee) {
+        static::saved(function (Employee $employee) {
             $employee->full_name = $employee->getFullName();
             $employee->status = $employee->getStatus();
 
@@ -205,14 +205,14 @@ class Employee extends \App\Models\BaseModels\AppModel
         $latestActiveSuspension = $this->latestActiveSuspension();
         $latestTermination = $this->latestTermination();
 
-        if ($latestHire && $latestHire?->date > $latestTermination?->date) { // the employee is active
+        if ($latestHire && $latestHire->date > $latestTermination?->date) { // the employee is active
             if($latestActiveSuspension) { // active but suspended
                 return EmployeeStatuses::Suspended;
             }
             return EmployeeStatuses::Hired;
         }
 
-        if($latestTermination && $latestTermination?->date >= $latestHire?->date) { // should be terminated
+        if($latestTermination && $latestTermination->date >= $latestHire?->date /** && $latestTermination->date >= now() */) { // should be terminated
             return EmployeeStatuses::Terminated;
         }
 
@@ -229,5 +229,24 @@ class Employee extends \App\Models\BaseModels\AppModel
                 $this->second_last_name,
             ]))
         );
+    }
+
+    public function canBeHired(): bool
+    {
+        return $this->status === EmployeeStatuses::Created ||
+            (
+                $this->status === EmployeeStatuses::Terminated &&
+                $this->latestTermination()?->is_rehireable === true
+            );
+    }
+
+    public function canBeTerminated(): bool
+    {
+        return $this->status === EmployeeStatuses::Hired;
+    }
+
+    public function canBeSuspended(): bool
+    {
+        return $this->status === EmployeeStatuses::Hired;
     }
 }

@@ -17,8 +17,8 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('employee_id')->constrained('employees')->cascadeOnDelete();
             $table->foreignUuid('suspension_type_id')->constrained('suspension_types')->cascadeOnDelete();
-            $table->date('starts_at');
-            $table->date('ends_at');
+            $table->dateTime('starts_at');
+            $table->dateTime('ends_at');
             $table->softDeletes();
             $table->timestamps();
         });

@@ -19,20 +19,7 @@ class EmployeesTable
     {
         return $table
             ->columns([
-                TextColumn::make('id')
-                    ->label('ID')
-                    ->searchable(),
-                TextColumn::make('first_name')
-                    ->searchable(),
-                TextColumn::make('second_first_name')
-                    ->searchable(),
-                TextColumn::make('last_name')
-                    ->searchable(),
-                TextColumn::make('second_last_name')
-                    ->searchable(),
                 TextColumn::make('full_name')
-                    ->searchable(),
-                TextColumn::make('personal_id_type')
                     ->searchable(),
                 TextColumn::make('personal_id')
                     ->searchable(),
@@ -42,7 +29,6 @@ class EmployeesTable
                 TextColumn::make('cellphone')
                     ->searchable(),
                 TextColumn::make('status')
-                    ->badge()
                     ->searchable(),
                 TextColumn::make('gender')
                     ->badge()

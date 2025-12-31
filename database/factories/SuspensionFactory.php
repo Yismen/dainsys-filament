@@ -29,8 +29,8 @@ class SuspensionFactory extends Factory
         return [
             'employee_id' => Employee::factory(),
             'suspension_type_id' => SuspensionType::factory(),
-            'starts_at' => now()->format('Y-m-d'),
-            'ends_at' => now()->addDay()->format('Y-m-d'),
+            'starts_at' => now(),
+            'ends_at' => now()->addDay(),
         ];
     }
 }

@@ -17,7 +17,7 @@ class HireFactory extends Factory
     public function definition(): array
     {
         return [
-            'date' => now()->format('Y-m-d'),
+            'date' => now(),
             'employee_id' => \App\Models\Employee::factory(),
             'site_id' => \App\Models\Site::factory(),
             'project_id' => \App\Models\Project::factory(),

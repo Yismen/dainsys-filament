@@ -22,8 +22,8 @@ class Suspension extends \App\Models\BaseModels\AppModel
     protected $fillable = ['employee_id', 'suspension_type_id', 'starts_at', 'ends_at'];
 
     protected $casts = [
-        'starts_at' => 'date:Y-m-d',
-        'ends_at' => 'date:Y-m-d',
+        'starts_at' => 'datetime',
+        'ends_at' => 'datetime',
     ];
 
     protected $dispatchesEvents = [
@@ -33,7 +33,7 @@ class Suspension extends \App\Models\BaseModels\AppModel
     protected static function booted()
     {
         static::creating(function ($suspension) {
-            if ($suspension->employee->status != EmployeeStatuses::Hired) {
+            if ($suspension->employee->canBeSuspended() === false) {
                 throw new \App\Exceptions\EmployeeCantBeSuspended();
             }
 
@@ -44,7 +44,7 @@ class Suspension extends \App\Models\BaseModels\AppModel
             }
         });
 
-        static::created(function (Suspension $suspension) {
+        static::saved(function (Suspension $suspension) {
             $suspension->employee->touch();
         });
 

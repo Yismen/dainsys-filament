@@ -24,7 +24,7 @@ class Termination extends \App\Models\BaseModels\AppModel
     ];
 
     protected $casts = [
-        'date' => 'date:Y-m-d',
+        'date' => 'datetime',
         'is_rehireable' => 'boolean',
     ];
 
@@ -33,7 +33,7 @@ class Termination extends \App\Models\BaseModels\AppModel
         parent::booted();
 
         static::creating(function ($termination) {
-            if ($termination->employee->status !== \App\Enums\EmployeeStatuses::Hired) {
+            if ($termination->employee->canBeTerminated() === false) {
                 throw new \App\Exceptions\EmployeeCantBeTerminated();
             }
 

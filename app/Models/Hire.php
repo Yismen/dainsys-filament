@@ -38,7 +38,7 @@ class Hire extends \App\Models\BaseModels\AppModel
     ];
 
     protected $casts = [
-        'date' => 'date:Y-m-d'
+        'date' => 'datetime'
     ];
 
     protected $dispatchesEvents = [
@@ -48,7 +48,7 @@ class Hire extends \App\Models\BaseModels\AppModel
     protected static function booted()
     {
         static::creating(function (Hire $hire) {
-            if ($hire->employee->status === EmployeeStatuses::Suspended || $hire->employee->status === EmployeeStatuses::Hired) {
+            if ($hire->employee->canBeHired() === false) {
                 throw new \App\Exceptions\EmployeeCantBeHired();
             }
         });
