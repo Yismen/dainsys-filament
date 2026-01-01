@@ -31,6 +31,7 @@ class TerminationFactory extends Factory
             'date' => now(),
             'termination_type' => TerminationTypes::Resignation,
             'is_rehireable' => 1,
+            'comment' => $this->faker->text()
         ];
     }
 }

@@ -15,7 +15,7 @@ class Client extends AppModel
     use HasInformation;
     use HasManyProjects;
 
-    protected $fillable = ['name', 'person_of_contact', 'description'];
+    protected $fillable = ['name', 'person_of_contact', 'phone', 'email', 'website', 'description',];
 
     public function campaigns(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
     {

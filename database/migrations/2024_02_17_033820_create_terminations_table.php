@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignUuid('employee_id')->constrained('employees')->cascadeOnDelete();
             $table->text('termination_type');
             $table->boolean('is_rehireable')->default(true);
+            $table->text('comment');
             $table->softDeletes();
             $table->timestamps();
         });

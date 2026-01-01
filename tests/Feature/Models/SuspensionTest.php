@@ -29,6 +29,7 @@ test('suspensions model interacts with db table', function () {
         'suspension_type_id' => $suspension->suspension_type_id,
         'starts_at' => $suspension->starts_at,
         'ends_at' => $suspension->ends_at,
+        'comment' => $suspension->comment,
     ]);
 });
 

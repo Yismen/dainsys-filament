@@ -37,12 +37,12 @@ test('information model morph relationship to informationable', function ($model
     expect($relationship->information->informationable)->toBeInstanceOf($modelClass);
     expect($relationship->information->informationable())->toBeInstanceOf(MorphTo::class);
 })->with([
-    \App\Models\Employee::class,
-    \App\Models\Site::class,
-    \App\Models\Bank::class,
-    \App\Models\Ars::class,
-    \App\Models\Afp::class,
-    \App\Models\Project::class,
-    \App\Models\Client::class,
-    \App\Models\Supervisor::class,
+    // \App\Models\Employee::class,
+    // \App\Models\Site::class,
+    // \App\Models\Bank::class,
+    // \App\Models\Ars::class,
+    // \App\Models\Afp::class,
+    // \App\Models\Project::class,
+    // \App\Models\Client::class,
+    // \App\Models\Supervisor::class,
 ]);

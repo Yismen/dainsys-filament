@@ -14,7 +14,7 @@ class Ars extends AppModel
 {
     use HasInformation;
 
-    protected $fillable = ['name', 'person_of_contact', 'description'];
+    protected $fillable = ['name', 'person_of_contact', 'phone', 'description'];
 
     protected $table = 'arss';
 

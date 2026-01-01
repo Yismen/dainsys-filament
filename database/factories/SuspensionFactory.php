@@ -31,6 +31,7 @@ class SuspensionFactory extends Factory
             'suspension_type_id' => SuspensionType::factory(),
             'starts_at' => now(),
             'ends_at' => now()->addDay(),
+            'comment' => $this->faker->text()
         ];
     }
 }

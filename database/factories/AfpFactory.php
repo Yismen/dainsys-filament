@@ -27,6 +27,7 @@ class AfpFactory extends Factory
         return [
             'name' => $this->faker->company(),
             'person_of_contact' => $this->faker->name(),
+            'phone' => $this->faker->phoneNumber(),
             'description' => $this->faker->text(),
         ];
     }

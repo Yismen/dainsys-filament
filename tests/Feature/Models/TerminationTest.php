@@ -30,7 +30,8 @@ test('terminations model interacts with db table', function () {
         'date' => $termination->date,
         'employee_id' => $termination->employee_id,
         'termination_type' => $termination->termination_type,
-        'is_rehireable' => 1,
+        'is_rehireable' => $termination->is_rehireable,
+        'comment' => $termination->comment,
     ]);
 });
 

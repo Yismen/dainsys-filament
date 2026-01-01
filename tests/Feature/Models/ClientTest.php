@@ -14,7 +14,7 @@ test('clients model interacts with db table', function () {
     Client::create($data->toArray());
 
     $this->assertDatabaseHas('clients', $data->only([
-        'name', 'person_of_contact', 'description',
+        'name', 'person_of_contact', 'phone', 'email', 'website', 'description',
     ]));
 });
 

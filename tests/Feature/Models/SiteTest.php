@@ -16,7 +16,7 @@ test('sites model interacts with db table', function () {
     Site::create($data->toArray());
 
     $this->assertDatabaseHas('sites', $data->only([
-        'name', 'person_of_contact', 'description',
+        'name', 'person_of_contact', 'phone', 'email', 'address', 'geolocation', 'description',
     ]));
 });
 

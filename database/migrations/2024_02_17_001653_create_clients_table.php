@@ -17,6 +17,9 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('name', 500)->unique();
             $table->string('person_of_contact')->nullable();
+            $table->string('phone', 20)->nullable();
+            $table->string('email', 200)->nullable();
+            $table->string('website', 300)->nullable();
             $table->text('description')->nullable();
             $table->softDeletes();
             $table->timestamps();

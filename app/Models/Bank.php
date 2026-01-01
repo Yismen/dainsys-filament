@@ -12,12 +12,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Bank extends \App\Models\BaseModels\AppModel
 {
-    
+
     use HasInformation;
     use HasManyBankAccounts;
     use SoftDeletes;
 
-    protected $fillable = ['name', 'person_of_contact', 'description'];
+    protected $fillable = ['name', 'person_of_contact', 'phone', 'email', 'description'];
 
     public function employees(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
     {

@@ -19,7 +19,7 @@ class Suspension extends \App\Models\BaseModels\AppModel
     use BelongsToSuspensionType;
     use HasManyComments;
 
-    protected $fillable = ['employee_id', 'suspension_type_id', 'starts_at', 'ends_at'];
+    protected $fillable = ['employee_id', 'suspension_type_id', 'starts_at', 'ends_at', 'comment'];
 
     protected $casts = [
         'starts_at' => 'datetime',

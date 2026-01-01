@@ -17,7 +17,7 @@ class Termination extends \App\Models\BaseModels\AppModel
     use HasManyComments;
     use SoftDeletes;
 
-    protected $fillable = ['employee_id', 'date', 'termination_type', 'is_rehireable'];
+    protected $fillable = ['employee_id', 'date', 'termination_type', 'is_rehireable', 'comment'];
 
     protected $dispatchesEvents = [
         'created' => TerminationCreatedEvent::class,

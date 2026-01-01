@@ -27,6 +27,10 @@ class SiteFactory extends Factory
         return [
             'name' => $this->faker->company(),
             'person_of_contact' => $this->faker->name(),
+            'phone' => $this->faker->phoneNumber(),
+            'email' => $this->faker->email(),
+            'address' => $this->faker->address(),
+            'geolocation' => $this->faker->text(50),
             'description' => $this->faker->email(),
         ];
     }

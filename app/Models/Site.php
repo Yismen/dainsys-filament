@@ -15,7 +15,7 @@ class Site extends \App\Models\BaseModels\AppModel
     use HasManyHires;
     use SoftDeletes;
 
-    protected $fillable = ['name', 'person_of_contact', 'description'];
+    protected $fillable = ['name', 'person_of_contact', 'phone', 'email', 'address', 'geolocation', 'description',];
 
     public function employees(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
     {
