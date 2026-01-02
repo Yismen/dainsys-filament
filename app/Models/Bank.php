@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Bank extends \App\Models\BaseModels\AppModel
 {
 
-    use HasInformation;
     use HasManyBankAccounts;
     use SoftDeletes;
 

@@ -18,6 +18,13 @@ class SiteForm
                     ->unique(ignoreRecord: true)
                     ->autofocus(),
                 TextInput::make('person_of_contact'),
+                TextInput::make('phone')
+                    ->tel(),
+                TextInput::make('email')
+                    ->email(),
+                TextInput::make('geolocation'),
+                Textarea::make('address')
+                    ->columnSpanFull(),
                 Textarea::make('description')
                     ->columnSpanFull(),
             ]);

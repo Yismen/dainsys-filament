@@ -12,8 +12,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Afp extends \App\Models\BaseModels\AppModel
 {
-    use HasInformation;
-
   protected $fillable = ['name', 'person_of_contact', 'phone', 'description'];
 
     public function socialSecurities(): HasMany

@@ -2,18 +2,17 @@
 
 namespace App\Filament\Actions;
 
-use App\Models\Site;
-use App\Models\Project;
 use App\Models\Employee;
 use App\Models\Position;
+use App\Models\Project;
+use App\Models\Site;
 use App\Models\Supervisor;
-use Filament\Actions\Action;
 use App\Services\ModelListService;
+use Filament\Actions\Action;
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\DateTimePicker;
 use Filament\Support\Colors\Color;
 
 class HireEmployeeAction
@@ -22,7 +21,7 @@ class HireEmployeeAction
     {
         return
             Action::make($name)
-                ->visible(fn(Employee $record) => $record->canBeHired())
+                ->visible(fn (Employee $record) => $record->canBeHired())
                 ->color(Color::Green)
                 ->schema([
                     DateTimePicker::make('date')

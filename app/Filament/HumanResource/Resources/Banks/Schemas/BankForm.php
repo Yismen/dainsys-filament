@@ -2,8 +2,8 @@
 
 namespace App\Filament\HumanResource\Resources\Banks\Schemas;
 
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 
 class BankForm
@@ -18,6 +18,10 @@ class BankForm
                     ->unique(ignoreRecord: true)
                     ->autofocus(),
                 TextInput::make('person_of_contact'),
+                TextInput::make('phone')
+                    ->tel(),
+                TextInput::make('email')
+                    ->email(),
                 Textarea::make('description')
                     ->columnSpanFull(),
             ]);

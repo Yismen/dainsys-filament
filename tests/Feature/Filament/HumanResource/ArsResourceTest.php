@@ -42,6 +42,13 @@ beforeEach(function () {
             'permission' => ['view', 'view-any'],
         ],
     ];
+
+    $this->form_data = [
+        'name' => 'Ars name',
+        'person_of_contact' => 'Ars person_o_contact',
+        'phone' => '522155566',
+        'description' => 'Ars description',
+    ];
 });
 
 it('require users to be authenticated to access Ars resource pages', function (string $method) {
@@ -109,16 +116,11 @@ it('displays Ars list page correctly', function () {
 test('create Ars page works correctly', function () {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Ars'));
 
-    $name = 'new ARS';
     livewire(CreateArs::class)
-        ->fillForm([
-            'name' => $name,
-        ])
+        ->fillForm($this->form_data)
         ->call('create');
 
-    $this->assertDatabaseHas('arss', [
-        'name' => $name,
-    ]);
+    $this->assertDatabaseHas('arss', $this->form_data);
 });
 
 test('edit Ars page works correctly', function () {
@@ -126,18 +128,12 @@ test('edit Ars page works correctly', function () {
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Ars'));
 
-    $newName = 'Updated ARS Name';
     livewire(EditArs::class, ['record' => $ars->getKey()])
-        ->fillForm([
-            'name' => $newName,
-        ])
+        ->fillForm($this->form_data)
         ->call('save')
         ->assertHasNoErrors();
 
-    $this->assertDatabaseHas('arss', [
-        'id' => $ars->id,
-        'name' => $newName,
-    ]);
+    $this->assertDatabaseHas('arss', array_merge(['id' => $ars->id], $this->form_data));
 });
 
 test('form validation require fields on create and edit pages', function () {

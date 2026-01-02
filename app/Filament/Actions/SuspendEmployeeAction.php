@@ -2,20 +2,13 @@
 
 namespace App\Filament\Actions;
 
-use App\Enums\TerminationTypes;
-use App\Models\Site;
-use App\Models\Project;
 use App\Models\Employee;
-use App\Models\Position;
-use App\Models\Supervisor;
 use App\Models\SuspensionType;
-use Filament\Actions\Action;
 use App\Services\ModelListService;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
-use Filament\Notifications\Notification;
+use Filament\Actions\Action;
 use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\Select;
+use Filament\Notifications\Notification;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Support\Colors\Color;
 
@@ -25,7 +18,7 @@ class SuspendEmployeeAction
     {
         return
             Action::make($name)
-                ->visible(fn(Employee $record) => $record->canBeSuspended())
+                ->visible(fn (Employee $record) => $record->canBeSuspended())
                 ->color(Color::Yellow)
                 ->schema([
                     Select::make('suspension_type_id')
@@ -46,7 +39,7 @@ class SuspendEmployeeAction
                         ->live(),
                     DateTimePicker::make('ends_at')
                         ->default(now()->endOfDay())
-                        ->minDate(fn(Get $get) => $get('starts_at') ?? now())
+                        ->minDate(fn (Get $get) => $get('starts_at') ?? now())
                         ->maxDate(now()->endOfDay()->addYear())
                         ->required()
                         ->live(),

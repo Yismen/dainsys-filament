@@ -20,15 +20,6 @@ test('supervisors model interacts with db table', function () {
     ]));
 });
 
-test('supervisors model morph one information', function () {
-    $supervisor = Supervisor::factory()
-        ->hasInformation()
-        ->create();
-
-    expect($supervisor->information)->toBeInstanceOf(Information::class);
-    expect($supervisor->information())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\MorphOne::class);
-});
-
 test('supervisors model has many hires', function () {
     $supervisor = Supervisor::factory()
         ->hasHires()

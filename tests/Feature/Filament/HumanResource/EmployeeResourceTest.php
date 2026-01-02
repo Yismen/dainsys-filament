@@ -46,6 +46,23 @@ beforeEach(function () {
             'permission' => ['view', 'view-any'],
         ],
     ];
+
+    $this->form_data = [
+        'first_name' => 'first name',
+        'second_first_name' => 'second first name',
+        'last_name' => 'last name',
+        'second_last_name' => 'second last name',
+        'personal_id_type' => PersonalIdTypes::DominicanId->value,
+        'personal_id' => '12345678999',
+        'date_of_birth' => '1990-01-01',
+        'cellphone' => '8091234567',
+        'secondary_phone' => '8091234567',
+        'email' => 'test@mail.com',
+        'address' => 'calle tu sabe',
+        'gender' => Genders::Male->value,
+        'has_kids' => true,
+        'citizenship_id' => Citizenship::factory()->create()->id,
+    ];
 });
 
 it('require users to be authenticated to access Employee resource pages', function (string $method) {
@@ -113,44 +130,11 @@ it('displays Employee list page correctly', function () {
 test('create Employee page works correctly', function () {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Employee'));
 
-    $first_name = 'first name';
-    $second_first_name = 'second first name';
-    $last_name = 'last name';
-    $second_last_name = 'second last name';
-    $personal_id_type = PersonalIdTypes::DominicanId->value;
-    $personal_id = '12345678999';
-    $date_of_birth = '1990-01-01';
-    $cellphone = '8091234567';
-    $gender = Genders::Male->value;
-    $has_kids = true;
-    $citizenship_id = Citizenship::factory()->create()->id;
     livewire(CreateEmployee::class)
-        ->fillForm([
-            'first_name' => $first_name,
-            'second_first_name' => $second_first_name,
-            'last_name' => $last_name,
-            'second_last_name' => $second_last_name,
-            'personal_id_type' => $personal_id_type,
-            'personal_id' => $personal_id,
-            'date_of_birth' => $date_of_birth,
-            'cellphone' => $cellphone,
-            'gender' => $gender,
-            'has_kids' => $has_kids,
-            'citizenship_id' => $citizenship_id,
-        ])
+        ->fillForm($this->form_data)
         ->call('create');
 
-    $this->assertDatabaseHas('employees', [
-        'first_name' => $first_name,
-        'last_name' => $last_name,
-        'personal_id_type' => $personal_id_type,
-        'personal_id' => $personal_id,
-        'date_of_birth' => $date_of_birth,
-        'cellphone' => $cellphone,
-        'gender' => $gender,
-        'has_kids' => $has_kids,
-        'citizenship_id' => $citizenship_id,
-    ]);
+    $this->assertDatabaseHas('employees', $this->form_data);
 });
 
 test('edit Employee page works correctly', function () {
@@ -158,49 +142,13 @@ test('edit Employee page works correctly', function () {
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Employee'));
 
-    $newFirstName = 'Updated Employee Name';
-    $newSecondFirstName = 'Updated Second First Name';
-    $newLastName = 'Updated Last Name';
-    $newSecondLastName = 'Updated Second Last Name';
-    $newPersonalIdType = PersonalIdTypes::Passport->value;
-    $newPersonalId = '98765432100';
-    $newDateOfBirth = '1985-05-15';
-    $newCellphone = '8297654321';
-    $newGender = Genders::Female->value;
-    $newHasKids = false;
-    $newCitizenshipId = Citizenship::factory()->create()->id;
-
     livewire(EditEmployee::class, ['record' => $employee->getKey()])
-        ->fillForm([
-            'first_name' => $newFirstName,
-            'second_first_name' => $newSecondFirstName,
-            'last_name' => $newLastName,
-            'second_last_name' => $newSecondLastName,
-            'personal_id_type' => $newPersonalIdType,
-            'personal_id' => $newPersonalId,
-            'date_of_birth' => $newDateOfBirth,
-            'cellphone' => $newCellphone,
-            'gender' => $newGender,
-            'has_kids' => $newHasKids,
-            'citizenship_id' => $newCitizenshipId,
-        ])
+        ->fillForm($this->form_data)
         ->call('save')
         ->assertHasNoErrors();
 
-    $this->assertDatabaseHas('employees', [
-        'id' => $employee->id,
-        'first_name' => $newFirstName,
-        'second_first_name' => $newSecondFirstName,
-        'last_name' => $newLastName,
-        'second_last_name' => $newSecondLastName,
-        'personal_id_type' => $newPersonalIdType,
-        'personal_id' => $newPersonalId,
-        'date_of_birth' => $newDateOfBirth,
-        'cellphone' => $newCellphone,
-        'gender' => $newGender,
-        'has_kids' => $newHasKids,
-        'citizenship_id' => $newCitizenshipId,
-    ]);
+    $this->form_data['id'] = $employee->id;
+    $this->assertDatabaseHas('employees', $this->form_data);
 });
 
 test('form validation require fields on create and edit pages', function () {

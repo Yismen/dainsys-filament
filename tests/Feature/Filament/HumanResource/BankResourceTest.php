@@ -43,6 +43,14 @@ beforeEach(function () {
             'permission' => ['view', 'view-any'],
         ],
     ];
+
+    $this->form_data = [
+        'name' => 'Bank Name',
+        'person_of_contact' => 'Bank Person',
+        'phone' => '8652221155',
+        'email' => 'bank@email.com',
+        'description' => 'Bank Description',
+    ];
 });
 
 it('require users to be authenticated to access Bank resource pages', function (string $method) {
@@ -110,16 +118,11 @@ it('displays Bank list page correctly', function () {
 test('create Bank page works correctly', function () {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Bank'));
 
-    $name = 'new Bank';
     livewire(CreateBank::class)
-        ->fillForm([
-            'name' => $name,
-        ])
+        ->fillForm($this->form_data)
         ->call('create');
 
-    $this->assertDatabaseHas('banks', [
-        'name' => $name,
-    ]);
+    $this->assertDatabaseHas('banks', $this->form_data);
 });
 
 test('edit Bank page works correctly', function () {
@@ -127,18 +130,15 @@ test('edit Bank page works correctly', function () {
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Bank'));
 
-    $newName = 'Updated Bank Name';
+    $this->form_data['id'] = $bank->id;
+    $this->form_data['name'] = 'Updated name';
+    $this->form_data['phone'] = '9999999999';
     livewire(EditBank::class, ['record' => $bank->getKey()])
-        ->fillForm([
-            'name' => $newName,
-        ])
+        ->fillForm($this->form_data)
         ->call('save')
         ->assertHasNoErrors();
 
-    $this->assertDatabaseHas('banks', [
-        'id' => $bank->id,
-        'name' => $newName,
-    ]);
+    $this->assertDatabaseHas('banks', $this->form_data);
 });
 
 test('form validation require fields on create and edit pages', function () {

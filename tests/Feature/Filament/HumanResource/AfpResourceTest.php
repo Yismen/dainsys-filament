@@ -44,6 +44,14 @@ beforeEach(function () {
             'permission' => ['view', 'view-any'],
         ],
     ];
+
+    $this->form_data = [
+        'name' => 'New Name',
+        'person_of_contact' => 'Person of Contact',
+        'phone' => '8625543345',
+        'description' => 'this is the afp'
+
+    ];
 });
 
 it('require users to be authenticated to access Afp resource pages', function (string $method) {
@@ -111,16 +119,11 @@ it('displays Afp list page correctly', function () {
 test('create Afp page works correctly', function () {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Afp'));
 
-    $name = 'new AFP';
     livewire(CreateAfp::class)
-        ->fillForm([
-            'name' => $name,
-        ])
+        ->fillForm($this->form_data)
         ->call('create');
 
-    $this->assertDatabaseHas('afps', [
-        'name' => $name,
-    ]);
+    $this->assertDatabaseHas('afps', $this->form_data);
 });
 
 test('edit Afp page works correctly', function () {
@@ -128,18 +131,17 @@ test('edit Afp page works correctly', function () {
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Afp'));
 
-    $newName = 'Updated AFP Name';
+    $this->form_data['id'] = $afp->id;
+    $this->form_data['name'] = 'Updated name';
+    $this->form_data['person_of_contact'] = 'new person';
+    $this->form_data['phone'] = '6245887755';
+
     livewire(EditAfp::class, ['record' => $afp->getKey()])
-        ->fillForm([
-            'name' => $newName,
-        ])
+        ->fillForm($this->form_data)
         ->call('save')
         ->assertHasNoErrors();
 
-    $this->assertDatabaseHas('afps', [
-        'id' => $afp->id,
-        'name' => $newName,
-    ]);
+    $this->assertDatabaseHas('afps', $this->form_data);
 });
 
 test('form validation require fields on create and edit pages', function () {

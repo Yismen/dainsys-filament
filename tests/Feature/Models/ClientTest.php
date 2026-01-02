@@ -18,18 +18,6 @@ test('clients model interacts with db table', function () {
     ]));
 });
 
-test('clients model morph one information', function () {
-    $client = Client::factory()->create();
-
-    Information::factory()->create([
-        'informationable_id' => $client->id,
-        'informationable_type' => Client::class,
-    ]);
-
-    expect($client->information)->toBeInstanceOf(Information::class);
-    expect($client->information())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\MorphOne::class);
-});
-
 test('clients model has many projects', function () {
     $client = Client::factory()
         ->has(Project::factory(), 'projects')

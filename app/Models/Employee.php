@@ -26,7 +26,6 @@ use Illuminate\Support\Carbon;
 class Employee extends \App\Models\BaseModels\AppModel
 {
     use BelongsToCitizenship;
-    use HasInformation;
     use HasManyDowntimes;
     use HasManyHires;
     use HasManyLoginNames;

@@ -2,12 +2,12 @@
 
 namespace App\Filament\HumanResource\Resources\Employees\Schemas;
 
-use App\Enums\EmployeeStatuses;
 use App\Enums\Genders;
 use App\Models\Citizenship;
 use App\Services\ModelListService;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Infolists\Components\TextEntry;
@@ -53,6 +53,17 @@ class EmployeeForm
                     ->maxLength(14)
                     ->tel()
                     ->required(),
+                TextInput::make('secondary_phone')
+                    ->nullable()
+                    ->maxLength(20)
+                    ->tel(),
+                TextInput::make('email')
+                    ->email()
+                    ->required()
+                    ->maxLength(200),
+                TextInput::make('address')
+                    ->required()
+                    ->maxLength(800),
                 Select::make('gender')
                     ->options(Genders::class)
                     ->required(),

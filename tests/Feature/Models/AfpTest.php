@@ -2,7 +2,6 @@
 
 use App\Models\Afp;
 use App\Models\Employee;
-use App\Models\Information;
 
 test('afps model interacts with db table', function () {
     $data = Afp::factory()->make();
@@ -12,18 +11,6 @@ test('afps model interacts with db table', function () {
     $this->assertDatabaseHas(Afp::class, $data->only([
         'name', 'person_of_contact', 'phone', 'description',
     ]));
-});
-
-test('afps model morph one information', function () {
-    $afp = Afp::factory()->create();
-
-    Information::factory()->create([
-        'informationable_id' => $afp->id,
-        'informationable_type' => Afp::class,
-    ]);
-
-    expect($afp->information)->toBeInstanceOf(Information::class);
-    expect($afp->information())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\MorphOne::class);
 });
 
 test('afps model has many social securities', function () {

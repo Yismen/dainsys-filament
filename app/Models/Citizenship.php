@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Citizenship extends \App\Models\BaseModels\AppModel
 {
-    use HasInformation;
     use HasManyEmployees;
-  protected $fillable = ['name', 'description'];
+
+    protected $fillable = ['name', 'description'];
 }

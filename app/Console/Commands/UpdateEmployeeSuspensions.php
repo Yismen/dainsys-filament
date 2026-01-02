@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Enums\EmployeeStatuses;
 use App\Services\EmployeesNeedingRemoveSuspension;
 use App\Services\EmployeesNeedingSuspension;
 use Illuminate\Console\Command;

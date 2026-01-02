@@ -42,6 +42,16 @@ beforeEach(function () {
             'permission' => ['view', 'view-any'],
         ],
     ];
+
+    $this->form_data = [
+        'name' => 'new name',
+        'person_of_contact' => 'new person_of_contact',
+        'phone' => '8456665555',
+        'email' => 'email@mail.com',
+        'address' => 'new address',
+        'geolocation' => 'new geolocation',
+        'description' => 'new description',
+    ];
 });
 
 it('require users to be authenticated to access Site resource pages', function (string $method) {
@@ -109,16 +119,11 @@ it('displays Site list page correctly', function () {
 test('create Site page works correctly', function () {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Site'));
 
-    $name = 'new Site';
     livewire(CreateSite::class)
-        ->fillForm([
-            'name' => $name,
-        ])
+        ->fillForm($this->form_data)
         ->call('create');
 
-    $this->assertDatabaseHas('sites', [
-        'name' => $name,
-    ]);
+    $this->assertDatabaseHas('sites', $this->form_data);
 });
 
 test('edit Site page works correctly', function () {
@@ -126,18 +131,12 @@ test('edit Site page works correctly', function () {
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Site'));
 
-    $newName = 'Updated Site Name';
     livewire(EditSite::class, ['record' => $site->getKey()])
-        ->fillForm([
-            'name' => $newName,
-        ])
+        ->fillForm($this->form_data)
         ->call('save')
         ->assertHasNoErrors();
 
-    $this->assertDatabaseHas('sites', [
-        'id' => $site->id,
-        'name' => $newName,
-    ]);
+    $this->assertDatabaseHas('sites', array_merge(['id' => $site->id], $this->form_data));
 });
 
 test('form validation require fields on create and edit pages', function () {

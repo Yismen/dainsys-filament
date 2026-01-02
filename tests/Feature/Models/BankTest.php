@@ -14,15 +14,6 @@ test('banks model interacts with db table', function () {
     ]));
 });
 
-test('banks model morph one information', function () {
-    $bank = Bank::factory()
-        ->hasInformation()
-        ->create();
-
-    expect($bank->information)->toBeInstanceOf(\App\Models\Information::class);
-    expect($bank->information())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\MorphOne::class);
-});
-
 test('has many bank accounts', function () {
     $bank = Bank::factory()
         ->hasBankAccounts(1)

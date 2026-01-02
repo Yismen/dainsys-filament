@@ -43,6 +43,15 @@ beforeEach(function () {
             'permission' => ['view', 'view-any'],
         ],
     ];
+
+    $this->form_data = [
+        'name' => 'Bank Name',
+        'person_of_contact' => 'Bank Person',
+        'phone' => '8652221155',
+        'email' => 'bank@email.com',
+        'website' => 'https://test.com',
+        'description' => 'Bank Description',
+    ];
 });
 
 it('require users to be authenticated to access Client resource pages', function (string $method) {
@@ -110,16 +119,11 @@ it('displays Client list page correctly', function () {
 test('create Client page works correctly', function () {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Client'));
 
-    $name = 'new Client';
     livewire(CreateClient::class)
-        ->fillForm([
-            'name' => $name,
-        ])
+        ->fillForm($this->form_data)
         ->call('create');
 
-    $this->assertDatabaseHas('clients', [
-        'name' => $name,
-    ]);
+    $this->assertDatabaseHas('clients', $this->form_data);
 });
 
 test('edit Client page works correctly', function () {
@@ -127,18 +131,12 @@ test('edit Client page works correctly', function () {
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Client'));
 
-    $newName = 'Updated Client Name';
     livewire(EditClient::class, ['record' => $client->getKey()])
-        ->fillForm([
-            'name' => $newName,
-        ])
+        ->fillForm($this->form_data)
         ->call('save')
         ->assertHasNoErrors();
 
-    $this->assertDatabaseHas('clients', [
-        'id' => $client->id,
-        'name' => $newName,
-    ]);
+    $this->assertDatabaseHas('clients', array_merge(['id' => $client->id], $this->form_data));
 });
 
 test('form validation require fields on create and edit pages', function () {

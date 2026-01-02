@@ -87,18 +87,6 @@ test('employee model update full name when saved', function () {
     ]);
 });
 
-test('employees model morph one information', function () {
-    $employee = Employee::factory()->createQuietly();
-
-    Information::factory()->create([
-        'informationable_id' => $employee->id,
-        'informationable_type' => Employee::class,
-    ]);
-
-    expect($employee->information)->toBeInstanceOf(Information::class);
-    expect($employee->information())->toBeInstanceOf(MorphOne::class);
-});
-
 it('has many', function (string $modelClass, string $relationMethod) {
     $employee = Employee::factory()->createQuietly();
 

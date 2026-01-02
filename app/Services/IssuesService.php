@@ -16,7 +16,6 @@ class IssuesService
 
     public function handle()
     {
-        $this->items['missing_information_count'] = Cache::rememberForever($this->cacheKey('missing_information_count'), fn () => $this->parseFilters($this->filters, Employee::whereDoesntHave('information'))->notInactive()->count());
         $this->items['missing_supervisor_count'] = Cache::rememberForever($this->cacheKey('missing_supervisor_count'), fn () => $this->parseFilters($this->filters, Employee::whereDoesntHave('supervisor'))->notInactive()->count());
         $this->items['missing_afp_count'] = Cache::rememberForever($this->cacheKey('missing_afp_count'), fn () => $this->parseFilters($this->filters, Employee::whereDoesntHave('afp'))->notInactive()->count());
         $this->items['missing_ars_count'] = Cache::rememberForever($this->cacheKey('missing_ars_count'), fn () => $this->parseFilters($this->filters, Employee::whereDoesntHave('ars'))->notInactive()->count());

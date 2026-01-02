@@ -56,7 +56,6 @@ class BirthdaysService
                 'position' => $employee->position?->name,
                 'department' => $employee->position?->department->name,
                 'supervisor' => $employee->supervisor?->name,
-                'photo' => $employee->information?->photo_url,
             ];
         });
     }
@@ -123,7 +122,7 @@ class BirthdaysService
         $date = now();
 
         $this->query = Employee::query()
-            ->with(['site', 'project', 'position.department', 'supervisor', 'information'])
+            ->with(['site', 'project', 'position.department', 'supervisor'])
             ->when(
                 config('database.default') === 'sqlite',
                 fn ($q) => $q->orderByRaw('strftime("%m%d"), date_of_birth'),

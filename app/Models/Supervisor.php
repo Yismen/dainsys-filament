@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Supervisor extends \App\Models\BaseModels\AppModel
 {
-    use HasInformation;
     use HasManyHires;
     use SoftDeletes;
 

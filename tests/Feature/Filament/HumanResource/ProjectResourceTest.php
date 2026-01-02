@@ -45,7 +45,7 @@ beforeEach(function () {
             'params' => ['record' => $project->getKey()],
             'permission' => ['view', 'view-any'],
         ],
-    ];
+    ];    
 });
 
 it('require users to be authenticated to access Project resource pages', function (string $method) {

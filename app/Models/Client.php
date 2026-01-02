@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Client extends AppModel
 {
-    use HasInformation;
     use HasManyProjects;
 
     protected $fillable = ['name', 'person_of_contact', 'phone', 'email', 'website', 'description',];

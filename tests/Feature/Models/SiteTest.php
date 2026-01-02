@@ -20,15 +20,6 @@ test('sites model interacts with db table', function () {
     ]));
 });
 
-test('sites model morph one information', function () {
-    $site = Site::factory()
-        ->hasInformation()
-        ->create();
-
-    expect($site->information)->toBeInstanceOf(Information::class);
-    expect($site->information())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\MorphOne::class);
-});
-
 test('sites model has many hires', function () {
     $site = Site::factory()
         ->hasHires()

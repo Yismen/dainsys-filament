@@ -59,12 +59,3 @@ test('projects model has many employees', function () {
     expect($project->employees->first())->toBeInstanceOf(Employee::class);
     expect($project->employees())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasManyThrough::class);
 });
-
-test('projects model morph one information', function () {
-    $project = Project::factory()
-        ->hasInformation()
-        ->create();
-
-    expect($project->information)->toBeInstanceOf(\App\Models\Information::class);
-    expect($project->information())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\MorphOne::class);
-});

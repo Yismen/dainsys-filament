@@ -14,7 +14,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Project extends \App\Models\BaseModels\AppModel
 {
     use BelongsToClient;
-    use HasInformation;
     use HasManyCampaigns;
     use HasManyHires;
     use SoftDeletes;
