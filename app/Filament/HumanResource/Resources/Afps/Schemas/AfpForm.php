@@ -4,8 +4,6 @@ namespace App\Filament\HumanResource\Resources\Afps\Schemas;
 
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Schemas\Components\Wizard;
-use Filament\Schemas\Components\Wizard\Step;
 use Filament\Schemas\Schema;
 
 class AfpForm

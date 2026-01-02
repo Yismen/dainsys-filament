@@ -2,11 +2,11 @@
 
 namespace Tests;
 
+use App\Models\Permission;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Auth\User as AuthUser;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
-use App\Models\Permission;
-use App\Models\Role;
 
 abstract class TestCase extends BaseTestCase
 {

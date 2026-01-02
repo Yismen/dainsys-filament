@@ -17,6 +17,6 @@ class EmployeesNeedingSuspension implements ServicesContract
                     $suspensionsQuery->active();
                 });
             })
-            ->get();;
+            ->get();
     }
 }

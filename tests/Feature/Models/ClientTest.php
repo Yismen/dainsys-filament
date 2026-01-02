@@ -4,7 +4,6 @@ use App\Models\Campaign;
 use App\Models\Client;
 use App\Models\Employee;
 use App\Models\Hire;
-use App\Models\Information;
 use App\Models\Production;
 use App\Models\Project;
 

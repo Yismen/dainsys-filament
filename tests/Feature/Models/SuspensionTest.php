@@ -1,15 +1,15 @@
 <?php
 
-use App\Models\Hire;
-use App\Models\Employee;
-use App\Models\Suspension;
-use App\Models\Termination;
-use App\Events\SuspensionUpdatedEvent;
 use App\Events\EmployeeHiredEvent;
+use App\Events\SuspensionUpdatedEvent;
 use App\Events\TerminationCreatedEvent;
-use Illuminate\Support\Facades\Event;
 use App\Exceptions\EmployeeCantBeSuspended;
 use App\Exceptions\SuspensionDateCantBeLowerThanHireDate;
+use App\Models\Employee;
+use App\Models\Hire;
+use App\Models\Suspension;
+use App\Models\Termination;
+use Illuminate\Support\Facades\Event;
 
 beforeEach(function () {
     Event::fake([
@@ -41,7 +41,7 @@ test('suspensions model belongs to employee', function (string $relationship) {
     expect($suspension->$relationship())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
 })->with([
     'employee',
-    'suspensionType'
+    'suspensionType',
 ]);
 
 it('casts fields as date', function ($field) {
@@ -80,7 +80,7 @@ test('terminated employee cannot be suspended', function () {
     Suspension::factory()->for($employee)->create();
 })->throws(EmployeeCantBeSuspended::class);
 
-test('suspension date cannot be prior to hire date', function(){
+test('suspension date cannot be prior to hire date', function () {
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create(['date' => now()]);
 

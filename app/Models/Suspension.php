@@ -2,16 +2,11 @@
 
 namespace App\Models;
 
-use App\Enums\EmployeeStatuses;
 use App\Events\SuspensionUpdatedEvent;
 use App\Exceptions\SuspensionDateCantBeLowerThanHireDate;
-use App\Models\Traits\HasManyComments;
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\BelongsToEmployee;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Traits\BelongsToSuspensionType;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Traits\HasManyComments;
 
 class Suspension extends \App\Models\BaseModels\AppModel
 {
@@ -34,20 +29,19 @@ class Suspension extends \App\Models\BaseModels\AppModel
     {
         static::creating(function ($suspension) {
             if ($suspension->employee->canBeSuspended() === false) {
-                throw new \App\Exceptions\EmployeeCantBeSuspended();
+                throw new \App\Exceptions\EmployeeCantBeSuspended;
             }
 
             $latestHireDate = $suspension->employee->latestHire()?->date;
 
-            if($latestHireDate && $latestHireDate > $suspension->starts_at) {
-                throw new SuspensionDateCantBeLowerThanHireDate();
+            if ($latestHireDate && $latestHireDate > $suspension->starts_at) {
+                throw new SuspensionDateCantBeLowerThanHireDate;
             }
         });
 
         static::saved(function (Suspension $suspension) {
             $suspension->employee->touch();
         });
-
 
     }
 

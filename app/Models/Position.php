@@ -4,21 +4,15 @@ namespace App\Models;
 
 use App\Casts\AsMoney;
 use App\Enums\SalaryTypes;
-use App\Models\Traits\HasManyHires;
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\BelongsToDepartment;
+use App\Models\Traits\HasManyHires;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Traits\Models\InteractsWithModelCaching;
-use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Position extends \App\Models\BaseModels\AppModel
 {
     use BelongsToDepartment;
     use HasManyHires;
     use SoftDeletes;
-    
 
     protected $fillable = ['name', 'department_id', 'salary_type', 'salary', 'description'];
 
@@ -35,7 +29,7 @@ class Position extends \App\Models\BaseModels\AppModel
             $position->details = implode(', ', [
                 $position->name,
                 $position->department->name,
-                '$' . $position->salary,
+                '$'.$position->salary,
                 $position->salary_type->name,
             ]);
 

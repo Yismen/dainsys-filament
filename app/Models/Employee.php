@@ -6,7 +6,6 @@ use App\Enums\EmployeeStatuses;
 use App\Enums\Genders;
 use App\Enums\PersonalIdTypes;
 use App\Models\Traits\BelongsToCitizenship;
-use App\Models\Traits\HasInformation;
 use App\Models\Traits\HasManyDowntimes;
 use App\Models\Traits\HasManyHires;
 use App\Models\Traits\HasManyLoginNames;
@@ -16,12 +15,7 @@ use App\Models\Traits\HasManySuspensions;
 use App\Models\Traits\HasManyTerminations;
 use App\Models\Traits\HasRelationsThruHire;
 use App\Models\Traits\HasRelationsThruSocialSecurity;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Carbon;
 
 class Employee extends \App\Models\BaseModels\AppModel
 {
@@ -183,17 +177,17 @@ class Employee extends \App\Models\BaseModels\AppModel
         return $this->suspensions()->active()->count() === 0;
     }
 
-    public function latestHire(): null|Hire
+    public function latestHire(): ?Hire
     {
         return $this->hires()->latest('date')->first();
     }
 
-    public function latestTermination(): null|Termination
+    public function latestTermination(): ?Termination
     {
         return $this->terminations()->latest('date')->first();
     }
 
-    public function latestActiveSuspension():null|Suspension
+    public function latestActiveSuspension(): ?Suspension
     {
         return $this->suspensions()
             ->active()
@@ -208,13 +202,14 @@ class Employee extends \App\Models\BaseModels\AppModel
         $latestTermination = $this->latestTermination();
 
         if ($latestHire && $latestHire->date > $latestTermination?->date) { // the employee is active
-            if($latestActiveSuspension) { // active but suspended
+            if ($latestActiveSuspension) { // active but suspended
                 return EmployeeStatuses::Suspended;
             }
+
             return EmployeeStatuses::Hired;
         }
 
-        if($latestTermination && $latestTermination->date >= $latestHire?->date /** && $latestTermination->date >= now() */) { // should be terminated
+        if ($latestTermination && $latestTermination->date >= $latestHire?->date /** && $latestTermination->date >= now() */) { // should be terminated
             return EmployeeStatuses::Terminated;
         }
 

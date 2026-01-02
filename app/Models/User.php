@@ -20,14 +20,14 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable implements FilamentUser
 {
     use HasApiTokens;
+    use HasFactory;
     use HasManyMailingSubscriptions;
-    use TwoFactorAuthenticatable;
     use HasRoles;
+    use HasUuids;
+    use InteractsWithModelCaching;
     use Notifiable;
     use SoftDeletes;
-    use HasUuids;
-    use HasFactory;
-    use InteractsWithModelCaching;
+    use TwoFactorAuthenticatable;
 
     /**
      * The attributes that are mass assignable.

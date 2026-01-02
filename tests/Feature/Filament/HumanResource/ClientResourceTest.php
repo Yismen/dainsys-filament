@@ -1,18 +1,16 @@
 <?php
 
-use App\Models\User;
-use App\Models\Client;
-use App\Models\Permission;
-use function Livewire\before;
-
-use Filament\Facades\Filament;
-use function Pest\Livewire\livewire;
-use function Pest\Laravel\{actingAs, get};
-use phpDocumentor\Reflection\PseudoTypes\List_;
-use App\Filament\HumanResource\Resources\Clients\Pages\EditClient;
-use App\Filament\HumanResource\Resources\Clients\Pages\ViewClient;
-use App\Filament\HumanResource\Resources\Clients\Pages\ListClients;
 use App\Filament\HumanResource\Resources\Clients\Pages\CreateClient;
+use App\Filament\HumanResource\Resources\Clients\Pages\EditClient;
+use App\Filament\HumanResource\Resources\Clients\Pages\ListClients;
+use App\Filament\HumanResource\Resources\Clients\Pages\ViewClient;
+use App\Models\Client;
+use App\Models\User;
+use Filament\Facades\Filament;
+
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
+use function Pest\Livewire\livewire;
 
 beforeEach(function () {
     // Seed roles/permissions if applicable
@@ -55,13 +53,13 @@ beforeEach(function () {
 });
 
 it('require users to be authenticated to access Client resource pages', function (string $method) {
-    $response = get(route( $this->resource_routes[$method]['route'],
-    $this->resource_routes[$method]['params']));
+    $response = get(route($this->resource_routes[$method]['route'],
+        $this->resource_routes[$method]['params']));
 
     $response->assertRedirect(route('filament.human-resource.auth.login'));
 })->with([
-    'index' ,
-    'create' ,
+    'index',
+    'create',
     'edit',
     'view',
 ]);
@@ -69,12 +67,12 @@ it('require users to be authenticated to access Client resource pages', function
 it('require users to have correct permissions to access Client resource pages', function (string $method) {
     actingAs(User::factory()->create());
 
-    $response = get(route( $this->resource_routes[$method]['route'],
-    $this->resource_routes[$method]['params']));
+    $response = get(route($this->resource_routes[$method]['route'],
+        $this->resource_routes[$method]['params']));
     $response->assertForbidden();
 })->with([
-    'index' ,
-    'create' ,
+    'index',
+    'create',
     'edit',
     'view',
 ]);
@@ -82,22 +80,22 @@ it('require users to have correct permissions to access Client resource pages', 
 it('allows super admin users to access Client resource pages', function (string $method) {
     actingAs($this->createSuperAdminUser());
 
-    $response = get(route( $this->resource_routes[$method]['route'],
-    $this->resource_routes[$method]['params']));
+    $response = get(route($this->resource_routes[$method]['route'],
+        $this->resource_routes[$method]['params']));
 
     $response->assertOk();
 })->with([
-    'index' ,
-    'create' ,
+    'index',
+    'create',
     'edit',
     'view',
 ]);
 
 it('allow users with correct permissions to access Client resource pages', function (string $method) {
-    actingAs($this->createUserWithPermissionsToActions( $this->resource_routes[$method]['permission'], 'Client'));
+    actingAs($this->createUserWithPermissionsToActions($this->resource_routes[$method]['permission'], 'Client'));
 
-    $response = get(route( $this->resource_routes[$method]['route'],
-    $this->resource_routes[$method]['params']));
+    $response = get(route($this->resource_routes[$method]['route'],
+        $this->resource_routes[$method]['params']));
 
     $response->assertOk();
 })->with([

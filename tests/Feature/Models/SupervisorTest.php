@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Employee;
-use App\Models\Information;
 use App\Models\Supervisor;
 
 beforeEach(function () {

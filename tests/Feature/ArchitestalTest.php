@@ -6,9 +6,9 @@
 |
 */
 
-use App\Models\Role;
-use App\Models\Permission;
 use App\Models\BaseModels\AppModel;
+use App\Models\Permission;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Auth\User as AuthUser;
 

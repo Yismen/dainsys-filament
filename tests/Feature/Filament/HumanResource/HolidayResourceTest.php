@@ -1,17 +1,16 @@
 <?php
 
-use App\Models\Holiday;
-use App\Models\User;
-use App\Models\Permission;
-use function Livewire\before;
-
-use Filament\Facades\Filament;
-use function Pest\Livewire\livewire;
-use function Pest\Laravel\{actingAs, get};
+use App\Filament\HumanResource\Resources\Holidays\Pages\CreateHoliday;
 use App\Filament\HumanResource\Resources\Holidays\Pages\EditHoliday;
 use App\Filament\HumanResource\Resources\Holidays\Pages\ListHolidays;
-use App\Filament\HumanResource\Resources\Holidays\Pages\CreateHoliday;
 use App\Filament\HumanResource\Resources\Holidays\Pages\ViewHoliday;
+use App\Models\Holiday;
+use App\Models\User;
+use Filament\Facades\Filament;
+
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
+use function Pest\Livewire\livewire;
 
 beforeEach(function () {
     // Seed roles/permissions if applicable
@@ -45,13 +44,13 @@ beforeEach(function () {
 });
 
 it('require users to be authenticated to access Holiday resource pages', function (string $method) {
-    $response = get(route( $this->resource_routes[$method]['route'],
-    $this->resource_routes[$method]['params']));
+    $response = get(route($this->resource_routes[$method]['route'],
+        $this->resource_routes[$method]['params']));
 
     $response->assertRedirect(route('filament.human-resource.auth.login'));
 })->with([
-    'index' ,
-    'create' ,
+    'index',
+    'create',
     'edit',
     'view',
 ]);
@@ -59,12 +58,12 @@ it('require users to be authenticated to access Holiday resource pages', functio
 it('require users to have correct permissions to access Holiday resource pages', function (string $method) {
     actingAs(User::factory()->create());
 
-    $response = get(route( $this->resource_routes[$method]['route'],
-    $this->resource_routes[$method]['params']));
+    $response = get(route($this->resource_routes[$method]['route'],
+        $this->resource_routes[$method]['params']));
     $response->assertForbidden();
 })->with([
-    'index' ,
-    'create' ,
+    'index',
+    'create',
     'edit',
     'view',
 ]);
@@ -72,22 +71,22 @@ it('require users to have correct permissions to access Holiday resource pages',
 it('allows super admin users to access Holiday resource pages', function (string $method) {
     actingAs($this->createSuperAdminUser());
 
-    $response = get(route( $this->resource_routes[$method]['route'],
-    $this->resource_routes[$method]['params']));
+    $response = get(route($this->resource_routes[$method]['route'],
+        $this->resource_routes[$method]['params']));
 
     $response->assertOk();
 })->with([
-    'index' ,
-    'create' ,
+    'index',
+    'create',
     'edit',
     'view',
 ]);
 
 it('allow users with correct permissions to access Holiday resource pages', function (string $method) {
-    actingAs($this->createUserWithPermissionsToActions( $this->resource_routes[$method]['permission'], 'Holiday'));
+    actingAs($this->createUserWithPermissionsToActions($this->resource_routes[$method]['permission'], 'Holiday'));
 
-    $response = get(route( $this->resource_routes[$method]['route'],
-    $this->resource_routes[$method]['params']));
+    $response = get(route($this->resource_routes[$method]['route'],
+        $this->resource_routes[$method]['params']));
 
     $response->assertOk();
 })->with([

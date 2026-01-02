@@ -1,15 +1,14 @@
 <?php
 
+use App\Console\Commands\EmployeesSuspended;
+use App\Events\EmployeeHiredEvent;
+use App\Events\SuspensionUpdatedEvent;
+use App\Events\TerminationCreatedEvent;
+use App\Mail\EmployeesSuspendedMail;
 use App\Models\Employee;
 use App\Models\Suspension;
-use App\Enums\EmployeeStatuses;
-use App\Events\SuspensionUpdatedEvent;
-use App\Events\EmployeeHiredEvent;
-use App\Events\TerminationCreatedEvent;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Event;
-use App\Console\Commands\EmployeesSuspended;
-use App\Mail\EmployeesSuspendedMail;
+use Illuminate\Support\Facades\Mail;
 
 beforeEach(function () {
     Event::fake([
@@ -40,13 +39,13 @@ test('employees suspended sends email', function () {
     $employee = Employee::factory()
         ->hasHires()
         ->create();
-        Suspension::factory()->create([
-            'employee_id' => $employee->id,
-            'starts_at' => now(),
-            'ends_at' => now()->addDay(),
-        ]);
+    Suspension::factory()->create([
+        'employee_id' => $employee->id,
+        'starts_at' => now(),
+        'ends_at' => now()->addDay(),
+    ]);
 
-        $this->artisan(EmployeesSuspended::class);
+    $this->artisan(EmployeesSuspended::class);
 
     Mail::assertQueued(EmployeesSuspendedMail::class);
 });

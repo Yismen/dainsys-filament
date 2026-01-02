@@ -2,8 +2,8 @@
 
 namespace App\Filament\HumanResource\Resources\Sites\Schemas;
 
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 
 class SiteForm

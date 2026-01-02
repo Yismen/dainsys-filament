@@ -21,7 +21,7 @@ class PermissionForm
                             ->unique(ignoreRecord: true),
                         TextInput::make('guard_name')
                             ->required(),
-                    ])
+                    ]),
             ]);
     }
 }

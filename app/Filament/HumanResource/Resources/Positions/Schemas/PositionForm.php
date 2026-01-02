@@ -6,8 +6,8 @@ use App\Enums\SalaryTypes;
 use App\Models\Department;
 use App\Services\ModelListService;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 
 class PositionForm

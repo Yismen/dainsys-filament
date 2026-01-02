@@ -1,14 +1,14 @@
 <?php
 
-use App\Models\Hire;
+use App\Events\EmployeeHiredEvent;
+use App\Events\SuspensionUpdatedEvent;
+use App\Events\TerminationCreatedEvent;
+use App\Exceptions\EmployeeCantBeHired;
 use App\Models\Employee;
+use App\Models\Hire;
 use App\Models\Suspension;
 use App\Models\Termination;
-use App\Events\SuspensionUpdatedEvent;
-use App\Events\EmployeeHiredEvent;
-use App\Events\TerminationCreatedEvent;
 use Illuminate\Support\Facades\Event;
-use App\Exceptions\EmployeeCantBeHired;
 
 beforeEach(function () {
     Event::fake([
@@ -63,7 +63,7 @@ test('employees with status of Hired cannot be hired again', function () {
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create();
 
-    expect(fn() => Hire::factory()->for($employee)->create())
+    expect(fn () => Hire::factory()->for($employee)->create())
         ->toThrow(EmployeeCantBeHired::class);
 });
 
@@ -72,7 +72,7 @@ test('employees with status of Suspended cannot be hired', function () {
     Hire::factory()->for($employee)->create();
     Suspension::factory()->for($employee)->create();
 
-    expect(fn() => Hire::factory()->for($employee)->create())
+    expect(fn () => Hire::factory()->for($employee)->create())
         ->toThrow(EmployeeCantBeHired::class);
 });
 
@@ -82,7 +82,7 @@ test('terminated employee can be hired', function () {
 
     Termination::factory()->for($employee)->create();
 
-    expect(fn() => Hire::factory()->for($employee)->create())
+    expect(fn () => Hire::factory()->for($employee)->create())
         ->not()
         ->toThrow(EmployeeCantBeHired::class);
 });
@@ -90,7 +90,7 @@ test('terminated employee can be hired', function () {
 test('Created employee can be hired', function () {
     $employee = Employee::factory()->create();
 
-    expect(fn() => Hire::factory()->for($employee)->create())
+    expect(fn () => Hire::factory()->for($employee)->create())
         ->not()
         ->toThrow(EmployeeCantBeHired::class);
 });

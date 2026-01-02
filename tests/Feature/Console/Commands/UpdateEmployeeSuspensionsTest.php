@@ -1,15 +1,15 @@
 <?php
 
-use App\Models\Hire;
+use App\Console\Commands\UpdateEmployeeSuspensions;
+use App\Enums\EmployeeStatuses;
+use App\Events\EmployeeHiredEvent;
+use App\Events\SuspensionUpdatedEvent;
+use App\Events\TerminationCreatedEvent;
 use App\Models\Employee;
+use App\Models\Hire;
 use App\Models\Suspension;
 use App\Models\Termination;
-use App\Enums\EmployeeStatuses;
-use App\Events\SuspensionUpdatedEvent;
-use App\Events\EmployeeHiredEvent;
-use App\Events\TerminationCreatedEvent;
 use Illuminate\Support\Facades\Event;
-use App\Console\Commands\UpdateEmployeeSuspensions;
 
 beforeEach(function () {
     Event::fake([
@@ -142,7 +142,6 @@ test('suspended employees are activated if today is after ends at', function () 
     ]);
 
     $this->travelTo(now()->addDays(5));
-
 
     $this->artisan(UpdateEmployeeSuspensions::class);
 

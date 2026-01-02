@@ -21,8 +21,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Model::preventAccessingMissingAttributes(!app()->isProduction());
-        Model::preventSilentlyDiscardingAttributes(!app()->isProduction());
+        Model::preventAccessingMissingAttributes(! app()->isProduction());
+        Model::preventSilentlyDiscardingAttributes(! app()->isProduction());
         Model::preventLazyLoading(! app()->isProduction());
 
         PanelSwitch::configureUsing(function (PanelSwitch $panelSwitch) {

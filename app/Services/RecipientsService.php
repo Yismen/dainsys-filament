@@ -67,11 +67,10 @@ class RecipientsService
         $admins = Ticket::query()
             // ->where('role', DepartmentRolesEnum::Admin)
             // ->with('user')
-            ->get()
-            // ->map->user->filter(function ($user) {
-            //     return $user?->email;
-            // })
-            ;
+            ->get();
+        // ->map->user->filter(function ($user) {
+        //     return $user?->email;
+        // })
 
         dd($admins);
 

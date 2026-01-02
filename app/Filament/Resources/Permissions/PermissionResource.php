@@ -28,7 +28,7 @@ class PermissionResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static string | UnitEnum | null $navigationGroup = 'Access Control';
+    protected static string|UnitEnum|null $navigationGroup = 'Access Control';
 
     public static function form(Schema $schema): Schema
     {
@@ -48,7 +48,7 @@ class PermissionResource extends Resource
     public static function getRelations(): array
     {
         return [
-            RolesRelationManager::class
+            RolesRelationManager::class,
         ];
     }
 

@@ -15,6 +15,6 @@ class EmployeesNeedingRemoveSuspension implements ServicesContract
                 $suspensionQuery->where('starts_at', '>', now())
                     ->orWhere('ends_at', '<', now()->endOfDay());
             })
-            ->get();;
+            ->get();
     }
 }

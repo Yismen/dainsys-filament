@@ -1,22 +1,22 @@
 <?php
 
-use App\Models\Hire;
-use App\Models\Employee;
-use App\Models\Suspension;
-use App\Models\Termination;
-use Illuminate\Support\Carbon;
 use App\Events\EmployeeHiredEvent;
-use Illuminate\Support\Facades\Event;
 use App\Events\SuspensionUpdatedEvent;
 use App\Events\TerminationCreatedEvent;
 use App\Exceptions\EmployeeCantBeTerminated;
 use App\Exceptions\TerminationDateCantBeLowerThanHireDate;
+use App\Models\Employee;
+use App\Models\Hire;
+use App\Models\Suspension;
+use App\Models\Termination;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Event;
 
 beforeEach(function () {
     Event::fake([
         TerminationCreatedEvent::class,
         EmployeeHiredEvent::class,
-        SuspensionUpdatedEvent::class
+        SuspensionUpdatedEvent::class,
     ]);
 });
 
@@ -82,13 +82,13 @@ test('suspended employee cannot be terminated', function () {
 
     Suspension::factory()->for($employee)->create([
         'starts_at' => now(),
-        "ends_at" => now()->addDays(10)
+        'ends_at' => now()->addDays(10),
     ]);
 
     Termination::factory()->for($employee)->create(['date' => now()->addDays(2)]);
 })->throws(EmployeeCantBeTerminated::class);
 
-test('termination date cannot be prior to hire date', function(){
+test('termination date cannot be prior to hire date', function () {
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create(['date' => now()]);
 

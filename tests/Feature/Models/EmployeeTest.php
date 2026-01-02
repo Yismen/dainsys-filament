@@ -1,39 +1,32 @@
 <?php
 
+use App\Enums\EmployeeStatuses;
+use App\Events\EmployeeHiredEvent;
+use App\Events\SuspensionUpdatedEvent;
+use App\Events\TerminationCreatedEvent;
 use App\Models\Afp;
 use App\Models\Ars;
-use App\Models\Hire;
-use App\Models\Site;
-use App\Models\Project;
+use App\Models\Citizenship;
+use App\Models\Department;
 use App\Models\Downtime;
 use App\Models\Employee;
-use App\Models\Position;
+use App\Models\Hire;
 use App\Models\LoginName;
-use App\Models\Universal;
-use App\Models\Department;
+use App\Models\PayrollHour;
+use App\Models\Position;
 use App\Models\Production;
+use App\Models\Project;
+use App\Models\Site;
+use App\Models\SocialSecurity;
 use App\Models\Supervisor;
 use App\Models\Suspension;
-use App\Models\Citizenship;
-use App\Models\Information;
-use App\Models\PayrollHour;
 use App\Models\Termination;
-use App\Models\SocialSecurity;
-use App\Models\SuspensionType;
-use App\Enums\EmployeeStatuses;
-use App\Events\SuspensionUpdatedEvent;
-use App\Events\EmployeeHiredEvent;
-use App\Events\TerminationCreatedEvent;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Event;
-use App\Exceptions\EmployeeCantBeSuspended;
-use App\Exceptions\EmployeeCantBeTerminated;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
+use App\Models\Universal;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use App\Exceptions\SuspensionDateCantBeLowerThanHireDate;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
-use App\Exceptions\TerminationDateCantBeLowerThanHireDate;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Mail;
 
 beforeEach(function () {
     Mail::fake();

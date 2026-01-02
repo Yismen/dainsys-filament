@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Event;
 test('position model interacts with positions table', function () {
     $data = Position::factory()->make();
 
-
     Position::create($data->toArray());
 
     $this->assertDatabaseHas('positions', $data->only([
@@ -80,10 +79,10 @@ it('updates the description field', function () {
         ])
         ->create();
 
-    expect($position->details)->toBe(join(', ', [
+    expect($position->details)->toBe(implode(', ', [
         $position->name,
         $position->department->name,
-        '$' . $position->salary,
+        '$'.$position->salary,
         $position->salary_type->name,
     ]));
 

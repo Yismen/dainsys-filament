@@ -1,21 +1,17 @@
 <?php
 
-use App\Enums\SalaryTypes;
-use App\Models\User;
-use App\Models\Permission;
-use App\Models\Universal;
-use Spatie\FlareEmployee\View;
-
-use function Livewire\before;
-use Filament\Facades\Filament;
-use GuzzleHttp\Promise\Create;
-use function Pest\Livewire\livewire;
-use function Pest\Laravel\{actingAs, get};
-use App\Filament\HumanResource\Resources\Universals\Pages\EditUniversal;
-use App\Filament\HumanResource\Resources\Universals\Pages\ViewUniversal;
-use App\Filament\HumanResource\Resources\Universals\Pages\ListUniversals;
 use App\Filament\HumanResource\Resources\Universals\Pages\CreateUniversal;
+use App\Filament\HumanResource\Resources\Universals\Pages\EditUniversal;
+use App\Filament\HumanResource\Resources\Universals\Pages\ListUniversals;
+use App\Filament\HumanResource\Resources\Universals\Pages\ViewUniversal;
 use App\Models\Employee;
+use App\Models\Universal;
+use App\Models\User;
+use Filament\Facades\Filament;
+
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
+use function Pest\Livewire\livewire;
 
 beforeEach(function () {
     // Seed roles/permissions if applicable
@@ -49,13 +45,13 @@ beforeEach(function () {
 });
 
 it('require users to be authenticated to access Universal resource pages', function (string $method) {
-    $response = get(route( $this->resource_routes[$method]['route'],
-    $this->resource_routes[$method]['params']));
+    $response = get(route($this->resource_routes[$method]['route'],
+        $this->resource_routes[$method]['params']));
 
     $response->assertRedirect(route('filament.human-resource.auth.login'));
 })->with([
-    'index' ,
-    'create' ,
+    'index',
+    'create',
     'edit',
     'view',
 ]);
@@ -63,12 +59,12 @@ it('require users to be authenticated to access Universal resource pages', funct
 it('require users to have correct permissions to access Universal resource pages', function (string $method) {
     actingAs(User::factory()->create());
 
-    $response = get(route( $this->resource_routes[$method]['route'],
-    $this->resource_routes[$method]['params']));
+    $response = get(route($this->resource_routes[$method]['route'],
+        $this->resource_routes[$method]['params']));
     $response->assertForbidden();
 })->with([
-    'index' ,
-    'create' ,
+    'index',
+    'create',
     'edit',
     'view',
 ]);
@@ -76,22 +72,22 @@ it('require users to have correct permissions to access Universal resource pages
 it('allows super admin users to access Universal resource pages', function (string $method) {
     actingAs($this->createSuperAdminUser());
 
-    $response = get(route( $this->resource_routes[$method]['route'],
-    $this->resource_routes[$method]['params']));
+    $response = get(route($this->resource_routes[$method]['route'],
+        $this->resource_routes[$method]['params']));
 
     $response->assertOk();
 })->with([
-    'index' ,
-    'create' ,
+    'index',
+    'create',
     'edit',
     'view',
 ]);
 
 it('allow users with correct permissions to access Universal resource pages', function (string $method) {
-    actingAs($this->createUserWithPermissionsToActions( $this->resource_routes[$method]['permission'], 'Universal'));
+    actingAs($this->createUserWithPermissionsToActions($this->resource_routes[$method]['permission'], 'Universal'));
 
-    $response = get(route( $this->resource_routes[$method]['route'],
-    $this->resource_routes[$method]['params']));
+    $response = get(route($this->resource_routes[$method]['route'],
+        $this->resource_routes[$method]['params']));
 
     $response->assertOk();
 })->with([

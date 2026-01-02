@@ -1,17 +1,16 @@
 <?php
 
-use App\Models\Hire;
-use App\Models\Employee;
-use App\Events\SuspensionUpdatedEvent;
 use App\Events\EmployeeHiredEvent;
+use App\Events\SuspensionUpdatedEvent;
 use App\Events\TerminationCreatedEvent;
+use App\Models\Employee;
 use App\Models\Suspension;
 use App\Models\Termination;
 use App\Services\BirthdaysService;
 use Illuminate\Support\Facades\Event;
 
 beforeEach(function () {
-    $this->service = new BirthdaysService();
+    $this->service = new BirthdaysService;
 
     Event::fake([
         EmployeeHiredEvent::class,

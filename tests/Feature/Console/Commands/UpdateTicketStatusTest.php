@@ -1,10 +1,10 @@
 <?php
 
-use App\Models\Ticket;
-use App\Enums\TicketStatuses;
-use Illuminate\Support\Facades\Event;
 use App\Console\Commands\UpdateTicketStatus;
+use App\Enums\TicketStatuses;
 use App\Events\TicketCreatedEvent;
+use App\Models\Ticket;
+use Illuminate\Support\Facades\Event;
 
 beforeEach(function () {
     Event::fake([

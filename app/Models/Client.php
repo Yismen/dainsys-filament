@@ -3,18 +3,13 @@
 namespace App\Models;
 
 use App\Models\BaseModels\AppModel;
-use App\Models\Traits\HasInformation;
 use App\Models\Traits\HasManyProjects;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Client extends AppModel
 {
     use HasManyProjects;
 
-    protected $fillable = ['name', 'person_of_contact', 'phone', 'email', 'website', 'description',];
+    protected $fillable = ['name', 'person_of_contact', 'phone', 'email', 'website', 'description'];
 
     public function campaigns(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
     {

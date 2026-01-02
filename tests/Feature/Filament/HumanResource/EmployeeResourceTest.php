@@ -1,21 +1,19 @@
 <?php
 
-use App\Enums\EmployeeStatuses;
 use App\Enums\Genders;
 use App\Enums\PersonalIdTypes;
-use App\Models\Employee;
-use App\Models\User;
-use App\Models\Permission;
-use function Livewire\before;
-
-use Filament\Facades\Filament;
-use function Pest\Livewire\livewire;
-use function Pest\Laravel\{actingAs, get};
+use App\Filament\HumanResource\Resources\Employees\Pages\CreateEmployee;
 use App\Filament\HumanResource\Resources\Employees\Pages\EditEmployee;
 use App\Filament\HumanResource\Resources\Employees\Pages\ListEmployees;
-use App\Filament\HumanResource\Resources\Employees\Pages\CreateEmployee;
 use App\Filament\HumanResource\Resources\Employees\Pages\ViewEmployee;
 use App\Models\Citizenship;
+use App\Models\Employee;
+use App\Models\User;
+use Filament\Facades\Filament;
+
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
+use function Pest\Livewire\livewire;
 
 beforeEach(function () {
     // Seed roles/permissions if applicable
@@ -66,13 +64,13 @@ beforeEach(function () {
 });
 
 it('require users to be authenticated to access Employee resource pages', function (string $method) {
-    $response = get(route( $this->resource_routes[$method]['route'],
-    $this->resource_routes[$method]['params']));
+    $response = get(route($this->resource_routes[$method]['route'],
+        $this->resource_routes[$method]['params']));
 
     $response->assertRedirect(route('filament.human-resource.auth.login'));
 })->with([
-    'index' ,
-    'create' ,
+    'index',
+    'create',
     'edit',
     'view',
 ]);
@@ -80,12 +78,12 @@ it('require users to be authenticated to access Employee resource pages', functi
 it('require users to have correct permissions to access Employee resource pages', function (string $method) {
     actingAs(User::factory()->create());
 
-    $response = get(route( $this->resource_routes[$method]['route'],
-    $this->resource_routes[$method]['params']));
+    $response = get(route($this->resource_routes[$method]['route'],
+        $this->resource_routes[$method]['params']));
     $response->assertForbidden();
 })->with([
-    'index' ,
-    'create' ,
+    'index',
+    'create',
     'edit',
     'view',
 ]);
@@ -93,22 +91,22 @@ it('require users to have correct permissions to access Employee resource pages'
 it('allows super admin users to access Employee resource pages', function (string $method) {
     actingAs($this->createSuperAdminUser());
 
-    $response = get(route( $this->resource_routes[$method]['route'],
-    $this->resource_routes[$method]['params']));
+    $response = get(route($this->resource_routes[$method]['route'],
+        $this->resource_routes[$method]['params']));
 
     $response->assertOk();
 })->with([
-    'index' ,
-    'create' ,
+    'index',
+    'create',
     'edit',
     'view',
 ]);
 
 it('allow users with correct permissions to access Employee resource pages', function (string $method) {
-    actingAs($this->createUserWithPermissionsToActions( $this->resource_routes[$method]['permission'], 'Employee'));
+    actingAs($this->createUserWithPermissionsToActions($this->resource_routes[$method]['permission'], 'Employee'));
 
-    $response = get(route( $this->resource_routes[$method]['route'],
-    $this->resource_routes[$method]['params']));
+    $response = get(route($this->resource_routes[$method]['route'],
+        $this->resource_routes[$method]['params']));
 
     $response->assertOk();
 })->with([
@@ -202,7 +200,7 @@ test('form validation require fields on create and edit pages', function () {
             'cellphone' => 'required',
             'gender' => 'required',
             'has_kids' => 'required',
-            'citizenship_id' => 'required'
+            'citizenship_id' => 'required',
         ]);
 });
 
@@ -226,7 +224,7 @@ test('Employee name must be unique on create and edit pages', function () {
         ->call('create')
         ->assertHasFormErrors([
             'personal_id' => 'unique',
-            'cellphone' => 'unique'
+            'cellphone' => 'unique',
         ]);
     // Test EditEmployee uniqueness validation
     $employeeToEdit = Employee::factory()->create(['personal_id' => '33333333333', 'cellphone' => '8097778888']);
@@ -238,7 +236,7 @@ test('Employee name must be unique on create and edit pages', function () {
         ->call('save')
         ->assertHasFormErrors([
             'personal_id' => 'unique',
-            'cellphone' => 'unique'
+            'cellphone' => 'unique',
         ]);
 });
 

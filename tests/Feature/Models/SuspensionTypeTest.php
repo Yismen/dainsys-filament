@@ -1,8 +1,8 @@
 <?php
 
 use App\Events\EmployeeHiredEvent;
-use App\Models\Hire;
 use App\Models\Employee;
+use App\Models\Hire;
 use App\Models\Suspension;
 use App\Models\SuspensionType;
 use Illuminate\Support\Facades\Event;
