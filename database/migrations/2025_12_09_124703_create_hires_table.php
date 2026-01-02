@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignUuid('project_id')->constrained()->onDelete('cascade');
             $table->foreignUuid('position_id')->constrained()->onDelete('cascade');
             $table->foreignUuid('supervisor_id')->constrained()->onDelete('cascade');
-            $table->string('punch')->nullable()->unique();
+            $table->string('punch')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

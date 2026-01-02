@@ -22,7 +22,7 @@ class DowntimeFactory extends Factory
             'employee_id' => \App\Models\Employee::factory(),
             'campaign_id' => \App\Models\Campaign::factory(),
             'downtime_reason_id' => \App\Models\DowntimeReason::factory(),
-            'time' => $this->faker->time(),
+            'time' => 4,
             'requester_id' => User::factory(),
             'aprover_id' => User::factory(),
         ];
