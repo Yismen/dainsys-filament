@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\TerminationTypes;
 use App\Models\Hire;
 use App\Models\User;
 use App\Models\Employee;
@@ -60,9 +61,9 @@ beforeEach(function () {
 
     $this->form_data = [
         'employee_id' => $other_employee->id,
-        'termination_type_id' => TerminationType::factory()->create()->id,
-        'starts_at' => now(),
-        'ends_at' => now()->addDay(),
+        'termination_type' => TerminationTypes::Resignation,
+        'date' => now(),
+        'is_rehireable' => true,
         'comment' => 'termination comment',
     ];
 });
@@ -175,9 +176,10 @@ test('form validation require fields on create and edit pages', function (string
         ->assertHasFormErrors([$field => 'required']);
 })->with([
     'employee_id',
-    'starts_at',
-    'ends_at',
-    'termination_type_id',
+    'date',
+    'termination_type',
+    'is_rehireable',
+    'comment',
 ]);
 
 // it('autofocus the employee_id field on create and edit pages', function () {
