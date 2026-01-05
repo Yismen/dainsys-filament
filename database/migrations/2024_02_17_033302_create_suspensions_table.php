@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignUuid('suspension_type_id')->constrained('suspension_types')->cascadeOnDelete();
             $table->dateTime('starts_at');
             $table->dateTime('ends_at');
+            $table->string('status')->nullable();
             $table->text('comment');
             $table->softDeletes();
             $table->timestamps();

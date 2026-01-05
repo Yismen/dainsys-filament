@@ -7,14 +7,14 @@ use App\Models\Employee;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
 
-class EmployeesSuspended extends Command
+class SendEmployeesSuspendedEmail extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'dainsys:employees-suspended';
+    protected $signature = 'dainsys:send-employees-suspended-email';
 
     /**
      * The console command description.

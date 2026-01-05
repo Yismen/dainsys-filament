@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\SuspensionStatuses;
 use App\Events\SuspensionUpdatedEvent;
 use App\Exceptions\SuspensionDateCantBeLowerThanHireDate;
 use App\Models\Traits\BelongsToEmployee;
@@ -19,6 +20,7 @@ class Suspension extends \App\Models\BaseModels\AppModel
     protected $casts = [
         'starts_at' => 'datetime',
         'ends_at' => 'datetime',
+        'status' => SuspensionStatuses::class,
     ];
 
     protected $dispatchesEvents = [
@@ -27,7 +29,7 @@ class Suspension extends \App\Models\BaseModels\AppModel
 
     protected static function booted()
     {
-        static::creating(function ($suspension) {
+        static::creating(function (Suspension $suspension) {
             if ($suspension->employee->canBeSuspended() === false) {
                 throw new \App\Exceptions\EmployeeCantBeSuspended;
             }
@@ -40,6 +42,16 @@ class Suspension extends \App\Models\BaseModels\AppModel
         });
 
         static::saved(function (Suspension $suspension) {
+            if($suspension->starts_at > now()) {
+                $suspension->status = SuspensionStatuses::Pending;
+            } elseif ($suspension->ends_at < now()) {
+                $suspension->status = SuspensionStatuses::Completed;
+            } else {
+                $suspension->status = SuspensionStatuses::Current;
+            }
+
+            $suspension->saveQuietly();
+
             $suspension->employee->touch();
         });
 

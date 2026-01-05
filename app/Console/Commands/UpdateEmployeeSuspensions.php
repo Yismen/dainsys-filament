@@ -2,9 +2,10 @@
 
 namespace App\Console\Commands;
 
-use App\Services\EmployeesNeedingRemoveSuspension;
-use App\Services\EmployeesNeedingSuspension;
+use App\Models\Employee;
 use Illuminate\Console\Command;
+use App\Services\EmployeesNeedingSuspension;
+use App\Services\EmployeesNeedingRemoveSuspension;
 
 class UpdateEmployeeSuspensions extends Command
 {
@@ -46,12 +47,18 @@ class UpdateEmployeeSuspensions extends Command
         $SuspendedEmployeesToActivateCount = $SuspendedEmployeesToActivate->count();
 
         if ($employeesTosuspendCount) {
-            $employeesTosuspend->each->touch();
+            $employeesTosuspend->each(function (Employee $employee) {
+                $employee->suspensions->each->touch();
+                $employee->touch();
+            });
             $this->info("{$employeesTosuspendCount} employees suspended!");
         }
 
         if ($SuspendedEmployeesToActivateCount) {
-            $SuspendedEmployeesToActivate->each->touch();
+            $SuspendedEmployeesToActivate->each(function (Employee $employee) {
+                $employee->suspensions->each->touch();
+                $employee->touch();
+            });
             $this->info("{$SuspendedEmployeesToActivateCount} suspended employees activated!");
         }
 
