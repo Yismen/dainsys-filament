@@ -34,8 +34,22 @@ class HumanResourcePanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Amber,
             ])
-            ->discoverResources(in: app_path('Filament/HumanResource/Resources'), for: 'App\\Filament\\HumanResource\\Resources')
-            ->discoverPages(in: app_path('Filament/HumanResource/Pages'), for: 'App\\Filament\\HumanResource\\Pages')
+            ->discoverResources(
+                in: app_path('Filament/HumanResource/Resources'),
+                for: 'App\\Filament\\HumanResource\\Resources'
+            )
+            ->discoverPages(
+                in: app_path('Filament/HumanResource/Pages'),
+                for: 'App\\Filament\\HumanResource\\Pages'
+            )
+            ->discoverWidgets(
+                in: app_path('Filament/HumanResource/Widgets'),
+                for: 'App\\Filament\\HumanResource\\Widgets'
+            )
+            ->discoverClusters(
+                in: app_path('Filament/HumanResource/Clusters'),
+                for: 'App\\Filament\\HumanResource\\Clusters'
+            )
             ->pages([
                 Dashboard::class,
             ])
@@ -45,7 +59,6 @@ class HumanResourcePanelProvider extends PanelProvider
                     ->icon('heroicon-o-rectangle-stack')
                     ->url('admin/user-mailing-subscriptions'),
             ])
-            ->discoverWidgets(in: app_path('Filament/HumanResource/Widgets'), for: 'App\\Filament\\HumanResource\\Widgets')
             ->widgets([
                 AccountWidget::class,
                 FilamentInfoWidget::class,
