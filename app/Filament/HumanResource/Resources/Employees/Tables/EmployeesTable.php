@@ -20,8 +20,10 @@ class EmployeesTable
         return $table
             ->columns([
                 TextColumn::make('full_name')
+                    ->sortable()
                     ->searchable(),
                 TextColumn::make('personal_id')
+                    ->sortable()
                     ->searchable(),
                 TextColumn::make('date_of_birth')
                     ->date()
@@ -29,14 +31,19 @@ class EmployeesTable
                 TextColumn::make('cellphone')
                     ->searchable(),
                 TextColumn::make('status')
+                    ->sortable()
                     ->searchable(),
                 TextColumn::make('gender')
                     ->badge()
+                    ->sortable()
                     ->searchable(),
                 IconColumn::make('has_kids')
+                    ->sortable()
                     ->boolean(),
                 TextColumn::make('citizenship.name')
-                    ->searchable(),
+                    ->sortable()
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()
