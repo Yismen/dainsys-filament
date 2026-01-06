@@ -3,22 +3,20 @@
 use App\Models\Hire;
 use App\Models\User;
 use App\Models\Employee;
-use App\Models\SocialSecurity;
-use App\Models\SocialSecurityType;
+use App\Models\Suspension;
+use App\Models\SuspensionType;
 use Filament\Facades\Filament;
 use function Pest\Laravel\get;
 use App\Events\EmployeeHiredEvent;
 use function Pest\Laravel\actingAs;
 use function Pest\Livewire\livewire;
 use Illuminate\Support\Facades\Event;
-use App\Events\SocialSecurityUpdatedEvent;
+use App\Events\SuspensionUpdatedEvent;
 
-use App\Filament\HumanResource\Resources\SocialSecurities\Pages\EditSocialSecurity;
-use App\Filament\HumanResource\Resources\SocialSecurities\Pages\ViewSocialSecurity;
-use App\Filament\HumanResource\Resources\SocialSecurities\Pages\ListSocialSecurities;
-use App\Filament\HumanResource\Resources\SocialSecurities\Pages\CreateSocialSecurity;
-use App\Models\Afp;
-use App\Models\Ars;
+use App\Filament\HumanResource\Resources\Suspensions\Pages\EditSuspension;
+use App\Filament\HumanResource\Resources\Suspensions\Pages\ViewSuspension;
+use App\Filament\HumanResource\Resources\Suspensions\Pages\ListSuspensions;
+use App\Filament\HumanResource\Resources\Suspensions\Pages\CreateSuspension;
 
 beforeEach(function () {
     // Seed roles/permissions if applicable
@@ -27,32 +25,32 @@ beforeEach(function () {
     );
     Event::fake([
         EmployeeHiredEvent::class,
-        SocialSecurityUpdatedEvent::class,
+        SuspensionUpdatedEvent::class,
     ]);
 
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create();
-    $social_security = SocialSecurity::factory()->for($employee)->create();
+    $suspension = Suspension::factory()->for($employee)->create();
 
     $this->resource_routes = [
         'index' => [
-            'route' => ListSocialSecurities::getRouteName(),
+            'route' => ListSuspensions::getRouteName(),
             'params' => [],
             'permission' => ['view-any'],
         ],
         'create' => [
-            'route' => CreateSocialSecurity::getRouteName(),
+            'route' => CreateSuspension::getRouteName(),
             'params' => [],
             'permission' => ['create', 'view-any'],
         ],
         'edit' => [
-            'route' => EditSocialSecurity::getRouteName(),
-            'params' => ['record' => $social_security->getKey()],
+            'route' => EditSuspension::getRouteName(),
+            'params' => ['record' => $suspension->getKey()],
             'permission' => ['update', 'edit', 'view-any'],
         ],
         'view' => [
-            'route' => ViewSocialSecurity::getRouteName(),
-            'params' => ['record' => $social_security->getKey()],
+            'route' => ViewSuspension::getRouteName(),
+            'params' => ['record' => $suspension->getKey()],
             'permission' => ['view', 'view-any'],
         ],
     ];
@@ -62,13 +60,14 @@ beforeEach(function () {
 
     $this->form_data = [
         'employee_id' => $other_employee->id,
-        'ars_id' => Ars::factory()->create()->id,
-        'afp_id' => Afp::factory()->create()->id,
-        'number' => '454545',
+        'suspension_type_id' => SuspensionType::factory()->create()->id,
+        'starts_at' => now(),
+        'ends_at' => now()->addDay(),
+        'comment' => 'suspension comment',
     ];
 });
 
-it('require users to be authenticated to access SocialSecurity resource pages', function (string $method) {
+it('require users to be authenticated to access Suspension resource pages', function (string $method) {
     $response = get(route($this->resource_routes[$method]['route'],
         $this->resource_routes[$method]['params']));
 
@@ -80,7 +79,7 @@ it('require users to be authenticated to access SocialSecurity resource pages', 
     'view',
 ]);
 
-it('require users to have correct permissions to access SocialSecurity resource pages', function (string $method) {
+it('require users to have correct permissions to access Suspension resource pages', function (string $method) {
     actingAs(User::factory()->create());
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -93,7 +92,7 @@ it('require users to have correct permissions to access SocialSecurity resource 
     'view',
 ]);
 
-it('allows super admin users to access SocialSecurity resource pages', function (string $method) {
+it('allows super admin users to access Suspension resource pages', function (string $method) {
     actingAs($this->createSuperAdminUser());
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -107,8 +106,8 @@ it('allows super admin users to access SocialSecurity resource pages', function 
     'view',
 ]);
 
-it('allow users with correct permissions to access SocialSecurity resource pages', function (string $method) {
-    actingAs($this->createUserWithPermissionsToActions($this->resource_routes[$method]['permission'], 'SocialSecurity'));
+it('allow users with correct permissions to access Suspension resource pages', function (string $method) {
+    actingAs($this->createUserWithPermissionsToActions($this->resource_routes[$method]['permission'], 'Suspension'));
 
     $response = get(route($this->resource_routes[$method]['route'],
         $this->resource_routes[$method]['params']));
@@ -121,75 +120,75 @@ it('allow users with correct permissions to access SocialSecurity resource pages
     'view',
 ]);
 
-it('displays SocialSecurity list page correctly', function () {
+it('displays Suspension list page correctly', function () {
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create();
-    SocialSecurity::factory()->for($employee)->create();
-    $social_securities = SocialSecurity::get();
+    Suspension::factory()->for($employee)->create();
+    $suspensions = Suspension::get();
 
-    actingAs($this->createUserWithPermissionTo('view-any SocialSecurity'));
+    actingAs($this->createUserWithPermissionTo('view-any Suspension'));
 
-    livewire(ListSocialSecurities::class)
-        ->assertCanSeeTableRecords($social_securities);
+    livewire(ListSuspensions::class)
+        ->assertCanSeeTableRecords($suspensions);
 });
 
-test('create SocialSecurity page works correctly', function () {
-    actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'SocialSecurity'));
+test('create Suspension page works correctly', function () {
+    actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Suspension'));
 
-    livewire(CreateSocialSecurity::class)
+    livewire(CreateSuspension::class)
         ->fillForm($this->form_data)
         ->call('create');
 
-    $this->assertDatabaseHas('social_securities', $this->form_data);
+    $this->assertDatabaseHas('suspensions', $this->form_data);
 });
 
-test('edit SocialSecurity page works correctly', function () {
+test('edit Suspension page works correctly', function () {
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create();
-    $social_security = SocialSecurity::factory()->for($employee)->create();
+    $suspension = Suspension::factory()->for($employee)->create();
 
-    actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'SocialSecurity'));
+    actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Suspension'));
 
-    livewire(EditSocialSecurity::class, ['record' => $social_security->getKey()])
+    livewire(EditSuspension::class, ['record' => $suspension->getKey()])
         ->fillForm($this->form_data)
         ->call('save')
         ->assertHasNoErrors();
 
-    $this->assertDatabaseHas('social_securities', array_merge(['id' => $social_security->id], $this->form_data));
+    $this->assertDatabaseHas('suspensions', array_merge(['id' => $suspension->id], $this->form_data));
 });
 
 test('form validation require fields on create and edit pages', function (string $field) {
-    actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'SocialSecurity'));
+    actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Suspension'));
 
-    // Test CreateSocialSecurity validation
-    livewire(CreateSocialSecurity::class)
+    // Test CreateSuspension validation
+    livewire(CreateSuspension::class)
         ->fillForm([$field => ''])
         ->call('create')
         ->assertHasFormErrors([$field => 'required']);
-    // Test EditSocialSecurity validation
+    // Test EditSuspension validation
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create();
-    $social_security = SocialSecurity::factory()->for($employee)->create();
-    livewire(EditSocialSecurity::class, ['record' => $social_security->getKey()])
+    $suspension = Suspension::factory()->for($employee)->create();
+    livewire(EditSuspension::class, ['record' => $suspension->getKey()])
         ->fillForm([$field => ''])
         ->call('save')
         ->assertHasFormErrors([$field => 'required']);
 })->with([
     'employee_id',
-    'ars_id',
-    'afp_id',
-    'number',
+    'starts_at',
+    'ends_at',
+    'suspension_type_id',
 ]);
 
 // it('autofocus the employee_id field on create and edit pages', function () {
-//     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'SocialSecurity'));
+//     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Suspension'));
 
-//     // Test CreateSocialSecurity autofocus
-//     livewire(CreateSocialSecurity::class)
+//     // Test CreateSuspension autofocus
+//     livewire(CreateSuspension::class)
 //         ->assertSeeHtml('autofocus');
 
-//     // Test EditSocialSecurity autofocus
-//     $social_security = SocialSecurity::factory()->create();
-//     livewire(EditSocialSecurity::class, ['record' => $social_security->getKey()])
+//     // Test EditSuspension autofocus
+//     $suspension = Suspension::factory()->create();
+//     livewire(EditSuspension::class, ['record' => $suspension->getKey()])
 //         ->assertSeeHtml('autofocus');
 // });
