@@ -2,21 +2,22 @@
 
 namespace App\Filament\HumanResource\Resources\Citizenships;
 
-use App\Filament\HumanResource\Resources\Citizenships\Pages\CreateCitizenship;
-use App\Filament\HumanResource\Resources\Citizenships\Pages\EditCitizenship;
-use App\Filament\HumanResource\Resources\Citizenships\Pages\ListCitizenships;
-use App\Filament\HumanResource\Resources\Citizenships\Pages\ViewCitizenship;
-use App\Filament\HumanResource\Resources\Citizenships\Schemas\CitizenshipForm;
-use App\Filament\HumanResource\Resources\Citizenships\Schemas\CitizenshipInfolist;
-use App\Filament\HumanResource\Resources\Citizenships\Tables\CitizenshipsTable;
-use App\Models\Citizenship;
 use BackedEnum;
-use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use App\Models\Citizenship;
+use Filament\Schemas\Schema;
+use Filament\Resources\Resource;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\HumanResource\Resources\Citizenships\Pages\EditCitizenship;
+use App\Filament\HumanResource\Resources\Citizenships\Pages\ViewCitizenship;
+use App\Filament\HumanResource\Resources\Citizenships\Pages\ListCitizenships;
+use App\Filament\HumanResource\Resources\Citizenships\Pages\CreateCitizenship;
+use App\Filament\HumanResource\Resources\Citizenships\Schemas\CitizenshipForm;
+use App\Filament\HumanResource\Resources\Citizenships\Tables\CitizenshipsTable;
+use App\Filament\HumanResource\Resources\Citizenships\Schemas\CitizenshipInfolist;
+use App\Filament\HumanResource\Clusters\EmployeesManagement\EmployeesManagementCluster;
 
 class CitizenshipResource extends Resource
 {
@@ -25,6 +26,10 @@ class CitizenshipResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static ?string $recordTitleAttribute = 'name';
+
+    protected static ?string $cluster = EmployeesManagementCluster::class;
+
+    protected static ?int $navigationSort = 4;
 
     public static function form(Schema $schema): Schema
     {

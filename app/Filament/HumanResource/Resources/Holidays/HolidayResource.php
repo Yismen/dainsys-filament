@@ -2,21 +2,22 @@
 
 namespace App\Filament\HumanResource\Resources\Holidays;
 
-use App\Filament\HumanResource\Resources\Holidays\Pages\CreateHoliday;
-use App\Filament\HumanResource\Resources\Holidays\Pages\EditHoliday;
-use App\Filament\HumanResource\Resources\Holidays\Pages\ListHolidays;
-use App\Filament\HumanResource\Resources\Holidays\Pages\ViewHoliday;
-use App\Filament\HumanResource\Resources\Holidays\Schemas\HolidayForm;
-use App\Filament\HumanResource\Resources\Holidays\Schemas\HolidayInfolist;
-use App\Filament\HumanResource\Resources\Holidays\Tables\HolidaysTable;
-use App\Models\Holiday;
 use BackedEnum;
-use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
+use App\Models\Holiday;
 use Filament\Tables\Table;
+use Filament\Schemas\Schema;
+use Filament\Resources\Resource;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\HumanResource\Resources\Holidays\Pages\EditHoliday;
+use App\Filament\HumanResource\Resources\Holidays\Pages\ViewHoliday;
+use App\Filament\HumanResource\Resources\Holidays\Pages\ListHolidays;
+use App\Filament\HumanResource\Resources\Holidays\Pages\CreateHoliday;
+use App\Filament\HumanResource\Resources\Holidays\Schemas\HolidayForm;
+use App\Filament\HumanResource\Resources\Holidays\Tables\HolidaysTable;
+use App\Filament\HumanResource\Clusters\HrManagement\HrManagementCluster;
+use App\Filament\HumanResource\Resources\Holidays\Schemas\HolidayInfolist;
 
 class HolidayResource extends Resource
 {
@@ -25,6 +26,8 @@ class HolidayResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static ?string $recordTitleAttribute = 'name';
+
+    protected static ?string $cluster = HrManagementCluster::class;
 
     public static function form(Schema $schema): Schema
     {

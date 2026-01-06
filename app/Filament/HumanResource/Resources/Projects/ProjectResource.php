@@ -2,21 +2,22 @@
 
 namespace App\Filament\HumanResource\Resources\Projects;
 
-use App\Filament\HumanResource\Resources\Projects\Pages\CreateProject;
-use App\Filament\HumanResource\Resources\Projects\Pages\EditProject;
-use App\Filament\HumanResource\Resources\Projects\Pages\ListProjects;
-use App\Filament\HumanResource\Resources\Projects\Pages\ViewProject;
-use App\Filament\HumanResource\Resources\Projects\Schemas\ProjectForm;
-use App\Filament\HumanResource\Resources\Projects\Schemas\ProjectInfolist;
-use App\Filament\HumanResource\Resources\Projects\Tables\ProjectsTable;
-use App\Models\Project;
 use BackedEnum;
-use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
+use App\Models\Project;
 use Filament\Tables\Table;
+use Filament\Schemas\Schema;
+use Filament\Resources\Resource;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\HumanResource\Resources\Projects\Pages\EditProject;
+use App\Filament\HumanResource\Resources\Projects\Pages\ViewProject;
+use App\Filament\HumanResource\Resources\Projects\Pages\ListProjects;
+use App\Filament\HumanResource\Resources\Projects\Pages\CreateProject;
+use App\Filament\HumanResource\Resources\Projects\Schemas\ProjectForm;
+use App\Filament\HumanResource\Resources\Projects\Tables\ProjectsTable;
+use App\Filament\HumanResource\Clusters\HrManagement\HrManagementCluster;
+use App\Filament\HumanResource\Resources\Projects\Schemas\ProjectInfolist;
 
 class ProjectResource extends Resource
 {
@@ -25,6 +26,8 @@ class ProjectResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static ?string $recordTitleAttribute = 'name';
+
+    protected static ?string $cluster = HrManagementCluster::class;
 
     public static function form(Schema $schema): Schema
     {

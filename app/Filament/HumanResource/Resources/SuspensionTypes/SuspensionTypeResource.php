@@ -2,21 +2,22 @@
 
 namespace App\Filament\HumanResource\Resources\SuspensionTypes;
 
-use App\Filament\HumanResource\Resources\SuspensionTypes\Pages\CreateSuspensionType;
-use App\Filament\HumanResource\Resources\SuspensionTypes\Pages\EditSuspensionType;
-use App\Filament\HumanResource\Resources\SuspensionTypes\Pages\ListSuspensionTypes;
-use App\Filament\HumanResource\Resources\SuspensionTypes\Pages\ViewSuspensionType;
-use App\Filament\HumanResource\Resources\SuspensionTypes\Schemas\SuspensionTypeForm;
-use App\Filament\HumanResource\Resources\SuspensionTypes\Schemas\SuspensionTypeInfolist;
-use App\Filament\HumanResource\Resources\SuspensionTypes\Tables\SuspensionTypesTable;
-use App\Models\SuspensionType;
 use BackedEnum;
-use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Filament\Schemas\Schema;
+use App\Models\SuspensionType;
+use Filament\Resources\Resource;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\HumanResource\Clusters\HrManagement\HrManagementCluster;
+use App\Filament\HumanResource\Resources\SuspensionTypes\Pages\EditSuspensionType;
+use App\Filament\HumanResource\Resources\SuspensionTypes\Pages\ViewSuspensionType;
+use App\Filament\HumanResource\Resources\SuspensionTypes\Pages\ListSuspensionTypes;
+use App\Filament\HumanResource\Resources\SuspensionTypes\Pages\CreateSuspensionType;
+use App\Filament\HumanResource\Resources\SuspensionTypes\Schemas\SuspensionTypeForm;
+use App\Filament\HumanResource\Resources\SuspensionTypes\Tables\SuspensionTypesTable;
+use App\Filament\HumanResource\Resources\SuspensionTypes\Schemas\SuspensionTypeInfolist;
 
 class SuspensionTypeResource extends Resource
 {
@@ -25,6 +26,8 @@ class SuspensionTypeResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static ?string $recordTitleAttribute = 'name';
+
+    protected static ?string $cluster = HrManagementCluster::class;
 
     public static function form(Schema $schema): Schema
     {

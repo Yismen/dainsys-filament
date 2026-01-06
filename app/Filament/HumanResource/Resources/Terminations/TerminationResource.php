@@ -19,6 +19,7 @@ use App\Filament\HumanResource\Resources\Terminations\Pages\CreateTermination;
 use App\Filament\HumanResource\Resources\Terminations\Schemas\TerminationForm;
 use App\Filament\HumanResource\Resources\Terminations\Tables\TerminationsTable;
 use App\Filament\HumanResource\Resources\Terminations\Schemas\TerminationInfolist;
+use App\Filament\HumanResource\Clusters\EmployeesManagement\EmployeesManagementCluster;
 
 class TerminationResource extends Resource
 {
@@ -27,6 +28,10 @@ class TerminationResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static ?string $recordTitleAttribute = 'id';
+
+    protected static ?string $cluster = EmployeesManagementCluster::class;
+
+    protected static ?int $navigationSort = 3;
 
     public static function getRecordTitle(?Model $record): string | Htmlable | null
     {

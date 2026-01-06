@@ -2,6 +2,7 @@
 
 namespace App\Filament\HumanResource\Resources\Clients;
 
+use App\Filament\HumanResource\Clusters\HrManagement\HrManagementCluster;
 use App\Filament\HumanResource\Resources\Clients\Pages\CreateClient;
 use App\Filament\HumanResource\Resources\Clients\Pages\EditClient;
 use App\Filament\HumanResource\Resources\Clients\Pages\ListClients;
@@ -25,6 +26,8 @@ class ClientResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static ?string $recordTitleAttribute = 'name';
+
+    protected static ?string $cluster = HrManagementCluster::class;
 
     public static function form(Schema $schema): Schema
     {

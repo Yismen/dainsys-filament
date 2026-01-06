@@ -19,6 +19,7 @@ use App\Filament\HumanResource\Resources\Suspensions\Pages\CreateSuspension;
 use App\Filament\HumanResource\Resources\Suspensions\Schemas\SuspensionForm;
 use App\Filament\HumanResource\Resources\Suspensions\Tables\SuspensionsTable;
 use App\Filament\HumanResource\Resources\Suspensions\Schemas\SuspensionInfolist;
+use App\Filament\HumanResource\Clusters\EmployeesManagement\EmployeesManagementCluster;
 
 class SuspensionResource extends Resource
 {
@@ -27,6 +28,10 @@ class SuspensionResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static ?string $recordTitleAttribute = 'starts_at';
+
+    protected static ?string $cluster = EmployeesManagementCluster::class;
+
+    protected static ?int $navigationSort = 2;
 
     public static function getRecordTitle(?Model $record): string | Htmlable | null
     {

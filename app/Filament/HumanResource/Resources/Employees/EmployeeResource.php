@@ -2,6 +2,7 @@
 
 namespace App\Filament\HumanResource\Resources\Employees;
 
+use App\Filament\HumanResource\Clusters\EmployeesManagement\EmployeesManagementCluster;
 use App\Filament\HumanResource\Resources\Employees\Pages\CreateEmployee;
 use App\Filament\HumanResource\Resources\Employees\Pages\EditEmployee;
 use App\Filament\HumanResource\Resources\Employees\Pages\ListEmployees;
@@ -25,6 +26,10 @@ class EmployeeResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static ?string $recordTitleAttribute = 'full_name';
+
+    protected static ?string $cluster = EmployeesManagementCluster::class;
+
+    protected static ?int $navigationSort = 1;
 
     public static function form(Schema $schema): Schema
     {

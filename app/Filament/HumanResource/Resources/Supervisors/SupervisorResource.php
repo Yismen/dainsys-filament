@@ -2,21 +2,22 @@
 
 namespace App\Filament\HumanResource\Resources\Supervisors;
 
-use App\Filament\HumanResource\Resources\Supervisors\Pages\CreateSupervisor;
-use App\Filament\HumanResource\Resources\Supervisors\Pages\EditSupervisor;
-use App\Filament\HumanResource\Resources\Supervisors\Pages\ListSupervisors;
-use App\Filament\HumanResource\Resources\Supervisors\Pages\ViewSupervisor;
-use App\Filament\HumanResource\Resources\Supervisors\Schemas\SupervisorForm;
-use App\Filament\HumanResource\Resources\Supervisors\Schemas\SupervisorInfolist;
-use App\Filament\HumanResource\Resources\Supervisors\Tables\SupervisorsTable;
-use App\Models\Supervisor;
 use BackedEnum;
-use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
+use App\Models\Supervisor;
 use Filament\Tables\Table;
+use Filament\Schemas\Schema;
+use Filament\Resources\Resource;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\HumanResource\Resources\Supervisors\Pages\EditSupervisor;
+use App\Filament\HumanResource\Resources\Supervisors\Pages\ViewSupervisor;
+use App\Filament\HumanResource\Resources\Supervisors\Pages\ListSupervisors;
+use App\Filament\HumanResource\Resources\Supervisors\Pages\CreateSupervisor;
+use App\Filament\HumanResource\Resources\Supervisors\Schemas\SupervisorForm;
+use App\Filament\HumanResource\Resources\Supervisors\Tables\SupervisorsTable;
+use App\Filament\HumanResource\Resources\Supervisors\Schemas\SupervisorInfolist;
+use App\Filament\HumanResource\Clusters\EmployeesManagement\EmployeesManagementCluster;
 
 class SupervisorResource extends Resource
 {
@@ -25,6 +26,10 @@ class SupervisorResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static ?string $recordTitleAttribute = 'name';
+
+    protected static ?string $cluster = EmployeesManagementCluster::class;
+
+    protected static ?int $navigationSort = 5;
 
     public static function form(Schema $schema): Schema
     {

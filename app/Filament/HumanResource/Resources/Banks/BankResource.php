@@ -2,21 +2,22 @@
 
 namespace App\Filament\HumanResource\Resources\Banks;
 
-use App\Filament\HumanResource\Resources\Banks\Pages\CreateBank;
-use App\Filament\HumanResource\Resources\Banks\Pages\EditBank;
-use App\Filament\HumanResource\Resources\Banks\Pages\ListBanks;
-use App\Filament\HumanResource\Resources\Banks\Pages\ViewBank;
-use App\Filament\HumanResource\Resources\Banks\Schemas\BankForm;
-use App\Filament\HumanResource\Resources\Banks\Schemas\BankInfolist;
-use App\Filament\HumanResource\Resources\Banks\Tables\BanksTable;
-use App\Models\Bank;
 use BackedEnum;
-use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
+use App\Models\Bank;
 use Filament\Tables\Table;
+use Filament\Schemas\Schema;
+use Filament\Resources\Resource;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\HumanResource\Resources\Banks\Pages\EditBank;
+use App\Filament\HumanResource\Resources\Banks\Pages\ViewBank;
+use App\Filament\HumanResource\Resources\Banks\Pages\ListBanks;
+use App\Filament\HumanResource\Resources\Banks\Pages\CreateBank;
+use App\Filament\HumanResource\Resources\Banks\Schemas\BankForm;
+use App\Filament\HumanResource\Resources\Banks\Tables\BanksTable;
+use App\Filament\HumanResource\Resources\Banks\Schemas\BankInfolist;
+use App\Filament\HumanResource\Clusters\HrManagement\HrManagementCluster;
 
 class BankResource extends Resource
 {
@@ -25,6 +26,8 @@ class BankResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static ?string $recordTitleAttribute = 'name';
+
+    protected static ?string $cluster = HrManagementCluster::class;
 
     public static function form(Schema $schema): Schema
     {

@@ -2,21 +2,22 @@
 
 namespace App\Filament\HumanResource\Resources\Departments;
 
-use App\Filament\HumanResource\Resources\Departments\Pages\CreateDepartment;
-use App\Filament\HumanResource\Resources\Departments\Pages\EditDepartment;
-use App\Filament\HumanResource\Resources\Departments\Pages\ListDepartments;
-use App\Filament\HumanResource\Resources\Departments\Pages\ViewDepartment;
-use App\Filament\HumanResource\Resources\Departments\Schemas\DepartmentForm;
-use App\Filament\HumanResource\Resources\Departments\Schemas\DepartmentInfolist;
-use App\Filament\HumanResource\Resources\Departments\Tables\DepartmentsTable;
-use App\Models\Department;
 use BackedEnum;
-use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
+use App\Models\Department;
 use Filament\Tables\Table;
+use Filament\Schemas\Schema;
+use Filament\Resources\Resource;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\HumanResource\Clusters\HrManagement\HrManagementCluster;
+use App\Filament\HumanResource\Resources\Departments\Pages\EditDepartment;
+use App\Filament\HumanResource\Resources\Departments\Pages\ViewDepartment;
+use App\Filament\HumanResource\Resources\Departments\Pages\ListDepartments;
+use App\Filament\HumanResource\Resources\Departments\Pages\CreateDepartment;
+use App\Filament\HumanResource\Resources\Departments\Schemas\DepartmentForm;
+use App\Filament\HumanResource\Resources\Departments\Tables\DepartmentsTable;
+use App\Filament\HumanResource\Resources\Departments\Schemas\DepartmentInfolist;
 
 class DepartmentResource extends Resource
 {
@@ -25,6 +26,8 @@ class DepartmentResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static ?string $recordTitleAttribute = 'name';
+
+    protected static ?string $cluster = HrManagementCluster::class;
 
     public static function form(Schema $schema): Schema
     {
