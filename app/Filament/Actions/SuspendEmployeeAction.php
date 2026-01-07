@@ -35,8 +35,12 @@ class SuspendEmployeeAction
                                 ->preload()
                                 ->required(),
                             DateTimePicker::make('starts_at')
-                                ->default(function (Employee $record) {
-                                    return $record->latestHire()->date;
+                                ->default(function(Get $get) {
+                                    $date = now();
+                                    $latestHire = Employee::query()
+                                        ->find($get('employee_id'))?->latestHire()->date;
+
+                                    return $latestHire > $date ? $latestHire : $date->startOfDay();
                                 })
                                 ->minDate(function (Employee $record) {
                                     return $record->latestHire()->date?->startOfDay();
@@ -47,9 +51,8 @@ class SuspendEmployeeAction
                             DateTimePicker::make('ends_at')
                                 ->default(now()->endOfDay())
                                 ->minDate(fn (Get $get) => $get('starts_at') ?? now())
-                                ->maxDate(now()->endOfDay()->addYear())
-                                ->required()
-                                ->live(),
+                                ->maxDate(fn (Get $get) => now()->parse($get('starts_at'))->endOfDay()->addDays(90))
+                                ->required(),
                             Textarea::make('comment')
                                 ->required()
                                 ->columnSpanFull(),

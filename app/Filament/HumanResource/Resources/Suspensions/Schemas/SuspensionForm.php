@@ -47,7 +47,13 @@ class SuspensionForm
                     ->preload()
                     ->required(),
                 DateTimePicker::make('starts_at')
-                    ->default(now())
+                    ->default(function(Get $get) {
+                        $date = now();
+                        $latestHire = Employee::query()
+                            ->find($get('employee_id'))?->latestHire()->date;
+
+                        return $latestHire > $date ? $latestHire : $date->startOfDay();
+                    })
                     ->minDate(function (Get $get) {
                         return Employee::query()
                             ->find($get('employee_id'))?->latestHire()->date
@@ -59,10 +65,11 @@ class SuspensionForm
                 DateTimePicker::make('ends_at')
                     ->default(now()->endOfDay())
                     ->minDate(fn (Get $get) => $get('starts_at') ?? now())
-                    ->maxDate(now()->endOfDay()->addYear())
+                    ->maxDate(fn (Get $get) => $get('starts_at')->endOfDay()->addDays(90))
                     ->required(),
                 Textarea::make('comment')
                     ->required()
+                    ->minLength(5)
                     ->columnSpanFull(),
             ]);
     }
