@@ -17,7 +17,7 @@ class DowntimeReasonFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->unique()->text(),
+            'name' => $this->faker->unique()->company(),
             'description' => $this->faker->sentence(),
         ];
     }
