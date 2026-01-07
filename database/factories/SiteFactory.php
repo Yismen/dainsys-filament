@@ -31,7 +31,7 @@ class SiteFactory extends Factory
             'email' => $this->faker->email(),
             'address' => $this->faker->address(),
             'geolocation' => $this->faker->text(50),
-            'description' => $this->faker->email(),
+            'description' => $this->faker->text(),
         ];
     }
 }

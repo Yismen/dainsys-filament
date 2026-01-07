@@ -30,7 +30,7 @@ class ClientFactory extends Factory
             'phone' => $this->faker->phoneNumber(),
             'email' => $this->faker->email(),
             'website' => $this->faker->url(),
-            'description' => $this->faker->email(),
+            'description' => $this->faker->text(),
         ];
     }
 }

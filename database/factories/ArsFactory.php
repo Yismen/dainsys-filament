@@ -28,7 +28,7 @@ class ArsFactory extends Factory
             'name' => $this->faker->company(),
             'person_of_contact' => $this->faker->name(),
             'phone' => $this->faker->phoneNumber(),
-            'description' => $this->faker->email(),
+            'description' => $this->faker->text(),
         ];
     }
 }

@@ -18,7 +18,7 @@ class SourceFactory extends Factory
     {
         return [
             'name' => $this->faker->company(),
-            'description' => $this->faker->email(),
+            'description' => $this->faker->text(),
         ];
     }
 }

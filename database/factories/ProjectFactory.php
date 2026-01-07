@@ -27,7 +27,7 @@ class ProjectFactory extends Factory
         return [
             'name' => $this->faker->company(),
             'client_id' => \App\Models\Client::factory(),
-            'description' => $this->faker->email(),
+            'description' => $this->faker->text(),
         ];
     }
 }

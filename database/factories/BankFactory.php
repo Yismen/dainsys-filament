@@ -29,7 +29,7 @@ class BankFactory extends Factory
             'person_of_contact' => $this->faker->name(),
             'phone' => $this->faker->phoneNumber(),
             'email' => $this->faker->email(),
-            'description' => $this->faker->email(),
+            'description' => $this->faker->text(),
         ];
     }
 }
