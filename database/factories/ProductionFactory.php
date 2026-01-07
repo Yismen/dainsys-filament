@@ -33,8 +33,8 @@ class ProductionFactory extends Factory
             'total_time' => 0,
             'production_time' => 0,
             'talk_time' => 0,
-            'billable_time' => 0,
-            'revenue' => 0,
+            // 'billable_time' => 0,
+            // 'revenue' => 0,
         ];
     }
 }

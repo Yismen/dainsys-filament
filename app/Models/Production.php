@@ -18,25 +18,25 @@ class Production extends \App\Models\BaseModels\AppModel
     use SoftDeletes;
 
     protected $fillable = [
-        'unique_id',
         'date',
         'employee_id',
-        'supervisor_id',
+        // 'supervisor_id',
         'campaign_id',
-        'sph_goal',
-        'revenue_type',
-        'revenue_rate',
+        // 'sph_goal',
+        // 'revenue_type',
+        // 'revenue_rate',
         'conversions',
         'total_time',
         'production_time',
         'talk_time',
-        'billable_time',
-        'revenue',
+        // 'billable_time',
+        // 'revenue',
     ];
 
     protected $casts = [
         // 'revenue' => RevenueTypes::class,
         'revenue' => AsMoney::class,
+        'date' => 'date:Y-m-d',
     ];
 
     protected static function boot()
@@ -54,22 +54,22 @@ class Production extends \App\Models\BaseModels\AppModel
             $model->load('campaign', 'employee');
             $changed_keys = \array_keys($model->getChanges());
 
-            $model->updateQuietly([
-                'supervisor_id' => \in_array('employee_id', $changed_keys) ?
-                    $model->employee?->supervisor?->id :
-                    $model->supervisor_id,
-                'revenue_rate' => \in_array('campaign_id', $changed_keys) ?
-                    $model->campaign?->revenue_rate :
-                        $model->revenue_rate,
-                'sph_goal' => \in_array('campaign_id', $changed_keys) ?
-                    $model->campaign?->sph_goal :
-                        $model->sph_goal,
-                'revenue_type' => \in_array('campaign_id', $changed_keys) ?
-                    $model->campaign?->revenue_type :
-                        $model->revenue_type,
-                'billable_time' => $model->calculateBillableHours(),
-                'revenue' => $model->calculateRevenue(),
-            ]);
+            $model->supervisor_id = \in_array('employee_id', $changed_keys) ?
+                $model->employee?->supervisor?->id :
+                $model->supervisor_id;
+            $model->revenue_rate = \in_array('campaign_id', $changed_keys) ?
+                $model->campaign?->revenue_rate :
+                $model->revenue_rate;
+            $model->sph_goal = \in_array('campaign_id', $changed_keys) ?
+                $model->campaign?->sph_goal :
+                $model->sph_goal;
+            $model->revenue_type = \in_array('campaign_id', $changed_keys) ?
+            $model->campaign?->revenue_type :
+                    $model->revenue_type;
+            $model->billable_time = $model->calculateBillableHours();
+            $model->revenue = $model->calculateRevenue();
+
+            $model->saveQuietly();
         });
     }
 

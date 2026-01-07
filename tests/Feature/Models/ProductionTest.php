@@ -136,11 +136,11 @@ it('updates supervisor id based on employee when created', function () {
     $supervisor = Supervisor::factory()->create();
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->for($supervisor)->create();
-    $production = Production::factory([
+    $production = Production::factory()
+        ->create([
         'employee_id' => $employee->id,
-        'supervisor_id' => null,
-    ])
-        ->create();
+        // 'supervisor_id' => null,
+    ]);
 
     expect($production->supervisor_id)->toBe($production->employee->supervisor->id);
 });
