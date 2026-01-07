@@ -27,7 +27,7 @@ class WorkforcePanelProvider extends PanelProvider
             ->id('workforce')
             ->path('workforce')
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Red,
             ])
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->discoverResources(in: app_path('Filament/Workforce/Resources'), for: 'App\Filament\Workforce\Resources')
