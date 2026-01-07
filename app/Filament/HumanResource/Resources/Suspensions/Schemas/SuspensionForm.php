@@ -37,14 +37,12 @@ class SuspensionForm
                         ])
                     ]))
                     ->searchable()
-                    ->preload()
                     ->required()
                     ->live(onBlur: true),
                 Select::make('suspension_type_id')
                     ->label(__('Suspension Type'))
                     ->options(ModelListService::get(SuspensionType::class))
                     ->searchable()
-                    ->preload()
                     ->required(),
                 DateTimePicker::make('starts_at')
                     ->default(function(Get $get) {
@@ -65,7 +63,7 @@ class SuspensionForm
                 DateTimePicker::make('ends_at')
                     ->default(now()->endOfDay())
                     ->minDate(fn (Get $get) => $get('starts_at') ?? now())
-                    ->maxDate(fn (Get $get) => $get('starts_at')->endOfDay()->addDays(90))
+                    ->maxDate(fn (Get $get) => now()->parse($get('starts_at'))->endOfDay()->addDays(90) ?? now()->addDays(90))
                     ->required(),
                 Textarea::make('comment')
                     ->required()

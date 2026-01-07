@@ -13,6 +13,7 @@ use App\Models\Traits\HasManyPayrollHours;
 use App\Models\Traits\HasManyProductions;
 use App\Models\Traits\HasManySuspensions;
 use App\Models\Traits\HasManyTerminations;
+use App\Models\Traits\HasOneSocialSocialSecurity;
 use App\Models\Traits\HasRelationsThruHire;
 use App\Models\Traits\HasRelationsThruSocialSecurity;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
@@ -28,6 +29,7 @@ class Employee extends \App\Models\BaseModels\AppModel
     use HasManySuspensions;
     use HasManyTerminations;
     use HasRelationsThruHire;
+    use HasOneSocialSocialSecurity;
     use HasRelationsThruSocialSecurity;
 
     protected $fillable = [

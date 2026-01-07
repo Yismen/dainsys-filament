@@ -19,8 +19,12 @@ class PositionsTable
         return $table
             ->columns([
                 TextColumn::make('name')
+                    ->sortable()
+                    ->wrap()
                     ->searchable(),
                 TextColumn::make('department.name')
+                    ->sortable()
+                    ->wrap()
                     ->searchable(),
                 TextColumn::make('salary')
                     ->numeric()
@@ -30,6 +34,7 @@ class PositionsTable
                 // TextColumn::make('details'),
                 TextColumn::make('description')
                     ->limit(50)
+                    ->tooltip(fn (string $state) => $state)
                     ->wrap(),
                 TextColumn::make('deleted_at')
                     ->dateTime()

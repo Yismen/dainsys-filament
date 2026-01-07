@@ -24,7 +24,6 @@ class ProjectForm
                     ->relationship('client', 'name')
                     ->options(ModelListService::get(Client::class))
                     ->searchable()
-                    ->preload()
                     ->required(),
                 Textarea::make('description')
                     ->columnSpanFull(),

@@ -13,6 +13,8 @@ class EmployeeInfolist
     {
         return $schema
             ->components([
+                TextEntry::make('status')
+                    ->badge(),
                 TextEntry::make('id')
                     ->label('ID'),
                 TextEntry::make('first_name'),
@@ -28,14 +30,14 @@ class EmployeeInfolist
                 TextEntry::make('date_of_birth')
                     ->date(),
                 TextEntry::make('cellphone'),
-                TextEntry::make('status')
-                    ->badge(),
                 TextEntry::make('gender')
                     ->badge(),
                 IconEntry::make('has_kids')
                     ->boolean(),
                 TextEntry::make('citizenship.name')
                     ->label('Citizenship'),
+                TextEntry::make('supervisor.name')
+                    ->label('Supervisor'),
                 TextEntry::make('deleted_at')
                     ->dateTime()
                     ->visible(fn (Employee $record): bool => $record->trashed()),

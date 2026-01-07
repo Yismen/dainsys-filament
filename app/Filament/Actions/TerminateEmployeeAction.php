@@ -7,6 +7,7 @@ use App\Models\Employee;
 use Filament\Actions\Action;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
 use Filament\Notifications\Notification;
 use Filament\Support\Colors\Color;
@@ -28,11 +29,14 @@ class TerminateEmployeeAction
                         ->label(__('Termination Type'))
                         ->options(TerminationTypes::toArray())
                         ->searchable()
-                        ->preload()
                         ->required(),
                     Toggle::make('is_rehireable')
                         ->label(__('Can Be Re-hired?'))
                         ->default(true),
+                    Textarea::make('comment')
+                        ->label(__('Comment'))
+                        ->required()
+                        ->minLength(5),
 
                 ])->action(function (Employee $record, $data) {
                     $record->terminations()->create($data);

@@ -32,25 +32,21 @@ class HireEmployeeAction
                         ->label(__('Site'))
                         ->options(ModelListService::get(Site::class))
                         ->searchable()
-                        ->preload()
                         ->required(),
                     Select::make('project_id')
                         ->label(label: __('Project'))
                         ->options(ModelListService::get(Project::class))
                         ->searchable()
-                        ->preload()
                         ->required(),
                     Select::make(name: 'position_id')
                         ->label(__('Position'))
                         ->options(ModelListService::get(Position::class))
                         ->searchable()
-                        ->preload()
                         ->required(),
                     Select::make('supervisor_id')
                         ->label(__('Supervisor'))
                         ->options(ModelListService::get(Supervisor::class))
                         ->searchable()
-                        ->preload()
                         ->required(),
                     TextInput::make('punch')
                         ->required()

@@ -18,12 +18,29 @@ class SitesTable
     {
         return $table
             ->columns([
-                TextColumn::make('id')
-                    ->label('ID')
-                    ->searchable(),
                 TextColumn::make('name')
+                    ->wrap()
+                    ->sortable()
                     ->searchable(),
                 TextColumn::make('person_of_contact')
+                    ->wrap()
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('phone')
+                    ->wrap()
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('email')
+                    ->wrap()
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('address')
+                    ->wrap()
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('geolocation')
+                    ->wrap()
+                    ->sortable()
                     ->searchable(),
                 TextColumn::make('deleted_at')
                     ->dateTime()

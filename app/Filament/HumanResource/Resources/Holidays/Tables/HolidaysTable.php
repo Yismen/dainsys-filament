@@ -19,10 +19,15 @@ class HolidaysTable
         return $table
             ->columns([
                 TextColumn::make('name')
+                    ->sortable()
                     ->searchable(),
                 TextColumn::make('date')
                     ->date()
                     ->sortable(),
+                TextColumn::make('description')
+                    ->wrap()
+                    ->limit(50)
+                    ->tooltip(fn (string $state) => $state),
                 TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()

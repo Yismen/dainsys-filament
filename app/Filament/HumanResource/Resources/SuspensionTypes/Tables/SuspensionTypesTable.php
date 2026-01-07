@@ -18,11 +18,14 @@ class SuspensionTypesTable
     {
         return $table
             ->columns([
-                TextColumn::make('id')
-                    ->label('ID')
-                    ->searchable(),
                 TextColumn::make('name')
+                    ->wrap()
+                    ->sortable()
                     ->searchable(),
+                TextColumn::make('description')
+                    ->wrap()
+                    ->limit(50)
+                    ->tooltip(fn (string $state) => $state),
                 TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()

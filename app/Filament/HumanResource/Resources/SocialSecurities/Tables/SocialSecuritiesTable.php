@@ -18,10 +18,7 @@ class SocialSecuritiesTable
     {
         return $table
             ->columns([
-                TextColumn::make('id')
-                    ->label('ID')
-                    ->searchable(),
-                TextColumn::make('employee.id')
+                TextColumn::make('employee.full_name')
                     ->searchable(),
                 TextColumn::make('ars.name')
                     ->searchable(),

@@ -18,7 +18,6 @@ class UniversalForm
                     ->relationship('employee', 'id')
                     ->options(ModelListService::get(model: Employee::class, value_field: 'full_name'))
                     ->searchable()
-                    ->preload()
                     ->unique(ignoreRecord: true)
                     ->required()
                     ->autofocus(),

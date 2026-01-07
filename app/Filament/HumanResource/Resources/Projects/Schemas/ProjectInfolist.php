@@ -13,13 +13,14 @@ class ProjectInfolist
         return $schema
             ->components([
                 TextEntry::make('id')
-                    ->label('ID'),
+                    ->label('ID')
+                    ->columnSpanFull(),
                 TextEntry::make('name'),
+                TextEntry::make('client.name')
+                    ->label('Client'),
                 TextEntry::make('description')
                     ->placeholder('-')
                     ->columnSpanFull(),
-                TextEntry::make('client.name')
-                    ->label('Client'),
                 TextEntry::make('deleted_at')
                     ->dateTime()
                     ->visible(fn (Project $record): bool => $record->trashed()),

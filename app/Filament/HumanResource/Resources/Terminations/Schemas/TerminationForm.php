@@ -31,7 +31,6 @@ class TerminationForm
                         )
                     ]))
                     ->searchable()
-                    ->preload()
                     ->live()
                     ->required(),
                 DateTimePicker::make('date')
@@ -46,7 +45,6 @@ class TerminationForm
                 Select::make('termination_type')
                     ->options(TerminationTypes::class)
                     ->searchable()
-                    ->preload()
                     ->required(),
                 Toggle::make('is_rehireable')
                     ->required()

@@ -1,13 +1,27 @@
 <?php
 
-use App\Events\TicketReplyCreatedEvent;
+use App\Models\User;
 use App\Models\Ticket;
 use App\Models\TicketReply;
-use App\Models\User;
+use App\Events\TicketCreatedEvent;
+use App\Events\TicketDeletedEvent;
+use App\Events\TicketAssignedEvent;
+use App\Events\TicketReopenedEvent;
+use App\Events\TicketCompletedEvent;
 use Illuminate\Support\Facades\Event;
+use App\Events\TicketReplyCreatedEvent;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 beforeEach(function () {
-    Event::fake();
+   Event::fake([
+        TicketAssignedEvent::class,
+        TicketCreatedEvent::class,
+        TicketCompletedEvent::class,
+        TicketDeletedEvent::class,
+        TicketReopenedEvent::class,
+        TicketReplyCreatedEvent::class,
+
+    ]);
 });
 
 test('replies model interacts with db table', function () {

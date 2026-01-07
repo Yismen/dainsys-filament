@@ -24,6 +24,7 @@ use App\Models\Termination;
 use App\Models\Universal;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
@@ -78,6 +79,16 @@ test('employee model update full name when saved', function () {
         'id' => $employee->id,
         'full_name' => $name,
     ]);
+});
+
+it('has socialSecurity', function () {
+    $employee = Employee::factory()->createQuietly();
+
+    SocialSecurity::factory()->for($employee)->createQuietly();
+
+    expect($employee->socialSecurity->first())->toBeInstanceOf(SocialSecurity::class);
+    expect($employee->socialSecurity())->toBeInstanceOf(HasOne::class);
+
 });
 
 it('has many', function (string $modelClass, string $relationMethod) {

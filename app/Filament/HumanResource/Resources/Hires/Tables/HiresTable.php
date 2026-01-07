@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\HumanResource\Resources\Projects\Tables;
+namespace App\Filament\HumanResource\Resources\Hires\Tables;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -12,17 +12,39 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 
-class ProjectsTable
+class HiresTable
 {
     public static function configure(Table $table): Table
     {
         return $table
+            ->defaultSort('date', 'desc')
             ->columns([
-                TextColumn::make('name')
+                TextColumn::make('employee.full_name')
                     ->sortable()
+                    ->wrap()
                     ->searchable(),
-                TextColumn::make('client.name')
+                TextColumn::make('date')
+                    ->dateTime()
+                    ->sortable(),
+                TextColumn::make('site.name')
                     ->sortable()
+                    ->wrap()
+                    ->searchable(),
+                TextColumn::make('project.name')
+                    ->sortable()
+                    ->wrap()
+                    ->searchable(),
+                TextColumn::make('position.name')
+                    ->sortable()
+                    ->wrap()
+                    ->searchable(),
+                TextColumn::make('supervisor.name')
+                    ->sortable()
+                    ->wrap()
+                    ->searchable(),
+                TextColumn::make('punch')
+                    ->sortable()
+                    ->wrap()
                     ->searchable(),
                 TextColumn::make('deleted_at')
                     ->dateTime()

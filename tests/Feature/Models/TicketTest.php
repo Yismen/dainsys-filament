@@ -1,18 +1,32 @@
 <?php
 
-use App\Enums\TicketPriorities;
-use App\Enums\TicketStatuses;
-use App\Events\TicketAssignedEvent;
-use App\Events\TicketCompletedEvent;
-use App\Events\TicketCreatedEvent;
-use App\Events\TicketReopenedEvent;
-use App\Models\Ticket;
-use App\Models\TicketDepartment;
-use App\Models\TicketReply;
 use App\Models\User;
+use App\Models\Ticket;
+use App\Models\TicketReply;
+use App\Enums\TicketStatuses;
+use App\Enums\TicketPriorities;
+use App\Models\TicketDepartment;
+use App\Events\TicketCreatedEvent;
+use App\Events\TicketDeletedEvent;
+use App\Events\TicketAssignedEvent;
+use App\Events\TicketReopenedEvent;
+use App\Events\TicketCompletedEvent;
 use Illuminate\Support\Facades\Event;
+use App\Events\TicketReplyCreatedEvent;
 
 uses(\App\Traits\EnsureDateNotWeekend::class);
+
+beforeEach(function () {
+    Event::fake([
+        TicketAssignedEvent::class,
+        TicketCreatedEvent::class,
+        TicketCompletedEvent::class,
+        TicketDeletedEvent::class,
+        TicketReopenedEvent::class,
+        TicketReplyCreatedEvent::class,
+
+    ]);
+});
 
 test('tickets model interacts with db table', function () {
     $data = Ticket::factory()->make();

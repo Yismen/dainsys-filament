@@ -13,9 +13,18 @@ class SiteInfolist
         return $schema
             ->components([
                 TextEntry::make('id')
-                    ->label('ID'),
+                    ->label('ID')
+                    ->columnSpanFull(),
                 TextEntry::make('name'),
                 TextEntry::make('person_of_contact')
+                    ->placeholder('-'),
+                TextEntry::make('phone')
+                    ->placeholder('-'),
+                TextEntry::make('email')
+                    ->placeholder('-'),
+                TextEntry::make('address')
+                    ->placeholder('-'),
+                TextEntry::make('geolocation')
                     ->placeholder('-'),
                 TextEntry::make('description')
                     ->placeholder('-')

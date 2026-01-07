@@ -24,14 +24,12 @@ class PositionForm
                 Select::make('department_id')
                     ->relationship('department', 'name')
                     ->options(ModelListService::get(model: Department::class))
-                    ->preload()
                     ->searchable()
                     ->required(),
                 Select::make('salary_type')
                     ->enum(SalaryTypes::class)
                     ->options(SalaryTypes::toArray())
                     ->searchable()
-                    ->preload()
                     ->required(),
                 TextInput::make('salary')
                     ->required()

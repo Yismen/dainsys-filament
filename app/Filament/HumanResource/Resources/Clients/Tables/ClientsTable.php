@@ -18,13 +18,29 @@ class ClientsTable
     {
         return $table
             ->columns([
-                TextColumn::make('id')
-                    ->label('ID')
-                    ->searchable(),
                 TextColumn::make('name')
-                    ->searchable(),
+                    ->searchable()
+                    ->wrap(),
                 TextColumn::make('person_of_contact')
+                    ->wrap()
                     ->searchable(),
+                TextColumn::make('phone')
+                    ->wrap()
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make(name: 'email')
+                    ->wrap()
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make(name: 'website')
+                    ->wrap()
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('description')
+                    ->searchable()
+                    ->wrap()
+                    ->limit(50)
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()

@@ -18,13 +18,23 @@ class BanksTable
     {
         return $table
             ->columns([
-                TextColumn::make('id')
-                    ->label('ID')
-                    ->searchable(),
                 TextColumn::make('name')
+                    ->sortable()
                     ->searchable(),
                 TextColumn::make('person_of_contact')
+                    ->sortable()
                     ->searchable(),
+                TextColumn::make('phone')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make(name: 'email')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('description')
+                    ->searchable()
+                    ->limit(50)
+                    ->wrap()
+                    ->tooltip(fn (string $state) => $state),
                 TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()

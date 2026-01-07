@@ -7,6 +7,10 @@ use App\Filament\HumanResource\Resources\Employees\Pages\CreateEmployee;
 use App\Filament\HumanResource\Resources\Employees\Pages\EditEmployee;
 use App\Filament\HumanResource\Resources\Employees\Pages\ListEmployees;
 use App\Filament\HumanResource\Resources\Employees\Pages\ViewEmployee;
+use App\Filament\HumanResource\Resources\Employees\RelationManagers\HiresRelationManager;
+use App\Filament\HumanResource\Resources\Employees\RelationManagers\SocialSecuritiesRelationManager;
+use App\Filament\HumanResource\Resources\Employees\RelationManagers\SuspensionsRelationManager;
+use App\Filament\HumanResource\Resources\Employees\RelationManagers\TerminationsRelationManager;
 use App\Filament\HumanResource\Resources\Employees\Schemas\EmployeeForm;
 use App\Filament\HumanResource\Resources\Employees\Schemas\EmployeeInfolist;
 use App\Filament\HumanResource\Resources\Employees\Tables\EmployeesTable;
@@ -49,7 +53,14 @@ class EmployeeResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            HiresRelationManager::class,
+            SocialSecuritiesRelationManager::class,
+            SuspensionsRelationManager::class,
+            TerminationsRelationManager::class,
+            // productions
+            // Downtimes
+            // Payroll hours
+            // Login Names
         ];
     }
 

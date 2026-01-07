@@ -19,10 +19,12 @@ class SuspensionsTable
         return $table
             ->columns([
                 TextColumn::make('employee.full_name')
+                    ->wrap()
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('suspensionType.name')
                     ->sortable()
+                    ->wrap()
                     ->searchable(),
                 TextColumn::make('starts_at')
                     ->dateTime()
@@ -32,6 +34,10 @@ class SuspensionsTable
                     ->sortable(),
                 TextColumn::make(name: 'status')
                     ->sortable(),
+                TextColumn::make('comment')
+                    ->wrap()
+                    ->limit(50)
+                    ->tooltip(fn (string $state) => $state),
                 TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()

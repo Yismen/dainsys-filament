@@ -2,6 +2,26 @@
 
 use App\Models\Ticket;
 use App\Models\TicketDepartment;
+use App\Events\TicketCreatedEvent;
+use App\Events\TicketDeletedEvent;
+use App\Events\TicketAssignedEvent;
+use App\Events\TicketReopenedEvent;
+use App\Events\TicketCompletedEvent;
+use Illuminate\Support\Facades\Event;
+use App\Events\TicketReplyCreatedEvent;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
+beforeEach(function () {
+   Event::fake([
+        TicketAssignedEvent::class,
+        TicketCreatedEvent::class,
+        TicketCompletedEvent::class,
+        TicketDeletedEvent::class,
+        TicketReopenedEvent::class,
+        TicketReplyCreatedEvent::class,
+
+    ]);
+});
 
 test('departments model interacts with db table', function () {
     $data = TicketDepartment::factory()->make();

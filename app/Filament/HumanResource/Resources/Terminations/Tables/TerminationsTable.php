@@ -18,15 +18,18 @@ class TerminationsTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->defaultSort('date', 'desc')
             ->columns([
-                TextColumn::make('id')
-                    ->label('ID')
+                TextColumn::make('employee.full_name')
+                    ->sortable()
                     ->searchable(),
                 TextColumn::make('date')
                     ->dateTime()
                     ->sortable(),
-                TextColumn::make('employee.id')
-                    ->searchable(),
+                TextColumn::make('comment')
+                    ->limit(45)
+                    ->tooltip(fn (string $state) => $state)
+                    ->sortable(),
                 IconColumn::make('is_rehireable')
                     ->boolean(),
                 TextColumn::make('deleted_at')
