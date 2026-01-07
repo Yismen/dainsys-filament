@@ -7,8 +7,10 @@ use App\Events\TerminationCreatedEvent;
 use App\Mail\BirthdaysMail;
 use App\Models\Employee;
 use App\Models\Hire;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Console\Scheduling\Event as SchedulingEvent;
 
 beforeEach(function () {
     Event::fake([
@@ -22,25 +24,36 @@ beforeEach(function () {
     Hire::factory()->for($this->employee)->create();
 });
 
-test('birthdays command run sucessfully', function () {
-    $this->artisan('dainsys:birthdays', ['type' => 'today'])
-        ->assertSuccessful();
-});
-
-test('command is schedulled for daily at 401 am', function () {
-    $addedToScheduler = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
-        ->filter(function ($element) {
-            return str($element->command)->contains('dainsys:birthdays');
-        })->first();
-
-    expect($addedToScheduler)->not->toBeNull();
-    expect($addedToScheduler->expression)->toEqual('0 4 * * *');
-});
-
 it('trows exception if report type is not registered in the command', function () {
     $this->artisan('dainsys:birthdays', ['invalid' => 'Invalid']);
 
 })->throws(Exception::class);
+
+test('birthdays command run sucessfully with type=', function (string $type ) {
+    $this->artisan('dainsys:birthdays', ['type' => $type])
+        ->assertSuccessful();
+})->with([
+    'today',
+    'yesterday',
+    'tomorrow',
+    'this_month',
+    'next_month',
+    'last_month'
+]);
+
+it('runs daily at 4:00 am with type=today', function (string $type, string $expression) {
+    $schedule = app()->make(Schedule::class);
+
+    $command = collect($schedule->events())->filter(function (SchedulingEvent $event) use ($type) {
+        return stripos($event->command, 'dainsys:birthdays type="' . $type .'"');
+    })->first();
+
+    expect($command)->not->toBeNull();
+    expect($command->expression)->toEqual($expression);
+})->with([
+    ['today', '0 4 * * *'],
+    ['this_month', '1 4 1 * *'],
+]);
 
 test('birthdays command sends email', function () {
     Employee::factory()
