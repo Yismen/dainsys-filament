@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Source;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,6 +19,10 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+
+        if(app()->environment() !== 'testing') {
+            $this->seedSourcesTable();
+        }
     }
 
     /**
@@ -26,5 +31,40 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('sources');
+    }
+
+    protected function seedSourcesTable()
+    {
+        Source::create([
+            'name' => 'Data Entry',
+        ]);
+
+        Source::create([
+            'name' => 'Chat',
+        ]);
+
+        Source::create([
+            'name' => 'Email',
+        ]);
+
+        Source::create([
+            'name' => 'Escalation',
+        ]);
+
+        Source::create([
+            'name' => 'QA Review',
+        ]);
+
+        Source::create([
+            'name' => 'Resubmission',
+        ]);
+
+        Source::create([
+            'name' => 'Downtime',
+        ]);
+
+        Source::create([
+            'name' => 'Training',
+        ]);
     }
 };
