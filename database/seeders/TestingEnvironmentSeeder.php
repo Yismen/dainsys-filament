@@ -25,9 +25,11 @@ class TestingEnvironmentSeeder extends Seeder
             throw new Exception('Invalid environment', 423);
         }
 
+        cache()->flush();
+
         User::factory()->count(25)->create();
 
-        Hire::factory()->count(5)->create();
+        Hire::factory()->count(5)->create(); // this will create employees, sites, positions, supervisors
 
         Client::factory()->count(5)->create();
 
@@ -40,8 +42,6 @@ class TestingEnvironmentSeeder extends Seeder
             $user_data,
             User::factory()->make($user_data)->getAttributes()
         );
-
-        cache()->flush();
         $admin_role = Role::firstOrCreate([
             'guard_name' => 'web',
             'name' => 'super admin',
