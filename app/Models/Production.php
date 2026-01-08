@@ -19,6 +19,7 @@ class Production extends \App\Models\BaseModels\AppModel
 
     protected $fillable = [
         'date',
+        // 'unique_id',
         'employee_id',
         // 'supervisor_id',
         'campaign_id',
@@ -68,6 +69,11 @@ class Production extends \App\Models\BaseModels\AppModel
                     $model->revenue_type;
             $model->billable_time = $model->calculateBillableHours();
             $model->revenue = $model->calculateRevenue();
+            $model->unique_id = join('_', [
+                $model->date->format('Y-m-d'),
+                $model->campaign_id,
+                $model->employee_id,
+            ]);
 
             $model->saveQuietly();
         });

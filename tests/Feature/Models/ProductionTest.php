@@ -1,12 +1,13 @@
 <?php
 
-use App\Enums\RevenueTypes;
-use App\Events\EmployeeHiredEvent;
+use App\Models\Hire;
 use App\Models\Campaign;
 use App\Models\Employee;
-use App\Models\Hire;
 use App\Models\Production;
 use App\Models\Supervisor;
+use App\Enums\RevenueTypes;
+use Illuminate\Support\Carbon;
+use App\Events\EmployeeHiredEvent;
 use Illuminate\Support\Facades\Event;
 
 beforeEach(function () {
@@ -22,7 +23,7 @@ test('production model interacts with db table', function () {
 
     $this->assertDatabaseHas('productions', $data->only([
         // 'unique_id',
-        'date',
+        // 'date',
         'employee_id',
         'campaign_id',
         // 'revenue_type',
@@ -248,4 +249,30 @@ test('billable time and revenuve are updated properly when revenue type is sales
         'revenue' => 5000,
         'billable_time' => 50,
     ]);
+});
+
+test('date is instance of Date', function () {
+    $downtime = Production::factory()
+        ->create();
+
+    expect($downtime->date)->toBeInstanceOf(Carbon::class);
+});
+
+it('calculates unique_id field', function () {
+    $employee = Employee::factory()->create();
+    $campaign = Campaign::factory()->create();
+    $date = now();
+    $production = Production::factory()
+        ->for($employee)
+        ->for($campaign)
+        ->create([
+            'date' => $date
+        ]);
+
+    expect($production->unique_id)
+        ->toBe(join('_', [
+            $date->format('Y-m-d'),
+            $campaign->id,
+            $employee->id,
+        ]));
 });
