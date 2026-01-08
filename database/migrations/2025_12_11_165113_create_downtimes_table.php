@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('downtimes', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('unique_id')->unique()->nullable();
             $table->date('date');
+            $table->string('unique_id', 250)->unique()->nullable();
             $table->foreignUuid('employee_id')->constrained('employees')->onDelete('cascade');
             $table->foreignUuid('campaign_id')->constrained()->onDelete('cascade');
             $table->foreignUuid('downtime_reason_id')->constrained()->onDelete('cascade');
