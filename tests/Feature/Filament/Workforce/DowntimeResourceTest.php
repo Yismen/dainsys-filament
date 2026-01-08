@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\RevenueTypes;
 use App\Models\Hire;
 use App\Models\User;
 use App\Models\Employee;
@@ -53,7 +54,7 @@ beforeEach(function () {
     $this->form_data = [
         'date' => now(),
         'employee_id' => Employee::factory()->create()->id,
-        'campaign_id' => Campaign::factory()->create()->id,
+        'campaign_id' => Campaign::factory()->create(['revenue_type' => RevenueTypes::Downtime])->id,
         'time' => 5,
     ];
 });

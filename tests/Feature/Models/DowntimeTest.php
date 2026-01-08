@@ -81,7 +81,7 @@ test('date is instance of Date', function () {
 
 it('calculates unique_id field', function () {
     $employee = Employee::factory()->create();
-    $campaign = Campaign::factory()->create();
+    $campaign = Campaign::factory()->create(['revenue_type' => RevenueTypes::Downtime]);
     $date = now();
     $downtime = Downtime::factory()
         ->for($employee)
