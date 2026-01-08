@@ -2,12 +2,15 @@
 
 namespace Database\Seeders;
 
+use App\Enums\RevenueTypes;
+use App\Models\Campaign;
 use App\Models\Client;
 use App\Models\Downtime;
 use App\Models\Employee;
 use App\Models\Hire;
 use App\Models\Production;
 use App\Models\Role;
+use App\Models\Source;
 use App\Models\SuspensionType;
 use App\Models\Termination;
 use App\Models\User;
@@ -49,11 +52,12 @@ class TestingEnvironmentSeeder extends Seeder
 
         $user->assignRole($admin_role);
 
-        foreach(Employee::take(5)->get() as $employee) {
-            // Termination::factory()->for($employee)->create();
+        $downtimeSource = Source::query()->where('name', 'like', 'Downtime')->first();
+        $downtimeCampaign = Campaign::factory()->for($downtimeSource)->create(['revenue_type' => RevenueTypes::Downtime]);
 
+        foreach(Employee::take(5)->get() as $employee) {
             Production::factory()->for($employee)->create();
-            Downtime::factory()->for($employee)->create();
+            Downtime::factory()->for($employee)->for($downtimeCampaign)->create();
         }
 
         SuspensionType::factory()->create(['name' => 'Maternal Leave']);
