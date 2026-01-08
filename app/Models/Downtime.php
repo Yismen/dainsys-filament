@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\RevenueTypes;
+use App\Exceptions\InvalidDowntimeCampaign;
 use App\Models\Traits\BelongsToCampaign;
 use App\Models\Traits\BelongsToDowntimeReason;
 use App\Models\Traits\BelongsToEmployee;
@@ -39,6 +41,12 @@ class Downtime extends \App\Models\BaseModels\AppModel
     protected static function booted()
     {
         parent::booted();
+
+        static::saving(function (Downtime $downtime) {
+            if($downtime->campaign->revenue_type !== RevenueTypes::Downtime) {
+                throw new InvalidDowntimeCampaign();
+            }
+        });
 
         static::saved(function (Downtime $downtime) {
             $downtime->unique_id = join('_', [

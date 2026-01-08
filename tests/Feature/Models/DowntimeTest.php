@@ -1,9 +1,14 @@
 <?php
 
+use App\Models\User;
 use App\Models\Campaign;
 use App\Models\Downtime;
 use App\Models\Employee;
+use App\Enums\RevenueTypes;
+use App\Models\DowntimeReason;
 use Illuminate\Support\Carbon;
+use App\Exceptions\InvalidDowntimeCampaign;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 test('downtime model interacts with db table', function () {
     $data = Downtime::factory()->make();
@@ -24,47 +29,47 @@ test('downtime model interacts with db table', function () {
 
 test('downtime model belongs to employee', function () {
     $downtime = Downtime::factory()
-        ->has(\App\Models\Employee::factory(), 'employee')
+        ->has(Employee::factory(), 'employee')
         ->create();
 
-    expect($downtime->employee)->toBeInstanceOf(\App\Models\Employee::class);
-    expect($downtime->employee())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
+    expect($downtime->employee)->toBeInstanceOf(Employee::class);
+    expect($downtime->employee())->toBeInstanceOf(BelongsTo::class);
 });
 
 test('downtime model belongs to campaign', function () {
     $downtime = Downtime::factory()
-        ->has(\App\Models\Campaign::factory(), 'campaign')
+        ->has(Campaign::factory(), 'campaign')
         ->create();
 
-    expect($downtime->campaign)->toBeInstanceOf(\App\Models\Campaign::class);
-    expect($downtime->campaign())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
+    expect($downtime->campaign)->toBeInstanceOf(Campaign::class);
+    expect($downtime->campaign())->toBeInstanceOf(BelongsTo::class);
 });
 
 test('downtime model belongs to downtime reason', function () {
     $downtime = Downtime::factory()
-        ->has(\App\Models\DowntimeReason::factory(), 'downtimeReason')
+        ->has(DowntimeReason::factory(), 'downtimeReason')
         ->create();
 
-    expect($downtime->downtimeReason)->toBeInstanceOf(\App\Models\DowntimeReason::class);
-    expect($downtime->downtimeReason())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
+    expect($downtime->downtimeReason)->toBeInstanceOf(DowntimeReason::class);
+    expect($downtime->downtimeReason())->toBeInstanceOf(BelongsTo::class);
 });
 
 test('downtime model belongs to requester', function () {
     $downtime = Downtime::factory()
-        ->has(\App\Models\User::factory(), 'requester')
+        ->has(User::factory(), 'requester')
         ->create();
 
-    expect($downtime->requester)->toBeInstanceOf(\App\Models\User::class);
-    expect($downtime->requester())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
+    expect($downtime->requester)->toBeInstanceOf(User::class);
+    expect($downtime->requester())->toBeInstanceOf(BelongsTo::class);
 });
 
 test('downtime model belongs to aprover', function () {
     $downtime = Downtime::factory()
-        ->has(\App\Models\User::factory(), 'aprover')
+        ->has(User::factory(), 'aprover')
         ->create();
 
     expect($downtime->aprover)->toBeInstanceOf(\App\Models\User::class);
-    expect($downtime->aprover())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
+    expect($downtime->aprover())->toBeInstanceOf(BelongsTo::class);
 });
 
 test('date is instance of Date', function () {
@@ -92,3 +97,9 @@ it('calculates unique_id field', function () {
             $employee->id,
         ]));
 });
+
+it('throws exception if campaign revenue type is not downtime', function () {
+   Downtime::factory()
+        ->for(Campaign::factory(state: ['revenue_type' => RevenueTypes::LoginTime]))
+        ->create();
+})->throws(InvalidDowntimeCampaign::class);

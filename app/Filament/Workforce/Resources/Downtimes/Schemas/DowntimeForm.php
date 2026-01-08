@@ -2,6 +2,7 @@
 
 namespace App\Filament\Workforce\Resources\Downtimes\Schemas;
 
+use App\Enums\RevenueTypes;
 use App\Models\Campaign;
 use App\Models\DowntimeReason;
 use App\Models\Employee;
@@ -26,7 +27,7 @@ class DowntimeForm
                     ->searchable()
                     ->required(),
                 Select::make('campaign_id')
-                    ->options(ModelListService::get(model: Campaign::query()))
+                    ->options(ModelListService::get(model: Campaign::query()->where('revenue_type', RevenueTypes::Downtime)))
                     ->searchable()
                     ->required(),
                 Select::make('downtime_reason_id')

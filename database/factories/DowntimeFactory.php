@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\RevenueTypes;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -20,7 +21,7 @@ class DowntimeFactory extends Factory
         return [
             'date' =>  now()->toDateString(),
             'employee_id' => \App\Models\Employee::factory(),
-            'campaign_id' => \App\Models\Campaign::factory(),
+            'campaign_id' => \App\Models\Campaign::factory(state: ['revenue_type' => RevenueTypes::Downtime]),
             'downtime_reason_id' => \App\Models\DowntimeReason::factory(),
             'time' => 4,
             'requester_id' => User::factory(),
