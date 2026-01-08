@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('downtimes', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->string('unique_id')->unique()->nullable();
             $table->date('date');
             $table->foreignUuid('employee_id')->constrained('employees')->onDelete('cascade');
             $table->foreignUuid('campaign_id')->constrained()->onDelete('cascade');
@@ -23,6 +24,8 @@ return new class extends Migration
             $table->dateTime('converted_to_payroll_at')->nullable();
             $table->softDeletes();
             $table->timestamps();
+
+            $table->unique(['date', 'campaign_id', 'employee_id']);
         });
     }
 

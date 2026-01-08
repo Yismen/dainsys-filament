@@ -32,6 +32,25 @@ class Downtime extends \App\Models\BaseModels\AppModel
         'converted_to_payroll_at',
     ];
 
+    protected $casts = [
+        'date' => "date:Y-m-d"
+    ];
+
+    protected static function booted()
+    {
+        parent::booted();
+
+        static::saved(function (Downtime $downtime) {
+            $downtime->unique_id = join('_', [
+                $downtime->date->format('Y-m-d'),
+                $downtime->campaign_id,
+                $downtime->employee_id,
+            ]);
+
+            $downtime->saveQuietly();
+        });
+    }
+
     public function requester(): BelongsTo
     {
         return $this->belongsTo(User::class, 'requester_id');

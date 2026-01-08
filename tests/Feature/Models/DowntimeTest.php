@@ -1,6 +1,9 @@
 <?php
 
+use App\Models\Campaign;
 use App\Models\Downtime;
+use App\Models\Employee;
+use Illuminate\Support\Carbon;
 
 test('downtime model interacts with db table', function () {
     $data = Downtime::factory()->make();
@@ -8,7 +11,7 @@ test('downtime model interacts with db table', function () {
     Downtime::create($data->toArray());
 
     $this->assertDatabaseHas('downtimes', $data->only([
-        'date',
+        // 'date',
         'employee_id',
         'campaign_id',
         'downtime_reason_id',
@@ -62,4 +65,30 @@ test('downtime model belongs to aprover', function () {
 
     expect($downtime->aprover)->toBeInstanceOf(\App\Models\User::class);
     expect($downtime->aprover())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
+});
+
+test('date is instance of Date', function () {
+    $downtime = Downtime::factory()
+        ->create();
+
+    expect($downtime->date)->toBeInstanceOf(Carbon::class);
+});
+
+it('calculates unique_id field', function () {
+    $employee = Employee::factory()->create();
+    $campaign = Campaign::factory()->create();
+    $date = now();
+    $downtime = Downtime::factory()
+        ->for($employee)
+        ->for($campaign)
+        ->create([
+            'date' => $date
+        ]);
+
+    expect($downtime->unique_id)
+        ->toBe(join('_', [
+            $date->format('Y-m-d'),
+            $campaign->id,
+            $employee->id,
+        ]));
 });

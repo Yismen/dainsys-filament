@@ -18,7 +18,7 @@ class DowntimeFactory extends Factory
     public function definition(): array
     {
         return [
-            'date' => $this->faker->date(),
+            'date' =>  now()->toDateString(),
             'employee_id' => \App\Models\Employee::factory(),
             'campaign_id' => \App\Models\Campaign::factory(),
             'downtime_reason_id' => \App\Models\DowntimeReason::factory(),
