@@ -4,11 +4,8 @@ namespace App\Filament\HumanResource\Resources\Suspensions\Schemas;
 
 use App\Enums\EmployeeStatuses;
 use App\Models\Employee;
-use App\Models\Suspension;
-use App\Services\ModelList\Conditions\WhereCondition;
 use Filament\Schemas\Schema;
 use App\Models\SuspensionType;
-use App\Services\ModelList\Conditions\WhereInCondition;
 use App\Services\ModelListService;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -30,12 +27,13 @@ class SuspensionForm
                 Select::make('employee_id')
                     // ->relationship('employee', 'id')
                     ->autofocus()
-                    ->options(ModelListService::get(model: Employee::class, key_field: 'id', value_field: 'full_name', conditions: [
-                        new WhereInCondition('status', [
-                            EmployeeStatuses::Hired,
-                            EmployeeStatuses::Suspended,
-                        ])
-                    ]))
+                    ->options(
+                        ModelListService::get(model: Employee::query()
+                            ->whereIn('status', [
+                                EmployeeStatuses::Hired,
+                                EmployeeStatuses::Suspended,
+                        ]),  value_field: 'full_name')
+                    )
                     ->searchable()
                     ->required()
                     ->live(onBlur: true),

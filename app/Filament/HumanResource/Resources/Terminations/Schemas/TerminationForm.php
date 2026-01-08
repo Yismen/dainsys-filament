@@ -12,7 +12,6 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Schemas\Components\Utilities\Get;
-use App\Services\ModelList\Conditions\WhereInCondition;
 
 class TerminationForm
 {
@@ -21,15 +20,16 @@ class TerminationForm
         return $schema
             ->components([
                 Select::make('employee_id')
-                    ->options(ModelListService::get(model: Employee::class, value_field: 'full_name', conditions: [
-                        new WhereInCondition(
-                            'status',
-                            [
-                                EmployeeStatuses::Hired,
-                                EmployeeStatuses::Terminated
-                            ]
+                    ->options(
+                        ModelListService::get(
+                            model: Employee::query()
+                                ->whereIn('status', [
+                                    EmployeeStatuses::Hired,
+                                    EmployeeStatuses::Terminated
+                                ]),
+                            value_field: 'full_name'
+                            )
                         )
-                    ]))
                     ->searchable()
                     ->live()
                     ->required(),

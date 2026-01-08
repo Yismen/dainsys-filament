@@ -2,16 +2,14 @@
 
 namespace App\Services;
 
-use App\Services\ModelList\Conditions\WhereCondition;
-use App\Services\ModelList\Conditions\WhereInCondition;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Cache;
 
 /**
- * Service for retrieving lists of models with optional conditions and caching.
+ * Service for retrieving lists of models with  and caching.
  *
  * Usage:
- * - Call ModelListService::get() with a model class or query builder, key and value fields, and optional conditions.
+ * - Call ModelListService::get() with a model class or query builder, key and value fields.
  * - Returns an associative array of key-value pairs from the model, cached for performance.
  *
  * Example:
@@ -19,72 +17,61 @@ use Illuminate\Support\Facades\Cache;
  */
 class ModelListService
 {
-    public static self $instance;
+    private static self $instance;
 
-    public string|Builder $model;
+    private string|Builder $model;
 
-    public string $key_field;
+    private string $key_field;
 
-    public string $value_field;
-
-    public array $conditions = [];
+    private string $value_field;
 
     public static function get(
         string|Builder $model,
         string $key_field = 'id',
         string $value_field = 'name',
-        array $conditions = []
-    ): array {
+    ): array
+    {
         self::$instance ??= new self;
         self::$instance->key_field = $key_field;
         self::$instance->value_field = $value_field;
-        self::$instance->conditions = $conditions;
+
         self::$instance->model = $model instanceof Builder ? $model : $model::query();
 
+        $query = self::parseQuery();
+
         return Cache::rememberForever(
-            self::getCacheKey(),
-            fn () => self::getResults()
+            self::getCacheKey($query),
+            fn () => $query
+                ->pluck(self::$instance->value_field, self::$instance->key_field)
+                ->toArray()
         );
     }
 
-    private static function getResults()
+    public static function make(
+        string|Builder $model,
+        string $key_field = 'id',
+        string $value_field = 'name',
+    ): array
     {
-        $model = self::$instance->model
-            ->orderBy(self::$instance->value_field);
-
-        foreach (self::$instance->conditions as $key => $condition) {
-            if ($condition instanceof WhereInCondition) {
-                $model->whereIn($condition->field, $condition->values);
-
-                continue;
-            }
-
-            if ($condition instanceof WhereCondition) {
-                $model->where($condition->field, $condition->operator, $condition->value);
-
-                continue;
-            }
-
-            if ($key == 'in') {
-                $model->whereIn($condition[0], $condition[1]);
-
-                continue;
-            }
-            $model->where($condition);
-        }
-
-        return $model->pluck(self::$instance->value_field, self::$instance->key_field)
-            ->toArray();
+        return self::get(
+            $model,
+            $key_field,
+            $value_field,
+        );
     }
 
-    private static function getCacheKey(): string
+    protected static function parseQuery()
     {
-        $conditionsKey = empty(self::$instance->conditions) ? '' : json_encode(self::$instance->conditions);
+        return self::$instance->model
+            ->select([self::$instance->value_field, self::$instance->key_field])
+            ->orderBy(self::$instance->value_field, 'asc');
+    }
 
+    private static function getCacheKey($query): string
+    {
         $key = implode('_', [
             'model_list',
-            str(get_class(self::$instance->model->getModel()))->replace('\\', '')->snake(),
-            $conditionsKey,
+            str($query->toRawSql())->snake(),
         ]);
 
         return $key;
