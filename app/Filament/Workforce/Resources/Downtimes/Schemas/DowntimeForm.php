@@ -2,15 +2,17 @@
 
 namespace App\Filament\Workforce\Resources\Downtimes\Schemas;
 
-use App\Enums\RevenueTypes;
 use App\Models\Campaign;
-use App\Models\DowntimeReason;
 use App\Models\Employee;
+use App\Enums\RevenueTypes;
 use Filament\Schemas\Schema;
+use App\Models\DowntimeReason;
 use App\Services\ModelListService;
+use Filament\Support\Colors\Color;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Forms\Components\DateTimePicker;
 
 class DowntimeForm
@@ -19,6 +21,11 @@ class DowntimeForm
     {
         return $schema
             ->components([
+                TextEntry::make('status')
+                    ->inlineLabel()
+                    ->color(fn ($state) => $state == 'Aproved' ? Color::Green : Color::Gray)
+                    ->badge()
+                    ->columnSpanFull(),
                 DatePicker::make('date')
                     ->default(now())
                     ->required(),

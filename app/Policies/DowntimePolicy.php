@@ -38,6 +38,13 @@ class DowntimePolicy
     {
         return $user->checkPermissionTo('update Downtime');
     }
+    /**
+     * Determine whether the user can update the model.
+     */
+    public function aprove(User $user, Downtime $position): bool
+    {
+        return $user->checkPermissionTo('aprove Downtime');
+    }
 
     /**
      * Determine whether the user can delete the model.

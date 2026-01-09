@@ -24,8 +24,8 @@ class DowntimeFactory extends Factory
             'campaign_id' => \App\Models\Campaign::factory(state: ['revenue_type' => RevenueTypes::Downtime]),
             'downtime_reason_id' => \App\Models\DowntimeReason::factory(),
             'time' => 4,
-            'requester_id' => User::factory(),
-            'aprover_id' => User::factory(),
+            // 'requester_id' => User::factory(),
+            // 'aprover_id' => User::factory(),
         ];
     }
 }

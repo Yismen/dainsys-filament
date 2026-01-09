@@ -21,8 +21,8 @@ test('downtime model interacts with db table', function () {
         'campaign_id',
         'downtime_reason_id',
         'time',
-        'requester_id',
-        'aprover_id',
+        // 'requester_id',
+        // 'aprover_id',
         'converted_to_payroll_at',
     ]));
 });
@@ -55,8 +55,9 @@ test('downtime model belongs to downtime reason', function () {
 });
 
 test('downtime model belongs to requester', function () {
+    $this->actingAs(User::factory()->create());
+
     $downtime = Downtime::factory()
-        ->has(User::factory(), 'requester')
         ->create();
 
     expect($downtime->requester)->toBeInstanceOf(User::class);
@@ -65,10 +66,13 @@ test('downtime model belongs to requester', function () {
 
 test('downtime model belongs to aprover', function () {
     $downtime = Downtime::factory()
-        ->has(User::factory(), 'aprover')
         ->create();
 
-    expect($downtime->aprover)->toBeInstanceOf(\App\Models\User::class);
+    $this->actingAs(User::factory()->create());
+
+    $downtime->aprove();
+
+    expect($downtime->aprover)->toBeInstanceOf(User::class);
     expect($downtime->aprover())->toBeInstanceOf(BelongsTo::class);
 });
 

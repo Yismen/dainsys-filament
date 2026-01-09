@@ -29,14 +29,23 @@ class Downtime extends \App\Models\BaseModels\AppModel
         'campaign_id',
         'downtime_reason_id',
         'time',
-        'requester_id',
-        'aprover_id',
+        // 'requester_id',
+        // 'aprover_id',
         'converted_to_payroll_at',
     ];
 
     protected $casts = [
         'date' => "date:Y-m-d"
     ];
+
+    protected $appends = [
+        'status',
+    ];
+
+    public function getStatusAttribute()
+    {
+        return $this->aprover_id ? 'Aproved' : 'In Review';
+    }
 
     protected static function booted()
     {
@@ -55,6 +64,8 @@ class Downtime extends \App\Models\BaseModels\AppModel
                 $downtime->employee_id,
             ]);
 
+            $downtime->requester_id = auth()->user()?->id;
+
             $downtime->saveQuietly();
         });
     }
@@ -67,5 +78,12 @@ class Downtime extends \App\Models\BaseModels\AppModel
     public function aprover(): BelongsTo
     {
         return $this->belongsTo(User::class, 'aprover_id');
+    }
+
+    public function aprove()
+    {
+        $this->aprover_id = auth()->user()?->id;
+
+        $this->saveQuietly();
     }
 }

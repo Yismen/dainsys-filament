@@ -2,15 +2,19 @@
 
 namespace App\Filament\Workforce\Resources\Downtimes\Tables;
 
+use App\Models\Downtime;
+use Filament\Tables\Table;
+use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
+use Filament\Support\Colors\Color;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
-use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
-use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
-use Filament\Tables\Table;
+use Filament\Actions\ForceDeleteBulkAction;
+use Illuminate\Database\Eloquent\Collection;
+use App\Filament\Actions\AproveDowntimeAction;
 
 class DowntimesTable
 {
@@ -40,6 +44,9 @@ class DowntimesTable
                     ->sortable()
                     ->wrap()
                     ->searchable(),
+                TextColumn::make('status')
+                    ->color(fn($state) => $state == 'Aproved' ? Color::Green : Color::Gray)
+                    ->badge(),
                 TextColumn::make('aprover.name')
                     ->sortable()
                     ->wrap()
@@ -69,6 +76,16 @@ class DowntimesTable
                     DeleteBulkAction::make(),
                     ForceDeleteBulkAction::make(),
                     RestoreBulkAction::make(),
+                    AproveDowntimeAction::make('aprove downtimes')
+                        ->visible(true)
+                        ->accessSelectedRecords()
+                        ->action(function (Collection $records) {
+                            $records->each(function (Downtime $record) {
+                                if ($record->aprover_id === null) {
+                                    $record->aprove();
+                                }
+                            });
+                        })
                 ]),
             ]);
     }

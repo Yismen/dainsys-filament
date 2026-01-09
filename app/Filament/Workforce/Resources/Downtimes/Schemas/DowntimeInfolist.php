@@ -3,8 +3,9 @@
 namespace App\Filament\Workforce\Resources\Downtimes\Schemas;
 
 use App\Models\Downtime;
-use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
+use Filament\Support\Colors\Color;
+use Filament\Infolists\Components\TextEntry;
 
 class DowntimeInfolist
 {
@@ -13,8 +14,10 @@ class DowntimeInfolist
         return $schema
             ->components([
                 TextEntry::make('id')
-                    ->label('ID')
-                    ->columnSpanFull(),
+                    ->label('ID'),
+                TextEntry::make('status')
+                    ->color(fn ($state) => $state == 'Aproved' ? Color::Green : Color::Gray)
+                    ->badge(),
                 TextEntry::make('date')
                     ->date(),
                 TextEntry::make('employee.full_name')
