@@ -45,7 +45,7 @@ beforeEach(function () {
     $this->form_data = [
         'name' => 'Ars name',
         'person_of_contact' => 'Ars person_o_contact',
-        'phone' => '522155566',
+        'phone' => '5221555666',
         'description' => 'Ars description',
     ];
 });
