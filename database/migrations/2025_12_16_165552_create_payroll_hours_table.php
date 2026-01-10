@@ -17,12 +17,14 @@ return new class extends Migration
             $table->foreignUuid('employee_id')->constrained()->onDelete('cascade');
             $table->date('week_ending_at')->nullable();
             $table->date('payroll_ending_at')->nullable();
-            $table->float('total_hours')->default(0);
-            $table->float('regular_hours')->default(0);
+            $table->boolean('is_sunday')->nullable();
+            $table->boolean('is_holiday')->nullable();
+            $table->float('total_hours');
             $table->float('nightly_hours')->default(0);
+            $table->float('regular_hours')->default(0);
             $table->float('overtime_hours')->default(0);
             $table->float('holiday_hours')->default(0);
-            $table->float('day_off_hours')->default(0);
+            $table->float('seventh_day_hours')->default(0);
 
             $table->timestamps();
             $table->softDeletes();

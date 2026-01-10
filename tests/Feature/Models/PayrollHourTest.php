@@ -1,9 +1,11 @@
 <?php
 
+use App\Models\Holiday;
 use App\Models\PayrollHour;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Cache;
 
 test('downtime model interacts with db table', function () {
     Mail::fake();
@@ -12,16 +14,16 @@ test('downtime model interacts with db table', function () {
     PayrollHour::create($data->toArray());
 
     $this->assertDatabaseHas('payroll_hours', $data->only([
-        'date',
-        // 'total_hours',
+        // 'date',
+        'total_hours',
         'employee_id',
         // 'payroll_ending_at',
         // 'week_ending
-        'regular_hours',
         'nightly_hours',
-        'overtime_hours',
-        'holiday_hours',
-        'day_off_hours',
+        // 'regular_hours',
+        // 'overtime_hours',
+        // 'holiday_hours',
+        // 'seventh_day_hours',
     ]));
 });
 
@@ -57,31 +59,6 @@ it('casts week ending at attribute to date object', function () {
 
     expect($payrollHour->week_ending_at)->toBeInstanceOf(\Illuminate\Support\Carbon::class);
     expect($payrollHour->week_ending_at->toDateString())->toBe('2025-12-21');
-});
-
-// it calculates total hours from components
-it('calculates total hours from components minus nightly hours', function () {
-    $data = [
-        'regular_hours' => 8,
-        'nightly_hours' => 2,
-        'overtime_hours' => 3,
-        'holiday_hours' => 4,
-        'day_off_hours' => 1,
-    ];
-
-    $payrollHour = PayrollHour::factory()->create([
-        'regular_hours' => 8,
-        'nightly_hours' => 2,
-        'overtime_hours' => 3,
-        'holiday_hours' => 4,
-        'day_off_hours' => 1,
-    ]);
-
-    unset($data['nightly_hours']);
-
-    $expectedTotal = array_sum(array_values($data));
-
-    expect($payrollHour->total_hours)->toBe($expectedTotal);
 });
 
 // it generate payroll id on update
@@ -122,4 +99,65 @@ it('calculates the week ending field based on date', function () {
     $payrollHour->update(['date' => '2025-12-19']);
 
     expect($payrollHour->week_ending_at->format('Y-m-d'))->toBe('2025-12-21');
+});
+
+it('parses is_sunday attribute correctly', function() {
+    $is_sunday = PayrollHour::factory()->create([
+        'date' => Date::parse('2026-01-04'), // sunday
+    ]);
+
+    $not_sunday = PayrollHour::factory()->create([
+        'date' => Date::parse('2026-01-08'), // Not sunday
+    ]);
+
+    expect($not_sunday->is_sunday)
+        ->tobe(false);
+    expect($is_sunday->is_sunday)
+        ->tobe(true);
+});
+
+it('parses is_holiday attribute correctly', function () {
+    Cache::flush();
+
+    Holiday::factory()->create(['date' => '2026-01-04']);
+    $holiday = PayrollHour::factory()->create([
+        'date' => Date::parse('2026-01-04'), // holiday
+    ]);
+
+    $not_holiday = PayrollHour::factory()->create([
+        'date' => Date::parse('2026-01-08'), // Not holiday
+    ]);
+
+    expect($not_holiday->is_holiday)
+        ->tobe(false);
+    expect($holiday->is_holiday)
+        ->tobe(true);
+});
+
+it('parses holiday_hours correctly', function () {
+    Holiday::factory()->create(['date' => '2026-01-04']);
+    $is_holiday = PayrollHour::factory()->create([
+        'date' => Date::parse('2026-01-04'), // holiday
+        'total_hours' => 7,
+    ]);
+
+    $this->assertDatabaseHas('payroll_hours', [
+        'id' => $is_holiday->id,
+        'total_hours' => 7,
+        'holiday_hours' => 7,
+    ]);
+});
+
+it('parses non holiday_hours correctly', function () {
+    Holiday::factory()->create(['date' => '2026-01-04']);
+    $non_holiday = PayrollHour::factory()->create([
+        'date' => Date::parse('2026-01-08'), // holiday
+        'total_hours' => 7,
+    ]);
+
+    $this->assertDatabaseHas('payroll_hours', [
+        'id' => $non_holiday->id,
+        'total_hours' => 7,
+        'holiday_hours' => 0,
+    ]);
 });

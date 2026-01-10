@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
-use App\Models\Traits\BelongsToEmployee;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Cache;
+use App\Models\Traits\BelongsToEmployee;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class PayrollHour extends \App\Models\BaseModels\AppModel
 {
@@ -17,21 +18,24 @@ class PayrollHour extends \App\Models\BaseModels\AppModel
     protected $fillable = [
         'employee_id',
         'date',
-        // 'total_hours',
+        'total_hours',
         // 'payroll_ending_at'
         // 'week_ending_at'
-        'regular_hours',
+        // 'is_sunday'
+        // 'is_holiday'
         'nightly_hours',
-        'overtime_hours',
-        'holiday_hours',
-        'day_off_hours',
-        'converted_to_payroll_at',
+        // 'regular_hours',
+        // 'overtime_hours',
+        // 'holiday_hours',
+        // 'seventh_day_hours',
     ];
 
     protected $casts = [
-        'date' => 'date',
+        'date' => 'date:Y-m-d',
         'week_ending_at' => 'date',
         'payroll_ending_at' => 'date',
+        'is_sunday' => 'bool',
+        'is_holiday' => 'bool',
     ];
 
     protected static function boot()
@@ -39,21 +43,23 @@ class PayrollHour extends \App\Models\BaseModels\AppModel
         parent::boot();
 
         static::saved(function (PayrollHour $payrollHour) {
-            $payrollHour->total_hours = $payrollHour->calculateTotalHours();
+            $isHoliday = Cache::remember('date_' . $payrollHour->date->format('Y-m-d') . 'is_a_holiday', now()->addHour(), function () use ($payrollHour) {
+                return Holiday::query()->whereDate('date', $payrollHour->date)->exists();
+            });
+
             $payrollHour->payroll_ending_at = $payrollHour->generatePayrollId();
             $payrollHour->week_ending_at = $payrollHour->date->copy()->endOfWeek();
+            $payrollHour->is_sunday = $payrollHour->date->isSunday();
+            $payrollHour->is_holiday = false;
+
+            if($isHoliday) {
+                $payrollHour->is_holiday = true;
+                $payrollHour->regular_hours = 0;
+                $payrollHour->holiday_hours = $payrollHour->total_hours;
+            }
 
             $payrollHour->saveQuietly();
         });
-    }
-
-    protected function calculateTotalHours()
-    {
-        return $this->regular_hours
-            // + $this->nightly_hours
-            + $this->overtime_hours
-            + $this->holiday_hours
-            + $this->day_off_hours;
     }
 
     protected function generatePayrollId(): Carbon

@@ -38,10 +38,6 @@ class Downtime extends \App\Models\BaseModels\AppModel
         'date' => "date:Y-m-d"
     ];
 
-    protected $appends = [
-        'status',
-    ];
-
     public function getStatusAttribute()
     {
         return $this->aprover_id ? 'Aproved' : 'In Review';
