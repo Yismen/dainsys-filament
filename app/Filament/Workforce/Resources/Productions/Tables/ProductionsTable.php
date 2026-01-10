@@ -2,10 +2,12 @@
 
 namespace App\Filament\Workforce\Resources\Productions\Tables;
 
+use App\Filament\Imports\ProductionImporter;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteBulkAction;
+use Filament\Actions\ImportAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
@@ -17,6 +19,10 @@ class ProductionsTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->headerActions([
+                ImportAction::make()
+                    ->importer(ProductionImporter::class)
+            ])
             ->columns([
                 TextColumn::make('date')
                     ->date()
