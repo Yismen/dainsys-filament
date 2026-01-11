@@ -26,8 +26,6 @@ class HireInfolist
                     ->label('Position'),
                 TextEntry::make('supervisor.name')
                     ->label('Supervisor'),
-                TextEntry::make('punch')
-                    ->placeholder('-'),
                 TextEntry::make('deleted_at')
                     ->dateTime()
                     ->visible(fn (Hire $record): bool => $record->trashed()),

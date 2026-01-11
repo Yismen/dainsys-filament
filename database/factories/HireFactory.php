@@ -23,7 +23,6 @@ class HireFactory extends Factory
             'project_id' => \App\Models\Project::factory(),
             'position_id' => \App\Models\Position::factory(),
             'supervisor_id' => \App\Models\Supervisor::factory(),
-            'punch' => $this->faker->unique()->randomNumber(4),
         ];
     }
 }

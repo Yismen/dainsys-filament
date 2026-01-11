@@ -30,7 +30,6 @@ class Hire extends \App\Models\BaseModels\AppModel
         'project_id',
         'position_id',
         'supervisor_id',
-        'punch',
     ];
 
     protected $casts = [

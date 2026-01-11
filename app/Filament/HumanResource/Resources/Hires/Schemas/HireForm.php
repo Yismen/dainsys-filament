@@ -41,7 +41,6 @@ class HireForm
                     ->options(ModelListService::get(Supervisor::query()))
                     ->searchable()
                     ->required(),
-                TextInput::make('punch'),
             ]);
     }
 }

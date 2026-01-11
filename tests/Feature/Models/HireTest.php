@@ -30,7 +30,6 @@ test('hires model interacts with db table', function () {
         'project_id',
         'position_id',
         'supervisor_id',
-        'punch',
     ]));
 });
 

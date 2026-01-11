@@ -42,10 +42,6 @@ class HiresTable
                     ->sortable()
                     ->wrap()
                     ->searchable(),
-                TextColumn::make('punch')
-                    ->sortable()
-                    ->wrap()
-                    ->searchable(),
                 TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()

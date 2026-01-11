@@ -64,7 +64,6 @@ beforeEach(function () {
         'project_id' => Project::factory()->create()->id,
         'position_id' => Position::factory()->create()->id,
         'supervisor_id' => Supervisor::factory()->create()->id,
-        'punch' => '15151',
     ];
 });
 
@@ -178,7 +177,6 @@ test('form validation require fields on create and edit pages', function (string
     'project_id',
     'position_id',
     'supervisor_id',
-    // 'punch',
 ]);
 
 // it('autofocus the employee_id field on create and edit pages', function () {

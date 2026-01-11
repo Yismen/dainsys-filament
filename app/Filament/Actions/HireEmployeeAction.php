@@ -48,12 +48,6 @@ class HireEmployeeAction
                         ->options(ModelListService::get(Supervisor::class))
                         ->searchable()
                         ->required(),
-                    TextInput::make('punch')
-                        ->required()
-                        ->minLength(4)
-                        ->maxLength(5)
-                    // ->unique(table: 'hires', column: 'punch')
-                    ,
 
                 ])->action(function (Employee $record, $data) {
                     $record->hires()->create($data);
