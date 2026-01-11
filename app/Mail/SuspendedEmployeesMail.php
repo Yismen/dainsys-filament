@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class EmployeesSuspendedMail extends Mailable implements ShouldQueue
+class SuspendedEmployeesMail extends Mailable implements ShouldQueue
 {
     use Queueable;
     use SerializesModels;
@@ -24,6 +24,6 @@ class EmployeesSuspendedMail extends Mailable implements ShouldQueue
     {
         return $this
             ->to(MailingService::subscribers($this))
-            ->markdown('mail.employees-suspended');
+            ->markdown('mail.suspended-employees');
     }
 }

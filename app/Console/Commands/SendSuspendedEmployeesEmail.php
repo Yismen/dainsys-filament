@@ -7,14 +7,14 @@ use App\Models\Employee;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
 
-class SendEmployeesSuspendedEmail extends Command
+class SendSuspendedEmployeesEmail extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'dainsys:send-employees-suspended-email';
+    protected $signature = 'dainsys:send-suspended-employees-email';
 
     /**
      * The console command description.
@@ -55,7 +55,7 @@ class SendEmployeesSuspendedEmail extends Command
             ->get();
 
         if ($employees->count() > 0) {
-            Mail::send(new \App\Mail\EmployeesSuspendedMail($employees));
+            Mail::send(new \App\Mail\SuspendedEmployeesMail($employees));
             $this->info('Employees suspended report sent');
         } else {
             $this->warn('Nothing to send!');

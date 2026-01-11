@@ -1,10 +1,10 @@
 <?php
 
-use App\Console\Commands\SendEmployeesSuspendedEmail;
+use App\Console\Commands\SendSuspendedEmployeesEmail;
 use App\Events\EmployeeHiredEvent;
 use App\Events\SuspensionUpdatedEvent;
 use App\Events\EmployeeTerminatedEvent;
-use App\Mail\EmployeesSuspendedMail;
+use App\Mail\SuspendedEmployeesMail;
 use App\Models\Employee;
 use App\Models\Suspension;
 use Illuminate\Support\Facades\Event;
@@ -21,14 +21,14 @@ beforeEach(function () {
 });
 
 test('employees suspended run sucessfully', function () {
-    $this->artisan('dainsys:send-employees-suspended-email')
+    $this->artisan('dainsys:send-suspended-employees-email')
         ->assertSuccessful();
 });
 
 test('command is schedulled for daily at 305 am', function () {
     $addedToScheduler = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
         ->filter(function ($element) {
-            return str($element->command)->contains('dainsys:send-employees-suspended-email');
+            return str($element->command)->contains('dainsys:send-suspended-employees-email');
         })->first();
 
     expect($addedToScheduler)->not->toBeNull();
@@ -45,9 +45,9 @@ test('employees suspended sends email', function () {
         'ends_at' => now()->addDay(),
     ]);
 
-    $this->artisan(SendEmployeesSuspendedEmail::class);
+    $this->artisan(SendSuspendedEmployeesEmail::class);
 
-    Mail::assertQueued(EmployeesSuspendedMail::class);
+    Mail::assertQueued(SuspendedEmployeesMail::class);
 });
 
 test('employees suspended does not sends email if there is not employees suspended', function () {
@@ -55,9 +55,9 @@ test('employees suspended does not sends email if there is not employees suspend
         ->hasHires()
         ->create();
 
-    $this->artisan(SendEmployeesSuspendedEmail::class);
+    $this->artisan(SendSuspendedEmployeesEmail::class);
 
-    Mail::assertNotQueued(EmployeesSuspendedMail::class);
+    Mail::assertNotQueued(SuspendedEmployeesMail::class);
 });
 
 // /** @test */
