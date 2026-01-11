@@ -38,6 +38,7 @@ class EmployeeInfolist
                     ->label('Citizenship'),
                 TextEntry::make('supervisor.name')
                     ->label('Supervisor'),
+                TextEntry::make('internal_id'),
                 TextEntry::make('deleted_at')
                     ->dateTime()
                     ->visible(fn (Employee $record): bool => $record->trashed()),

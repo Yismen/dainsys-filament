@@ -72,6 +72,12 @@ class EmployeeForm
                     ->relationship('citizenship', 'name')
                     ->options(ModelListService::get(Citizenship::class))
                     ->required(),
+                TextInput::make('internal_id')
+                    ->nullable()
+                    ->unique(ignoreRecord: true)
+                    ->minLength(4)
+                    ->maxLength(5)
+                ,
             ]);
     }
 }

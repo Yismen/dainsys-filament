@@ -50,7 +50,7 @@ class Employee extends \App\Models\BaseModels\AppModel
         'gender',
         'has_kids',
         'citizenship_id',
-        // 'punch',
+        'internal_id',
         // 'site_id',
         // 'project_id',
         // 'position_id',

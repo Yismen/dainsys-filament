@@ -60,6 +60,7 @@ beforeEach(function () {
         'gender' => Genders::Male->value,
         'has_kids' => true,
         'citizenship_id' => Citizenship::factory()->create()->id,
+        'internal_id' => '5155',
     ];
 });
 
@@ -209,10 +210,12 @@ test('Employee name must be unique on create and edit pages', function () {
 
     $unique_personal_id = '15166635118';
     $unique_cellphone = '8095551234';
+    $unique_internal_id = '3333';
 
     $existingEmployee = Employee::factory()->create([
         'personal_id' => $unique_personal_id,
         'cellphone' => $unique_cellphone,
+        'internal_id' => $unique_internal_id,
     ]);
 
     // Test CreateEmployee uniqueness validation
@@ -220,11 +223,13 @@ test('Employee name must be unique on create and edit pages', function () {
         ->fillForm([
             'personal_id' => $unique_personal_id, // Invalid: name must be unique
             'cellphone' => $unique_cellphone,
+            'internal_id' => $unique_internal_id,
         ])
         ->call('create')
         ->assertHasFormErrors([
             'personal_id' => 'unique',
             'cellphone' => 'unique',
+            'internal_id' => 'unique',
         ]);
     // Test EditEmployee uniqueness validation
     $employeeToEdit = Employee::factory()->create(['personal_id' => '33333333333', 'cellphone' => '8097778888']);
@@ -232,11 +237,13 @@ test('Employee name must be unique on create and edit pages', function () {
         ->fillForm([
             'personal_id' => $unique_personal_id, // Invalid: name must be unique
             'cellphone' => $unique_cellphone,
+            'internal_id' => $unique_internal_id,
         ])
         ->call('save')
         ->assertHasFormErrors([
             'personal_id' => 'unique',
             'cellphone' => 'unique',
+            'internal_id' => 'unique',
         ]);
 });
 
@@ -249,6 +256,7 @@ it('allows updating Employee without changing name to trigger uniqueness validat
         ->fillForm([
             'personal_id' => '33333333333', // Same personal_id, should not trigger uniqueness error
             'cellphone' => '8097778888', // Same cellphone, should not trigger uniqueness error
+            'internal_id' => '7777', // Same cellphone, should not trigger uniqueness error
         ])
         ->call('save')
         ->assertHasNoErrors();
@@ -257,6 +265,7 @@ it('allows updating Employee without changing name to trigger uniqueness validat
         'id' => $employee->id,
         'personal_id' => '33333333333',
         'cellphone' => '8097778888',
+        'internal_id' => '7777',
     ]);
 });
 

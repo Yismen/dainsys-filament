@@ -56,6 +56,7 @@ test('employee model interacts with employees table', function () {
         'secondary_phone',
         'email',
         'address',
+        'internal_id',
         // 'status',
         'gender',
         'has_kids',

@@ -32,6 +32,7 @@ return new class extends Migration
             $table->string('gender');
             $table->boolean('has_kids')->default(false);
             $table->foreignUuid('citizenship_id')->constrained('citizenships')->cascadeOnDelete();
+            $table->string('internal_id')->nullable()->unique();
             $table->softDeletes();
             $table->timestamps();
         });

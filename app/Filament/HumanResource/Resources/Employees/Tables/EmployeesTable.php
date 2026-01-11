@@ -40,6 +40,9 @@ class EmployeesTable
                 IconColumn::make('has_kids')
                     ->sortable()
                     ->boolean(),
+                TextColumn::make('internal_id')
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('citizenship.name')
                     ->sortable()
                     ->searchable()
