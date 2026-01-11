@@ -20,6 +20,7 @@ class EmployeesTable
         return $table
             ->columns([
                 TextColumn::make('full_name')
+                    ->wrap()
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('personal_id')
