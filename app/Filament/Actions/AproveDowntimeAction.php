@@ -20,6 +20,7 @@ class AproveDowntimeAction
             ->modalHeading(__('Are you sure you want to aprove this downtime?'))
             ->successNotificationTitle('Downtimes aproved!')
             ->authorizeIndividualRecords('aprove')
+            ->deselectRecordsAfterCompletion()
             ->action(function (Downtime $record) {
                 if($record->aprover_id === null) {
                     $record->aprove();
