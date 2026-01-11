@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class EmployeeCreatedMail extends Mailable implements ShouldQueue
+class EmployeeHiredMail extends Mailable implements ShouldQueue
 {
     use Queueable;
     use SerializesModels;
@@ -25,6 +25,6 @@ class EmployeeCreatedMail extends Mailable implements ShouldQueue
     {
         return $this
             ->to(MailingService::subscribers($this))
-            ->markdown('mail.employee-created');
+            ->markdown('mail.employee-hired');
     }
 }

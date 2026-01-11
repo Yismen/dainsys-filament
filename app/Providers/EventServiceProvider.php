@@ -12,7 +12,7 @@ use App\Events\TicketCreatedEvent;
 use App\Events\TicketDeletedEvent;
 use App\Events\TicketReopenedEvent;
 use App\Events\TicketReplyCreatedEvent;
-use App\Listeners\SendEmployeeCreatedEmail;
+use App\Listeners\SendEmployeeHiredEmail;
 use App\Listeners\SendEmployeeReactivatedEmail;
 use App\Listeners\SendEmployeeSuspendedEmail;
 use App\Listeners\SendEmployeeTerminatedEmail;
@@ -39,7 +39,7 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
         EmployeeHiredEvent::class => [
-            SendEmployeeCreatedEmail::class,
+            SendEmployeeHiredEmail::class,
         ],
         SuspensionUpdatedEvent::class => [
             SendEmployeeSuspendedEmail::class,

@@ -3,13 +3,13 @@
 namespace App\Listeners;
 
 use App\Events\EmployeeHiredEvent;
-use App\Mail\EmployeeCreatedMail;
+use App\Mail\EmployeeHiredMail;
 use Illuminate\Support\Facades\Mail;
 
-class SendEmployeeCreatedEmail
+class SendEmployeeHiredEmail
 {
     public function handle(EmployeeHiredEvent $event)
     {
-        Mail::send(new EmployeeCreatedMail($event->hire->employee));
+        Mail::send(new EmployeeHiredMail($event->hire->employee));
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 use App\Events\EmployeeHiredEvent;
-use App\Listeners\SendEmployeeCreatedEmail;
+use App\Listeners\SendEmployeeHiredEmail;
 use Illuminate\Support\Facades\Event;
 
 test('employee created event sends email', function () {
@@ -9,5 +9,5 @@ test('employee created event sends email', function () {
         EmployeeHiredEvent::class,
     ]);
 
-    Event::assertListening(EmployeeHiredEvent::class, SendEmployeeCreatedEmail::class);
+    Event::assertListening(EmployeeHiredEvent::class, SendEmployeeHiredEmail::class);
 });

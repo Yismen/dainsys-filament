@@ -68,7 +68,7 @@ class Employee extends \App\Models\BaseModels\AppModel
 
     protected $dispatchesEvents = [
         // 'saved' => EmployeeSaved::class,
-        // 'created' => EmployeeCreated::class
+        // 'created' => EmployeeHired::class
     ];
 
     protected static function boot()
