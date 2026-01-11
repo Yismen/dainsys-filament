@@ -2,7 +2,7 @@
 
 use App\Console\Commands\SendSuspendedEmployeesEmail;
 use App\Events\EmployeeHiredEvent;
-use App\Events\SuspensionUpdatedEvent;
+use App\Events\EmployeeSuspendedEvent;
 use App\Events\EmployeeTerminatedEvent;
 use App\Mail\SuspendedEmployeesMail;
 use App\Models\Employee;
@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Mail;
 
 beforeEach(function () {
     Event::fake([
-        SuspensionUpdatedEvent::class,
+        EmployeeSuspendedEvent::class,
         EmployeeHiredEvent::class,
         EmployeeTerminatedEvent::class,
     ]);

@@ -1,7 +1,7 @@
 <?php
 
 use App\Events\EmployeeHiredEvent;
-use App\Events\SuspensionUpdatedEvent;
+use App\Events\EmployeeSuspendedEvent;
 use App\Events\EmployeeTerminatedEvent;
 use App\Exceptions\EmployeeCantBeTerminated;
 use App\Exceptions\TerminationDateCantBeLowerThanHireDate;
@@ -16,7 +16,7 @@ beforeEach(function () {
     Event::fake([
         EmployeeTerminatedEvent::class,
         EmployeeHiredEvent::class,
-        SuspensionUpdatedEvent::class,
+        EmployeeSuspendedEvent::class,
     ]);
 });
 

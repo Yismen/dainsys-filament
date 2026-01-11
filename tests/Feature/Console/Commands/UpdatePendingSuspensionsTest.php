@@ -4,7 +4,7 @@ use App\Console\Commands\UpdatePendingSuspensions;
 use App\Enums\EmployeeStatuses;
 use App\Enums\SuspensionStatuses;
 use App\Events\EmployeeHiredEvent;
-use App\Events\SuspensionUpdatedEvent;
+use App\Events\EmployeeSuspendedEvent;
 use App\Events\EmployeeTerminatedEvent;
 use App\Models\Employee;
 use App\Models\Hire;
@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Event;
 beforeEach(function () {
     Event::fake([
         EmployeeHiredEvent::class,
-        SuspensionUpdatedEvent::class,
+        EmployeeSuspendedEvent::class,
         EmployeeTerminatedEvent::class,
     ]);
 });

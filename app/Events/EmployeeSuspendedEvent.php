@@ -6,7 +6,7 @@ use App\Models\Suspension;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class SuspensionUpdatedEvent
+class EmployeeSuspendedEvent
 {
     use Dispatchable;
     use SerializesModels;

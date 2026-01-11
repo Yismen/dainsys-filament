@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Enums\SuspensionStatuses;
-use App\Events\SuspensionUpdatedEvent;
+use App\Events\EmployeeSuspendedEvent;
 use App\Exceptions\SuspensionDateCantBeLowerThanHireDate;
 use App\Models\Traits\BelongsToEmployee;
 use App\Models\Traits\BelongsToSuspensionType;
@@ -24,7 +24,7 @@ class Suspension extends \App\Models\BaseModels\AppModel
     ];
 
     protected $dispatchesEvents = [
-        'saved' => SuspensionUpdatedEvent::class,
+        'created' => EmployeeSuspendedEvent::class,
     ];
 
     protected static function booted()

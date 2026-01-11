@@ -2,7 +2,7 @@
 
 use App\Enums\SuspensionStatuses;
 use App\Events\EmployeeHiredEvent;
-use App\Events\SuspensionUpdatedEvent;
+use App\Events\EmployeeSuspendedEvent;
 use App\Events\EmployeeTerminatedEvent;
 use App\Exceptions\EmployeeCantBeSuspended;
 use App\Exceptions\SuspensionDateCantBeLowerThanHireDate;
@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Event;
 
 beforeEach(function () {
     Event::fake([
-        SuspensionUpdatedEvent::class,
+        EmployeeSuspendedEvent::class,
         EmployeeHiredEvent::class,
         EmployeeTerminatedEvent::class,
     ]);
@@ -62,7 +62,7 @@ test('suspension model fires event when created', function () {
     Hire::factory()->for($employee)->create(['date' => now()->subDay()]);
     Suspension::factory()->for($employee)->create();
 
-    Event::assertDispatched(SuspensionUpdatedEvent::class);
+    Event::assertDispatched(EmployeeSuspendedEvent::class);
 });
 
 test('employees with status of Created cannot be suspended', function () {

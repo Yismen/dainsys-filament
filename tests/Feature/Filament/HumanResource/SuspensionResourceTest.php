@@ -1,7 +1,7 @@
 <?php
 
 use App\Events\EmployeeHiredEvent;
-use App\Events\SuspensionUpdatedEvent;
+use App\Events\EmployeeSuspendedEvent;
 use App\Filament\HumanResource\Resources\Suspensions\Pages\CreateSuspension;
 use App\Filament\HumanResource\Resources\Suspensions\Pages\EditSuspension;
 use App\Filament\HumanResource\Resources\Suspensions\Pages\ListSuspensions;
@@ -25,7 +25,7 @@ beforeEach(function () {
     );
     Event::fake([
         EmployeeHiredEvent::class,
-        SuspensionUpdatedEvent::class,
+        EmployeeSuspendedEvent::class,
     ]);
 
     $employee = Employee::factory()->create();
