@@ -9,7 +9,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('breezy_sessions', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id('id');
             $table->uuidMorphs('authenticatable');
             $table->string('panel_id')->nullable();
             $table->string('guard')->nullable();
