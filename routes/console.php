@@ -1,6 +1,7 @@
 <?php
 
 use App\Console\Commands\Birthdays;
+use App\Console\Commands\ImportPayrollHoursFromProduction;
 use Illuminate\Support\Facades\Schedule;
 use App\Console\Commands\UpdateTicketStatus;
 use App\Console\Commands\LiveVox\PublishingProductionReport;
@@ -16,6 +17,10 @@ Schedule::command(PublishingProductionReport::class, [
     '--subject' => 'Publishing Hourly Production Report',
 
 ])->hourly();
+
+Schedule::command(ImportPayrollHoursFromProduction::class, [
+    'date' => now()->subDay()->format('Y-m-d')
+])->hourlyAt(23);
 
 Schedule::command(UpdateTicketStatus::class)->everyThirtyMinutes();
 
