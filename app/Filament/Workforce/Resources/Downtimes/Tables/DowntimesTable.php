@@ -37,7 +37,7 @@ class DowntimesTable
                     ->sortable()
                     ->wrap()
                     ->searchable(),
-                TextColumn::make('time')
+                TextColumn::make('total_time')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('requester.name')

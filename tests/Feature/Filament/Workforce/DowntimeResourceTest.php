@@ -55,7 +55,7 @@ beforeEach(function () {
         'date' => now(),
         'employee_id' => Employee::factory()->create()->id,
         'campaign_id' => Campaign::factory()->create(['revenue_type' => RevenueTypes::Downtime])->id,
-        'time' => 5,
+        'total_time' => 5,
     ];
 });
 
@@ -135,7 +135,7 @@ test('table shows desired fields', function ($field) {
         // 'employee_id',
         // 'campaign_id',
         // 'downtime_reason_id',
-        'time',
+        'total_time',
         // 'requester_id',
         // 'aprover_id',
         // 'converted_to_payroll_at',
@@ -173,7 +173,7 @@ test('form validation require fields on create and edit pages', function (string
         'employee_id',
         'campaign_id',
         'downtime_reason_id',
-        'time',
+        'total_time',
         // 'requester_id',
         // 'aprover_id',
         // 'converted_to_payroll_at',
@@ -203,7 +203,7 @@ test('form validation require fields on create and edit pages', function (string
 //         'employee_id',
 //         'campaign_id',
 //         'downtime_reason_id',
-//         'time',
+//         'total_time',
 //         'requester_id',
 //         'aprover_id',
 //         'converted_to_payroll_at',

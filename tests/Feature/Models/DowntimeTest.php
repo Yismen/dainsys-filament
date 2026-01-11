@@ -20,7 +20,7 @@ test('downtime model interacts with db table', function () {
         'employee_id',
         'campaign_id',
         'downtime_reason_id',
-        'time',
+        'total_time',
         // 'requester_id',
         // 'aprover_id',
         'converted_to_payroll_at',
@@ -107,3 +107,52 @@ it('throws exception if campaign revenue type is not downtime', function () {
         ->for(Campaign::factory(state: ['revenue_type' => RevenueTypes::LoginTime]))
         ->create();
 })->throws(InvalidDowntimeCampaign::class);
+
+test('unaproved downtimes dont go to productions', function () {
+    $downtime = Downtime::factory()
+        ->create();
+
+    $this->assertDatabaseMissing('productions', [
+        'date' => $downtime->date,
+        'campaign_id' => $downtime->campaign_id,
+        'employee_id' => $downtime->employee_id,
+        'total_time' => $downtime->total_time,
+    ]);
+
+});
+
+test('aproved downtimes are synced to productions', function () {
+    $downtime = Downtime::factory()
+        ->create();
+
+    $this->actingAs(User::factory()->create());
+
+    $downtime->aprove();
+
+    $this->assertDatabaseHas('productions', [
+        'date' => $downtime->date,
+        'campaign_id' => $downtime->campaign_id,
+        'employee_id' => $downtime->employee_id,
+        'total_time' => $downtime->total_time,
+    ]);
+
+});
+
+test('deleted downtimes are synced to productions', function () {
+    $downtime = Downtime::factory()
+        ->create();
+
+    $this->actingAs(User::factory()->create());
+
+    $downtime->aprove();
+
+    $downtime->delete();
+
+    $this->assertDatabaseMissing('productions', [
+        'date' => $downtime->date,
+        'campaign_id' => $downtime->campaign_id,
+        'employee_id' => $downtime->employee_id,
+        'total_time' => $downtime->total_time,
+    ]);
+
+});

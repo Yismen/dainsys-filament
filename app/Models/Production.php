@@ -6,15 +6,18 @@ use App\Casts\AsMoney;
 use App\Enums\RevenueTypes;
 use App\Models\Traits\BelongsToCampaign;
 use App\Models\Traits\BelongsToEmployee;
+use App\Models\Traits\BelongsToProject;
 use App\Models\Traits\BelongsToSupervisor;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class Production extends \App\Models\BaseModels\AppModel
 {
     use BelongsToCampaign;
     use BelongsToEmployee;
     use BelongsToSupervisor;
+    use BelongsToProject;
     use SoftDeletes;
 
     protected $fillable = [
@@ -61,6 +64,9 @@ class Production extends \App\Models\BaseModels\AppModel
             $model->revenue_rate = \in_array('campaign_id', $changed_keys) ?
                 $model->campaign?->revenue_rate :
                 $model->revenue_rate;
+            $model->project_id = \in_array('campaign_id', $changed_keys) ?
+                $model->campaign?->project_id :
+                $model->project_id;
             $model->sph_goal = \in_array('campaign_id', $changed_keys) ?
                 $model->campaign?->sph_goal :
                 $model->sph_goal;

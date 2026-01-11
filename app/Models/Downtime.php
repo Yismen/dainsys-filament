@@ -2,15 +2,17 @@
 
 namespace App\Models;
 
+use App\Models\Production;
 use App\Enums\RevenueTypes;
-use App\Exceptions\InvalidDowntimeCampaign;
-use App\Models\Traits\BelongsToCampaign;
-use App\Models\Traits\BelongsToDowntimeReason;
-use App\Models\Traits\BelongsToEmployee;
 use App\Models\Traits\HasManyComments;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\Traits\BelongsToCampaign;
+use App\Models\Traits\BelongsToEmployee;
+use App\Exceptions\InvalidDowntimeCampaign;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Traits\BelongsToDowntimeReason;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\DB;
 
 class Downtime extends \App\Models\BaseModels\AppModel
 {
@@ -28,7 +30,7 @@ class Downtime extends \App\Models\BaseModels\AppModel
         'employee_id',
         'campaign_id',
         'downtime_reason_id',
-        'time',
+        'total_time',
         // 'requester_id',
         // 'aprover_id',
         'converted_to_payroll_at',
@@ -64,6 +66,14 @@ class Downtime extends \App\Models\BaseModels\AppModel
 
             $downtime->saveQuietly();
         });
+
+        static::softDeleted(function (Downtime $downtime) {
+            $downtime->unAprove();
+        });
+
+        static::deleted(function (Downtime $downtime) {
+            $downtime->unAprove();
+        });
     }
 
     public function requester(): BelongsTo
@@ -78,8 +88,41 @@ class Downtime extends \App\Models\BaseModels\AppModel
 
     public function aprove()
     {
-        $this->aprover_id = auth()->user()?->id;
+        DB::transaction(function () {
+            $this->aprover_id = auth()->user()->id;
+
+            $this->saveQuietly();
+
+            Production::updateOrCreate(
+                [
+                    'date' => $this->date,
+                    'campaign_id' => $this->campaign_id,
+                    'employee_id' => $this->employee_id,
+                ],
+                [
+                    'total_time' => $this->total_time,
+                ]
+            );
+        });
+    }
+
+    public function unAprove()
+    {
+        $this->aprover_id = null;
 
         $this->saveQuietly();
+
+        $this->removeFromProduction();
+    }
+
+    protected function removeFromProduction()
+    {
+        Production::query()
+            ->whereDate('date', $this->date)
+            ->where('campaign_id', $this->campaign_id)
+            ->where('employee_id', $this->employee_id)
+            ->first()
+            ?->forceDelete();
+
     }
 }

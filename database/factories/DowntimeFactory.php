@@ -23,9 +23,18 @@ class DowntimeFactory extends Factory
             'employee_id' => \App\Models\Employee::factory(),
             'campaign_id' => \App\Models\Campaign::factory(state: ['revenue_type' => RevenueTypes::Downtime]),
             'downtime_reason_id' => \App\Models\DowntimeReason::factory(),
-            'time' => 4,
+            'total_time' => 4,
             // 'requester_id' => User::factory(),
             // 'aprover_id' => User::factory(),
         ];
+    }
+
+    public function aproved(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'aprover_id' => User::factory(),
+            ];
+        });
     }
 }

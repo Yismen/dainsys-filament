@@ -8,6 +8,7 @@ use App\Models\Supervisor;
 use App\Enums\RevenueTypes;
 use Illuminate\Support\Carbon;
 use App\Events\EmployeeHiredEvent;
+use App\Models\Project;
 use Illuminate\Support\Facades\Event;
 
 beforeEach(function () {
@@ -77,6 +78,7 @@ test('production model belongs to relationship', function (string $modelClass, s
     [Employee::class, 'employee'],
     [Campaign::class, 'campaign'],
     [Supervisor::class, 'supervisor'],
+    [Project::class, 'project'],
 ]);
 
 it('updates revenue type and revenue rate and sph_goal based on the campaign when created', function () {

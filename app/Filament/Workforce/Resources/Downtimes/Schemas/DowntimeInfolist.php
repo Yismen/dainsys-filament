@@ -26,7 +26,7 @@ class DowntimeInfolist
                     ->label('Campaign'),
                 TextEntry::make('downtimeReason.name')
                     ->label('Downtime reason'),
-                TextEntry::make('time')
+                TextEntry::make('total_time')
                     ->numeric(),
                 TextEntry::make('requester.name')
                     ->label('Requester')

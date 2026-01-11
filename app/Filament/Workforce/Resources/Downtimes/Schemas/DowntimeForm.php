@@ -41,7 +41,7 @@ class DowntimeForm
                     ->options(ModelListService::get(model: DowntimeReason::query()))
                     ->searchable()
                     ->required(),
-                TextInput::make('time')
+                TextInput::make('total_time')
                     ->required()
                     ->numeric(),
             ]);
