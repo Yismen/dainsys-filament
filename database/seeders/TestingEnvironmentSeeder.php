@@ -37,7 +37,7 @@ class TestingEnvironmentSeeder extends Seeder
 
         Client::factory()->count(5)->create();
 
-        (array)$user_data = [
+        (array) $user_data = [
             'email' => 'yismen.jorge@gmail.com',
             'name' => 'Yismen Jorge',
         ];
@@ -56,7 +56,7 @@ class TestingEnvironmentSeeder extends Seeder
         $downtimeSource = Source::query()->where('name', 'like', 'Downtime')->first();
         $downtimeCampaign = Campaign::factory()->for($downtimeSource)->create(['revenue_type' => RevenueTypes::Downtime]);
 
-        foreach(Employee::take(5)->get() as $employee) {
+        foreach (Employee::take(5)->get() as $employee) {
             Production::factory()->for($employee)->create();
             Downtime::factory()->for($employee)->for($downtimeCampaign)->create();
         }

@@ -3,7 +3,6 @@
 namespace App\Filament\Workforce\Resources\Employees\Schemas;
 
 use App\Models\Employee;
-use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 

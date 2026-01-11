@@ -2,19 +2,19 @@
 
 namespace App\Filament\Workforce\Resources\Productions\Tables;
 
-use Filament\Tables\Table;
-use Filament\Actions\EditAction;
-use Filament\Actions\ViewAction;
-use Filament\Actions\ImportAction;
-use Filament\Support\Colors\Color;
+use App\Filament\Imports\ProductionImporter;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\ForceDeleteBulkAction;
+use Filament\Actions\ImportAction;
 use Filament\Actions\RestoreBulkAction;
+use Filament\Actions\ViewAction;
+use Filament\Support\Colors\Color;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
-use Filament\Actions\ForceDeleteBulkAction;
-use App\Filament\Imports\ProductionImporter;
-use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Table;
 
 class ProductionsTable
 {
@@ -25,7 +25,7 @@ class ProductionsTable
                 ImportAction::make()
                     ->importer(ProductionImporter::class)
                     ->color(Color::Indigo)
-                    ->icon(Heroicon::ArrowUpTray)
+                    ->icon(Heroicon::ArrowUpTray),
             ])
             ->columns([
                 TextColumn::make('date')

@@ -1,23 +1,18 @@
 <?php
 
-use App\Models\Hire;
-use App\Models\User;
+use App\Filament\Workforce\Resources\Productions\Pages\CreateProduction;
+use App\Filament\Workforce\Resources\Productions\Pages\EditProduction;
+use App\Filament\Workforce\Resources\Productions\Pages\ListProductions;
+use App\Filament\Workforce\Resources\Productions\Pages\ViewProduction;
+use App\Models\Campaign;
 use App\Models\Employee;
 use App\Models\Production;
+use App\Models\User;
 use Filament\Facades\Filament;
-use function Pest\Laravel\get;
-use App\Events\EmployeeHiredEvent;
-use function Pest\Laravel\actingAs;
-use function Pest\Livewire\livewire;
-use Illuminate\Support\Facades\Event;
-use App\Events\ProductionUpdatedEvent;
 
-use App\Filament\Workforce\Resources\Productions\Pages\EditProduction;
-use App\Filament\Workforce\Resources\Productions\Pages\ViewProduction;
-use App\Filament\Workforce\Resources\Productions\Pages\ListProductions;
-use App\Filament\Workforce\Resources\Productions\Pages\CreateProduction;
-use App\Models\Campaign;
-use App\Models\Supervisor;
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
+use function Pest\Livewire\livewire;
 
 beforeEach(function () {
     // Seed roles/permissions if applicable
@@ -133,13 +128,13 @@ test('table shows desired fields', function ($field) {
         ->assertSee($production->$field);
 
 })->with([
-        // 'date',
-        // 'employee_id',
-        // 'campaign_id' ,
-        'conversions',
-        'total_time',
-        'production_time',
-        'talk_time',
+    // 'date',
+    // 'employee_id',
+    // 'campaign_id' ,
+    'conversions',
+    'total_time',
+    'production_time',
+    'talk_time',
 ]);
 
 test('edit Production page works correctly', function () {
@@ -162,7 +157,6 @@ test('edit Production page works correctly', function () {
 test('form validation require fields on create and edit pages', function (string $field) {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Production'));
 
-
     // Test EditProduction validation
     $production = Production::factory()->create();
     livewire(EditProduction::class, ['record' => $production->getKey()])
@@ -170,13 +164,13 @@ test('form validation require fields on create and edit pages', function (string
         ->call('save')
         ->assertHasFormErrors([$field => 'required']);
 })->with([
-        'date',
-        'employee_id',
-        'campaign_id' ,
-        'conversions',
-        'total_time',
-        'production_time',
-        'talk_time',
+    'date',
+    'employee_id',
+    'campaign_id',
+    'conversions',
+    'total_time',
+    'production_time',
+    'talk_time',
 ]);
 
 // test('fields must be unique on create and edit pages', function (string $field) {
@@ -225,7 +219,6 @@ test('form validation require fields on create and edit pages', function (string
 
 // it('autofocus the employee_id field on create and edit pages', function () {
 //     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Production'));
-
 
 //     // Test EditProduction autofocus
 //     $production = Production::factory()->create();

@@ -2,16 +2,16 @@
 
 namespace App\Filament\HumanResource\Resources\Terminations\Schemas;
 
-use App\Models\Employee;
-use Filament\Schemas\Schema;
 use App\Enums\EmployeeStatuses;
 use App\Enums\TerminationTypes;
+use App\Models\Employee;
 use App\Services\ModelListService;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Toggle;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Schema;
 
 class TerminationForm
 {
@@ -25,11 +25,11 @@ class TerminationForm
                             model: Employee::query()
                                 ->whereIn('status', [
                                     EmployeeStatuses::Hired,
-                                    EmployeeStatuses::Terminated
+                                    EmployeeStatuses::Terminated,
                                 ]),
                             value_field: 'full_name'
-                            )
                         )
+                    )
                     ->searchable()
                     ->live()
                     ->required(),

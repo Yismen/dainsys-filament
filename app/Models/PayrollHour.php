@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
+use App\Models\Traits\BelongsToEmployee;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
-use App\Models\Traits\BelongsToEmployee;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class PayrollHour extends \App\Models\BaseModels\AppModel
 {
@@ -43,7 +43,7 @@ class PayrollHour extends \App\Models\BaseModels\AppModel
         parent::boot();
 
         static::saved(function (PayrollHour $payrollHour) {
-            $isHoliday = Cache::remember('date_' . $payrollHour->date->format('Y-m-d') . 'is_a_holiday', now()->addHour(), function () use ($payrollHour) {
+            $isHoliday = Cache::remember('date_'.$payrollHour->date->format('Y-m-d').'is_a_holiday', now()->addHour(), function () use ($payrollHour) {
                 return Holiday::query()->whereDate('date', $payrollHour->date)->exists();
             });
 
@@ -52,7 +52,7 @@ class PayrollHour extends \App\Models\BaseModels\AppModel
             $payrollHour->is_sunday = $payrollHour->date->isSunday();
             $payrollHour->is_holiday = false;
 
-            if($isHoliday) {
+            if ($isHoliday) {
                 $payrollHour->is_holiday = true;
                 $payrollHour->regular_hours = 0;
                 $payrollHour->holiday_hours = $payrollHour->total_hours;

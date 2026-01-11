@@ -1,17 +1,16 @@
 <?php
 
-use App\Models\Hire;
-use App\Models\Employee;
-use App\Models\Suspension;
-use App\Models\Termination;
+use App\Console\Commands\UpdatePendingSuspensions;
 use App\Enums\EmployeeStatuses;
 use App\Enums\SuspensionStatuses;
 use App\Events\EmployeeHiredEvent;
-use Illuminate\Support\Facades\Event;
 use App\Events\SuspensionUpdatedEvent;
 use App\Events\TerminationCreatedEvent;
-use App\Console\Commands\UpdatePendingSuspensions;
-use App\Console\Commands\UpdateEmployeeSuspensions;
+use App\Models\Employee;
+use App\Models\Hire;
+use App\Models\Suspension;
+use App\Models\Termination;
+use Illuminate\Support\Facades\Event;
 
 beforeEach(function () {
     Event::fake([
@@ -93,7 +92,6 @@ test('It change pending suspensions to status Current', function () {
     expect($suspension->fresh()->status)
         ->toBe(SuspensionStatuses::Current);
 });
-
 
 test('inactive employees are ignrored', function () {
     $employee = Employee::factory()->create();

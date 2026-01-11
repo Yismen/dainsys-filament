@@ -19,7 +19,7 @@ class DowntimeFactory extends Factory
     public function definition(): array
     {
         return [
-            'date' =>  now()->toDateString(),
+            'date' => now()->toDateString(),
             'employee_id' => \App\Models\Employee::factory(),
             'campaign_id' => \App\Models\Campaign::factory(state: ['revenue_type' => RevenueTypes::Downtime]),
             'downtime_reason_id' => \App\Models\DowntimeReason::factory(),

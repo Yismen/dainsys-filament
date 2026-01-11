@@ -1,22 +1,16 @@
 <?php
 
-use App\Models\Hire;
-use App\Models\User;
-use App\Models\Employee;
-use App\Models\Source;
-use App\Models\SourceType;
-use Filament\Facades\Filament;
-use function Pest\Laravel\get;
-use App\Events\EmployeeHiredEvent;
-use function Pest\Laravel\actingAs;
-use function Pest\Livewire\livewire;
-use Illuminate\Support\Facades\Event;
-use App\Events\SourceUpdatedEvent;
-
-use App\Filament\Workforce\Resources\Sources\Pages\EditSource;
-use App\Filament\Workforce\Resources\Sources\Pages\ViewSource;
-use App\Filament\Workforce\Resources\Sources\Pages\ListSources;
 use App\Filament\Workforce\Resources\Sources\Pages\CreateSource;
+use App\Filament\Workforce\Resources\Sources\Pages\EditSource;
+use App\Filament\Workforce\Resources\Sources\Pages\ListSources;
+use App\Filament\Workforce\Resources\Sources\Pages\ViewSource;
+use App\Models\Source;
+use App\Models\User;
+use Filament\Facades\Filament;
+
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
+use function Pest\Livewire\livewire;
 
 beforeEach(function () {
     // Seed roles/permissions if applicable
@@ -193,7 +187,7 @@ test('Source fields must be unique on create and edit pages', function (string $
         ->call('save')
         ->assertHasFormErrors([$field => 'unique']);
 })->with([
-    'name'
+    'name',
 ]);
 
 it('allows updating Source without changing field to trigger uniqueness validation', function (string $field) {

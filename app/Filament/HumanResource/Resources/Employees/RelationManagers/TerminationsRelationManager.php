@@ -2,10 +2,9 @@
 
 namespace App\Filament\HumanResource\Resources\Employees\RelationManagers;
 
-use Filament\Tables\Table;
-use Filament\Actions\EditAction;
-use Filament\Resources\RelationManagers\RelationManager;
 use App\Filament\HumanResource\Resources\Terminations\TerminationResource;
+use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Tables\Table;
 
 class TerminationsRelationManager extends RelationManager
 {

@@ -6,11 +6,10 @@ use App\Casts\AsMoney;
 use App\Enums\RevenueTypes;
 use App\Models\Traits\BelongsToCampaign;
 use App\Models\Traits\BelongsToEmployee;
-use App\Models\Traits\BelongsToProject;
 use App\Models\Traits\BelongsToSupervisor;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Production extends \App\Models\BaseModels\AppModel
 {
@@ -71,7 +70,7 @@ class Production extends \App\Models\BaseModels\AppModel
                     $model->revenue_type;
             $model->billable_time = $model->calculateBillableHours();
             $model->revenue = $model->calculateRevenue();
-            $model->unique_id = join('_', [
+            $model->unique_id = implode('_', [
                 $model->date->format('Y-m-d'),
                 $model->campaign_id,
                 $model->employee_id,

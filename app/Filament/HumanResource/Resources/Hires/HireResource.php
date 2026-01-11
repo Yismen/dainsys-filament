@@ -2,24 +2,24 @@
 
 namespace App\Filament\HumanResource\Resources\Hires;
 
-use BackedEnum;
-use App\Models\Hire;
-use Filament\Tables\Table;
-use Filament\Schemas\Schema;
-use Filament\Resources\Resource;
-use Filament\Support\Icons\Heroicon;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Contracts\Support\Htmlable;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\HumanResource\Resources\Hires\Pages\EditHire;
-use App\Filament\HumanResource\Resources\Hires\Pages\ViewHire;
-use App\Filament\HumanResource\Resources\Hires\Pages\ListHires;
-use App\Filament\HumanResource\Resources\Hires\Pages\CreateHire;
-use App\Filament\HumanResource\Resources\Hires\Schemas\HireForm;
-use App\Filament\HumanResource\Resources\Hires\Tables\HiresTable;
-use App\Filament\HumanResource\Resources\Hires\Schemas\HireInfolist;
 use App\Filament\HumanResource\Clusters\EmployeesManagement\EmployeesManagementCluster;
+use App\Filament\HumanResource\Resources\Hires\Pages\CreateHire;
+use App\Filament\HumanResource\Resources\Hires\Pages\EditHire;
+use App\Filament\HumanResource\Resources\Hires\Pages\ListHires;
+use App\Filament\HumanResource\Resources\Hires\Pages\ViewHire;
+use App\Filament\HumanResource\Resources\Hires\Schemas\HireForm;
+use App\Filament\HumanResource\Resources\Hires\Schemas\HireInfolist;
+use App\Filament\HumanResource\Resources\Hires\Tables\HiresTable;
+use App\Models\Hire;
+use BackedEnum;
+use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Table;
+use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class HireResource extends Resource
 {
@@ -33,7 +33,7 @@ class HireResource extends Resource
 
     protected static ?int $navigationSort = 2;
 
-    public static function getRecordTitle(?Model $record): string | Htmlable | null
+    public static function getRecordTitle(?Model $record): string|Htmlable|null
     {
         return $record ? $record->employee->full_name : static::getModelLabel();
     }

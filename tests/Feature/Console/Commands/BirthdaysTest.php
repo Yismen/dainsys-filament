@@ -7,10 +7,10 @@ use App\Events\TerminationCreatedEvent;
 use App\Mail\BirthdaysMail;
 use App\Models\Employee;
 use App\Models\Hire;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Console\Scheduling\Event as SchedulingEvent;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Console\Scheduling\Event as SchedulingEvent;
+use Illuminate\Support\Facades\Mail;
 
 beforeEach(function () {
     Event::fake([
@@ -29,7 +29,7 @@ it('trows exception if report type is not registered in the command', function (
 
 })->throws(Exception::class);
 
-test('birthdays command run sucessfully with type=', function (string $type ) {
+test('birthdays command run sucessfully with type=', function (string $type) {
     $this->artisan('dainsys:birthdays', ['type' => $type])
         ->assertSuccessful();
 })->with([
@@ -38,14 +38,14 @@ test('birthdays command run sucessfully with type=', function (string $type ) {
     'tomorrow',
     'this_month',
     'next_month',
-    'last_month'
+    'last_month',
 ]);
 
 it('runs daily at 4:00 am with type=today', function (string $type, string $expression) {
     $schedule = app()->make(Schedule::class);
 
     $command = collect($schedule->events())->filter(function (SchedulingEvent $event) use ($type) {
-        return stripos($event->command, 'dainsys:birthdays type="' . $type .'"');
+        return stripos($event->command, 'dainsys:birthdays type="'.$type.'"');
     })->first();
 
     expect($command)->not->toBeNull();

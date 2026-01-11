@@ -4,16 +4,13 @@ namespace App\Filament\Workforce\Resources\Employees\Schemas;
 
 use App\Enums\Genders;
 use App\Models\Citizenship;
-use Filament\Schemas\Schema;
-use App\Enums\PersonalIdTypes;
-use App\Enums\EmployeeStatuses;
 use App\Services\ModelListService;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Toggle;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Schemas\Schema;
 
 class EmployeeForm
 {

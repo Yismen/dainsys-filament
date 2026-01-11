@@ -3,17 +3,17 @@
 namespace App\Filament\Actions;
 
 use App\Models\Employee;
-use Filament\Actions\Action;
 use App\Models\SuspensionType;
-use Filament\Support\Enums\Size;
 use App\Services\ModelListService;
-use Filament\Support\Colors\Color;
+use Filament\Actions\Action;
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Notifications\Notification;
 use Filament\Schemas\Components\Section;
-use Filament\Forms\Components\DateTimePicker;
 use Filament\Schemas\Components\Utilities\Get;
+use Filament\Support\Colors\Color;
+use Filament\Support\Enums\Size;
 
 class SuspendEmployeeAction
 {
@@ -34,7 +34,7 @@ class SuspendEmployeeAction
                                 ->searchable()
                                 ->required(),
                             DateTimePicker::make('starts_at')
-                                ->default(function(Get $get) {
+                                ->default(function (Get $get) {
                                     $date = now();
                                     $latestHire = Employee::query()
                                         ->find($get('employee_id'))?->latestHire()->date;
@@ -55,7 +55,7 @@ class SuspendEmployeeAction
                             Textarea::make('comment')
                                 ->required()
                                 ->columnSpanFull(),
-                        ])
+                        ]),
                 ])->action(function (Employee $record, $data) {
                     $record->suspensions()->create($data);
 

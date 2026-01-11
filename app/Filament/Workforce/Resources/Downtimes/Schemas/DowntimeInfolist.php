@@ -3,9 +3,9 @@
 namespace App\Filament\Workforce\Resources\Downtimes\Schemas;
 
 use App\Models\Downtime;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 use Filament\Support\Colors\Color;
-use Filament\Infolists\Components\TextEntry;
 
 class DowntimeInfolist
 {

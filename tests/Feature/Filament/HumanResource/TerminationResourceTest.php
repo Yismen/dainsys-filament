@@ -1,23 +1,22 @@
 <?php
 
 use App\Enums\TerminationTypes;
-use App\Models\Hire;
-use App\Models\User;
-use App\Models\Employee;
-use App\Models\Termination;
-use App\Models\TerminationType;
-use Filament\Facades\Filament;
-use function Pest\Laravel\get;
 use App\Events\EmployeeHiredEvent;
-use function Pest\Laravel\actingAs;
-use function Pest\Livewire\livewire;
-use Illuminate\Support\Facades\Event;
 use App\Events\TerminationCreatedEvent;
-
-use App\Filament\HumanResource\Resources\Terminations\Pages\EditTermination;
-use App\Filament\HumanResource\Resources\Terminations\Pages\ViewTermination;
-use App\Filament\HumanResource\Resources\Terminations\Pages\ListTerminations;
 use App\Filament\HumanResource\Resources\Terminations\Pages\CreateTermination;
+use App\Filament\HumanResource\Resources\Terminations\Pages\EditTermination;
+use App\Filament\HumanResource\Resources\Terminations\Pages\ListTerminations;
+use App\Filament\HumanResource\Resources\Terminations\Pages\ViewTermination;
+use App\Models\Employee;
+use App\Models\Hire;
+use App\Models\Termination;
+use App\Models\User;
+use Filament\Facades\Filament;
+use Illuminate\Support\Facades\Event;
+
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
+use function Pest\Livewire\livewire;
 
 beforeEach(function () {
     // Seed roles/permissions if applicable

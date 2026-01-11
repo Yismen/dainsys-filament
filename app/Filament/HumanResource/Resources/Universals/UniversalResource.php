@@ -2,22 +2,22 @@
 
 namespace App\Filament\HumanResource\Resources\Universals;
 
-use BackedEnum;
+use App\Filament\HumanResource\Clusters\EmployeesManagement\EmployeesManagementCluster;
+use App\Filament\HumanResource\Resources\Universals\Pages\CreateUniversal;
+use App\Filament\HumanResource\Resources\Universals\Pages\EditUniversal;
+use App\Filament\HumanResource\Resources\Universals\Pages\ListUniversals;
+use App\Filament\HumanResource\Resources\Universals\Pages\ViewUniversal;
+use App\Filament\HumanResource\Resources\Universals\Schemas\UniversalForm;
+use App\Filament\HumanResource\Resources\Universals\Schemas\UniversalInfolist;
+use App\Filament\HumanResource\Resources\Universals\Tables\UniversalsTable;
 use App\Models\Universal;
-use Filament\Tables\Table;
-use Filament\Schemas\Schema;
+use BackedEnum;
 use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\HumanResource\Resources\Universals\Pages\EditUniversal;
-use App\Filament\HumanResource\Resources\Universals\Pages\ViewUniversal;
-use App\Filament\HumanResource\Resources\Universals\Pages\ListUniversals;
-use App\Filament\HumanResource\Resources\Universals\Pages\CreateUniversal;
-use App\Filament\HumanResource\Resources\Universals\Schemas\UniversalForm;
-use App\Filament\HumanResource\Resources\Universals\Tables\UniversalsTable;
-use App\Filament\HumanResource\Resources\Universals\Schemas\UniversalInfolist;
-use App\Filament\HumanResource\Clusters\EmployeesManagement\EmployeesManagementCluster;
 
 class UniversalResource extends Resource
 {

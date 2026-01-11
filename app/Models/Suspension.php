@@ -42,7 +42,7 @@ class Suspension extends \App\Models\BaseModels\AppModel
         });
 
         static::saved(function (Suspension $suspension) {
-            if($suspension->starts_at > now()) {
+            if ($suspension->starts_at > now()) {
                 $suspension->status = SuspensionStatuses::Pending;
             } elseif ($suspension->ends_at < now()) {
                 $suspension->status = SuspensionStatuses::Completed;

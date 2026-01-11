@@ -2,22 +2,22 @@
 
 namespace App\Filament\HumanResource\Resources\Departments;
 
-use BackedEnum;
+use App\Filament\HumanResource\Clusters\HrManagement\HrManagementCluster;
+use App\Filament\HumanResource\Resources\Departments\Pages\CreateDepartment;
+use App\Filament\HumanResource\Resources\Departments\Pages\EditDepartment;
+use App\Filament\HumanResource\Resources\Departments\Pages\ListDepartments;
+use App\Filament\HumanResource\Resources\Departments\Pages\ViewDepartment;
+use App\Filament\HumanResource\Resources\Departments\Schemas\DepartmentForm;
+use App\Filament\HumanResource\Resources\Departments\Schemas\DepartmentInfolist;
+use App\Filament\HumanResource\Resources\Departments\Tables\DepartmentsTable;
 use App\Models\Department;
-use Filament\Tables\Table;
-use Filament\Schemas\Schema;
+use BackedEnum;
 use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\HumanResource\Clusters\HrManagement\HrManagementCluster;
-use App\Filament\HumanResource\Resources\Departments\Pages\EditDepartment;
-use App\Filament\HumanResource\Resources\Departments\Pages\ViewDepartment;
-use App\Filament\HumanResource\Resources\Departments\Pages\ListDepartments;
-use App\Filament\HumanResource\Resources\Departments\Pages\CreateDepartment;
-use App\Filament\HumanResource\Resources\Departments\Schemas\DepartmentForm;
-use App\Filament\HumanResource\Resources\Departments\Tables\DepartmentsTable;
-use App\Filament\HumanResource\Resources\Departments\Schemas\DepartmentInfolist;
 
 class DepartmentResource extends Resource
 {

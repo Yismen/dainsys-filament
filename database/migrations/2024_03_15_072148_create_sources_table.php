@@ -20,7 +20,7 @@ return new class extends Migration
             $table->softDeletes();
         });
 
-        if(app()->environment() !== 'testing') {
+        if (app()->environment() !== 'testing') {
             $this->seedSourcesTable();
         }
     }

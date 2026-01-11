@@ -2,24 +2,24 @@
 
 namespace App\Filament\HumanResource\Resources\Suspensions;
 
-use BackedEnum;
-use App\Models\Suspension;
-use Filament\Tables\Table;
-use Filament\Schemas\Schema;
-use Filament\Resources\Resource;
-use Filament\Support\Icons\Heroicon;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Contracts\Support\Htmlable;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\HumanResource\Resources\Suspensions\Pages\EditSuspension;
-use App\Filament\HumanResource\Resources\Suspensions\Pages\ViewSuspension;
-use App\Filament\HumanResource\Resources\Suspensions\Pages\ListSuspensions;
-use App\Filament\HumanResource\Resources\Suspensions\Pages\CreateSuspension;
-use App\Filament\HumanResource\Resources\Suspensions\Schemas\SuspensionForm;
-use App\Filament\HumanResource\Resources\Suspensions\Tables\SuspensionsTable;
-use App\Filament\HumanResource\Resources\Suspensions\Schemas\SuspensionInfolist;
 use App\Filament\HumanResource\Clusters\EmployeesManagement\EmployeesManagementCluster;
+use App\Filament\HumanResource\Resources\Suspensions\Pages\CreateSuspension;
+use App\Filament\HumanResource\Resources\Suspensions\Pages\EditSuspension;
+use App\Filament\HumanResource\Resources\Suspensions\Pages\ListSuspensions;
+use App\Filament\HumanResource\Resources\Suspensions\Pages\ViewSuspension;
+use App\Filament\HumanResource\Resources\Suspensions\Schemas\SuspensionForm;
+use App\Filament\HumanResource\Resources\Suspensions\Schemas\SuspensionInfolist;
+use App\Filament\HumanResource\Resources\Suspensions\Tables\SuspensionsTable;
+use App\Models\Suspension;
+use BackedEnum;
+use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Table;
+use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class SuspensionResource extends Resource
 {
@@ -33,7 +33,7 @@ class SuspensionResource extends Resource
 
     protected static ?int $navigationSort = 2;
 
-    public static function getRecordTitle(?Model $record): string | Htmlable | null
+    public static function getRecordTitle(?Model $record): string|Htmlable|null
     {
         return $record ? $record->employee->full_name : static::getModelLabel();
     }

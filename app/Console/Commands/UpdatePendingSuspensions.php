@@ -4,11 +4,8 @@ namespace App\Console\Commands;
 
 use App\Enums\EmployeeStatuses;
 use App\Enums\SuspensionStatuses;
-use App\Models\Employee;
 use App\Models\Suspension;
 use Illuminate\Console\Command;
-use App\Services\EmployeesNeedingSuspension;
-use App\Services\EmployeesNeedingRemoveSuspension;
 
 class UpdatePendingSuspensions extends Command
 {
@@ -53,7 +50,7 @@ class UpdatePendingSuspensions extends Command
                     ->orWhere('status', SuspensionStatuses::Pending);
             })
             ->get()
-            ->each(fn(Suspension $suspension) => $suspension->touch());
+            ->each(fn (Suspension $suspension) => $suspension->touch());
 
         $this->info("A total of {$suspensions->count()} were updated");
 

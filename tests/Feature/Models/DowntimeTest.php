@@ -1,14 +1,14 @@
 <?php
 
-use App\Models\User;
+use App\Enums\RevenueTypes;
+use App\Exceptions\InvalidDowntimeCampaign;
 use App\Models\Campaign;
 use App\Models\Downtime;
-use App\Models\Employee;
-use App\Enums\RevenueTypes;
 use App\Models\DowntimeReason;
-use Illuminate\Support\Carbon;
-use App\Exceptions\InvalidDowntimeCampaign;
+use App\Models\Employee;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 test('downtime model interacts with db table', function () {
     $data = Downtime::factory()->make();
@@ -91,11 +91,11 @@ it('calculates unique_id field', function () {
         ->for($employee)
         ->for($campaign)
         ->create([
-            'date' => $date
+            'date' => $date,
         ]);
 
     expect($downtime->unique_id)
-        ->toBe(join('_', [
+        ->toBe(implode('_', [
             $date->format('Y-m-d'),
             $campaign->id,
             $employee->id,
@@ -103,7 +103,7 @@ it('calculates unique_id field', function () {
 });
 
 it('throws exception if campaign revenue type is not downtime', function () {
-   Downtime::factory()
+    Downtime::factory()
         ->for(Campaign::factory(state: ['revenue_type' => RevenueTypes::LoginTime]))
         ->create();
 })->throws(InvalidDowntimeCampaign::class);

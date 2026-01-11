@@ -2,22 +2,22 @@
 
 namespace App\Filament\HumanResource\Resources\Supervisors;
 
-use BackedEnum;
+use App\Filament\HumanResource\Clusters\EmployeesManagement\EmployeesManagementCluster;
+use App\Filament\HumanResource\Resources\Supervisors\Pages\CreateSupervisor;
+use App\Filament\HumanResource\Resources\Supervisors\Pages\EditSupervisor;
+use App\Filament\HumanResource\Resources\Supervisors\Pages\ListSupervisors;
+use App\Filament\HumanResource\Resources\Supervisors\Pages\ViewSupervisor;
+use App\Filament\HumanResource\Resources\Supervisors\Schemas\SupervisorForm;
+use App\Filament\HumanResource\Resources\Supervisors\Schemas\SupervisorInfolist;
+use App\Filament\HumanResource\Resources\Supervisors\Tables\SupervisorsTable;
 use App\Models\Supervisor;
-use Filament\Tables\Table;
-use Filament\Schemas\Schema;
+use BackedEnum;
 use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\HumanResource\Resources\Supervisors\Pages\EditSupervisor;
-use App\Filament\HumanResource\Resources\Supervisors\Pages\ViewSupervisor;
-use App\Filament\HumanResource\Resources\Supervisors\Pages\ListSupervisors;
-use App\Filament\HumanResource\Resources\Supervisors\Pages\CreateSupervisor;
-use App\Filament\HumanResource\Resources\Supervisors\Schemas\SupervisorForm;
-use App\Filament\HumanResource\Resources\Supervisors\Tables\SupervisorsTable;
-use App\Filament\HumanResource\Resources\Supervisors\Schemas\SupervisorInfolist;
-use App\Filament\HumanResource\Clusters\EmployeesManagement\EmployeesManagementCluster;
 
 class SupervisorResource extends Resource
 {

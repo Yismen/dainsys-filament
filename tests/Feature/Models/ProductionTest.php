@@ -1,14 +1,14 @@
 <?php
 
-use App\Models\Hire;
+use App\Enums\RevenueTypes;
+use App\Events\EmployeeHiredEvent;
 use App\Models\Campaign;
 use App\Models\Employee;
+use App\Models\Hire;
 use App\Models\Production;
-use App\Models\Supervisor;
-use App\Enums\RevenueTypes;
-use Illuminate\Support\Carbon;
-use App\Events\EmployeeHiredEvent;
 use App\Models\Project;
+use App\Models\Supervisor;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Event;
 
 beforeEach(function () {
@@ -148,9 +148,9 @@ it('updates supervisor id based on employee when created', function () {
     Hire::factory()->for($employee)->for($supervisor)->create();
     $production = Production::factory()
         ->create([
-        'employee_id' => $employee->id,
-        // 'supervisor_id' => null,
-    ]);
+            'employee_id' => $employee->id,
+            // 'supervisor_id' => null,
+        ]);
 
     expect($production->supervisor_id)->toBe($production->employee->supervisor->id);
 });
@@ -275,11 +275,11 @@ it('calculates unique_id field', function () {
         ->for($employee)
         ->for($campaign)
         ->create([
-            'date' => $date
+            'date' => $date,
         ]);
 
     expect($production->unique_id)
-        ->toBe(join('_', [
+        ->toBe(implode('_', [
             $date->format('Y-m-d'),
             $campaign->id,
             $employee->id,

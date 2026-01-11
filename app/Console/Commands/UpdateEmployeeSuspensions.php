@@ -3,9 +3,9 @@
 namespace App\Console\Commands;
 
 use App\Models\Employee;
-use Illuminate\Console\Command;
-use App\Services\EmployeesNeedingSuspension;
 use App\Services\EmployeesNeedingRemoveSuspension;
+use App\Services\EmployeesNeedingSuspension;
+use Illuminate\Console\Command;
 
 class UpdateEmployeeSuspensions extends Command
 {

@@ -3,9 +3,9 @@
 use App\Models\Holiday;
 use App\Models\PayrollHour;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Cache;
 
 test('downtime model interacts with db table', function () {
     Mail::fake();
@@ -101,7 +101,7 @@ it('calculates the week ending field based on date', function () {
     expect($payrollHour->week_ending_at->format('Y-m-d'))->toBe('2025-12-21');
 });
 
-it('parses is_sunday attribute correctly', function() {
+it('parses is_sunday attribute correctly', function () {
     $is_sunday = PayrollHour::factory()->create([
         'date' => Date::parse('2026-01-04'), // sunday
     ]);

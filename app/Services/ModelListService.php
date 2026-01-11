@@ -29,8 +29,7 @@ class ModelListService
         string|Builder $model,
         string $key_field = 'id',
         string $value_field = 'name',
-    ): array
-    {
+    ): array {
         self::$instance ??= new self;
         self::$instance->key_field = $key_field;
         self::$instance->value_field = $value_field;
@@ -51,8 +50,7 @@ class ModelListService
         string|Builder $model,
         string $key_field = 'id',
         string $value_field = 'name',
-    ): array
-    {
+    ): array {
         return self::get(
             $model,
             $key_field,

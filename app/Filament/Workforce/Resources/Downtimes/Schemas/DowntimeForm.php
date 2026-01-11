@@ -2,18 +2,17 @@
 
 namespace App\Filament\Workforce\Resources\Downtimes\Schemas;
 
-use App\Models\Campaign;
-use App\Models\Employee;
 use App\Enums\RevenueTypes;
-use Filament\Schemas\Schema;
+use App\Models\Campaign;
 use App\Models\DowntimeReason;
+use App\Models\Employee;
 use App\Services\ModelListService;
-use Filament\Support\Colors\Color;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\DatePicker;
 use Filament\Infolists\Components\TextEntry;
-use Filament\Forms\Components\DateTimePicker;
+use Filament\Schemas\Schema;
+use Filament\Support\Colors\Color;
 
 class DowntimeForm
 {

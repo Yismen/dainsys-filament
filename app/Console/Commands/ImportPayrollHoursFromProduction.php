@@ -2,15 +2,12 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Downtime;
-use App\Models\Production;
 use App\Models\PayrollHour;
-use Illuminate\Support\Carbon;
+use App\Models\Production;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class ImportPayrollHoursFromProduction extends Command
 {
@@ -27,8 +24,6 @@ class ImportPayrollHoursFromProduction extends Command
      * @var string
      */
     protected $description = 'Command description';
-
-
 
     /**
      * Execute the console command.
@@ -47,11 +42,11 @@ class ImportPayrollHoursFromProduction extends Command
             ->select([
                 'date',
                 'employee_id',
-                DB::raw("sum(total_time) as sum_of_total_time")
+                DB::raw('sum(total_time) as sum_of_total_time'),
             ])
             ->get();
 
-        $productions->each(function(Production $production) {
+        $productions->each(function (Production $production) {
             PayrollHour::updateOrCreate(
                 [
                     'employee_id' => $production->employee_id,
@@ -70,8 +65,7 @@ class ImportPayrollHoursFromProduction extends Command
         Carbon $end_of_week,
         array $groupFields = ['employee_id', 'date'],
         string $hoursField = 'total_time'
-    )
-    {
+    ) {
         return $modelBuilder
             ->orderBy('date', 'asc')
             ->whereDate('date', '>=', $start_of_week)
@@ -80,7 +74,7 @@ class ImportPayrollHoursFromProduction extends Command
             ->select([
                 'date',
                 'employee_id',
-                DB::raw("sum({$hoursField}) as sum_of_{$hoursField}")
+                DB::raw("sum({$hoursField}) as sum_of_{$hoursField}"),
             ]
             )
             ->get();

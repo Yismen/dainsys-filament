@@ -1,26 +1,23 @@
 <?php
 
-use App\Enums\HireTypes;
-use App\Models\Hire;
-use App\Models\User;
-use App\Models\Employee;
-use App\Models\HireType;
-use Filament\Facades\Filament;
-use function Pest\Laravel\get;
 use App\Events\EmployeeHiredEvent;
-use function Pest\Laravel\actingAs;
-use function Pest\Livewire\livewire;
-use Illuminate\Support\Facades\Event;
-use App\Events\HireCreatedEvent;
-
-use App\Filament\HumanResource\Resources\Hires\Pages\EditHire;
-use App\Filament\HumanResource\Resources\Hires\Pages\ViewHire;
-use App\Filament\HumanResource\Resources\Hires\Pages\ListHires;
 use App\Filament\HumanResource\Resources\Hires\Pages\CreateHire;
+use App\Filament\HumanResource\Resources\Hires\Pages\EditHire;
+use App\Filament\HumanResource\Resources\Hires\Pages\ListHires;
+use App\Filament\HumanResource\Resources\Hires\Pages\ViewHire;
+use App\Models\Employee;
+use App\Models\Hire;
 use App\Models\Position;
 use App\Models\Project;
 use App\Models\Site;
 use App\Models\Supervisor;
+use App\Models\User;
+use Filament\Facades\Filament;
+use Illuminate\Support\Facades\Event;
+
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
+use function Pest\Livewire\livewire;
 
 beforeEach(function () {
     // Seed roles/permissions if applicable
@@ -175,13 +172,13 @@ test('form validation require fields on create and edit pages', function (string
         ->call('save')
         ->assertHasFormErrors([$field => 'required']);
 })->with([
-        'date',
-        'employee_id',
-        'site_id',
-        'project_id',
-        'position_id',
-        'supervisor_id',
-        // 'punch',
+    'date',
+    'employee_id',
+    'site_id',
+    'project_id',
+    'position_id',
+    'supervisor_id',
+    // 'punch',
 ]);
 
 // it('autofocus the employee_id field on create and edit pages', function () {

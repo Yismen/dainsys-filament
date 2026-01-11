@@ -23,9 +23,9 @@ it('store the correct key in the cache system and return the correct values for 
     $result = $reflectionMethod->invoke(null, User::query());
 
     $key = \implode('_', [
-            'model_list',
-            str(User::query()->select('name', 'id')->orderBy('name')->toRawSql())->snake(),
-        ]);
+        'model_list',
+        str(User::query()->select('name', 'id')->orderBy('name')->toRawSql())->snake(),
+    ]);
 
     expect(Cache::has($key))
         ->tobe(true);

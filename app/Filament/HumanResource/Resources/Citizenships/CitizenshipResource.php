@@ -2,22 +2,22 @@
 
 namespace App\Filament\HumanResource\Resources\Citizenships;
 
-use BackedEnum;
-use Filament\Tables\Table;
+use App\Filament\HumanResource\Clusters\EmployeesManagement\EmployeesManagementCluster;
+use App\Filament\HumanResource\Resources\Citizenships\Pages\CreateCitizenship;
+use App\Filament\HumanResource\Resources\Citizenships\Pages\EditCitizenship;
+use App\Filament\HumanResource\Resources\Citizenships\Pages\ListCitizenships;
+use App\Filament\HumanResource\Resources\Citizenships\Pages\ViewCitizenship;
+use App\Filament\HumanResource\Resources\Citizenships\Schemas\CitizenshipForm;
+use App\Filament\HumanResource\Resources\Citizenships\Schemas\CitizenshipInfolist;
+use App\Filament\HumanResource\Resources\Citizenships\Tables\CitizenshipsTable;
 use App\Models\Citizenship;
-use Filament\Schemas\Schema;
+use BackedEnum;
 use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\HumanResource\Resources\Citizenships\Pages\EditCitizenship;
-use App\Filament\HumanResource\Resources\Citizenships\Pages\ViewCitizenship;
-use App\Filament\HumanResource\Resources\Citizenships\Pages\ListCitizenships;
-use App\Filament\HumanResource\Resources\Citizenships\Pages\CreateCitizenship;
-use App\Filament\HumanResource\Resources\Citizenships\Schemas\CitizenshipForm;
-use App\Filament\HumanResource\Resources\Citizenships\Tables\CitizenshipsTable;
-use App\Filament\HumanResource\Resources\Citizenships\Schemas\CitizenshipInfolist;
-use App\Filament\HumanResource\Clusters\EmployeesManagement\EmployeesManagementCluster;
 
 class CitizenshipResource extends Resource
 {

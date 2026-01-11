@@ -2,9 +2,9 @@
 
 use App\Console\Commands\Birthdays;
 use App\Console\Commands\ImportPayrollHoursFromProduction;
-use Illuminate\Support\Facades\Schedule;
-use App\Console\Commands\UpdateTicketStatus;
 use App\Console\Commands\LiveVox\PublishingProductionReport;
+use App\Console\Commands\UpdateTicketStatus;
+use Illuminate\Support\Facades\Schedule;
 
 Schedule::command(\App\Console\Commands\UpdatePendingSuspensions::class)->everyFifteenMinutes();
 Schedule::command(\App\Console\Commands\UpdateEmployeeSuspensions::class)->dailyAt('03:00');
@@ -19,7 +19,7 @@ Schedule::command(PublishingProductionReport::class, [
 ])->hourly();
 
 Schedule::command(ImportPayrollHoursFromProduction::class, [
-    'date' => now()->subDay()->format('Y-m-d')
+    'date' => now()->subDay()->format('Y-m-d'),
 ])->hourlyAt(23);
 
 Schedule::command(UpdateTicketStatus::class)->everyThirtyMinutes();

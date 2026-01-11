@@ -1,24 +1,19 @@
 <?php
 
 use App\Enums\RevenueTypes;
-use App\Models\Hire;
-use App\Models\User;
-use App\Models\Employee;
-use App\Models\Downtime;
-use Filament\Facades\Filament;
-use function Pest\Laravel\get;
-use App\Events\EmployeeHiredEvent;
-use function Pest\Laravel\actingAs;
-use function Pest\Livewire\livewire;
-use Illuminate\Support\Facades\Event;
-use App\Events\DowntimeUpdatedEvent;
-
-use App\Filament\Workforce\Resources\Downtimes\Pages\EditDowntime;
-use App\Filament\Workforce\Resources\Downtimes\Pages\ViewDowntime;
-use App\Filament\Workforce\Resources\Downtimes\Pages\ListDowntimes;
 use App\Filament\Workforce\Resources\Downtimes\Pages\CreateDowntime;
+use App\Filament\Workforce\Resources\Downtimes\Pages\EditDowntime;
+use App\Filament\Workforce\Resources\Downtimes\Pages\ListDowntimes;
+use App\Filament\Workforce\Resources\Downtimes\Pages\ViewDowntime;
 use App\Models\Campaign;
-use App\Models\Supervisor;
+use App\Models\Downtime;
+use App\Models\Employee;
+use App\Models\User;
+use Filament\Facades\Filament;
+
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
+use function Pest\Livewire\livewire;
 
 beforeEach(function () {
     // Seed roles/permissions if applicable
@@ -131,14 +126,14 @@ test('table shows desired fields', function ($field) {
         ->assertSee($downtime->$field);
 
 })->with([
-        // 'date',
-        // 'employee_id',
-        // 'campaign_id',
-        // 'downtime_reason_id',
-        'total_time',
-        // 'requester_id',
-        // 'aprover_id',
-        // 'converted_to_payroll_at',
+    // 'date',
+    // 'employee_id',
+    // 'campaign_id',
+    // 'downtime_reason_id',
+    'total_time',
+    // 'requester_id',
+    // 'aprover_id',
+    // 'converted_to_payroll_at',
 ]);
 
 test('edit Downtime page works correctly', function () {
@@ -161,7 +156,6 @@ test('edit Downtime page works correctly', function () {
 test('form validation require fields on create and edit pages', function (string $field) {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Downtime'));
 
-
     // Test EditDowntime validation
     $downtime = Downtime::factory()->create();
     livewire(EditDowntime::class, ['record' => $downtime->getKey()])
@@ -169,14 +163,14 @@ test('form validation require fields on create and edit pages', function (string
         ->call('save')
         ->assertHasFormErrors([$field => 'required']);
 })->with([
-        'date',
-        'employee_id',
-        'campaign_id',
-        'downtime_reason_id',
-        'total_time',
-        // 'requester_id',
-        // 'aprover_id',
-        // 'converted_to_payroll_at',
+    'date',
+    'employee_id',
+    'campaign_id',
+    'downtime_reason_id',
+    'total_time',
+    // 'requester_id',
+    // 'aprover_id',
+    // 'converted_to_payroll_at',
 ]);
 
 // test('fields must be unique on create and edit pages', function (string $field) {
@@ -231,7 +225,6 @@ test('form validation require fields on create and edit pages', function (string
 
 // it('autofocus the employee_id field on create and edit pages', function () {
 //     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Downtime'));
-
 
 //     // Test EditDowntime autofocus
 //     $downtime = Downtime::factory()->create();

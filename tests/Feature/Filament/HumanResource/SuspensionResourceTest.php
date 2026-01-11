@@ -1,22 +1,22 @@
 <?php
 
-use App\Models\Hire;
-use App\Models\User;
+use App\Events\EmployeeHiredEvent;
+use App\Events\SuspensionUpdatedEvent;
+use App\Filament\HumanResource\Resources\Suspensions\Pages\CreateSuspension;
+use App\Filament\HumanResource\Resources\Suspensions\Pages\EditSuspension;
+use App\Filament\HumanResource\Resources\Suspensions\Pages\ListSuspensions;
+use App\Filament\HumanResource\Resources\Suspensions\Pages\ViewSuspension;
 use App\Models\Employee;
+use App\Models\Hire;
 use App\Models\Suspension;
 use App\Models\SuspensionType;
+use App\Models\User;
 use Filament\Facades\Filament;
-use function Pest\Laravel\get;
-use App\Events\EmployeeHiredEvent;
-use function Pest\Laravel\actingAs;
-use function Pest\Livewire\livewire;
 use Illuminate\Support\Facades\Event;
-use App\Events\SuspensionUpdatedEvent;
 
-use App\Filament\HumanResource\Resources\Suspensions\Pages\EditSuspension;
-use App\Filament\HumanResource\Resources\Suspensions\Pages\ViewSuspension;
-use App\Filament\HumanResource\Resources\Suspensions\Pages\ListSuspensions;
-use App\Filament\HumanResource\Resources\Suspensions\Pages\CreateSuspension;
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
+use function Pest\Livewire\livewire;
 
 beforeEach(function () {
     // Seed roles/permissions if applicable

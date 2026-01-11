@@ -38,6 +38,7 @@ class DowntimePolicy
     {
         return $user->checkPermissionTo('update Downtime');
     }
+
     /**
      * Determine whether the user can update the model.
      */

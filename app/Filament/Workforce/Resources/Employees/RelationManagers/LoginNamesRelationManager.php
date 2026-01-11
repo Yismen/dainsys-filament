@@ -3,9 +3,8 @@
 namespace App\Filament\Workforce\Resources\Employees\RelationManagers;
 
 use App\Filament\Workforce\Resources\LoginNames\LoginNameResource;
-use Filament\Tables\Table;
-use Filament\Actions\EditAction;
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Tables\Table;
 
 class LoginNamesRelationManager extends RelationManager
 {

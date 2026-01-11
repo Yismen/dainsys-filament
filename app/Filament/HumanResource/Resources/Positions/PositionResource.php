@@ -2,22 +2,22 @@
 
 namespace App\Filament\HumanResource\Resources\Positions;
 
-use BackedEnum;
+use App\Filament\HumanResource\Clusters\HrManagement\HrManagementCluster;
+use App\Filament\HumanResource\Resources\Positions\Pages\CreatePosition;
+use App\Filament\HumanResource\Resources\Positions\Pages\EditPosition;
+use App\Filament\HumanResource\Resources\Positions\Pages\ListPositions;
+use App\Filament\HumanResource\Resources\Positions\Pages\ViewPosition;
+use App\Filament\HumanResource\Resources\Positions\Schemas\PositionForm;
+use App\Filament\HumanResource\Resources\Positions\Schemas\PositionInfolist;
+use App\Filament\HumanResource\Resources\Positions\Tables\PositionsTable;
 use App\Models\Position;
-use Filament\Tables\Table;
-use Filament\Schemas\Schema;
+use BackedEnum;
 use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\HumanResource\Resources\Positions\Pages\EditPosition;
-use App\Filament\HumanResource\Resources\Positions\Pages\ViewPosition;
-use App\Filament\HumanResource\Resources\Positions\Pages\ListPositions;
-use App\Filament\HumanResource\Resources\Positions\Pages\CreatePosition;
-use App\Filament\HumanResource\Resources\Positions\Schemas\PositionForm;
-use App\Filament\HumanResource\Clusters\HrManagement\HrManagementCluster;
-use App\Filament\HumanResource\Resources\Positions\Tables\PositionsTable;
-use App\Filament\HumanResource\Resources\Positions\Schemas\PositionInfolist;
 
 class PositionResource extends Resource
 {

@@ -1,18 +1,17 @@
 <?php
 
-use App\Models\Ticket;
-use App\Models\TicketDepartment;
+use App\Events\TicketAssignedEvent;
+use App\Events\TicketCompletedEvent;
 use App\Events\TicketCreatedEvent;
 use App\Events\TicketDeletedEvent;
-use App\Events\TicketAssignedEvent;
 use App\Events\TicketReopenedEvent;
-use App\Events\TicketCompletedEvent;
-use Illuminate\Support\Facades\Event;
 use App\Events\TicketReplyCreatedEvent;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\Ticket;
+use App\Models\TicketDepartment;
+use Illuminate\Support\Facades\Event;
 
 beforeEach(function () {
-   Event::fake([
+    Event::fake([
         TicketAssignedEvent::class,
         TicketCreatedEvent::class,
         TicketCompletedEvent::class,

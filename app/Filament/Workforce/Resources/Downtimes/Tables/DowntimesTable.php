@@ -2,19 +2,19 @@
 
 namespace App\Filament\Workforce\Resources\Downtimes\Tables;
 
+use App\Filament\Actions\AproveDowntimeAction;
 use App\Models\Downtime;
-use Filament\Tables\Table;
-use Filament\Actions\EditAction;
-use Filament\Actions\ViewAction;
-use Filament\Support\Colors\Color;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
+use Filament\Actions\ViewAction;
+use Filament\Support\Colors\Color;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
-use Filament\Actions\ForceDeleteBulkAction;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Collection;
-use App\Filament\Actions\AproveDowntimeAction;
 
 class DowntimesTable
 {
@@ -45,7 +45,7 @@ class DowntimesTable
                     ->wrap()
                     ->searchable(),
                 TextColumn::make('status')
-                    ->color(fn($state) => $state == 'Aproved' ? Color::Green : Color::Gray)
+                    ->color(fn ($state) => $state == 'Aproved' ? Color::Green : Color::Gray)
                     ->badge(),
                 TextColumn::make('aprover.name')
                     ->sortable()
@@ -85,7 +85,7 @@ class DowntimesTable
                                     $record->aprove();
                                 }
                             });
-                        })
+                        }),
                 ]),
             ]);
     }

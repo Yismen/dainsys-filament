@@ -1,18 +1,18 @@
 <?php
 
-use App\Models\User;
-use App\Models\Ticket;
-use App\Models\TicketReply;
-use App\Enums\TicketStatuses;
 use App\Enums\TicketPriorities;
-use App\Models\TicketDepartment;
+use App\Enums\TicketStatuses;
+use App\Events\TicketAssignedEvent;
+use App\Events\TicketCompletedEvent;
 use App\Events\TicketCreatedEvent;
 use App\Events\TicketDeletedEvent;
-use App\Events\TicketAssignedEvent;
 use App\Events\TicketReopenedEvent;
-use App\Events\TicketCompletedEvent;
-use Illuminate\Support\Facades\Event;
 use App\Events\TicketReplyCreatedEvent;
+use App\Models\Ticket;
+use App\Models\TicketDepartment;
+use App\Models\TicketReply;
+use App\Models\User;
+use Illuminate\Support\Facades\Event;
 
 uses(\App\Traits\EnsureDateNotWeekend::class);
 

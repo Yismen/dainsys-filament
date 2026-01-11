@@ -2,16 +2,15 @@
 
 namespace App\Models;
 
-use App\Models\Production;
 use App\Enums\RevenueTypes;
-use App\Models\Traits\HasManyComments;
-use App\Models\Traits\BelongsToCampaign;
-use App\Models\Traits\BelongsToEmployee;
 use App\Exceptions\InvalidDowntimeCampaign;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Traits\BelongsToCampaign;
 use App\Models\Traits\BelongsToDowntimeReason;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\Traits\BelongsToEmployee;
+use App\Models\Traits\HasManyComments;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 
 class Downtime extends \App\Models\BaseModels\AppModel
@@ -37,7 +36,7 @@ class Downtime extends \App\Models\BaseModels\AppModel
     ];
 
     protected $casts = [
-        'date' => "date:Y-m-d"
+        'date' => 'date:Y-m-d',
     ];
 
     public function getStatusAttribute()
@@ -50,13 +49,13 @@ class Downtime extends \App\Models\BaseModels\AppModel
         parent::booted();
 
         static::saving(function (Downtime $downtime) {
-            if($downtime->campaign->revenue_type !== RevenueTypes::Downtime) {
-                throw new InvalidDowntimeCampaign();
+            if ($downtime->campaign->revenue_type !== RevenueTypes::Downtime) {
+                throw new InvalidDowntimeCampaign;
             }
         });
 
         static::saved(function (Downtime $downtime) {
-            $downtime->unique_id = join('_', [
+            $downtime->unique_id = implode('_', [
                 $downtime->date->format('Y-m-d'),
                 $downtime->campaign_id,
                 $downtime->employee_id,

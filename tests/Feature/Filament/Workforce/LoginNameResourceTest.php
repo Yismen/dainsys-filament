@@ -1,22 +1,17 @@
 <?php
 
-use App\Models\Hire;
-use App\Models\User;
+use App\Filament\Workforce\Resources\LoginNames\Pages\CreateLoginName;
+use App\Filament\Workforce\Resources\LoginNames\Pages\EditLoginName;
+use App\Filament\Workforce\Resources\LoginNames\Pages\ListLoginNames;
+use App\Filament\Workforce\Resources\LoginNames\Pages\ViewLoginName;
 use App\Models\Employee;
 use App\Models\LoginName;
-use App\Models\LoginNameType;
+use App\Models\User;
 use Filament\Facades\Filament;
-use function Pest\Laravel\get;
-use App\Events\EmployeeHiredEvent;
-use function Pest\Laravel\actingAs;
-use function Pest\Livewire\livewire;
-use Illuminate\Support\Facades\Event;
-use App\Events\LoginNameUpdatedEvent;
 
-use App\Filament\Workforce\Resources\LoginNames\Pages\EditLoginName;
-use App\Filament\Workforce\Resources\LoginNames\Pages\ViewLoginName;
-use App\Filament\Workforce\Resources\LoginNames\Pages\ListLoginNames;
-use App\Filament\Workforce\Resources\LoginNames\Pages\CreateLoginName;
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
+use function Pest\Livewire\livewire;
 
 beforeEach(function () {
     // Seed roles/permissions if applicable
@@ -194,7 +189,7 @@ test('fields must be unique on create and edit pages', function (string $field) 
         ->call('save')
         ->assertHasFormErrors([$field => 'unique']);
 })->with([
-    'login_name'
+    'login_name',
 ]);
 
 it('allows updating LoginName without changing field to trigger uniqueness validation', function (string $field) {

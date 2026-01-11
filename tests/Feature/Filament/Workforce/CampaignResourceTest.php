@@ -1,21 +1,19 @@
 <?php
 
 use App\Enums\RevenueTypes;
-use App\Models\Hire;
-use App\Models\User;
-use App\Models\Employee;
-use App\Models\Campaign;
-use Filament\Facades\Filament;
-use function Pest\Laravel\get;
-use function Pest\Laravel\actingAs;
-use function Pest\Livewire\livewire;
-
-use App\Filament\Workforce\Resources\Campaigns\Pages\EditCampaign;
-use App\Filament\Workforce\Resources\Campaigns\Pages\ViewCampaign;
-use App\Filament\Workforce\Resources\Campaigns\Pages\ListCampaigns;
 use App\Filament\Workforce\Resources\Campaigns\Pages\CreateCampaign;
+use App\Filament\Workforce\Resources\Campaigns\Pages\EditCampaign;
+use App\Filament\Workforce\Resources\Campaigns\Pages\ListCampaigns;
+use App\Filament\Workforce\Resources\Campaigns\Pages\ViewCampaign;
+use App\Models\Campaign;
 use App\Models\Project;
 use App\Models\Source;
+use App\Models\User;
+use Filament\Facades\Filament;
+
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
+use function Pest\Livewire\livewire;
 
 beforeEach(function () {
     // Seed roles/permissions if applicable
@@ -208,7 +206,7 @@ test('fields must be unique on create and edit pages', function (string $field) 
         ->call('save')
         ->assertHasFormErrors([$field => 'unique']);
 })->with([
-    'name'
+    'name',
 ]);
 
 it('allows updating Campaign without changing field to trigger uniqueness validation', function (string $field) {

@@ -1,24 +1,23 @@
 <?php
 
-use App\Models\Hire;
-use App\Models\User;
-use App\Models\Employee;
-use App\Models\SocialSecurity;
-use App\Models\SocialSecurityType;
-use Filament\Facades\Filament;
-use function Pest\Laravel\get;
 use App\Events\EmployeeHiredEvent;
-use function Pest\Laravel\actingAs;
-use function Pest\Livewire\livewire;
-use Illuminate\Support\Facades\Event;
 use App\Events\SocialSecurityUpdatedEvent;
-
-use App\Filament\HumanResource\Resources\SocialSecurities\Pages\EditSocialSecurity;
-use App\Filament\HumanResource\Resources\SocialSecurities\Pages\ViewSocialSecurity;
-use App\Filament\HumanResource\Resources\SocialSecurities\Pages\ListSocialSecurities;
 use App\Filament\HumanResource\Resources\SocialSecurities\Pages\CreateSocialSecurity;
+use App\Filament\HumanResource\Resources\SocialSecurities\Pages\EditSocialSecurity;
+use App\Filament\HumanResource\Resources\SocialSecurities\Pages\ListSocialSecurities;
+use App\Filament\HumanResource\Resources\SocialSecurities\Pages\ViewSocialSecurity;
 use App\Models\Afp;
 use App\Models\Ars;
+use App\Models\Employee;
+use App\Models\Hire;
+use App\Models\SocialSecurity;
+use App\Models\User;
+use Filament\Facades\Filament;
+use Illuminate\Support\Facades\Event;
+
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
+use function Pest\Livewire\livewire;
 
 beforeEach(function () {
     // Seed roles/permissions if applicable

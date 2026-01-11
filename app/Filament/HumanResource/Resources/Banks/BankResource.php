@@ -2,22 +2,22 @@
 
 namespace App\Filament\HumanResource\Resources\Banks;
 
-use BackedEnum;
+use App\Filament\HumanResource\Clusters\HrManagement\HrManagementCluster;
+use App\Filament\HumanResource\Resources\Banks\Pages\CreateBank;
+use App\Filament\HumanResource\Resources\Banks\Pages\EditBank;
+use App\Filament\HumanResource\Resources\Banks\Pages\ListBanks;
+use App\Filament\HumanResource\Resources\Banks\Pages\ViewBank;
+use App\Filament\HumanResource\Resources\Banks\Schemas\BankForm;
+use App\Filament\HumanResource\Resources\Banks\Schemas\BankInfolist;
+use App\Filament\HumanResource\Resources\Banks\Tables\BanksTable;
 use App\Models\Bank;
-use Filament\Tables\Table;
-use Filament\Schemas\Schema;
+use BackedEnum;
 use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\HumanResource\Resources\Banks\Pages\EditBank;
-use App\Filament\HumanResource\Resources\Banks\Pages\ViewBank;
-use App\Filament\HumanResource\Resources\Banks\Pages\ListBanks;
-use App\Filament\HumanResource\Resources\Banks\Pages\CreateBank;
-use App\Filament\HumanResource\Resources\Banks\Schemas\BankForm;
-use App\Filament\HumanResource\Resources\Banks\Tables\BanksTable;
-use App\Filament\HumanResource\Resources\Banks\Schemas\BankInfolist;
-use App\Filament\HumanResource\Clusters\HrManagement\HrManagementCluster;
 
 class BankResource extends Resource
 {

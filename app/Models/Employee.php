@@ -28,8 +28,8 @@ class Employee extends \App\Models\BaseModels\AppModel
     use HasManyProductions;
     use HasManySuspensions;
     use HasManyTerminations;
-    use HasRelationsThruHire;
     use HasOneSocialSocialSecurity;
+    use HasRelationsThruHire;
     use HasRelationsThruSocialSecurity;
 
     protected $fillable = [

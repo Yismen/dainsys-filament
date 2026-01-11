@@ -4,14 +4,14 @@ namespace App\Filament\HumanResource\Resources\Suspensions\Schemas;
 
 use App\Enums\EmployeeStatuses;
 use App\Models\Employee;
-use Filament\Schemas\Schema;
 use App\Models\SuspensionType;
 use App\Services\ModelListService;
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\DateTimePicker;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Schema;
 
 class SuspensionForm
 {
@@ -32,7 +32,7 @@ class SuspensionForm
                             ->whereIn('status', [
                                 EmployeeStatuses::Hired,
                                 EmployeeStatuses::Suspended,
-                        ]),  value_field: 'full_name')
+                            ]), value_field: 'full_name')
                     )
                     ->searchable()
                     ->required()
@@ -43,7 +43,7 @@ class SuspensionForm
                     ->searchable()
                     ->required(),
                 DateTimePicker::make('starts_at')
-                    ->default(function(Get $get) {
+                    ->default(function (Get $get) {
                         $date = now();
                         $latestHire = Employee::query()
                             ->find($get('employee_id'))?->latestHire()->date;
