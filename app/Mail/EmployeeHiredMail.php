@@ -2,23 +2,21 @@
 
 namespace App\Mail;
 
+use App\Models\Hire;
 use App\Models\Employee;
-use App\Services\MailingService;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use App\Services\MailingService;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 class EmployeeHiredMail extends Mailable implements ShouldQueue
 {
     use Queueable;
     use SerializesModels;
 
-    public Employee $employee;
-
-    public function __construct(Employee $employee)
+    public function __construct(public Hire $hire)
     {
-        $this->employee = $employee;
     }
 
     public function build()

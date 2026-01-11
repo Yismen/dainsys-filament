@@ -10,6 +10,6 @@ class SendEmployeeHiredEmail
 {
     public function handle(EmployeeHiredEvent $event)
     {
-        Mail::send(new EmployeeHiredMail($event->hire->employee));
+        Mail::send(new EmployeeHiredMail($event->hire));
     }
 }

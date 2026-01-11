@@ -11,8 +11,10 @@ beforeEach(function() {
 
 it('contains employee info', function () {
     $employee = Employee::factory()->create();
-    Hire::factory()->for($employee)->create();
-    $mailable = new EmployeeHiredMail($employee);
+    $hire = Hire::factory()->for($employee)->create();
+    $mailable = new EmployeeHiredMail($hire);
 
+    $mailable->assertSeeInText('hired');
     $mailable->assertSeeInText($employee->full_name);
+
 });
