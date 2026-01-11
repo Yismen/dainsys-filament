@@ -6,7 +6,7 @@ use App\Models\Hire;
 use App\Models\Suspension;
 use Illuminate\Support\Facades\Mail;
 
-beforeEach(function() {
+beforeEach(function () {
     Mail::fake();
 });
 

@@ -2,21 +2,21 @@
 
 namespace App\Models;
 
+use App\Enums\EmployeeStatuses;
 use App\Enums\Genders;
 use App\Enums\PersonalIdTypes;
-use App\Enums\EmployeeStatuses;
-use App\Models\Traits\HasManyHires;
+use App\Models\Traits\BelongsToCitizenship;
 use App\Models\Traits\HasManyDowntimes;
+use App\Models\Traits\HasManyHires;
 use App\Models\Traits\HasManyLoginNames;
+use App\Models\Traits\HasManyPayrollHours;
 use App\Models\Traits\HasManyProductions;
 use App\Models\Traits\HasManySuspensions;
-use App\Models\Traits\HasManyPayrollHours;
 use App\Models\Traits\HasManyTerminations;
-use App\Models\Traits\BelongsToCitizenship;
-use App\Models\Traits\HasRelationsThruHire;
 use App\Models\Traits\HasOneSocialSocialSecurity;
-use Illuminate\Database\Eloquent\Casts\Attribute;
+use App\Models\Traits\HasRelationsThruHire;
 use App\Models\Traits\HasRelationsThruSocialSecurity;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class Employee extends \App\Models\BaseModels\AppModel

@@ -5,7 +5,7 @@ use App\Models\Employee;
 use App\Models\Hire;
 use Illuminate\Support\Facades\Mail;
 
-beforeEach(function() {
+beforeEach(function () {
     Mail::fake();
 });
 
