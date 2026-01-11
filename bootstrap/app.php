@@ -24,7 +24,6 @@ return Application::configure(basePath: dirname(__DIR__))
         App\Providers\RouteServiceProvider::class,
         App\Providers\TelescopeServiceProvider::class,
         App\Providers\Filament\AdminPanelProvider::class,
-        App\Providers\Filament\AppPanelProvider::class,
         App\Providers\Filament\SupportPanelProvider::class,
         App\Providers\Filament\HumanResourcePanelProvider::class,
         App\Providers\Filament\WorkforcePanelProvider::class,
