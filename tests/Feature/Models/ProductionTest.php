@@ -78,8 +78,15 @@ test('production model belongs to relationship', function (string $modelClass, s
     [Employee::class, 'employee'],
     [Campaign::class, 'campaign'],
     [Supervisor::class, 'supervisor'],
-    [Project::class, 'project'],
 ]);
+
+it('belongs to project thru campaign', function () {
+    $production = Production::factory()
+        ->create();
+
+    expect($production->project())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasOneThrough::class);
+    expect($production->project)->toBeInstanceOf(Project::class);
+});
 
 it('updates revenue type and revenue rate and sph_goal based on the campaign when created', function () {
     $campaign = Campaign::factory()->create(['revenue_type' => RevenueTypes::LoginTime, 'revenue_rate' => 5, 'sph_goal' => 1000]);

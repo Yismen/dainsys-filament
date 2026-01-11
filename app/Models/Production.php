@@ -17,7 +17,6 @@ class Production extends \App\Models\BaseModels\AppModel
     use BelongsToCampaign;
     use BelongsToEmployee;
     use BelongsToSupervisor;
-    use BelongsToProject;
     use SoftDeletes;
 
     protected $fillable = [
@@ -64,9 +63,6 @@ class Production extends \App\Models\BaseModels\AppModel
             $model->revenue_rate = \in_array('campaign_id', $changed_keys) ?
                 $model->campaign?->revenue_rate :
                 $model->revenue_rate;
-            $model->project_id = \in_array('campaign_id', $changed_keys) ?
-                $model->campaign?->project_id :
-                $model->project_id;
             $model->sph_goal = \in_array('campaign_id', $changed_keys) ?
                 $model->campaign?->sph_goal :
                 $model->sph_goal;
@@ -83,6 +79,19 @@ class Production extends \App\Models\BaseModels\AppModel
 
             $model->saveQuietly();
         });
+    }
+
+    public function project(): HasOneThrough
+    {
+        return $this->hasOneThrough(
+
+            related: \App\Models\Project::class,
+            through: \App\Models\Campaign::class,
+            firstKey: 'id', // Foreign key on the Through table table...
+            secondKey: 'id', // Foreign key on Related table...
+            localKey: 'campaign_id', // Local key on this Model table...
+            secondLocalKey: 'project_id', // Local key on Through table...
+        );
     }
 
     public function reporter(): BelongsTo

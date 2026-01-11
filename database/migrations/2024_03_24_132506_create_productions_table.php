@@ -19,7 +19,6 @@ return new class extends Migration
             $table->foreignUuid('campaign_id')->constrained()->cascadeOnDelete();
             $table->string('revenue_type')->nullable();
             $table->foreignUuid('supervisor_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->foreignUuid('project_id')->nullable()->constrained()->cascadeOnDelete();
             $table->float('revenue_rate', 10)->unsigned()->default(0);
             $table->float('sph_goal', 10)->unsigned()->default(0);
             $table->float('conversions', 10)->unsigned()->default(0);

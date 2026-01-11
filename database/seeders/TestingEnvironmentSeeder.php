@@ -8,6 +8,7 @@ use App\Models\Client;
 use App\Models\Downtime;
 use App\Models\Employee;
 use App\Models\Hire;
+use App\Models\Holiday;
 use App\Models\Production;
 use App\Models\Role;
 use App\Models\Source;
@@ -59,6 +60,8 @@ class TestingEnvironmentSeeder extends Seeder
             Production::factory()->for($employee)->create();
             Downtime::factory()->for($employee)->for($downtimeCampaign)->create();
         }
+
+        Holiday::factory()->create(['date' => now()->subDay()]);
 
         SuspensionType::factory()->create(['name' => 'Maternal Leave']);
 
