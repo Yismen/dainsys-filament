@@ -24,7 +24,19 @@ class Ticket extends \App\Models\BaseModels\AppModel
     use EnsureDateNotWeekend;
     use SoftDeletes;
 
-    protected $fillable = ['owner_id', 'department_id', 'subject', 'description', 'reference', 'images', 'status', 'priority', 'expected_at', 'assigned_to', 'assigned_at', 'completed_at'];
+    protected $fillable = [
+        'owner_id',
+        'subject',
+        'description',
+        'reference',
+        'images',
+        'status',
+        'priority',
+        'expected_at',
+        'assigned_to',
+        'assigned_at',
+        'completed_at',
+    ];
 
     protected $casts = [
         'assigned_at' => 'datetime',
@@ -45,7 +57,7 @@ class Ticket extends \App\Models\BaseModels\AppModel
             }
         });
 
-        static::created(function ($model) {
+        static::created(function (Ticket $model) {
             $model->updateQuietly([
                 'status' => TicketStatuses::Pending,
                 // 'assigned_to' => null,
@@ -86,11 +98,6 @@ class Ticket extends \App\Models\BaseModels\AppModel
         return $this->belongsTo(User::class, 'assigned_to');
     }
 
-    public function department(): BelongsTo
-    {
-        return $this->belongsTo(TicketDepartment::class, 'department_id');
-    }
-
     public function replies(): HasMany
     {
         return $this->hasMany(TicketReply::class);
@@ -98,18 +105,6 @@ class Ticket extends \App\Models\BaseModels\AppModel
 
     public function assignTo(User $agent)
     {
-        // if (is_integer($agent)) {
-        //     $agent = DepartmentRole::findOrFail($agent);
-        // }
-
-        // if ($agent instanceof User) {
-        //     $agent = DepartmentRole::where('user_id', $agent->id)->firstOrFail();
-        // }
-
-        // if ($agent->department_id != $this->department_id) {
-        //     throw new DifferentDepartmentException();
-        // }
-
         $this->update([
             'assigned_to' => $agent->id,
             'assigned_at' => now(),
@@ -258,11 +253,6 @@ class Ticket extends \App\Models\BaseModels\AppModel
         return $this->priority->value > 5 ? 5 : 5 - $this->priority->value;
     }
 
-    // public function admins()
-    // {
-    //     return $this->department->roles()->where('role', DepartmentRolesEnum::Admin)->with('user')->get();
-    // }
-
     protected function getExpectedDate(): Carbon
     {
         $date = $this->created_at ?? now();
@@ -286,8 +276,6 @@ class Ticket extends \App\Models\BaseModels\AppModel
     {
         $latest_reference = self::query()
             ->orderBy('reference', 'desc')
-            ->where('department_id', $this->department_id)
-            ->where('reference', 'like', "{$this->department->ticket_prefix}%")
             ->first();
 
         if ($latest_reference) {

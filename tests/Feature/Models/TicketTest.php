@@ -9,7 +9,6 @@ use App\Events\TicketDeletedEvent;
 use App\Events\TicketReopenedEvent;
 use App\Events\TicketReplyCreatedEvent;
 use App\Models\Ticket;
-use App\Models\TicketDepartment;
 use App\Models\TicketReply;
 use App\Models\User;
 use Illuminate\Support\Facades\Event;
@@ -18,8 +17,8 @@ uses(\App\Traits\EnsureDateNotWeekend::class);
 
 beforeEach(function () {
     Event::fake([
-        TicketAssignedEvent::class,
         TicketCreatedEvent::class,
+        TicketAssignedEvent::class,
         TicketCompletedEvent::class,
         TicketDeletedEvent::class,
         TicketReopenedEvent::class,
@@ -35,7 +34,6 @@ test('tickets model interacts with db table', function () {
 
     $this->assertDatabaseHas('tickets', $data->only([
         'owner_id',
-        'department_id',
         'subject',
         'description',
         // 'assigned_to',
@@ -61,13 +59,6 @@ test('tickets model belongs to agent', function () {
 
     expect($ticket->agent())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
     expect($ticket->agent)->toBeInstanceOf(User::class);
-});
-
-test('tickets model belongs to one department', function () {
-    $ticket = Ticket::factory()->create();
-
-    expect($ticket->department())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
-    expect($ticket->department)->toBeInstanceOf(TicketDepartment::class);
 });
 
 test('tickets model has many replies', function () {
@@ -128,31 +119,28 @@ test('tickets model updates expected at when priority is emergency', function ()
 });
 
 test('ticket model updates reference correcly', function () {
-    $department_1 = TicketDepartment::factory()->create();
-    $department_2 = TicketDepartment::factory()->create();
-    $ticket_1 = Ticket::factory()->create(['department_id' => $department_1->id]);
-    $ticket_2 = Ticket::factory()->create(['department_id' => $department_2->id]);
-    $ticket_3 = Ticket::factory()->create(['department_id' => $department_1->id]);
+    $ticket_1 = Ticket::factory()->create();
+    $ticket_2 = Ticket::factory()->create();
+    $ticket_3 = Ticket::factory()->create();
 
     $this->assertDatabaseHas(Ticket::class, [
         'id' => $ticket_1->id,
-        'reference' => $department_1->ticket_prefix.'000001',
+        'reference' => 'ECC-IT-000001',
     ]);
 
     $this->assertDatabaseHas(Ticket::class, [
         'id' => $ticket_2->id,
-        'reference' => $department_2->ticket_prefix.'000001',
+        'reference' => 'ECC-IT-000002',
     ]);
 
     $this->assertDatabaseHas(Ticket::class, [
         'id' => $ticket_3->id,
-        'reference' => $department_1->ticket_prefix.'000002',
+        'reference' => 'ECC-IT-000003',
     ]);
 });
 
 test('tickets model can assign an agent', function () {
-    $department = TicketDepartment::factory()->create();
-    $ticket = Ticket::factory()->unassigned()->create(['department_id' => $department->id]);
+    $ticket = Ticket::factory()->unassigned()->create();
     $agent = User::factory()->create();
 
     $ticket->assignTo($agent);
@@ -166,8 +154,7 @@ test('tickets model can assign an agent', function () {
 
 test('tickets model can be completed', function () {
     $agent = User::factory()->create();
-    $department = TicketDepartment::factory()->create();
-    $ticket = Ticket::factory()->assigned()->create(['department_id' => $department->id]);
+    $ticket = Ticket::factory()->assigned()->create();
 
     $ticket->complete();
 
