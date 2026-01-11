@@ -3,7 +3,7 @@
 use App\Enums\EmployeeStatuses;
 use App\Events\EmployeeHiredEvent;
 use App\Events\SuspensionUpdatedEvent;
-use App\Events\TerminationCreatedEvent;
+use App\Events\EmployeeTerminatedEvent;
 use App\Models\Afp;
 use App\Models\Ars;
 use App\Models\Citizenship;
@@ -33,7 +33,7 @@ beforeEach(function () {
     Mail::fake();
     Event::fake([
         SuspensionUpdatedEvent::class,
-        TerminationCreatedEvent::class,
+        EmployeeTerminatedEvent::class,
         EmployeeHiredEvent::class,
     ]);
 });

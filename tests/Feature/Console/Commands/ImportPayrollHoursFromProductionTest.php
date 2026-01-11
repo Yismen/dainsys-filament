@@ -3,7 +3,7 @@
 use App\Console\Commands\ImportPayrollHoursFromProduction;
 use App\Events\EmployeeHiredEvent;
 use App\Events\SuspensionUpdatedEvent;
-use App\Events\TerminationCreatedEvent;
+use App\Events\EmployeeTerminatedEvent;
 use App\Models\Employee;
 use App\Models\Production;
 use Illuminate\Support\Facades\Event;
@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Event;
 //     Event::fake([
 //         EmployeeHiredEvent::class,
 //         SuspensionUpdatedEvent::class,
-//         TerminationCreatedEvent::class,
+//         EmployeeTerminatedEvent::class,
 //     ]);
 // });
 

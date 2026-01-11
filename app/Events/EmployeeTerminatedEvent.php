@@ -6,7 +6,7 @@ use App\Models\Termination;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class TerminationCreatedEvent
+class EmployeeTerminatedEvent
 {
     use Dispatchable;
     use SerializesModels;

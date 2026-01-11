@@ -5,7 +5,7 @@ namespace App\Providers;
 use App\Events\EmployeeHiredEvent;
 use App\Events\EmployeeReactivatedEvent;
 use App\Events\SuspensionUpdatedEvent;
-use App\Events\TerminationCreatedEvent;
+use App\Events\EmployeeTerminatedEvent;
 use App\Events\TicketAssignedEvent;
 use App\Events\TicketCompletedEvent;
 use App\Events\TicketCreatedEvent;
@@ -44,7 +44,7 @@ class EventServiceProvider extends ServiceProvider
         SuspensionUpdatedEvent::class => [
             SendEmployeeSuspendedEmail::class,
         ],
-        TerminationCreatedEvent::class => [
+        EmployeeTerminatedEvent::class => [
             SendEmployeeTerminatedEmail::class,
         ],
         EmployeeReactivatedEvent::class => [

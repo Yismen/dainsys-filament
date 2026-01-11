@@ -3,7 +3,7 @@
 use App\Enums\SuspensionStatuses;
 use App\Events\EmployeeHiredEvent;
 use App\Events\SuspensionUpdatedEvent;
-use App\Events\TerminationCreatedEvent;
+use App\Events\EmployeeTerminatedEvent;
 use App\Exceptions\EmployeeCantBeSuspended;
 use App\Exceptions\SuspensionDateCantBeLowerThanHireDate;
 use App\Models\Employee;
@@ -16,7 +16,7 @@ beforeEach(function () {
     Event::fake([
         SuspensionUpdatedEvent::class,
         EmployeeHiredEvent::class,
-        TerminationCreatedEvent::class,
+        EmployeeTerminatedEvent::class,
     ]);
 });
 

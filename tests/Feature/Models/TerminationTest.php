@@ -2,7 +2,7 @@
 
 use App\Events\EmployeeHiredEvent;
 use App\Events\SuspensionUpdatedEvent;
-use App\Events\TerminationCreatedEvent;
+use App\Events\EmployeeTerminatedEvent;
 use App\Exceptions\EmployeeCantBeTerminated;
 use App\Exceptions\TerminationDateCantBeLowerThanHireDate;
 use App\Models\Employee;
@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Event;
 
 beforeEach(function () {
     Event::fake([
-        TerminationCreatedEvent::class,
+        EmployeeTerminatedEvent::class,
         EmployeeHiredEvent::class,
         SuspensionUpdatedEvent::class,
     ]);
@@ -65,7 +65,7 @@ test('termination model fires event when created', function () {
     Hire::factory()->for($employee)->create(['date' => now()->subDay()]);
     Termination::factory()->for($employee)->create();
 
-    Event::assertDispatched(TerminationCreatedEvent::class);
+    Event::assertDispatched(EmployeeTerminatedEvent::class);
 });
 
 test('employees with status of Created cannot be terminated', function () {

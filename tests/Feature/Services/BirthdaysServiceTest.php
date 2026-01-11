@@ -2,7 +2,7 @@
 
 use App\Events\EmployeeHiredEvent;
 use App\Events\SuspensionUpdatedEvent;
-use App\Events\TerminationCreatedEvent;
+use App\Events\EmployeeTerminatedEvent;
 use App\Models\Employee;
 use App\Models\Suspension;
 use App\Models\Termination;
@@ -15,7 +15,7 @@ beforeEach(function () {
     Event::fake([
         EmployeeHiredEvent::class,
         SuspensionUpdatedEvent::class,
-        TerminationCreatedEvent::class,
+        EmployeeTerminatedEvent::class,
     ]);
 });
 

@@ -2,7 +2,7 @@
 
 use App\Enums\TerminationTypes;
 use App\Events\EmployeeHiredEvent;
-use App\Events\TerminationCreatedEvent;
+use App\Events\EmployeeTerminatedEvent;
 use App\Filament\HumanResource\Resources\Terminations\Pages\CreateTermination;
 use App\Filament\HumanResource\Resources\Terminations\Pages\EditTermination;
 use App\Filament\HumanResource\Resources\Terminations\Pages\ListTerminations;
@@ -25,7 +25,7 @@ beforeEach(function () {
     );
     Event::fake([
         EmployeeHiredEvent::class,
-        TerminationCreatedEvent::class,
+        EmployeeTerminatedEvent::class,
     ]);
 
     $employee = Employee::factory()->create();

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Events\TerminationCreatedEvent;
+use App\Events\EmployeeTerminatedEvent;
 use App\Exceptions\TerminationDateCantBeLowerThanHireDate;
 use App\Models\Traits\BelongsToEmployee;
 use App\Models\Traits\HasManyComments;
@@ -17,7 +17,7 @@ class Termination extends \App\Models\BaseModels\AppModel
     protected $fillable = ['employee_id', 'date', 'termination_type', 'is_rehireable', 'comment'];
 
     protected $dispatchesEvents = [
-        'created' => TerminationCreatedEvent::class,
+        'created' => EmployeeTerminatedEvent::class,
     ];
 
     protected $casts = [
