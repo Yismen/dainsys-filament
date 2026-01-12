@@ -2,6 +2,15 @@
 
 use App\Enums\EmployeeStatuses;
 
+test('names method return specific names', function () {
+    expect(EmployeeStatuses::names())->toEqual([
+        'Created',
+        'Hired',
+        'Suspended',
+        'Terminated',
+    ]);
+});
+
 test('values method return specific values', function () {
     expect(EmployeeStatuses::values())->toEqual([
         'Created',

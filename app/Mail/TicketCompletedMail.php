@@ -28,13 +28,13 @@ class TicketCompletedMail extends Mailable implements ShouldQueue
     {
         return $this
             ->to(
-                (new TicketRecipientsService())
-                ->ofTicket($this->ticket)
-                ->superAdmins()
-                ->owner()
-                ->operator()
-                ->ticketAdmins()
-                ->get()
+                (new TicketRecipientsService)
+                    ->ofTicket($this->ticket)
+                    ->superAdmins()
+                    ->owner()
+                    ->operator()
+                    ->ticketAdmins()
+                    ->get()
             )
             ->subject("Ticket #{$this->ticket->reference} Completed")
             ->priority($this->ticket->mail_priority)

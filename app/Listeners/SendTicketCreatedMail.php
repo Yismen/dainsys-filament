@@ -4,8 +4,6 @@ namespace App\Listeners;
 
 use App\Events\TicketCreatedEvent;
 use App\Mail\TicketCreatedMail;
-use App\Models\Ticket;
-use App\Services\TicketRecipientsService;
 use Illuminate\Support\Facades\Mail;
 
 class SendTicketCreatedMail

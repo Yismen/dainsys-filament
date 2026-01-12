@@ -1,15 +1,20 @@
 <?php
 
+use App\Events\TicketCompletedEvent;
+use App\Events\TicketCreatedEvent;
 use App\Events\TicketReopenedEvent;
 use App\Listeners\SendTicketReopenedMail;
 use App\Mail\TicketReopenedMail;
 use App\Models\Ticket;
+use App\Models\User;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 
 test('event is dispatched', function () {
     Event::fake([
         TicketReopenedEvent::class,
+        TicketCreatedEvent::class,
+        TicketCompletedEvent::class,
     ]);
 
     // $this->supportSuperAdminUser();
@@ -27,8 +32,9 @@ test('event is dispatched', function () {
 test('when ticket is created an email is sent', function () {
     Mail::fake();
 
-    // $this->supportSuperAdminUser();
+    $this->actingAs(User::factory()->create());
     $ticket = Ticket::factory()->assigned()->create();
+    $ticket->close('Testing');
     $ticket->reopen();
 
     Mail::assertQueued(TicketReopenedMail::class);

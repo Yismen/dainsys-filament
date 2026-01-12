@@ -1,10 +1,12 @@
-@component('mail::message')
-# Hello,
+<x-mail::message>
+# Tickets Expired Report
 
-Please see attached a report with all expired tickets. Please review and work accordingly.
+Please find attached a report that includes all tickets which are currently expired and have not yet been completed. Kindly ensure that these tickets are assigned to one of your team members for prompt attention.
 
-{{-- <x-support::email.button :url="route('support.dashboard')"> Dashboard </x-support::email.button> --}}
+<x-mail::button :url="url('support')">
+View Tickets
+</x-mail::button>
 
 Thanks,<br>
 {{ config('app.name') }}
-@endcomponent
+</x-mail::message>

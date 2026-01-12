@@ -2,13 +2,25 @@
 
 use App\Enums\CampaignSources;
 
+test('names method return specific names', function () {
+    expect(CampaignSources::names())->toEqual([
+        'Chat',
+        'Email',
+        'Inbound',
+        'Outbound',
+        'QAReview',
+        'Resubmissions',
+        'Training',
+    ]);
+});
+
 test('values method return specific values', function () {
     expect(CampaignSources::values())->toEqual([
         'Chat',
         'Email',
         'Inbound',
         'Outbound',
-        'QAReview',
+        'QA Review',
         'Resubmissions',
         'Training',
     ]);
@@ -20,7 +32,7 @@ test('all method return associative array', function () {
         'Email' => 'Email',
         'Inbound' => 'Inbound',
         'Outbound' => 'Outbound',
-        'QAReview' => 'QAReview',
+        'QA Review' => 'QAReview',
         'Resubmissions' => 'Resubmissions',
         'Training' => 'Training',
     ]);

@@ -1,4 +1,4 @@
-@component('mail::message')
+<x-mail::message>
 # Hello,
 
 A new ticket with #{{ $ticket->reference }} has been created by {{ $ticket->owner->name }}!
@@ -12,4 +12,4 @@ A new ticket with #{{ $ticket->reference }} has been created by {{ $ticket->owne
 </x-support::email.button>
 Thanks,<br> --}}
 {{ config('app.name') }}
-@endcomponent
+</x-mail::message>

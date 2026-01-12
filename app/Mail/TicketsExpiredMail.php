@@ -31,12 +31,12 @@ class TicketsExpiredMail extends Mailable
         return $this
             ->subject('Tickets Expired Report')
             ->priority(0)
-            ->markdown('mail.tickets-expired');
+            ->markdown('mail.support.tickets-expired');
     }
 
     public function attachments(): array
     {
-        Excel::store(new TicketsExpiredExport($this->tickets), $this->file_name);
+        Excel::store(export: new TicketsExpiredExport($this->tickets), filePath: $this->file_name);
 
         return [
             Attachment::fromStorage($this->file_name),

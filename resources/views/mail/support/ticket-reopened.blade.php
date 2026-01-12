@@ -1,4 +1,4 @@
-@component('mail::message')
+<x-mail::message>
 # Hello,
 
 Ticket #{{ $ticket->reference }}, created by {{ $ticket->owner->name }} {{ $ticket->created_at->diffForHumans() }}, was
@@ -14,4 +14,4 @@ reopened by {{ $user?->name }}!.
 
 Thanks,<br>
 {{ config('app.name') }}
-@endcomponent
+</x-mail::message>

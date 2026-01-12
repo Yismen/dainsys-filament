@@ -25,7 +25,7 @@ class TicketDeletedMail extends Mailable implements ShouldQueue
     {
         return $this
             ->to(
-                (new TicketRecipientsService())
+                (new TicketRecipientsService)
                     ->ofTicket($this->ticket)
                     ->superAdmins()
                     ->owner()

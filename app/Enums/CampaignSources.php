@@ -15,7 +15,7 @@ enum CampaignSources: string implements EnumContract
     case Email = 'Email';
     case Inbound = 'Inbound';
     case Outbound = 'Outbound';
-    case QAReview = 'QAReview';
+    case QAReview = 'QA Review';
     case Resubmissions = 'Resubmissions';
     case Training = 'Training';
 }

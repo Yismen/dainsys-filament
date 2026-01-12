@@ -4,9 +4,6 @@ namespace App\Listeners;
 
 use App\Events\TicketAssignedEvent;
 use App\Mail\TicketAssignedMail;
-use App\Models\Ticket;
-use App\Services\TicketRecipientsService;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Mail;
 
 class SendTicketAssignedMail

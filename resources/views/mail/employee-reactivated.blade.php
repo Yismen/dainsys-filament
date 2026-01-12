@@ -1,4 +1,4 @@
-@component('mail::message')
+<x-mail::message>
 # Employee Created
 
 Employee <b>{{ $employee->full_name }}</b>, who was previously part of the company, was reactivated with date {{
@@ -10,4 +10,4 @@ $employee->hired_at->format('Y-m-d') }}.
 
 Thanks,<br>
 {{ config('app.name') }}
-@endcomponent
+</x-mail::message>

@@ -7,18 +7,18 @@ use App\Enums\Traits\EnumNames;
 use App\Enums\Traits\EnumToArray;
 use App\Enums\Traits\EnumValues;
 
-enum TicketStatuses: int implements EnumContract
+enum TicketStatuses: string implements EnumContract
 {
     use EnumNames;
     use EnumToArray;
     use EnumValues;
 
-    case Pending = 1;
-    case PendingExpired = 2;
-    case InProgress = 3;
-    case InProgressExpired = 4;
-    case Completed = 5;
-    case CompletedExpired = 6;
+    case Pending = 'not assigned';
+    case PendingExpired = 'expired before assignment';
+    case InProgress = 'assigned to user';
+    case InProgressExpired = 'expired and assigned';
+    case Completed = 'completed in time';
+    case CompletedExpired = 'completed after expiring';
 
     public function class(): string
     {

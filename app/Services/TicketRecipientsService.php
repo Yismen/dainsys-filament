@@ -41,7 +41,12 @@ class TicketRecipientsService
     {
         $super_admins = User::query()
             ->withWhereHas('roles', function ($roleQuery) {
-                $roleQuery->where('name', 'super_admin');
+                $roleQuery->whereIn('name', [
+                    'Super Admin',
+                    'super admin',
+                    'super-admin',
+                    'super_admin',
+                ]);
             })
             ->get();
 

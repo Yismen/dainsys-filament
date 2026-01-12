@@ -34,7 +34,7 @@ test('service collection contains super admin user', function () {
 
     $ticket = Ticket::factory()->create();
 
-    $recipients =(new TicketRecipientsService)
+    $recipients = (new TicketRecipientsService)
         ->ofTicket($ticket)
         ->superAdmins()
         ->get();
@@ -52,7 +52,7 @@ test('service collection contains ticket admins', function () {
 
     $ticket = Ticket::factory()->create();
 
-    $recipients =(new TicketRecipientsService)
+    $recipients = (new TicketRecipientsService)
         ->ofTicket($ticket)
         ->ticketAdmins()
         ->get();
@@ -70,7 +70,7 @@ test('service collection contains ticket operators', function () {
 
     $ticket = Ticket::factory()->create();
 
-    $recipients =(new TicketRecipientsService)
+    $recipients = (new TicketRecipientsService)
         ->ofTicket($ticket)
         ->ticketOperators()
         ->get();

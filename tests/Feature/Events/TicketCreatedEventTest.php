@@ -4,7 +4,7 @@ use App\Events\TicketCreatedEvent;
 use App\Listeners\SendTicketCreatedMail;
 use App\Mail\TicketCreatedMail;
 use App\Models\Ticket;
-use App\Models\TicketDepartment;
+use App\Models\User;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 
@@ -22,13 +22,12 @@ test('event is dispatched', function () {
     );
 });
 
-/** @test */
-// public function email_is_sent()
-// {
-//     Mail::fake();
-//     $superAdmin = $this->supportSuperAdminUser();
-//     $department = TicketDepartment::factory()->create();
-//     $department_admin = $this->departmentAdminUser($department);
-//     $ticket = Ticket::factory()->create(['department_id' => $department->id]);
-//     Mail::assertQueued(TicketCreatedMail::class);
-// }
+test('when ticket is created an email is sent', function () {
+    Mail::fake();
+
+    $ticket = Ticket::factory()->create(['owner_id' => User::factory()->create()]);
+    $this->actingAs(User::factory()->create());
+    $ticket->close('Comment');
+
+    Mail::assertQueued(TicketCreatedMail::class);
+});

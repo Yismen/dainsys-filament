@@ -27,7 +27,8 @@ class TicketReplyCreatedMail extends Mailable implements ShouldQueue
 
         return $this
             ->to(
-                (new TicketRecipientsService())
+                (new TicketRecipientsService)
+                    ->ofTicket($ticket)
                     ->owner()
                     ->operator()
                     ->ticketAdmins()

@@ -137,7 +137,7 @@ class Ticket extends \App\Models\BaseModels\AppModel
         TicketReopenedEvent::dispatch($this);
     }
 
-    public function close(string $comment)
+    public function complete(string $comment)
     {
         $this->replies()->createQuietly([
             'user_id' => auth()->user()->id,
@@ -150,6 +150,11 @@ class Ticket extends \App\Models\BaseModels\AppModel
         ]);
 
         TicketCompletedEvent::dispatch($this, $comment);
+    }
+
+    public function close(string $comment)
+    {
+        $this->complete($comment);
     }
 
     public function isAssigned(): bool

@@ -3,11 +3,11 @@
 namespace App\Mail;
 
 use App\Models\Ticket;
+use App\Services\TicketRecipientsService;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use App\Services\TicketRecipientsService;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class TicketAssignedMail extends Mailable implements ShouldQueue
 {
@@ -25,13 +25,13 @@ class TicketAssignedMail extends Mailable implements ShouldQueue
     {
         return $this
             ->to(
-            (new TicketRecipientsService())
-                ->ofTicket($this->ticket)
-                ->superAdmins()
-                ->owner()
-                ->operator()
-                ->ticketAdmins()
-                ->get()
+                (new TicketRecipientsService)
+                    ->ofTicket($this->ticket)
+                    ->superAdmins()
+                    ->owner()
+                    ->operator()
+                    ->ticketAdmins()
+                    ->get()
             )
             ->subject("Ticket #{$this->ticket->reference} Assigned")
             ->priority($this->ticket->mail_priority)
