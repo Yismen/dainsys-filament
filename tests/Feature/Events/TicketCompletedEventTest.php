@@ -16,7 +16,8 @@ test('event is dispatched', function () {
     // $this->supportSuperAdminUser();
     $ticket = Ticket::factory()->create(['owner_id' => User::factory()->create()]);
 
-    $ticket->complete();
+    $this->actingAs(User::factory()->create());
+    $ticket->close("Comment");
 
     Event::assertDispatched(TicketCompletedEvent::class);
     Event::assertListening(
@@ -29,7 +30,8 @@ test('when ticket is created an email is sent', function () {
     Mail::fake();
 
     $ticket = Ticket::factory()->create(['owner_id' => User::factory()->create()]);
-    $ticket->complete();
+    $this->actingAs(User::factory()->create());
+    $ticket->close("Comment");
 
     Mail::assertQueued(TicketCompletedMail::class);
 });

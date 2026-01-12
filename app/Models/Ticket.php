@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -28,7 +29,7 @@ class Ticket extends \App\Models\BaseModels\AppModel
         'owner_id',
         'subject',
         'description',
-        'reference',
+        // 'reference',
         'images',
         'status',
         'priority',
@@ -47,6 +48,12 @@ class Ticket extends \App\Models\BaseModels\AppModel
         'priority' => TicketPriorities::class,
     ];
 
+    // protected $appends = [
+    //     'reference',
+    // ];
+
+    protected string $tickets_prefix = 'ECCODRHQIT-';
+
     protected static function booted()
     {
         parent::booted();
@@ -58,23 +65,19 @@ class Ticket extends \App\Models\BaseModels\AppModel
         });
 
         static::created(function (Ticket $model) {
-            $model->updateQuietly([
-                'status' => TicketStatuses::Pending,
-                // 'assigned_to' => null,
-                // 'assigned_at' => null,
-                'reference' => $model->getReference(),
-            ]);
+            $model->status = TicketStatuses::Pending;
+            $model->reference = $model->getReference();
+
+            $model->saveQuietly();
 
             TicketCreatedEvent::dispatch($model);
         });
 
-        static::saved(function ($model) {
-            $model->updateQuietly([
-                'expected_at' => $model->getExpectedDate(),
-            ]);
-            $model->updateQuietly([
-                'status' => $model->getStatus(),
-            ]);
+        static::saved(function (Ticket $model) {
+            $model->expected_at = $model->getExpectedDate();
+            $model->status = $model->getStatus();
+
+            $model->saveQuietly();
         });
         static::deleting(function ($model) {
             // if ($model->image) {
@@ -93,9 +96,14 @@ class Ticket extends \App\Models\BaseModels\AppModel
         return $this->belongsTo(User::class, 'owner_id');
     }
 
-    public function agent(): BelongsTo
+    public function operator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'assigned_to');
+    }
+
+    public function agent(): BelongsTo
+    {
+        return $this->operator();
     }
 
     public function replies(): HasMany
@@ -114,6 +122,11 @@ class Ticket extends \App\Models\BaseModels\AppModel
         TicketAssignedEvent::dispatch($this);
     }
 
+    public function grab()
+    {
+        $this->assignTo(Auth::user());
+    }
+
     public function reOpen()
     {
         $this->update([
@@ -124,16 +137,6 @@ class Ticket extends \App\Models\BaseModels\AppModel
         TicketReopenedEvent::dispatch($this);
     }
 
-    public function complete(string $comment = '')
-    {
-        $this->update([
-            'status' => $this->getStatus(),
-            'completed_at' => now(),
-        ]);
-
-        TicketCompletedEvent::dispatch($this, $comment);
-    }
-
     public function close(string $comment)
     {
         $this->replies()->createQuietly([
@@ -141,7 +144,12 @@ class Ticket extends \App\Models\BaseModels\AppModel
             'content' => $comment,
         ]);
 
-        $this->complete($comment);
+        $this->update([
+            'status' => $this->getStatus(),
+            'completed_at' => now(),
+        ]);
+
+        TicketCompletedEvent::dispatch($this, $comment);
     }
 
     public function isAssigned(): bool
@@ -276,12 +284,19 @@ class Ticket extends \App\Models\BaseModels\AppModel
     {
         $latest_reference = self::query()
             ->orderBy('reference', 'desc')
-            ->first();
+            ->first()?->reference;
 
-        if ($latest_reference) {
-            return ++$latest_reference->reference;
+        if ($latest_reference != null) {
+            $reference = $latest_reference;
+
+            return ++$reference;
         }
 
-        return $this->department->ticket_prefix.'000001';
+        return $this->tickets_prefix.'000001';
     }
+
+    // public function getReferenceAttribute()
+    // {
+    //     return $this->attributes['reference'] ?? null;
+    // }
 }

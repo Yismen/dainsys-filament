@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Models\Traits\HasManyMailingSubscriptions;
+use App\Models\Traits\InteractWithSupportTickets;
 use App\Traits\Models\InteractsWithModelCaching;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
@@ -25,6 +26,7 @@ class User extends Authenticatable implements FilamentUser
     use HasRoles;
     use HasUuids;
     use InteractsWithModelCaching;
+    use InteractWithSupportTickets;
     use Notifiable;
     use SoftDeletes;
     use TwoFactorAuthenticatable;

@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Enums\TicketRoles;
 use App\Models\Ticket;
 use App\Models\User;
 
@@ -12,7 +13,7 @@ class TicketPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->checkPermissionTo('view-any Ticket');
+        return true;
     }
 
     /**
@@ -20,7 +21,12 @@ class TicketPolicy
      */
     public function view(User $user, Ticket $ticket): bool
     {
-        return $user->checkPermissionTo('view Ticket');
+        return $user->hasAnyRole([
+            TicketRoles::Admin->value,
+            TicketRoles::Operator->value,
+        ]) ||
+        $ticket->owner_id === $user->id ||
+        $ticket->assigned_to === $user->id;
     }
 
     /**
@@ -28,7 +34,7 @@ class TicketPolicy
      */
     public function create(User $user): bool
     {
-        return $user->checkPermissionTo('create Ticket');
+        return true;
     }
 
     /**
@@ -36,7 +42,7 @@ class TicketPolicy
      */
     public function update(User $user, Ticket $ticket): bool
     {
-        return $user->checkPermissionTo('update Ticket');
+        return $user->id === $ticket->created_by;
     }
 
     /**
@@ -44,7 +50,8 @@ class TicketPolicy
      */
     public function delete(User $user, Ticket $ticket): bool
     {
-        return $ticket->owner_id === $user->id;
+        return $user->id === $ticket->created_by
+            && $ticket->isOpen();
     }
 
     /**
@@ -61,6 +68,35 @@ class TicketPolicy
     public function restore(User $user, Ticket $ticket): bool
     {
         return $ticket->owner_id === $user->id;
+    }
+
+    public function assign(User $user, Ticket $ticket): bool
+    {
+        return $user->hasRole(TicketRoles::Admin->value) || $user->id === $ticket->owner_id;
+    }
+
+    public function grab(User $user, Ticket $ticket): bool
+    {
+        return $user->hasAnyRole([
+            TicketRoles::Admin->value,
+            TicketRoles::Operator->value,
+        ]) && $user->id !== $ticket->owner_id;
+    }
+
+    public function reOpen(User $user, Ticket $ticket): bool
+    {
+        return $user->hasAnyRole([
+            TicketRoles::Admin->value,
+            // TicketRoles::Operator->value,
+        ]) || $user->id === $ticket->owner_id;
+    }
+
+    public function close(User $user, Ticket $ticket): bool
+    {
+        return $user->hasAnyRole([
+            TicketRoles::Admin->value,
+            // TicketRoles::Operator->value,
+        ]) || $user->id === $ticket->assigned_to;
     }
 
     /**
