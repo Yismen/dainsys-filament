@@ -12,10 +12,6 @@ $birthday['age'] }} |
 @endforeach
 </x-mail::table>
 
-{{-- <x-mail::button, ['url' => ''])
-{{ str(__('dainsys::messages.profile'))->headline() }}
-@endcomponent --}}
-
 Thanks,<br>
 {{ config('app.name') }}
 </x-mail::message>

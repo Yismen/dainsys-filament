@@ -13,8 +13,9 @@ been {{ $ticket->status->name }} by {{ $user?->name }}!.
 *Content:*
 > {!! $ticket->description !!}
 
-{{-- <x-support::email.button :url="route('support.my_tickets', ['ticket_details' => $ticket->id])">View
-    Ticket</x-support::email.button> --}}
+<x-mail::button :url="url('support/tickets', ['record' => $ticket->getKey()])">
+    View Ticket
+</x-mail::button>
 
 Thanks,<br>
 {{ config('app.name') }}

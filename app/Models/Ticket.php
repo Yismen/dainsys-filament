@@ -59,8 +59,8 @@ class Ticket extends \App\Models\BaseModels\AppModel
         parent::booted();
 
         static::creating(function ($model) {
-            if (auth()->check()) {
-                $model->owner_id = auth()->user()->id;
+            if (Auth::check()) {
+                $model->owner_id = Auth::id();
             }
         });
 
@@ -127,20 +127,25 @@ class Ticket extends \App\Models\BaseModels\AppModel
         $this->assignTo(Auth::user());
     }
 
-    public function reOpen()
+    public function reOpen(string $comment)
     {
+        $this->replies()->createQuietly([
+            'user_id' => Auth::id(),
+            'content' => $comment,
+        ]);
+
         $this->update([
             'status' => $this->getStatus(),
             'completed_at' => null,
         ]);
 
-        TicketReopenedEvent::dispatch($this);
+        TicketReopenedEvent::dispatch($this, $comment);
     }
 
     public function complete(string $comment)
     {
         $this->replies()->createQuietly([
-            'user_id' => auth()->user()->id,
+            'user_id' => Auth::id(),
             'content' => $comment,
         ]);
 
@@ -169,7 +174,7 @@ class Ticket extends \App\Models\BaseModels\AppModel
 
     public function isAssignedToMe(): bool
     {
-        return $this->assigned_to === auth()->user()->id;
+        return $this->assigned_to === Auth::id();
     }
 
     public function isOpen(): bool

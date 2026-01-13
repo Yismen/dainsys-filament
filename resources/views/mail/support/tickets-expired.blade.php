@@ -4,7 +4,7 @@
 Please find attached a report that includes all tickets which are currently expired and have not yet been completed. Kindly ensure that these tickets are assigned to one of your team members for prompt attention.
 
 <x-mail::button :url="url('support')">
-View Tickets
+View All Tickets
 </x-mail::button>
 
 Thanks,<br>

@@ -42,7 +42,7 @@ class TicketPolicy
      */
     public function update(User $user, Ticket $ticket): bool
     {
-        return $user->id === $ticket->created_by;
+        return $user->id === $ticket->owner_id;
     }
 
     /**
@@ -50,7 +50,7 @@ class TicketPolicy
      */
     public function delete(User $user, Ticket $ticket): bool
     {
-        return $user->id === $ticket->created_by
+        return $user->id === $ticket->owner_id
             && $ticket->isOpen();
     }
 

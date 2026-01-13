@@ -29,6 +29,7 @@ class SupportPanelProvider extends PanelProvider
             ->login()
             // ->registration()
             ->passwordReset()
+            ->topNavigation()
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->colors([
                 'primary' => Color::Amber,

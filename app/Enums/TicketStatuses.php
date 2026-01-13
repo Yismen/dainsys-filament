@@ -20,15 +20,27 @@ enum TicketStatuses: string implements EnumContract
     case Completed = 'completed in time';
     case CompletedExpired = 'completed after expiring';
 
-    public function class(): string
+    // public function class(): string
+    // {
+    //     return match ($this) {
+    //         self::Pending => '',
+    //         self::PendingExpired => 'text-bold text-danger',
+    //         self::InProgress => 'badge badge-info',
+    //         self::InProgressExpired => 'badge badge-warning',
+    //         self::Completed => 'badge badge-success',
+    //         self::CompletedExpired => 'badge badge-success',
+    //     };
+    // }
+
+    public function color(): string
     {
         return match ($this) {
             self::Pending => '',
-            self::PendingExpired => 'text-bold text-danger',
-            self::InProgress => 'badge badge-info',
-            self::InProgressExpired => 'badge badge-warning',
-            self::Completed => 'badge badge-success',
-            self::CompletedExpired => 'badge badge-danger',
+            self::PendingExpired => 'warning',
+            self::InProgress => 'info',
+            self::InProgressExpired => 'warning',
+            self::Completed => 'success',
+            self::CompletedExpired => 'danger',
         };
     }
 }

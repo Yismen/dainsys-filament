@@ -20,7 +20,8 @@ test('event is dispatched', function () {
     // $this->supportSuperAdminUser();
     $ticket = Ticket::factory()->create();
 
-    $ticket->reopen();
+    $this->actingAs(User::factory()->create());
+    $ticket->reOpen("Reopen for testing");
 
     Event::assertDispatched(TicketReopenedEvent::class);
     Event::assertListening(
@@ -35,7 +36,7 @@ test('when ticket is created an email is sent', function () {
     $this->actingAs(User::factory()->create());
     $ticket = Ticket::factory()->assigned()->create();
     $ticket->close('Testing');
-    $ticket->reopen();
+    $ticket->reOpen("Ticket");
 
     Mail::assertQueued(TicketReopenedMail::class);
 });

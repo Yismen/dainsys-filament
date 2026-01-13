@@ -261,7 +261,8 @@ test('ticket model emit event when ticket is reopened', function () {
     Event::fake(TicketReopenedEvent::class);
     $ticket = Ticket::factory()->create();
 
-    $ticket->reOpen();
+    $this->actingAs(User::factory()->create());
+    $ticket->reOpen('Please re-open');
 
     Event::assertDispatched(TicketReopenedEvent::class);
 });

@@ -14,9 +14,6 @@ $suspension->starts_at->format('M/d/y')
 @endforeach
 @endforeach
 </x-mail::table>
-{{-- @component('mail::button', ['url' => ''])
-{{ str(__('dainsys::messages.profile'))->headline() }}
-@endcomponent --}}
 
 Thanks,<br>
 {{ config('app.name') }}

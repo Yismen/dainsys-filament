@@ -6,9 +6,9 @@
 
 Employee <b>{{ $employee->full_name }}</b> has been terminated, efectivily {{ $termination->date->format('M-d, Y') }}! They worked at {{ $employee->site->name }}, im project {{ $employee->project->name }} as {{ $employee->position }}, for supervisor {{ $employee->supervisor->name }}.
 
-{{-- @component('mail::button', ['url' => '/human-resource/employees-management/employees'])
-{{ $employee->full_name }}
-@endcomponent --}}
+<x-mail::button :url="url('human-resource/employees-management/employees', ['record' => $employee->getKey()])">
+    View Employee
+</x-mail::button>
 
 Thanks,<br>
 {{ config('app.name') }}

@@ -1,7 +1,7 @@
 <x-mail::message>
 # Hello,
 
-Ticket #{{ $ticket->reference }}, created by {{ $ticket->owner->name }} {{ $ticket->created_at->diffForHumans() }}, has
+Ticket #{{ $ticket->reference }}, created by {{ $ticket->owner->name }} on {{ $ticket->created_at->diffForHumans() }}, has
 been deleted by {{ $user?->name }}.
 
 **Title: {{ $ticket->subject }}**

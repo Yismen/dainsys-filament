@@ -5,11 +5,8 @@
 
 > *"{{ $reply->content }}"*
 
-{{-- <x-support::email.button :url="route('support.my_tickets', ['ticket_details' => $reply->ticket->id])">
-    View
-    Ticket</x-support::email.button> --}}
-<x-mail::button :url="url('support')">
-    View Tickets
+<x-mail::button :url="url('support/tickets', ['record' => $reply->ticket->getKey()])">
+    View Ticket
 </x-mail::button>
 
 
