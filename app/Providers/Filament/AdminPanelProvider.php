@@ -48,6 +48,12 @@ class AdminPanelProvider extends PanelProvider
                     ->icon('heroicon-o-cursor-arrow-ripple')
                     ->url(fn (): string => route('telescope'))
                     ->openUrlInNewTab(),
+                NavigationItem::make()
+                    ->group('System')
+                    ->label('Horizon')
+                    ->icon('heroicon-o-arrow-trending-up')
+                    ->url(fn (): string => route('horizon.index'))
+                    ->openUrlInNewTab(),
             ])
             ->databaseNotifications()
             ->plugins([
