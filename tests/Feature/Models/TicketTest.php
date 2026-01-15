@@ -125,17 +125,17 @@ test('ticket model updates reference correcly', function () {
 
     $this->assertDatabaseHas(Ticket::class, [
         'id' => $ticket_1->id,
-        'reference' => 'ECCODRHQIT-000001',
+        'reference' => 'ECCOSTGOIT_000001',
     ]);
 
     $this->assertDatabaseHas(Ticket::class, [
         'id' => $ticket_2->id,
-        'reference' => 'ECCODRHQIT-000002',
+        'reference' => 'ECCOSTGOIT_000002',
     ]);
 
     $this->assertDatabaseHas(Ticket::class, [
         'id' => $ticket_3->id,
-        'reference' => 'ECCODRHQIT-000003',
+        'reference' => 'ECCOSTGOIT_000003',
     ]);
 });
 

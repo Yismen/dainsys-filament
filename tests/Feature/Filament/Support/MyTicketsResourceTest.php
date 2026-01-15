@@ -1,24 +1,25 @@
 <?php
 
+use App\Models\User;
+use App\Models\Ticket;
+use App\Models\MyTicket;
+use Filament\Facades\Filament;
+use function Pest\Laravel\get;
 use App\Enums\TicketPriorities;
-use App\Events\TicketAssignedEvent;
-use App\Events\TicketCompletedEvent;
 use App\Events\TicketCreatedEvent;
 use App\Events\TicketDeletedEvent;
+use App\Events\TicketAssignedEvent;
 use App\Events\TicketReopenedEvent;
-use App\Events\TicketReplyCreatedEvent;
-use App\Filament\Support\Resources\Tickets\Pages\CreateTicket;
-use App\Filament\Support\Resources\Tickets\Pages\EditTicket;
-use App\Filament\Support\Resources\Tickets\Pages\ListTickets;
-use App\Filament\Support\Resources\Tickets\Pages\ViewTicket;
-use App\Models\Ticket;
-use App\Models\User;
-use Filament\Facades\Filament;
-use Illuminate\Support\Facades\Event;
-
 use function Pest\Laravel\actingAs;
-use function Pest\Laravel\get;
+use App\Events\TicketCompletedEvent;
 use function Pest\Livewire\livewire;
+use Illuminate\Support\Facades\Event;
+use App\Events\TicketReplyCreatedEvent;
+
+use App\Filament\Support\Resources\MyTickets\Pages\EditMyTicket;
+use App\Filament\Support\Resources\MyTickets\Pages\ViewMyTicket;
+use App\Filament\Support\Resources\MyTickets\Pages\ListMyTickets;
+use App\Filament\Support\Resources\MyTickets\Pages\CreateMyTicket;
 
 beforeEach(function () {
     // Seed roles/permissions if applicable
@@ -38,36 +39,36 @@ beforeEach(function () {
 
     $this->resource_routes = [
         'index' => [
-            'route' => ListTickets::getRouteName(),
+            'route' => ListMyTickets::getRouteName(),
             'params' => [],
             'permission' => ['view-any'],
         ],
         'create' => [
-            'route' => CreateTicket::getRouteName(),
+            'route' => CreateMyTicket::getRouteName(),
             'params' => [],
             'permission' => ['create', 'view-any'],
         ],
         'edit' => [
-            'route' => EditTicket::getRouteName(),
+            'route' => EditMyTicket::getRouteName(),
             'params' => ['record' => $ticket->getKey()],
             'permission' => ['update', 'edit', 'view-any'],
         ],
         'view' => [
-            'route' => ViewTicket::getRouteName(),
+            'route' => ViewMyTicket::getRouteName(),
             'params' => ['record' => $ticket->getKey()],
             'permission' => ['view', 'view-any'],
         ],
     ];
 
     $this->form_data = [
-        'subject' => 'new Ticket',
+        'subject' => 'new MyTicket',
         'description' => 'new ticket Description',
         // 'images' => [],
         'priority' => TicketPriorities::Normal->value,
     ];
 });
 
-it('require users to be authenticated to access Ticket resource pages', function (string $method) {
+it('require users to be authenticated to access MyTicket resource pages', function (string $method) {
     $response = get(route($this->resource_routes[$method]['route'],
         $this->resource_routes[$method]['params']));
 
@@ -79,7 +80,7 @@ it('require users to be authenticated to access Ticket resource pages', function
     'view',
 ]);
 
-it('require users to have correct permissions to access Ticket resource pages', function (string $method) {
+it('require users to have correct permissions to access MyTicket resource pages', function (string $method) {
     actingAs(User::factory()->create());
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -92,7 +93,7 @@ it('require users to have correct permissions to access Ticket resource pages', 
     'view',
 ]);
 
-it('allow users with correct permissions to access Ticket resource pages', function (string $method, string $component) {
+it('allow users with correct permissions to access MyTicket resource pages', function (string $method, string $component) {
     $user = User::factory()->create();
     $this->actingAs($user);
 
@@ -103,8 +104,8 @@ it('allow users with correct permissions to access Ticket resource pages', funct
 
     $response->assertOk();
 })->with([
-    ['edit', EditTicket::class],
-    ['view', ViewTicket::class],
+    ['edit', EditMyTicket::class],
+    ['view', ViewMyTicket::class],
 ]);
 
 it('prevent users from working tickets they dont own', function (string $method, string $component) {
@@ -119,11 +120,11 @@ it('prevent users from working tickets they dont own', function (string $method,
 
     $response->assertNotFound();
 })->with([
-    ['edit', EditTicket::class],
-    ['view', ViewTicket::class],
+    ['edit', EditMyTicket::class],
+    ['view', ViewMyTicket::class],
 ]);
 
-// it('displays Ticket list page correctly with tickets created by the user', function () {
+// it('displays MyTicket list page correctly with tickets created by the user', function () {
 //     $user = User::factory()->create();
 //     Ticket::factory()->for($user, 'owner')->create();
 
@@ -133,11 +134,11 @@ it('prevent users from working tickets they dont own', function (string $method,
 
 //     // dd($tickets->pluck('owner_id'), $user->id);
 
-//     livewire(ListTickets::class)
+//     livewire(ListMyTickets::class)
 //         ->assertCanSeeTableRecords($tickets);
 // });
 
-it('does not displays Ticket list created by other users', function () {
+it('does not displays MyTicket list created by other users', function () {
     $user = User::factory()->create();
     $another_user = User::factory()->create();
     Ticket::factory()->for($another_user, 'owner')->create();
@@ -145,7 +146,7 @@ it('does not displays Ticket list created by other users', function () {
 
     $tickets = Ticket::get();
 
-    livewire(ListTickets::class)
+    livewire(ListMyTickets::class)
         ->assertCanNotSeeTableRecords($tickets);
 });
 
@@ -154,7 +155,7 @@ test('table shows desired fields', function ($field) {
     actingAs($user);
     $ticket = Ticket::factory()->for($user, 'owner')->create();
 
-    livewire(ListTickets::class)
+    livewire(ListMyTickets::class)
         ->assertSee($ticket->$field);
 
 })->with([
@@ -162,22 +163,22 @@ test('table shows desired fields', function ($field) {
     // 'description',
 ]);
 
-test('create Ticket page works correctly', function () {
-    actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Ticket'));
+test('create MyTicket page works correctly', function () {
+    actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'MyTicket'));
 
-    livewire(CreateTicket::class)
+    livewire(CreateMyTicket::class)
         ->fillForm($this->form_data)
         ->call('create');
 
     $this->assertDatabaseHas('tickets', $this->form_data);
 });
 
-// test('edit Ticket page works correctly', function () {
+// test('edit MyTicket page works correctly', function () {
 //     $ticket = Ticket::factory()->create();
 
-//     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Ticket'));
+//     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'MyTicket'));
 
-//     livewire(EditTicket::class, ['record' => $ticket->getKey()])
+//     livewire(EditMyTicket::class, ['record' => $ticket->getKey()])
 //         ->fillForm($this->form_data)
 //         ->call('save')
 //         ->assertHasNoErrors();
@@ -186,16 +187,16 @@ test('create Ticket page works correctly', function () {
 // });
 
 test('form validation require fields on create and edit pages', function (string $field) {
-    actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Ticket'));
+    actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'MyTicket'));
 
-    // Test CreateTicket validation
-    livewire(CreateTicket::class)
+    // Test CreateMyTicket validation
+    livewire(CreateMyTicket::class)
         ->fillForm([$field => ''])
         ->call('create')
         ->assertHasFormErrors([$field => 'required']);
-    // Test EditTicket validation
+    // Test EditMyTicket validation
     $ticket = Ticket::factory()->create();
-    livewire(EditTicket::class, ['record' => $ticket->getKey()])
+    livewire(EditMyTicket::class, ['record' => $ticket->getKey()])
         ->fillForm([$field => ''])
         ->call('save')
         ->assertHasFormErrors([$field => 'required']);
@@ -205,14 +206,14 @@ test('form validation require fields on create and edit pages', function (string
 ]);
 
 it('autofocus the employee_id field on create and edit pages', function () {
-    actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Ticket'));
+    actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'MyTicket'));
 
-    // Test CreateTicket autofocus
-    livewire(CreateTicket::class)
+    // Test CreateMyTicket autofocus
+    livewire(CreateMyTicket::class)
         ->assertSeeHtml('autofocus');
 
-    // Test EditTicket autofocus
+    // Test EditMyTicket autofocus
     $ticket = Ticket::factory()->create();
-    livewire(EditTicket::class, ['record' => $ticket->getKey()])
+    livewire(EditMyTicket::class, ['record' => $ticket->getKey()])
         ->assertSeeHtml('autofocus');
 });

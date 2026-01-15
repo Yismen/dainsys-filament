@@ -1,0 +1,51 @@
+<?php
+
+namespace App\Filament\Actions;
+
+use App\Models\User;
+use App\Models\Ticket;
+use App\Models\Downtime;
+use App\Enums\TicketRoles;
+use Filament\Actions\Action;
+use App\Services\ModelListService;
+use Filament\Support\Colors\Color;
+use Filament\Support\Icons\Heroicon;
+use Illuminate\Support\Facades\Auth;
+use Filament\Forms\Components\Select;
+
+class AssignTicketAction
+{
+    public static function make(string $name = 'assign'): Action
+    {
+        return Action::make($name)
+            ->visible(function (Ticket $record) {
+                return Auth::user()->can('assign', $record)
+                    && $record->isOpen();
+            })
+            ->button()
+            ->size('sm')
+            ->color(Color::Indigo)
+            ->successNotificationTitle("Ticket has been assigned!")
+            ->schema([
+                Select::make('user_id')
+                    ->searchable()
+                    ->required()
+                    ->options(
+                        ModelListService::make(
+                            User::query()
+                                ->where(function ($userQuery) {
+                                    $userQuery->whereHas('roles', function ($rolesQuery) {
+                                        $rolesQuery->whereIn('name', [
+                                            TicketRoles::Admin->value,
+                                            TicketRoles::Operator->value,
+                                        ]);
+                                    });
+                                })
+                        )
+                    )
+            ])
+            ->action(function (Ticket $record, array $data) {
+                $record->assignTo($data['user_id']);
+            });
+    }
+}

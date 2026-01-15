@@ -23,7 +23,7 @@ class TicketPolicy
     {
         return $user->hasAnyRole([
             TicketRoles::Admin->value,
-            TicketRoles::Operator->value,
+            // TicketRoles::Operator->value,
         ]) ||
         $ticket->owner_id === $user->id ||
         $ticket->assigned_to === $user->id;
@@ -42,7 +42,7 @@ class TicketPolicy
      */
     public function update(User $user, Ticket $ticket): bool
     {
-        return $user->id === $ticket->owner_id;
+        return $user->id === $ticket->owner_id && $ticket->isOpen();
     }
 
     /**

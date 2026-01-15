@@ -6,7 +6,7 @@ use App\Filament\Support\Resources\MyTickets\Pages\CreateMyTicket;
 use App\Filament\Support\Resources\MyTickets\Pages\EditMyTicket;
 use App\Filament\Support\Resources\MyTickets\Pages\ListMyTickets;
 use App\Filament\Support\Resources\MyTickets\Pages\ViewMyTicket;
-use App\Filament\Support\Resources\MyTickets\RelationManagers\RepliesRelationManager;
+use App\Filament\Support\Resources\Tickets\RelationManagers\RepliesRelationManager;
 use App\Filament\Support\Resources\MyTickets\Schemas\MyTicketForm;
 use App\Filament\Support\Resources\MyTickets\Schemas\MyTicketInfolist;
 use App\Filament\Support\Resources\MyTickets\Tables\MyTicketsTable;
@@ -76,7 +76,7 @@ class MyTicketResource extends Resource
     {
         $query = parent::getEloquentQuery()
             ->where('owner_id', Auth::id())
-            ->orwhere('assigned_to', Auth::id())
+            // ->orwhere('assigned_to', Auth::id())
             ;
 
         return $query;

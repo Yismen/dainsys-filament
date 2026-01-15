@@ -52,7 +52,7 @@ class Ticket extends \App\Models\BaseModels\AppModel
     //     'reference',
     // ];
 
-    protected string $tickets_prefix = 'ECCODRHQIT-';
+    protected string $tickets_prefix = 'ECCOSTGOIT_';
 
     protected static function booted()
     {
@@ -111,10 +111,10 @@ class Ticket extends \App\Models\BaseModels\AppModel
         return $this->hasMany(TicketReply::class);
     }
 
-    public function assignTo(User $agent)
+    public function assignTo(string|int|User $agent)
     {
         $this->update([
-            'assigned_to' => $agent->id,
+            'assigned_to' => $agent instanceof User ? $agent->id : $agent,
             'assigned_at' => now(),
             'status' => $this->getStatus(),
         ]);
@@ -182,6 +182,11 @@ class Ticket extends \App\Models\BaseModels\AppModel
         return is_null($this->completed_at);
     }
 
+    public function isClosed(): bool
+    {
+        return !$this->isOpen();
+    }
+
     // public function isAssignedTo(DepartmentRole|User|int $agent): bool
     // {
     //     if (is_integer($agent)) {
@@ -239,14 +244,29 @@ class Ticket extends \App\Models\BaseModels\AppModel
         return $query->where('completed_at', '!=', null);
     }
 
+    public function scopeInProgress(Builder $query): Builder
+    {
+        return $query
+            ->where('assigned_to', '!=', null)
+            ->where('completed_at', null);
+    }
+
+    public function scopePending(Builder $query): Builder
+    {
+        return $query
+            ->where('assigned_to', '=', null);
+    }
+
     public function scopeCompliant(Builder $query): Builder
     {
-        return $query->whereColumn('completed_at', '<', 'expected_at');
+        return $query->whereColumn('completed_at', '<', 'expected_at')
+            ->where('completed_at', '!=', null);
     }
 
     public function scopeNonCompliant(Builder $query): Builder
     {
-        return $query->whereColumn('completed_at', '>', 'expected_at');
+        return $query->whereColumn('completed_at', '>=', 'expected_at')
+            ->where('completed_at', '!=', null);
     }
 
     public function scopeExpired(Builder $query): Builder
@@ -297,9 +317,11 @@ class Ticket extends \App\Models\BaseModels\AppModel
             ->first()?->reference;
 
         if ($latest_reference != null) {
-            $reference = $latest_reference;
+            $reference = str($latest_reference)->after($this->tickets_prefix)->toString();
 
-            return ++$reference;
+            $reference = ++$reference;
+
+            return $this->tickets_prefix . str($reference)->padLeft(6, '0');
         }
 
         return $this->tickets_prefix.'000001';

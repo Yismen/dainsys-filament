@@ -7,6 +7,7 @@ use App\Models\Ticket;
 use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Carbon;
 
 class TicketInfolist
 {
@@ -27,10 +28,12 @@ class TicketInfolist
                     ->badge(),
                 TextEntry::make('description')
                     ->columnSpanFull(),
-                TextEntry::make('assigned_to')
+                TextEntry::make('operator.name')
+                    ->label(__("Assigned to"))
                     ->placeholder('-'),
                 TextEntry::make('assigned_at')
                     ->dateTime()
+                    ->formatStateUsing(fn (Carbon $state) => $state->diffForHumans())
                     ->placeholder('-'),
                 ImageEntry::make('images')
                     ->disk('public')

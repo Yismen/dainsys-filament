@@ -28,19 +28,16 @@ class TicketResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'reference';
 
-    public static function form(Schema $schema): Schema
+    protected static bool $shouldRegisterNavigation = false;
+
+    public static function canAccess(): bool
     {
-        return TicketForm::configure($schema);
+        return Auth::user()->isSuperAdmin() || Auth::user()->isTicketsAdmin();
     }
 
     public static function infolist(Schema $schema): Schema
     {
         return TicketInfolist::configure($schema);
-    }
-
-    public static function table(Table $table): Table
-    {
-        return TicketsTable::configure($table);
     }
 
     public static function getRelations(): array
@@ -54,9 +51,9 @@ class TicketResource extends Resource
     {
         return [
             'index' => ListTickets::route('/'),
-            'create' => CreateTicket::route('/create'),
+            // 'create' => CreateTicket::route('/create'),
             'view' => ViewTicket::route('/{record}'),
-            'edit' => EditTicket::route('/{record}/edit'),
+            // 'edit' => EditTicket::route('/{record}/edit'),
         ];
     }
 
@@ -71,7 +68,9 @@ class TicketResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         $query = parent::getEloquentQuery()
-            ->where('owner_id', Auth::id());
+            // ->where('owner_id', Auth::id())
+            // ->orwhere('assigned_to', Auth::id())
+            ;
 
         return $query;
     }
