@@ -39,10 +39,6 @@ class AuthServiceProvider extends ServiceProvider
             return false;
         });
 
-        Gate::define('viewHorizon', function (User $user) {
-            return false;
-        });
-
         Gate::define('manageTickets', function (User $user) {
             return $user->isTicketsManager() ||
                 $user->isTicketsAgent();

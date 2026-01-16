@@ -16,7 +16,6 @@
         "guzzlehttp/guzzle": "^7.2",
         "jeffgreco13/filament-breezy": "^3.0",
         "laravel/framework": "^12.0",
-        "laravel/horizon": "^5.42",
         "laravel/pulse": "^1.4",
         "laravel/sanctum": "^4.0",
         "laravel/telescope": "^5.16",
@@ -60,7 +59,7 @@
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi",
             "@php artisan filament:upgrade",
-            "@dainsys:sync-roles-for-panels web",
+            "@php artisan dainsys:sync-roles-for-panels web",
             "@php artisan shield:generate --all --panel=* --option=permissions"
         ],
         "post-update-cmd": [
