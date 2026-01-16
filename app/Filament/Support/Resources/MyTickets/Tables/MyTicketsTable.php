@@ -40,11 +40,11 @@ class MyTicketsTable
                     ->color(fn ($state) => $state->color() ?? TicketStatuses::from($state)->color())
                     ->sortable()
                     ->searchable(),
-                TextColumn::make('assigned_to')
+                TextColumn::make('operator.name')
+                    ->label('Assigned to')
                     ->wrap()
                     ->sortable()
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->searchable(),
                 TextColumn::make('assigned_at')
                     ->dateTime()
                     ->sortable()

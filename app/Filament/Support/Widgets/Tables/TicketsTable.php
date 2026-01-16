@@ -2,9 +2,9 @@
 
 namespace App\Filament\Support\Widgets\Tables;
 
-use Illuminate\Support\Carbon;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
+use Illuminate\Support\Carbon;
 
 class TicketsTable
 {
@@ -36,7 +36,7 @@ class TicketsTable
             TextColumn::make('assigned_at')
                 ->wrap()
                 ->dateTime()
-                ->formatStateUsing(fn($state) => $state->diffForHumans())
+                ->formatStateUsing(fn ($state) => $state->diffForHumans())
                 ->sortable(),
             TextColumn::make('priority')
                 ->badge()
@@ -45,8 +45,8 @@ class TicketsTable
                 ->wrap()
                 ->dateTime()
                 ->badge()
-                ->formatStateUsing(fn($state) => $state->diffForHumans())
-                ->color(fn(Carbon $state) => $state->isPast() ? 'danger' : 'info')
+                ->formatStateUsing(fn ($state) => $state->diffForHumans())
+                ->color(fn (Carbon $state) => $state->isPast() ? 'danger' : 'info')
                 ->sortable(),
             TextColumn::make('deleted_at')
                 ->dateTime()

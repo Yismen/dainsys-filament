@@ -184,7 +184,7 @@ class Ticket extends \App\Models\BaseModels\AppModel
 
     public function isClosed(): bool
     {
-        return !$this->isOpen();
+        return ! $this->isOpen();
     }
 
     // public function isAssignedTo(DepartmentRole|User|int $agent): bool
@@ -321,7 +321,7 @@ class Ticket extends \App\Models\BaseModels\AppModel
 
             $reference = ++$reference;
 
-            return $this->tickets_prefix . str($reference)->padLeft(6, '0');
+            return $this->tickets_prefix.str($reference)->padLeft(6, '0');
         }
 
         return $this->tickets_prefix.'000001';

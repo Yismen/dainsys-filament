@@ -2,6 +2,7 @@
 
 use App\Console\Commands\UpdateTicketStatus;
 use App\Enums\TicketStatuses;
+use App\Events\TicketCompletedEvent;
 use App\Events\TicketCreatedEvent;
 use App\Models\Ticket;
 use Illuminate\Support\Facades\Event;
@@ -9,6 +10,7 @@ use Illuminate\Support\Facades\Event;
 beforeEach(function () {
     Event::fake([
         TicketCreatedEvent::class,
+        TicketCompletedEvent::class,
     ]);
 });
 

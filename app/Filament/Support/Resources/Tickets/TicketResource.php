@@ -7,15 +7,12 @@ use App\Filament\Support\Resources\Tickets\Pages\EditTicket;
 use App\Filament\Support\Resources\Tickets\Pages\ListTickets;
 use App\Filament\Support\Resources\Tickets\Pages\ViewTicket;
 use App\Filament\Support\Resources\Tickets\RelationManagers\RepliesRelationManager;
-use App\Filament\Support\Resources\Tickets\Schemas\TicketForm;
 use App\Filament\Support\Resources\Tickets\Schemas\TicketInfolist;
-use App\Filament\Support\Resources\Tickets\Tables\TicketsTable;
 use App\Models\Ticket;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
@@ -32,7 +29,7 @@ class TicketResource extends Resource
 
     public static function canAccess(): bool
     {
-        return Auth::user()->isSuperAdmin() || Auth::user()->isTicketsAdmin();
+        return Auth::user()->isSuperAdmin() || Auth::user()->isTicketsAdmin() || Auth::user()->isTicketsOperator();
     }
 
     public static function infolist(Schema $schema): Schema
@@ -67,10 +64,9 @@ class TicketResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        $query = parent::getEloquentQuery()
-            // ->where('owner_id', Auth::id())
-            // ->orwhere('assigned_to', Auth::id())
-            ;
+        $query = parent::getEloquentQuery();
+        // ->where('owner_id', Auth::id())
+        // ->orwhere('assigned_to', Auth::id())
 
         return $query;
     }

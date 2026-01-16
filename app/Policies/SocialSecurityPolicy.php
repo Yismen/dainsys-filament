@@ -1,105 +1,69 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Models\SocialSecurity;
-use App\Models\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Foundation\Auth\User as AuthUser;
 
 class SocialSecurityPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
+    use HandlesAuthorization;
+
+    public function viewAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('view-any SocialSecurity');
+        return $authUser->can('viewAny socialSecurity');
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, SocialSecurity $employee): bool
+    public function view(AuthUser $authUser, SocialSecurity $socialSecurity): bool
     {
-        return $user->checkPermissionTo('view SocialSecurity');
+        return $authUser->can('view socialSecurity');
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
+    public function create(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('create SocialSecurity');
+        return $authUser->can('create socialSecurity');
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, SocialSecurity $employee): bool
+    public function update(AuthUser $authUser, SocialSecurity $socialSecurity): bool
     {
-        return $user->checkPermissionTo('update SocialSecurity');
+        return $authUser->can('update socialSecurity');
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, SocialSecurity $employee): bool
+    public function delete(AuthUser $authUser, SocialSecurity $socialSecurity): bool
     {
-        return $user->checkPermissionTo('delete SocialSecurity');
+        return $authUser->can('delete socialSecurity');
     }
 
-    /**
-     * Determine whether the user can delete any models.
-     */
-    public function deleteAny(User $user): bool
+    public function restore(AuthUser $authUser, SocialSecurity $socialSecurity): bool
     {
-        return $user->checkPermissionTo('delete-any SocialSecurity');
+        return $authUser->can('restore socialSecurity');
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, SocialSecurity $employee): bool
+    public function forceDelete(AuthUser $authUser, SocialSecurity $socialSecurity): bool
     {
-        return $user->checkPermissionTo('restore SocialSecurity');
+        return $authUser->can('forceDelete socialSecurity');
     }
 
-    /**
-     * Determine whether the user can restore any models.
-     */
-    public function restoreAny(User $user): bool
+    public function forceDeleteAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('restore-any SocialSecurity');
+        return $authUser->can('forceDeleteAny socialSecurity');
     }
 
-    /**
-     * Determine whether the user can replicate the model.
-     */
-    public function replicate(User $user, SocialSecurity $employee): bool
+    public function restoreAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('replicate SocialSecurity');
+        return $authUser->can('restoreAny socialSecurity');
     }
 
-    /**
-     * Determine whether the user can reorder the models.
-     */
-    public function reorder(User $user): bool
+    public function replicate(AuthUser $authUser, SocialSecurity $socialSecurity): bool
     {
-        return $user->checkPermissionTo('reorder SocialSecurity');
+        return $authUser->can('replicate socialSecurity');
     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, SocialSecurity $employee): bool
+    public function reorder(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('force-delete SocialSecurity');
-    }
-
-    /**
-     * Determine whether the user can permanently delete any models.
-     */
-    public function forceDeleteAny(User $user): bool
-    {
-        return $user->checkPermissionTo('force-delete-any SocialSecurity');
+        return $authUser->can('reorder socialSecurity');
     }
 }

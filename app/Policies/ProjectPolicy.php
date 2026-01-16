@@ -1,105 +1,69 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Models\Project;
-use App\Models\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Foundation\Auth\User as AuthUser;
 
 class ProjectPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
+    use HandlesAuthorization;
+
+    public function viewAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('view-any Project');
+        return $authUser->can('viewAny project');
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Project $project): bool
+    public function view(AuthUser $authUser, Project $project): bool
     {
-        return $user->checkPermissionTo('view Project');
+        return $authUser->can('view project');
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
+    public function create(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('create Project');
+        return $authUser->can('create project');
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, Project $project): bool
+    public function update(AuthUser $authUser, Project $project): bool
     {
-        return $user->checkPermissionTo('update Project');
+        return $authUser->can('update project');
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, Project $project): bool
+    public function delete(AuthUser $authUser, Project $project): bool
     {
-        return $user->checkPermissionTo('delete Project');
+        return $authUser->can('delete project');
     }
 
-    /**
-     * Determine whether the user can delete any models.
-     */
-    public function deleteAny(User $user): bool
+    public function restore(AuthUser $authUser, Project $project): bool
     {
-        return $user->checkPermissionTo('delete-any Project');
+        return $authUser->can('restore project');
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Project $project): bool
+    public function forceDelete(AuthUser $authUser, Project $project): bool
     {
-        return $user->checkPermissionTo('restore Project');
+        return $authUser->can('forceDelete project');
     }
 
-    /**
-     * Determine whether the user can restore any models.
-     */
-    public function restoreAny(User $user): bool
+    public function forceDeleteAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('restore-any Project');
+        return $authUser->can('forceDeleteAny project');
     }
 
-    /**
-     * Determine whether the user can replicate the model.
-     */
-    public function replicate(User $user, Project $project): bool
+    public function restoreAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('replicate Project');
+        return $authUser->can('restoreAny project');
     }
 
-    /**
-     * Determine whether the user can reorder the models.
-     */
-    public function reorder(User $user): bool
+    public function replicate(AuthUser $authUser, Project $project): bool
     {
-        return $user->checkPermissionTo('reorder Project');
+        return $authUser->can('replicate project');
     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Project $project): bool
+    public function reorder(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('force-delete Project');
-    }
-
-    /**
-     * Determine whether the user can permanently delete any models.
-     */
-    public function forceDeleteAny(User $user): bool
-    {
-        return $user->checkPermissionTo('force-delete-any Project');
+        return $authUser->can('reorder project');
     }
 }

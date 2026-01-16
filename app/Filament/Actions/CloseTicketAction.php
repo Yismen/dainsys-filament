@@ -6,6 +6,7 @@ use App\Models\Ticket;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Textarea;
 use Filament\Support\Colors\Color;
+use Illuminate\Support\Facades\Auth;
 
 class CloseTicketAction
 {
@@ -13,8 +14,9 @@ class CloseTicketAction
     {
         return Action::make($name)
             ->color(Color::Orange)
+            ->button()
             ->visible(function (Ticket $record) {
-                return $record->isOpen();
+                return Auth::user()->can('close', $record);
             })
             ->schema([
                 Textarea::make('comment')

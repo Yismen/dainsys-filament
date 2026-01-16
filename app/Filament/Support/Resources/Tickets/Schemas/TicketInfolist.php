@@ -29,7 +29,7 @@ class TicketInfolist
                 TextEntry::make('description')
                     ->columnSpanFull(),
                 TextEntry::make('operator.name')
-                    ->label(__("Assigned to"))
+                    ->label(__('Assigned to'))
                     ->placeholder('-'),
                 TextEntry::make('assigned_at')
                     ->dateTime()

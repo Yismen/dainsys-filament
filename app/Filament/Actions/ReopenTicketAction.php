@@ -6,6 +6,7 @@ use App\Models\Ticket;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Textarea;
 use Filament\Support\Colors\Color;
+use Illuminate\Support\Facades\Auth;
 
 class ReopenTicketAction
 {
@@ -14,8 +15,9 @@ class ReopenTicketAction
         return
             Action::make(name: 'reOpen')
                 ->color(Color::Blue)
+                ->button()
                 ->visible(function (Ticket $record) {
-                    return $record->isOpen() === false;
+                    return Auth::user()->can('reopen', $record);
                 })
                 ->schema([
                     Textarea::make('comment')

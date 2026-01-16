@@ -1,105 +1,69 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Models\LoginName;
-use App\Models\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Foundation\Auth\User as AuthUser;
 
 class LoginNamePolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
+    use HandlesAuthorization;
+
+    public function viewAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('view-any LoginName');
+        return $authUser->can('viewAny loginName');
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, LoginName $loginname): bool
+    public function view(AuthUser $authUser, LoginName $loginName): bool
     {
-        return $user->checkPermissionTo('view LoginName');
+        return $authUser->can('view loginName');
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
+    public function create(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('create LoginName');
+        return $authUser->can('create loginName');
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, LoginName $loginname): bool
+    public function update(AuthUser $authUser, LoginName $loginName): bool
     {
-        return $user->checkPermissionTo('update LoginName');
+        return $authUser->can('update loginName');
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, LoginName $loginname): bool
+    public function delete(AuthUser $authUser, LoginName $loginName): bool
     {
-        return $user->checkPermissionTo('delete LoginName');
+        return $authUser->can('delete loginName');
     }
 
-    /**
-     * Determine whether the user can delete any models.
-     */
-    public function deleteAny(User $user): bool
+    public function restore(AuthUser $authUser, LoginName $loginName): bool
     {
-        return $user->checkPermissionTo('delete-any LoginName');
+        return $authUser->can('restore loginName');
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, LoginName $loginname): bool
+    public function forceDelete(AuthUser $authUser, LoginName $loginName): bool
     {
-        return $user->checkPermissionTo('restore LoginName');
+        return $authUser->can('forceDelete loginName');
     }
 
-    /**
-     * Determine whether the user can restore any models.
-     */
-    public function restoreAny(User $user): bool
+    public function forceDeleteAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('restore-any LoginName');
+        return $authUser->can('forceDeleteAny loginName');
     }
 
-    /**
-     * Determine whether the user can replicate the model.
-     */
-    public function replicate(User $user, LoginName $loginname): bool
+    public function restoreAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('replicate LoginName');
+        return $authUser->can('restoreAny loginName');
     }
 
-    /**
-     * Determine whether the user can reorder the models.
-     */
-    public function reorder(User $user): bool
+    public function replicate(AuthUser $authUser, LoginName $loginName): bool
     {
-        return $user->checkPermissionTo('reorder LoginName');
+        return $authUser->can('replicate loginName');
     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, LoginName $loginname): bool
+    public function reorder(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('force-delete LoginName');
-    }
-
-    /**
-     * Determine whether the user can permanently delete any models.
-     */
-    public function forceDeleteAny(User $user): bool
-    {
-        return $user->checkPermissionTo('force-delete-any LoginName');
+        return $authUser->can('reorder loginName');
     }
 }

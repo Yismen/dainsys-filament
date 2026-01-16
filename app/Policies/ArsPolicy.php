@@ -1,105 +1,69 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Models\Ars;
-use App\Models\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Foundation\Auth\User as AuthUser;
 
 class ArsPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
+    use HandlesAuthorization;
+
+    public function viewAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('view-any Ars');
+        return $authUser->can('viewAny ars');
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Ars $ars): bool
+    public function view(AuthUser $authUser, Ars $ars): bool
     {
-        return $user->checkPermissionTo('view Ars');
+        return $authUser->can('view ars');
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
+    public function create(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('create Ars');
+        return $authUser->can('create ars');
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, Ars $ars): bool
+    public function update(AuthUser $authUser, Ars $ars): bool
     {
-        return $user->checkPermissionTo('update Ars');
+        return $authUser->can('update ars');
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, Ars $ars): bool
+    public function delete(AuthUser $authUser, Ars $ars): bool
     {
-        return $user->checkPermissionTo('delete Ars');
+        return $authUser->can('delete ars');
     }
 
-    /**
-     * Determine whether the user can delete any models.
-     */
-    public function deleteAny(User $user): bool
+    public function restore(AuthUser $authUser, Ars $ars): bool
     {
-        return $user->checkPermissionTo('delete-any Ars');
+        return $authUser->can('restore ars');
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Ars $ars): bool
+    public function forceDelete(AuthUser $authUser, Ars $ars): bool
     {
-        return $user->checkPermissionTo('restore Ars');
+        return $authUser->can('forceDelete ars');
     }
 
-    /**
-     * Determine whether the user can restore any models.
-     */
-    public function restoreAny(User $user): bool
+    public function forceDeleteAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('restore-any Ars');
+        return $authUser->can('forceDeleteAny ars');
     }
 
-    /**
-     * Determine whether the user can replicate the model.
-     */
-    public function replicate(User $user, Ars $ars): bool
+    public function restoreAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('replicate Ars');
+        return $authUser->can('restoreAny ars');
     }
 
-    /**
-     * Determine whether the user can reorder the models.
-     */
-    public function reorder(User $user): bool
+    public function replicate(AuthUser $authUser, Ars $ars): bool
     {
-        return $user->checkPermissionTo('reorder Ars');
+        return $authUser->can('replicate ars');
     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Ars $ars): bool
+    public function reorder(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('force-delete Ars');
-    }
-
-    /**
-     * Determine whether the user can permanently delete any models.
-     */
-    public function forceDeleteAny(User $user): bool
-    {
-        return $user->checkPermissionTo('force-delete-any Ars');
+        return $authUser->can('reorder ars');
     }
 }

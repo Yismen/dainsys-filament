@@ -2,7 +2,6 @@
 
 namespace App\Filament\Support\Resources\Tickets\RelationManagers;
 
-use App\Enums\TicketStatuses;
 use App\Models\TicketReply;
 use App\Services\ModelListService;
 use Filament\Actions\CreateAction;
@@ -92,11 +91,7 @@ class RepliesRelationManager extends RelationManager
                         $ticket = $livewire->getOwnerRecord();
                         $auth_user = Auth::user();
 
-                        return $ticket->status === TicketStatuses::CompletedExpired || $ticket->status === TicketStatuses::Completed ?
-                            false :
-                             $ticket->owner_id === $auth_user->id ||
-                            $ticket->assigned_to === $auth_user->id ||
-                            $auth_user->isTicketsAdmin();
+                        return Auth::user()->can('reply', $ticket);
                     })
                     ->using(function (array $data, string $model, RelationManager $livewire): TicketReply {
                         $ticket = $livewire->getOwnerRecord();
@@ -108,7 +103,7 @@ class RepliesRelationManager extends RelationManager
             ])
             ->recordActions([
                 EditAction::make()
-                    ->visible(fn (TicketReply $record) => $record->user_id === Auth::id()),
+                    ->visible(fn (TicketReply $record) => Auth::user()->can('modify', $record->load('ticket'))),
                 // DeleteAction::make()
                 //     ->visible(fn (TicketReply $record) => $record->user_id === Auth::id()),
             ])

@@ -2,14 +2,16 @@
 
 namespace App\Filament\Support\Resources\MyTickets\Pages;
 
-use Filament\Actions\ViewAction;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\RestoreAction;
-use Filament\Actions\ForceDeleteAction;
-use Filament\Resources\Pages\EditRecord;
+use App\Filament\Actions\AssignTicketAction;
 use App\Filament\Actions\CloseTicketAction;
+use App\Filament\Actions\GrabTicketAction;
 use App\Filament\Actions\ReopenTicketAction;
 use App\Filament\Support\Resources\MyTickets\MyTicketResource;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\ForceDeleteAction;
+use Filament\Actions\RestoreAction;
+use Filament\Actions\ViewAction;
+use Filament\Resources\Pages\EditRecord;
 
 class EditMyTicket extends EditRecord
 {
@@ -24,6 +26,8 @@ class EditMyTicket extends EditRecord
             RestoreAction::make(),
             CloseTicketAction::make(),
             ReopenTicketAction::make(),
+            AssignTicketAction::make(),
+            GrabTicketAction::make(),
         ];
     }
 }

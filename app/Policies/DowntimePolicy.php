@@ -1,113 +1,69 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Models\Downtime;
-use App\Models\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Foundation\Auth\User as AuthUser;
 
 class DowntimePolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
+    use HandlesAuthorization;
+
+    public function viewAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('view-any Downtime');
+        return $authUser->can('viewAny downtime');
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Downtime $position): bool
+    public function view(AuthUser $authUser, Downtime $downtime): bool
     {
-        return $user->checkPermissionTo('view Downtime');
+        return $authUser->can('view downtime');
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
+    public function create(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('create Downtime');
+        return $authUser->can('create downtime');
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, Downtime $position): bool
+    public function update(AuthUser $authUser, Downtime $downtime): bool
     {
-        return $user->checkPermissionTo('update Downtime');
+        return $authUser->can('update downtime');
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function aprove(User $user, Downtime $position): bool
+    public function delete(AuthUser $authUser, Downtime $downtime): bool
     {
-        return $user->checkPermissionTo('aprove Downtime');
+        return $authUser->can('delete downtime');
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, Downtime $position): bool
+    public function restore(AuthUser $authUser, Downtime $downtime): bool
     {
-        return $user->checkPermissionTo('delete Downtime');
+        return $authUser->can('restore downtime');
     }
 
-    /**
-     * Determine whether the user can delete any models.
-     */
-    public function deleteAny(User $user): bool
+    public function forceDelete(AuthUser $authUser, Downtime $downtime): bool
     {
-        return $user->checkPermissionTo('delete-any Downtime');
+        return $authUser->can('forceDelete downtime');
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Downtime $position): bool
+    public function forceDeleteAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('restore Downtime');
+        return $authUser->can('forceDeleteAny downtime');
     }
 
-    /**
-     * Determine whether the user can restore any models.
-     */
-    public function restoreAny(User $user): bool
+    public function restoreAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('restore-any Downtime');
+        return $authUser->can('restoreAny downtime');
     }
 
-    /**
-     * Determine whether the user can replicate the model.
-     */
-    public function replicate(User $user, Downtime $position): bool
+    public function replicate(AuthUser $authUser, Downtime $downtime): bool
     {
-        return $user->checkPermissionTo('replicate Downtime');
+        return $authUser->can('replicate downtime');
     }
 
-    /**
-     * Determine whether the user can reorder the models.
-     */
-    public function reorder(User $user): bool
+    public function reorder(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('reorder Downtime');
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Downtime $position): bool
-    {
-        return $user->checkPermissionTo('force-delete Downtime');
-    }
-
-    /**
-     * Determine whether the user can permanently delete any models.
-     */
-    public function forceDeleteAny(User $user): bool
-    {
-        return $user->checkPermissionTo('force-delete-any Downtime');
+        return $authUser->can('reorder downtime');
     }
 }

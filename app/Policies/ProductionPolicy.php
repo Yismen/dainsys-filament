@@ -1,105 +1,69 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Models\Production;
-use App\Models\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Foundation\Auth\User as AuthUser;
 
 class ProductionPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
+    use HandlesAuthorization;
+
+    public function viewAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('view-any Production');
+        return $authUser->can('viewAny production');
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Production $project): bool
+    public function view(AuthUser $authUser, Production $production): bool
     {
-        return $user->checkPermissionTo('view Production');
+        return $authUser->can('view production');
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
+    public function create(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('create Production');
+        return $authUser->can('create production');
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, Production $project): bool
+    public function update(AuthUser $authUser, Production $production): bool
     {
-        return $user->checkPermissionTo('update Production');
+        return $authUser->can('update production');
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, Production $project): bool
+    public function delete(AuthUser $authUser, Production $production): bool
     {
-        return $user->checkPermissionTo('delete Production');
+        return $authUser->can('delete production');
     }
 
-    /**
-     * Determine whether the user can delete any models.
-     */
-    public function deleteAny(User $user): bool
+    public function restore(AuthUser $authUser, Production $production): bool
     {
-        return $user->checkPermissionTo('delete-any Production');
+        return $authUser->can('restore production');
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Production $project): bool
+    public function forceDelete(AuthUser $authUser, Production $production): bool
     {
-        return $user->checkPermissionTo('restore Production');
+        return $authUser->can('forceDelete production');
     }
 
-    /**
-     * Determine whether the user can restore any models.
-     */
-    public function restoreAny(User $user): bool
+    public function forceDeleteAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('restore-any Production');
+        return $authUser->can('forceDeleteAny production');
     }
 
-    /**
-     * Determine whether the user can replicate the model.
-     */
-    public function replicate(User $user, Production $project): bool
+    public function restoreAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('replicate Production');
+        return $authUser->can('restoreAny production');
     }
 
-    /**
-     * Determine whether the user can reorder the models.
-     */
-    public function reorder(User $user): bool
+    public function replicate(AuthUser $authUser, Production $production): bool
     {
-        return $user->checkPermissionTo('reorder Production');
+        return $authUser->can('replicate production');
     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Production $project): bool
+    public function reorder(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('force-delete Production');
-    }
-
-    /**
-     * Determine whether the user can permanently delete any models.
-     */
-    public function forceDeleteAny(User $user): bool
-    {
-        return $user->checkPermissionTo('force-delete-any Production');
+        return $authUser->can('reorder production');
     }
 }

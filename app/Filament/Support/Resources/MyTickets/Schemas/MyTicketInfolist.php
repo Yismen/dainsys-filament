@@ -22,12 +22,16 @@ class MyTicketInfolist
                 TextEntry::make('status')
                     ->badge()
                     ->color(fn ($state) => $state->color() ?? TicketStatuses::from($state)->color()),
+                TextEntry::make('owner.name')
+                    ->label('Created by')
+                    ->placeholder('-'),
                 TextEntry::make('subject'),
                 TextEntry::make('priority')
                     ->badge(),
                 TextEntry::make('description')
                     ->columnSpanFull(),
-                TextEntry::make('assigned_to')
+                TextEntry::make('operator.name')
+                    ->label('Assigned To')
                     ->placeholder('-'),
                 TextEntry::make('assigned_at')
                     ->dateTime()

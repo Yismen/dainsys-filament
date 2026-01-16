@@ -1,105 +1,69 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Models\Site;
-use App\Models\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Foundation\Auth\User as AuthUser;
 
 class SitePolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
+    use HandlesAuthorization;
+
+    public function viewAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('view-any Site');
+        return $authUser->can('viewAny site');
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Site $site): bool
+    public function view(AuthUser $authUser, Site $site): bool
     {
-        return $user->checkPermissionTo('view Site');
+        return $authUser->can('view site');
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
+    public function create(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('create Site');
+        return $authUser->can('create site');
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, Site $site): bool
+    public function update(AuthUser $authUser, Site $site): bool
     {
-        return $user->checkPermissionTo('update Site');
+        return $authUser->can('update site');
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, Site $site): bool
+    public function delete(AuthUser $authUser, Site $site): bool
     {
-        return $user->checkPermissionTo('delete Site');
+        return $authUser->can('delete site');
     }
 
-    /**
-     * Determine whether the user can delete any models.
-     */
-    public function deleteAny(User $user): bool
+    public function restore(AuthUser $authUser, Site $site): bool
     {
-        return $user->checkPermissionTo('delete-any Site');
+        return $authUser->can('restore site');
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Site $site): bool
+    public function forceDelete(AuthUser $authUser, Site $site): bool
     {
-        return $user->checkPermissionTo('restore Site');
+        return $authUser->can('forceDelete site');
     }
 
-    /**
-     * Determine whether the user can restore any models.
-     */
-    public function restoreAny(User $user): bool
+    public function forceDeleteAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('restore-any Site');
+        return $authUser->can('forceDeleteAny site');
     }
 
-    /**
-     * Determine whether the user can replicate the model.
-     */
-    public function replicate(User $user, Site $site): bool
+    public function restoreAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('replicate Site');
+        return $authUser->can('restoreAny site');
     }
 
-    /**
-     * Determine whether the user can reorder the models.
-     */
-    public function reorder(User $user): bool
+    public function replicate(AuthUser $authUser, Site $site): bool
     {
-        return $user->checkPermissionTo('reorder Site');
+        return $authUser->can('replicate site');
     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Site $site): bool
+    public function reorder(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('force-delete Site');
-    }
-
-    /**
-     * Determine whether the user can permanently delete any models.
-     */
-    public function forceDeleteAny(User $user): bool
-    {
-        return $user->checkPermissionTo('force-delete-any Site');
+        return $authUser->can('reorder site');
     }
 }

@@ -1,105 +1,69 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Models\Source;
-use App\Models\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Foundation\Auth\User as AuthUser;
 
 class SourcePolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
+    use HandlesAuthorization;
+
+    public function viewAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('view-any Source');
+        return $authUser->can('viewAny source');
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Source $project): bool
+    public function view(AuthUser $authUser, Source $source): bool
     {
-        return $user->checkPermissionTo('view Source');
+        return $authUser->can('view source');
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
+    public function create(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('create Source');
+        return $authUser->can('create source');
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, Source $project): bool
+    public function update(AuthUser $authUser, Source $source): bool
     {
-        return $user->checkPermissionTo('update Source');
+        return $authUser->can('update source');
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, Source $project): bool
+    public function delete(AuthUser $authUser, Source $source): bool
     {
-        return $user->checkPermissionTo('delete Source');
+        return $authUser->can('delete source');
     }
 
-    /**
-     * Determine whether the user can delete any models.
-     */
-    public function deleteAny(User $user): bool
+    public function restore(AuthUser $authUser, Source $source): bool
     {
-        return $user->checkPermissionTo('delete-any Source');
+        return $authUser->can('restore source');
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Source $project): bool
+    public function forceDelete(AuthUser $authUser, Source $source): bool
     {
-        return $user->checkPermissionTo('restore Source');
+        return $authUser->can('forceDelete source');
     }
 
-    /**
-     * Determine whether the user can restore any models.
-     */
-    public function restoreAny(User $user): bool
+    public function forceDeleteAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('restore-any Source');
+        return $authUser->can('forceDeleteAny source');
     }
 
-    /**
-     * Determine whether the user can replicate the model.
-     */
-    public function replicate(User $user, Source $project): bool
+    public function restoreAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('replicate Source');
+        return $authUser->can('restoreAny source');
     }
 
-    /**
-     * Determine whether the user can reorder the models.
-     */
-    public function reorder(User $user): bool
+    public function replicate(AuthUser $authUser, Source $source): bool
     {
-        return $user->checkPermissionTo('reorder Source');
+        return $authUser->can('replicate source');
     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Source $project): bool
+    public function reorder(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('force-delete Source');
-    }
-
-    /**
-     * Determine whether the user can permanently delete any models.
-     */
-    public function forceDeleteAny(User $user): bool
-    {
-        return $user->checkPermissionTo('force-delete-any Source');
+        return $authUser->can('reorder source');
     }
 }

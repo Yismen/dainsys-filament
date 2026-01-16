@@ -6,10 +6,10 @@ use App\Filament\Support\Resources\MyTickets\Pages\CreateMyTicket;
 use App\Filament\Support\Resources\MyTickets\Pages\EditMyTicket;
 use App\Filament\Support\Resources\MyTickets\Pages\ListMyTickets;
 use App\Filament\Support\Resources\MyTickets\Pages\ViewMyTicket;
-use App\Filament\Support\Resources\Tickets\RelationManagers\RepliesRelationManager;
 use App\Filament\Support\Resources\MyTickets\Schemas\MyTicketForm;
 use App\Filament\Support\Resources\MyTickets\Schemas\MyTicketInfolist;
 use App\Filament\Support\Resources\MyTickets\Tables\MyTicketsTable;
+use App\Filament\Support\Resources\Tickets\RelationManagers\RepliesRelationManager;
 use App\Models\Ticket;
 use BackedEnum;
 use Filament\Resources\Resource;
@@ -25,6 +25,8 @@ class MyTicketResource extends Resource
     protected static ?string $model = Ticket::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+
+    protected static ?int $navigationSort = 1;
 
     protected static ?string $recordTitleAttribute = 'reference';
 
@@ -75,9 +77,8 @@ class MyTicketResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         $query = parent::getEloquentQuery()
-            ->where('owner_id', Auth::id())
-            // ->orwhere('assigned_to', Auth::id())
-            ;
+            ->where('owner_id', Auth::id());
+        // ->orwhere('assigned_to', Auth::id())
 
         return $query;
     }

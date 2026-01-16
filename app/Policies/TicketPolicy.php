@@ -63,43 +63,6 @@ class TicketPolicy
     }
 
     /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Ticket $ticket): bool
-    {
-        return $ticket->owner_id === $user->id;
-    }
-
-    public function assign(User $user, Ticket $ticket): bool
-    {
-        return $user->hasRole(TicketRoles::Admin->value) || $user->id === $ticket->owner_id;
-    }
-
-    public function grab(User $user, Ticket $ticket): bool
-    {
-        return $user->hasAnyRole([
-            TicketRoles::Admin->value,
-            TicketRoles::Operator->value,
-        ]) && $user->id !== $ticket->owner_id;
-    }
-
-    public function reOpen(User $user, Ticket $ticket): bool
-    {
-        return $user->hasAnyRole([
-            TicketRoles::Admin->value,
-            // TicketRoles::Operator->value,
-        ]) || $user->id === $ticket->owner_id;
-    }
-
-    public function close(User $user, Ticket $ticket): bool
-    {
-        return $user->hasAnyRole([
-            TicketRoles::Admin->value,
-            // TicketRoles::Operator->value,
-        ]) || $user->id === $ticket->assigned_to;
-    }
-
-    /**
      * Determine whether the user can restore any models.
      */
     public function restoreAny(User $user): bool

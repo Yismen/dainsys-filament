@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources\Roles\Pages;
 
 use App\Filament\Resources\Roles\RoleResource;
@@ -10,7 +12,7 @@ class ViewRole extends ViewRecord
 {
     protected static string $resource = RoleResource::class;
 
-    protected function getHeaderActions(): array
+    protected function getActions(): array
     {
         return [
             EditAction::make(),
