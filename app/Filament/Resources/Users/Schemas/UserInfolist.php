@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Users\Schemas;
 
 use App\Models\User;
+use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 
@@ -14,7 +15,9 @@ class UserInfolist
             ->components([
                 TextEntry::make('name'),
                 TextEntry::make('email')
+                    ->copyable()
                     ->label('Email address'),
+                IconEntry::make('is_active'),
                 TextEntry::make('email_verified_at')
                     ->dateTime()
                     ->placeholder('-'),

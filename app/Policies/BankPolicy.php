@@ -1,105 +1,69 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Models\Bank;
-use App\Models\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Foundation\Auth\User as AuthUser;
 
 class BankPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
+    use HandlesAuthorization;
+
+    public function viewAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('view-any Bank');
+        return $authUser->can('viewAny bank');
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Bank $bank): bool
+    public function view(AuthUser $authUser, Bank $bank): bool
     {
-        return $user->checkPermissionTo('view Bank');
+        return $authUser->can('view bank');
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
+    public function create(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('create Bank');
+        return $authUser->can('create bank');
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, Bank $bank): bool
+    public function update(AuthUser $authUser, Bank $bank): bool
     {
-        return $user->checkPermissionTo('update Bank');
+        return $authUser->can('update bank');
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, Bank $bank): bool
+    public function delete(AuthUser $authUser, Bank $bank): bool
     {
-        return $user->checkPermissionTo('delete Bank');
+        return $authUser->can('delete bank');
     }
 
-    /**
-     * Determine whether the user can delete any models.
-     */
-    public function deleteAny(User $user): bool
+    public function restore(AuthUser $authUser, Bank $bank): bool
     {
-        return $user->checkPermissionTo('delete-any Bank');
+        return $authUser->can('restore bank');
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Bank $bank): bool
+    public function forceDelete(AuthUser $authUser, Bank $bank): bool
     {
-        return $user->checkPermissionTo('restore Bank');
+        return $authUser->can('forceDelete bank');
     }
 
-    /**
-     * Determine whether the user can restore any models.
-     */
-    public function restoreAny(User $user): bool
+    public function forceDeleteAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('restore-any Bank');
+        return $authUser->can('forceDeleteAny bank');
     }
 
-    /**
-     * Determine whether the user can replicate the model.
-     */
-    public function replicate(User $user, Bank $bank): bool
+    public function restoreAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('replicate Bank');
+        return $authUser->can('restoreAny bank');
     }
 
-    /**
-     * Determine whether the user can reorder the models.
-     */
-    public function reorder(User $user): bool
+    public function replicate(AuthUser $authUser, Bank $bank): bool
     {
-        return $user->checkPermissionTo('reorder Bank');
+        return $authUser->can('replicate bank');
     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Bank $bank): bool
+    public function reorder(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('force-delete Bank');
-    }
-
-    /**
-     * Determine whether the user can permanently delete any models.
-     */
-    public function forceDeleteAny(User $user): bool
-    {
-        return $user->checkPermissionTo('force-delete-any Bank');
+        return $authUser->can('reorder bank');
     }
 }

@@ -1,105 +1,69 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Models\Suspension;
-use App\Models\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Foundation\Auth\User as AuthUser;
 
 class SuspensionPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
+    use HandlesAuthorization;
+
+    public function viewAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('view-any Suspension');
+        return $authUser->can('viewAny suspension');
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Suspension $suspension): bool
+    public function view(AuthUser $authUser, Suspension $suspension): bool
     {
-        return $user->checkPermissionTo('view Suspension');
+        return $authUser->can('view suspension');
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
+    public function create(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('create Suspension');
+        return $authUser->can('create suspension');
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, Suspension $suspension): bool
+    public function update(AuthUser $authUser, Suspension $suspension): bool
     {
-        return $user->checkPermissionTo('update Suspension');
+        return $authUser->can('update suspension');
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, Suspension $suspension): bool
+    public function delete(AuthUser $authUser, Suspension $suspension): bool
     {
-        return $user->checkPermissionTo('delete Suspension');
+        return $authUser->can('delete suspension');
     }
 
-    /**
-     * Determine whether the user can delete any models.
-     */
-    public function deleteAny(User $user): bool
+    public function restore(AuthUser $authUser, Suspension $suspension): bool
     {
-        return $user->checkPermissionTo('delete-any Suspension');
+        return $authUser->can('restore suspension');
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Suspension $suspension): bool
+    public function forceDelete(AuthUser $authUser, Suspension $suspension): bool
     {
-        return $user->checkPermissionTo('restore Suspension');
+        return $authUser->can('forceDelete suspension');
     }
 
-    /**
-     * Determine whether the user can restore any models.
-     */
-    public function restoreAny(User $user): bool
+    public function forceDeleteAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('restore-any Suspension');
+        return $authUser->can('forceDeleteAny suspension');
     }
 
-    /**
-     * Determine whether the user can replicate the model.
-     */
-    public function replicate(User $user, Suspension $suspension): bool
+    public function restoreAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('replicate Suspension');
+        return $authUser->can('restoreAny suspension');
     }
 
-    /**
-     * Determine whether the user can reorder the models.
-     */
-    public function reorder(User $user): bool
+    public function replicate(AuthUser $authUser, Suspension $suspension): bool
     {
-        return $user->checkPermissionTo('reorder Suspension');
+        return $authUser->can('replicate suspension');
     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Suspension $suspension): bool
+    public function reorder(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('force-delete Suspension');
-    }
-
-    /**
-     * Determine whether the user can permanently delete any models.
-     */
-    public function forceDeleteAny(User $user): bool
-    {
-        return $user->checkPermissionTo('force-delete-any Suspension');
+        return $authUser->can('reorder suspension');
     }
 }

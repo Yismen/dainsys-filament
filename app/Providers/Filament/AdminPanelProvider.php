@@ -4,6 +4,7 @@ namespace App\Providers\Filament;
 
 use AchyutN\FilamentLogViewer\FilamentLogViewer;
 use App\Filament\Pages\UserMailingSubscriptions;
+use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -34,6 +35,8 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             // ->registration()
             ->passwordReset()
+            ->emailVerification()
+            ->spa()
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->navigationItems([
                 NavigationItem::make()
@@ -48,9 +51,25 @@ class AdminPanelProvider extends PanelProvider
                     ->icon('heroicon-o-cursor-arrow-ripple')
                     ->url(fn (): string => route('telescope'))
                     ->openUrlInNewTab(),
+                NavigationItem::make()
+                    ->group('System')
+                    ->label('Horizon')
+                    ->icon('heroicon-o-arrow-trending-up')
+                    ->url(fn (): string => route('horizon.index'))
+                    ->openUrlInNewTab(),
             ])
             ->databaseNotifications()
             ->plugins([
+                FilamentShieldPlugin::make()
+                    ->navigationGroup('Access Control')
+                    ->globallySearchable(true)
+                    ->globalSearchResultsLimit(50)
+                    ->forceGlobalSearchCaseInsensitive(true)
+                    ->splitGlobalSearchTerms(false)
+                    ->modelLabel('Model')
+                    ->pluralModelLabel('Models')
+                    ->recordTitleAttribute('name')
+                    ->titleCaseModelLabel(true),
                 FilamentLogViewer::make(),
                 BreezyCore::make()
                     ->myProfile()

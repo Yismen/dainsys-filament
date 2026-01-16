@@ -22,6 +22,9 @@ class RolesTable
                     ->searchable(),
                 TextColumn::make('guard_name')
                     ->searchable(),
+                TextColumn::make('users.name')
+                    ->badge()
+                    ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

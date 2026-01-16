@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Models\TicketReply;
+use App\Services\TicketRecipientsService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -25,6 +26,14 @@ class TicketReplyCreatedMail extends Mailable implements ShouldQueue
         $ticket = $this->reply->ticket;
 
         return $this
+            ->to(
+                (new TicketRecipientsService)
+                    ->ofTicket($ticket)
+                    ->owner()
+                    ->operator()
+                    ->ticketAdmins()
+                    ->get()
+            )
             ->subject("Ticket #{$ticket->reference} Has Been Replied")
             ->priority($ticket->mail_priority)
             ->markdown('mail.support.reply-created', [

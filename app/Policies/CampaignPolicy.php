@@ -1,105 +1,69 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Models\Campaign;
-use App\Models\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Foundation\Auth\User as AuthUser;
 
 class CampaignPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
+    use HandlesAuthorization;
+
+    public function viewAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('view-any Campaign');
+        return $authUser->can('viewAny campaign');
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Campaign $campaign): bool
+    public function view(AuthUser $authUser, Campaign $campaign): bool
     {
-        return $user->checkPermissionTo('view Campaign');
+        return $authUser->can('view campaign');
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
+    public function create(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('create Campaign');
+        return $authUser->can('create campaign');
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, Campaign $campaign): bool
+    public function update(AuthUser $authUser, Campaign $campaign): bool
     {
-        return $user->checkPermissionTo('update Campaign');
+        return $authUser->can('update campaign');
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, Campaign $campaign): bool
+    public function delete(AuthUser $authUser, Campaign $campaign): bool
     {
-        return $user->checkPermissionTo('delete Campaign');
+        return $authUser->can('delete campaign');
     }
 
-    /**
-     * Determine whether the user can delete any models.
-     */
-    public function deleteAny(User $user): bool
+    public function restore(AuthUser $authUser, Campaign $campaign): bool
     {
-        return $user->checkPermissionTo('delete-any Campaign');
+        return $authUser->can('restore campaign');
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Campaign $campaign): bool
+    public function forceDelete(AuthUser $authUser, Campaign $campaign): bool
     {
-        return $user->checkPermissionTo('restore Campaign');
+        return $authUser->can('forceDelete campaign');
     }
 
-    /**
-     * Determine whether the user can restore any models.
-     */
-    public function restoreAny(User $user): bool
+    public function forceDeleteAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('restore-any Campaign');
+        return $authUser->can('forceDeleteAny campaign');
     }
 
-    /**
-     * Determine whether the user can replicate the model.
-     */
-    public function replicate(User $user, Campaign $campaign): bool
+    public function restoreAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('replicate Campaign');
+        return $authUser->can('restoreAny campaign');
     }
 
-    /**
-     * Determine whether the user can reorder the models.
-     */
-    public function reorder(User $user): bool
+    public function replicate(AuthUser $authUser, Campaign $campaign): bool
     {
-        return $user->checkPermissionTo('reorder Campaign');
+        return $authUser->can('replicate campaign');
     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Campaign $campaign): bool
+    public function reorder(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('force-delete Campaign');
-    }
-
-    /**
-     * Determine whether the user can permanently delete any models.
-     */
-    public function forceDeleteAny(User $user): bool
-    {
-        return $user->checkPermissionTo('force-delete-any Campaign');
+        return $authUser->can('reorder campaign');
     }
 }

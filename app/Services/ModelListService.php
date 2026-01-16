@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Cache;
 
 /**
@@ -19,14 +20,14 @@ class ModelListService
 {
     private static self $instance;
 
-    private string|Builder $model;
+    private string|Builder|Collection $model;
 
     private string $key_field;
 
     private string $value_field;
 
     public static function get(
-        string|Builder $model,
+        string|Builder|Collection $model,
         string $key_field = 'id',
         string $value_field = 'name',
     ): array {
@@ -34,7 +35,9 @@ class ModelListService
         self::$instance->key_field = $key_field;
         self::$instance->value_field = $value_field;
 
-        self::$instance->model = $model instanceof Builder ? $model : $model::query();
+        self::$instance->model = $model instanceof Builder || $model instanceof Collection ?
+            $model :
+            $model::query();
 
         $query = self::parseQuery();
 
@@ -47,7 +50,7 @@ class ModelListService
     }
 
     public static function make(
-        string|Builder $model,
+        Builder|collection $model,
         string $key_field = 'id',
         string $value_field = 'name',
     ): array {
@@ -60,16 +63,22 @@ class ModelListService
 
     protected static function parseQuery()
     {
-        return self::$instance->model
-            ->select([self::$instance->value_field, self::$instance->key_field])
-            ->orderBy(self::$instance->value_field, 'asc');
+
+        return self::$instance->model = self::$instance->model instanceof Collection ?
+             self::$instance->model->sortBy(self::$instance->value_field) :
+             self::$instance->model->orderBy(self::$instance->value_field, 'asc')
+                 ->select([self::$instance->value_field, self::$instance->key_field]);
     }
 
     private static function getCacheKey($query): string
     {
+        $key = $query instanceof Builder ?
+            $query->toRawSql() :
+            $query->toQuery()->toRawSql();
+
         $key = implode('_', [
             'model_list',
-            str($query->toRawSql())->snake(),
+            str($key)->snake(),
         ]);
 
         return $key;

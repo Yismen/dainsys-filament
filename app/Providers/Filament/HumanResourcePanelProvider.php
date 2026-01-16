@@ -32,6 +32,8 @@ class HumanResourcePanelProvider extends PanelProvider
             ->login()
             // ->registration()
             ->passwordReset()
+            ->emailVerification()
+            ->spa()
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->subNavigationPosition(SubNavigationPosition::Top)
             ->topNavigation()

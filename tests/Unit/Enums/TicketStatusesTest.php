@@ -2,24 +2,35 @@
 
 use App\Enums\TicketStatuses;
 
+test('values method return specific names', function () {
+    expect(TicketStatuses::names())->toEqual([
+        'Pending',
+        'PendingExpired',
+        'InProgress',
+        'InProgressExpired',
+        'Completed',
+        'CompletedExpired',
+    ]);
+});
+
 test('values method return specific values', function () {
     expect(TicketStatuses::values())->toEqual([
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
+        'not assigned',
+        'expired before assignment',
+        'assigned to user',
+        'expired and assigned',
+        'completed in time',
+        'completed after expiring',
     ]);
 });
 
 test('all method return associative array', function () {
     expect(TicketStatuses::toArray())->toEqual([
-        1 => 'Pending',
-        2 => 'PendingExpired',
-        3 => 'InProgress',
-        4 => 'InProgressExpired',
-        5 => 'Completed',
-        6 => 'CompletedExpired',
+        'not assigned' => 'Pending',
+        'expired before assignment' => 'PendingExpired',
+        'assigned to user' => 'InProgress',
+        'expired and assigned' => 'InProgressExpired',
+        'completed in time' => 'Completed',
+        'completed after expiring' => 'CompletedExpired',
     ]);
 });

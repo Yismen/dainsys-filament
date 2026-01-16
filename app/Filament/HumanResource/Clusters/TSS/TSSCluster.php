@@ -12,4 +12,6 @@ class TSSCluster extends Cluster
     protected static string|BackedEnum|null $navigationIcon = Heroicon::Key;
 
     protected static ?SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
+
+    protected static ?string $navigationLabel = 'Tss';
 }

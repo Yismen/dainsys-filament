@@ -1,105 +1,69 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Models\Supervisor;
-use App\Models\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Foundation\Auth\User as AuthUser;
 
 class SupervisorPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
+    use HandlesAuthorization;
+
+    public function viewAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('view-any Supervisor');
+        return $authUser->can('viewAny supervisor');
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Supervisor $supervisor): bool
+    public function view(AuthUser $authUser, Supervisor $supervisor): bool
     {
-        return $user->checkPermissionTo('view Supervisor');
+        return $authUser->can('view supervisor');
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
+    public function create(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('create Supervisor');
+        return $authUser->can('create supervisor');
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, Supervisor $supervisor): bool
+    public function update(AuthUser $authUser, Supervisor $supervisor): bool
     {
-        return $user->checkPermissionTo('update Supervisor');
+        return $authUser->can('update supervisor');
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, Supervisor $supervisor): bool
+    public function delete(AuthUser $authUser, Supervisor $supervisor): bool
     {
-        return $user->checkPermissionTo('delete Supervisor');
+        return $authUser->can('delete supervisor');
     }
 
-    /**
-     * Determine whether the user can delete any models.
-     */
-    public function deleteAny(User $user): bool
+    public function restore(AuthUser $authUser, Supervisor $supervisor): bool
     {
-        return $user->checkPermissionTo('delete-any Supervisor');
+        return $authUser->can('restore supervisor');
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Supervisor $supervisor): bool
+    public function forceDelete(AuthUser $authUser, Supervisor $supervisor): bool
     {
-        return $user->checkPermissionTo('restore Supervisor');
+        return $authUser->can('forceDelete supervisor');
     }
 
-    /**
-     * Determine whether the user can restore any models.
-     */
-    public function restoreAny(User $user): bool
+    public function forceDeleteAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('restore-any Supervisor');
+        return $authUser->can('forceDeleteAny supervisor');
     }
 
-    /**
-     * Determine whether the user can replicate the model.
-     */
-    public function replicate(User $user, Supervisor $supervisor): bool
+    public function restoreAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('replicate Supervisor');
+        return $authUser->can('restoreAny supervisor');
     }
 
-    /**
-     * Determine whether the user can reorder the models.
-     */
-    public function reorder(User $user): bool
+    public function replicate(AuthUser $authUser, Supervisor $supervisor): bool
     {
-        return $user->checkPermissionTo('reorder Supervisor');
+        return $authUser->can('replicate supervisor');
     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Supervisor $supervisor): bool
+    public function reorder(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('force-delete Supervisor');
-    }
-
-    /**
-     * Determine whether the user can permanently delete any models.
-     */
-    public function forceDeleteAny(User $user): bool
-    {
-        return $user->checkPermissionTo('force-delete-any Supervisor');
+        return $authUser->can('reorder supervisor');
     }
 }

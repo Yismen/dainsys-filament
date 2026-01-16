@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Models\Traits\HasManyMailingSubscriptions;
+use App\Models\Traits\InteractWithSupportTickets;
 use App\Traits\Models\InteractsWithModelCaching;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
@@ -13,6 +14,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Jeffgreco13\FilamentBreezy\Traits\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
@@ -25,6 +27,7 @@ class User extends Authenticatable implements FilamentUser
     use HasRoles;
     use HasUuids;
     use InteractsWithModelCaching;
+    use InteractWithSupportTickets;
     use Notifiable;
     use SoftDeletes;
     use TwoFactorAuthenticatable;
@@ -38,6 +41,7 @@ class User extends Authenticatable implements FilamentUser
         'name',
         'email',
         'password',
+        'is_active',
     ];
 
     /**
@@ -58,15 +62,34 @@ class User extends Authenticatable implements FilamentUser
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'is_active' => 'boolean',
     ];
 
     public function canAccessPanel(Panel $panel): bool
     {
+        if (! Auth::check()) {
+            return true;
+        }
+
+        \abort_if(! Auth::user()->is_active, 403, 'You are an inactive user. Contact the administrator!');
+
         $panel_id = $panel->getId();
 
-        // if ($panel_id === 'admin') {
-        //     return auth()->check() ? auth()->user()->isSuperAdmin() : false;
-        // }
+        if ($panel_id === 'admin') {
+            return Auth::user()->isSuperAdmin();
+        }
+
+        if ($panel_id === 'human-resource') {
+            return Auth::user()->can('manageHumanResources');
+        }
+
+        if ($panel_id === 'workforce') {
+            return Auth::user()->can('manageWorkforce');
+        }
+
+        if ($panel_id === 'support') {
+            return true;
+        }
 
         return true;
     }

@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Enums\TicketPriorities;
 use App\Enums\TicketStatuses;
-use App\Models\TicketDepartment;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -22,14 +21,13 @@ class TicketFactory extends Factory
     {
         return [
             'owner_id' => User::factory(),
-            'department_id' => TicketDepartment::factory(),
             'subject' => $this->faker->sentence(),
             'description' => $this->faker->sentence(4),
             'assigned_to' => null,
             'assigned_at' => null,
             'expected_at' => null,
             'completed_at' => null,
-            'reference' => 'watever',
+            // 'reference' => 'watever',
             'status' => TicketStatuses::Pending->value,
             'priority' => TicketPriorities::Normal->value,
         ];

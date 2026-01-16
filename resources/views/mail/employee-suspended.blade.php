@@ -1,4 +1,4 @@
-@component('mail::message')
+<x-mail::message>
 @php
     $employee = $suspension->employee;
 @endphp
@@ -9,10 +9,10 @@ the employee is considered suspended, therefore they should not be working. Also
 
 This employee works for project {{ $employee->project->name }} in site {{ $employee->site->name }} as a {{ $employee->position->name }}, and reports to {{ $employee->supervisor->name }}.
 
-@component('mail::button', ['url' => '/human-resource/employees-management/employees'])
-{{ $employee->full_name }}
-@endcomponent
+<x-mail::button :url="url('human-resource/employees-management/employees', ['record' => $employee->getKey()])">
+    View Employee
+</x-mail::button>
 
 Thanks,<br>
 {{ config('app.name') }}
-@endcomponent
+</x-mail::message>

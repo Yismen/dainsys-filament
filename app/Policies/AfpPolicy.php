@@ -1,105 +1,69 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Models\Afp;
-use App\Models\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Foundation\Auth\User as AuthUser;
 
 class AfpPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
+    use HandlesAuthorization;
+
+    public function viewAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('view-any Afp');
+        return $authUser->can('viewAny afp');
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Afp $afp): bool
+    public function view(AuthUser $authUser, Afp $afp): bool
     {
-        return $user->checkPermissionTo('view Afp');
+        return $authUser->can('view afp');
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
+    public function create(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('create Afp');
+        return $authUser->can('create afp');
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, Afp $afp): bool
+    public function update(AuthUser $authUser, Afp $afp): bool
     {
-        return $user->checkPermissionTo('update Afp');
+        return $authUser->can('update afp');
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, Afp $afp): bool
+    public function delete(AuthUser $authUser, Afp $afp): bool
     {
-        return $user->checkPermissionTo('delete Afp');
+        return $authUser->can('delete afp');
     }
 
-    /**
-     * Determine whether the user can delete any models.
-     */
-    public function deleteAny(User $user): bool
+    public function restore(AuthUser $authUser, Afp $afp): bool
     {
-        return $user->checkPermissionTo('delete-any Afp');
+        return $authUser->can('restore afp');
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Afp $afp): bool
+    public function forceDelete(AuthUser $authUser, Afp $afp): bool
     {
-        return $user->checkPermissionTo('restore Afp');
+        return $authUser->can('forceDelete afp');
     }
 
-    /**
-     * Determine whether the user can restore any models.
-     */
-    public function restoreAny(User $user): bool
+    public function forceDeleteAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('restore-any Afp');
+        return $authUser->can('forceDeleteAny afp');
     }
 
-    /**
-     * Determine whether the user can replicate the model.
-     */
-    public function replicate(User $user, Afp $afp): bool
+    public function restoreAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('replicate Afp');
+        return $authUser->can('restoreAny afp');
     }
 
-    /**
-     * Determine whether the user can reorder the models.
-     */
-    public function reorder(User $user): bool
+    public function replicate(AuthUser $authUser, Afp $afp): bool
     {
-        return $user->checkPermissionTo('reorder Afp');
+        return $authUser->can('replicate afp');
     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Afp $afp): bool
+    public function reorder(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('force-delete Afp');
-    }
-
-    /**
-     * Determine whether the user can permanently delete any models.
-     */
-    public function forceDeleteAny(User $user): bool
-    {
-        return $user->checkPermissionTo('force-delete-any Afp');
+        return $authUser->can('reorder afp');
     }
 }

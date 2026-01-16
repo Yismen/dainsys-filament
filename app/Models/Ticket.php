@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -24,7 +25,19 @@ class Ticket extends \App\Models\BaseModels\AppModel
     use EnsureDateNotWeekend;
     use SoftDeletes;
 
-    protected $fillable = ['owner_id', 'department_id', 'subject', 'description', 'reference', 'images', 'status', 'priority', 'expected_at', 'assigned_to', 'assigned_at', 'completed_at'];
+    protected $fillable = [
+        'owner_id',
+        'subject',
+        'description',
+        // 'reference',
+        'images',
+        'status',
+        'priority',
+        'expected_at',
+        'assigned_to',
+        'assigned_at',
+        'completed_at',
+    ];
 
     protected $casts = [
         'assigned_at' => 'datetime',
@@ -35,34 +48,36 @@ class Ticket extends \App\Models\BaseModels\AppModel
         'priority' => TicketPriorities::class,
     ];
 
+    // protected $appends = [
+    //     'reference',
+    // ];
+
+    protected string $tickets_prefix = 'ECCOSTGOIT_';
+
     protected static function booted()
     {
         parent::booted();
 
         static::creating(function ($model) {
-            if (auth()->check()) {
-                $model->owner_id = auth()->user()->id;
+            if (Auth::check()) {
+                $model->owner_id = Auth::id();
             }
         });
 
-        static::created(function ($model) {
-            $model->updateQuietly([
-                'status' => TicketStatuses::Pending,
-                // 'assigned_to' => null,
-                // 'assigned_at' => null,
-                'reference' => $model->getReference(),
-            ]);
+        static::created(function (Ticket $model) {
+            $model->status = TicketStatuses::Pending;
+            $model->reference = $model->getReference();
+
+            $model->saveQuietly();
 
             TicketCreatedEvent::dispatch($model);
         });
 
-        static::saved(function ($model) {
-            $model->updateQuietly([
-                'expected_at' => $model->getExpectedDate(),
-            ]);
-            $model->updateQuietly([
-                'status' => $model->getStatus(),
-            ]);
+        static::saved(function (Ticket $model) {
+            $model->expected_at = $model->getExpectedDate();
+            $model->status = $model->getStatus();
+
+            $model->saveQuietly();
         });
         static::deleting(function ($model) {
             // if ($model->image) {
@@ -81,14 +96,14 @@ class Ticket extends \App\Models\BaseModels\AppModel
         return $this->belongsTo(User::class, 'owner_id');
     }
 
-    public function agent(): BelongsTo
+    public function operator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'assigned_to');
     }
 
-    public function department(): BelongsTo
+    public function agent(): BelongsTo
     {
-        return $this->belongsTo(TicketDepartment::class, 'department_id');
+        return $this->operator();
     }
 
     public function replies(): HasMany
@@ -96,22 +111,10 @@ class Ticket extends \App\Models\BaseModels\AppModel
         return $this->hasMany(TicketReply::class);
     }
 
-    public function assignTo(User $agent)
+    public function assignTo(string|int|User $agent)
     {
-        // if (is_integer($agent)) {
-        //     $agent = DepartmentRole::findOrFail($agent);
-        // }
-
-        // if ($agent instanceof User) {
-        //     $agent = DepartmentRole::where('user_id', $agent->id)->firstOrFail();
-        // }
-
-        // if ($agent->department_id != $this->department_id) {
-        //     throw new DifferentDepartmentException();
-        // }
-
         $this->update([
-            'assigned_to' => $agent->id,
+            'assigned_to' => $agent instanceof User ? $agent->id : $agent,
             'assigned_at' => now(),
             'status' => $this->getStatus(),
         ]);
@@ -119,18 +122,33 @@ class Ticket extends \App\Models\BaseModels\AppModel
         TicketAssignedEvent::dispatch($this);
     }
 
-    public function reOpen()
+    public function grab()
     {
+        $this->assignTo(Auth::user());
+    }
+
+    public function reOpen(string $comment)
+    {
+        $this->replies()->createQuietly([
+            'user_id' => Auth::id(),
+            'content' => $comment,
+        ]);
+
         $this->update([
             'status' => $this->getStatus(),
             'completed_at' => null,
         ]);
 
-        TicketReopenedEvent::dispatch($this);
+        TicketReopenedEvent::dispatch($this, $comment);
     }
 
-    public function complete(string $comment = '')
+    public function complete(string $comment)
     {
+        $this->replies()->createQuietly([
+            'user_id' => Auth::id(),
+            'content' => $comment,
+        ]);
+
         $this->update([
             'status' => $this->getStatus(),
             'completed_at' => now(),
@@ -141,11 +159,6 @@ class Ticket extends \App\Models\BaseModels\AppModel
 
     public function close(string $comment)
     {
-        $this->replies()->createQuietly([
-            'user_id' => auth()->user()->id,
-            'content' => $comment,
-        ]);
-
         $this->complete($comment);
     }
 
@@ -161,12 +174,17 @@ class Ticket extends \App\Models\BaseModels\AppModel
 
     public function isAssignedToMe(): bool
     {
-        return $this->assigned_to === auth()->user()->id;
+        return $this->assigned_to === Auth::id();
     }
 
     public function isOpen(): bool
     {
         return is_null($this->completed_at);
+    }
+
+    public function isClosed(): bool
+    {
+        return ! $this->isOpen();
     }
 
     // public function isAssignedTo(DepartmentRole|User|int $agent): bool
@@ -226,14 +244,29 @@ class Ticket extends \App\Models\BaseModels\AppModel
         return $query->where('completed_at', '!=', null);
     }
 
+    public function scopeInProgress(Builder $query): Builder
+    {
+        return $query
+            ->where('assigned_to', '!=', null)
+            ->where('completed_at', null);
+    }
+
+    public function scopePending(Builder $query): Builder
+    {
+        return $query
+            ->where('assigned_to', '=', null);
+    }
+
     public function scopeCompliant(Builder $query): Builder
     {
-        return $query->whereColumn('completed_at', '<', 'expected_at');
+        return $query->whereColumn('completed_at', '<', 'expected_at')
+            ->where('completed_at', '!=', null);
     }
 
     public function scopeNonCompliant(Builder $query): Builder
     {
-        return $query->whereColumn('completed_at', '>', 'expected_at');
+        return $query->whereColumn('completed_at', '>=', 'expected_at')
+            ->where('completed_at', '!=', null);
     }
 
     public function scopeExpired(Builder $query): Builder
@@ -258,11 +291,6 @@ class Ticket extends \App\Models\BaseModels\AppModel
         return $this->priority->value > 5 ? 5 : 5 - $this->priority->value;
     }
 
-    // public function admins()
-    // {
-    //     return $this->department->roles()->where('role', DepartmentRolesEnum::Admin)->with('user')->get();
-    // }
-
     protected function getExpectedDate(): Carbon
     {
         $date = $this->created_at ?? now();
@@ -286,14 +314,21 @@ class Ticket extends \App\Models\BaseModels\AppModel
     {
         $latest_reference = self::query()
             ->orderBy('reference', 'desc')
-            ->where('department_id', $this->department_id)
-            ->where('reference', 'like', "{$this->department->ticket_prefix}%")
-            ->first();
+            ->first()?->reference;
 
-        if ($latest_reference) {
-            return ++$latest_reference->reference;
+        if ($latest_reference != null) {
+            $reference = str($latest_reference)->after($this->tickets_prefix)->toString();
+
+            $reference = ++$reference;
+
+            return $this->tickets_prefix.str($reference)->padLeft(6, '0');
         }
 
-        return $this->department->ticket_prefix.'000001';
+        return $this->tickets_prefix.'000001';
     }
+
+    // public function getReferenceAttribute()
+    // {
+    //     return $this->attributes['reference'] ?? null;
+    // }
 }

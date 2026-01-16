@@ -1,105 +1,69 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Models\Position;
-use App\Models\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Foundation\Auth\User as AuthUser;
 
 class PositionPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
+    use HandlesAuthorization;
+
+    public function viewAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('view-any Position');
+        return $authUser->can('viewAny position');
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Position $position): bool
+    public function view(AuthUser $authUser, Position $position): bool
     {
-        return $user->checkPermissionTo('view Position');
+        return $authUser->can('view position');
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
+    public function create(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('create Position');
+        return $authUser->can('create position');
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, Position $position): bool
+    public function update(AuthUser $authUser, Position $position): bool
     {
-        return $user->checkPermissionTo('update Position');
+        return $authUser->can('update position');
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, Position $position): bool
+    public function delete(AuthUser $authUser, Position $position): bool
     {
-        return $user->checkPermissionTo('delete Position');
+        return $authUser->can('delete position');
     }
 
-    /**
-     * Determine whether the user can delete any models.
-     */
-    public function deleteAny(User $user): bool
+    public function restore(AuthUser $authUser, Position $position): bool
     {
-        return $user->checkPermissionTo('delete-any Position');
+        return $authUser->can('restore position');
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Position $position): bool
+    public function forceDelete(AuthUser $authUser, Position $position): bool
     {
-        return $user->checkPermissionTo('restore Position');
+        return $authUser->can('forceDelete position');
     }
 
-    /**
-     * Determine whether the user can restore any models.
-     */
-    public function restoreAny(User $user): bool
+    public function forceDeleteAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('restore-any Position');
+        return $authUser->can('forceDeleteAny position');
     }
 
-    /**
-     * Determine whether the user can replicate the model.
-     */
-    public function replicate(User $user, Position $position): bool
+    public function restoreAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('replicate Position');
+        return $authUser->can('restoreAny position');
     }
 
-    /**
-     * Determine whether the user can reorder the models.
-     */
-    public function reorder(User $user): bool
+    public function replicate(AuthUser $authUser, Position $position): bool
     {
-        return $user->checkPermissionTo('reorder Position');
+        return $authUser->can('replicate position');
     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Position $position): bool
+    public function reorder(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('force-delete Position');
-    }
-
-    /**
-     * Determine whether the user can permanently delete any models.
-     */
-    public function forceDeleteAny(User $user): bool
-    {
-        return $user->checkPermissionTo('force-delete-any Position');
+        return $authUser->can('reorder position');
     }
 }

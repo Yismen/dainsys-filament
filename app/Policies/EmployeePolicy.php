@@ -1,105 +1,69 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Models\Employee;
-use App\Models\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Foundation\Auth\User as AuthUser;
 
 class EmployeePolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
+    use HandlesAuthorization;
+
+    public function viewAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('view-any Employee');
+        return $authUser->can('viewAny employee');
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Employee $employee): bool
+    public function view(AuthUser $authUser, Employee $employee): bool
     {
-        return $user->checkPermissionTo('view Employee');
+        return $authUser->can('view employee');
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
+    public function create(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('create Employee');
+        return $authUser->can('create employee');
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, Employee $employee): bool
+    public function update(AuthUser $authUser, Employee $employee): bool
     {
-        return $user->checkPermissionTo('update Employee');
+        return $authUser->can('update employee');
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, Employee $employee): bool
+    public function delete(AuthUser $authUser, Employee $employee): bool
     {
-        return $user->checkPermissionTo('delete Employee');
+        return $authUser->can('delete employee');
     }
 
-    /**
-     * Determine whether the user can delete any models.
-     */
-    public function deleteAny(User $user): bool
+    public function restore(AuthUser $authUser, Employee $employee): bool
     {
-        return $user->checkPermissionTo('delete-any Employee');
+        return $authUser->can('restore employee');
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Employee $employee): bool
+    public function forceDelete(AuthUser $authUser, Employee $employee): bool
     {
-        return $user->checkPermissionTo('restore Employee');
+        return $authUser->can('forceDelete employee');
     }
 
-    /**
-     * Determine whether the user can restore any models.
-     */
-    public function restoreAny(User $user): bool
+    public function forceDeleteAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('restore-any Employee');
+        return $authUser->can('forceDeleteAny employee');
     }
 
-    /**
-     * Determine whether the user can replicate the model.
-     */
-    public function replicate(User $user, Employee $employee): bool
+    public function restoreAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('replicate Employee');
+        return $authUser->can('restoreAny employee');
     }
 
-    /**
-     * Determine whether the user can reorder the models.
-     */
-    public function reorder(User $user): bool
+    public function replicate(AuthUser $authUser, Employee $employee): bool
     {
-        return $user->checkPermissionTo('reorder Employee');
+        return $authUser->can('replicate employee');
     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Employee $employee): bool
+    public function reorder(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('force-delete Employee');
-    }
-
-    /**
-     * Determine whether the user can permanently delete any models.
-     */
-    public function forceDeleteAny(User $user): bool
-    {
-        return $user->checkPermissionTo('force-delete-any Employee');
+        return $authUser->can('reorder employee');
     }
 }

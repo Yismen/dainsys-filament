@@ -1,105 +1,69 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Models\Client;
-use App\Models\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Foundation\Auth\User as AuthUser;
 
 class ClientPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
+    use HandlesAuthorization;
+
+    public function viewAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('view-any Client');
+        return $authUser->can('viewAny client');
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Client $afp): bool
+    public function view(AuthUser $authUser, Client $client): bool
     {
-        return $user->checkPermissionTo('view Client');
+        return $authUser->can('view client');
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
+    public function create(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('create Client');
+        return $authUser->can('create client');
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, Client $afp): bool
+    public function update(AuthUser $authUser, Client $client): bool
     {
-        return $user->checkPermissionTo('update Client');
+        return $authUser->can('update client');
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, Client $afp): bool
+    public function delete(AuthUser $authUser, Client $client): bool
     {
-        return $user->checkPermissionTo('delete Client');
+        return $authUser->can('delete client');
     }
 
-    /**
-     * Determine whether the user can delete any models.
-     */
-    public function deleteAny(User $user): bool
+    public function restore(AuthUser $authUser, Client $client): bool
     {
-        return $user->checkPermissionTo('delete-any Client');
+        return $authUser->can('restore client');
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Client $afp): bool
+    public function forceDelete(AuthUser $authUser, Client $client): bool
     {
-        return $user->checkPermissionTo('restore Client');
+        return $authUser->can('forceDelete client');
     }
 
-    /**
-     * Determine whether the user can restore any models.
-     */
-    public function restoreAny(User $user): bool
+    public function forceDeleteAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('restore-any Client');
+        return $authUser->can('forceDeleteAny client');
     }
 
-    /**
-     * Determine whether the user can replicate the model.
-     */
-    public function replicate(User $user, Client $afp): bool
+    public function restoreAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('replicate Client');
+        return $authUser->can('restoreAny client');
     }
 
-    /**
-     * Determine whether the user can reorder the models.
-     */
-    public function reorder(User $user): bool
+    public function replicate(AuthUser $authUser, Client $client): bool
     {
-        return $user->checkPermissionTo('reorder Client');
+        return $authUser->can('replicate client');
     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Client $afp): bool
+    public function reorder(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('force-delete Client');
-    }
-
-    /**
-     * Determine whether the user can permanently delete any models.
-     */
-    public function forceDeleteAny(User $user): bool
-    {
-        return $user->checkPermissionTo('force-delete-any Client');
+        return $authUser->can('reorder client');
     }
 }

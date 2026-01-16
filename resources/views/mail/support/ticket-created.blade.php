@@ -1,16 +1,17 @@
-@component('mail::message')
+<x-mail::message>
 # Hello,
 
-A new ticket with #{{ $ticket->reference }} has been created by {{ $ticket->owner->name }} form department {{
-$ticket->department->name }}!
+A new ticket with #{{ $ticket->reference }} has been created by {{ $ticket->owner->name }}!
 
 **Title: {{ $ticket->subject }}**
 
 *Content:*
 > {!! $ticket->description !!}
 
-{{-- <x-support::email.button :url="route('support.my_tickets', ['ticket_details' => $ticket->id])">View Ticket
-</x-support::email.button>
-Thanks,<br> --}}
+<x-mail::button :url="url('support/tickets', ['record' => $ticket->getKey()])">
+    View Ticket
+</x-mail::button>
+
+Thanks,<br>
 {{ config('app.name') }}
-@endcomponent
+</x-mail::message>

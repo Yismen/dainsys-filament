@@ -25,4 +25,9 @@ class TicketReply extends \App\Models\BaseModels\AppModel
     {
         return $this->belongsTo(User::class);
     }
+
+    public function author(): BelongsTo
+    {
+        return $this->user();
+    }
 }

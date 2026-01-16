@@ -5,6 +5,7 @@ namespace Tests;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
+use Filament\Facades\Filament;
 use Illuminate\Foundation\Auth\User as AuthUser;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
@@ -15,6 +16,8 @@ abstract class TestCase extends BaseTestCase
     public function createUserWithPermissionTo(string $permissionName): AuthUser
     {
         $user = User::factory()->create();
+        $permissionName = \explode(' ', $permissionName, 2);
+        $permissionName = str($permissionName[0])->camel().' '.str($permissionName[1])->camel();
 
         Permission::firstOrCreate(['name' => $permissionName]);
         $user->givePermissionTo($permissionName);
@@ -24,10 +27,19 @@ abstract class TestCase extends BaseTestCase
 
     public function createUserWithPermissionsToActions(array $actions, string $model_name): AuthUser
     {
+        $filamentPanel = Filament::getCurrentPanel()->getId() ?? null;
+
+        if ($filamentPanel) {
+            $roleName = str('manage-'.$filamentPanel);
+
+            $role = Role::firstOrCreate(['name' => $roleName]);
+        }
         $user = User::factory()->create();
 
+        $user->assignRole($role);
+
         foreach ($actions as $action) {
-            $permissionName = $action.' '.$model_name;
+            $permissionName = str($action)->camel().' '.str($model_name)->camel();
 
             Permission::firstOrCreate(['name' => $permissionName]);
             $user->givePermissionTo($permissionName);

@@ -31,7 +31,10 @@ class WorkforcePanelProvider extends PanelProvider
                 'primary' => Color::Red,
             ])
             ->login()
+            // ->registration()
             ->passwordReset()
+            ->emailVerification()
+            ->spa()
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->discoverResources(in: app_path('Filament/Workforce/Resources'), for: 'App\Filament\Workforce\Resources')
             ->discoverPages(in: app_path('Filament/Workforce/Pages'), for: 'App\Filament\Workforce\Pages')

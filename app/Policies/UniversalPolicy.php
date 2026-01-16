@@ -1,105 +1,69 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Models\Universal;
-use App\Models\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Foundation\Auth\User as AuthUser;
 
 class UniversalPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
+    use HandlesAuthorization;
+
+    public function viewAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('view-any Universal');
+        return $authUser->can('viewAny universal');
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Universal $universal): bool
+    public function view(AuthUser $authUser, Universal $universal): bool
     {
-        return $user->checkPermissionTo('view Universal');
+        return $authUser->can('view universal');
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
+    public function create(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('create Universal');
+        return $authUser->can('create universal');
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, Universal $universal): bool
+    public function update(AuthUser $authUser, Universal $universal): bool
     {
-        return $user->checkPermissionTo('update Universal');
+        return $authUser->can('update universal');
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, Universal $universal): bool
+    public function delete(AuthUser $authUser, Universal $universal): bool
     {
-        return $user->checkPermissionTo('delete Universal');
+        return $authUser->can('delete universal');
     }
 
-    /**
-     * Determine whether the user can delete any models.
-     */
-    public function deleteAny(User $user): bool
+    public function restore(AuthUser $authUser, Universal $universal): bool
     {
-        return $user->checkPermissionTo('delete-any Universal');
+        return $authUser->can('restore universal');
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Universal $universal): bool
+    public function forceDelete(AuthUser $authUser, Universal $universal): bool
     {
-        return $user->checkPermissionTo('restore Universal');
+        return $authUser->can('forceDelete universal');
     }
 
-    /**
-     * Determine whether the user can restore any models.
-     */
-    public function restoreAny(User $user): bool
+    public function forceDeleteAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('restore-any Universal');
+        return $authUser->can('forceDeleteAny universal');
     }
 
-    /**
-     * Determine whether the user can replicate the model.
-     */
-    public function replicate(User $user, Universal $universal): bool
+    public function restoreAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('replicate Universal');
+        return $authUser->can('restoreAny universal');
     }
 
-    /**
-     * Determine whether the user can reorder the models.
-     */
-    public function reorder(User $user): bool
+    public function replicate(AuthUser $authUser, Universal $universal): bool
     {
-        return $user->checkPermissionTo('reorder Universal');
+        return $authUser->can('replicate universal');
     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Universal $universal): bool
+    public function reorder(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('force-delete Universal');
-    }
-
-    /**
-     * Determine whether the user can permanently delete any models.
-     */
-    public function forceDeleteAny(User $user): bool
-    {
-        return $user->checkPermissionTo('force-delete-any Universal');
+        return $authUser->can('reorder universal');
     }
 }
