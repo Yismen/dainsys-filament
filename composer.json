@@ -60,6 +60,7 @@
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi",
             "@php artisan filament:upgrade",
+            "@dainsys:sync-roles-for-panels web",
             "@php artisan shield:generate --all --panel=* --option=permissions"
         ],
         "post-update-cmd": [
