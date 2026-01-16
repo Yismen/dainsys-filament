@@ -53,7 +53,9 @@ class SyncRolesForPanels extends Command
             }
         }
 
-        Role::upsert($roles, ['name', 'guard_name'], ['name']);
+        foreach ($roles as $role) {
+            Role::firstOrCreate($role);
+        }
 
         $this->warn('A total of ' . \count($roles) . ' roles synced for all registered filament panels');
     }
