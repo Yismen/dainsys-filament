@@ -28,7 +28,7 @@ class TicketInfolist
                     ->badge(),
                 TextEntry::make('description')
                     ->columnSpanFull(),
-                TextEntry::make('operator.name')
+                TextEntry::make('agent.name')
                     ->label(__('Assigned to'))
                     ->placeholder('-'),
                 TextEntry::make('assigned_at')

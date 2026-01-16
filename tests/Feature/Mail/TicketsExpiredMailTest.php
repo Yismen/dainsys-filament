@@ -1,7 +1,7 @@
 <?php
 
 use App\Console\Commands\UpdateTicketStatus;
-use App\Enums\TicketRoles;
+use App\Enums\SupportRoles;
 use App\Events\TicketCreatedEvent;
 use App\Mail\TicketsExpiredMail;
 use App\Models\Role;
@@ -21,7 +21,7 @@ beforeEach(function () {
 
 it('renders correctly with attachment file', function () {
     $ticketsAdmin = User::factory()->create();
-    $adminRole = Role::firstOrCreate(['name' => TicketRoles::Admin->value]);
+    $adminRole = Role::firstOrCreate(['name' => SupportRoles::Manager->value]);
     $ticketsAdmin->assignRole($adminRole);
     $date = now()->addDays(30);
     $fileName = 'tickets-expired-'.$date->format('Y-m-d').'.xlsx';

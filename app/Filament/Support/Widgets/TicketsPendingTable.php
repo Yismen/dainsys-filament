@@ -23,7 +23,7 @@ class TicketsPendingTable extends TableWidget
 
     public static function canView(): bool
     {
-        return Auth::user()->isSuperAdmin() || Auth::user()->isTicketsAdmin() || Auth::user()->isTicketsOperator();
+        return Auth::user()->isSuperAdmin() || Auth::user()->isTicketsManager() || Auth::user()->isTicketsAgent();
     }
 
     public function table(Table $table): Table

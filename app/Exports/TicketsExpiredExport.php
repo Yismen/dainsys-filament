@@ -40,7 +40,7 @@ class TicketsExpiredExport implements FromCollection, ShouldAutoSize, WithCustom
             $ticket->reference,
             $ticket->subject,
             $ticket->owner?->name,
-            $ticket->operator?->name,
+            $ticket->agent?->name,
             $ticket->created_at?->diffForHumans(),
             $ticket->expected_at?->diffForHumans(),
             $ticket->status->value,

@@ -48,7 +48,7 @@ class TestingEnvironmentSeeder extends Seeder
         );
         $admin_role = Role::firstOrCreate([
             'guard_name' => 'web',
-            'name' => 'super admin',
+            'name' => 'Super Admin',
         ]);
 
         $user->assignRole($admin_role);

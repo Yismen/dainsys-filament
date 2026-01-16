@@ -56,3 +56,13 @@ it('does not syn roles for admin', function () {
         'Admin Agent'
     ]);
 });
+
+it('does not duplciate roles when command is run multiple times', function () {
+    $expectedCount = (\count(Filament::getPanels()) * 2) - 2 + 1;
+
+    $this->artisan(SyncRolesForPanels::class, ['guard_name' => 'web']);
+    $this->artisan(SyncRolesForPanels::class, ['guard_name' => 'web']);
+    $this->artisan(SyncRolesForPanels::class, ['guard_name' => 'web']);
+
+    $this->assertDatabaseCount('roles', $expectedCount);
+});

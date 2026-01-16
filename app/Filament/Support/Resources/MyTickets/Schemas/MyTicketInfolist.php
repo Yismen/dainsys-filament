@@ -30,7 +30,7 @@ class MyTicketInfolist
                     ->badge(),
                 TextEntry::make('description')
                     ->columnSpanFull(),
-                TextEntry::make('operator.name')
+                TextEntry::make('agent.name')
                     ->label('Assigned To')
                     ->placeholder('-'),
                 TextEntry::make('assigned_at')

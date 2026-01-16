@@ -2,7 +2,7 @@
 
 namespace App\Filament\Actions;
 
-use App\Enums\TicketRoles;
+use App\Enums\SupportRoles;
 use App\Models\Ticket;
 use App\Models\User;
 use App\Services\ModelListService;
@@ -34,8 +34,8 @@ class AssignTicketAction
                                 ->where(function ($userQuery) {
                                     $userQuery->whereHas('roles', function ($rolesQuery) {
                                         $rolesQuery->whereIn('name', [
-                                            TicketRoles::Admin->value,
-                                            TicketRoles::Operator->value,
+                                            SupportRoles::Manager->value,
+                                            SupportRoles::Agent->value,
                                         ]);
                                     });
                                 })

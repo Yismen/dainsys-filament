@@ -1,7 +1,7 @@
 <?php
 
 use App\Enums\TicketPriorities;
-use App\Enums\TicketRoles;
+use App\Enums\SupportRoles;
 use App\Enums\TicketStatuses;
 use App\Models\Role;
 use Illuminate\Database\Migrations\Migration;
@@ -31,14 +31,6 @@ return new class extends Migration
             $table->softDeletes();
             $table->timestamps();
         });
-
-        Role::create([
-            'name' => TicketRoles::Admin,
-        ]);
-
-        Role::create([
-            'name' => TicketRoles::Operator,
-        ]);
     }
 
     /**

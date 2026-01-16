@@ -2,7 +2,7 @@
 
 use App\Console\Commands\SendTicketsExpiredReport;
 use App\Console\Commands\UpdateTicketStatus;
-use App\Enums\TicketRoles;
+use App\Enums\SupportRoles;
 use App\Events\TicketCreatedEvent;
 use App\Mail\TicketsExpiredMail;
 use App\Models\Role;
@@ -29,7 +29,7 @@ it('is is schedulled daily at 8:15 am', function () {
 });
 
 it('send tickets in status expired', function () {
-    $role = Role::firstOrCreate(['name' => TicketRoles::Admin->value]);
+    $role = Role::firstOrCreate(['name' => SupportRoles::Manager->value]);
     $recipient = User::factory()->create();
     $recipient->assignRole($role);
 
@@ -46,7 +46,7 @@ it('send tickets in status expired', function () {
 });
 
 it('send it only if there is any ticket expired', function () {
-    $role = Role::firstOrCreate(['name' => TicketRoles::Admin->value]);
+    $role = Role::firstOrCreate(['name' => SupportRoles::Manager->value]);
     $recipient = User::factory()->create();
     $recipient->assignRole($role);
 

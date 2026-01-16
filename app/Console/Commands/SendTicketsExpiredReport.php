@@ -45,7 +45,7 @@ class SendTicketsExpiredReport extends Command
             ->orderBy('expected_at', 'ASC')
             ->with([
                 'owner',
-                'operator',
+                'agent',
             ])
             ->get();
 
@@ -53,7 +53,7 @@ class SendTicketsExpiredReport extends Command
             Mail::to(
                 (new TicketRecipientsService)
                     ->superAdmins()
-                    ->ticketAdmins()
+                    ->supportManagers()
                     ->get()
             )
                 ->send(new TicketsExpiredMail($tickets));

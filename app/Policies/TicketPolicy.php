@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Enums\TicketRoles;
+use App\Enums\SupportRoles;
 use App\Models\Ticket;
 use App\Models\User;
 
@@ -22,8 +22,8 @@ class TicketPolicy
     public function view(User $user, Ticket $ticket): bool
     {
         return $user->hasAnyRole([
-            TicketRoles::Admin->value,
-            // TicketRoles::Operator->value,
+            SupportRoles::Manager->value,
+            // SupportRoles::Agent->value,
         ]) ||
         $ticket->owner_id === $user->id ||
         $ticket->assigned_to === $user->id;

@@ -54,11 +54,11 @@ test('tickets model belongs to owner', function () {
     expect($ticket->owner)->toBeInstanceOf(User::class);
 });
 
-test('tickets model belongs to operator', function () {
+test('tickets model belongs to agent', function () {
     $ticket = Ticket::factory()->assigned()->create();
 
-    expect($ticket->operator())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
-    expect($ticket->operator)->toBeInstanceOf(User::class);
+    expect($ticket->agent())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
+    expect($ticket->agent)->toBeInstanceOf(User::class);
 });
 
 test('tickets model has many replies', function () {
@@ -139,24 +139,24 @@ test('ticket model updates reference correcly', function () {
     ]);
 });
 
-test('tickets model can assign an operator', function () {
+test('tickets model can assign an agent', function () {
     $ticket = Ticket::factory()->unassigned()->create();
-    $operator = User::factory()->create();
+    $agent = User::factory()->create();
 
-    $ticket->assignTo($operator);
+    $ticket->assignTo($agent);
 
     $this->assertDatabaseHas(Ticket::class, [
-        'assigned_to' => $operator->id,
+        'assigned_to' => $agent->id,
         'assigned_at' => $ticket->assigned_at,
         'status' => TicketStatuses::InProgress,
     ]);
 });
 
 test('tickets model can be completed', function () {
-    $operator = User::factory()->create();
+    $agent = User::factory()->create();
     $ticket = Ticket::factory()->assigned()->create();
 
-    $this->actingAs($operator);
+    $this->actingAs($agent);
 
     $ticket->close('Thicket has been completed');
 
@@ -284,13 +284,13 @@ test('ticket model get incompleted attribute', function () {
     expect(Ticket::incompleted()->count())->toEqual(2);
 });
 
-test('ticket model get is assigned to operator method', function () {
-    $operator = User::factory()->create();
+test('ticket model get is assigned to agent method', function () {
+    $agent = User::factory()->create();
     $ticket = Ticket::factory()->create();
 
-    $ticket->assignTo($operator);
+    $ticket->assignTo($agent);
 
-    expect($ticket->isAssignedTo($operator))->toBeTrue();
+    expect($ticket->isAssignedTo($agent))->toBeTrue();
 });
 
 test('ticket model get compliant attribute', function () {

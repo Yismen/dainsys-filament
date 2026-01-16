@@ -40,7 +40,7 @@ class MyTicketsTable
                     ->color(fn ($state) => $state->color() ?? TicketStatuses::from($state)->color())
                     ->sortable()
                     ->searchable(),
-                TextColumn::make('operator.name')
+                TextColumn::make('agent.name')
                     ->label('Assigned to')
                     ->wrap()
                     ->sortable()

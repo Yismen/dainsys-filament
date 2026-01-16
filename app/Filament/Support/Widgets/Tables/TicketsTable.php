@@ -30,7 +30,7 @@ class TicketsTable
                 ->wrap()
                 ->badge()
                 ->searchable(),
-            TextColumn::make('operator.name')
+            TextColumn::make('agent.name')
                 ->wrap()
                 ->searchable(),
             TextColumn::make('assigned_at')

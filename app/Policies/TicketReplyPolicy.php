@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Enums\TicketRoles;
+use App\Enums\SupportRoles;
 use App\Models\TicketReply;
 use App\Models\User;
 
@@ -24,7 +24,7 @@ class TicketReplyPolicy
         return $user->id === $ticketReply->ticket->owner_id ||
         $user->id === $ticketReply->ticket->assigned_to ||
         $user->id === $ticketReply->user_id ||
-        $user->hasRole(TicketRoles::Admin);
+        $user->hasRole(SupportRoles::Manager);
     }
 
     /**

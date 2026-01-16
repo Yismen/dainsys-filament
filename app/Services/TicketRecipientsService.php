@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Enums\TicketRoles;
+use App\Enums\SupportRoles;
 use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
@@ -58,11 +58,11 @@ class TicketRecipientsService
         return $this;
     }
 
-    public function ticketAdmins(): self
+    public function supportManagers(): self
     {
         $admins = User::query()
             ->withWhereHas('roles', function ($roleQuery) {
-                $roleQuery->where('name', TicketRoles::Admin->value);
+                $roleQuery->where('name', SupportRoles::Manager->value);
             })
             ->get();
 
@@ -74,17 +74,17 @@ class TicketRecipientsService
         return $this;
     }
 
-    public function ticketOperators(): self
+    public function supportAgents(): self
     {
-        $operators = User::query()
+        $agents = User::query()
             ->withWhereHas('roles', function ($roleQuery) {
-                $roleQuery->where('name', TicketRoles::Operator->value);
+                $roleQuery->where('name', SupportRoles::Agent->value);
             })
             ->get();
 
-        if ($operators->count()) {
+        if ($agents->count()) {
             $this->recipients = $this->recipients
-                ->merge($operators);
+                ->merge($agents);
         }
 
         return $this;
@@ -101,19 +101,19 @@ class TicketRecipientsService
         return $this;
     }
 
-    public function operator($ticket = null): self
+    public function agent($ticket = null): self
     {
         $ticket = $ticket ?: $this->ticket;
-        $ticket->load('operator');
+        $ticket->load('agent');
 
         $this->recipients = $this->recipients
-            ->push($ticket->operator);
+            ->push($ticket->agent);
 
         return $this;
     }
 
     // public function agent($ticket = null): self
     // {
-    //     return $this->operator($ticket);
+    //     return $this->agent($ticket);
     // }
 }

@@ -4,7 +4,7 @@ namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
 
-use App\Enums\TicketRoles;
+use App\Enums\SupportRoles;
 use App\Models\Ticket;
 use App\Models\TicketReply;
 use App\Models\User;
@@ -44,8 +44,8 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('manageTickets', function (User $user) {
-            return $user->isTicketsAdmin() ||
-                $user->isTicketsOperator();
+            return $user->isTicketsManager() ||
+                $user->isTicketsAgent();
         });
 
         Gate::define('manageHumanResources', function (User $user) {
@@ -64,8 +64,8 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('grab', function (User $user, Ticket $ticket) {
             return
                 $user->hasAnyRole([
-                    TicketRoles::Admin->value,
-                    TicketRoles::Operator->value,
+                    SupportRoles::Manager->value,
+                    SupportRoles::Agent->value,
                 ]) &&
                 $user->id !== $ticket->owner_id &&
                 $ticket->assigned_to === null;
@@ -75,7 +75,7 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('assign', function (User $user, Ticket $ticket) {
             return
 
-                    $user->isTicketsAdmin()
+                    $user->isTicketsManager()
                  &&
                 $ticket->isOpen();
 
@@ -89,7 +89,7 @@ class AuthServiceProvider extends ServiceProvider
             return $ticket->isOpen() &&
             $ticket->isAssigned() &&
             (
-                $user->isTicketsAdmin() ||
+                $user->isTicketsManager() ||
                 $user->id === $ticket->assigned_to
             );
         });
@@ -97,7 +97,7 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('reopen', function (User $user, Ticket $ticket) {
             return $ticket->isClosed() &&
             (
-                $user->isTicketsAdmin() ||
+                $user->isTicketsManager() ||
                 $user->id === $ticket->owner_id ||
                 $user->id === $ticket->assigned_to
             );
@@ -106,7 +106,7 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('reply', function (User $user, Ticket $ticket) {
             return $ticket->isOpen() &&
             (
-                $user->isTicketsAdmin() ||
+                $user->isTicketsManager() ||
                 $user->id === $ticket->owner_id ||
                 $user->id === $ticket->assigned_to
             );
@@ -126,8 +126,8 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('view', function (User $user, Ticket $ticket) {
             return $user->hasAnyRole([
-                TicketRoles::Admin->value,
-                // TicketRoles::Operator->value,
+                SupportRoles::Manager->value,
+                // SupportRoles::Agent->value,
             ]) ||
             $ticket->owner_id === $user->id ||
             $ticket->assigned_to === $user->id;

@@ -96,14 +96,9 @@ class Ticket extends \App\Models\BaseModels\AppModel
         return $this->belongsTo(User::class, 'owner_id');
     }
 
-    public function operator(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'assigned_to');
-    }
-
     public function agent(): BelongsTo
     {
-        return $this->operator();
+        return $this->belongsTo(User::class, 'assigned_to');
     }
 
     public function replies(): HasMany

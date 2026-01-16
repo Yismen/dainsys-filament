@@ -12,7 +12,7 @@ class TicketsStatsOverview extends StatsOverviewWidget
 {
     public static function canView(): bool
     {
-        return Auth::user()->isSuperAdmin() || Auth::user()->isTicketsAdmin() || Auth::user()->isTicketsOperator();
+        return Auth::user()->isSuperAdmin() || Auth::user()->isTicketsManager() || Auth::user()->isTicketsAgent();
     }
 
     protected function getStats(): array

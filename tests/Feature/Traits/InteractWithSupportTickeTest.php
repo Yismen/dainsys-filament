@@ -1,6 +1,6 @@
 <?php
 
-use App\Enums\TicketRoles;
+use App\Enums\SupportRoles;
 use App\Models\Role;
 use App\Models\Ticket;
 use App\Models\Traits\InteractWithSupportTickets;
@@ -33,23 +33,23 @@ it('has many assignedTickets', function () {
 it('has is tickets admin function', function () {
     $user = User::factory()->create();
 
-    expect($user->isTicketsAdmin())->toBeFalse();
+    expect($user->isTicketsManager())->toBeFalse();
 
-    $role = Role::firstOrCreate(['name' => TicketRoles::Admin->value]);
+    $role = Role::firstOrCreate(['name' => SupportRoles::Manager->value]);
 
     $user->assignRole($role);
 
-    expect($user->isTicketsAdmin())->toBeTrue();
+    expect($user->isTicketsManager())->toBeTrue();
 });
 
-it('has is tickets operator function', function () {
+it('has is tickets agent function', function () {
     $user = User::factory()->create();
 
-    expect($user->isTicketsOperator())->toBeFalse();
+    expect($user->isTicketsAgent())->toBeFalse();
 
-    $role = Role::firstOrCreate(['name' => TicketRoles::Operator->value]);
+    $role = Role::firstOrCreate(['name' => SupportRoles::Agent->value]);
 
     $user->assignRole($role);
 
-    expect($user->isTicketsOperator())->toBeTrue();
+    expect($user->isTicketsAgent())->toBeTrue();
 });

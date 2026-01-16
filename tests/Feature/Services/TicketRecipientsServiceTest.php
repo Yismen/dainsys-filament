@@ -1,6 +1,6 @@
 <?php
 
-use App\Enums\TicketRoles;
+use App\Enums\SupportRoles;
 use App\Models\Role;
 use App\Models\Ticket;
 use App\Models\User;
@@ -44,17 +44,17 @@ test('service collection contains super admin user', function () {
     expect($recipients->contains($super_admin_user))->toBeTrue();
 });
 
-test('service collection contains ticket admins', function () {
+test('service collection contains Support Managers', function () {
     $regular_user = User::factory()->create();
     $tickets_admin = User::factory()->create();
-    $role = Role::firstOrCreate(['name' => TicketRoles::Admin->value]);
+    $role = Role::firstOrCreate(['name' => SupportRoles::Manager->value]);
     $tickets_admin->assignRole($role);
 
     $ticket = Ticket::factory()->create();
 
     $recipients = (new TicketRecipientsService)
         ->ofTicket($ticket)
-        ->ticketAdmins()
+        ->supportManagers()
         ->get();
 
     expect($recipients->contains($regular_user))->toBeFalse();
@@ -62,20 +62,20 @@ test('service collection contains ticket admins', function () {
     expect($recipients->contains($tickets_admin))->toBeTrue();
 });
 
-test('service collection contains ticket operators', function () {
+test('service collection contains Support Agents', function () {
     $regular_user = User::factory()->create();
-    $ticket_operators = User::factory()->create();
-    $role = Role::firstOrCreate(['name' => TicketRoles::Operator->value]);
-    $ticket_operators->assignRole($role);
+    $ticket_agents = User::factory()->create();
+    $role = Role::firstOrCreate(['name' => SupportRoles::Agent->value]);
+    $ticket_agents->assignRole($role);
 
     $ticket = Ticket::factory()->create();
 
     $recipients = (new TicketRecipientsService)
         ->ofTicket($ticket)
-        ->ticketOperators()
+        ->supportAgents()
         ->get();
 
     expect($recipients->contains($regular_user))->toBeFalse();
 
-    expect($recipients->contains($ticket_operators))->toBeTrue();
+    expect($recipients->contains($ticket_agents))->toBeTrue();
 });

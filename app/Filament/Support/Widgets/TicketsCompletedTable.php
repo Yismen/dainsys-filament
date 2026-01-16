@@ -20,7 +20,7 @@ class TicketsCompletedTable extends TableWidget
 
     public static function canView(): bool
     {
-        return Auth::user()->isSuperAdmin() || Auth::user()->isTicketsAdmin();
+        return Auth::user()->isSuperAdmin() || Auth::user()->isTicketsManager();
     }
 
     public function table(Table $table): Table

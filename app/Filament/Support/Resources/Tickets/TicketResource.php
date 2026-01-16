@@ -29,7 +29,7 @@ class TicketResource extends Resource
 
     public static function canAccess(): bool
     {
-        return Auth::user()->isSuperAdmin() || Auth::user()->isTicketsAdmin() || Auth::user()->isTicketsOperator();
+        return Auth::user()->isSuperAdmin() || Auth::user()->isTicketsManager() || Auth::user()->isTicketsAgent();
     }
 
     public static function infolist(Schema $schema): Schema

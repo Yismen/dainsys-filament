@@ -2,7 +2,7 @@
 
 namespace App\Models\Traits;
 
-use App\Enums\TicketRoles;
+use App\Enums\SupportRoles;
 use App\Models\Ticket;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -18,13 +18,13 @@ trait InteractWithSupportTickets
         return $this->hasMany(Ticket::class, 'assigned_to');
     }
 
-    public function isTicketsAdmin(): bool
+    public function isTicketsManager(): bool
     {
-        return $this->hasRole(TicketRoles::Admin->value);
+        return $this->hasRole(SupportRoles::Manager->value);
     }
 
-    public function isTicketsOperator(): bool
+    public function isTicketsAgent(): bool
     {
-        return $this->hasRole(TicketRoles::Operator->value);
+        return $this->hasRole(SupportRoles::Agent->value);
     }
 }
