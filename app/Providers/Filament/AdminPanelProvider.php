@@ -5,6 +5,7 @@ namespace App\Providers\Filament;
 use AchyutN\FilamentLogViewer\FilamentLogViewer;
 use App\Filament\Pages\UserMailingSubscriptions;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
+use BinaryBuilds\FilamentFailedJobs\FilamentFailedJobsPlugin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -64,7 +65,11 @@ class AdminPanelProvider extends PanelProvider
                     ->pluralModelLabel('Models')
                     ->recordTitleAttribute('name')
                     ->titleCaseModelLabel(true),
-                FilamentLogViewer::make(),
+                FilamentLogViewer::make()
+                    ->navigationGroup('System'),
+                FilamentFailedJobsPlugin::make()
+                    ->navigationGroup('System')
+                    ->hideQueueOnIndex(),
                 BreezyCore::make()
                     ->myProfile()
                     ->enableTwoFactorAuthentication(),

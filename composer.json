@@ -12,6 +12,7 @@
         "achyutn/filament-log-viewer": "^1.6",
         "bezhansalleh/filament-panel-switch": "^2.0",
         "bezhansalleh/filament-shield": "^4.0",
+        "binarybuilds/filament-failed-jobs": "*",
         "filament/filament": "^4.0",
         "guzzlehttp/guzzle": "^7.2",
         "jeffgreco13/filament-breezy": "^3.0",
