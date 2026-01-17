@@ -25,18 +25,6 @@ class TicketRecipientsService
         return $this;
     }
 
-    public function get(): Collection
-    {
-        $recipients = $this->recipients
-            ->filter(function ($user) {
-                return $user?->email;
-            });
-
-        return $recipients->filter(function ($user) {
-            return $user->id !== auth()->user()?->id;
-        });
-    }
-
     public function superAdmins(): self
     {
         $super_admins = User::query()
@@ -52,6 +40,9 @@ class TicketRecipientsService
 
         if ($super_admins->count()) {
             $this->recipients = $this->recipients
+                ->filter(function ($user) {
+                    return $user?->email;
+                })
                 ->merge($super_admins);
         }
 
@@ -60,15 +51,18 @@ class TicketRecipientsService
 
     public function supportManagers(): self
     {
-        $admins = User::query()
+        $managers = User::query()
             ->withWhereHas('roles', function ($roleQuery) {
                 $roleQuery->where('name', SupportRoles::Manager->value);
             })
             ->get();
 
-        if ($admins->count()) {
+        if ($managers->count()) {
             $this->recipients = $this->recipients
-                ->merge($admins);
+                ->filter(function ($user) {
+                    return $user?->email;
+                })
+                ->merge($managers);
         }
 
         return $this;
@@ -84,6 +78,9 @@ class TicketRecipientsService
 
         if ($agents->count()) {
             $this->recipients = $this->recipients
+                ->filter(function ($user) {
+                    return $user?->email;
+                })
                 ->merge($agents);
         }
 
@@ -96,6 +93,9 @@ class TicketRecipientsService
         $ticket->load('owner');
 
         $this->recipients = $this->recipients
+            ->filter(function ($user) {
+                return $user?->email;
+            })
             ->push($ticket->owner);
 
         return $this;
@@ -107,13 +107,23 @@ class TicketRecipientsService
         $ticket->load('agent');
 
         $this->recipients = $this->recipients
+            ->filter(function ($user) {
+                return $user?->email;
+            })
             ->push($ticket->agent);
 
         return $this;
     }
 
-    // public function agent($ticket = null): self
-    // {
-    //     return $this->agent($ticket);
-    // }
+    public function get(): Collection
+    {
+        $recipients = $this->recipients
+            ->filter(function ($user) {
+                return $user?->email;
+            });
+
+        return $recipients->filter(function ($user) {
+            return $user->id !== auth()->user()?->id;
+        });
+    }
 }
