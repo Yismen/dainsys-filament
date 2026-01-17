@@ -18,12 +18,11 @@ class EnsureUserIsTrusted
     {
         $user = $request->user();
 
-        if(Auth::check() && ! Auth::user()->is_active) {
+        if (Auth::check() && ! Auth::user()->is_active) {
             \abort(403, 'You are an inactive user. Contact the administrator!');
         }
 
         return $next($request);
-
 
     }
 }

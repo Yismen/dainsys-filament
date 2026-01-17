@@ -37,7 +37,7 @@ class SyncRolesForPanels extends Command
         $roles = $this->defaultRoles;
 
         $panelIDs = array_map(fn ($panel) => $panel->getId(), $panels);
-        $panelIDs = \array_filter($panelIDs, fn($panel) => $panel != 'admin');
+        $panelIDs = \array_filter($panelIDs, fn ($panel) => $panel != 'admin');
 
         foreach ($panelIDs as $key => $value) {
             foreach ($this->types as $type) {
@@ -57,6 +57,6 @@ class SyncRolesForPanels extends Command
             Role::firstOrCreate($role);
         }
 
-        $this->warn('A total of ' . \count($roles) . ' roles synced for all registered filament panels');
+        $this->warn('A total of '.\count($roles).' roles synced for all registered filament panels');
     }
 }
