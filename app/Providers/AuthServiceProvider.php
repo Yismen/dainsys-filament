@@ -46,14 +46,15 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('manageHumanResources', function (User $user) {
             return $user->hasAnyRole([
-                'manage-human-resource',
-                'Human Resource Admin',
+                'Human Resource Manager',
+                'Human Resource Agent',
             ]);
         });
 
         Gate::define('manageWorkforce', function (User $user) {
             return $user->hasAnyRole([
-                'manage-workforce',
+                'Workforce Manager',
+                'Workforce Agent',
             ]);
         });
 
