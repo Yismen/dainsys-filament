@@ -21,5 +21,5 @@ it('renders correctly', function () {
 
     $mailable = new TicketReplyCreatedMail($ticket_reply);
 
-    $mailable->assertHasSubject("Ticket #{$ticket_reply->ticket->reference} Has Been Replied");
+    $mailable->assertHasSubject("{$ticket_reply->author->name} Replied on Ticket #{$ticket_reply->ticket->reference}");
 });

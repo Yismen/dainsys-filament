@@ -34,7 +34,7 @@ class TicketReplyCreatedMail extends Mailable implements ShouldQueue
                     ->supportManagers()
                     ->get()
             )
-            ->subject("Ticket #{$ticket->reference} Has Been Replied")
+            ->subject("{$this->reply->author->name} Replied on Ticket #{$this->reply->ticket->reference}")
             ->priority($ticket->mail_priority)
             ->markdown('mail.support.reply-created', [
                 'user' => $this->reply?->user,
