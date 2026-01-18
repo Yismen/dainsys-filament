@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "49984508cdc4177a78419ac5e9135049",
+    "content-hash": "d5d485e4503902ac8d319633be92706e",
     "packages": [
         {
             "name": "achyutn/filament-log-viewer",
-            "version": "v1.6.1",
+            "version": "v1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/achyutkneupane/filament-log-viewer.git",
-                "reference": "259a46ca5fa3d9a0e4aa0f0e604a4ee50100d054"
+                "reference": "d133c4e533cd23dd259f4bd522c83b3bf0e735aa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/achyutkneupane/filament-log-viewer/zipball/259a46ca5fa3d9a0e4aa0f0e604a4ee50100d054",
-                "reference": "259a46ca5fa3d9a0e4aa0f0e604a4ee50100d054",
+                "url": "https://api.github.com/repos/achyutkneupane/filament-log-viewer/zipball/d133c4e533cd23dd259f4bd522c83b3bf0e735aa",
+                "reference": "d133c4e533cd23dd259f4bd522c83b3bf0e735aa",
                 "shasum": ""
             },
             "require": {
@@ -69,12 +69,16 @@
             ],
             "support": {
                 "issues": "https://github.com/achyutkneupane/filament-log-viewer/issues",
-                "source": "https://github.com/achyutkneupane/filament-log-viewer/tree/v1.6.1"
+                "source": "https://github.com/achyutkneupane/filament-log-viewer/tree/v1.7.0"
             },
             "funding": [
                 {
                     "url": "https://www.buymeacoffee.com/achyutn",
                     "type": "buy_me_a_coffee"
+                },
+                {
+                    "url": "https://buymemomo.com/achyut",
+                    "type": "custom"
                 },
                 {
                     "url": "https://github.com/achyutkneupane",
@@ -85,7 +89,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2025-12-02T16:40:14+00:00"
+            "time": "2026-01-17T12:13:44+00:00"
         },
         {
             "name": "anourvalar/eloquent-serialize",
