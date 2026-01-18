@@ -19,33 +19,41 @@ class HeadCountService
         return self::$instance;
     }
 
-    public function filters(array $filters): self
-    {
-        foreach ($filters as $relationship => $value) {
-            if ($value) {
-                self::$model->whereHas('employees', function ($employees) use ($relationship, $value) {
-                    $employees
-                        ->notInactive()
-                        ->whereHas($relationship, function ($query) use ($value) {
-                            $query->when(
-                                is_array($value),
-                                fn ($q) => $q->whereIn('id', $value),
-                                fn ($q) => $q->where('id', $value)
-                            );
-                        });
-                });
-            }
-        }
+    // public function filters(array $filters): self
+    // {
+    //     foreach ($filters as $relationship => $value) {
+    //         if ($value) {
+    //             self::$model
+    //             ->withCount('hires')
+    //                 ->withWhereHas('hires', function ($hiresQuery) use ($relationship, $value) {
+    //                         $hiresQuery->withWhereHas('employee', function ($employees) use ($relationship, $value) {
+    //                             $employees
+    //                                 ->notInactive()
+    //                                 ;
+    //                         });
+    //                     });
+    //         }
+    //     }
 
-        return self::$instance;
-    }
+    //     return self::$instance;
+    // }
 
     public function get()
     {
         $query = self::$model;
 
-        return $query->withCount(['employees' => function ($employeeQuery) {
-            $employeeQuery->notInactive();
-        }])->get();
+        return $query
+            ->withWhereHas('hires', function($hireQuery) {
+                 $hireQuery->withWhereHas('employee', function ($query) {
+                        $query->notInactive();
+                    });
+            })
+            ->withCount([
+                'hires' => function ($hireQuery) {
+                    $hireQuery->withWhereHas('employee', function ($query) {
+                        $query->notInactive();
+                    });
+            }])
+        ->get();
     }
 }

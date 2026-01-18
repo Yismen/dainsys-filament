@@ -2,32 +2,40 @@
 
 namespace App\Filament\HumanResource\Widgets;
 
+use App\Models\Employee;
 use Filament\Support\RawJs;
 use Filament\Widgets\ChartWidget;
+use App\Filament\Traits\HasColors;
+use App\Filament\Traits\HasMaxHeight;
 use App\Services\HC\HeadCountService;
-use App\Filament\App\Widgets\Traits\HasColors;
-use App\Filament\App\Widgets\Traits\HasMaxHeight;
+use Illuminate\Support\Facades\Cache;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
 
 abstract class BaseHumanResourceWidget extends ChartWidget
 {
-    // use HasColors;
-    // use HasMaxHeight;
+    use HasColors;
+    use HasMaxHeight;
     use InteractsWithPageFilters;
 
     abstract protected function getModel(): string;
 
     protected function getData(): array
     {
-        $service = HeadCountService::make($this->getModel())
-            ->filters(['site' => $this->filters['site'] ?? null])
-            ->get();
+        $service = Cache::rememberForever(
+            'hr_actives_headcount_by_' . $this->getModel(),
+            function () {
+                return HeadCountService::make($this->getModel())
+                    // ->filters(['site' => $this->filters['site'] ?? null])
+                    ->get();
+            }
+        );
 
         return [
             'datasets' => [
                 [
                     'label' => $this->getHeading(),
-                    'data' => $service->pluck('employees_count'),
+                    'data' => $service->pluck('hires_count'),
+                    // 'data' => $service->pluck('employees_count'),
                     'backgroundColor' => $this->getManyColors($service->pluck('name')->count())
                 ],
             ],

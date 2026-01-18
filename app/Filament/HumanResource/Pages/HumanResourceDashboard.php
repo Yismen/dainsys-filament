@@ -12,6 +12,10 @@ use App\Services\ModelListService;
 use Filament\Forms\Components\Select;
 use Filament\Pages\Dashboard\Concerns\HasFiltersForm;
 use App\Filament\HumanResource\Widgets\EmployeesStats;
+use App\Filament\HumanResource\Widgets\HeadCountByPosition;
+use App\Filament\HumanResource\Widgets\HeadCountByProject;
+use App\Filament\HumanResource\Widgets\HeadCountBySite;
+use App\Filament\HumanResource\Widgets\HeadCountBySupervisor;
 use Filament\Pages\Dashboard\Actions\FilterAction;
 use Filament\Pages\Dashboard\Concerns\HasFiltersAction;
 use Filament\Schemas\Components\Grid;
@@ -25,8 +29,18 @@ class HumanResourceDashboard extends Dashboard
     {
         return [
             EmployeesStats::class,
+            HeadCountBySite::class,
+            HeadCountByProject::class,
+            HeadCountByPosition::class,
+            HeadCountBySupervisor::class,
         ];
     }
+
+    public function persistsFiltersInSession(): bool
+    {
+        return false;
+    }
+
      protected function getHeaderActions(): array
     {
         return [
