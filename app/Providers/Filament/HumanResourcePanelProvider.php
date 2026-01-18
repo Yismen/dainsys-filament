@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\HumanResource\Pages\HumanResourceDashboard;
 use Filament\Actions\Action;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -57,7 +58,7 @@ class HumanResourcePanelProvider extends PanelProvider
                 for: 'App\\Filament\\HumanResource\\Clusters'
             )
             ->pages([
-                Dashboard::class,
+                HumanResourceDashboard::class,
             ])
             ->databaseNotifications()
             ->plugins([
