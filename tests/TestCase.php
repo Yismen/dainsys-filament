@@ -30,7 +30,7 @@ abstract class TestCase extends BaseTestCase
         $filamentPanel = Filament::getCurrentPanel()->getId() ?? null;
 
         if ($filamentPanel) {
-            $roleName = str($filamentPanel . '-manager')->replace(['_', '-'], ' ')->trim()->title();
+            $roleName = str($filamentPanel.'-manager')->replace(['_', '-'], ' ')->trim()->title();
 
             $role = Role::firstOrCreate(['name' => $roleName]);
         }
@@ -44,7 +44,7 @@ abstract class TestCase extends BaseTestCase
             Permission::firstOrCreate(['name' => $permissionName]);
             $user->givePermissionTo($permissionName);
         }
-        
+
         return $user;
     }
 

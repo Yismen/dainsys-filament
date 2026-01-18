@@ -6,10 +6,13 @@
 |
 */
 
+use App\Mail\LiveVoxProductionReportMail;
+use App\Mail\TicketsExpiredMail;
 use App\Models\BaseModels\AppModel;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Auth\User as AuthUser;
 
 arch('all models should extend AppModel')
@@ -45,4 +48,12 @@ arch('expect user model to use traits HasFactory and InteractsWithModelCaching a
         \App\Traits\Models\InteractsWithModelCaching::class,
         \Illuminate\Database\Eloquent\Concerns\HasUuids::class,
         \Spatie\Permission\Traits\HasRoles::class,
+    ]);
+
+arch('mails should be queued')
+    ->expect('App\Mail')
+    ->toImplement(ShouldQueue::class)
+    ->ignoring([
+        LiveVoxProductionReportMail::class,
+        TicketsExpiredMail::class,
     ]);
