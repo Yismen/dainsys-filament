@@ -10,7 +10,7 @@ use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Notifications\Notification;
-use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Support\Colors\Color;
 use Filament\Support\Enums\Size;
@@ -25,7 +25,7 @@ class SuspendEmployeeAction
                 ->color(Color::Yellow)
                 ->size(Size::Large)
                 ->schema([
-                    Section::make()
+                    Grid::make()
                         ->columns(3)
                         ->schema([
                             Select::make('suspension_type_id')
