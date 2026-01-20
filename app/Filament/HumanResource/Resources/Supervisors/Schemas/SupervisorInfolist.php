@@ -3,8 +3,9 @@
 namespace App\Filament\HumanResource\Resources\Supervisors\Schemas;
 
 use App\Models\Supervisor;
-use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
+use Filament\Infolists\Components\IconEntry;
+use Filament\Infolists\Components\TextEntry;
 
 class SupervisorInfolist
 {
@@ -18,6 +19,8 @@ class SupervisorInfolist
                 TextEntry::make('description')
                     ->placeholder('-')
                     ->columnSpanFull(),
+                IconEntry::make('is_active')
+                    ->boolean(),
                 TextEntry::make('deleted_at')
                     ->dateTime()
                     ->visible(fn (Supervisor $record): bool => $record->trashed()),

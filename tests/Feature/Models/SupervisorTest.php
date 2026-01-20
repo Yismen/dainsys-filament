@@ -15,7 +15,7 @@ test('supervisors model interacts with db table', function () {
     Supervisor::create($data->toArray());
 
     $this->assertDatabaseHas('supervisors', $data->only([
-        'name', 'description',
+        'name', 'description', 'is_active',
     ]));
 });
 
