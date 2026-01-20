@@ -64,7 +64,11 @@ return new class extends Migration
         ]);
 
         Source::create([
-            'name' => 'Training',
+            'name' => 'Inbound Calls',
+        ]);
+
+        Source::create([
+            'name' => 'Outbound Calls',
         ]);
     }
 };

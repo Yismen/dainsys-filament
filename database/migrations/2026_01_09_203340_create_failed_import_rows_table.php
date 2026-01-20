@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('failed_import_rows', function (Blueprint $table): void {
-            $table->uuid('id')->primary();
+            $table->id();
             $table->json('data');
-            $table->foreignUuid('import_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('import_id')->constrained()->cascadeOnDelete();
             $table->text('validation_error')->nullable();
             $table->timestamps();
         });

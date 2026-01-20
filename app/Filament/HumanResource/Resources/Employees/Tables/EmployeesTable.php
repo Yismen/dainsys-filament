@@ -2,12 +2,15 @@
 
 namespace App\Filament\HumanResource\Resources\Employees\Tables;
 
+use App\Filament\Exports\EmployeeExporter;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ExportBulkAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
+use Filament\Support\Colors\Color;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
@@ -69,6 +72,9 @@ class EmployeesTable
                 EditAction::make(),
             ])
             ->toolbarActions([
+                ExportBulkAction::make()
+                    ->color(Color::Teal)
+                    ->exporter(EmployeeExporter::class),
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                     ForceDeleteBulkAction::make(),
