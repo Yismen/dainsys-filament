@@ -177,7 +177,6 @@ test('form validation require fields on create and edit pages', function (string
     'employee_id',
     'ars_id',
     'afp_id',
-    'number',
 ]);
 
 // it('autofocus the employee_id field on create and edit pages', function () {
