@@ -32,7 +32,7 @@ class SocialSecurityForm
                     // ->relationship('afp', 'name')
                     ->required(),
                 TextInput::make('number')
-                    ->required(),
+                    ->nullable(),
             ]);
     }
 }

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignUuid('employee_id')->constrained()->onDelete('cascade');
             $table->foreignUuid('ars_id')->constrained('arss')->onDelete('cascade');
             $table->foreignUuid('afp_id')->constrained()->onDelete('cascade');
-            $table->string('number')->unique();
+            $table->string('number')->nullable()->unique();
             $table->softDeletes();
             $table->timestamps();
         });
