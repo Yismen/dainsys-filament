@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('suspensions', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('employee_id')->constrained('employees')->cascadeOnDelete();
-            $table->foreignUuid('suspension_type_id')->constrained('suspension_types')->cascadeOnDelete();
+            $table->foreignUuid('employee_id')->constrained('employees')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignUuid('suspension_type_id')->constrained('suspension_types')->cascadeOnDelete()->cascadeOnUpdate();
             $table->dateTime('starts_at');
             $table->dateTime('ends_at');
             $table->string('status')->nullable();

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('universals', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('employee_id')->constrained()->cascadeOnDelete();
+            $table->foreignUuid('employee_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->date('date_since');
             $table->softDeletes();
             $table->timestamps();

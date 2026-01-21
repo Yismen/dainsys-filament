@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('payroll_hours', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->date('date');
-            $table->foreignUuid('employee_id')->constrained()->onDelete('cascade');
+            $table->foreignUuid('employee_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->float('total_hours');
 
             $table->float('nightly_hours')->default(0);

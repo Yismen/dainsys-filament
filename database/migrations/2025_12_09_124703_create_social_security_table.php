@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('social_securities', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('employee_id')->constrained()->onDelete('cascade');
-            $table->foreignUuid('ars_id')->constrained('arss')->onDelete('cascade');
-            $table->foreignUuid('afp_id')->constrained()->onDelete('cascade');
+            $table->foreignUuid('employee_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignUuid('ars_id')->constrained('arss')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignUuid('afp_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('number')->nullable()->unique();
             $table->softDeletes();
             $table->timestamps();

@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('terminations', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->dateTime('date');
-            $table->foreignUuid('employee_id')->constrained('employees')->cascadeOnDelete();
+            $table->foreignUuid('employee_id')->constrained('employees')->cascadeOnDelete()->cascadeOnUpdate();
             $table->text('termination_type');
             $table->boolean('is_rehireable')->default(true);
             $table->text('comment');

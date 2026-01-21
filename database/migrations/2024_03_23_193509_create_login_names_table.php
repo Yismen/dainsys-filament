@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('login_names', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('employee_id')->constrained()->cascadeOnDelete();
+            $table->foreignUuid('employee_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('login_name', 1000);
             $table->softDeletes();
             $table->timestamps();

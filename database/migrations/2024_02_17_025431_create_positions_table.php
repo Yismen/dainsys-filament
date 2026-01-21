@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('positions', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name', 500)->unique();
-            $table->foreignUuid('department_id')->constrained('departments')->cascadeOnDelete();
+            $table->foreignUuid('department_id')->constrained('departments')->cascadeOnDelete()->cascadeOnUpdate();
             $table->text('salary_type');
             $table->integer('salary')->unsigned();
             $table->text('details')->nullable();

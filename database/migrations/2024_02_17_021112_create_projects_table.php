@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name', 500)->unique();
-            $table->foreignUuid('client_id')->constrained('clients')->onDelete('cascade');
+            $table->foreignUuid('client_id')->constrained('clients')->cascadeOnDelete()->cascadeOnUpdate();
             $table->text('description')->nullable();
             $table->softDeletes();
             $table->timestamps();
