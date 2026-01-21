@@ -18,17 +18,19 @@ class UsersTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->defaultSort('name')
             ->columns([
                 TextColumn::make('name')
+                    ->sortable()
                     ->searchable(),
                 TextColumn::make('email')
                     ->label('Email address')
                     ->copyable()
+                    ->sortable()
                     ->searchable(),
                 TextColumn::make('roles.name')
                     ->searchable()
-                    ->badge()
-                    ->sortable(),
+                    ->badge(),
                 ToggleColumn::make('is_active')
                     ->sortable(),
                 TextColumn::make('email_verified_at')

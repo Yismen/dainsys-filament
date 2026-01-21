@@ -17,12 +17,11 @@ class UniversalsTable
     public static function configure(Table $table): Table
     {
         return $table
+            // ->defaultSort('employee.full_name')
             ->columns([
-                TextColumn::make('id')
-                    ->label('ID')
-                    ->searchable(),
-                TextColumn::make('employee.id')
-                    ->searchable(),
+                TextColumn::make('employee.full_name')
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('date_since')
                     ->date()
                     ->sortable(),

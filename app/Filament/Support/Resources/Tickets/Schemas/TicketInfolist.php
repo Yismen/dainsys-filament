@@ -24,9 +24,11 @@ class TicketInfolist
                     ->badge()
                     ->color(fn ($state) => $state->color() ?? TicketStatuses::from($state)->color()),
                 TextEntry::make('subject'),
+                TextEntry::make('owner.name'),
                 TextEntry::make('priority')
                     ->badge(),
                 TextEntry::make('description')
+                    ->html()
                     ->columnSpanFull(),
                 TextEntry::make('agent.name')
                     ->label(__('Assigned to'))

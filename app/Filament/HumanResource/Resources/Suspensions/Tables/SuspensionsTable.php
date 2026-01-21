@@ -17,14 +17,15 @@ class SuspensionsTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->defaultSort('starts_at', 'desc')
             ->columns([
                 TextColumn::make('employee.full_name')
                     ->wrap()
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('suspensionType.name')
-                    ->sortable()
                     ->wrap()
+                    ->sortable()
                     ->searchable(),
                 TextColumn::make('starts_at')
                     ->dateTime()
@@ -33,7 +34,8 @@ class SuspensionsTable
                     ->dateTime()
                     ->sortable(),
                 TextColumn::make(name: 'status')
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('comment')
                     ->wrap()
                     ->limit(50)

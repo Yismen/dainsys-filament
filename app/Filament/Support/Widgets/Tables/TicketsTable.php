@@ -13,12 +13,15 @@ class TicketsTable
         return [
             TextColumn::make('reference')
                 ->wrap()
+                ->sortable()
                 ->searchable(),
             TextColumn::make('owner.name')
                 ->wrap()
+                ->sortable()
                 ->searchable(),
             TextColumn::make('subject')
                 ->wrap()
+                ->sortable()
                 ->searchable(),
             ImageColumn::make('images')
                 ->disk('public')
@@ -29,17 +32,21 @@ class TicketsTable
             TextColumn::make('status')
                 ->wrap()
                 ->badge()
+                ->sortable()
                 ->searchable(),
             TextColumn::make('agent.name')
                 ->wrap()
+                ->sortable()
                 ->searchable(),
             TextColumn::make('assigned_at')
                 ->wrap()
                 ->dateTime()
                 ->formatStateUsing(fn ($state) => $state->diffForHumans())
+                ->sortable()
                 ->sortable(),
             TextColumn::make('priority')
                 ->badge()
+                ->sortable()
                 ->searchable(),
             TextColumn::make('expected_at')
                 ->wrap()

@@ -2,6 +2,8 @@
 
 namespace App\Filament\Support\Resources\Tickets;
 
+use App\Filament\Support\Pages\Dashboard;
+use App\Filament\Support\Resources\MyTickets\Pages\ListMyTickets;
 use App\Filament\Support\Resources\Tickets\Pages\CreateTicket;
 use App\Filament\Support\Resources\Tickets\Pages\EditTicket;
 use App\Filament\Support\Resources\Tickets\Pages\ListTickets;
@@ -47,7 +49,7 @@ class TicketResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListTickets::route('/'),
+            'index' => ListMyTickets::route('/'),
             // 'create' => CreateTicket::route('/create'),
             'view' => ViewTicket::route('/{record}'),
             // 'edit' => EditTicket::route('/{record}/edit'),

@@ -23,7 +23,12 @@ class UserForm
                             ->required(),
                         TextInput::make('email')
                             ->label('Email address')
+                            ->unique(ignoreRecord: true)
                             ->email()
+                            ->required(),
+                        TextInput::make('password')
+                            ->label('Password')
+                            ->password()
                             ->required(),
                         // DateTimePicker::make('email_verified_at'),
                         // TextInput::make('password')

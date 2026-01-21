@@ -20,8 +20,8 @@ class HiresTable
             ->defaultSort('date', 'desc')
             ->columns([
                 TextColumn::make('employee.full_name')
-                    ->sortable()
                     ->wrap()
+                    ->sortable()
                     ->searchable(),
                 TextColumn::make('date')
                     ->dateTime()
