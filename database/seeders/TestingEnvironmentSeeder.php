@@ -53,7 +53,8 @@ class TestingEnvironmentSeeder extends Seeder
 
         $user->assignRole($admin_role);
 
-        $downtimeSource = Source::query()->where('name', 'like', 'Downtime')->first();
+        $downtimeSource = Source::firstOrCreate(['name' => 'Downtime']);
+
         $downtimeCampaign = Campaign::factory()->for($downtimeSource)->create(['revenue_type' => RevenueTypes::Downtime]);
 
         foreach (Employee::take(5)->get() as $employee) {
