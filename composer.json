@@ -23,7 +23,7 @@
         "laravel/telescope": "^5.16",
         "laravel/tinker": "^2.8",
         "maatwebsite/excel": "^3.1",
-        "pxlrbt/filament-excel": "^3.0",
+        "pxlrbt/filament-excel": "^3.4",
         "spatie/laravel-permission": "^6.24"
     },
     "require-dev": {
