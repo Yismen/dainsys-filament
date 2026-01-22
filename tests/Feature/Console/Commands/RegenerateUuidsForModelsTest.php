@@ -44,6 +44,27 @@ it('runs without error and job is queued', function () {
 
 });
 
+it('if a table is passed only that table is regenerated', function () {
+    $user = User::factory()->create();
+    $ticket = Ticket::factory()->create();
+
+    $this->assertDatabaseHas(User::class, [
+        'id' => $user->id,
+    ]);
+    $this->assertDatabaseHas(Ticket::class, [
+        'id' => $ticket->id,
+    ]);
+
+     $this->artisan(RegenerateUuidsForModels::class, ['tables' => 'users']);
+
+    $this->assertDatabaseMissing(User::class, [
+        'id' => $user->id,
+    ]);
+    $this->assertDatabaseHas(Ticket::class, [
+        'id' => $ticket->id,
+    ]);
+});
+
 it('changes children uuids when parent is updated', function () {
     $user = User::factory()->create();
     $ticket = Ticket::factory()->for($user, 'owner')->create();
@@ -78,7 +99,7 @@ it('works only if app is not in production', function () {
     ]);
 
     app()['env'] = 'testing';
-});
+})->throws(\Exception::class);
 
 
 
