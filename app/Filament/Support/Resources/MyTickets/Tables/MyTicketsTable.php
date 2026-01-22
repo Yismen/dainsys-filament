@@ -27,13 +27,14 @@ class MyTicketsTable
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('created_at')
+                    ->label(__('Created by'))
+                    ->formatStateUsing(fn ($record) => $record->owner->name . ", at " . $record->created_at)
                     ->wrap()
-                    ->dateTime()
                     ->sortable(),
                 TextColumn::make('subject')
                     ->wrap()
-                    // ->limit(75)
-                    // ->tooltip(fn (string $state) => $state)
+                    ->limit(50)
+                    ->tooltip(fn (string $state) => $state)
                     ->searchable(),
                 TextColumn::make('status')
                     ->badge()

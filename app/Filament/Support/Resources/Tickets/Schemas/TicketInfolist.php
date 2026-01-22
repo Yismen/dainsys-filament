@@ -24,7 +24,8 @@ class TicketInfolist
                     ->badge()
                     ->color(fn ($state) => $state->color() ?? TicketStatuses::from($state)->color()),
                 TextEntry::make('subject'),
-                TextEntry::make('owner.name'),
+                TextEntry::make('owner.name')
+                    ->label(__('Created by')),
                 TextEntry::make('priority')
                     ->badge(),
                 TextEntry::make('description')
