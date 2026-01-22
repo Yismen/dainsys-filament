@@ -15,6 +15,10 @@ use App\Models\User;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Auth\User as AuthUser;
 
+it('will not use debugging functions')
+    ->expect(['dd', 'dump', 'ray'])
+    ->each->not->toBeUsed();
+
 arch('all models should extend AppModel')
     ->expect('App\Models')
     ->toExtend(AppModel::class)
