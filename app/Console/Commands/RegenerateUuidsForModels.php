@@ -6,6 +6,7 @@ namespace App\Console\Commands;
 use App\Jobs\RegenerateIuidForModelJob;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use ReflectionClass;
 
@@ -16,14 +17,14 @@ class RegenerateUuidsForModels extends Command
      *
      * @var string
      */
-    protected $signature = 'dainsys:regenerate-uuids-for-models';
+    protected $signature = 'dainsys:regenerate-uuids-for-models {tables?}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Regenerate uuids for all tables in the models folder. If a tables string is passed, it would only generate for that. Separate multiple tables by comma';
 
     /**
      * Execute the console command.
@@ -36,8 +37,35 @@ class RegenerateUuidsForModels extends Command
             return self::FAILURE;
         }
 
+        $tables = $this->argument('tables') ?
+            $this->parseTables() :
+            $this->parseModels();
+
+        foreach ($tables as $table) {
+            \dispatch(new RegenerateIuidForModelJob($table));
+
+            $this->line($table);
+        }
+
+        return self::SUCCESS;
+    }
+
+    protected function parseTables(): array
+    {
+        $tables = \collect(
+            \explode(',', $this->argument('tables'))
+        )->each(function ($table) {
+            return \trim($table);
+        });
+
+        return $tables->toArray();
+    }
+
+    protected function parseModels(): array
+    {
         $modelsPath = app_path('Models');
-        $trait = \Illuminate\Database\Eloquent\Concerns\HasUuids::class;
+
+        $models = [];
 
         foreach (File::files($modelsPath) as $file) {
             $class = $this->classFromFile($file->getRealPath());
@@ -50,18 +78,23 @@ class RegenerateUuidsForModels extends Command
                 continue;
             }
 
-            $reflection = new ReflectionClass($class);
-
-            if (in_array($trait, $this->allTraits($reflection), true)) {
-                $table = (new $class)->getTable();
-
-                \dispatch(new RegenerateIuidForModelJob($table));
-
-                $this->line($class);
+            if($this->usesUuidTrait($class)) {
+                $models[] = (new $class)->getTable();
             }
         }
 
-        return self::SUCCESS;
+            return $models;
+
+    }
+
+    protected function usesUuidTrait(string $class): bool
+    {
+        $trait = \Illuminate\Database\Eloquent\Concerns\HasUuids::class;
+
+        $reflection = new ReflectionClass($class);
+
+        return in_array($trait, $this->allTraits($reflection), true);
+
     }
 
     protected function classFromFile(string $path): string
