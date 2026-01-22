@@ -20,7 +20,7 @@ class CloseTicketAction
             })
             ->schema([
                 Textarea::make('comment')
-                    ->minLength(10)
+                    ->minLength(5)
                     ->required(),
             ])
             ->successNotificationTitle(fn (Ticket $record) => "Ticket {$record->reference} has been closed!")

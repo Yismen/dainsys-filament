@@ -49,7 +49,7 @@ class EmployeeForm
                 TextInput::make('cellphone')
                     ->unique(ignoreRecord: true)
                     ->minLength(10)
-                    ->maxLength(14)
+                    ->maxLength(20)
                     ->tel()
                     ->required(),
                 TextInput::make('secondary_phone')
