@@ -72,7 +72,8 @@ class AdminPanelProvider extends PanelProvider
                     ->hideQueueOnIndex(),
                 BreezyCore::make()
                     ->myProfile()
-                    ->enableTwoFactorAuthentication(),
+                    ->enableTwoFactorAuthentication()
+                    ->enableSanctumTokens(),
             ])
             ->colors([
                 'primary' => Color::Emerald,
