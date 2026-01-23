@@ -17,14 +17,19 @@ class SocialSecuritiesTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->defaultSort('employee.full_name')
             ->columns([
                 TextColumn::make('employee.full_name')
+                    ->sortable()
                     ->searchable(),
                 TextColumn::make('ars.name')
+                    ->sortable()
                     ->searchable(),
                 TextColumn::make('afp.name')
+                    ->sortable()
                     ->searchable(),
                 TextColumn::make('number')
+                    ->sortable()
                     ->searchable(),
                 TextColumn::make('deleted_at')
                     ->dateTime()

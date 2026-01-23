@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('campaigns', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name')->unique();
-            $table->foreignUuid('project_id')->constrained()->cascadeOnDelete();
-            $table->foreignUuid('source_id')->constrained()->cascadeOnDelete();
+            $table->foreignUuid('project_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignUuid('source_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('revenue_type');
             $table->float('sph_goal');
             $table->float('revenue_rate');

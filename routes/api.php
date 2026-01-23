@@ -17,3 +17,11 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+Route::middleware(['auth:sanctum', 'ability:use-dainsys'])
+    ->group(function() {
+        Route::get('campaigns', \App\Http\Controllers\Api\CampaignController::class);
+        Route::get('login_names', \App\Http\Controllers\Api\LoginNameController::class);
+        Route::get('productions', \App\Http\Controllers\Api\ProductionController::class);
+    });

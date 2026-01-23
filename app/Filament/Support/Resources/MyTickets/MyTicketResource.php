@@ -77,8 +77,9 @@ class MyTicketResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         $query = parent::getEloquentQuery()
-            ->where('owner_id', Auth::id());
+            ->where('owner_id', Auth::id())
         // ->orwhere('assigned_to', Auth::id())
+            ->with(['owner', 'agent']);
 
         return $query;
     }

@@ -31,6 +31,7 @@ class TerminationsTable
                     ->tooltip(fn (string $state) => $state)
                     ->sortable(),
                 IconColumn::make('is_rehireable')
+                    ->sortable()
                     ->boolean(),
                 TextColumn::make('deleted_at')
                     ->dateTime()

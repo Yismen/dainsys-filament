@@ -19,7 +19,7 @@ class MyTicketsTable
     public static function configure(Table $table): Table
     {
         return $table
-            ->defaultSort('completed_at', 'asc')
+            ->defaultSort('created_at', 'desc')
             // ->defaultSort('created_at', 'desc')
             ->columns([
                 TextColumn::make('reference')
@@ -27,13 +27,14 @@ class MyTicketsTable
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('created_at')
+                    ->label(__('Created by'))
+                    ->formatStateUsing(fn ($record) => $record->owner->name . ", at " . $record->created_at)
                     ->wrap()
-                    ->dateTime()
                     ->sortable(),
                 TextColumn::make('subject')
                     ->wrap()
-                    // ->limit(75)
-                    // ->tooltip(fn (string $state) => $state)
+                    ->limit(50)
+                    ->tooltip(fn (string $state) => $state)
                     ->searchable(),
                 TextColumn::make('status')
                     ->badge()

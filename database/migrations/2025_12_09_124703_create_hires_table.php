@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('hires', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->dateTime('date');
-            $table->foreignUuid('employee_id')->constrained()->onDelete('cascade');
-            $table->foreignUuid('site_id')->constrained()->onDelete('cascade');
-            $table->foreignUuid('project_id')->constrained()->onDelete('cascade');
-            $table->foreignUuid('position_id')->constrained()->onDelete('cascade');
-            $table->foreignUuid('supervisor_id')->constrained()->onDelete('cascade');
+            $table->foreignUuid('employee_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignUuid('site_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignUuid('project_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignUuid('position_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignUuid('supervisor_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->softDeletes();
             $table->timestamps();
         });

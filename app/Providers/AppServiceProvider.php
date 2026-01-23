@@ -2,9 +2,12 @@
 
 namespace App\Providers;
 
-use BezhanSalleh\PanelSwitch\PanelSwitch;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
+use BezhanSalleh\PanelSwitch\PanelSwitch;
+use BezhanSalleh\LanguageSwitch\LanguageSwitch;
+use Jeffgreco13\FilamentBreezy\Livewire\SanctumTokens;
+use Livewire\Livewire;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -28,7 +31,17 @@ class AppServiceProvider extends ServiceProvider
         PanelSwitch::configureUsing(function (PanelSwitch $panelSwitch) {
             $panelSwitch
                 ->modalHeading('Modules')
+                // ->areUserProvidedPanelsValid
                 ->simple();
+        });
+
+        Livewire::component('sanctum_tokens', SanctumTokens::class);
+
+        LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
+            $switch
+                ->locales(['es','en'])
+                ->circular()
+                ->renderHook('panels::global-search.before');
         });
     }
 }

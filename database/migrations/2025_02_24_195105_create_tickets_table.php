@@ -15,11 +15,11 @@ return new class extends Migration
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('owner_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignUuid('owner_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('subject', 300);
             $table->text('description');
             $table->string('status')->default(TicketStatuses::Pending->value);
-            $table->foreignUuid('assigned_to')->nullable()->constrained('users')->cascadeOnDelete();
+            $table->foreignUuid('assigned_to')->nullable()->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->dateTime('assigned_at')->nullable();
             $table->text('images')->nullable();
             $table->dateTime('completed_at')->nullable();

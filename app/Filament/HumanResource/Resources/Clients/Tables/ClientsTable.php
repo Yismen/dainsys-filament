@@ -17,12 +17,15 @@ class ClientsTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->defaultSort('name')
             ->columns([
                 TextColumn::make('name')
+                    ->sortable()
                     ->searchable()
                     ->wrap(),
                 TextColumn::make('person_of_contact')
                     ->wrap()
+                    ->sortable()
                     ->searchable(),
                 TextColumn::make('phone')
                     ->wrap()

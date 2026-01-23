@@ -61,7 +61,8 @@ return new class extends Migration
             $table->foreign($pivotPermission)
                 ->references('id') // permission id
                 ->on($tableNames['permissions'])
-                ->onDelete('cascade');
+                ->onDelete('cascade')
+                ->cascadeOnUpdate();
             if ($teams) {
                 $table->unsignedBigInteger($columnNames['team_foreign_key']);
                 $table->index($columnNames['team_foreign_key'], 'model_has_permissions_team_foreign_key_index');
@@ -85,7 +86,8 @@ return new class extends Migration
             $table->foreign($pivotRole)
                 ->references('id') // role id
                 ->on($tableNames['roles'])
-                ->onDelete('cascade');
+                ->onDelete('cascade')
+                ->cascadeOnUpdate();
             if ($teams) {
                 $table->unsignedBigInteger($columnNames['team_foreign_key']);
                 $table->index($columnNames['team_foreign_key'], 'model_has_roles_team_foreign_key_index');
@@ -105,12 +107,14 @@ return new class extends Migration
             $table->foreign($pivotPermission)
                 ->references('id') // permission id
                 ->on($tableNames['permissions'])
-                ->onDelete('cascade');
+                ->onDelete('cascade')
+                ->cascadeOnUpdate();
 
             $table->foreign($pivotRole)
                 ->references('id') // role id
                 ->on($tableNames['roles'])
-                ->onDelete('cascade');
+                ->onDelete('cascade')
+                ->cascadeOnUpdate();
 
             $table->primary([$pivotPermission, $pivotRole], 'role_has_permissions_permission_id_role_id_primary');
         });

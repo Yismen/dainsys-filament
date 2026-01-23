@@ -21,6 +21,7 @@ class EmployeesTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->defaultSort('full_name')
             ->columns([
                 TextColumn::make('full_name')
                     ->wrap()

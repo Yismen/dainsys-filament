@@ -26,7 +26,7 @@ class TicketsCompletedTable extends TableWidget
     public function table(Table $table): Table
     {
         return $table
-            ->defaultSort('created_at', 'desc')
+            ->defaultSort('completed_at', 'desc')
             ->query(Ticket::query()->completed())
             ->columns(TicketsTable::make())
             ->queryStringIdentifier('tickets_completed')

@@ -17,24 +17,30 @@ class CampaignsTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->defaultSort('name')
             ->columns([
                 TextColumn::make('name')
                     ->wrap()
+                    ->sortable()
                     ->searchable(),
                 TextColumn::make('project.name')
                     ->wrap()
+                    ->sortable()
                     ->searchable(),
                 TextColumn::make('source.name')
                     ->wrap()
+                    ->sortable()
                     ->searchable(),
                 TextColumn::make('revenue_type')
                     ->badge()
+                    ->sortable()
                     ->searchable(),
                 TextColumn::make('sph_goal')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('revenue_rate')
                     ->numeric()
+                    ->sortable()
                     ->sortable(),
                 TextColumn::make('description')
                     ->limit(30)

@@ -17,11 +17,17 @@ class AfpsTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->defaultSort('name')
             ->columns([
                 TextColumn::make('name')
+                    ->sortable()
                     ->searchable(),
                 TextColumn::make('person_of_contact')
+                    ->sortable()
                     ->searchable(),
+                TextColumn::make('employees_count')
+                    ->counts('employees')
+                    ->badge(),
                 TextColumn::make('description')
                     ->limit(50)
                     ->wrap(),
