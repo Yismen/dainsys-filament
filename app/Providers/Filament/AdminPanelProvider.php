@@ -73,7 +73,7 @@ class AdminPanelProvider extends PanelProvider
                 BreezyCore::make()
                     ->myProfile()
                     ->enableTwoFactorAuthentication()
-                    ->enableSanctumTokens(),
+                    ->enableSanctumTokens(permissions: ['use-dainsys']),
             ])
             ->colors([
                 'primary' => Color::Emerald,
