@@ -22,7 +22,7 @@ class ProductionFactory extends Factory
     {
         return [
             // 'unique_id' => $this->faker->word(),
-            'date' => now()->format('Y-m-d'),
+            'date' => now(),
             'employee_id' => Employee::factory(),
             'campaign_id' => Campaign::factory(),
             // 'supervisor_id' => Supervisor::factory(),

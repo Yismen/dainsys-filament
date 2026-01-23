@@ -36,7 +36,7 @@ class Production extends \App\Models\BaseModels\AppModel
     ];
 
     protected $casts = [
-        // 'revenue' => RevenueTypes::class,
+        'revenue_type' => RevenueTypes::class,
         'revenue' => AsMoney::class,
         'date' => 'date:Y-m-d',
     ];
