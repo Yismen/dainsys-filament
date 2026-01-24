@@ -20,22 +20,22 @@ use Filament\Actions\RestoreBulkAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
-use Filament\Tables\Filters\TrashedFilter;
 use Filament\Actions\ForceDeleteBulkAction;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\MailingSubscription\Resources\MyMailingSubscriptions\Pages\ManageMyMailingSubscriptions;
+use App\Models\MailableUser;
 
 class MyMailingSubscriptionResource extends Resource
 {
-    protected static ?string $model = MailingSubscription::class;
+    protected static ?string $model = MailableUser::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedEnvelopeOpen;
 
     protected static ?string $recordTitleAttribute = 'mailable';
 
-    protected static ?string $modelLabel = 'My Mailing Subscription';
+    protected static ?string $modelLabel = 'My Email Subscription';
 
-    protected static ?string $pluralModelLabel = 'My Mailing Subscriptions';
+    protected static ?string $pluralModelLabel = 'My Email Subscriptions';
 
     protected static ?int $navigationSort = 1;
 
@@ -44,30 +44,25 @@ class MyMailingSubscriptionResource extends Resource
         return true;
     }
 
-    public static function form(Schema $schema): Schema
-    {
-        return $schema
-            ->components([
-                TextInput::make('mailable')
-                    ->required()
-                    ->maxLength(255),
-            ]);
-    }
-
     public static function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('mailable')
+            // ->recordTitleAttribute('mailable')
             ->columns([
-                TextColumn::make('mailable')
+                TextColumn::make('mailable.name')
+                    ->label(__('Name'))
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('mailable.description')
+                    ->label(__('Description'))
                     ->searchable(),
             ])
             ->filters([
-                TrashedFilter::make(),
             ])
             ->recordActions([
                 DeleteAction::make('Unsubscribe')
-                    ->modalHeading(fn (MailingSubscription $record): string => "Unsubscribe from {$record->mailable}")
+                    ->modalHeading(fn (MailableUser $record): string => "Unsubscribe from {$record->mailable->name}")
+                    // ->modalHeading(fn (MailableUser $record): string => "Unsubscribe from {$record->mailable}")
                     ->label('Unsubscribe'),
             ])
             ->toolbarActions([
@@ -89,9 +84,10 @@ class MyMailingSubscriptionResource extends Resource
     public static function getRecordRouteBindingEloquentQuery(): Builder
     {
         return parent::getRecordRouteBindingEloquentQuery()
-            ->withoutGlobalScopes([
-                SoftDeletingScope::class,
-            ]);
+            // ->withoutGlobalScopes([
+            //     SoftDeletingScope::class,
+            // ]);
+            ;
     }
 
     public static function getEloquentQuery(): Builder
