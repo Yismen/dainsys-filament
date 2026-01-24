@@ -2,12 +2,14 @@
 
 namespace App\Filament\Resources\Users\Schemas;
 
+use Filament\Schemas\Schema;
+use App\Services\ModelListService;
+use Filament\Forms\Components\Toggle;
+use PhpParser\Node\Expr\AssignOp\Mod;
+use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
-use Filament\Schemas\Components\Section;
-use Filament\Schemas\Schema;
 
 class UserForm
 {
@@ -29,7 +31,8 @@ class UserForm
                         TextInput::make('password')
                             ->label('Password')
                             ->password()
-                            ->required(),
+                            ->visibleOn('create')
+                            ->required(fn (string $context): bool => $context === 'create'),
                         // DateTimePicker::make('email_verified_at'),
                         // TextInput::make('password')
                         //     ->password()
@@ -39,8 +42,11 @@ class UserForm
 
                         CheckboxList::make('roles')
                             ->relationship('roles', 'name')
+                            ->options(ModelListService::make(\App\Models\Role::query()))
                             ->columns(2)
-                            ->columnSpanFull(),
+                            ->columnSpanFull()
+                            ->searchable()
+                            ->bulkToggleable(),
                     ]),
             ]);
     }
