@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('mailables', function (Blueprint $table) {
-            $table->ulid('id')->primary();
-            $table->string('name')->unique();
+            $table->uuid('id')->primary();
+            $table->string('name', 400)->unique();
             $table->text('description')->nullable();
             $table->timestamps();
         });

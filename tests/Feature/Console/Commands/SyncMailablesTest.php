@@ -1,0 +1,28 @@
+<?php
+
+use App\Models\Source;
+use App\Models\SuspensionType;
+use Filament\Facades\Filament;
+use App\Services\MailingService;
+use Illuminate\Support\Facades\Queue;
+use App\Console\Commands\SyncMailables;
+use App\Console\Commands\SyncRolesForPanels;
+
+it('runs without error the job is not pushed to the queue', function () {
+    $command = $this->artisan('dainsys:sync-mailables-table');
+
+    $command->assertExitCode(0);
+});
+
+it('sync default models seeds', function () {
+    $mailables = MailingService::toArray();
+
+    $this->artisan(SyncMailables::class)->execute();
+
+    foreach ($mailables as $name => $description) {
+        $this->assertDatabaseHas('mailables', [
+            'name' => $name,
+            'description' => $description,
+        ]);
+    }
+});

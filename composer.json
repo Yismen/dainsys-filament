@@ -63,6 +63,7 @@
             "@php artisan package:discover --ansi",
             "@php artisan filament:upgrade",
             "@php artisan migrate --force",
+            "@php artisan dainsys:sync-mailables-table",
             "@php artisan dainsys:sync-default-models-seed",
             "@php artisan dainsys:sync-roles-for-panels web",
             "@php artisan shield:generate --all --panel=* --option=permissions"
