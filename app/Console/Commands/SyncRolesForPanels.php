@@ -57,6 +57,8 @@ class SyncRolesForPanels extends Command
             Role::firstOrCreate($role);
         }
 
-        $this->warn('A total of '.\count($roles).' roles synced for all registered filament panels');
+        $this->info('A total of '.\count($roles).' roles synced for all registered filament panels');
+
+        return self::SUCCESS;
     }
 }
