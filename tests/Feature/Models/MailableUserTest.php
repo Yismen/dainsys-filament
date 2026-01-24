@@ -1,11 +1,11 @@
 <?php
 
-use App\Models\MailingSubscription;
+use App\Models\MailableUser;
 
 test('mailing subscriptions model interacts with db table', function () {
-    $data = MailingSubscription::factory()->make();
+    $data = MailableUser::factory()->make();
 
-    MailingSubscription::create($data->toArray());
+    MailableUser::create($data->toArray());
 
     $this->assertDatabaseHas('mailing_subscriptions', $data->only([
         'mailable', 'user_id',
@@ -13,7 +13,7 @@ test('mailing subscriptions model interacts with db table', function () {
 });
 
 test('mailing subscriptions model belongs to a user', function () {
-    $mailing_subscription = MailingSubscription::factory()->create();
+    $mailing_subscription = MailableUser::factory()->create();
 
     expect($mailing_subscription->user())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
 });

@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('mailing_subscriptions', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->string('mailable', 1200);
+        Schema::create('mailable_user', function (Blueprint $table) {
+            $table->id();
+            $table->foreignUuid('mailable_id')->constrained('mailables')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->softDeletes();
             $table->timestamps();
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('mailing_subscriptions');
+        Schema::dropIfExists('mailable_user');
     }
 };

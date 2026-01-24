@@ -2,14 +2,15 @@
 
 namespace Database\Factories;
 
-use App\Models\MailingSubscription;
 use App\Models\User;
+use App\Models\Mailable;
+use App\Models\MailingSubscription;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\MailingSubscription>
  */
-class MailingSubscriptionFactory extends Factory
+class MailableUserFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
@@ -26,7 +27,7 @@ class MailingSubscriptionFactory extends Factory
     public function definition()
     {
         return [
-            'mailable' => $this->faker->word(),
+            'mailable_id' => Mailable::factory(),
             'user_id' => User::factory(),
         ];
     }

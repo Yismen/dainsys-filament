@@ -1,7 +1,8 @@
 <?php
 
-use App\Models\MailingSubscription;
 use App\Models\User;
+use App\Models\Mailable;
+use App\Models\MailingSubscription;
 
 test('users model interacts with db table', function () {
     $data = User::factory()->create();
@@ -14,11 +15,11 @@ test('users model interacts with db table', function () {
     ]));
 });
 
-test('users model has many mailing subscriptions', function () {
-    $user = User::factory()->create();
+test('users model belongs to many mailables', function () {
+    $user = User::factory()
+        ->has(Mailable::factory(), 'mailables')
+        ->create();
 
-    MailingSubscription::factory()->create(['user_id' => $user->id]);
-
-    expect($user->mailingSubscriptions())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
-    expect($user->mailingSubscriptions->first())->toBeInstanceOf(MailingSubscription::class);
+    expect($user->mailables())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsToMany::class);
+    expect($user->mailables->first())->toBeInstanceOf(Mailable::class);
 });
