@@ -49,11 +49,11 @@ class MailingService
             'mailing_subscriptions_for_mailable_'.$mailableClass,
             function () use($mailableClass, $includeSuperAdmins): Collection  {
 
-                $users = $mailable = MailableModel::query()
-                    ->where('name', $mailableClass)
-                    ->with(['users'])
-                    ->first()
-                    ->users;
+                $users =  User::query()
+                    ->withWhereHas('mailables', function ($query) use ($mailableClass) {
+                        $query->where('name', $mailableClass);
+                    })
+                    ->get();
 
                 if (! $includeSuperAdmins) {
                     return $users;
@@ -63,15 +63,16 @@ class MailingService
                     ->whereHas('roles', function ($query) {
                         $query->where('name', 'like', 'super admin');
                     })
-                    ->get();
+                    ->get()
+                    ->merge($users)
+                    ->unique('id')
+                    ->reject(fn($user) => $user === null);
 
-            return $super_admins
-                ->merge($users)
-                ->reject(fn($user) => $user === null);
+                return $super_admins;
         });
     }
 
-    public static function subscribers(string|Mailable $mailable, bool $includeSuperAdmins = false): Collection
+    public static function subscribers(string|Mailable $mailable, bool $includeSuperAdmins = true): Collection
     {
         return self::users($mailable, $includeSuperAdmins);
     }

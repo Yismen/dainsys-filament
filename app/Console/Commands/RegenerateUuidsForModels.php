@@ -104,13 +104,7 @@ class RegenerateUuidsForModels extends Command
         preg_match('/namespace\s+(.+?);/', $contents, $ns);
         preg_match('/class\s+(\w+)/', $contents, $class);
 
-        try {
-            $full_class = $ns[1] . '\\' . $class[1];
-        } catch (\Throwable $th) {
-            dd($ns,  $class, $path);
-        }
-
-        return $full_class;
+        return $ns[1] . '\\' . $class[1];
     }
 
     protected function allTraits(ReflectionClass $class): array

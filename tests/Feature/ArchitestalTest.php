@@ -6,12 +6,14 @@
 |
 */
 
-use App\Mail\LiveVoxProductionReportMail;
-use App\Mail\TicketsExpiredMail;
-use App\Models\BaseModels\AppModel;
-use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Mailable;
+use App\Models\Permission;
+use App\Models\MailableUser;
+use App\Mail\TicketsExpiredMail;
+use App\Models\BaseModels\AppModel;
+use App\Mail\LiveVoxProductionReportMail;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Auth\User as AuthUser;
 
@@ -30,6 +32,8 @@ arch('all models should extend AppModel')
         Permission::class,
         Role::class,
         User::class,
+        MailableUser::class,
+        Mailable::class,
     ]);
 
 arch('AppModel should use traits HasFactory and InteractsWithModelCaching and HasUuids and SoftDeletes')
