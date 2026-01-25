@@ -37,12 +37,12 @@ trait HasColors
 
     public function getColorByIndex(int $index)
     {
-        return  array_key_exists($index, $this->colors) ? $this->colors[$index] : Arr::random($this->colors);
+        return array_key_exists($index, $this->colors) ? $this->colors[$index] : Arr::random($this->colors);
     }
 
     public function getRandomColor()
     {
-        return  Arr::random($this->colors);
+        return Arr::random($this->colors);
     }
 
     public function getManyColors(int $count): array

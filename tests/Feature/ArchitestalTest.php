@@ -6,14 +6,14 @@
 |
 */
 
-use App\Models\Role;
-use App\Models\User;
-use App\Models\Mailable;
-use App\Models\Permission;
-use App\Models\MailableUser;
+use App\Mail\LiveVoxProductionReportMail;
 use App\Mail\TicketsExpiredMail;
 use App\Models\BaseModels\AppModel;
-use App\Mail\LiveVoxProductionReportMail;
+use App\Models\Mailable;
+use App\Models\MailableUser;
+use App\Models\Permission;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Auth\User as AuthUser;
 

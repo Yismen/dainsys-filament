@@ -3,13 +3,11 @@
 namespace App\Services;
 
 use App\Models\User;
-use ReflectionClass;
-use Illuminate\Support\Collection;
-use App\Models\MailingSubscription;
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Contracts\Mail\Mailable;
-use App\Models\Mailable as MailableModel;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
+use ReflectionClass;
 
 class MailingService
 {
@@ -45,11 +43,12 @@ class MailingService
     public static function users(string|Mailable $mailable, bool $includeSuperAdmins = true): Collection
     {
         $mailableClass = $mailable instanceof Mailable ? get_class($mailable) : $mailable;
+
         return Cache::rememberForever(
             'mailing_subscriptions_for_mailable_'.$mailableClass,
-            function () use($mailableClass, $includeSuperAdmins): Collection  {
+            function () use ($mailableClass, $includeSuperAdmins): Collection {
 
-                $users =  User::query()
+                $users = User::query()
                     ->withWhereHas('mailables', function ($query) use ($mailableClass) {
                         $query->where('name', $mailableClass);
                     })
@@ -66,10 +65,10 @@ class MailingService
                     ->get()
                     ->merge($users)
                     ->unique('id')
-                    ->reject(fn($user) => $user === null);
+                    ->reject(fn ($user) => $user === null);
 
                 return $super_admins;
-        });
+            });
     }
 
     public static function subscribers(string|Mailable $mailable, bool $includeSuperAdmins = true): Collection

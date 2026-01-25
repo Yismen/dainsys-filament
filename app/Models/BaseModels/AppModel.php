@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Builder;
 
 class AppModel extends Model
 {
@@ -17,10 +16,15 @@ class AppModel extends Model
     use SoftDeletes;
 
     protected $primaryKey = 'id'; // or 'uuid' if you use that
-public $incrementing = false;
-protected $keyType = 'string';
-public function getRouteKeyName(): string { return 'id'; }
 
+    public $incrementing = false;
+
+    protected $keyType = 'string';
+
+    public function getRouteKeyName(): string
+    {
+        return 'id';
+    }
 
     /**
      * Resolve the route binding (bypass Str::isUuid checks).

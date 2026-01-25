@@ -3,11 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Models\Mailable;
-use App\Models\Role;
-use Filament\Facades\Filament;
-use Illuminate\Console\Command;
 use App\Services\MailingService;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Console\Command;
 
 class SyncMailables extends Command
 {
@@ -41,7 +38,7 @@ class SyncMailables extends Command
             ]);
         }
 
-        $this->info("A total of ".count($mailables)." mailables synced to the mailables table.");
+        $this->info('A total of '.count($mailables).' mailables synced to the mailables table.');
 
         return self::SUCCESS;
     }

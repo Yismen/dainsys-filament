@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\User;
 use App\Models\Mailable;
 use App\Models\MailingSubscription;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

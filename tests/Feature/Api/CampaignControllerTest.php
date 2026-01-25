@@ -1,10 +1,8 @@
 <?php
 
-use App\Models\User;
 use App\Models\Campaign;
+use App\Models\User;
 use Laravel\Sanctum\Sanctum;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
 
 it('protects the route against unauthorized tokens', function () {
     Sanctum::actingAs(User::factory()->create());
@@ -17,7 +15,7 @@ it('protects the route against unauthorized tokens', function () {
 it('returns correct structure', function () {
 
     Campaign::factory()->create();
-    Sanctum::actingAs(user: User::factory()->create(), abilities:['use-dainsys']);
+    Sanctum::actingAs(user: User::factory()->create(), abilities: ['use-dainsys']);
 
     $response = $this->get('/api/campaigns');
 

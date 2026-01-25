@@ -3,7 +3,6 @@
 namespace App\Providers\Filament;
 
 use AchyutN\FilamentLogViewer\FilamentLogViewer;
-use App\Filament\Pages\UserMailingSubscriptions;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use BinaryBuilds\FilamentFailedJobs\FilamentFailedJobsPlugin;
 use Filament\Http\Middleware\Authenticate;
@@ -82,7 +81,6 @@ class AdminPanelProvider extends PanelProvider
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
                 Dashboard::class,
-                // UserMailingSubscriptions::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([

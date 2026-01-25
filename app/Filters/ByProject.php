@@ -4,7 +4,6 @@ namespace App\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 
 class ByProject
 {
@@ -15,7 +14,7 @@ class ByProject
 
     public function handle(Builder $builder, \Closure $next)
     {
-        if($this->request->has('project')) {
+        if ($this->request->has('project')) {
             $project = $this->request->get('project');
 
             $builder->whereHas('campaign', function ($campaignQuery) use ($project) {
@@ -26,7 +25,7 @@ class ByProject
 
                 });
             });
-        };
+        }
 
         return $next($builder);
     }

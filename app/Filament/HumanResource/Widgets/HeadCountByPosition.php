@@ -2,7 +2,6 @@
 
 namespace App\Filament\HumanResource\Widgets;
 
-use App\Filament\HumanResource\Widgets\BaseHumanResourceWidget;
 use App\Models\Position;
 
 class HeadCountByPosition extends BaseHumanResourceWidget

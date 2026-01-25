@@ -1,8 +1,8 @@
 <?php
 
-use App\Models\User;
-use App\Models\Mailable;
 use App\Console\Commands\SyncMailables;
+use App\Models\Mailable;
+use App\Models\User;
 
 it('retunrs mailing files as array', function () {
     $files = \App\Services\MailingService::toArray();

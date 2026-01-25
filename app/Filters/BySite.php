@@ -4,7 +4,6 @@ namespace App\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 
 class BySite
 {
@@ -15,7 +14,7 @@ class BySite
 
     public function handle(Builder $builder, \Closure $next)
     {
-        if($this->request->has('site')) {
+        if ($this->request->has('site')) {
             $site = $this->request->get('site');
 
             // $builder->whereHas('site', function ($siteBuilder) use ($site) {
@@ -32,7 +31,7 @@ class BySite
 
                 });
             });
-        };
+        }
 
         return $next($builder);
     }

@@ -43,17 +43,17 @@ class HeadCountService
         $query = self::$model;
 
         return $query
-            ->withWhereHas('hires', function($hireQuery) {
-                 $hireQuery->withWhereHas('employee', function ($query) {
-                        $query->notInactive();
-                    });
+            ->withWhereHas('hires', function ($hireQuery) {
+                $hireQuery->withWhereHas('employee', function ($query) {
+                    $query->notInactive();
+                });
             })
             ->withCount([
                 'hires' => function ($hireQuery) {
                     $hireQuery->withWhereHas('employee', function ($query) {
                         $query->notInactive();
                     });
-            }])
-        ->get();
+                }])
+            ->get();
     }
 }

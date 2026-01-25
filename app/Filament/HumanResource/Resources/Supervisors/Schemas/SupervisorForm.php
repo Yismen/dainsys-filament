@@ -22,7 +22,7 @@ class SupervisorForm
                     ->columnSpanFull(),
                 Toggle::make('is_active')
                     ->default(true)
-                    ->required()
+                    ->required(),
             ]);
     }
 }

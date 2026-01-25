@@ -2,13 +2,13 @@
 
 namespace App\Filament\Resources\Mailables\Pages;
 
+use App\Filament\Resources\Mailables\MailableResource;
 use Filament\Actions\Action;
 use Filament\Actions\CreateAction;
+use Filament\Resources\Pages\ManageRecords;
 use Filament\Support\Colors\Color;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\Artisan;
-use Filament\Resources\Pages\ManageRecords;
-use App\Filament\Resources\Mailables\MailableResource;
 
 class ManageMailables extends ManageRecords
 {

@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Campaign;
 use App\Models\Mailable;
 use App\Models\User;
 

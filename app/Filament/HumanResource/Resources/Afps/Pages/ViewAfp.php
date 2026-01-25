@@ -2,9 +2,9 @@
 
 namespace App\Filament\HumanResource\Resources\Afps\Pages;
 
+use App\Filament\HumanResource\Resources\Afps\AfpResource;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
-use App\Filament\HumanResource\Resources\Afps\AfpResource;
 
 class ViewAfp extends ViewRecord
 {

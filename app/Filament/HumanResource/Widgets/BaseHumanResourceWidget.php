@@ -2,14 +2,13 @@
 
 namespace App\Filament\HumanResource\Widgets;
 
-use App\Models\Employee;
-use Filament\Support\RawJs;
-use Filament\Widgets\ChartWidget;
 use App\Filament\Traits\HasColors;
 use App\Filament\Traits\HasMaxHeight;
 use App\Services\HC\HeadCountService;
-use Illuminate\Support\Facades\Cache;
+use Filament\Support\RawJs;
+use Filament\Widgets\ChartWidget;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
+use Illuminate\Support\Facades\Cache;
 
 abstract class BaseHumanResourceWidget extends ChartWidget
 {
@@ -22,7 +21,7 @@ abstract class BaseHumanResourceWidget extends ChartWidget
     protected function getData(): array
     {
         $service = Cache::rememberForever(
-            'hr_actives_headcount_by_' . $this->getModel(),
+            'hr_actives_headcount_by_'.$this->getModel(),
             function () {
                 return HeadCountService::make($this->getModel())
                     // ->filters(['site' => $this->filters['site'] ?? null])
@@ -36,7 +35,7 @@ abstract class BaseHumanResourceWidget extends ChartWidget
                     'label' => $this->getHeading(),
                     'data' => $service->pluck('hires_count'),
                     // 'data' => $service->pluck('employees_count'),
-                    'backgroundColor' => $this->getManyColors($service->pluck('name')->count())
+                    'backgroundColor' => $this->getManyColors($service->pluck('name')->count()),
                 ],
             ],
             'labels' => $service->pluck('name'),
@@ -53,15 +52,15 @@ abstract class BaseHumanResourceWidget extends ChartWidget
         return [
             'plugins' => [
                 'legend' => [
-                    'position' => 'top'
-                ]
+                    'position' => 'top',
+                ],
             ],
             'scales' => [
                 'x' => [
-                    'display' => false
+                    'display' => false,
                 ],
                 'y' => [
-                    'display' => false
+                    'display' => false,
                 ],
             ],
         ];

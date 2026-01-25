@@ -1,13 +1,12 @@
 <?php
 
 use App\Console\Commands\RegenerateUuidsForModels;
-use App\Models\User;
-use App\Models\Ticket;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Queue;
 use App\Jobs\RegenerateIuidForModelJob;
-use Illuminate\Support\Facades\Config;
+use App\Models\Ticket;
+use App\Models\User;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Queue;
 
 beforeEach(function () {
     Event::fake();
@@ -24,7 +23,7 @@ it('runs without error and job is queued', function () {
     $user = User::factory()->create();
 
     $this->assertDatabaseHas(User::class, [
-        'id' => $user->id
+        'id' => $user->id,
     ]);
 
     $command = $this->artisan('dainsys:regenerate-uuids-for-models');
@@ -39,7 +38,7 @@ it('runs without error and job is queued', function () {
     $job->handle();
 
     $this->assertDatabaseMissing(User::class, [
-        'id' => $user->id
+        'id' => $user->id,
     ]);
 
 });
@@ -55,7 +54,7 @@ it('if a table is passed only that table is regenerated', function () {
         'id' => $ticket->id,
     ]);
 
-     $this->artisan(RegenerateUuidsForModels::class, ['tables' => 'users']);
+    $this->artisan(RegenerateUuidsForModels::class, ['tables' => 'users']);
 
     $this->assertDatabaseMissing(User::class, [
         'id' => $user->id,
@@ -73,7 +72,7 @@ it('changes children uuids when parent is updated', function () {
         'owner_id' => $user->id,
     ]);
 
-     $this->artisan(RegenerateUuidsForModels::class);
+    $this->artisan(RegenerateUuidsForModels::class);
 
     $this->assertDatabaseMissing(Ticket::class, [
         'owner_id' => $user->id,
@@ -100,6 +99,3 @@ it('works only if app is not in production', function () {
 
     app()['env'] = 'testing';
 })->throws(\Exception::class);
-
-
-

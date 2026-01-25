@@ -41,6 +41,6 @@ class ProductionResource extends JsonResource
             'production_time' => $this->production_time,
             'talk_time' => $this->talk_time,
             'billable_time' => $this->billable_time,
-            ];
+        ];
     }
 }

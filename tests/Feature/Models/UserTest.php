@@ -1,8 +1,7 @@
 <?php
 
-use App\Models\User;
 use App\Models\Mailable;
-use App\Models\MailingSubscription;
+use App\Models\User;
 
 test('users model interacts with db table', function () {
     $data = User::factory()->create();

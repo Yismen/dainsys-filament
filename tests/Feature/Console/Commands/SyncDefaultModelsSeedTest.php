@@ -1,15 +1,13 @@
 <?php
 
-use App\Console\Commands\SyncRolesForPanels;
 use App\Jobs\SyncDefaultModelsJob;
 use App\Models\Source;
 use App\Models\SuspensionType;
-use Filament\Facades\Filament;
 use Illuminate\Support\Facades\Queue;
 
 it('runs without error the job is not pushed to the queue', function () {
     Queue::fake([
-        SyncDefaultModelsJob::class
+        SyncDefaultModelsJob::class,
     ]);
 
     $command = $this->artisan('dainsys:sync-default-models-seed');
@@ -83,7 +81,7 @@ it('sync default models seeds', function () {
             [
                 'name' => 'Nacimiento de Hijo',
                 'description' => 'Para los padres, nacimiento de un hijo (2 dias)',
-            ]
+            ],
         ],
         Source::class => [
             [
@@ -112,8 +110,8 @@ it('sync default models seeds', function () {
             ],
             [
                 'name' => 'Outbound Calls',
-            ]
-        ]
+            ],
+        ],
     ];
 
     $this->artisan('dainsys:sync-default-models-seed');

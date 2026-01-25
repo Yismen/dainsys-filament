@@ -2,23 +2,22 @@
 
 namespace App\Filament\HumanResource\Resources\Afps;
 
-use BackedEnum;
+use App\Filament\HumanResource\Clusters\TSS\TSSCluster;
+use App\Filament\HumanResource\Resources\Afps\Pages\CreateAfp;
+use App\Filament\HumanResource\Resources\Afps\Pages\EditAfp;
+use App\Filament\HumanResource\Resources\Afps\Pages\ListAfps;
+use App\Filament\HumanResource\Resources\Afps\Pages\ViewAfp;
+use App\Filament\HumanResource\Resources\Afps\Schemas\AfpForm;
+use App\Filament\HumanResource\Resources\Afps\Schemas\AfpInfolist;
+use App\Filament\HumanResource\Resources\Afps\Tables\AfpsTable;
 use App\Models\Afp;
-use Filament\Tables\Table;
-use Filament\Schemas\Schema;
+use BackedEnum;
 use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
-use Illuminate\Database\Eloquent\Model;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\HumanResource\Clusters\TSS\TSSCluster;
-use App\Filament\HumanResource\Resources\Afps\Pages\EditAfp;
-use App\Filament\HumanResource\Resources\Afps\Pages\ViewAfp;
-use App\Filament\HumanResource\Resources\Afps\Pages\ListAfps;
-use App\Filament\HumanResource\Resources\Afps\Pages\CreateAfp;
-use App\Filament\HumanResource\Resources\Afps\Schemas\AfpForm;
-use App\Filament\HumanResource\Resources\Afps\Tables\AfpsTable;
-use App\Filament\HumanResource\Resources\Afps\Schemas\AfpInfolist;
 
 class AfpResource extends Resource
 {

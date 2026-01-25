@@ -3,9 +3,9 @@
 namespace App\Filament\HumanResource\Resources\Supervisors\Schemas;
 
 use App\Models\Supervisor;
-use Filament\Schemas\Schema;
 use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Schemas\Schema;
 
 class SupervisorInfolist
 {

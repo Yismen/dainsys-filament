@@ -15,7 +15,7 @@ class ByDate
 
     public function handle(Builder $builder, \Closure $next)
     {
-        if($this->request->has('date')) {
+        if ($this->request->has('date')) {
             $dates_range = \explode(
                 separator: ',',
                 string: $this->request->get('date'),
@@ -30,12 +30,12 @@ class ByDate
                 operator: '>=',
                 value: $date_from
             )
-            ->whereDate(
-                column: 'date',
-                operator: '<=',
-                value: $date_to
-            );
-        };
+                ->whereDate(
+                    column: 'date',
+                    operator: '<=',
+                    value: $date_to
+                );
+        }
 
         return $next($builder);
     }

@@ -3,7 +3,6 @@
 namespace App\Filament\MailingSubscription\Resources\MyMailingSubscriptions\Pages;
 
 use App\Filament\MailingSubscription\Resources\MyMailingSubscriptions\MyMailingSubscriptionResource;
-use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ManageRecords;
 
 class ManageMyMailingSubscriptions extends ManageRecords

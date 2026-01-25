@@ -1,21 +1,21 @@
 <?php
 
-use App\Models\User;
 use App\Models\Campaign;
 use App\Models\Employee;
 use App\Models\Hire;
 use App\Models\Production;
 use App\Models\Site;
 use App\Models\Supervisor;
-use Laravel\Sanctum\Sanctum;
+use App\Models\User;
 use Illuminate\Support\Facades\Mail;
+use Laravel\Sanctum\Sanctum;
 
 beforeEach(fn () => Mail::fake());
 
 it('protects the route against unauthorized tokens', function () {
     Sanctum::actingAs(User::factory()->create());
 
-    $response = $this->getJson('/api/productions?date=' . now()->format('Y-m-d'));
+    $response = $this->getJson('/api/productions?date='.now()->format('Y-m-d'));
 
     $response->assertForbidden();
 });
@@ -23,9 +23,9 @@ it('protects the route against unauthorized tokens', function () {
 it('returns correct structure', function () {
 
     Production::factory()->create();
-    Sanctum::actingAs(user: User::factory()->create(), abilities:['use-dainsys']);
+    Sanctum::actingAs(user: User::factory()->create(), abilities: ['use-dainsys']);
 
-    $response = $this->getJson('/api/productions?date=' . now()->format('Y-m-d'),);
+    $response = $this->getJson('/api/productions?date='.now()->format('Y-m-d'));
 
     $response->assertOk()
         ->assertJsonStructure([
@@ -62,10 +62,9 @@ it('returns correct structure', function () {
         ]);
 });
 
-
 it('date filter is required', function () {
     Production::factory()->create();
-    Sanctum::actingAs(user: User::factory()->create(), abilities:['use-dainsys']);
+    Sanctum::actingAs(user: User::factory()->create(), abilities: ['use-dainsys']);
 
     $this->getJson('/api/productions')
         ->assertJsonValidationErrorFor('date');
@@ -78,7 +77,7 @@ it('filters by date', function () {
     Production::factory()->create(['date' => now()->subDays(5)]);
     Sanctum::actingAs(user: User::factory()->create(), abilities: ['use-dainsys']);
 
-    $reponse = $this->getJson('/api/productions?date='. now())
+    $reponse = $this->getJson('/api/productions?date='.now())
         ->assertJsonCount(1);
 
     expect(count($reponse->json()['data']))
@@ -91,7 +90,7 @@ it('filters by date range if date is separated by comma', function () {
     Production::factory()->create(['date' => now()->subMonth()]);
     Sanctum::actingAs(user: User::factory()->create(), abilities: ['use-dainsys']);
 
-    $reponse = $this->getJson('/api/productions?date=' . now()->subDay() . ',' . now());
+    $reponse = $this->getJson('/api/productions?date='.now()->subDay().','.now());
 
     expect(count($reponse->json()['data']))
         ->tobe(1);
@@ -105,12 +104,12 @@ it('filters by campaign', function () {
     Production::factory()->for($campaign_2)->create();
     Sanctum::actingAs(user: User::factory()->create(), abilities: ['use-dainsys']);
 
-    $reponse = $this->getJson('/api/productions?date=' . now() . '&campaign=' . $campaign_1->id);
+    $reponse = $this->getJson('/api/productions?date='.now().'&campaign='.$campaign_1->id);
 
     expect(count($reponse->json()['data']))
         ->tobe(1);
 
-    $reponse = $this->getJson('/api/productions?date=' . now() . '&campaign=' . $campaign_1->name);
+    $reponse = $this->getJson('/api/productions?date='.now().'&campaign='.$campaign_1->name);
 
     expect(count($reponse->json()['data']))
         ->tobe(1);
@@ -125,12 +124,12 @@ it('filters by project', function () {
 
     Sanctum::actingAs(user: User::factory()->create(), abilities: ['use-dainsys']);
 
-    $reponse = $this->getJson('/api/productions?date=' . now() . '&project=' . $campaign_1->project->id);
+    $reponse = $this->getJson('/api/productions?date='.now().'&project='.$campaign_1->project->id);
 
     expect(count($reponse->json()['data']))
         ->tobe(1);
 
-    $reponse = $this->getJson('/api/productions?date='. now().'&project=' . $campaign_1->project->name)
+    $reponse = $this->getJson('/api/productions?date='.now().'&project='.$campaign_1->project->name)
         ->assertJsonCount(1);
 
     expect(count($reponse->json()['data']))
@@ -145,12 +144,12 @@ it('filters by employee', function () {
     Production::factory()->create();
     Sanctum::actingAs(user: User::factory()->create(), abilities: ['use-dainsys']);
 
-    $reponse = $this->getJson('/api/productions?date=' . now() . '&employee=' . $employee_1->id);
+    $reponse = $this->getJson('/api/productions?date='.now().'&employee='.$employee_1->id);
 
     expect(count($reponse->json()['data']))
         ->tobe(1);
 
-    $reponse = $this->getJson('/api/productions?date=' . now() . '&employee=' . $employee_1->full_name);
+    $reponse = $this->getJson('/api/productions?date='.now().'&employee='.$employee_1->full_name);
 
     expect(count($reponse->json()['data']))
         ->tobe(1);
@@ -168,12 +167,12 @@ it('filters by supervisor', function () {
     Production::factory(2)->create();
     Sanctum::actingAs(user: User::factory()->create(), abilities: ['use-dainsys']);
 
-    $reponse = $this->getJson('/api/productions?date=' . now() . '&supervisor=' . $supervisor->id);
+    $reponse = $this->getJson('/api/productions?date='.now().'&supervisor='.$supervisor->id);
 
     expect(count($reponse->json()['data']))
         ->tobe(1);
 
-    $reponse = $this->getJson('/api/productions?date=' . now() . '&supervisor=' . $supervisor->name);
+    $reponse = $this->getJson('/api/productions?date='.now().'&supervisor='.$supervisor->name);
 
     expect(count($reponse->json()['data']))
         ->tobe(1);

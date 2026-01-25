@@ -1,12 +1,7 @@
 <?php
 
-use App\Models\Source;
-use App\Models\SuspensionType;
-use Filament\Facades\Filament;
-use App\Services\MailingService;
-use Illuminate\Support\Facades\Queue;
 use App\Console\Commands\SyncMailables;
-use App\Console\Commands\SyncRolesForPanels;
+use App\Services\MailingService;
 
 it('runs without error the job is not pushed to the queue', function () {
     $command = $this->artisan('dainsys:sync-mailables-table');

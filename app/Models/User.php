@@ -5,7 +5,6 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Models\Traits\BelongsToManyMailables;
-use App\Models\Traits\HasManyMailingSubscriptions;
 use App\Models\Traits\InteractWithSupportTickets;
 use App\Traits\Models\InteractsWithModelCaching;
 use Filament\Models\Contracts\FilamentUser;
@@ -22,6 +21,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements FilamentUser
 {
+    use BelongsToManyMailables;
     use HasApiTokens;
     use HasFactory;
     use HasRoles;
@@ -31,7 +31,6 @@ class User extends Authenticatable implements FilamentUser
     use Notifiable;
     use SoftDeletes;
     use TwoFactorAuthenticatable;
-    use BelongsToManyMailables;
 
     /**
      * The attributes that are mass assignable.

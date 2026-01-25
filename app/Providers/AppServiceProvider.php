@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
+use BezhanSalleh\LanguageSwitch\LanguageSwitch;
+use BezhanSalleh\PanelSwitch\PanelSwitch;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
-use BezhanSalleh\PanelSwitch\PanelSwitch;
-use BezhanSalleh\LanguageSwitch\LanguageSwitch;
 use Jeffgreco13\FilamentBreezy\Livewire\SanctumTokens;
 use Livewire\Livewire;
 
@@ -39,7 +39,7 @@ class AppServiceProvider extends ServiceProvider
 
         LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
             $switch
-                ->locales(['es','en'])
+                ->locales(['es', 'en'])
                 ->circular()
                 ->renderHook('panels::global-search.before');
         });

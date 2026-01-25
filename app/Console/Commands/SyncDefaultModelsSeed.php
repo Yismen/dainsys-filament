@@ -3,8 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Jobs\SyncDefaultModelsJob;
-use App\Models\Source;
-use App\Models\SuspensionType;
 use Illuminate\Console\Command;
 
 class SyncDefaultModelsSeed extends Command

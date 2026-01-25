@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
+use App\Http\Requests\ProductionApiRequest;
+use App\Http\Resources\ProductionResource;
 use App\Models\Production;
 use Illuminate\Http\Request;
 use Illuminate\Pipeline\Pipeline;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
-use App\Http\Resources\ProductionResource;
-use App\Http\Requests\ProductionApiRequest;
 
 class ProductionController extends Controller
 {
@@ -20,9 +20,9 @@ class ProductionController extends Controller
         $query_filters = $request->uri()->query()->all();
         $class_string = \str(self::class)->replace('\\', ' ')->snake()->toString();
         $query_string = $request->getQueryString();
-        $cache_key = $class_string . $query_string;
+        $cache_key = $class_string.$query_string;
 
-        $productions = Cache::rememberForever($cache_key, function () use ($query_filters) {
+        $productions = Cache::rememberForever($cache_key, function () {
             $production = app(Pipeline::class)
                 ->send(
                     Production::query()
@@ -30,7 +30,7 @@ class ProductionController extends Controller
                             'campaign:id,name,source_id,project_id' => [
                                 'source:id,name',
                                 'project:id,name,client_id' => [
-                                    'client:id,name'
+                                    'client:id,name',
                                 ],
                             ],
                             'employee' => [

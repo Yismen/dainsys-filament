@@ -2,28 +2,17 @@
 
 namespace App\Filament\MailingSubscription\Resources\MyMailingSubscriptions;
 
-use BackedEnum;
-use Filament\Tables\Table;
-use Filament\Actions\Action;
-use Filament\Schemas\Schema;
-use Filament\Actions\EditAction;
-use Filament\Resources\Resource;
-use Filament\Actions\DeleteAction;
-use App\Models\MailingSubscription;
-use Filament\Actions\RestoreAction;
-use Filament\Support\Icons\Heroicon;
-use App\Models\MyMailingSubscription;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\ForceDeleteAction;
-use Filament\Actions\RestoreBulkAction;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
-use Illuminate\Database\Eloquent\Builder;
-use Filament\Actions\ForceDeleteBulkAction;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\MailingSubscription\Resources\MyMailingSubscriptions\Pages\ManageMyMailingSubscriptions;
 use App\Models\MailableUser;
+use BackedEnum;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Resources\Resource;
+use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class MyMailingSubscriptionResource extends Resource
 {
@@ -83,11 +72,10 @@ class MyMailingSubscriptionResource extends Resource
 
     public static function getRecordRouteBindingEloquentQuery(): Builder
     {
-        return parent::getRecordRouteBindingEloquentQuery()
-            // ->withoutGlobalScopes([
-            //     SoftDeletingScope::class,
-            // ]);
-            ;
+        return parent::getRecordRouteBindingEloquentQuery();
+        // ->withoutGlobalScopes([
+        //     SoftDeletingScope::class,
+        // ]);
     }
 
     public static function getEloquentQuery(): Builder

@@ -28,7 +28,7 @@ class MyTicketsTable
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->label(__('Created by'))
-                    ->formatStateUsing(fn ($record) => $record->owner->name . ", at " . $record->created_at)
+                    ->formatStateUsing(fn ($record) => $record->owner->name.', at '.$record->created_at)
                     ->wrap()
                     ->sortable(),
                 TextColumn::make('subject')

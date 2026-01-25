@@ -2,11 +2,9 @@
 
 namespace App\Console\Commands;
 
-
 use App\Jobs\RegenerateIuidForModelJob;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use ReflectionClass;
 
@@ -31,9 +29,9 @@ class RegenerateUuidsForModels extends Command
      */
     public function handle()
     {
-        if(app()->isProduction())
-        {
+        if (app()->isProduction()) {
             throw new \Exception('App is in production, this action is forbidden!');
+
             return self::FAILURE;
         }
 
@@ -78,12 +76,12 @@ class RegenerateUuidsForModels extends Command
                 continue;
             }
 
-            if($this->usesUuidTrait($class)) {
+            if ($this->usesUuidTrait($class)) {
                 $models[] = (new $class)->getTable();
             }
         }
 
-            return $models;
+        return $models;
 
     }
 
@@ -104,7 +102,7 @@ class RegenerateUuidsForModels extends Command
         preg_match('/namespace\s+(.+?);/', $contents, $ns);
         preg_match('/class\s+(\w+)/', $contents, $class);
 
-        return $ns[1] . '\\' . $class[1];
+        return $ns[1].'\\'.$class[1];
     }
 
     protected function allTraits(ReflectionClass $class): array

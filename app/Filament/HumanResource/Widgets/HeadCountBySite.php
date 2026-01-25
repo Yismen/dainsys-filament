@@ -2,7 +2,6 @@
 
 namespace App\Filament\HumanResource\Widgets;
 
-use App\Filament\HumanResource\Widgets\BaseHumanResourceWidget;
 use App\Models\Site;
 
 class HeadCountBySite extends BaseHumanResourceWidget

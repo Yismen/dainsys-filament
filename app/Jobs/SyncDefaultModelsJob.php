@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 
 class SyncDefaultModelsJob
@@ -31,7 +30,7 @@ class SyncDefaultModelsJob
 
     protected function getDefaultModels(): array
     {
-        return  [
+        return [
             \App\Models\SuspensionType::class => [
                 [
                     'name' => 'Suspension por Mutuo Acuerdo',
@@ -92,7 +91,7 @@ class SyncDefaultModelsJob
                 [
                     'name' => 'Nacimiento de Hijo',
                     'description' => 'Para los padres, nacimiento de un hijo (2 dias)',
-                ]
+                ],
             ],
             \App\Models\Source::class => [
                 [
@@ -121,10 +120,8 @@ class SyncDefaultModelsJob
                 ],
                 [
                     'name' => 'Outbound Calls',
-                ]
-            ]
+                ],
+            ],
         ];
     }
-
-
 }

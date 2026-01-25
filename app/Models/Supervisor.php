@@ -13,7 +13,7 @@ class Supervisor extends \App\Models\BaseModels\AppModel
     protected $fillable = ['name', 'description', 'is_active'];
 
     protected $casts = [
-        'is_active' => 'boolean'
+        'is_active' => 'boolean',
     ];
 
     public function employees(): \Illuminate\Database\Eloquent\Relations\HasManyThrough

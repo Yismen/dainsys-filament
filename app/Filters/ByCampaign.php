@@ -4,7 +4,6 @@ namespace App\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 
 class ByCampaign
 {
@@ -15,7 +14,7 @@ class ByCampaign
 
     public function handle(Builder $builder, \Closure $next)
     {
-        if($this->request->has('campaign')) {
+        if ($this->request->has('campaign')) {
             $campaign = $this->request->get('campaign');
 
             $builder->whereHas(
@@ -26,7 +25,7 @@ class ByCampaign
                         ->orWhere('name', 'like', $campaign);
                 }
             );
-        };
+        }
 
         return $next($builder);
     }

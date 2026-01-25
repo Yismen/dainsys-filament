@@ -2,11 +2,9 @@
 
 namespace App\Filament\Support\Resources\Tickets;
 
-use App\Filament\Support\Pages\Dashboard;
 use App\Filament\Support\Resources\MyTickets\Pages\ListMyTickets;
 use App\Filament\Support\Resources\Tickets\Pages\CreateTicket;
 use App\Filament\Support\Resources\Tickets\Pages\EditTicket;
-use App\Filament\Support\Resources\Tickets\Pages\ListTickets;
 use App\Filament\Support\Resources\Tickets\Pages\ViewTicket;
 use App\Filament\Support\Resources\Tickets\RelationManagers\RepliesRelationManager;
 use App\Filament\Support\Resources\Tickets\Schemas\TicketInfolist;
