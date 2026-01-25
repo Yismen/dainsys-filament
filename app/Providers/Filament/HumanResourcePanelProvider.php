@@ -3,7 +3,6 @@
 namespace App\Providers\Filament;
 
 use App\Filament\HumanResource\Pages\HumanResourceDashboard;
-use Filament\Actions\Action;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -64,12 +63,6 @@ class HumanResourcePanelProvider extends PanelProvider
                 BreezyCore::make()
                     ->myProfile()
                     ->enableTwoFactorAuthentication(),
-            ])
-            ->userMenuItems([
-                Action::make('mailing-subscriptions')
-                    ->label('Mailing Subscriptions')
-                    ->icon('heroicon-o-rectangle-stack')
-                    ->url('admin/user-mailing-subscriptions'),
             ])
             ->widgets([
                 AccountWidget::class,
