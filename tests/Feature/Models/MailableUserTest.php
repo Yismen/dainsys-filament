@@ -1,19 +1,29 @@
 <?php
 
+use App\Models\Mailable;
+use App\Models\User;
 use App\Models\MailableUser;
 
 test('mailing subscriptions model interacts with db table', function () {
-    $data = MailableUser::factory()->make();
+    $user = User::factory()->create();
+    $mailable = Mailable::factory()->create();
 
-    MailableUser::create($data->toArray());
+    $user->mailables()->attach($mailable);
 
-    $this->assertDatabaseHas('mailing_subscriptions', $data->only([
-        'mailable', 'user_id',
-    ]));
+    $this->assertDatabaseHas(MailableUser::class, [
+        'user_id' => $user->id,
+        'mailable_id' => $mailable->id,
+    ]);
 });
 
-test('mailing subscriptions model belongs to a user', function () {
-    $mailing_subscription = MailableUser::factory()->create();
+test('mailing subscriptions model relations', function () {
+    $user = User::factory()->create();
+    $mailable = Mailable::factory()->create();
 
-    expect($mailing_subscription->user())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
+    $user->mailables()->attach($mailable);
+
+    $mailableUser = MailableUser::first();
+
+    expect($mailableUser->user)->toBeInstanceOf(User::class);
+    expect($mailableUser->mailable)->toBeInstanceOf(Mailable::class);
 });
