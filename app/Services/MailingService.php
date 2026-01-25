@@ -2,17 +2,18 @@
 
 namespace App\Services;
 
-use App\Models\MailingSubscription;
 use App\Models\User;
-use Illuminate\Contracts\Mail\Mailable;
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Cache;
 use ReflectionClass;
+use Illuminate\Support\Collection;
+use App\Models\MailingSubscription;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Contracts\Mail\Mailable;
+use App\Models\Mailable as MailableModel;
 
 class MailingService
 {
-    protected static array $files;
+    protected static array $files = [];
 
     public static function toArray(): array
     {
@@ -41,25 +42,37 @@ class MailingService
         });
     }
 
-    public static function users(string|Mailable $mailable): Collection
+    public static function users(string|Mailable $mailable, bool $includeSuperAdmins = true): Collection
     {
-        $mailable = $mailable instanceof Mailable ? get_class($mailable) : $mailable;
+        $mailableClass = $mailable instanceof Mailable ? get_class($mailable) : $mailable;
+        return Cache::rememberForever(
+            'mailing_subscriptions_for_mailable_'.$mailableClass,
+            function () use($mailableClass, $includeSuperAdmins): Collection  {
 
-        $subscriptions = MailingSubscription::where('mailable', $mailable)
-            ->with('user')
-            ->get();
+                $users = $mailable = MailableModel::query()
+                    ->where('name', $mailableClass)
+                    ->with(['users'])
+                    ->first()
+                    ->users;
 
-        $users = $subscriptions->pluck('user');
+                if (! $includeSuperAdmins) {
+                    return $users;
+                }
 
-        $super_admins = User::whereHas('roles', function ($query) {
-            $query->where('name', 'like', 'super admin');
-        })->get();
+                $super_admins = User::query()
+                    ->whereHas('roles', function ($query) {
+                        $query->where('name', 'like', 'super admin');
+                    })
+                    ->get();
 
-        return $super_admins->merge($users);
+            return $super_admins
+                ->merge($users)
+                ->reject(fn($user) => $user === null);
+        });
     }
 
-    public static function subscribers(string|Mailable $mailable): Collection
+    public static function subscribers(string|Mailable $mailable, bool $includeSuperAdmins = false): Collection
     {
-        return self::users($mailable);
+        return self::users($mailable, $includeSuperAdmins);
     }
 }
