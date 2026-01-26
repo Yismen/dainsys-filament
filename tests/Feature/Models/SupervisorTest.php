@@ -2,6 +2,7 @@
 
 use App\Models\Employee;
 use App\Models\Supervisor;
+use App\Models\User;
 
 beforeEach(function () {
     \Illuminate\Support\Facades\Event::fake([
@@ -15,7 +16,7 @@ test('supervisors model interacts with db table', function () {
     Supervisor::create($data->toArray());
 
     $this->assertDatabaseHas('supervisors', $data->only([
-        'name', 'description', 'is_active',
+        'name', 'description', 'user_id', 'is_active',
     ]));
 });
 
@@ -38,4 +39,11 @@ test('supervisor model has many employees', function () {
 
     expect($supervisor->employees->first())->toBeInstanceOf(Employee::class);
     expect($supervisor->employees())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasManyThrough::class);
+});
+
+test('supervisor model belongs to user', function () {
+    $supervisor = Supervisor::factory()->create();
+
+    expect($supervisor->user)->toBeInstanceOf(User::class);
+    expect($supervisor->user())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
 });

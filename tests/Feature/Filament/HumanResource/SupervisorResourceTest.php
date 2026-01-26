@@ -41,6 +41,11 @@ beforeEach(function () {
             'permission' => ['view', 'view-any'],
         ],
     ];
+
+    $this->form_data = [
+        'user_id' => User::factory()->create()->id,
+        'name' => 'new Supervisor',
+    ];
 });
 
 it('require users to be authenticated to access Supervisor resource pages', function (string $method) {
@@ -108,15 +113,13 @@ it('displays Supervisor list page correctly', function () {
 test('create Supervisor page works correctly', function () {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Supervisor'));
 
-    $name = 'new Supervisor';
     livewire(CreateSupervisor::class)
-        ->fillForm([
-            'name' => $name,
-        ])
+        ->fillForm($this->form_data)
         ->call('create');
 
     $this->assertDatabaseHas('supervisors', [
-        'name' => $name,
+        'name' => $this->form_data['name'],
+        'user_id' => $this->form_data['user_id'],
     ]);
 });
 
@@ -128,6 +131,7 @@ test('edit Supervisor page works correctly', function () {
     $newName = 'Updated Supervisor Name';
     livewire(EditSupervisor::class, ['record' => $supervisor->getKey()])
         ->fillForm([
+            'user_id' => $supervisor->user_id,
             'name' => $newName,
         ])
         ->call('save')
@@ -136,6 +140,7 @@ test('edit Supervisor page works correctly', function () {
     $this->assertDatabaseHas('supervisors', [
         'id' => $supervisor->id,
         'name' => $newName,
+        'user_id' => $supervisor->user_id,
     ]);
 });
 
@@ -145,18 +150,26 @@ test('form validation require fields on create and edit pages', function () {
     // Test CreateSupervisor validation
     livewire(CreateSupervisor::class)
         ->fillForm([
+            'user_id' => null,
             'name' => '', // Invalid: name is required
         ])
         ->call('create')
-        ->assertHasFormErrors(['name' => 'required']);
+        ->assertHasFormErrors([
+            'user_id' => 'required',
+            'name' => 'required',
+        ]);
     // Test EditSupervisor validation
     $supervisor = Supervisor::factory()->create();
     livewire(EditSupervisor::class, ['record' => $supervisor->getKey()])
         ->fillForm([
+            'user_id' => null,
             'name' => '', // Invalid: name is required
         ])
         ->call('save')
-        ->assertHasFormErrors(['name' => 'required']);
+        ->assertHasFormErrors([
+            'user_id' => 'required',
+            'name' => 'required',
+        ]);
 });
 
 test('Supervisor name must be unique on create and edit pages', function () {
@@ -167,6 +180,7 @@ test('Supervisor name must be unique on create and edit pages', function () {
     // Test CreateSupervisor uniqueness validation
     livewire(CreateSupervisor::class)
         ->fillForm([
+            'user_id' => User::factory()->create()->id,
             'name' => 'Unique Supervisor', // Invalid: name must be unique
         ])
         ->call('create')
@@ -175,10 +189,30 @@ test('Supervisor name must be unique on create and edit pages', function () {
     $supervisorToEdit = Supervisor::factory()->create(['name' => 'Another Supervisor']);
     livewire(EditSupervisor::class, ['record' => $supervisorToEdit->getKey()])
         ->fillForm([
+            'user_id' => $supervisorToEdit->user_id,
             'name' => 'Unique Supervisor', // Invalid: name must be unique
         ])
         ->call('save')
         ->assertHasFormErrors(['name' => 'unique']);
+});
+
+test('Supervisor user must be unique on create', function () {
+    actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Supervisor'));
+
+    $user = User::factory()->create();
+    Supervisor::factory()->create([
+        'user_id' => $user->id,
+    ]);
+
+    livewire(CreateSupervisor::class)
+        ->fillForm([
+            'user_id' => $user->id,
+            'name' => 'Second Supervisor',
+        ])
+        ->call('create')
+        ->assertHasFormErrors([
+            'user_id' => 'unique',
+        ]);
 });
 
 it('allows updating Supervisor without changing name to trigger uniqueness validation', function () {
@@ -188,6 +222,7 @@ it('allows updating Supervisor without changing name to trigger uniqueness valid
 
     livewire(EditSupervisor::class, ['record' => $supervisor->getKey()])
         ->fillForm([
+            'user_id' => $supervisor->user_id,
             'name' => 'Existing Supervisor', // Same name, should not trigger uniqueness error
         ])
         ->call('save')
@@ -196,6 +231,7 @@ it('allows updating Supervisor without changing name to trigger uniqueness valid
     $this->assertDatabaseHas('supervisors', [
         'id' => $supervisor->id,
         'name' => 'Existing Supervisor',
+        'user_id' => $supervisor->user_id,
     ]);
 });
 

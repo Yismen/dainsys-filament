@@ -35,6 +35,7 @@ return Application::configure(basePath: dirname(__DIR__))
         App\Providers\Filament\HumanResourcePanelProvider::class,
         App\Providers\Filament\WorkforcePanelProvider::class,
         App\Providers\Filament\MailingSubscriptionPanelProvider::class,
+        App\Providers\Filament\SupervisorPanelProvider::class,
     ])
     ->withExceptions(function (Exceptions $exceptions): void {
         //

@@ -10,11 +10,13 @@ use App\Traits\Models\InteractsWithModelCaching;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Jeffgreco13\FilamentBreezy\Traits\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
@@ -65,6 +67,11 @@ class User extends Authenticatable implements FilamentUser
         'is_active' => 'boolean',
     ];
 
+    public function supervisor(): HasOne
+    {
+        return $this->hasOne(Supervisor::class);
+    }
+
     public function canAccessPanel(Panel $panel): bool
     {
         if (! Auth::check()) {
@@ -89,6 +96,10 @@ class User extends Authenticatable implements FilamentUser
 
         if ($panel_id === 'support') {
             return true;
+        }
+
+        if ($panel_id === 'supervisor') {
+            return Gate::allows('accessSupervisorPanel');
         }
 
         return true;

@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('supervisors', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name', 500)->unique();
+            $table->foreignUuid('user_id')->nullable()->unique()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->text('description')->nullable();
             $table->boolean('is_active')->default(true);
             $table->softDeletes();

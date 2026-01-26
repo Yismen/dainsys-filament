@@ -15,6 +15,8 @@ class SupervisorInfolist
             ->components([
                 TextEntry::make('id')
                     ->label('ID'),
+                TextEntry::make('user.name')
+                    ->label('User'),
                 TextEntry::make('name'),
                 TextEntry::make('description')
                     ->placeholder('-')

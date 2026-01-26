@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Supervisor;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -27,6 +28,7 @@ class SupervisorFactory extends Factory
         return [
             'name' => $this->faker->company(),
             'description' => $this->faker->text(),
+            'user_id' => User::factory(),
             'is_active' => true,
         ];
     }

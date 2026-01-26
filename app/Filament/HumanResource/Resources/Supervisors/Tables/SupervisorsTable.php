@@ -20,6 +20,10 @@ class SupervisorsTable
         return $table
             ->defaultSort('name')
             ->columns([
+                TextColumn::make('user.name')
+                    ->label('User')
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('name')
                     ->sortable()
                     ->searchable(),
