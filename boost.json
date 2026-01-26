@@ -7,6 +7,5 @@
     ],
     "guidelines": [
         "filament/filament"
-    ],
-    "sail": false
+    ]
 }
