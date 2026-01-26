@@ -2,15 +2,20 @@
 
 namespace App\Filament\HumanResource\Resources\Employees\Schemas;
 
+use App\Models\Site;
 use App\Enums\Genders;
+use App\Models\Project;
+use App\Models\Position;
+use App\Models\Supervisor;
 use App\Models\Citizenship;
-use App\Services\ModelListService;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
-use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
+use App\Services\ModelListService;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\DatePicker;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Forms\Components\DateTimePicker;
 
 class EmployeeForm
 {
@@ -72,6 +77,23 @@ class EmployeeForm
                     ->relationship('citizenship', 'name')
                     ->options(ModelListService::get(Citizenship::class))
                     ->required(),
+                Select::make('site_id')
+                    ->relationship('site', 'name')
+                    ->searchable()
+                    ->options(ModelListService::make(Site::query())),
+                Select::make('project_id')
+                    ->relationship('project', 'name')
+                    ->searchable()
+                    ->options(ModelListService::make(Project::query())),
+                Select::make('position_id')
+                    ->relationship('position', 'name')
+                    ->searchable()
+                    ->options(ModelListService::make(Position::query())),
+                Select::make('supervisor_id')
+                    ->relationship('supervisor', 'name')
+                    ->options(ModelListservice::make(Supervisor::query())),
+                DateTimePicker::make('hired_at')
+                    ->nullable(),
                 TextInput::make('internal_id')
                     ->nullable()
                     ->unique(ignoreRecord: true)

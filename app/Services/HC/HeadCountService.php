@@ -35,36 +35,16 @@ class HeadCountService
         $query = self::$model;
 
         return $query
-            ->withWhereHas('hires', function ($hireQuery) {
-                $hireQuery->withWhereHas('employee', function ($query) {
-                    $query->notInactive();
-                })
-                    ->when(self::$filters['site'] ?? null, function ($hireQuery) {
-                        $hireQuery->whereIn('site_id', is_array(self::$filters['site']) ? self::$filters['site'] : [self::$filters['site']]);
-                    })
-                    ->when(self::$filters['project'] ?? null, function ($hireQuery) {
-                        $hireQuery->whereIn('project_id', is_array(self::$filters['project']) ? self::$filters['project'] : [self::$filters['project']]);
-                    })
-                    ->when(self::$filters['supervisor'] ?? null, function ($hireQuery) {
-                        $hireQuery->whereIn('supervisor_id', is_array(self::$filters['supervisor']) ? self::$filters['supervisor'] : [self::$filters['supervisor']]);
-                    });
+            ->notInactive()
+            ->when(self::$filters['site'] ?? null, function ($query) {
+                $query->whereIn('site_id', is_array(self::$filters['site']) ? self::$filters['site'] : [self::$filters['site']]);
             })
-            ->withCount([
-                'hires' => function ($hireQuery) {
-                    $hireQuery->withWhereHas('employee', function ($query) {
-                        $query->notInactive();
-                    })
-                        ->when(self::$filters['site'] ?? null, function ($hireQuery) {
-                            $hireQuery->whereIn('site_id', is_array(self::$filters['site']) ? self::$filters['site'] : [self::$filters['site']]);
-                        })
-                        ->when(self::$filters['project'] ?? null, function ($hireQuery) {
-                            $hireQuery->whereIn('project_id', is_array(self::$filters['project']) ? self::$filters['project'] : [self::$filters['project']]);
-                        })
-                        ->when(self::$filters['supervisor'] ?? null, function ($hireQuery) {
-                            $hireQuery->whereIn('supervisor_id', is_array(self::$filters['supervisor']) ? self::$filters['supervisor'] : [self::$filters['supervisor']]);
-                        });
-                },
-            ])
+            ->when(self::$filters['project'] ?? null, function ($query) {
+                $query->whereIn('project_id', is_array(self::$filters['project']) ? self::$filters['project'] : [self::$filters['project']]);
+            })
+            ->when(self::$filters['supervisor'] ?? null, function ($query) {
+                $query->whereIn('supervisor_id', is_array(self::$filters['supervisor']) ? self::$filters['supervisor'] : [self::$filters['supervisor']]);
+            })
             ->get();
     }
 }

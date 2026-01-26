@@ -152,7 +152,7 @@ it('updates supervisor id based on employee when created', function () {
             // 'supervisor_id' => null,
         ]);
 
-    expect($production->supervisor_id)->toBe($production->employee->supervisor->id);
+    expect($production->supervisor_id)->toBe($production->employee->supervisor_id);
 });
 
 it('updates supervisor id based on employee when employee is changed', function () {
@@ -170,7 +170,7 @@ it('updates supervisor id based on employee when employee is changed', function 
 
     $production->update(['employee_id' => $employee2->id]);
 
-    expect($production->supervisor_id)->toBe($employee2->supervisor->id);
+    expect($production->supervisor_id)->toBe($employee2->supervisor_id);
 });
 
 it('keeps supervisor id if employee is not changed even if supervisor has changed for the employee', function () {

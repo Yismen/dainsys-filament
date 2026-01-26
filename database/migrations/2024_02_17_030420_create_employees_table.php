@@ -32,6 +32,11 @@ return new class extends Migration
             $table->string('gender');
             $table->boolean('has_kids')->default(false);
             $table->foreignUuid('citizenship_id')->constrained('citizenships')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignUuid('site_id')->nullable()->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignUuid('project_id')->nullable()->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignUuid('position_id')->nullable()->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignUuid('supervisor_id')->nullable()->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->dateTime('hired_at')->nullable();
             $table->string('internal_id')->nullable()->unique();
             $table->softDeletes();
             $table->timestamps();

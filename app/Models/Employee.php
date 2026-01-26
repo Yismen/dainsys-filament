@@ -14,10 +14,9 @@ use App\Models\Traits\HasManyProductions;
 use App\Models\Traits\HasManySuspensions;
 use App\Models\Traits\HasManyTerminations;
 use App\Models\Traits\HasOneSocialSocialSecurity;
-use App\Models\Traits\HasRelationsThruHire;
 use App\Models\Traits\HasRelationsThruSocialSecurity;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Relations\HasOneThrough;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Employee extends \App\Models\BaseModels\AppModel
 {
@@ -30,7 +29,6 @@ class Employee extends \App\Models\BaseModels\AppModel
     use HasManySuspensions;
     use HasManyTerminations;
     use HasOneSocialSocialSecurity;
-    use HasRelationsThruHire;
     use HasRelationsThruSocialSecurity;
 
     protected $fillable = [
@@ -38,7 +36,6 @@ class Employee extends \App\Models\BaseModels\AppModel
         'second_first_name',
         'last_name',
         'second_last_name',
-        // 'full_name',
         'personal_id_type',
         'personal_id',
         'date_of_birth',
@@ -46,21 +43,20 @@ class Employee extends \App\Models\BaseModels\AppModel
         'secondary_phone',
         'email',
         'address',
-        // 'status',
         'gender',
         'has_kids',
         'citizenship_id',
+        'site_id',
+        'project_id',
+        'position_id',
+        'supervisor_id',
+        'hired_at',
         'internal_id',
-        // 'site_id',
-        // 'project_id',
-        // 'position_id',
-        // 'supervisor_id',
-        // 'afp_id',
-        // 'ars_id',
     ];
 
     protected $casts = [
         'date_of_birth' => 'date:Y-m-d',
+        'hired_at' => 'datetime',
         'status' => EmployeeStatuses::class,
         'gender' => Genders::class,
         'has_kids' => 'boolean',
@@ -90,16 +86,24 @@ class Employee extends \App\Models\BaseModels\AppModel
         });
     }
 
-    public function supervisor(): HasOneThrough
+    public function supervisor(): BelongsTo
     {
-        return $this->hasOneThrough(
-            Supervisor::class,
-            Hire::class,
-            'employee_id', // Foreign key on hires table...
-            'id', // Foreign key on supervisors table...
-            'id', // Local key on employees table...
-            'supervisor_id' // Local key on hires table...
-        );
+        return $this->belongsTo(Supervisor::class);
+    }
+
+    public function site(): BelongsTo
+    {
+        return $this->belongsTo(Site::class);
+    }
+
+    public function project(): BelongsTo
+    {
+        return $this->belongsTo(Project::class);
+    }
+
+    public function position(): BelongsTo
+    {
+        return $this->belongsTo(Position::class);
     }
 
     // public function getTenureAttribute()

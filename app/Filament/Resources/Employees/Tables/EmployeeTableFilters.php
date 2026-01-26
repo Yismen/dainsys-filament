@@ -2,13 +2,13 @@
 
 namespace App\Filament\Resources\Employees\Tables;
 
-use App\Models\Site;
-use App\Enums\Genders;
-use App\Models\Project;
-use App\Models\Position;
-use App\Models\Supervisor;
-use App\Models\Citizenship;
 use App\Enums\EmployeeStatuses;
+use App\Enums\Genders;
+use App\Models\Citizenship;
+use App\Models\Position;
+use App\Models\Project;
+use App\Models\Site;
+use App\Models\Supervisor;
 use App\Services\ModelListService;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
@@ -21,8 +21,7 @@ class EmployeeTableFilters
             SelectFilter::make('citizenship')
                 ->relationship('citizenship', 'name')
                 ->options(ModelListService::make(Citizenship::query()))
-                ->searchable()
-                ->preload(),
+                ->searchable(),
             SelectFilter::make('gender')
                 ->options(Genders::class)
                 ->searchable(),
@@ -31,29 +30,25 @@ class EmployeeTableFilters
                 ->searchable(),
             TernaryFilter::make('has_kids'),
             SelectFilter::make('site')
-                ->relationship('hires', 'site_id')
+                ->relationship('site', 'id')
                 ->options(ModelListService::make(Site::query()))
                 ->searchable()
-                ->preload()
-                ->label('Site (Latest Hire)'),
+                ->label('Site'),
             SelectFilter::make('supervisor')
-                ->relationship('hires', 'supervisor_id')
+                ->relationship('supervisor', 'id')
                 ->options(ModelListService::make(Supervisor::query()))
                 ->searchable()
-                ->preload()
-                ->label('Supervisor (Latest Hire)'),
+                ->label('Supervisor'),
             SelectFilter::make('project')
-                ->relationship('hires', 'project_id')
+                ->relationship('project', 'id')
                 ->options(ModelListService::make(Project::query()))
                 ->searchable()
-                ->preload()
-                ->label('Project (Latest Hire)'),
+                ->label('Project'),
             SelectFilter::make('position')
-                ->relationship('hires', 'position_id')
+                ->relationship('position', 'id')
                 ->options(ModelListService::make(Position::query()))
                 ->searchable()
-                ->preload()
-                ->label('Position (Latest Hire)'),
+                ->label('Position'),
         ];
     }
 }

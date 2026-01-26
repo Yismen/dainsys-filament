@@ -7,7 +7,6 @@ use App\Events\EmployeeTerminatedEvent;
 use App\Models\Afp;
 use App\Models\Ars;
 use App\Models\Citizenship;
-use App\Models\Department;
 use App\Models\Downtime;
 use App\Models\Employee;
 use App\Models\Hire;
@@ -109,20 +108,46 @@ it('has many', function (string $modelClass, string $relationMethod) {
     [PayrollHour::class, 'payrollHours'],
 ]);
 
-test('employees model thru hire belongs to', function (string $modelClass, string $relationMethod) {
+test('employees model has direct belongs to relationships', function (string $modelClass, string $relationMethod) {
+    $model = $modelClass::factory()->create();
     $employee = Employee::factory()->createQuietly();
 
-    Hire::factory()->for($employee)->for($modelClass::factory())->createQuietly();
+    // Manually set the employee's denormalized field since Hire::create() would normally do this
+    $employee->update(["{$relationMethod}_id" => $model->id]);
 
-    expect($employee->$relationMethod)->toBeInstanceOf($modelClass);
-    expect($employee->$relationMethod())->toBeInstanceOf(HasOneThrough::class);
+    expect($employee->refresh()->$relationMethod)->toBeInstanceOf($modelClass);
+    expect($employee->$relationMethod())->toBeInstanceOf(BelongsTo::class);
 })->with([
     [Site::class, 'site'],
     [Project::class, 'project'],
     [Position::class, 'position'],
-    // [Department::class, 'department'],
     [Supervisor::class, 'supervisor'],
 ]);
+
+test('creating a hire syncs employee current assignment fields', function () {
+    $employee = Employee::factory()->create();
+    $site = Site::factory()->create();
+    $project = Project::factory()->create();
+    $position = Position::factory()->create();
+    $supervisor = Supervisor::factory()->create();
+    $hireDate = now()->subDays(5);
+
+    Hire::factory()
+        ->for($employee)
+        ->for($site)
+        ->for($project)
+        ->for($position)
+        ->for($supervisor)
+        ->create(['date' => $hireDate]);
+
+    $employee->refresh();
+
+    expect($employee->site_id)->toBe($site->id);
+    expect($employee->project_id)->toBe($project->id);
+    expect($employee->position_id)->toBe($position->id);
+    expect($employee->supervisor_id)->toBe($supervisor->id);
+    expect($employee->hired_at->timestamp)->toBe($hireDate->timestamp);
+});
 
 test('employees model thru social security belongs to ', function (string $modelClass, string $relationMethod) {
     $employee = Employee::factory()->createQuietly();

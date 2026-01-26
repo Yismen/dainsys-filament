@@ -2,13 +2,15 @@
 
 namespace Database\Factories;
 
-use App\Enums\EmployeeStatuses;
 use App\Enums\Genders;
 use App\Enums\PersonalIdTypes;
 use App\Models\Citizenship;
 use App\Models\Employee;
+use App\Models\Position;
+use App\Models\Project;
+use App\Models\Site;
+use App\Models\Supervisor;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Date;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Employee>
@@ -41,48 +43,22 @@ class EmployeeFactory extends Factory
             'secondary_phone' => $this->faker->phoneNumber(),
             'email' => $this->faker->unique()->email(),
             'address' => $this->faker->address(),
-            // 'status' => EmployeeStatuses::Hired,
             'gender' => Genders::Male,
             'has_kids' => $this->faker->randomElement([0, 1]),
             'citizenship_id' => Citizenship::factory(),
-            // 'internal_id' => $this->faker->unique()->text(5)
         ];
     }
 
-    // public function current(): Factory
-    // {
-    //     return $this->state(function (array $attributes) {
-    //         return [
-    //             'status' => EmployeeStatuses::Hired,
-    //         ];
-    //     });
-    // }
-
-    // public function inactive(): Factory
-    // {
-    //     return $this->state(function (array $attributes) {
-    //         return [
-    //             'status' => EmployeeStatuses::Terminated,
-    //         ];
-    //     });
-    // }
-
-    // public function suspended(): Factory
-    // {
-    //     return $this->state(function (array $attributes) {
-    //         return [
-    //             'status' => EmployeeStatuses::Suspended,
-    //         ];
-    //     });
-    // }
-
-    // public function hired(?Date $date = null)
-    // {
-    //     if (! $date) {
-    //         $date = now();
-    //     }
-
-    //     dd($date, $this);
-
-    // }
+    public function hired(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'site_id' => Site::factory(),
+                'project_id' => Project::factory(),
+                'position_id' => Position::factory(),
+                'supervisor_id' => Supervisor::factory(),
+                'hired_at' => now(),
+            ];
+        });
+    }
 }

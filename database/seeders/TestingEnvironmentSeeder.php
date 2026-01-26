@@ -31,11 +31,11 @@ class TestingEnvironmentSeeder extends Seeder
 
         cache()->flush();
 
-        User::factory()->count(25)->createQuietly();
+        User::factory()->count(25)->create();
 
-        Hire::factory()->count(5)->createQuietly(); // this will create employees, sites, positions, supervisors
+        Hire::factory()->count(5)->create(); // this will create employees, sites, positions, supervisors
 
-        Client::factory()->count(5)->createQuietly();
+        Client::factory()->count(5)->create();
 
         (array) $user_data = [
             'email' => 'yismen.jorge@gmail.com',
@@ -55,16 +55,16 @@ class TestingEnvironmentSeeder extends Seeder
 
         $downtimeSource = Source::firstOrCreate(['name' => 'Downtime']);
 
-        $downtimeCampaign = Campaign::factory()->for($downtimeSource)->createQuietly(['revenue_type' => RevenueTypes::Downtime]);
+        $downtimeCampaign = Campaign::factory()->for($downtimeSource)->create(['revenue_type' => RevenueTypes::Downtime]);
 
         foreach (Employee::take(5)->get() as $employee) {
-            Production::factory()->for($employee)->createQuietly();
-            Downtime::factory()->for($employee)->for($downtimeCampaign)->createQuietly();
+            Production::factory()->for($employee)->create();
+            Downtime::factory()->for($employee)->for($downtimeCampaign)->create();
         }
 
-        // Holiday::factory()->createQuietly(['date' => now()->subDay()]);
+        // Holiday::factory()->create(['date' => now()->subDay()]);
 
-        // SuspensionType::factory()->createQuietly(['name' => 'Maternal Leave']);
+        // SuspensionType::factory()->create(['name' => 'Maternal Leave']);
 
         /**
          * bank account

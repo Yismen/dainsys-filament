@@ -15,6 +15,9 @@ return new class extends Migration
             $table->string('activity_type');
             $table->text('description')->nullable();
             $table->timestamp('requested_at')->useCurrent();
+            $table->string('status')->default('Requested');
+            $table->text('completion_comment')->nullable();
+            $table->timestamp('completed_at')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

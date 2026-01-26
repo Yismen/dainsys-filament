@@ -48,6 +48,17 @@ class Hire extends \App\Models\BaseModels\AppModel
             }
         });
 
+        static::created(function (Hire $hire) {
+            // Update employee's current assignment fields to match this new hire
+            $hire->employee->update([
+                'site_id' => $hire->site_id,
+                'project_id' => $hire->project_id,
+                'position_id' => $hire->position_id,
+                'supervisor_id' => $hire->supervisor_id,
+                'hired_at' => $hire->date,
+            ]);
+        });
+
         static::saved(function (Hire $hire) {
             $hire->employee->touch();
         });
