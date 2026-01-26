@@ -3,12 +3,12 @@
 namespace App\Filament\HumanResource\Resources\Supervisors\Schemas;
 
 use App\Models\User;
-use Filament\Schemas\Schema;
 use App\Services\ModelListService;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
+use Filament\Schemas\Schema;
 
 class SupervisorForm
 {

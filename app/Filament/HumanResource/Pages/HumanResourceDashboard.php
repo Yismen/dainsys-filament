@@ -7,6 +7,8 @@ use App\Filament\HumanResource\Widgets\HeadCountByPosition;
 use App\Filament\HumanResource\Widgets\HeadCountByProject;
 use App\Filament\HumanResource\Widgets\HeadCountBySite;
 use App\Filament\HumanResource\Widgets\HeadCountBySupervisor;
+use App\Filament\HumanResource\Widgets\HRActivityRequestStats;
+use App\Filament\HumanResource\Widgets\UpcomingEmployeeBirthdays;
 use App\Models\Project;
 use App\Models\Site;
 use App\Models\Supervisor;
@@ -24,6 +26,8 @@ class HumanResourceDashboard extends Dashboard
     {
         return [
             EmployeesStats::class,
+            HRActivityRequestStats::class,
+            UpcomingEmployeeBirthdays::class,
             HeadCountBySite::class,
             HeadCountByProject::class,
             HeadCountByPosition::class,

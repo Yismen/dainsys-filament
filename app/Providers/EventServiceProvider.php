@@ -6,6 +6,8 @@ use App\Events\EmployeeHiredEvent;
 use App\Events\EmployeeReactivatedEvent;
 use App\Events\EmployeeSuspendedEvent;
 use App\Events\EmployeeTerminatedEvent;
+use App\Events\HRActivityRequestCompleted;
+use App\Events\HRActivityRequestCreated;
 use App\Events\TicketAssignedEvent;
 use App\Events\TicketCompletedEvent;
 use App\Events\TicketCreatedEvent;
@@ -16,6 +18,8 @@ use App\Listeners\SendEmployeeHiredEmail;
 use App\Listeners\SendEmployeeReactivatedEmail;
 use App\Listeners\SendEmployeeSuspendedEmail;
 use App\Listeners\SendEmployeeTerminatedEmail;
+use App\Listeners\SendHRActivityRequestCompletedNotification;
+use App\Listeners\SendHRActivityRequestCreatedNotification;
 use App\Listeners\SendTicketAssignedMail;
 use App\Listeners\SendTicketCompletedMail;
 use App\Listeners\SendTicketCreatedMail;
@@ -67,6 +71,12 @@ class EventServiceProvider extends ServiceProvider
         ],
         TicketReplyCreatedEvent::class => [
             SendTicketReplyCreatedMail::class,
+        ],
+        HRActivityRequestCreated::class => [
+            SendHRActivityRequestCreatedNotification::class,
+        ],
+        HRActivityRequestCompleted::class => [
+            SendHRActivityRequestCompletedNotification::class,
         ],
     ];
 
