@@ -147,4 +147,17 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Default Sites
+    |--------------------------------------------------------------------------
+    |
+    | This array contains the default site IDs that should be used to filter
+    | dashboard data by default. Users can still change these filters in the
+    | dashboard interface.
+    |
+    */
+
+    'default_sites' => array_filter(explode(',', env('DEFAULT_SITES', ''))),
+
 ];

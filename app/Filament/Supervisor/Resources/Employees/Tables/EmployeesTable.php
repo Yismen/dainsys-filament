@@ -31,18 +31,19 @@ class EmployeesTable
                 TextColumn::make('cellphone')
                     ->label('Phone')
                     ->sortable(),
-                BadgeColumn::make('status')
+                TextColumn::make('status')
+                    ->badge()
                     ->colors([
                         'success' => EmployeeStatuses::Hired,
                         'warning' => EmployeeStatuses::Suspended,
                         'info' => EmployeeStatuses::Created,
                     ]),
             ])
-            ->actions([
+            ->recordActions([
                 Action::make('requestActivity')
                     ->label('Request HR Activity')
                     ->icon('heroicon-o-paper-clip')
-                    ->form([
+                    ->schema([
                         Select::make('activity_type')
                             ->label('Activity Type')
                             ->options(HRActivityTypes::class)

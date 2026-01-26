@@ -73,17 +73,12 @@ class EmployeesStats extends BaseWidget
 
     protected function employeesCount(string $scope): int
     {
-        $filtersString = '';
-        foreach ($this->pageFilters ?? [] as $key => $value) {
-            $filtersString = $filtersString.\implode('_', [
-                $key, \is_array($value) ? \implode('_', $value) : $value,
-            ]);
-        }
+        $filtersString = $this->buildFiltersString();
 
-        $cacheKey = \implode('_', [
+        $cacheKey = implode('_', [
             'count_of_employees_in_status',
             $scope,
-            'and_filters',
+            'filters',
             $filtersString,
         ]);
 
@@ -125,5 +120,18 @@ class EmployeesStats extends BaseWidget
                     ->count();
             }
         );
+    }
+
+    protected function buildFiltersString(): string
+    {
+        $filtersString = '';
+        foreach ($this->pageFilters ?? [] as $key => $value) {
+            $filtersString .= implode('_', [
+                $key,
+                is_array($value) ? implode('_', $value) : $value,
+            ]);
+        }
+
+        return $filtersString ?: 'no_filters';
     }
 }

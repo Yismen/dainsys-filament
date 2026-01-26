@@ -2,25 +2,27 @@
 
 namespace App\Filament\Supervisor\Resources;
 
-use App\Enums\HRActivityRequestStatuses;
-use App\Enums\HRActivityTypes;
-use App\Filament\Supervisor\Resources\Pages\ListHRActivityRequests;
-use App\Filament\Supervisor\Resources\Pages\ViewHRActivityRequest;
-use App\Models\HRActivityRequest;
 use BackedEnum;
+use App\Models\Employee;
+use Filament\Tables\Table;
+use Filament\Schemas\Schema;
+use App\Enums\HRActivityTypes;
+use Filament\Resources\Resource;
+use App\Models\HRActivityRequest;
+use App\Services\ModelListService;
 use Filament\Actions\CreateAction;
+use Filament\Support\Icons\Heroicon;
+use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
-use Filament\Resources\Resource;
-use Filament\Schemas\Components\Section;
-use Filament\Schemas\Components\TextEntry;
-use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
+use App\Enums\HRActivityRequestStatuses;
+use Filament\Schemas\Components\Section;
 use Filament\Tables\Filters\SelectFilter;
-use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Auth;
+use Filament\Infolists\Components\TextEntry;
+use App\Filament\Supervisor\Resources\Pages\ViewHRActivityRequest;
+use App\Filament\Supervisor\Resources\Pages\ListHRActivityRequests;
 
 class HRActivityRequestResource extends Resource
 {
@@ -51,11 +53,6 @@ class HRActivityRequestResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('id')
-                    ->label('ID')
-                    ->searchable()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('employee.full_name')
                     ->label('Employee')
                     ->searchable()
@@ -88,19 +85,20 @@ class HRActivityRequestResource extends Resource
             ])
             ->toolbarActions([
                 CreateAction::make()
-                    ->form([
+                    ->schema([
                         Select::make('employee_id')
-                            ->relationship(
-                                'employee',
-                                'full_name',
-                                fn (Builder $query) => $query->whereHas('hires', function (Builder $query): void {
-                                    $query->where('supervisor_id', Auth::user()?->supervisor?->id)
-                                        ->whereNull('termination_date');
-                                })
+                            ->options(
+                                ModelListService::make(
+                                    value_field: 'full_name',
+                                    model: Employee::query()
+                                        ->active()
+                                        ->whereHas('hires', function (Builder $query): void {
+                                        $query->where('supervisor_id', Auth::user()?->supervisor?->id);
+                                    })
+                                )
                             )
                             ->required()
                             ->searchable()
-                            ->preload()
                             ->label('Employee'),
                         Select::make('activity_type')
                             ->options(HRActivityTypes::class)
@@ -109,9 +107,11 @@ class HRActivityRequestResource extends Resource
                         Textarea::make('description')
                             ->rows(3)
                             ->label('Description')
-                            ->placeholder('Provide additional details about this request...'),
+                            ->placeholder('Provide additional details about this request...')
+                            ->required()
+                            ->minLength(5),
                     ])
-                    ->mutateFormDataUsing(function (array $data): array {
+                    ->mutateDataUsing(function (array $data): array {
                         $data['supervisor_id'] = Auth::user()?->supervisor?->id;
                         $data['requested_at'] = now();
                         $data['status'] = HRActivityRequestStatuses::Requested;

@@ -20,11 +20,20 @@ abstract class BaseHumanResourceWidget extends ChartWidget
 
     protected function getData(): array
     {
+        $filtersString = $this->buildFiltersString();
+
+        $cacheKey = implode('_', [
+            'hr_actives_headcount_by',
+            class_basename($this->getModel()),
+            'filters',
+            $filtersString,
+        ]);
+
         $service = Cache::rememberForever(
-            'hr_actives_headcount_by_'.$this->getModel(),
+            $cacheKey,
             function () {
                 return HeadCountService::make($this->getModel())
-                    // ->filters(['site' => $this->filters['site'] ?? null])
+                    ->filters($this->pageFilters ?? [])
                     ->get();
             }
         );
@@ -34,12 +43,24 @@ abstract class BaseHumanResourceWidget extends ChartWidget
                 [
                     'label' => $this->getHeading(),
                     'data' => $service->pluck('hires_count'),
-                    // 'data' => $service->pluck('employees_count'),
                     'backgroundColor' => $this->getManyColors($service->pluck('name')->count()),
                 ],
             ],
             'labels' => $service->pluck('name'),
         ];
+    }
+
+    protected function buildFiltersString(): string
+    {
+        $filtersString = '';
+        foreach ($this->pageFilters ?? [] as $key => $value) {
+            $filtersString .= implode('_', [
+                $key,
+                is_array($value) ? implode('_', $value) : $value,
+            ]);
+        }
+
+        return $filtersString ?: 'no_filters';
     }
 
     protected function getType(): string

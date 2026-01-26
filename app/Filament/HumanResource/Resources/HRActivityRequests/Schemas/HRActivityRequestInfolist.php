@@ -3,7 +3,7 @@
 namespace App\Filament\HumanResource\Resources\HRActivityRequests\Schemas;
 
 use Filament\Schemas\Components\Section;
-use Filament\Schemas\Components\TextEntry;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 
 class HRActivityRequestInfolist
