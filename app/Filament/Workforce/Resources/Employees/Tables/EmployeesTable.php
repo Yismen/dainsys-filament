@@ -2,15 +2,17 @@
 
 namespace App\Filament\Workforce\Resources\Employees\Tables;
 
+use Filament\Tables\Table;
+use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
+use Filament\Support\Enums\Width;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
-use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
-use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
-use Filament\Tables\Table;
+use Filament\Actions\ForceDeleteBulkAction;
+use App\Filament\Resources\Employees\Tables\EmployeeTableFilters;
 
 class EmployeesTable
 {
@@ -24,21 +26,38 @@ class EmployeesTable
                     ->searchable(),
                 TextColumn::make('cellphone')
                     ->searchable(),
+                TextColumn::make('citizenship.name')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('gender')
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('status')
                     ->sortable()
                     ->searchable(),
+                TextColumn::make('has_kids')
+                    ->boolean()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('site.name')
                     ->wrap()
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('project.name')
                     ->wrap()
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('supervisor.name')
                     ->wrap()
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('position.name')
+                    ->wrap()
+                    ->sortable()
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()
@@ -54,7 +73,10 @@ class EmployeesTable
             ])
             ->filters([
                 TrashedFilter::make(),
+                ...EmployeeTableFilters::get(),
             ])
+            ->filtersFormColumns(2)
+            ->filtersFormWidth(Width::Large)
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),

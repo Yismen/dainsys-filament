@@ -2,19 +2,21 @@
 
 namespace App\Filament\HumanResource\Resources\Employees\Tables;
 
-use App\Filament\Exports\EmployeeExporter;
+use Filament\Tables\Table;
+use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
+use Filament\Support\Enums\Width;
+use Filament\Support\Colors\Color;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
 use Filament\Actions\ExportBulkAction;
-use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
-use Filament\Actions\ViewAction;
-use Filament\Support\Colors\Color;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use App\Filament\Exports\EmployeeExporter;
 use Filament\Tables\Filters\TrashedFilter;
-use Filament\Tables\Table;
+use Filament\Actions\ForceDeleteBulkAction;
+use App\Filament\Resources\Employees\Tables\EmployeeTableFilters;
 
 class EmployeesTable
 {
@@ -52,6 +54,26 @@ class EmployeesTable
                     ->sortable()
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('site.name')
+                    ->wrap()
+                    ->sortable()
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('project.name')
+                    ->wrap()
+                    ->sortable()
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('supervisor.name')
+                    ->wrap()
+                    ->sortable()
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('position.name')
+                    ->wrap()
+                    ->sortable()
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()
@@ -67,7 +89,10 @@ class EmployeesTable
             ])
             ->filters([
                 TrashedFilter::make(),
+                ...EmployeeTableFilters::get(),
             ])
+            ->filtersFormColumns(2)
+            ->filtersFormWidth(Width::Large)
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
