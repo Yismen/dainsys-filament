@@ -29,6 +29,8 @@ class HRActivityRequestResource extends Resource
 
     protected static ?string $modelLabel = 'HR Activity Request';
 
+    protected static ?int $navigationSort = 2;
+
     public static function form(Schema $schema): Schema
     {
         return HRActivityRequestForm::configure($schema);

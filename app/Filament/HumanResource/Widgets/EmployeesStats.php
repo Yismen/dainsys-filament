@@ -2,6 +2,8 @@
 
 namespace App\Filament\HumanResource\Widgets;
 
+use App\Enums\EmployeeStatuses;
+use App\Filament\HumanResource\Resources\Employees\EmployeeResource;
 use App\Models\Employee;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
@@ -20,19 +22,52 @@ class EmployeesStats extends BaseWidget
                 $this->employeesCount(scope: 'current')
             )
                 ->description('Employees that are currently working ')
-                ->color('success'),
+                ->color('success')
+                ->url(function () {
+                    try {
+                        return EmployeeResource::getUrl('index', [
+                            'filters' => [
+                                'status' => ['value' => EmployeeStatuses::Hired->value],
+                            ],
+                        ]);
+                    } catch (\Exception $e) {
+                        return null;
+                    }
+                }),
             Stat::make(
                 'Employees Terminated',
                 $this->employeesCount(scope: 'inactive')
             )
                 ->description('Employees that are no longer working with us')
-                ->color('danger'),
+                ->color('danger')
+                ->url(function () {
+                    try {
+                        return EmployeeResource::getUrl('index', [
+                            'filters' => [
+                                'status' => ['value' => EmployeeStatuses::Terminated->value],
+                            ],
+                        ]);
+                    } catch (\Exception $e) {
+                        return null;
+                    }
+                }),
             Stat::make(
                 'Employees Suspended',
                 $this->employeesCount(scope: 'suspended')
             )
                 ->description('Employees with a suspension reported')
-                ->color('warning'),
+                ->color('warning')
+                ->url(function () {
+                    try {
+                        return EmployeeResource::getUrl('index', [
+                            'filters' => [
+                                'status' => ['value' => EmployeeStatuses::Suspended->value],
+                            ],
+                        ]);
+                    } catch (\Exception $e) {
+                        return null;
+                    }
+                }),
         ];
     }
 

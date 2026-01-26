@@ -43,17 +43,17 @@ class HRActivityRequestStats extends StatsOverviewWidget
         try {
             $indexUrl = HRActivityRequestResource::getUrl('index');
             $requestedUrl = HRActivityRequestResource::getUrl('index', [
-                'tableFilters' => [
+                'filters' => [
                     'status' => ['value' => HRActivityRequestStatuses::Requested->value],
                 ],
             ]);
             $inProgressUrl = HRActivityRequestResource::getUrl('index', [
-                'tableFilters' => [
+                'filters' => [
                     'status' => ['value' => HRActivityRequestStatuses::InProgress->value],
                 ],
             ]);
             $completedUrl = HRActivityRequestResource::getUrl('index', [
-                'tableFilters' => [
+                'filters' => [
                     'status' => ['value' => HRActivityRequestStatuses::Completed->value],
                 ],
             ]);
