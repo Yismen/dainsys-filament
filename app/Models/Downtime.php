@@ -123,7 +123,7 @@ class Downtime extends \App\Models\BaseModels\AppModel
         $this->removeFromProduction();
     }
 
-    protected function removeFromProduction()
+    public function removeFromProduction()
     {
         Production::query()
             ->whereDate('date', $this->date)
