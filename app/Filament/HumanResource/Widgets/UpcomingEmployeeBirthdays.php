@@ -15,6 +15,7 @@ class UpcomingEmployeeBirthdays extends TableWidget
     protected static ?string $heading = 'Upcoming Employee Birthdays';
 
     protected int|string|array $columnSpan = 'full';
+    protected ?string $pollingInterval = null;
 
     public function table(Table $table): Table
     {
@@ -88,20 +89,20 @@ class UpcomingEmployeeBirthdays extends TableWidget
             });
 
         if (isset($filters['site']) && ! empty($filters['site'])) {
-            $query->whereHas('hires', function ($q) use ($filters): void {
-                $q->whereIn('site_id', $filters['site']);
+            $query->whereHas('site', function ($q) use ($filters): void {
+                $q->whereIn('id', $filters['site']);
             });
         }
 
         if (isset($filters['project']) && ! empty($filters['project'])) {
-            $query->whereHas('hires', function ($q) use ($filters): void {
-                $q->whereIn('project_id', $filters['project']);
+            $query->whereHas('project', function ($q) use ($filters): void {
+                $q->whereIn('id', $filters['project']);
             });
         }
 
         if (isset($filters['supervisor']) && ! empty($filters['supervisor'])) {
-            $query->whereHas('hires', function ($q) use ($filters): void {
-                $q->whereIn('supervisor_id', $filters['supervisor']);
+            $query->whereHas('supervisor', function ($q) use ($filters): void {
+                $q->whereIn('id', $filters['supervisor']);
             });
         }
 

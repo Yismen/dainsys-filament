@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Cache;
 class EmployeesStats extends BaseWidget
 {
     use InteractsWithPageFilters;
+    protected ?string $pollingInterval = null;
 
     protected function getStats(): array
     {
@@ -87,35 +88,32 @@ class EmployeesStats extends BaseWidget
             function () use ($scope) {
                 return Employee::query()
                     ->$scope()
-                    ->withWhereHas('hires', function ($hiresQuery) {
-                        $hiresQuery
-                            ->when($this->pageFilters['site'] ?? null, function ($hiresQuery) {
-                                $hiresQuery->withWhereHas('site', function ($siteQuery) {
-                                    $siteQuery->when(
-                                        is_array($this->pageFilters['site']),
-                                        fn ($query) => $query->whereIn('id', $this->pageFilters['site']),
-                                        fn ($query) => $query->where('id', $this->pageFilters['site'])
-                                    );
-                                });
-                            })
-                            ->when($this->pageFilters['project'] ?? null, function ($hiresQuery) {
-                                $hiresQuery->withWhereHas('project', function ($projectQuery) {
-                                    $projectQuery->when(
-                                        is_array($this->pageFilters['project']),
-                                        fn ($query) => $query->whereIn('id', $this->pageFilters['project']),
-                                        fn ($query) => $query->where('id', $this->pageFilters['project'])
-                                    );
-                                });
-                            })
-                            ->when($this->pageFilters['supervisor'] ?? null, function ($hiresQuery) {
-                                $hiresQuery->withWhereHas('supervisor', function ($supervisorQuery) {
-                                    $supervisorQuery->when(
-                                        is_array($this->pageFilters['supervisor']),
-                                        fn ($query) => $query->whereIn('id', $this->pageFilters['supervisor']),
-                                        fn ($query) => $query->where('id', $this->pageFilters['supervisor'])
-                                    );
-                                });
-                            });
+                    ->when($this->pageFilters['site'] ?? null, function ($siteQuery) {
+                        $siteQuery->withWhereHas('site', function ($siteQuery) {
+                            $siteQuery->when(
+                                is_array($this->pageFilters['site']),
+                                fn ($query) => $query->whereIn('id', $this->pageFilters['site']),
+                                fn ($query) => $query->where('id', $this->pageFilters['site'])
+                            );
+                        });
+                    })
+                    ->when($this->pageFilters['project'] ?? null, function ($hiresQuery) {
+                        $hiresQuery->withWhereHas('project', function ($projectQuery) {
+                            $projectQuery->when(
+                                is_array($this->pageFilters['project']),
+                                fn ($query) => $query->whereIn('id', $this->pageFilters['project']),
+                                fn ($query) => $query->where('id', $this->pageFilters['project'])
+                            );
+                        });
+                    })
+                    ->when($this->pageFilters['supervisor'] ?? null, function ($hiresQuery) {
+                        $hiresQuery->withWhereHas('supervisor', function ($supervisorQuery) {
+                            $supervisorQuery->when(
+                                is_array($this->pageFilters['supervisor']),
+                                fn ($query) => $query->whereIn('id', $this->pageFilters['supervisor']),
+                                fn ($query) => $query->where('id', $this->pageFilters['supervisor'])
+                            );
+                        });
                     })
                     ->count();
             }

@@ -16,6 +16,8 @@ abstract class BaseHumanResourceWidget extends ChartWidget
     use HasMaxHeight;
     use InteractsWithPageFilters;
 
+    protected ?string $pollingInterval = null;
+
     abstract protected function getModel(): string;
 
     protected function getData(): array
@@ -33,16 +35,18 @@ abstract class BaseHumanResourceWidget extends ChartWidget
             $cacheKey,
             function () {
                 return HeadCountService::make($this->getModel())
-                    ->filters($this->pageFilters ?? [])
+                    ->filters(filters: $this->filters ?? [])
                     ->get();
             }
         );
 
+        \Illuminate\Support\Facades\Log::info($service);
+        
         return [
             'datasets' => [
                 [
                     'label' => $this->getHeading(),
-                    'data' => $service->pluck('hires_count'),
+                    'data' => $service->pluck('employees_count'),
                     'backgroundColor' => $this->getManyColors($service->pluck('name')->count()),
                 ],
             ],
@@ -53,7 +57,7 @@ abstract class BaseHumanResourceWidget extends ChartWidget
     protected function buildFiltersString(): string
     {
         $filtersString = '';
-        foreach ($this->pageFilters ?? [] as $key => $value) {
+        foreach ($this->filters ?? [] as $key => $value) {
             $filtersString .= implode('_', [
                 $key,
                 is_array($value) ? implode('_', $value) : $value,
