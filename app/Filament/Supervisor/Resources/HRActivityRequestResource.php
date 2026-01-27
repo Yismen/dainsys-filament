@@ -42,13 +42,6 @@ class HRActivityRequestResource extends Resource
             ->where('supervisor_id', $supervisor?->id);
     }
 
-    public static function canAccess(): bool
-    {
-        $supervisor = Auth::user()?->supervisor;
-
-        return $supervisor?->is_active === true;
-    }
-
     public static function table(Table $table): Table
     {
         return $table
@@ -92,8 +85,8 @@ class HRActivityRequestResource extends Resource
                                     value_field: 'full_name',
                                     model: Employee::query()
                                         ->active()
-                                        ->whereHas('hires', function (Builder $query): void {
-                                            $query->where('supervisor_id', Auth::user()?->supervisor?->id);
+                                        ->whereHas('supervisor', function (Builder $query): void {
+                                            $query->where('id', Auth::user()?->supervisor?->id);
                                         })
                                 )
                             )

@@ -18,14 +18,6 @@ class UpcomingBirthdaysTable extends BaseWidget
 
     protected int|string|array $columnSpan = 'full';
 
-    public static function canView(): bool
-    {
-        $user = Auth::user();
-        $supervisor = $user?->supervisor;
-
-        return $supervisor?->is_active === true;
-    }
-
     protected function getTableQuery(): Builder
     {
         $supervisor = Auth::user()?->supervisor;
@@ -38,8 +30,8 @@ class UpcomingBirthdaysTable extends BaseWidget
         $until = Carbon::now()->addDays(10)->endOfDay();
 
         $upcomingIds = Employee::query()
-            ->whereHas('hires', function ($query) use ($supervisor) {
-                $query->where('supervisor_id', $supervisor->id);
+            ->whereHas('supervisor', function ($query) use ($supervisor) {
+                $query->where('id', $supervisor->id);
             })
             ->where('status', EmployeeStatuses::Hired)
             ->whereNotNull('date_of_birth')

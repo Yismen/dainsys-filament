@@ -36,15 +36,10 @@ class EmployeeResource extends Resource
         }
 
         return parent::getEloquentQuery()
-            ->whereHas('hires', function ($query) use ($supervisor) {
-                $query->where('supervisor_id', $supervisor->id);
+            ->whereHas('supervisor', function ($query) use ($supervisor) {
+                $query->where('id', $supervisor->id);
             })
             ->whereNotIn('status', [EmployeeStatuses::Terminated]);
-    }
-
-    public static function canAccess(): bool
-    {
-        return Auth::user()->can('manageSupervisor');
     }
 
     public static function getPages(): array

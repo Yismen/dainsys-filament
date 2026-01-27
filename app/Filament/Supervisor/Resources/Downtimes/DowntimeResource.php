@@ -30,11 +30,6 @@ class DowntimeResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Team Downtimes';
 
-    public static function canAccess(): bool
-    {
-        return Auth::user()->can('manageSupervisor');
-    }
-
     public static function form(Schema $schema): Schema
     {
         return DowntimeForm::configure($schema);

@@ -6,7 +6,7 @@ use App\Filament\Supervisor\Widgets\SupervisorStatsOverview;
 use App\Filament\Supervisor\Widgets\UpcomingBirthdaysTable;
 use Filament\Pages\Dashboard as BaseDashboard;
 
-class Dashboard extends BaseDashboard
+class SupervisorDashboard extends BaseDashboard
 {
     public function getWidgets(): array
     {

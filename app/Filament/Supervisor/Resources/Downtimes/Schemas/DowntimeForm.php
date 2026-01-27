@@ -5,6 +5,7 @@ namespace App\Filament\Supervisor\Resources\Downtimes\Schemas;
 use App\Enums\RevenueTypes;
 use App\Models\Campaign;
 use App\Models\DowntimeReason;
+use App\Models\Employee;
 use App\Services\ModelListService;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
@@ -28,9 +29,14 @@ class DowntimeForm
                     ->default(now())
                     ->required(),
                 Select::make('employee_id')
-                    ->relationship('employee', 'full_name')
+                    ->options(ModelListService::make(
+                        model: Employee::query()
+                            ->whereHas('supervisor', function ($query) {
+                                $query->where('id', auth()->user()->supervisor?->id);
+                            }),
+                        value_field: 'full_name')
+                    )
                     ->searchable()
-                    ->preload()
                     ->required(),
                 Select::make('campaign_id')
                     ->options(ModelListService::get(model: Campaign::query()->where('revenue_type', RevenueTypes::Downtime)))

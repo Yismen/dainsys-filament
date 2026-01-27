@@ -12,25 +12,13 @@ class SupervisorStatsOverview extends StatsOverviewWidget
 {
     protected ?string $heading = 'Team Snapshot';
 
-    public static function canView(): bool
-    {
-        $user = Auth::user();
-        $supervisor = $user?->supervisor;
-
-        return $supervisor?->is_active === true;
-    }
-
     protected function getStats(): array
     {
         $supervisor = Auth::user()?->supervisor;
 
-        if (! $supervisor) {
-            return [];
-        }
-
         $employees = Employee::query()
-            ->whereHas('hires', function ($query) use ($supervisor) {
-                $query->where('supervisor_id', $supervisor->id);
+            ->whereHas('supervisor', function ($query) use ($supervisor) {
+                $query->where('id', $supervisor?->id);
             });
 
         $totalAssigned = (clone $employees)
