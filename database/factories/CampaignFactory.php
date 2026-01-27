@@ -29,4 +29,13 @@ class CampaignFactory extends Factory
             'description' => $this->faker->sentence(),
         ];
     }
+
+    public function downtime(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'revenue_type' => RevenueTypes::Downtime,
+            ];
+        });
+    }
 }

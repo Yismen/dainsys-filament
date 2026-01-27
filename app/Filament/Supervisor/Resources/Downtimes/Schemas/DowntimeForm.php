@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Workforce\Resources\Downtimes\Schemas;
+namespace App\Filament\Supervisor\Resources\Downtimes\Schemas;
 
 use App\Enums\RevenueTypes;
 use App\Models\Campaign;
 use App\Models\DowntimeReason;
-use App\Models\Employee;
 use App\Services\ModelListService;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
@@ -22,13 +22,15 @@ class DowntimeForm
                 TextEntry::make('status')
                     ->inlineLabel()
                     ->badge()
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->visibleOn('edit'),
                 DatePicker::make('date')
                     ->default(now())
                     ->required(),
                 Select::make('employee_id')
-                    ->options(ModelListService::get(model: Employee::query(), value_field: 'full_name'))
+                    ->relationship('employee', 'full_name')
                     ->searchable()
+                    ->preload()
                     ->required(),
                 Select::make('campaign_id')
                     ->options(ModelListService::get(model: Campaign::query()->where('revenue_type', RevenueTypes::Downtime)))
@@ -41,6 +43,10 @@ class DowntimeForm
                 TextInput::make('total_time')
                     ->required()
                     ->numeric(),
+                Textarea::make('request_comment')
+                    ->label('Request comment')
+                    ->nullable()
+                    ->columnSpanFull(),
             ]);
     }
 }

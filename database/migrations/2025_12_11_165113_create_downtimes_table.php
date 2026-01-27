@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\DowntimeStatuses;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -19,6 +20,7 @@ return new class extends Migration
             $table->foreignUuid('campaign_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignUuid('downtime_reason_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->float('total_time');
+            $table->string('status')->default(DowntimeStatuses::Pending->value);
             $table->foreignUuid('requester_id')->nullable()->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignUuid('aprover_id')->nullable()->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->dateTime('converted_to_payroll_at')->nullable();

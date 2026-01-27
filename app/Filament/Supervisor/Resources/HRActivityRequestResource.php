@@ -2,27 +2,27 @@
 
 namespace App\Filament\Supervisor\Resources;
 
-use BackedEnum;
-use App\Models\Employee;
-use Filament\Tables\Table;
-use Filament\Schemas\Schema;
+use App\Enums\HRActivityRequestStatuses;
 use App\Enums\HRActivityTypes;
-use Filament\Resources\Resource;
+use App\Filament\Supervisor\Resources\Pages\ListHRActivityRequests;
+use App\Filament\Supervisor\Resources\Pages\ViewHRActivityRequest;
+use App\Models\Employee;
 use App\Models\HRActivityRequest;
 use App\Services\ModelListService;
+use BackedEnum;
 use Filament\Actions\CreateAction;
-use Filament\Support\Icons\Heroicon;
-use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
-use Filament\Tables\Columns\TextColumn;
-use App\Enums\HRActivityRequestStatuses;
-use Filament\Schemas\Components\Section;
-use Filament\Tables\Filters\SelectFilter;
-use Illuminate\Database\Eloquent\Builder;
 use Filament\Infolists\Components\TextEntry;
-use App\Filament\Supervisor\Resources\Pages\ViewHRActivityRequest;
-use App\Filament\Supervisor\Resources\Pages\ListHRActivityRequests;
+use Filament\Resources\Resource;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 
 class HRActivityRequestResource extends Resource
 {
@@ -93,8 +93,8 @@ class HRActivityRequestResource extends Resource
                                     model: Employee::query()
                                         ->active()
                                         ->whereHas('hires', function (Builder $query): void {
-                                        $query->where('supervisor_id', Auth::user()?->supervisor?->id);
-                                    })
+                                            $query->where('supervisor_id', Auth::user()?->supervisor?->id);
+                                        })
                                 )
                             )
                             ->required()

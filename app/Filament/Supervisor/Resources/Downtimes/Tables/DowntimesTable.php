@@ -1,63 +1,49 @@
 <?php
 
-namespace App\Filament\Workforce\Resources\Employees\Tables;
+namespace App\Filament\Supervisor\Resources\Downtimes\Tables;
 
-use App\Filament\Resources\Employees\Tables\EmployeeTableFilters;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
-use Filament\Support\Enums\Width;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 
-class EmployeesTable
+class DowntimesTable
 {
     public static function configure(Table $table): Table
     {
         return $table
+            ->defaultSort('date', 'desc')
             ->columns([
-                TextColumn::make('full_name')
-                    ->wrap()
-                    ->sortable()
-                    ->searchable(),
-                TextColumn::make('cellphone')
-                    ->searchable(),
-                TextColumn::make('citizenship.name')
-                    ->searchable()
+                TextColumn::make('date')
+                    ->date()
                     ->sortable(),
-                TextColumn::make('gender')
+                TextColumn::make('employee.full_name')
                     ->sortable()
+                    ->wrap()
                     ->searchable(),
+                TextColumn::make('campaign.name')
+                    ->sortable()
+                    ->wrap()
+                    ->searchable(),
+                TextColumn::make('downtimeReason.name')
+                    ->sortable()
+                    ->wrap()
+                    ->searchable(),
+                TextColumn::make('total_time')
+                    ->numeric()
+                    ->sortable(),
                 TextColumn::make('status')
+                    ->badge()
+                    ->sortable(),
+                TextColumn::make('aprover.name')
                     ->sortable()
+                    ->wrap()
                     ->searchable(),
-                TextColumn::make('has_kids')
-                    ->boolean()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('site.name')
-                    ->wrap()
-                    ->sortable()
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('project.name')
-                    ->wrap()
-                    ->sortable()
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('supervisor.name')
-                    ->wrap()
-                    ->sortable()
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('position.name')
-                    ->wrap()
-                    ->sortable()
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()
@@ -73,13 +59,11 @@ class EmployeesTable
             ])
             ->filters([
                 TrashedFilter::make(),
-                ...EmployeeTableFilters::get(),
             ])
-            ->filtersFormColumns(2)
-            ->filtersFormWidth(Width::Large)
             ->recordActions([
                 ViewAction::make(),
-                EditAction::make(),
+                EditAction::make()
+                    ->visible(fn ($record) => $record->status->value === 'Pending'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

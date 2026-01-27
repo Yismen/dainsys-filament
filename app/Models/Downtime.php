@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\DowntimeStatuses;
 use App\Enums\RevenueTypes;
 use App\Exceptions\InvalidDowntimeCampaign;
 use App\Models\Traits\BelongsToCampaign;
@@ -30,6 +31,7 @@ class Downtime extends \App\Models\BaseModels\AppModel
         'campaign_id',
         'downtime_reason_id',
         'total_time',
+        'status',
         // 'requester_id',
         // 'aprover_id',
         'converted_to_payroll_at',
@@ -37,12 +39,8 @@ class Downtime extends \App\Models\BaseModels\AppModel
 
     protected $casts = [
         'date' => 'date:Y-m-d',
+        'status' => DowntimeStatuses::class,
     ];
-
-    public function getStatusAttribute()
-    {
-        return $this->aprover_id ? 'Aproved' : 'In Review';
-    }
 
     protected static function booted()
     {
@@ -64,6 +62,15 @@ class Downtime extends \App\Models\BaseModels\AppModel
             $downtime->requester_id = auth()->user()?->id;
 
             $downtime->saveQuietly();
+
+            // Track initial request as a comment only if none exists
+            if ($downtime->wasRecentlyCreated && ! $downtime->comments()->exists()) {
+                \App\Models\Comment::query()->forceCreate([
+                    'text' => 'Requested by: '.(auth()->user()?->name ?? 'system'),
+                    'commentable_id' => $downtime->id,
+                    'commentable_type' => self::class,
+                ]);
+            }
         });
 
         static::softDeleted(function (Downtime $downtime) {
@@ -89,6 +96,7 @@ class Downtime extends \App\Models\BaseModels\AppModel
     {
         DB::transaction(function () {
             $this->aprover_id = auth()->user()->id;
+            $this->status = DowntimeStatuses::Approved;
 
             $this->saveQuietly();
 
@@ -108,6 +116,7 @@ class Downtime extends \App\Models\BaseModels\AppModel
     public function unAprove()
     {
         $this->aprover_id = null;
+        $this->status = DowntimeStatuses::Pending;
 
         $this->saveQuietly();
 

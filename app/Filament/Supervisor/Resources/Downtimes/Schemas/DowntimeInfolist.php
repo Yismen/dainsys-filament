@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Workforce\Resources\Downtimes\Schemas;
+namespace App\Filament\Supervisor\Resources\Downtimes\Schemas;
 
 use App\Models\Downtime;
 use Filament\Infolists\Components\TextEntry;

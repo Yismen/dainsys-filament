@@ -22,15 +22,8 @@ class Supervisor extends \App\Models\BaseModels\AppModel
         return $this->belongsTo(User::class);
     }
 
-    public function employees(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
+    public function employees(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasManyThrough(
-            \App\Models\Employee::class,
-            \App\Models\Hire::class,
-            'supervisor_id', // Foreign key on Hires table...
-            'id', // Foreign key on Employees table...
-            'id', // Local key on Supervisors table...
-            'employee_id' // Local key on Hires table...
-        );
+        return $this->hasMany(Employee::class);
     }
 }

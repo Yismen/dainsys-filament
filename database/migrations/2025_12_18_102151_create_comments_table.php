@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->text('text');
-            $table->integer('commentable_id')->unsigned();
+            $table->foreignUuid('commentable_id');
             $table->string('commentable_type');
             $table->softDeletes();
             $table->timestamps();

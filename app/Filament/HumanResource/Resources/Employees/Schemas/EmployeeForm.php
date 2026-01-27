@@ -2,22 +2,22 @@
 
 namespace App\Filament\HumanResource\Resources\Employees\Schemas;
 
-use App\Models\Site;
 use App\Enums\Genders;
-use App\Models\Project;
-use App\Models\Position;
-use App\Models\Supervisor;
 use App\Models\Citizenship;
-use Filament\Schemas\Schema;
+use App\Models\Position;
+use App\Models\Project;
+use App\Models\Site;
+use App\Models\Supervisor;
 use App\Services\ModelListService;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Toggle;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
-use Filament\Infolists\Components\TextEntry;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 
 class EmployeeForm
 {
@@ -29,10 +29,10 @@ class EmployeeForm
                     ->columnSpanFull()
                     ->columns(3)
                     ->schema([
-                        Section::make("Employee information")
+                        Section::make('Employee information')
                             ->columnSpan(2)
                             ->columns(2)
-                            ->schema([                        
+                            ->schema([
                                 TextEntry::make('status')
                                     ->columnSpanFull()
                                     ->badge()
@@ -87,12 +87,12 @@ class EmployeeForm
                                     ->relationship('citizenship', 'name')
                                     ->options(ModelListService::get(Citizenship::class))
                                     ->required(),
-                            
+
                             ]),
-                        Section::make("Hiring information")
+                        Section::make('Hiring information')
                             ->columnSpan(1)
                             ->schema([
-                                
+
                                 Select::make('site_id')
                                     ->relationship('site', 'name')
                                     ->searchable()
@@ -115,8 +115,8 @@ class EmployeeForm
                                     ->unique(ignoreRecord: true)
                                     ->minLength(4)
                                     ->maxLength(5),
-                            ])
-                    ])
+                            ]),
+                    ]),
             ]);
     }
 }

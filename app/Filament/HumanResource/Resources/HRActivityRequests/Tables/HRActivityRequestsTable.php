@@ -70,7 +70,7 @@ class HRActivityRequestsTable
                     ->icon('heroicon-o-check-circle')
                     ->color('success')
                     ->visible(fn ($record) => $record->status !== HRActivityRequestStatuses::Completed)
-                    ->form([
+                    ->Schema([
                         Textarea::make('comment')
                             ->required()
                             ->label('Completion Comment')
