@@ -44,9 +44,7 @@ class EmployeeResource extends Resource
 
     public static function canAccess(): bool
     {
-        $supervisor = Auth::user()?->supervisor;
-
-        return $supervisor?->is_active === true;
+        return Auth::user()->can('accessSupervisorPanel');
     }
 
     public static function getPages(): array
