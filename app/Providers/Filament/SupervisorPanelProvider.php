@@ -2,7 +2,7 @@
 
 namespace App\Providers\Filament;
 
-use App\Filament\Supervisor\Pages\Dashboard;
+use App\Filament\Supervisor\Pages\SupervisorDashboard;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -40,7 +40,7 @@ class SupervisorPanelProvider extends PanelProvider
             ->discoverPages(in: app_path('Filament/Supervisor/Pages'), for: 'App\\Filament\\Supervisor\\Pages')
             ->discoverWidgets(in: app_path('Filament/Supervisor/Widgets'), for: 'App\\Filament\\Supervisor\\Widgets')
             ->pages([
-                Dashboard::class,
+                SupervisorDashboard::class,
             ])
             ->plugins([
                 BreezyCore::make()
