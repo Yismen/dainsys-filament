@@ -99,7 +99,7 @@ class User extends Authenticatable implements FilamentUser
         }
 
         if ($panel_id === 'supervisor') {
-            return Gate::allows('accessSupervisorPanel');
+            return Gate::allows('manageSupervisor');
         }
 
         return true;

@@ -18,6 +18,7 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class DowntimeResource extends Resource
 {
@@ -28,6 +29,11 @@ class DowntimeResource extends Resource
     protected static ?string $navigationLabel = 'My Team Downtimes';
 
     protected static ?string $pluralModelLabel = 'Team Downtimes';
+
+    public static function canAccess(): bool
+    {
+        return Auth::user()->can('manageSupervisor');
+    }
 
     public static function form(Schema $schema): Schema
     {

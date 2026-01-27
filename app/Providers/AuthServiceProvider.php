@@ -58,7 +58,7 @@ class AuthServiceProvider extends ServiceProvider
             ]);
         });
 
-        Gate::define('accessSupervisorPanel', function (User $user): bool {
+        Gate::define('manageSupervisor', function (User $user): bool {
             return $user->supervisor()->where('is_active', true)->exists();
         });
 
