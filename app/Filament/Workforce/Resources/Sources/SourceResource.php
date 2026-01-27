@@ -22,7 +22,7 @@ class SourceResource extends Resource
 {
     protected static ?string $model = Source::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedGlobeAmericas;
 
     protected static ?string $recordTitleAttribute = 'name';
 

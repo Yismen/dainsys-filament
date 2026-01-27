@@ -22,7 +22,7 @@ class DowntimeResource extends Resource
 {
     protected static ?string $model = Downtime::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedArrowDownOnSquareStack;
 
     protected static ?string $recordTitleAttribute = 'id';
 

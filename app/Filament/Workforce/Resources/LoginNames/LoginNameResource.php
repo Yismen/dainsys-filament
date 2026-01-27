@@ -22,7 +22,7 @@ class LoginNameResource extends Resource
 {
     protected static ?string $model = LoginName::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedKey;
 
     protected static ?string $recordTitleAttribute = 'login_name';
 
