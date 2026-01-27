@@ -31,6 +31,16 @@ class SyncDefaultModelsJob
     protected function getDefaultModels(): array
     {
         return [
+            \App\Models\Site::class => [
+                [
+                    'name' => 'Ecco Headquarters Santiago',
+                    'description' => 'Main Office',
+                ],
+                [
+                    'name' => 'Ecco WFM Remote',
+                    'description' => 'Work From Home',
+                ],
+            ],
             \App\Models\SuspensionType::class => [
                 [
                     'name' => 'Suspension por Mutuo Acuerdo',
@@ -122,6 +132,68 @@ class SyncDefaultModelsJob
                     'name' => 'Outbound Calls',
                 ],
             ],
+            \App\Models\DowntimeReason::class => [
+                [
+                    'name' => 'Backoffice Work',
+                    'description' => 'Tasks related to backoffice work that require downtime',
+                ],
+                [
+                    'name' => 'Assisting Supervisor Tasks',
+                    'description' => 'Helping the supervisor with various tasks that require downtime',
+                ],
+                [
+                    'name' => 'Computer Issues',
+                    'description' => 'Technical problems with the computer that necessitate downtime',
+                ],
+                [
+                    'name' => 'Early Release',
+                    'description' => 'Agents released early from their shift',
+                ],
+                [
+                    'name' => 'Electricity Problems',
+                    'description' => 'Issues related to electricity that require downtime',
+                ],
+                [
+                    'name' => 'Inductions',
+                    'description' => 'HR or company inductions that require downtime',
+                ],
+                [
+                    'name' => 'Lactation Breaks',
+                    'description' => 'Breaks for lactating mothers that require downtime',
+                ],
+                [
+                    'name' => 'Team Meetings',
+                    'description' => 'Meetings held by the team that require downtime',
+                ],
+                [
+                    'name' => 'Waiting for Credentials / Login Issues',
+                    'description' => 'Issues related to waiting for credentials or login problems that require downtime',
+                ],
+                [
+                    'name' => 'Internet Connectivity Issues',
+                    'description' => 'Issues related to internet connectivity that require downtime',
+                ],
+                [
+                    'name' => 'Waiting for Leads or Campaigns Assigments',
+                    'description' => 'Waiting for leads or campaign assignments that require downtime',
+                ],
+                [
+                    'name' => 'On The Job Training',
+                    'description' => 'Training sessions that occur during work hours and require downtime',
+                ],
+                [
+                    'name' => 'QA Coaching and Feedback',
+                    'description' => 'Coaching and feedback sessions related to quality assurance that require downtime',
+                ],
+                [
+                    'name' => 'Supervisor One on One Coaching',
+                    'description' => 'Meeting with supervisor for coaching that requires downtime',
+                ],
+                [
+                    'name' => 'Training for New Hires',
+                    'description' => 'Training sessions for new hires that require downtime',
+                ],
+            ]
         ];
     }
 }
