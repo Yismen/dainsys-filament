@@ -2,6 +2,10 @@
 
 namespace App\Filament\Workforce\Resources\Campaigns\Tables;
 
+use App\Enums\RevenueTypes;
+use App\Models\Project;
+use App\Models\Source;
+use App\Services\ModelListService;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -9,6 +13,7 @@ use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 
@@ -61,6 +66,17 @@ class CampaignsTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
+                SelectFilter::make('project_id')
+                    ->label('Project')
+                    ->options(ModelListService::make(Project::query()))
+                    ->searchable(),
+                SelectFilter::make('source_id')
+                    ->label('Source')
+                    ->options(ModelListService::make(Source::query()))
+                    ->searchable(),
+                SelectFilter::make('revenue_type')
+                    ->label('Revenue Type')
+                    ->options(RevenueTypes::class),
                 TrashedFilter::make(),
             ])
             ->recordActions([

@@ -2,17 +2,18 @@
 
 namespace App\Filament\Workforce\Resources\Employees\Tables;
 
-use App\Filament\Resources\Employees\Tables\EmployeeTableFilters;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
+use Filament\Tables\Table;
 use Filament\Actions\EditAction;
-use Filament\Actions\ForceDeleteBulkAction;
-use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
 use Filament\Support\Enums\Width;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\RestoreBulkAction;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
-use Filament\Tables\Table;
+use Filament\Actions\ForceDeleteBulkAction;
+use App\Filament\Resources\Employees\Tables\EmployeeTableFilters;
 
 class EmployeesTable
 {
@@ -35,8 +36,7 @@ class EmployeesTable
                 TextColumn::make('status')
                     ->sortable()
                     ->searchable(),
-                TextColumn::make('has_kids')
-                    ->boolean()
+                IconColumn::make('has_kids')
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('site.name')
                     ->wrap()
