@@ -34,6 +34,8 @@ class WorkforcePanelProvider extends PanelProvider
             // ->registration()
             ->passwordReset()
             ->emailVerification()
+            ->sidebarCollapsibleOnDesktop()
+            ->sidebarFullyCollapsibleOnDesktop()
             ->spa()
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->discoverResources(in: app_path('Filament/Workforce/Resources'), for: 'App\Filament\Workforce\Resources')
