@@ -17,16 +17,22 @@ class SiteForm
                     ->maxLength(255)
                     ->unique(ignoreRecord: true)
                     ->autofocus(),
-                TextInput::make('person_of_contact'),
+                TextInput::make('person_of_contact')
+                    ->nullable(),
                 TextInput::make('phone')
-                    ->tel(),
+                    ->tel()
+                    ->nullable(),
                 TextInput::make('email')
+                    ->nullable()
                     ->email(),
-                TextInput::make('geolocation'),
+                TextInput::make('geolocation')
+                    ->nullable(),
                 Textarea::make('address')
+                    ->nullable()
                     ->columnSpanFull(),
                 Textarea::make('description')
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->nullable(),
             ]);
     }
 }
