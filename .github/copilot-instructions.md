@@ -492,6 +492,7 @@ $pages->assertNoJavascriptErrors()->assertNoConsoleLogs();
 - Filament is a Server-Driven UI (SDUI) framework for Laravel that lets you define user interfaces in PHP using structured configuration objects. Built on Livewire, Alpine.js, and Tailwind CSS.
 - Use the `search-docs` tool for official documentation on Artisan commands, code examples, testing, relationships, and idiomatic practices.
 - Use `filters` instead of `tableFilters` to define table filters.
+- Avoid using the `->preload()` method. Instead use `->options()` and pass `ModelListService` with a reference to the related model. 
 
 ### Artisan
 
