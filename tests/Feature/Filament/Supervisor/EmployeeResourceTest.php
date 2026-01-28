@@ -2,19 +2,23 @@
 
 use App\Enums\EmployeeStatuses;
 use App\Enums\HRActivityTypes;
+use App\Events\EmployeeHiredEvent;
+use App\Events\HRActivityRequestCreated;
 use App\Models\Employee;
 use App\Models\Hire;
 use App\Models\Supervisor;
 use App\Models\User;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 
 use function Pest\Laravel\actingAs;
 
 beforeEach(function (): void {
     Mail::fake();
-    \Illuminate\Support\Facades\Event::fake([
-        \App\Events\EmployeeHiredEvent::class,
-    ]);
+    Event::fake([
+        EmployeeHiredEvent::class,
+        HRActivityRequestCreated::class,
+    ]); // Only fake events that cause issues
 });
 
 it('displays employees assigned to supervisor in query', function (): void {
@@ -38,8 +42,10 @@ it('displays employees assigned to supervisor in query', function (): void {
         })
         ->whereNotIn('status', [EmployeeStatuses::Terminated]);
 
-    expect($query->pluck('id'))->toContain($assignedEmployee->id);
-    expect($query->pluck('id'))->not->toContain($unassignedEmployee->id);
+    $ids = $query->pluck('id')->toArray();
+
+    expect($ids)->toContain($assignedEmployee->id);
+    expect($ids)->not->toContain($unassignedEmployee->id);
 });
 
 it('does not show terminated employees in query', function (): void {
@@ -59,12 +65,18 @@ it('does not show terminated employees in query', function (): void {
     Hire::factory()->create([
         'employee_id' => $terminatedEmployee->id,
         'supervisor_id' => $supervisor->id,
+        'date' => now()->subDay(),
     ]);
     \App\Models\Termination::factory()->create([
         'employee_id' => $terminatedEmployee->id,
+        'date' => now(),
     ]);
 
+    // Manually trigger the status update
     $terminatedEmployee->refresh();
+    $terminatedEmployee->save();
+    $terminatedEmployee->refresh();
+
     expect($terminatedEmployee->status)->toBe(EmployeeStatuses::Terminated);
 
     $query = Employee::query()

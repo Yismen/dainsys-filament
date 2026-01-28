@@ -4,8 +4,10 @@ use App\Enums\HRActivityTypes;
 use App\Models\Employee;
 use App\Models\HRActivityRequest;
 use App\Models\Supervisor;
+use Illuminate\Support\Facades\Event;
 
 test('hr activity request model interacts with db table', function () {
+    Event::fake();
     $data = HRActivityRequest::factory()->make();
 
     HRActivityRequest::create($data->toArray());
@@ -18,6 +20,7 @@ test('hr activity request model interacts with db table', function () {
 });
 
 test('hr activity request belongs to employee', function () {
+    Event::fake();
     $request = HRActivityRequest::factory()->create();
 
     expect($request->employee)->toBeInstanceOf(Employee::class);
@@ -25,6 +28,7 @@ test('hr activity request belongs to employee', function () {
 });
 
 test('hr activity request belongs to supervisor', function () {
+    Event::fake();
     $request = HRActivityRequest::factory()->create();
 
     expect($request->supervisor)->toBeInstanceOf(Supervisor::class);

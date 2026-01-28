@@ -8,15 +8,29 @@ use App\Mail\HRActivityRequestCompletedMail;
 use App\Mail\HRActivityRequestCreatedMail;
 use App\Models\HRActivityRequest;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
-use Spatie\Permission\Models\Role;
 
 beforeEach(function (): void {
     Mail::fake();
+    Event::fake(); // Prevent automatic listener execution
 
-    // Create roles
-    Role::firstOrCreate(['name' => 'Human Resource Manager']);
-    Role::firstOrCreate(['name' => 'Human Resource Agent']);
+    // Create roles with proper UUIDs using DB::table
+    DB::table('roles')->insert([
+        'id' => \Illuminate\Support\Str::uuid()->toString(),
+        'name' => 'Human Resource Manager',
+        'guard_name' => 'web',
+        'created_at' => now(),
+        'updated_at' => now(),
+    ]);
+    DB::table('roles')->insert([
+        'id' => \Illuminate\Support\Str::uuid()->toString(),
+        'name' => 'Human Resource Agent',
+        'guard_name' => 'web',
+        'created_at' => now(),
+        'updated_at' => now(),
+    ]);
 });
 
 test('hr activity request created notification sends emails to supervisor and hr staff', function () {
@@ -34,18 +48,18 @@ test('hr activity request created notification sends emails to supervisor and hr
 
     $listener->handle($event);
 
-    // Should send to supervisor
-    Mail::assertSent(HRActivityRequestCreatedMail::class, function ($mail) use ($request) {
+    // Should queue mail to supervisor
+    Mail::assertQueued(HRActivityRequestCreatedMail::class, function ($mail) use ($request) {
         return $mail->hasTo($request->supervisor->user->email);
     });
 
-    // Should send to HR Manager
-    Mail::assertSent(HRActivityRequestCreatedMail::class, function ($mail) use ($hrManager) {
+    // Should queue mail to HR Manager
+    Mail::assertQueued(HRActivityRequestCreatedMail::class, function ($mail) use ($hrManager) {
         return $mail->hasTo($hrManager->email);
     });
 
-    // Should send to HR Agent
-    Mail::assertSent(HRActivityRequestCreatedMail::class, function ($mail) use ($hrAgent) {
+    // Should queue mail to HR Agent
+    Mail::assertQueued(HRActivityRequestCreatedMail::class, function ($mail) use ($hrAgent) {
         return $mail->hasTo($hrAgent->email);
     });
 });
@@ -66,18 +80,18 @@ test('hr activity request completed notification sends emails to supervisor and 
 
     $listener->handle($event);
 
-    // Should send to supervisor
-    Mail::assertSent(HRActivityRequestCompletedMail::class, function ($mail) use ($request) {
+    // Should queue mail to supervisor
+    Mail::assertQueued(HRActivityRequestCompletedMail::class, function ($mail) use ($request) {
         return $mail->hasTo($request->supervisor->user->email);
     });
 
-    // Should send to HR Manager
-    Mail::assertSent(HRActivityRequestCompletedMail::class, function ($mail) use ($hrManager) {
+    // Should queue mail to HR Manager
+    Mail::assertQueued(HRActivityRequestCompletedMail::class, function ($mail) use ($hrManager) {
         return $mail->hasTo($hrManager->email);
     });
 
-    // Should send to HR Agent
-    Mail::assertSent(HRActivityRequestCompletedMail::class, function ($mail) use ($hrAgent) {
+    // Should queue mail to HR Agent
+    Mail::assertQueued(HRActivityRequestCompletedMail::class, function ($mail) use ($hrAgent) {
         return $mail->hasTo($hrAgent->email);
     });
 });

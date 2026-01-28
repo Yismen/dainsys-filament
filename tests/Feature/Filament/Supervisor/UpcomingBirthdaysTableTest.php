@@ -1,16 +1,23 @@
 <?php
 
+use App\Events\EmployeeHiredEvent;
+use App\Filament\Supervisor\Widgets\UpcomingBirthdaysTable;
 use App\Models\Employee;
 use App\Models\Hire;
 use App\Models\Supervisor;
 use App\Models\User;
 use Filament\Facades\Filament;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Mail;
+use Livewire\Livewire;
 
 use function Pest\Laravel\actingAs;
-use function Pest\Laravel\get;
 
 beforeEach(function (): void {
+    Mail::fake();
+    Event::fake([EmployeeHiredEvent::class]);
+
     Filament::setCurrentPanel(
         Filament::getPanel('supervisor'),
     );
@@ -41,9 +48,7 @@ it('shows upcoming birthdays within ten days', function (): void {
 
     actingAs($user);
 
-    $response = get(route('filament.supervisor.pages.dashboard'));
-
-    $response->assertOk();
-    $response->assertSee($soonBirthday->full_name);
-    $response->assertDontSee($laterBirthday->full_name);
+    Livewire::test(UpcomingBirthdaysTable::class)
+        ->assertSee($soonBirthday->full_name)
+        ->assertDontSee($laterBirthday->full_name);
 });

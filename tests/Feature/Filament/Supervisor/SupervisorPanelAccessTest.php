@@ -14,7 +14,7 @@ beforeEach(function (): void {
 });
 
 it('requires authentication to access the supervisor dashboard', function (): void {
-    $response = get(route('filament.supervisor.pages.dashboard'));
+    $response = get(route('filament.supervisor.pages.supervisor-dashboard'));
 
     $response->assertRedirect(route('filament.supervisor.auth.login'));
 });
@@ -22,7 +22,7 @@ it('requires authentication to access the supervisor dashboard', function (): vo
 it('forbids users without supervisor records', function (): void {
     actingAs(User::factory()->create());
 
-    $response = get(route('filament.supervisor.pages.dashboard'));
+    $response = get(route('filament.supervisor.pages.supervisor-dashboard'));
 
     $response->assertForbidden();
 });
@@ -36,7 +36,7 @@ it('forbids users with inactive supervisor records', function (): void {
 
     actingAs($user);
 
-    $response = get(route('filament.supervisor.pages.dashboard'));
+    $response = get(route('filament.supervisor.pages.supervisor-dashboard'));
 
     $response->assertForbidden();
 });
@@ -50,7 +50,7 @@ it('allows users with active supervisor records', function (): void {
 
     actingAs($user);
 
-    $response = get(route('filament.supervisor.pages.dashboard'));
+    $response = get(route('filament.supervisor.pages.supervisor-dashboard'));
 
     $response->assertOk();
 });

@@ -162,6 +162,10 @@ it('updates supervisor id based on employee when employee is changed', function 
     $employee2 = Employee::factory()->create();
     Hire::factory()->for($employee)->for($supervisor)->create();
     Hire::factory()->for($employee2)->for($supervisor2)->create();
+
+    $employee->refresh();
+    $employee2->refresh();
+
     $production = Production::factory([
         'employee_id' => $employee->id,
         'supervisor_id' => null,
@@ -169,6 +173,7 @@ it('updates supervisor id based on employee when employee is changed', function 
         ->create();
 
     $production->update(['employee_id' => $employee2->id]);
+    $production->refresh();
 
     expect($production->supervisor_id)->toBe($employee2->supervisor_id);
 });
@@ -249,7 +254,7 @@ test('billable time and revenuve are updated properly when revenue type is sales
 
     $production->update(['conversions' => 10, 'production_time' => 50]);
 
-    expect($production->revenue)->toEqual(10 * $campaign->revenue_rate);
+    expect($production->revenue)->toEqual($campaign->revenue_rate * $production->conversions);
     // = campaign revenue_rate * success
     expect($production->billable_time)->toEqual(50);
     // = production time

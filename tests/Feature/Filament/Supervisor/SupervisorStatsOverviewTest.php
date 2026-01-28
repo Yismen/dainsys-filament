@@ -1,17 +1,24 @@
 <?php
 
 use App\Enums\EmployeeStatuses;
+use App\Events\EmployeeHiredEvent;
+use App\Filament\Supervisor\Widgets\SupervisorStatsOverview;
 use App\Models\Employee;
 use App\Models\Hire;
 use App\Models\Supervisor;
 use App\Models\Suspension;
 use App\Models\User;
 use Filament\Facades\Filament;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Mail;
+use Livewire\Livewire;
 
 use function Pest\Laravel\actingAs;
-use function Pest\Laravel\get;
 
 beforeEach(function (): void {
+    Mail::fake();
+    Event::fake([EmployeeHiredEvent::class]);
+
     Filament::setCurrentPanel(
         Filament::getPanel('supervisor'),
     );
@@ -40,6 +47,7 @@ it('shows counts for assigned employees', function (): void {
     Hire::factory()->create([
         'employee_id' => $suspendedEmployee->id,
         'supervisor_id' => $supervisor->id,
+        'date' => now()->subDays(10),
     ]);
     Suspension::factory()->create([
         'employee_id' => $suspendedEmployee->id,
@@ -52,13 +60,11 @@ it('shows counts for assigned employees', function (): void {
 
     actingAs($user);
 
-    $response = get(route('filament.supervisor.pages.dashboard'));
-
-    $response->assertOk();
-    $response->assertSee('Total Employees');
-    $response->assertSee('3');
-    $response->assertSee('Active Employees');
-    $response->assertSee('2');
-    $response->assertSee('Suspended Employees');
-    $response->assertSee('1');
+    Livewire::test(SupervisorStatsOverview::class)
+        ->assertSee('Total Employees')
+        ->assertSee('3')
+        ->assertSee('Active Employees')
+        ->assertSee('2')
+        ->assertSee('Suspended Employees')
+        ->assertSee('1');
 });

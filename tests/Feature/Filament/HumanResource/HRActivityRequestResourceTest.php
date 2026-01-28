@@ -2,22 +2,31 @@
 
 use App\Enums\HRActivityRequestStatuses;
 use App\Models\HRActivityRequest;
+use App\Models\Role;
 use App\Models\User;
+use Filament\Facades\Filament;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
-use Spatie\Permission\Models\Role;
 
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
     Mail::fake();
-    Event::fake();
+    Event::fake([
+        \App\Events\EmployeeHiredEvent::class,
+        \App\Events\EmployeeTerminatedEvent::class,
+    ]);
 
-    // Create role
-    Role::firstOrCreate(['name' => 'Human Resource Manager']);
+    Filament::setCurrentPanel(
+        Filament::getPanel('human-resource')
+    );
+
+    // Create roles using Role model for proper UUID generation
+    Role::firstOrCreate(['name' => 'Human Resource Manager'], ['guard_name' => 'web']);
+    Role::firstOrCreate(['name' => 'Human Resource Agent'], ['guard_name' => 'web']);
 
     $this->hrUser = User::factory()->create();
-    $this->hrUser->assignRole('Human Resource Manager');
+    $this->hrUser->assignRole('Human Resource Agent');
 
     $this->actingAs($this->hrUser);
 });
@@ -49,11 +58,12 @@ test('hr can filter requests by status', function () {
 
 test('hr can view individual request', function () {
     $request = HRActivityRequest::factory()->create();
+    $request->load('employee', 'supervisor');
 
     livewire(\App\Filament\HumanResource\Resources\HRActivityRequests\Pages\ViewHRActivityRequest::class, ['record' => $request->id])
         ->assertSuccessful()
         ->assertSee($request->employee->full_name)
-        ->assertSee($request->supervisor->full_name)
+        ->assertSee($request->supervisor->name)
         ->assertSee($request->activity_type->value);
 });
 
@@ -63,7 +73,7 @@ test('hr can complete a request with comment', function () {
     ]);
 
     livewire(\App\Filament\HumanResource\Resources\HRActivityRequests\Pages\ListHRActivityRequests::class)
-        ->callAction('complete', $request, data: [
+        ->callTableAction('complete', $request, data: [
             'comment' => 'Request completed successfully',
         ])
         ->assertNotified();

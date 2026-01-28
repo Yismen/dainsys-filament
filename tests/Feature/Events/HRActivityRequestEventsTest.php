@@ -25,6 +25,8 @@ test('hr activity request completed event is dispatched when marked as completed
 });
 
 test('marking request as completed updates status and timestamps', function () {
+    Event::fake(); // Fake all events to prevent listeners from querying non-existent roles
+
     $request = HRActivityRequest::factory()->create([
         'status' => HRActivityRequestStatuses::Requested,
     ]);
