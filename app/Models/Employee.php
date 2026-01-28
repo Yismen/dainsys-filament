@@ -81,6 +81,9 @@ class Employee extends \App\Models\BaseModels\AppModel
         });
 
         static::saved(function (Employee $employee) {
+            // Reload relationships to ensure we have fresh data
+            $employee->load(['hires', 'terminations', 'suspensions']);
+
             $fullName = $employee->getFullName();
             $status = $employee->getStatus();
 
