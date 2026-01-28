@@ -57,8 +57,10 @@ class MailableResource extends Resource
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('description')
+                    ->sortable()
                     ->searchable(),
                 TextColumn::make('users.name')
+                    ->wrap()
                     ->searchable()
                     ->badge(),
                 TextColumn::make('created_at')

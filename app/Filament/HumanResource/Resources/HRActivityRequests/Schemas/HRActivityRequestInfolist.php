@@ -18,7 +18,7 @@ class HRActivityRequestInfolist
                             ->label('ID'),
                         TextEntry::make('employee.full_name')
                             ->label('Employee'),
-                        TextEntry::make('supervisor.full_name')
+                        TextEntry::make('supervisor.name')
                             ->label('Supervisor'),
                         TextEntry::make('activity_type')
                             ->badge(),

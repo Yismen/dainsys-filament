@@ -8,6 +8,8 @@ use Filament\Pages\Dashboard as BaseDashboard;
 
 class SupervisorDashboard extends BaseDashboard
 {
+    protected static string $routePath = '/';
+
     public function getWidgets(): array
     {
         return [

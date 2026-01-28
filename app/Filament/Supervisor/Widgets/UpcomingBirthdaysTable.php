@@ -49,8 +49,7 @@ class UpcomingBirthdaysTable extends BaseWidget
             ->all();
 
         return Employee::query()
-            ->whereKey($upcomingIds)
-            ->orderByRaw('MONTH(date_of_birth), DAY(date_of_birth)');
+            ->whereKey($upcomingIds);
     }
 
     public function table(Table $table): Table
@@ -62,13 +61,15 @@ class UpcomingBirthdaysTable extends BaseWidget
                     ->searchable(),
                 TextColumn::make('date_of_birth')
                     ->date('M d')
-                    ->label('Birthday'),
+                    ->label('Birthday')
+                    ->sortable(),
                 BadgeColumn::make('status')
                     ->colors([
                         'warning' => EmployeeStatuses::Suspended,
                         'success' => EmployeeStatuses::Hired,
                     ]),
             ])
+            ->defaultSort('date_of_birth', 'asc')
             ->emptyStateHeading('No upcoming birthdays')
             ->paginated(false);
     }
