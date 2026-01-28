@@ -193,7 +193,7 @@ class SyncDefaultModelsJob
                     'name' => 'Training for New Hires',
                     'description' => 'Training sessions for new hires that require downtime',
                 ],
-            ]
+            ],
         ];
     }
 }

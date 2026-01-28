@@ -2,9 +2,9 @@
 
 namespace App\Services\HC;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 
 class HeadCountService
 {
@@ -47,8 +47,8 @@ class HeadCountService
     protected function getResultQuery(): Builder
     {
         $query = self::$model;
-        
-        $resultQuery =  $query
+
+        $resultQuery = $query
             ->withCount('employees')
             ->withWhereHas('employees', function ($employeeQuery) {
                 $employeeQuery

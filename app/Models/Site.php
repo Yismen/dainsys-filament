@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Site extends \App\Models\BaseModels\AppModel
 {
+    use HasManyEmployees;
     use HasManyHires;
     use SoftDeletes;
-    use HasManyEmployees;
 
     protected $fillable = ['name', 'person_of_contact', 'phone', 'email', 'address', 'geolocation', 'description'];
 }

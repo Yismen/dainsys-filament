@@ -181,7 +181,7 @@ it('sync default models seeds', function () {
                 'name' => 'Training for New Hires',
                 'description' => 'Training sessions for new hires that require downtime',
             ],
-        ]
+        ],
     ];
 
     $this->artisan('dainsys:sync-default-models-seed');

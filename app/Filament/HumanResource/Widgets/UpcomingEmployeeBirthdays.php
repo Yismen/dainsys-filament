@@ -15,6 +15,7 @@ class UpcomingEmployeeBirthdays extends TableWidget
     protected static ?string $heading = 'Upcoming Employee Birthdays';
 
     protected int|string|array $columnSpan = 'full';
+
     protected ?string $pollingInterval = null;
 
     public function table(Table $table): Table

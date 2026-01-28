@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Cache;
 class EmployeesStats extends BaseWidget
 {
     use InteractsWithPageFilters;
+
     protected ?string $pollingInterval = null;
 
     protected function getStats(): array

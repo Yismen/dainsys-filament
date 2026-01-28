@@ -11,7 +11,7 @@ use Filament\Widgets\StatsOverviewWidget\Stat;
 class HRActivityRequestStats extends StatsOverviewWidget
 {
     protected ?string $heading = 'HR Activity Requests';
-    
+
     protected ?string $pollingInterval = null;
 
     protected function getStats(): array

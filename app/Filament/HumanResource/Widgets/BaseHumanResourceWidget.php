@@ -41,7 +41,7 @@ abstract class BaseHumanResourceWidget extends ChartWidget
         );
 
         \Illuminate\Support\Facades\Log::info($service);
-        
+
         return [
             'datasets' => [
                 [

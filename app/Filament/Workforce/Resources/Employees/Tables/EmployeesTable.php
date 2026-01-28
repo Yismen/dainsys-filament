@@ -2,18 +2,18 @@
 
 namespace App\Filament\Workforce\Resources\Employees\Tables;
 
-use Filament\Tables\Table;
-use Filament\Actions\EditAction;
-use Filament\Actions\ViewAction;
-use Filament\Support\Enums\Width;
+use App\Filament\Resources\Employees\Tables\EmployeeTableFilters;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
+use Filament\Actions\ViewAction;
+use Filament\Support\Enums\Width;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
-use Filament\Actions\ForceDeleteBulkAction;
-use App\Filament\Resources\Employees\Tables\EmployeeTableFilters;
+use Filament\Tables\Table;
 
 class EmployeesTable
 {

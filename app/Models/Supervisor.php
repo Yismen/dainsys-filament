@@ -9,8 +9,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Supervisor extends \App\Models\BaseModels\AppModel
 {
-    use HasManyHires;
     use HasManyEmployees;
+    use HasManyHires;
     use SoftDeletes;
 
     protected $fillable = ['name', 'description', 'user_id', 'is_active'];

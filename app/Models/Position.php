@@ -12,8 +12,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Position extends \App\Models\BaseModels\AppModel
 {
     use BelongsToDepartment;
-    use HasManyHires;
     use HasManyEmployees;
+    use HasManyHires;
     use SoftDeletes;
 
     protected $fillable = ['name', 'department_id', 'salary_type', 'salary', 'description'];

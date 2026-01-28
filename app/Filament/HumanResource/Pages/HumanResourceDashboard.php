@@ -2,29 +2,26 @@
 
 namespace App\Filament\HumanResource\Pages;
 
-use App\Models\Site;
-use App\Models\Project;
-use App\Models\Supervisor;
-use Filament\Schemas\Schema;
-use Filament\Pages\Dashboard;
-use App\Services\ModelListService;
-use Filament\Forms\Components\Select;
-use Filament\Schemas\Components\Section;
-use Filament\Pages\Dashboard\Actions\FilterAction;
-use Filament\Pages\Dashboard\Concerns\HasFiltersForm;
 use App\Filament\HumanResource\Widgets\EmployeesStats;
-use App\Filament\HumanResource\Widgets\HeadCountBySite;
-use Filament\Pages\Dashboard\Concerns\HasFiltersAction;
-use App\Filament\HumanResource\Widgets\HeadCountByProject;
 use App\Filament\HumanResource\Widgets\HeadCountByPosition;
+use App\Filament\HumanResource\Widgets\HeadCountByProject;
+use App\Filament\HumanResource\Widgets\HeadCountBySite;
 use App\Filament\HumanResource\Widgets\HeadCountBySupervisor;
 use App\Filament\HumanResource\Widgets\HRActivityRequestStats;
 use App\Filament\HumanResource\Widgets\UpcomingEmployeeBirthdays;
+use App\Models\Project;
+use App\Models\Site;
+use App\Models\Supervisor;
+use App\Services\ModelListService;
+use Filament\Forms\Components\Select;
+use Filament\Pages\Dashboard;
+use Filament\Pages\Dashboard\Concerns\HasFiltersForm;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 
 class HumanResourceDashboard extends Dashboard
 {
     use HasFiltersForm;
-    
 
     #[\Livewire\Attributes\On('livewire:init')]
     public function applyDefaultFilters(): void
