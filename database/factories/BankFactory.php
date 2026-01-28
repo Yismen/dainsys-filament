@@ -27,7 +27,7 @@ class BankFactory extends Factory
         return [
             'name' => $this->faker->company(),
             'person_of_contact' => $this->faker->name(),
-            'phone' => $this->faker->phoneNumber(),
+            'phone' => $this->faker->numerify('809#######'),
             'email' => $this->faker->email(),
             'description' => $this->faker->text(),
         ];
