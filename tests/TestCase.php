@@ -25,7 +25,7 @@ abstract class TestCase extends BaseTestCase
         return $user;
     }
 
-    public function createUserWithPermissionsToActions(array $actions, string $model_name): AuthUser
+    public function createFilamentPanelManager()
     {
         $filamentPanel = Filament::getCurrentPanel()->getId() ?? null;
 
@@ -37,6 +37,13 @@ abstract class TestCase extends BaseTestCase
         $user = User::factory()->create();
 
         $user->assignRole($role);
+
+        return $user;
+    }
+
+    public function createUserWithPermissionsToActions(array $actions, string $model_name): AuthUser
+    {
+        $user = $this->createFilamentPanelManager();
 
         foreach ($actions as $action) {
             $permissionName = str($action)->camel().' '.str($model_name)->camel();

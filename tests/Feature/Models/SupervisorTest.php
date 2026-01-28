@@ -38,7 +38,7 @@ test('supervisor model has many employees', function () {
         ->create();
 
     expect($supervisor->employees->first())->toBeInstanceOf(Employee::class);
-    expect($supervisor->employees())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasManyThrough::class);
+    expect($supervisor->employees())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
 });
 
 test('supervisor model belongs to user', function () {

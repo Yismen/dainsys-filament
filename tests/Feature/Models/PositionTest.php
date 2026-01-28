@@ -65,7 +65,7 @@ test('position model has many employees', function () {
         ->create();
 
     expect($position->employees->first())->toBeInstanceOf(Employee::class);
-    expect($position->employees())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasManyThrough::class);
+    expect($position->employees())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
 });
 
 it('updates the description field', function () {

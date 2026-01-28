@@ -57,5 +57,5 @@ test('projects model has many employees', function () {
         ->create();
 
     expect($project->employees->first())->toBeInstanceOf(Employee::class);
-    expect($project->employees())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasManyThrough::class);
+    expect($project->employees())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
 });
