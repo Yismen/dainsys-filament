@@ -36,6 +36,7 @@ class Employee extends \App\Models\BaseModels\AppModel
         'second_first_name',
         'last_name',
         'second_last_name',
+        'full_name',
         'personal_id_type',
         'personal_id',
         'date_of_birth',
@@ -52,6 +53,7 @@ class Employee extends \App\Models\BaseModels\AppModel
         'supervisor_id',
         'hired_at',
         'internal_id',
+        'status',
     ];
 
     protected $casts = [
@@ -79,10 +81,16 @@ class Employee extends \App\Models\BaseModels\AppModel
         });
 
         static::saved(function (Employee $employee) {
-            $employee->full_name = $employee->getFullName();
-            $employee->status = $employee->getStatus();
+            $fullName = $employee->getFullName();
+            $status = $employee->getStatus();
 
-            $employee->saveQuietly();
+            // Only save if values have actually changed
+            if ($employee->full_name !== $fullName || $employee->status !== $status) {
+                $employee->updateQuietly([
+                    'full_name' => $fullName,
+                    'status' => $status,
+                ]);
+            }
         });
     }
 
