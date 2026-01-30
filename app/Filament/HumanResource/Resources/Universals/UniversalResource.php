@@ -2,7 +2,6 @@
 
 namespace App\Filament\HumanResource\Resources\Universals;
 
-use App\Filament\HumanResource\Clusters\EmployeesManagement\EmployeesManagementCluster;
 use App\Filament\HumanResource\Resources\Universals\Pages\CreateUniversal;
 use App\Filament\HumanResource\Resources\Universals\Pages\EditUniversal;
 use App\Filament\HumanResource\Resources\Universals\Pages\ListUniversals;
@@ -23,11 +22,11 @@ class UniversalResource extends Resource
 {
     protected static ?string $model = Universal::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedGlobeAlt;
 
     protected static ?string $recordTitleAttribute = 'employee_id';
 
-    protected static ?string $cluster = EmployeesManagementCluster::class;
+    protected static \UnitEnum|string|null $navigationGroup = \App\Filament\HumanResource\Enums\HRNavigationEnum::EMPLOYEES_MANAGEMENT;
 
     protected static ?int $navigationSort = 5;
 

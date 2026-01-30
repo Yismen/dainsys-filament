@@ -2,7 +2,6 @@
 
 namespace App\Filament\HumanResource\Resources\Terminations;
 
-use App\Filament\HumanResource\Clusters\EmployeesManagement\EmployeesManagementCluster;
 use App\Filament\HumanResource\Resources\Terminations\Pages\CreateTermination;
 use App\Filament\HumanResource\Resources\Terminations\Pages\EditTermination;
 use App\Filament\HumanResource\Resources\Terminations\Pages\ListTerminations;
@@ -25,11 +24,11 @@ class TerminationResource extends Resource
 {
     protected static ?string $model = Termination::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedStop;
 
     protected static ?string $recordTitleAttribute = 'id';
 
-    protected static ?string $cluster = EmployeesManagementCluster::class;
+    protected static \UnitEnum|string|null $navigationGroup = \App\Filament\HumanResource\Enums\HRNavigationEnum::EMPLOYEES_MANAGEMENT;
 
     protected static ?int $navigationSort = 3;
 

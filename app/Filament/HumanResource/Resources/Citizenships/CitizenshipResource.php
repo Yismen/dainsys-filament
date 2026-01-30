@@ -2,7 +2,6 @@
 
 namespace App\Filament\HumanResource\Resources\Citizenships;
 
-use App\Filament\HumanResource\Clusters\EmployeesManagement\EmployeesManagementCluster;
 use App\Filament\HumanResource\Resources\Citizenships\Pages\CreateCitizenship;
 use App\Filament\HumanResource\Resources\Citizenships\Pages\EditCitizenship;
 use App\Filament\HumanResource\Resources\Citizenships\Pages\ListCitizenships;
@@ -23,11 +22,11 @@ class CitizenshipResource extends Resource
 {
     protected static ?string $model = Citizenship::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedFlag;
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static ?string $cluster = EmployeesManagementCluster::class;
+    protected static \UnitEnum|string|null $navigationGroup = \App\Filament\HumanResource\Enums\HRNavigationEnum::EMPLOYEES_MANAGEMENT;
 
     protected static ?int $navigationSort = 4;
 

@@ -2,7 +2,6 @@
 
 namespace App\Filament\HumanResource\Resources\Positions;
 
-use App\Filament\HumanResource\Clusters\HrManagement\HrManagementCluster;
 use App\Filament\HumanResource\Resources\Positions\Pages\CreatePosition;
 use App\Filament\HumanResource\Resources\Positions\Pages\EditPosition;
 use App\Filament\HumanResource\Resources\Positions\Pages\ListPositions;
@@ -27,7 +26,7 @@ class PositionResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static ?string $cluster = HrManagementCluster::class;
+    protected static \UnitEnum|string|null $navigationGroup = \App\Filament\HumanResource\Enums\HRNavigationEnum::HR_MANAGEMENT;
 
     public static function form(Schema $schema): Schema
     {

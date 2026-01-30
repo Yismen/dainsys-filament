@@ -2,7 +2,6 @@
 
 namespace App\Filament\HumanResource\Resources\Projects;
 
-use App\Filament\HumanResource\Clusters\HrManagement\HrManagementCluster;
 use App\Filament\HumanResource\Resources\Projects\Pages\CreateProject;
 use App\Filament\HumanResource\Resources\Projects\Pages\EditProject;
 use App\Filament\HumanResource\Resources\Projects\Pages\ListProjects;
@@ -27,7 +26,7 @@ class ProjectResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static ?string $cluster = HrManagementCluster::class;
+    protected static \UnitEnum|string|null $navigationGroup = \App\Filament\HumanResource\Enums\HRNavigationEnum::HR_MANAGEMENT;
 
     public static function form(Schema $schema): Schema
     {

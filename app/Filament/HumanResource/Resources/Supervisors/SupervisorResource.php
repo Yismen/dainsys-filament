@@ -2,7 +2,6 @@
 
 namespace App\Filament\HumanResource\Resources\Supervisors;
 
-use App\Filament\HumanResource\Clusters\EmployeesManagement\EmployeesManagementCluster;
 use App\Filament\HumanResource\Resources\Supervisors\Pages\CreateSupervisor;
 use App\Filament\HumanResource\Resources\Supervisors\Pages\EditSupervisor;
 use App\Filament\HumanResource\Resources\Supervisors\Pages\ListSupervisors;
@@ -23,11 +22,11 @@ class SupervisorResource extends Resource
 {
     protected static ?string $model = Supervisor::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCamera;
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static ?string $cluster = EmployeesManagementCluster::class;
+    protected static \UnitEnum|string|null $navigationGroup = \App\Filament\HumanResource\Enums\HRNavigationEnum::EMPLOYEES_MANAGEMENT;
 
     protected static ?int $navigationSort = 5;
 

@@ -2,20 +2,19 @@
 
 namespace App\Filament\Workforce\Pages;
 
-use \BackedEnum;
 use App\Models\Employee;
-use Filament\Pages\Page;
 use App\Models\Supervisor;
-use Filament\Actions\Action;
-use Livewire\Attributes\Computed;
 use App\Services\ModelListService;
-use Illuminate\Support\Collection;
-use Filament\Support\Icons\Heroicon;
-use Filament\Forms\Components\Select;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Database\Eloquent\Builder;
+use BackedEnum;
+use Filament\Actions\Action;
 use Filament\Actions\Concerns\InteractsWithActions;
+use Filament\Forms\Components\Select;
+use Filament\Pages\Page;
 use Filament\Schemas\Concerns\InteractsWithSchemas;
+use Filament\Support\Icons\Heroicon;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
+use Livewire\Attributes\Computed;
 
 class ManageSupervisors extends Page
 {
@@ -24,7 +23,7 @@ class ManageSupervisors extends Page
 
     protected string $view = 'filament.workforce.pages.manage-supervisors';
 
-    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedBattery50;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBattery50;
 
     public array $selectedEmployees = [];
 
@@ -122,8 +121,8 @@ class ManageSupervisors extends Page
         $employeeIds = $this->activeSupervisors()->firstWhere('id', $supervisor)->employees->pluck('id')->toArray();
         // $selectedEmployeeIds = array_map('intval', $this->selectedEmployees);
 
-            // Add all employees from this supervisor
-            $this->selectedEmployees = array_unique(array_merge($this->selectedEmployees, $employeeIds));
+        // Add all employees from this supervisor
+        $this->selectedEmployees = array_unique(array_merge($this->selectedEmployees, $employeeIds));
         $this->selectedEmployees = array_values($this->selectedEmployees);
     }
 

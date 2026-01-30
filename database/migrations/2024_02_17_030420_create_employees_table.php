@@ -25,7 +25,7 @@ return new class extends Migration
             $table->date('date_of_birth');
             $table->string('cellphone', 20)->unique();
             $table->string('secondary_phone', 20)->nullable();
-            $table->string('email', 200)->unique();
+            $table->string('email', 200)->nullable()->unique();
             $table->text('address');
             $table->string('status')->nullable();
             // $table->string('marriage')->default(MaritalStatus::Single);

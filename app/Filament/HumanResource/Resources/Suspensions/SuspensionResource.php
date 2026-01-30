@@ -2,7 +2,6 @@
 
 namespace App\Filament\HumanResource\Resources\Suspensions;
 
-use App\Filament\HumanResource\Clusters\EmployeesManagement\EmployeesManagementCluster;
 use App\Filament\HumanResource\Resources\Suspensions\Pages\CreateSuspension;
 use App\Filament\HumanResource\Resources\Suspensions\Pages\EditSuspension;
 use App\Filament\HumanResource\Resources\Suspensions\Pages\ListSuspensions;
@@ -25,11 +24,11 @@ class SuspensionResource extends Resource
 {
     protected static ?string $model = Suspension::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedPause;
 
     protected static ?string $recordTitleAttribute = 'starts_at';
 
-    protected static ?string $cluster = EmployeesManagementCluster::class;
+    protected static \UnitEnum|string|null $navigationGroup = \App\Filament\HumanResource\Enums\HRNavigationEnum::EMPLOYEES_MANAGEMENT;
 
     protected static ?int $navigationSort = 2;
 

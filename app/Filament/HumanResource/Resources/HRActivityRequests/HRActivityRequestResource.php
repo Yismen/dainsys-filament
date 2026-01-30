@@ -2,7 +2,6 @@
 
 namespace App\Filament\HumanResource\Resources\HRActivityRequests;
 
-use App\Filament\HumanResource\Clusters\EmployeesManagement\EmployeesManagementCluster;
 use App\Filament\HumanResource\Resources\HRActivityRequests\Pages\ListHRActivityRequests;
 use App\Filament\HumanResource\Resources\HRActivityRequests\Pages\ViewHRActivityRequest;
 use App\Filament\HumanResource\Resources\HRActivityRequests\Schemas\HRActivityRequestForm;
@@ -21,9 +20,9 @@ class HRActivityRequestResource extends Resource
 {
     protected static ?string $model = HRActivityRequest::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBookOpen;
 
-    protected static ?string $cluster = EmployeesManagementCluster::class;
+    protected static \UnitEnum|string|null $navigationGroup = \App\Filament\HumanResource\Enums\HRNavigationEnum::EMPLOYEES_MANAGEMENT;
 
     protected static ?string $navigationLabel = 'HR Activity Requests';
 

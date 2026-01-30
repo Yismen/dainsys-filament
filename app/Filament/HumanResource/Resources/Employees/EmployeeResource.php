@@ -2,7 +2,6 @@
 
 namespace App\Filament\HumanResource\Resources\Employees;
 
-use App\Filament\HumanResource\Clusters\EmployeesManagement\EmployeesManagementCluster;
 use App\Filament\HumanResource\Resources\Employees\Pages\CreateEmployee;
 use App\Filament\HumanResource\Resources\Employees\Pages\EditEmployee;
 use App\Filament\HumanResource\Resources\Employees\Pages\ListEmployees;
@@ -27,11 +26,11 @@ class EmployeeResource extends Resource
 {
     protected static ?string $model = Employee::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUserGroup;
 
     protected static ?string $recordTitleAttribute = 'full_name';
 
-    protected static ?string $cluster = EmployeesManagementCluster::class;
+    protected static \UnitEnum|string|null $navigationGroup = \App\Filament\HumanResource\Enums\HRNavigationEnum::EMPLOYEES_MANAGEMENT;
 
     protected static ?int $navigationSort = 1;
 

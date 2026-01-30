@@ -2,7 +2,6 @@
 
 namespace App\Filament\HumanResource\Resources\Ars;
 
-use App\Filament\HumanResource\Clusters\TSS\TSSCluster;
 use App\Filament\HumanResource\Resources\Ars\Pages\CreateArs;
 use App\Filament\HumanResource\Resources\Ars\Pages\EditArs;
 use App\Filament\HumanResource\Resources\Ars\Pages\ListArs;
@@ -27,7 +26,7 @@ class ArsResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static ?string $cluster = TSSCluster::class;
+    protected static \UnitEnum|string|null $navigationGroup = \App\Filament\HumanResource\Enums\HRNavigationEnum::TSS_MANAGEMENT;
 
     protected static ?int $navigationSort = 2;
 

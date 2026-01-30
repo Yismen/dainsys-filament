@@ -2,7 +2,6 @@
 
 namespace App\Filament\HumanResource\Resources\Afps;
 
-use App\Filament\HumanResource\Clusters\TSS\TSSCluster;
 use App\Filament\HumanResource\Resources\Afps\Pages\CreateAfp;
 use App\Filament\HumanResource\Resources\Afps\Pages\EditAfp;
 use App\Filament\HumanResource\Resources\Afps\Pages\ListAfps;
@@ -27,7 +26,7 @@ class AfpResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static ?string $cluster = TSSCluster::class;
+    protected static \UnitEnum|string|null $navigationGroup = \App\Filament\HumanResource\Enums\HRNavigationEnum::TSS_MANAGEMENT;
 
     protected static ?int $navigationSort = 3;
 

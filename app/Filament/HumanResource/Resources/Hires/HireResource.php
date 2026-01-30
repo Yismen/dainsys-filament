@@ -2,7 +2,6 @@
 
 namespace App\Filament\HumanResource\Resources\Hires;
 
-use App\Filament\HumanResource\Clusters\EmployeesManagement\EmployeesManagementCluster;
 use App\Filament\HumanResource\Resources\Hires\Pages\CreateHire;
 use App\Filament\HumanResource\Resources\Hires\Pages\EditHire;
 use App\Filament\HumanResource\Resources\Hires\Pages\ListHires;
@@ -25,11 +24,11 @@ class HireResource extends Resource
 {
     protected static ?string $model = Hire::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedAcademicCap;
 
     protected static ?string $recordTitleAttribute = 'id';
 
-    protected static ?string $cluster = EmployeesManagementCluster::class;
+    protected static \UnitEnum|string|null $navigationGroup = \App\Filament\HumanResource\Enums\HRNavigationEnum::EMPLOYEES_MANAGEMENT;
 
     protected static ?int $navigationSort = 2;
 

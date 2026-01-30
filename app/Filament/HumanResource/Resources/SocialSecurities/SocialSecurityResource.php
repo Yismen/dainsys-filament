@@ -2,7 +2,6 @@
 
 namespace App\Filament\HumanResource\Resources\SocialSecurities;
 
-use App\Filament\HumanResource\Clusters\TSS\TSSCluster;
 use App\Filament\HumanResource\Resources\SocialSecurities\Pages\CreateSocialSecurity;
 use App\Filament\HumanResource\Resources\SocialSecurities\Pages\EditSocialSecurity;
 use App\Filament\HumanResource\Resources\SocialSecurities\Pages\ListSocialSecurities;
@@ -29,7 +28,7 @@ class SocialSecurityResource extends Resource
 
     protected static ?int $navigationSort = 1;
 
-    protected static ?string $cluster = TSSCluster::class;
+    protected static \UnitEnum|string|null $navigationGroup = \App\Filament\HumanResource\Enums\HRNavigationEnum::TSS_MANAGEMENT;
 
     public static function form(Schema $schema): Schema
     {

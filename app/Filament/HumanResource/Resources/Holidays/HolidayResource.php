@@ -2,7 +2,6 @@
 
 namespace App\Filament\HumanResource\Resources\Holidays;
 
-use App\Filament\HumanResource\Clusters\HrManagement\HrManagementCluster;
 use App\Filament\HumanResource\Resources\Holidays\Pages\CreateHoliday;
 use App\Filament\HumanResource\Resources\Holidays\Pages\EditHoliday;
 use App\Filament\HumanResource\Resources\Holidays\Pages\ListHolidays;
@@ -27,7 +26,7 @@ class HolidayResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static ?string $cluster = HrManagementCluster::class;
+    protected static \UnitEnum|string|null $navigationGroup = \App\Filament\HumanResource\Enums\HRNavigationEnum::HR_MANAGEMENT;
 
     protected static ?int $navigationSort = 10;
 

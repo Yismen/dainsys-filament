@@ -35,7 +35,8 @@ class HumanResourcePanelProvider extends PanelProvider
             ->spa()
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->subNavigationPosition(SubNavigationPosition::Top)
-            ->topNavigation()
+            // ->topNavigation()
+            ->sidebarCollapsibleOnDesktop()
             ->colors([
                 'primary' => Color::Amber,
             ])
