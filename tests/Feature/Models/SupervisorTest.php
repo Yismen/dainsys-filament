@@ -47,3 +47,10 @@ test('supervisor model belongs to user', function () {
     expect($supervisor->user)->toBeInstanceOf(User::class);
     expect($supervisor->user())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
 });
+
+it('apply global scope active supervisors', function () {
+    Supervisor::factory()->count(3)->create(['is_active' => true]);
+    Supervisor::factory()->count(2)->create(['is_active' => false]);
+
+    expect(Supervisor::all())->toHaveCount(3);
+});

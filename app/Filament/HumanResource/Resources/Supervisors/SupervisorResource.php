@@ -9,6 +9,7 @@ use App\Filament\HumanResource\Resources\Supervisors\Pages\ViewSupervisor;
 use App\Filament\HumanResource\Resources\Supervisors\Schemas\SupervisorForm;
 use App\Filament\HumanResource\Resources\Supervisors\Schemas\SupervisorInfolist;
 use App\Filament\HumanResource\Resources\Supervisors\Tables\SupervisorsTable;
+use App\Models\Scopes\IsActiveScope;
 use App\Models\Supervisor;
 use BackedEnum;
 use Filament\Resources\Resource;
@@ -67,6 +68,14 @@ class SupervisorResource extends Resource
         return parent::getRecordRouteBindingEloquentQuery()
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
+            ]);
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->withoutGlobalScopes([
+                IsActiveScope::class,
             ]);
     }
 }

@@ -2,23 +2,25 @@
 
 namespace App\Filament\Resources\Users;
 
-use App\Filament\Resources\Users\Pages\CreateUser;
-use App\Filament\Resources\Users\Pages\EditUser;
-use App\Filament\Resources\Users\Pages\ListUsers;
-use App\Filament\Resources\Users\Pages\ViewUser;
-use App\Filament\Resources\Users\RelationManagers\RolesRelationManager;
-use App\Filament\Resources\Users\Schemas\UserForm;
-use App\Filament\Resources\Users\Schemas\UserInfolist;
-use App\Filament\Resources\Users\Tables\UsersTable;
-use App\Models\User;
-use BackedEnum;
-use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use UnitEnum;
+use BackedEnum;
+use App\Models\User;
+use Filament\Tables\Table;
+use GuzzleHttp\Promise\Is;
+use Filament\Schemas\Schema;
+use Filament\Resources\Resource;
+use App\Models\Scopes\IsActiveScope;
+use Filament\Support\Icons\Heroicon;
+use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\Users\Pages\EditUser;
+use App\Filament\Resources\Users\Pages\ViewUser;
+use App\Filament\Resources\Users\Pages\ListUsers;
+use App\Filament\Resources\Users\Pages\CreateUser;
+use App\Filament\Resources\Users\Schemas\UserForm;
+use App\Filament\Resources\Users\Tables\UsersTable;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\Users\Schemas\UserInfolist;
+use App\Filament\Resources\Users\RelationManagers\RolesRelationManager;
 
 class UserResource extends Resource
 {
@@ -67,6 +69,14 @@ class UserResource extends Resource
         return parent::getRecordRouteBindingEloquentQuery()
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
+            ]);
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->withoutGlobalScopes([
+                IsActiveScope::class,
             ]);
     }
 }

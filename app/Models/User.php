@@ -5,10 +5,13 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Models\Traits\BelongsToManyMailables;
+use App\Models\Traits\BelongsToSupervisor;
+use App\Models\Traits\HasOneSupervisor;
 use App\Models\Traits\InteractWithSupportTickets;
 use App\Traits\Models\InteractsWithModelCaching;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -21,6 +24,7 @@ use Jeffgreco13\FilamentBreezy\Traits\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
+#[ScopedBy([\App\Models\Scopes\IsActiveScope::class])]
 class User extends Authenticatable implements FilamentUser
 {
     use BelongsToManyMailables;
@@ -28,6 +32,7 @@ class User extends Authenticatable implements FilamentUser
     use HasFactory;
     use HasRoles;
     use HasUuids;
+    use HasOneSupervisor;
     use InteractsWithModelCaching;
     use InteractWithSupportTickets;
     use Notifiable;
@@ -66,11 +71,6 @@ class User extends Authenticatable implements FilamentUser
         'password' => 'hashed',
         'is_active' => 'boolean',
     ];
-
-    public function supervisor(): HasOne
-    {
-        return $this->hasOne(Supervisor::class);
-    }
 
     public function canAccessPanel(Panel $panel): bool
     {
@@ -113,5 +113,18 @@ class User extends Authenticatable implements FilamentUser
             'super-admin',
             'super_admin',
         ]);
+    }
+
+    public function isActive(): bool
+    {
+        return $this->is_active;
+    }
+
+    public function employees(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
+    {
+        return $this->hasManyThrough(
+            related: Employee::class,
+            through: Supervisor::class,
+        );
     }
 }

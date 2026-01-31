@@ -2,19 +2,20 @@
 
 namespace App\Filament\Workforce\Pages;
 
-use App\Models\Employee;
-use App\Models\Supervisor;
-use App\Services\ModelListService;
 use BackedEnum;
-use Filament\Actions\Action;
-use Filament\Actions\Concerns\InteractsWithActions;
-use Filament\Forms\Components\Select;
+use App\Models\Employee;
 use Filament\Pages\Page;
-use Filament\Schemas\Concerns\InteractsWithSchemas;
-use Filament\Support\Icons\Heroicon;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Cache;
+use App\Models\Supervisor;
+use Filament\Actions\Action;
 use Livewire\Attributes\Computed;
+use App\Services\ModelListService;
+use Illuminate\Support\Collection;
+use App\Models\Scopes\IsActiveScope;
+use Filament\Support\Icons\Heroicon;
+use Filament\Forms\Components\Select;
+use Illuminate\Support\Facades\Cache;
+use Filament\Actions\Concerns\InteractsWithActions;
+use Filament\Schemas\Concerns\InteractsWithSchemas;
 
 class ManageSupervisors extends Page
 {
@@ -63,7 +64,12 @@ class ManageSupervisors extends Page
             ->modalHeading('Deactivate Supervisor')
             ->modalDescription('Are you sure you want to deactivate this supervisor? ')
             ->action(function (array $arguments): void {
-                $supervisor = Supervisor::find($arguments['supervisor']);
+                $supervisor = Supervisor::query()
+                    ->withoutGlobalScopes([
+                        IsActiveScope::class,
+                    ])
+                    ->findOrFail($arguments['supervisor']);
+
                 if ($supervisor) {
                     $supervisor->is_active = false;
                     $supervisor->save();
@@ -82,7 +88,12 @@ class ManageSupervisors extends Page
             ->modalHeading('Reactivate Supervisor')
             ->modalDescription('Are you sure you want to reactivate this supervisor? ')
             ->action(function (array $arguments): void {
-                $supervisor = Supervisor::find($arguments['supervisor']);
+                $supervisor = Supervisor::query()
+                    ->withoutGlobalScopes([
+                        IsActiveScope::class,
+                    ])
+                    ->findOrFail($arguments['supervisor']);
+
                 if ($supervisor) {
                     $supervisor->is_active = true;
                     $supervisor->save();
@@ -118,7 +129,14 @@ class ManageSupervisors extends Page
 
     public function selectAllForSupervisor($supervisor): void
     {
-        $employeeIds = $this->activeSupervisors()->firstWhere('id', $supervisor)->employees->pluck('id')->toArray();
+        $employeeIds = Supervisor::query()
+            ->withoutGlobalScopes([
+                IsActiveScope::class,
+            ])
+            ->findOrFail($supervisor)
+            ->employees
+            ?->pluck('id')
+            ?->toArray() ?? [];
         // $selectedEmployeeIds = array_map('intval', $this->selectedEmployees);
 
         // Add all employees from this supervisor
@@ -130,6 +148,9 @@ class ManageSupervisors extends Page
     {
         return Cache::rememberForever('supervisors_with_'.($isActive ? 'active' : 'inactive'), function () use ($isActive) {
             return Supervisor::query()
+                ->withoutGlobalScopes([
+                    IsActiveScope::class,
+                ])
                 ->with(['employees' => function ($query) {
                     $query
                         ->active()
