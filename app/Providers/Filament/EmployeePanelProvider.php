@@ -48,8 +48,7 @@ class EmployeePanelProvider extends PanelProvider
             ])
             ->plugins([
                 BreezyCore::make()
-                    ->myProfile()
-                    ->enableTwoFactorAuthentication(),
+                    ->myProfile(),
             ])
             ->widgets([
                 AccountWidget::class,
