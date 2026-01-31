@@ -11,14 +11,17 @@ use App\Models\HRActivityRequest;
 use App\Services\ModelListService;
 use BackedEnum;
 use Filament\Actions\CreateAction;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Filament\Support\Enums\Width;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -67,12 +70,54 @@ class HRActivityRequestResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->placeholder('Pending'),
+                TextColumn::make('created_at')
+                    ->label('Date')
+                    ->dateTime()
+                    ->sortable(),
             ])
             ->filters([
+                Filter::make('created_at')
+                    ->columnSpanFull()
+                    ->schema([
+                        DatePicker::make('date_from')
+                            ->label('Date from'),
+                        DatePicker::make('date_until')
+                            ->label('Date until'),
+                    ])
+                    ->columns(2)
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['date_from'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
+                            )
+                            ->when(
+                                $data['date_until'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
+                            );
+                    }),
+                SelectFilter::make('employee_id')
+                    ->label('Employee')
+                    ->options(
+                        ModelListService::make(
+                            value_field: 'full_name',
+                            model: Employee::query()
+                                ->active()
+                                ->whereHas('supervisor', function (Builder $query): void {
+                                    $query->where('id', Auth::user()?->supervisor?->id);
+                                })
+                        )
+                    )
+                    ->searchable(),
+                SelectFilter::make('activity_type')
+                    ->label('Activity Type')
+                    ->options(HRActivityTypes::class),
                 SelectFilter::make('status')
                     ->options(HRActivityRequestStatuses::class)
                     ->multiple(),
             ])
+            ->filtersFormColumns(2)
+            ->filtersFormWidth(Width::Large)
             ->recordActions([
                 \Filament\Actions\ViewAction::make(),
             ])

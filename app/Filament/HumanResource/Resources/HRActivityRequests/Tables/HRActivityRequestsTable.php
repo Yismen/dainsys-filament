@@ -60,8 +60,7 @@ class HRActivityRequestsTable
             ])
             ->filters([
                 SelectFilter::make('status')
-                    ->options(HRActivityRequestStatuses::class)
-                    ->default(HRActivityRequestStatuses::Requested->value),
+                    ->options(HRActivityRequestStatuses::class),
                 TrashedFilter::make(),
             ])
             ->recordActions([
