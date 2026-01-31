@@ -26,9 +26,7 @@ class AfpResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static \UnitEnum|string|null $navigationGroup = \App\Filament\HumanResource\Enums\HRNavigationEnum::TSS_MANAGEMENT;
-
-    protected static ?int $navigationSort = 3;
+    protected static \UnitEnum|string|null $navigationGroup = \App\Filament\HumanResource\Enums\HRNavigationEnum::HR_MANAGEMENT;
 
     public static function form(Schema $schema): Schema
     {

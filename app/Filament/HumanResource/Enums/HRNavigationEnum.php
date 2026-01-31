@@ -13,7 +13,6 @@ enum HRNavigationEnum: string implements HasIcon, HasLabel
     case HUMAN_RESOURCE_DASHBOARD = 'human-resource-dashboard';
     case EMPLOYEES_MANAGEMENT = 'employees-management';
     case HR_MANAGEMENT = 'hr-management';
-    case TSS_MANAGEMENT = 'tss-management';
 
     public function getLabel(): string
     {
@@ -21,7 +20,6 @@ enum HRNavigationEnum: string implements HasIcon, HasLabel
             self::HUMAN_RESOURCE_DASHBOARD => __('Dashboard'),
             self::EMPLOYEES_MANAGEMENT => __('Employees Management'),
             self::HR_MANAGEMENT => __('HR Management'),
-            self::TSS_MANAGEMENT => __('TSS Management'),
         };
     }
 
@@ -31,7 +29,6 @@ enum HRNavigationEnum: string implements HasIcon, HasLabel
             self::HUMAN_RESOURCE_DASHBOARD => Heroicon::OutlinedChartBar,
             self::EMPLOYEES_MANAGEMENT => Heroicon::OutlinedUsers,
             self::HR_MANAGEMENT => Heroicon::OutlinedBuildingOffice,
-            self::TSS_MANAGEMENT => Heroicon::OutlinedKey,
         };
     }
 }

@@ -26,9 +26,9 @@ class SocialSecurityResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'id';
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 10;
 
-    protected static \UnitEnum|string|null $navigationGroup = \App\Filament\HumanResource\Enums\HRNavigationEnum::TSS_MANAGEMENT;
+    protected static \UnitEnum|string|null $navigationGroup = \App\Filament\HumanResource\Enums\HRNavigationEnum::EMPLOYEES_MANAGEMENT;
 
     public static function form(Schema $schema): Schema
     {
