@@ -3,6 +3,9 @@
 namespace App\Filament\Workforce\Resources\Employees\Tables;
 
 use App\Filament\Resources\Employees\Tables\EmployeeTableFilters;
+use App\Models\Employee;
+use App\Notifications\EmployeePasswordReset;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -80,6 +83,19 @@ class EmployeesTable
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
+                Action::make('resetPassword')
+                    ->label('Reset Password')
+                    ->icon('heroicon-o-key')
+                    ->requiresConfirmation()
+                    ->visible(fn (Employee $record): bool => (bool) $record->user)
+                    ->action(function (Employee $employee): void {
+                        self::resetEmployeePassword($employee);
+                    })
+                    ->after(fn (): \Filament\Notifications\Notification => \Filament\Notifications\Notification::make()
+                        ->success()
+                        ->title('Password Reset')
+                        ->body('Password has been reset. Supervisor has been notified.')
+                        ->send()),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
@@ -88,5 +104,23 @@ class EmployeesTable
                     RestoreBulkAction::make(),
                 ]),
             ]);
+    }
+
+    private static function resetEmployeePassword(Employee $employee): void
+    {
+        $user = $employee->user;
+
+        if (! $user) {
+            return;
+        }
+
+        $user->update([
+            'force_password_change' => true,
+        ]);
+
+        // Notify the supervisor
+        if ($employee->supervisor) {
+            $employee->supervisor->user->notify(new EmployeePasswordReset($employee));
+        }
     }
 }

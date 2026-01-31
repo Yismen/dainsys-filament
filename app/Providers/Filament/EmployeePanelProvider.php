@@ -3,9 +3,12 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Employee\Pages\EmployeeDashboard;
+use App\Filament\Employee\Pages\Login;
+use App\Http\Middleware\ForcePasswordChange;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
@@ -30,7 +33,7 @@ class EmployeePanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Cyan,
             ])
-            ->login()
+            ->login(Login::class)
             ->passwordReset()
             ->emailVerification()
             ->spa()
@@ -41,7 +44,7 @@ class EmployeePanelProvider extends PanelProvider
             ->discoverPages(in: app_path('Filament/Employee/Pages'), for: 'App\\Filament\\Employee\\Pages')
             ->discoverWidgets(in: app_path('Filament/Employee/Widgets'), for: 'App\\Filament\\Employee\\Widgets')
             ->pages([
-                // EmployeeDashboard::class,
+                Dashboard::class,
             ])
             ->plugins([
                 BreezyCore::make()
@@ -65,6 +68,7 @@ class EmployeePanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
+                ForcePasswordChange::class,
             ]);
     }
 }

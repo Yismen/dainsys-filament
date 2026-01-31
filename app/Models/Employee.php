@@ -17,6 +17,7 @@ use App\Models\Traits\HasOneSocialSocialSecurity;
 use App\Models\Traits\HasRelationsThruSocialSecurity;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Employee extends \App\Models\BaseModels\AppModel
 {
@@ -117,6 +118,11 @@ class Employee extends \App\Models\BaseModels\AppModel
         return $this->belongsTo(Position::class);
     }
 
+    public function user(): HasOne
+    {
+        return $this->hasOne(User::class);
+    }
+
     // public function getTenureAttribute()
     // {
     //     return $this->hired_at->diffInDays(now());
@@ -125,6 +131,19 @@ class Employee extends \App\Models\BaseModels\AppModel
     public function scopeActive($query)
     {
         $query->whereIn('status', [
+            EmployeeStatuses::Hired,
+            EmployeeStatuses::Suspended,
+        ]);
+    }
+    public function isActive(): bool
+    {
+        return $this->status === EmployeeStatuses::Hired ||
+            $this->status === EmployeeStatuses::Suspended;
+    }
+
+    public function scopeAuthenticatable($query)
+    {
+        return $query->whereIn('status', [
             EmployeeStatuses::Hired,
             EmployeeStatuses::Suspended,
         ]);

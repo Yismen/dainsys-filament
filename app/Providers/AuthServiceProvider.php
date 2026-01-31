@@ -62,6 +62,10 @@ class AuthServiceProvider extends ServiceProvider
             return $user->supervisor()->where('is_active', true)->exists();
         });
 
+        Gate::define('isAuthenticableEmployee', function (User $user): bool {
+            return $user->employee && $user->employee->isActive();
+        });
+
         Gate::define('grab', function (User $user, Ticket $ticket) {
             return
                 $user->hasAnyRole([

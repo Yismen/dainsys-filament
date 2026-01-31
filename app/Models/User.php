@@ -5,7 +5,6 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Models\Traits\BelongsToManyMailables;
-use App\Models\Traits\BelongsToSupervisor;
 use App\Models\Traits\HasOneSupervisor;
 use App\Models\Traits\InteractWithSupportTickets;
 use App\Traits\Models\InteractsWithModelCaching;
@@ -14,7 +13,6 @@ use Filament\Panel;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -30,9 +28,9 @@ class User extends Authenticatable implements FilamentUser
     use BelongsToManyMailables;
     use HasApiTokens;
     use HasFactory;
+    use HasOneSupervisor;
     use HasRoles;
     use HasUuids;
-    use HasOneSupervisor;
     use InteractsWithModelCaching;
     use InteractWithSupportTickets;
     use Notifiable;
@@ -49,6 +47,9 @@ class User extends Authenticatable implements FilamentUser
         'email',
         'password',
         'is_active',
+        'employee_id',
+        'password_set_at',
+        'force_password_change',
     ];
 
     /**
@@ -70,6 +71,8 @@ class User extends Authenticatable implements FilamentUser
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
         'is_active' => 'boolean',
+        'force_password_change' => 'boolean',
+        'password_set_at' => 'datetime',
     ];
 
     public function canAccessPanel(Panel $panel): bool
@@ -102,6 +105,10 @@ class User extends Authenticatable implements FilamentUser
             return Gate::allows('manageSupervisor');
         }
 
+        if ($panel_id === 'employee') {
+            return Gate::allows('isAuthenticableEmployee');
+        }
+
         return true;
     }
 
@@ -118,6 +125,11 @@ class User extends Authenticatable implements FilamentUser
     public function isActive(): bool
     {
         return $this->is_active;
+    }
+
+    public function employee(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Employee::class);
     }
 
     public function employees(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
