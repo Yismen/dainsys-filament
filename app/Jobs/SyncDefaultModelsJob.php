@@ -23,7 +23,14 @@ class SyncDefaultModelsJob
     {
         foreach ($this->getDefaultModels() as $model => $records) {
             foreach ($records as $record) {
-                (new $model)->firstOrCreate($record);
+                $name = ['name' => $record['name']];
+                $description = \key_exists('description', $record)
+                    ? ['description' => $record['description']]
+                    : [];
+                (new $model)->firstOrCreate(
+                    $name,
+                    $description
+                );
             }
         }
     }

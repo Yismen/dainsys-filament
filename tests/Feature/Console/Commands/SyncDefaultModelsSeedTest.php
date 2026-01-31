@@ -1,6 +1,9 @@
 <?php
 
+use App\Console\Commands\SyncDefaultModelsSeed;
 use App\Jobs\SyncDefaultModelsJob;
+use App\Models\Site;
+use App\Models\Source;
 use Illuminate\Support\Facades\Queue;
 
 it('runs without error the job is not pushed to the queue', function () {
@@ -13,6 +16,17 @@ it('runs without error the job is not pushed to the queue', function () {
     $command->execute();
 
     Queue::assertNotPushed(SyncDefaultModelsJob::class);
+
+    $command->assertExitCode(0);
+});
+
+it('does not duplicate values', function () {
+    Queue::fake([
+        SyncDefaultModelsJob::class,
+    ]);
+
+    $command = $this->artisan(SyncDefaultModelsSeed::class);
+    $command = $this->artisan(SyncDefaultModelsSeed::class);
 
     $command->assertExitCode(0);
 });
