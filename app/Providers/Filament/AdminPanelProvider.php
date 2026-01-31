@@ -36,6 +36,7 @@ class AdminPanelProvider extends PanelProvider
             // ->registration()
             ->passwordReset()
             ->emailVerification()
+            ->sidebarCollapsibleOnDesktop()
             ->spa()
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->navigationItems([
