@@ -2,22 +2,24 @@
 
 namespace App\Filament\Supervisor\Resources\Downtimes;
 
-use App\Filament\Supervisor\Resources\Downtimes\Pages\CreateDowntime;
-use App\Filament\Supervisor\Resources\Downtimes\Pages\EditDowntime;
-use App\Filament\Supervisor\Resources\Downtimes\Pages\ListDowntimes;
-use App\Filament\Supervisor\Resources\Downtimes\Pages\ViewDowntime;
-use App\Filament\Supervisor\Resources\Downtimes\Schemas\DowntimeForm;
-use App\Filament\Supervisor\Resources\Downtimes\Schemas\DowntimeInfolist;
-use App\Filament\Supervisor\Resources\Downtimes\Tables\DowntimesTable;
+use BackedEnum;
 use App\Models\Downtime;
 use App\Models\Supervisor;
-use BackedEnum;
-use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Filament\Schemas\Schema;
+use Filament\Resources\Resource;
+use Filament\Support\Icons\Heroicon;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Supervisor\Resources\Downtimes\Pages\EditDowntime;
+use App\Filament\Supervisor\Resources\Downtimes\Pages\ViewDowntime;
+use App\Filament\Supervisor\Resources\Downtimes\Pages\ListDowntimes;
+use App\Filament\Supervisor\Resources\Downtimes\Pages\CreateDowntime;
+use App\Filament\Supervisor\Resources\Downtimes\Pages\ManageDowntimes;
+use App\Filament\Supervisor\Resources\Downtimes\Schemas\DowntimeForm;
+use App\Filament\Supervisor\Resources\Downtimes\Tables\DowntimesTable;
+use App\Filament\Supervisor\Resources\Downtimes\Schemas\DowntimeInfolist;
 
 class DowntimeResource extends Resource
 {
@@ -70,9 +72,6 @@ class DowntimeResource extends Resource
     {
         return [
             'index' => ListDowntimes::route('/'),
-            'create' => CreateDowntime::route('/create'),
-            'view' => ViewDowntime::route('/{record}'),
-            'edit' => EditDowntime::route('/{record}/edit'),
         ];
     }
 
@@ -83,4 +82,22 @@ class DowntimeResource extends Resource
                 SoftDeletingScope::class,
             ]);
     }
+
+    protected function handleRecordCreation(array $data): Model
+    {
+        dd($data);
+        return static::getModel()::create($data);
+    }
+
+
+protected function handleRecordUpdate(Model $record, array $data): Model
+{
+    dd($data, $record);
+    // Custom logic before updating
+    $data['name'] = strtoupper($data['name']);
+
+    $record->update($data);
+
+    return $record;
+}
 }

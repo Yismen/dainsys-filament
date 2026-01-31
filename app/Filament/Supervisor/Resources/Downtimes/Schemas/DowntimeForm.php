@@ -27,16 +27,8 @@ class DowntimeForm
                     ->visibleOn('edit'),
                 DatePicker::make('date')
                     ->default(now())
-                    ->required(),
-                Select::make('employee_id')
-                    ->options(ModelListService::make(
-                        model: Employee::query()
-                            ->whereHas('supervisor', function ($query) {
-                                $query->where('id', auth()->user()->supervisor?->id);
-                            }),
-                        value_field: 'full_name')
-                    )
-                    ->searchable()
+                    ->minDate(now()->subDays(20))
+                    ->maxDate(now()->endOfDay())
                     ->required(),
                 Select::make('campaign_id')
                     ->options(ModelListService::get(model: Campaign::query()->where('revenue_type', RevenueTypes::Downtime)))
@@ -48,11 +40,24 @@ class DowntimeForm
                     ->required(),
                 TextInput::make('total_time')
                     ->required()
+                    ->minValue(0)
+                    ->maxValue(13)
                     ->numeric(),
-                Textarea::make('request_comment')
-                    ->label('Request comment')
-                    ->nullable()
-                    ->columnSpanFull(),
+                // Textarea::make('request_comment')
+                //     ->label('Request comment')
+                //     ->nullable()
+                //     ->columnSpanFull(),
+
+                Select::make('employee_id')
+                    ->options(ModelListService::make(
+                        model: Employee::query()
+                            ->whereHas('supervisor', function ($query) {
+                                $query->where('id', auth()->user()->supervisor?->id);
+                            }),
+                        value_field: 'full_name')
+                    )
+                    ->searchable()
+                    ->required(),
             ]);
     }
 }

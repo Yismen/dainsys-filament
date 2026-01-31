@@ -2,15 +2,24 @@
 
 namespace App\Filament\Supervisor\Resources\Downtimes\Tables;
 
+use App\Models\Employee;
+use Filament\Tables\Table;
+use App\Enums\DowntimeStatuses;
+use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
+use Filament\Support\Enums\Width;
+use App\Services\ModelListService;
+use Filament\Tables\Filters\Filter;
+use Illuminate\Support\Facades\Auth;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
-use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
-use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\DatePicker;
+use Filament\Tables\Filters\SelectFilter;
+use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Filters\TrashedFilter;
-use Filament\Tables\Table;
+use Filament\Actions\ForceDeleteBulkAction;
 
 class DowntimesTable
 {
@@ -58,8 +67,44 @@ class DowntimesTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                TrashedFilter::make(),
+                TrashedFilter::make()
+                    ->columnSpanFull    (),
+                Filter::make('date')
+                    ->columnSpanFull()
+                    ->schema([
+                        DatePicker::make('date_from')
+                            ->label('Date from'),
+                        DatePicker::make('date_until')
+                            ->label('Date until'),
+                    ])
+                    ->columns(2)
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['date_from'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('date', '>=', $date),
+                            )
+                            ->when(
+                                $data['date_until'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('date', '<=', $date),
+                            );
+                    }),
+                SelectFilter::make('status')
+                    ->options(DowntimeStatuses::toArray()),
+
+                SelectFilter::make('employee_id')
+                    ->options(ModelListService::make(
+                        model: Employee::query()
+                                ->active()
+                                ->whereHas('supervisor', function (Builder $query): void {
+                                    $query->where('id', Auth::user()?->supervisor?->id);
+                                }),
+                        value_field: 'full_name',
+                    ))
+                    ->searchable(),
             ])
+            ->filtersFormColumns(2)
+            ->filtersFormWidth(Width::Large)
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make()
