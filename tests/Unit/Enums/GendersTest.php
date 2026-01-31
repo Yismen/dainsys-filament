@@ -11,16 +11,16 @@ test('names method return specific names', function () {
 
 test('values method return specific values', function () {
     expect(Genders::values())->toEqual([
-        'male',
-        'female',
+        'Male',
+        'Female',
         // 'undefined',
     ]);
 });
 
 test('all method return associative array', function () {
     expect(Genders::toArray())->toEqual([
-        'male' => 'Male',
-        'female' => 'Female',
+        'Male' => 'Male',
+        'Female' => 'Female',
         // 'Undefined' => 'Undefined',
     ]);
 });

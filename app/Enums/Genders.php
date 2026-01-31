@@ -11,7 +11,7 @@ enum Genders: string implements EnumContract
 {
     use EnumNames, EnumToArray, EnumValues;
 
-    case Male = 'male';
-    case Female = 'female';
+    case Male = 'Male';
+    case Female = 'Female';
     // case Undefined = 'undefined';
 }
