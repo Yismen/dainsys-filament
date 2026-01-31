@@ -30,7 +30,8 @@ class UsersTable
                     ->searchable(),
                 TextColumn::make('roles.name')
                     ->searchable()
-                    ->badge(),
+                    ->badge()
+                    ->wrap(),
                 ToggleColumn::make('is_active')
                     ->sortable(),
                 TextColumn::make('email_verified_at')
