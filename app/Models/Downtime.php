@@ -46,6 +46,10 @@ class Downtime extends \App\Models\BaseModels\AppModel
     {
         parent::booted();
 
+        static::creating(function (Downtime $downtime) {
+            $downtime->requester_id = auth()->user()?->id;
+        });
+
         static::saving(function (Downtime $downtime) {
             if ($downtime->campaign->revenue_type !== RevenueTypes::Downtime) {
                 throw new InvalidDowntimeCampaign;
@@ -58,8 +62,6 @@ class Downtime extends \App\Models\BaseModels\AppModel
                 $downtime->campaign_id,
                 $downtime->employee_id,
             ]);
-
-            $downtime->requester_id = auth()->user()?->id;
 
             $downtime->saveQuietly();
 
