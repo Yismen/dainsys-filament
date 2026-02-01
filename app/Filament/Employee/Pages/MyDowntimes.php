@@ -30,6 +30,8 @@ class MyDowntimes extends Page implements HasTable
 
     protected static ?string $title = 'My Downtimes';
 
+    protected static ?int $navigationSort = 4;
+
     public function mount(): void
     {
         $user = Auth::user();

@@ -24,6 +24,8 @@ class SelfProfile extends Page implements HasInfolists
 
     protected static ?string $title = 'My Profile';
 
+    protected static ?int $navigationSort = 1;
+
     public ?Employee $employee = null;
 
     public function mount(): void

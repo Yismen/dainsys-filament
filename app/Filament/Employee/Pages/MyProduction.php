@@ -32,6 +32,8 @@ class MyProduction extends Page implements HasTable
 
     protected static ?string $title = 'My Production';
 
+    protected static ?int $navigationSort = 3;
+
     public function mount(): void
     {
         $user = Auth::user();

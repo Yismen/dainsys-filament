@@ -28,6 +28,8 @@ class MyPayrollHours extends Page implements HasTable
 
     protected static ?string $title = 'My Hours';
 
+    protected static ?int $navigationSort = 2;
+
     public function mount(): void
     {
         $user = Auth::user();
