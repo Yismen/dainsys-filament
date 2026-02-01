@@ -5,6 +5,7 @@ namespace App\Filament\Employee\Widgets;
 use Carbon\Carbon;
 use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class DowntimeBreakdownWidget extends ChartWidget
 {
@@ -28,11 +29,17 @@ class DowntimeBreakdownWidget extends ChartWidget
         $startDate = Carbon::now()->subDays(30);
         $endDate = Carbon::now();
 
-        $downtimes = $employee->downtimes()
-            ->whereBetween('date', [$startDate, $endDate])
-            ->with('downtimeReason')
-            ->get()
-            ->groupBy('downtimeReason.reason');
+        $downtimes = Cache::remember(
+            "employee_{$employee->id}_downtimes_{$startDate->toDateString()}_{$endDate->toDateString()}",
+            now()->addHours(3),
+            function () use ($employee, $startDate, $endDate) {
+                return $employee->downtimes()
+                    ->whereBetween('date', [$startDate, $endDate])
+                    ->orderBy('date')
+                    ->get()
+                    ->groupBy('reason');
+            }
+        );
 
         $labels = [];
         $data = [];

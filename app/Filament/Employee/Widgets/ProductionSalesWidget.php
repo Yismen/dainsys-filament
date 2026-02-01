@@ -5,6 +5,7 @@ namespace App\Filament\Employee\Widgets;
 use Carbon\Carbon;
 use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class ProductionSalesWidget extends ChartWidget
 {
@@ -28,11 +29,17 @@ class ProductionSalesWidget extends ChartWidget
         $startDate = Carbon::now()->subDays(14);
         $endDate = Carbon::now();
 
-        $productions = $employee->productions()
-            ->whereBetween('date', [$startDate, $endDate])
-            ->orderBy('date')
-            ->get()
-            ->groupBy(fn ($record) => $record->date->format('M d'));
+        $productions = Cache::remember(
+            "employee_{$employee->id}_productions_{$startDate->toDateString()}_{$endDate->toDateString()}",
+            now()->addHours(3),
+            function () use ($employee, $startDate, $endDate) {
+                return $employee->productions()
+                    ->whereBetween('date', [$startDate, $endDate])
+                    ->orderBy('date')
+                    ->get()
+                    ->groupBy(fn ($record) => $record->date->format('M d'));
+            }
+        );
 
         $dates = [];
         $sales = [];

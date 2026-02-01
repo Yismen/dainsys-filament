@@ -36,9 +36,12 @@ class EmployeeStatsWidget extends BaseWidget
                 ->sum('conversions')
         );
 
-        $pendingDowntimes = $employee->downtimes()
-            ->where('status', 'pending')
-            ->count();
+        $pendingDowntimes = Cache::rememberForever(
+            "employee.{$employee->id}.pending_downtimes.count",
+            fn () => $employee->downtimes()
+                ->where('status', 'pending')
+                ->count()
+        );
 
         return [
             Stat::make('Total Hours (This Month)', round($totalHoursThisMonth, 2))
