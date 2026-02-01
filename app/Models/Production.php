@@ -45,38 +45,40 @@ class Production extends \App\Models\BaseModels\AppModel
     {
         parent::boot();
 
-        static::created(function (self $model) {
-            $model->load('campaign', 'employee');
+        static::created(function (self $production) {
+            $production->load('campaign', 'employee');
 
-            $model->updateQuietly([
+            $production->updateQuietly([
             ]);
         });
 
-        static::saved(function (self $model) {
-            $model->load('campaign', 'employee');
-            $changed_keys = \array_keys($model->getChanges());
+        static::saved(function (self $production) {
+            $production->load('campaign', 'employee');
+            $changed_keys = \array_keys($production->getChanges());
 
-            $model->supervisor_id = \in_array('employee_id', $changed_keys) ?
-                $model->employee?->supervisor?->id :
-                $model->supervisor_id;
-            $model->revenue_rate = \in_array('campaign_id', $changed_keys) ?
-                $model->campaign?->revenue_rate :
-                $model->revenue_rate;
-            $model->sph_goal = \in_array('campaign_id', $changed_keys) ?
-                $model->campaign?->sph_goal :
-                $model->sph_goal;
-            $model->revenue_type = \in_array('campaign_id', $changed_keys) ?
-            $model->campaign?->revenue_type :
-                    $model->revenue_type;
-            $model->billable_time = $model->calculateBillableHours();
-            $model->revenue = $model->calculateRevenue();
-            $model->unique_id = implode('_', [
-                $model->date->format('Y-m-d'),
-                $model->campaign_id,
-                $model->employee_id,
+            $production->supervisor_id = \in_array('employee_id', $changed_keys) ?
+                $production->employee?->supervisor?->id :
+                $production->supervisor_id;
+            $production->revenue_rate = \in_array('campaign_id', $changed_keys) ?
+                $production->campaign?->revenue_rate :
+                $production->revenue_rate;
+            $production->sph_goal = \in_array('campaign_id', $changed_keys) ?
+                $production->campaign?->sph_goal :
+                $production->sph_goal;
+            $production->revenue_type = \in_array('campaign_id', $changed_keys) ?
+            $production->campaign?->revenue_type :
+                    $production->revenue_type;
+            $production->billable_time = $production->calculateBillableHours();
+            $production->revenue = $production->calculateRevenue();
+            $production->unique_id = implode('_', [
+                $production->date->format('Y-m-d'),
+                $production->campaign_id,
+                $production->employee_id,
             ]);
 
-            $model->saveQuietly();
+            $production->converted_to_payroll_at = null;
+
+            $production->saveQuietly();
         });
     }
 
