@@ -32,7 +32,7 @@ class ProductionFactory extends Factory
             // 'sph_goal' => 0,
             'conversions' => rand(1, 90),
             'total_time' => 5,
-            'production_time' => 0,
+            'production_time' => 4,
             'talk_time' => 0,
             // 'billable_time' => 0,
             // 'revenue' => 0,

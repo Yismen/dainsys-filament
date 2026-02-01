@@ -59,17 +59,13 @@ class Production extends \App\Models\BaseModels\AppModel
             $production->supervisor_id = \in_array('employee_id', $changed_keys) ?
                 $production->employee?->supervisor?->id :
                 $production->supervisor_id;
-            $production->revenue_rate = \in_array('campaign_id', $changed_keys) ?
-                $production->campaign?->revenue_rate :
-                $production->revenue_rate;
-            $production->sph_goal = \in_array('campaign_id', $changed_keys) ?
-                $production->campaign?->sph_goal :
-                $production->sph_goal;
-            $production->revenue_type = \in_array('campaign_id', $changed_keys) ?
-            $production->campaign?->revenue_type :
-                    $production->revenue_type;
-            $production->billable_time = $production->calculateBillableHours();
-            $production->revenue = $production->calculateRevenue();
+
+            if( \in_array('campaign_id', $changed_keys)) {
+                $production->revenue_rate = $production->campaign?->revenue_rate;
+                $production->sph_goal = $production->campaign?->sph_goal;
+                $production->revenue_type = $production->campaign?->revenue_type;
+            }
+
             $production->unique_id = implode('_', [
                 $production->date->format('Y-m-d'),
                 $production->campaign_id,
@@ -77,6 +73,9 @@ class Production extends \App\Models\BaseModels\AppModel
             ]);
 
             $production->converted_to_payroll_at = null;
+            $production->billable_time = $production->calculateBillableHours();
+            $production->revenue = $production->calculateRevenue();
+            $production->conversions_goal = $production->campaign?->sph_goal * $production->production_time;
 
             $production->saveQuietly();
         });
@@ -100,13 +99,13 @@ class Production extends \App\Models\BaseModels\AppModel
         return $this->belongsTo(Supervisor::class);
     }
 
-    private function calculateBillableHours(): int
+    private function calculateBillableHours(): float
     {
         return RevenueTypes::from($this->campaign->revenue_type->value)
             ->calculateBillableHours($this);
     }
 
-    private function calculateRevenue(): int
+    private function calculateRevenue()
     {
         return RevenueTypes::from($this->campaign->revenue_type->value)
             ->calculateRevenue($this);
