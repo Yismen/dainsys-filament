@@ -88,10 +88,6 @@ class Login extends SimplePage
                     ->required()
                     ->autofocus()
                     ->autocomplete(false),
-                TextInput::make('internalId')
-                    ->label('Internal Employee ID')
-                    ->required()
-                    ->autocomplete(false),
                 TextInput::make('password')
                     ->label('Password')
                     ->password()
@@ -147,7 +143,6 @@ class Login extends SimplePage
 
         $employee = Employee::authenticatable()
             ->where('personal_id', $data['personalId'] ?? null)
-            ->where('internal_id', $data['internalId'] ?? null)
             ->first();
 
         if (! $employee) {

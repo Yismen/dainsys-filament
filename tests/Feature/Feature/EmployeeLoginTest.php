@@ -18,7 +18,7 @@ beforeEach(function () {
     $this->citizenship = Citizenship::factory()->create();
 });
 
-it('allows hired employee to log in with personal id and internal id', function () {
+it('allows hired employee to log in with personal id and password', function () {
     $employee = Employee::factory()->create([
         'personal_id' => '12345678901',
         'internal_id' => 'EMP001',
@@ -37,7 +37,6 @@ it('allows hired employee to log in with personal id and internal id', function 
     Livewire::test(Login::class)
         ->fillForm([
             'personalId' => '12345678901',
-            'internalId' => 'EMP001',
         ])
         ->call('authenticate');
 
@@ -63,7 +62,6 @@ it('allows suspended employee to log in', function () {
     Livewire::test(Login::class)
         ->fillForm([
             'personalId' => '12345678902',
-            'internalId' => 'EMP002',
         ])
         ->call('authenticate');
 
@@ -94,7 +92,6 @@ it('prevents terminated employee from logging in', function () {
     Livewire::test(Login::class)
         ->fillForm([
             'personalId' => '12345678903',
-            'internalId' => 'EMP003',
         ])
         ->call('authenticate')
         ->assertHasErrors(['data.personalId']);
@@ -119,7 +116,6 @@ it('creates user account on first login when password is set', function () {
     $component = Livewire::test(Login::class)
         ->fillForm([
             'personalId' => '12345678904',
-            'internalId' => 'EMP004',
         ])
         ->call('authenticate')
         ->assertSet('showPasswordForm', true)
@@ -172,7 +168,6 @@ it('authenticates existing user with correct password', function () {
     Livewire::test(Login::class)
         ->fillForm([
             'personalId' => '12345678905',
-            'internalId' => 'EMP005',
             'password' => 'ExistingPassword123!',
         ])
         ->call('authenticate')
@@ -183,7 +178,6 @@ it('rejects invalid credentials', function () {
     Livewire::test(Login::class)
         ->fillForm([
             'personalId' => '99999999999',
-            'internalId' => 'INVALID',
         ])
         ->call('authenticate')
         ->assertHasErrors(['data.personalId']);
