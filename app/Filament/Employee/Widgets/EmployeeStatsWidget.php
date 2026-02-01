@@ -22,10 +22,10 @@ class EmployeeStatsWidget extends BaseWidget
 
         $totalHoursThisMonth = Cache::rememberForever(
             "employee.{$employee->id}.total_hours.month",
-            fn () => $employee->payrollHours()
+            fn () => $employee->productions()
                 ->whereYear('date', Carbon::now()->year)
                 ->whereMonth('date', Carbon::now()->month)
-                ->sum('total_hours')
+                ->sum('total_time')
         );
 
         $productionConversionsThisMonth = Cache::rememberForever(

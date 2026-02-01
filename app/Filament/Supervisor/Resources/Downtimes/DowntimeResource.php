@@ -82,22 +82,4 @@ class DowntimeResource extends Resource
                 SoftDeletingScope::class,
             ]);
     }
-
-    protected function handleRecordCreation(array $data): Model
-    {
-        dd($data);
-        return static::getModel()::create($data);
-    }
-
-
-protected function handleRecordUpdate(Model $record, array $data): Model
-{
-    dd($data, $record);
-    // Custom logic before updating
-    $data['name'] = strtoupper($data['name']);
-
-    $record->update($data);
-
-    return $record;
-}
 }

@@ -29,6 +29,7 @@ arch('all models should extend AppModel')
         'App\Models\Services',
         'App\Models\Traits',
         'App\Models\BaseModels',
+        'App\Models\Scopes',
         Permission::class,
         Role::class,
         User::class,
