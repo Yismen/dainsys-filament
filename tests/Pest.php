@@ -18,6 +18,11 @@ pest()
 
 pest()
     ->extend(Tests\TestCase::class)
+    ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
+    ->in('Filament');
+
+pest()
+    ->extend(Tests\TestCase::class)
 //  ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
     ->in('Unit');
 
