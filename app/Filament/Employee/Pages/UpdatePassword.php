@@ -22,10 +22,13 @@ class UpdatePassword extends Page implements HasForms
 
     public ?string $passwordConfirmation = null;
 
-    public function mount(): void
+    protected static ?int $navigationSort = 40;
+
+    public static function canAccess(): bool
     {
         $user = Filament::auth()->user();
-        abort_unless($user && $user->force_password_change, 403);
+
+        return $user && $user->force_password_change;
     }
 
     protected function getFormSchema(): array
