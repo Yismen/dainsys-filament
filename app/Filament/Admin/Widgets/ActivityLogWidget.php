@@ -24,7 +24,7 @@ class ActivityLogWidget extends BaseWidget
                 TextColumn::make('causer.name')
                     ->label('User')
                     ->searchable()
-                    ->fallback('—'),
+                    ->default('—'),
                 TextColumn::make('description')
                     ->label('Action')
                     ->searchable()

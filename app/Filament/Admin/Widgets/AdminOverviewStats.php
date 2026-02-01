@@ -3,6 +3,7 @@
 namespace App\Filament\Admin\Widgets;
 
 use App\Models\User;
+use Filament\Support\Icons\Heroicon;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Illuminate\Support\Facades\Cache;
@@ -29,7 +30,7 @@ class AdminOverviewStats extends BaseWidget
                 ->color('info'),
             Stat::make('Database Records', $this->getDatabaseSize())
                 ->description('Approximate count')
-                ->descriptionIcon('heroicon-m-database')
+                ->descriptionIcon(Heroicon::OutlinedQueueList)
                 ->color('warning'),
         ];
     }
