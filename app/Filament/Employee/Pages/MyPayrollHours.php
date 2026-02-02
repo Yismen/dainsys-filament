@@ -2,22 +2,22 @@
 
 namespace App\Filament\Employee\Pages;
 
-use BackedEnum;
-use Filament\Pages\Page;
-use Filament\Tables\Table;
 use App\Models\PayrollHour;
-use Filament\Tables\Filters\Filter;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
+use BackedEnum;
+use Filament\Forms\Components\DatePicker;
+use Filament\Pages\Page;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Contracts\HasTable;
-use Filament\Forms\Components\DatePicker;
-use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Columns\Summarizers\Sum;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class MyPayrollHours extends Page implements HasTable
 {
@@ -59,13 +59,6 @@ class MyPayrollHours extends Page implements HasTable
 
                 TextColumn::make('total_hours')
                     ->label('Total Hours')
-                    ->numeric(decimalPlaces: 2)
-                    ->formatStateUsing(fn (float $state): string => $state == 0 ? '-' : number_format($state, 2))
-                    ->sortable()
-                    ->summarize(Sum::make()->label('Total')),
-
-                TextColumn::make('nightly_hours')
-                    ->label('Nightly Hours')
                     ->numeric(decimalPlaces: 2)
                     ->formatStateUsing(fn (float $state): string => $state == 0 ? '-' : number_format($state, 2))
                     ->sortable()

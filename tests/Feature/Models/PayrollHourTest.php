@@ -20,7 +20,6 @@ test('downtime model interacts with db table', function () {
         'employee_id',
         // 'payroll_ending_at',
         // 'week_ending
-        'nightly_hours',
         // 'regular_hours',
         // 'overtime_hours',
         // 'holiday_hours',

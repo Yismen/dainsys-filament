@@ -30,21 +30,18 @@ it('displays payroll hours for authenticated employee', function () {
         'employee_id' => $employee->id,
         'date' => now()->subDays(2),
         'total_hours' => 8,
-        'nightly_hours' => 2,
     ]);
 
     PayrollHour::factory()->create([
         'employee_id' => $employee->id,
         'date' => now()->subDays(1),
         'total_hours' => 10,
-        'nightly_hours' => 3,
     ]);
 
     PayrollHour::factory()->create([
         'employee_id' => $employee->id,
         'date' => now(),
         'total_hours' => 7,
-        'nightly_hours' => 1,
     ]);
 
     $user = User::factory()->create([
@@ -130,14 +127,12 @@ it('displays total hours summary', function () {
         'employee_id' => $employee->id,
         'date' => now()->subDays(2),
         'total_hours' => 8,
-        'nightly_hours' => 2,
     ]);
 
     PayrollHour::factory()->create([
         'employee_id' => $employee->id,
         'date' => now()->subDays(1),
         'total_hours' => 10,
-        'nightly_hours' => 3,
     ]);
 
     $user = User::factory()->create([

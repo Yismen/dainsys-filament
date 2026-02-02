@@ -18,7 +18,6 @@ class PayrollHour extends \App\Models\BaseModels\AppModel
         'employee_id',
         'date',
         'total_hours',
-        'nightly_hours',
         'regular_hours',
         'overtime_hours',
         'holiday_hours',
