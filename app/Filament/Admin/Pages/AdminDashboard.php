@@ -15,8 +15,6 @@ class AdminDashboard extends Dashboard
 {
     protected static ?string $title = 'Dashboard';
 
-    protected static bool $shouldRegisterNavigation = false;
-
     /**
      * @return array<class-string<\Filament\Widgets\Widget>|string>
      */
