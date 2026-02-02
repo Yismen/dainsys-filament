@@ -1,12 +1,12 @@
 <?php
 
-use App\Filament\Supervisor\Resources\PayrollHours\PayrollHourResource;
-use App\Filament\Supervisor\Resources\NightlyHours\NightlyHourResource;
-use App\Filament\Supervisor\Resources\Productions\ProductionResource;
 use App\Filament\Supervisor\Resources\EmployeeMetrics\EmployeeMetricsResource;
+use App\Filament\Supervisor\Resources\NightlyHours\NightlyHourResource;
+use App\Filament\Supervisor\Resources\PayrollHours\PayrollHourResource;
+use App\Filament\Supervisor\Resources\Productions\ProductionResource;
 
 test('payroll hour resource is properly configured', function () {
-    $resource = new PayrollHourResource();
+    $resource = new PayrollHourResource;
     expect($resource)->toBeInstanceOf(PayrollHourResource::class);
     expect(PayrollHourResource::getPages())->toHaveKey('index');
     expect(PayrollHourResource::getPages())->not->toHaveKey('create');
@@ -14,7 +14,7 @@ test('payroll hour resource is properly configured', function () {
 });
 
 test('nightly hour resource is properly configured', function () {
-    $resource = new NightlyHourResource();
+    $resource = new NightlyHourResource;
     expect($resource)->toBeInstanceOf(NightlyHourResource::class);
     expect(NightlyHourResource::getPages())->toHaveKey('index');
     expect(NightlyHourResource::getPages())->not->toHaveKey('create');
@@ -22,7 +22,7 @@ test('nightly hour resource is properly configured', function () {
 });
 
 test('production resource is properly configured', function () {
-    $resource = new ProductionResource();
+    $resource = new ProductionResource;
     expect($resource)->toBeInstanceOf(ProductionResource::class);
     expect(ProductionResource::getPages())->toHaveKey('index');
     expect(ProductionResource::getPages())->not->toHaveKey('create');
@@ -30,7 +30,7 @@ test('production resource is properly configured', function () {
 });
 
 test('employee metrics resource is properly configured', function () {
-    $resource = new EmployeeMetricsResource();
+    $resource = new EmployeeMetricsResource;
     expect($resource)->toBeInstanceOf(EmployeeMetricsResource::class);
     expect(EmployeeMetricsResource::getPages())->toHaveKey('index');
     expect(EmployeeMetricsResource::getPages())->not->toHaveKey('create');

@@ -56,7 +56,7 @@ class EfficiencyTrendWidget extends ChartWidget
             // $goalValue = round($productionGroup->avg('sph_goal'), 2);
             $totalHours[] = $totalHoursValue;
 
-            $efficiency[] = $totalProductionTime > 0 ? round(($totalProductionTime / $totalHoursValue) * 100 , 2) : 0;
+            $efficiency[] = $totalProductionTime > 0 ? round(($totalProductionTime / $totalHoursValue) * 100, 2) : 0;
         }
 
         return [

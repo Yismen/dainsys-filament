@@ -1,11 +1,11 @@
 <?php
 
-use App\Models\Hire;
-use App\Models\User;
-use App\Models\Mailable;
-use App\Models\Supervisor;
 use App\Events\EmployeeHiredEvent;
 use App\Models\Employee;
+use App\Models\Hire;
+use App\Models\Mailable;
+use App\Models\Supervisor;
+use App\Models\User;
 use Illuminate\Support\Facades\Event;
 
 test('users model interacts with db table', function () {

@@ -2,13 +2,13 @@
 
 namespace App\Filament\Employee\Pages;
 
-use Filament\Pages\Dashboard as BaseDashboard;
-use App\Filament\Employee\Widgets\SPHTrendWidget;
-use App\Filament\Employee\Widgets\HoursTrendWidget;
-use App\Filament\Employee\Widgets\EmployeeStatsWidget;
-use App\Filament\Employee\Widgets\EfficiencyTrendWidget;
-use App\Filament\Employee\Widgets\ProductionSalesWidget;
 use App\Filament\Employee\Widgets\DowntimeBreakdownWidget;
+use App\Filament\Employee\Widgets\EfficiencyTrendWidget;
+use App\Filament\Employee\Widgets\EmployeeStatsWidget;
+use App\Filament\Employee\Widgets\HoursTrendWidget;
+use App\Filament\Employee\Widgets\ProductionSalesWidget;
+use App\Filament\Employee\Widgets\SPHTrendWidget;
+use Filament\Pages\Dashboard as BaseDashboard;
 
 class EmployeeDashboard extends BaseDashboard
 {

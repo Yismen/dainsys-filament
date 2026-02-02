@@ -2,24 +2,19 @@
 
 namespace App\Filament\Supervisor\Resources\Downtimes;
 
-use BackedEnum;
+use App\Filament\Supervisor\Resources\Downtimes\Pages\ListDowntimes;
+use App\Filament\Supervisor\Resources\Downtimes\Schemas\DowntimeForm;
+use App\Filament\Supervisor\Resources\Downtimes\Schemas\DowntimeInfolist;
+use App\Filament\Supervisor\Resources\Downtimes\Tables\DowntimesTable;
 use App\Models\Downtime;
 use App\Models\Supervisor;
-use Filament\Tables\Table;
-use Filament\Schemas\Schema;
+use BackedEnum;
 use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
-use Illuminate\Database\Eloquent\Model;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Supervisor\Resources\Downtimes\Pages\EditDowntime;
-use App\Filament\Supervisor\Resources\Downtimes\Pages\ViewDowntime;
-use App\Filament\Supervisor\Resources\Downtimes\Pages\ListDowntimes;
-use App\Filament\Supervisor\Resources\Downtimes\Pages\CreateDowntime;
-use App\Filament\Supervisor\Resources\Downtimes\Pages\ManageDowntimes;
-use App\Filament\Supervisor\Resources\Downtimes\Schemas\DowntimeForm;
-use App\Filament\Supervisor\Resources\Downtimes\Tables\DowntimesTable;
-use App\Filament\Supervisor\Resources\Downtimes\Schemas\DowntimeInfolist;
 
 class DowntimeResource extends Resource
 {

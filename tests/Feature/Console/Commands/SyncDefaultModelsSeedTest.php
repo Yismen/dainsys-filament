@@ -2,8 +2,6 @@
 
 use App\Console\Commands\SyncDefaultModelsSeed;
 use App\Jobs\SyncDefaultModelsJob;
-use App\Models\Site;
-use App\Models\Source;
 use Illuminate\Support\Facades\Queue;
 
 it('runs without error the job is not pushed to the queue', function () {

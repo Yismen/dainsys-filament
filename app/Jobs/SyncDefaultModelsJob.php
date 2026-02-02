@@ -24,7 +24,7 @@ class SyncDefaultModelsJob
         foreach ($this->getDefaultModels() as $model => $records) {
             foreach ($records as $record) {
                 $name = ['name' => $record['name']];
-                $description = \key_exists('description', $record)
+                $description = \array_key_exists('description', $record)
                     ? ['description' => $record['description']]
                     : [];
                 (new $model)->firstOrCreate(

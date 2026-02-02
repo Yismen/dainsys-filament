@@ -2,24 +2,24 @@
 
 namespace App\Filament\Supervisor\Resources\Downtimes\Tables;
 
-use App\Models\Employee;
-use Filament\Tables\Table;
 use App\Enums\DowntimeStatuses;
-use Filament\Actions\EditAction;
-use Filament\Actions\ViewAction;
-use Filament\Support\Enums\Width;
+use App\Models\Employee;
 use App\Services\ModelListService;
-use Filament\Tables\Filters\Filter;
-use Illuminate\Support\Facades\Auth;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\RestoreBulkAction;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\DatePicker;
-use Filament\Tables\Filters\SelectFilter;
-use Illuminate\Database\Eloquent\Builder;
-use Filament\Tables\Filters\TrashedFilter;
+use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteBulkAction;
+use Filament\Actions\RestoreBulkAction;
+use Filament\Actions\ViewAction;
+use Filament\Forms\Components\DatePicker;
+use Filament\Support\Enums\Width;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\TrashedFilter;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 
 class DowntimesTable
 {
@@ -68,7 +68,7 @@ class DowntimesTable
             ])
             ->filters([
                 TrashedFilter::make()
-                    ->columnSpanFull    (),
+                    ->columnSpanFull(),
                 Filter::make('date')
                     ->columnSpanFull()
                     ->schema([
@@ -95,10 +95,10 @@ class DowntimesTable
                 SelectFilter::make('employee_id')
                     ->options(ModelListService::make(
                         model: Employee::query()
-                                ->active()
-                                ->whereHas('supervisor', function (Builder $query): void {
-                                    $query->where('id', Auth::user()?->supervisor?->id);
-                                }),
+                            ->active()
+                            ->whereHas('supervisor', function (Builder $query): void {
+                                $query->where('id', Auth::user()?->supervisor?->id);
+                            }),
                         value_field: 'full_name',
                     ))
                     ->searchable(),

@@ -135,6 +135,7 @@ class Employee extends \App\Models\BaseModels\AppModel
             EmployeeStatuses::Suspended,
         ]);
     }
+
     public function isActive(): bool
     {
         return $this->status === EmployeeStatuses::Hired ||

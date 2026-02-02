@@ -1,7 +1,6 @@
 <?php
 
 use App\Enums\EmployeeStatuses;
-use App\Filament\Supervisor\Resources\NightlyHours\NightlyHourResource;
 use App\Models\Employee;
 use App\Models\NightlyHour;
 use App\Models\Supervisor;

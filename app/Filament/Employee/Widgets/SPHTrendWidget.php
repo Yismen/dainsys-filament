@@ -54,15 +54,12 @@ class SPHTrendWidget extends ChartWidget
 
             $sph = $totalProductionTime > 0 ? round($totalConversions / ($totalProductionTime), 2) : 0;
 
-            $goalValue = $totalProductionTime > 0 ?  round($productionGroup->sum('conversions_goal') / $totalProductionTime, 2) : 0;
+            $goalValue = $totalProductionTime > 0 ? round($productionGroup->sum('conversions_goal') / $totalProductionTime, 2) : 0;
 
             // Get goal SPH (average of all sph_goal values for the day)
             // $goalValue = round($productionGroup->avg('sph_goal'), 2);
             $goalSPH[] = $goalValue;
             $actualSPH[] = $sph;
-
-
-
 
         }
 

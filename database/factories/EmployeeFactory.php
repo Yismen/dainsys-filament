@@ -46,7 +46,7 @@ class EmployeeFactory extends Factory
             'gender' => Genders::Male,
             'has_kids' => $this->faker->randomElement([0, 1]),
             'citizenship_id' => Citizenship::factory(),
-            'internal_id' => 'EMP' . $this->faker->unique()->numerify('####'),
+            'internal_id' => 'EMP'.$this->faker->unique()->numerify('####'),
         ];
     }
 

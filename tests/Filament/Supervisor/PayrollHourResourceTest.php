@@ -1,7 +1,6 @@
 <?php
 
 use App\Enums\EmployeeStatuses;
-use App\Filament\Supervisor\Resources\PayrollHours\PayrollHourResource;
 use App\Models\Employee;
 use App\Models\PayrollHour;
 use App\Models\Supervisor;
