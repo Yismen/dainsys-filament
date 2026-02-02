@@ -1,5 +1,6 @@
 <?php
 
+use App\Jobs\DistributePayrollHoursJob;
 use App\Models\Holiday;
 use App\Models\PayrollHour;
 use Illuminate\Support\Carbon;
@@ -141,10 +142,13 @@ it('parses holiday_hours correctly', function () {
         'total_hours' => 7,
     ]);
 
+    (new DistributePayrollHoursJob($is_holiday->date->toDateString(), $is_holiday->employee_id))->handle();
+
     $this->assertDatabaseHas('payroll_hours', [
         'id' => $is_holiday->id,
         'total_hours' => 7,
         'holiday_hours' => 7,
+        'regular_hours' => 0,
     ]);
 });
 
@@ -155,9 +159,12 @@ it('parses non holiday_hours correctly', function () {
         'total_hours' => 7,
     ]);
 
+    (new DistributePayrollHoursJob($non_holiday->date->toDateString(), $non_holiday->employee_id))->handle();
+
     $this->assertDatabaseHas('payroll_hours', [
         'id' => $non_holiday->id,
         'total_hours' => 7,
         'holiday_hours' => 0,
+        'regular_hours' => 7,
     ]);
 });

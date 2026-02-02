@@ -9,12 +9,15 @@ use App\Models\Employee;
 use App\Models\Production;
 use App\Models\User;
 use Filament\Facades\Filament;
+use Illuminate\Support\Facades\Bus;
 
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 use function Pest\Livewire\livewire;
 
 beforeEach(function () {
+    Bus::fake();
+
     // Seed roles/permissions if applicable
     Filament::setCurrentPanel(
         Filament::getPanel('workforce'), // Where `app` is the ID of the panel you want to test.

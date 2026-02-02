@@ -6,6 +6,7 @@ use App\Events\EmployeeTerminatedEvent;
 use App\Jobs\RefreshPayrollHoursJob;
 use App\Models\Employee;
 use App\Models\Production;
+use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
 
@@ -39,6 +40,8 @@ it('dispatches RefreshPayrollHoursJob with the correct date argument', function 
 });
 
 it('summarize all data for downtimes and production for the week', function () {
+    Bus::fake();
+
     $employee = Employee::factory()->create();
     Production::withoutEvents(function () use ($employee) {
         Production::factory()->for($employee)->create(['date' => '2026-01-10', 'total_time' => 7]);
@@ -63,6 +66,8 @@ it('summarize all data for downtimes and production for the week', function () {
 });
 
 it('sumarize data based on dates for the same week', function () {
+    Bus::fake();
+
     Production::withoutEvents(function () {
         Production::factory()->create(['date' => '2026-01-10', 'total_time' => 7]);
         Production::factory()->create(['date' => '2026-01-09', 'total_time' => 7]);
@@ -82,6 +87,8 @@ it('sumarize data based on dates for the same week', function () {
 });
 
 it('summarize data based on employees for the same week', function () {
+    Bus::fake();
+
     $employee_one = Employee::factory()->create();
     $employee_two = Employee::factory()->create();
     Production::withoutEvents(function () use ($employee_one, $employee_two) {
@@ -105,6 +112,8 @@ it('summarize data based on employees for the same week', function () {
 });
 
 it('summarize data based on the week and ignores other weeks', function () {
+    Bus::fake();
+
     $employee = Employee::factory()->create();
     Production::withoutEvents(function () use ($employee) {
         Production::factory()->for($employee)->create(['date' => '2026-01-01', 'total_time' => 10]);

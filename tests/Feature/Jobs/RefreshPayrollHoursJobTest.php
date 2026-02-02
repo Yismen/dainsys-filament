@@ -6,8 +6,13 @@ use App\Models\Employee;
 use App\Models\PayrollHour;
 use App\Models\Production;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Bus;
 
 describe('RefreshPayrollHoursJob', function () {
+    beforeEach(function () {
+        Bus::fake();
+    });
+
     it('aggregates productions for a date and creates payroll hours', function () {
         $employee = Employee::factory()->create();
         $campaign1 = Campaign::factory()->create();

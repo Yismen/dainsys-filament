@@ -15,11 +15,14 @@ use App\Models\Employee;
 use App\Models\Production;
 use App\Models\User;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Bus;
 use Livewire\Livewire;
 
 use function Pest\Laravel\actingAs;
 
 beforeEach(function () {
+    Bus::fake();
+
     $this->user = User::factory()->create();
     actingAs($this->user);
 });

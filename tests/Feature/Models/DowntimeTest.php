@@ -9,6 +9,11 @@ use App\Models\Employee;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Bus;
+
+beforeEach(function () {
+    Bus::fake();
+});
 
 test('downtime model interacts with db table', function () {
     $data = Downtime::factory()->make();

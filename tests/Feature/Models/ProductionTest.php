@@ -9,9 +9,12 @@ use App\Models\Production;
 use App\Models\Project;
 use App\Models\Supervisor;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
 
 beforeEach(function () {
+    Bus::fake();
+
     Event::fake([
         EmployeeHiredEvent::class,
     ]);

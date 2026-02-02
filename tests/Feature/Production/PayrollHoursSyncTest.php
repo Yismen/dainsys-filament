@@ -5,6 +5,7 @@ use App\Models\Campaign;
 use App\Models\Employee;
 use App\Models\Production;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Queue;
 
 describe('Production Payroll Hours Sync', function () {
@@ -82,6 +83,7 @@ describe('Production Payroll Hours Sync', function () {
 
     it('keeps payroll hours in sync when production is updated', function () {
         // Don't fake queue for this test - we need jobs to execute
+        Bus::fake();
 
         $employee = Employee::factory()->create();
         $campaign = Campaign::factory()->create();
@@ -120,6 +122,7 @@ describe('Production Payroll Hours Sync', function () {
 
     it('keeps payroll hours in sync when production is soft deleted', function () {
         // Don't fake queue for this test - we need jobs to execute
+        Bus::fake();
 
         $employee = Employee::factory()->create();
         $campaign1 = Campaign::factory()->create();

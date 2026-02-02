@@ -44,13 +44,12 @@ class HoursTrendWidget extends ChartWidget
         $dates = [];
         $regularHours = [];
         $overtimeHours = [];
-        $nightlyHours = [];
+        $holidaysAndSeventhDay = [];
 
         foreach ($payrollHours as $date => $hours) {
             $dates[] = $date;
             $regularHours[] = $hours->sum('regular_hours');
             $overtimeHours[] = $hours->sum('overtime_hours');
-            $nightlyHours[] = $hours->sum('nightly_hours');
             $holidaysAndSeventhDay[] = $hours->sum('holiday_hours') + $hours->sum('seventh_day_hours');
         }
 
@@ -67,12 +66,6 @@ class HoursTrendWidget extends ChartWidget
                     'data' => $overtimeHours,
                     'borderColor' => '#f59e0b',
                     'backgroundColor' => 'rgba(245, 158, 11, 0.1)',
-                ],
-                [
-                    'label' => 'Nightly Hours',
-                    'data' => $nightlyHours,
-                    'borderColor' => '#8b5cf6',
-                    'backgroundColor' => 'rgba(139, 92, 246, 0.1)',
                 ],
                 [
                     'label' => 'Holidays & 7th Day Hours',

@@ -3,6 +3,11 @@
 use App\Models\Campaign;
 use App\Models\Project;
 use App\Models\Source;
+use Illuminate\Support\Facades\Bus;
+
+beforeEach(function () {
+    Bus::fake();
+});
 
 test('campaigns model interacts with db table', function () {
     $data = Campaign::factory()->make();

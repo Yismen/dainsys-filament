@@ -4,14 +4,16 @@ namespace App\Jobs;
 
 use App\Models\PayrollHour;
 use App\Models\Production;
+use Illuminate\Bus\Batchable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\DB;
 
 class RefreshPayrollHoursJob implements ShouldQueue
 {
-    use Queueable;
+    use Batchable, Queueable;
 
     public string $date;
 
@@ -59,5 +61,17 @@ class RefreshPayrollHoursJob implements ShouldQueue
                 ]
             );
         });
+
+        $employeeIds = $productions->pluck('employee_id')->unique()->values();
+
+        if ($employeeIds->isEmpty()) {
+            return;
+        }
+
+        Bus::batch(
+            $employeeIds
+                ->map(fn (string $employeeId) => new DistributePayrollHoursJob($this->date, $employeeId))
+                ->all()
+        )->dispatch();
     }
 }

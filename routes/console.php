@@ -3,6 +3,7 @@
 use App\Console\Commands\Birthdays;
 use App\Console\Commands\ImportPayrollHoursFromProduction;
 use App\Console\Commands\LiveVox\PublishingProductionReport;
+use App\Console\Commands\RecalculatePayrollHours;
 use App\Console\Commands\SendTicketsExpiredReport;
 use App\Console\Commands\UpdateTicketStatus;
 use Illuminate\Support\Facades\Schedule;
@@ -22,6 +23,8 @@ Schedule::command(PublishingProductionReport::class, [
 Schedule::command(ImportPayrollHoursFromProduction::class, [
     'date' => now()->subDay()->format('Y-m-d'),
 ])->hourlyAt(23);
+
+Schedule::command(RecalculatePayrollHours::class)->dailyAt('02:00');
 
 Schedule::command('telescope:prune --hours=120')->daily();
 
