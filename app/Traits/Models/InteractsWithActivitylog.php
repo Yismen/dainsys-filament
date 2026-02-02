@@ -43,11 +43,20 @@ trait InteractsWithActivitylog
             return in_array(strtolower($value), static::$ignoreChangedAttributes) == false;
         });
 
-        return \array_map(function ($value) {
+        $attributes = \array_map(function ($value) {
+
             $split = \explode('_id', $value);
-            return count($split) > 1 ?
-                $split[0] . '.name' :
-                $split[0];
+
+            if (\count($split) <= 1) {
+                return $value;
+            }
+
+            return \method_exists($this, $split[0]) ?
+                $split[0].'.name' :
+                $value;
+
         }, $attributes);
+
+        return $attributes;
     }
 }
