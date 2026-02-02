@@ -2,21 +2,22 @@
 
 namespace App\Filament\Employee\Pages;
 
-use App\Models\PayrollHour;
 use BackedEnum;
-use Filament\Forms\Components\DatePicker;
 use Filament\Pages\Page;
-use Filament\Support\Enums\FontWeight;
-use Filament\Tables\Columns\Summarizers\Sum;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Concerns\InteractsWithTable;
-use Filament\Tables\Contracts\HasTable;
-use Filament\Tables\Filters\Filter;
-use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
-use Illuminate\Contracts\Database\Eloquent\Builder;
+use App\Models\PayrollHour;
+use Filament\Tables\Filters\Filter;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Filament\Support\Enums\FontWeight;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Forms\Components\DatePicker;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Columns\Summarizers\Sum;
+use Filament\Tables\Concerns\InteractsWithTable;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class MyPayrollHours extends Page implements HasTable
 {
@@ -59,36 +60,42 @@ class MyPayrollHours extends Page implements HasTable
                 TextColumn::make('total_hours')
                     ->label('Total Hours')
                     ->numeric(decimalPlaces: 2)
+                    ->formatStateUsing(fn (float $state): string => $state == 0 ? '-' : number_format($state, 2))
                     ->sortable()
                     ->summarize(Sum::make()->label('Total')),
 
                 TextColumn::make('nightly_hours')
                     ->label('Nightly Hours')
                     ->numeric(decimalPlaces: 2)
+                    ->formatStateUsing(fn (float $state): string => $state == 0 ? '-' : number_format($state, 2))
                     ->sortable()
                     ->summarize(Sum::make()->label('Total')),
 
                 TextColumn::make('regular_hours')
                     ->label('Regular Hours')
                     ->numeric(decimalPlaces: 2)
+                    ->formatStateUsing(fn (float $state): string => $state == 0 ? '-' : number_format($state, 2))
                     ->sortable()
                     ->summarize(Sum::make()->label('Total')),
 
                 TextColumn::make('overtime_hours')
                     ->label('Overtime Hours')
                     ->numeric(decimalPlaces: 2)
+                    ->formatStateUsing(fn (float $state): string => $state == 0 ? '-' : number_format($state, 2))
                     ->sortable()
                     ->summarize(Sum::make()->label('Total')),
 
                 TextColumn::make('holiday_hours')
                     ->label('Holiday Hours')
                     ->numeric(decimalPlaces: 2)
+                    ->formatStateUsing(fn (float $state): string => $state == 0 ? '-' : number_format($state, 2))
                     ->sortable()
                     ->summarize(Sum::make()->label('Total')),
 
                 TextColumn::make('seventh_day_hours')
                     ->label('7th Day Hours')
                     ->numeric(decimalPlaces: 2)
+                    ->formatStateUsing(fn (float $state): string => $state == 0 ? '-' : number_format($state, 2))
                     ->sortable()
                     ->summarize(Sum::make()->label('Total')),
 
@@ -101,6 +108,16 @@ class MyPayrollHours extends Page implements HasTable
                 TextColumn::make('payroll_ending_at')
                     ->label('Payroll Ending')
                     ->date()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                IconColumn::make('is_sunday')
+                    ->label('Is Sunday')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                IconColumn::make('is_holiday')
+                    ->label('Is Holiday')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
