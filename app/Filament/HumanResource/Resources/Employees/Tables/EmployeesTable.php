@@ -28,10 +28,12 @@ class EmployeesTable
                 TextColumn::make('full_name')
                     ->wrap()
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->copyable(),
                 TextColumn::make('personal_id')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->copyable(),
                 TextColumn::make('date_of_birth')
                     ->date()
                     ->sortable(),
@@ -49,7 +51,8 @@ class EmployeesTable
                     ->boolean(),
                 TextColumn::make('internal_id')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->copyable(),
                 TextColumn::make('citizenship.name')
                     ->sortable()
                     ->searchable()
