@@ -42,6 +42,7 @@ arch('AppModel should use traits HasFactory and InteractsWithModelCaching and Ha
     ->toUseTraits([
         \Illuminate\Database\Eloquent\Factories\HasFactory::class,
         \App\Traits\Models\InteractsWithModelCaching::class,
+        \App\Traits\Models\InteractsWithActivitylog::class,
         \Illuminate\Database\Eloquent\Concerns\HasUuids::class,
         \Illuminate\Database\Eloquent\SoftDeletes::class,
     ]);
