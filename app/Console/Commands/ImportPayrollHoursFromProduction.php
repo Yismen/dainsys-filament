@@ -2,12 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Models\PayrollHour;
-use App\Models\Production;
+use App\Jobs\RefreshPayrollHoursJob;
 use Illuminate\Console\Command;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
 
 class ImportPayrollHoursFromProduction extends Command
 {
@@ -23,60 +19,16 @@ class ImportPayrollHoursFromProduction extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Refresh payroll hours from production records for a given date';
 
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
         $date = $this->argument('date');
-        $start_of_week = Carbon::parse($date)->startOfWeek();
-        $end_of_week = Carbon::parse($date)->endOfWeek();
+        RefreshPayrollHoursJob::dispatch($date);
 
-        $productions = Production::query()
-            ->whereDate('date', '>=', $start_of_week)
-            ->whereDate('date', '<=', $end_of_week)
-            ->orderBy('date', 'asc')
-            ->groupBy(['date', 'employee_id'])
-            ->select([
-                'date',
-                'employee_id',
-                DB::raw('sum(total_time) as sum_of_total_time'),
-            ])
-            ->get();
-
-        $productions->each(function (Production $production) {
-            PayrollHour::updateOrCreate(
-                [
-                    'employee_id' => $production->employee_id,
-                    'date' => Carbon::parse($production->date),
-                ],
-                [
-                    'total_hours' => $production->sum_of_total_time,
-                ]
-            );
-        });
-    }
-
-    protected function getModelData(
-        Builder $modelBuilder,
-        Carbon $start_of_week,
-        Carbon $end_of_week,
-        array $groupFields = ['employee_id', 'date'],
-        string $hoursField = 'total_time'
-    ) {
-        return $modelBuilder
-            ->orderBy('date', 'asc')
-            ->whereDate('date', '>=', $start_of_week)
-            ->whereDate('date', '<=', $end_of_week)
-            ->groupBy(['date', 'employee_id'])
-            ->select([
-                'date',
-                'employee_id',
-                DB::raw("sum({$hoursField}) as sum_of_{$hoursField}"),
-            ]
-            )
-            ->get();
+        $this->info("Dispatched payroll hours refresh for {$date}");
     }
 }

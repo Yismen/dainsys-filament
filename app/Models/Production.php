@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Casts\AsMoney;
 use App\Enums\RevenueTypes;
+use App\Jobs\RefreshPayrollHoursJob;
 use App\Models\Traits\BelongsToCampaign;
 use App\Models\Traits\BelongsToEmployee;
 use App\Models\Traits\BelongsToSupervisor;
@@ -41,7 +42,7 @@ class Production extends \App\Models\BaseModels\AppModel
         'date' => 'date:Y-m-d',
     ];
 
-    protected static function boot()
+    protected static function boot(): void
     {
         parent::boot();
 
@@ -60,7 +61,7 @@ class Production extends \App\Models\BaseModels\AppModel
                 $production->employee?->supervisor?->id :
                 $production->supervisor_id;
 
-            if( \in_array('campaign_id', $changed_keys)) {
+            if (\in_array('campaign_id', $changed_keys)) {
                 $production->revenue_rate = $production->campaign?->revenue_rate;
                 $production->sph_goal = $production->campaign?->sph_goal;
                 $production->revenue_type = $production->campaign?->revenue_type;
@@ -78,6 +79,28 @@ class Production extends \App\Models\BaseModels\AppModel
             $production->conversions_goal = $production->campaign?->sph_goal * $production->production_time;
 
             $production->saveQuietly();
+
+            // Refresh payroll hours for this employee/date
+            RefreshPayrollHoursJob::dispatch(
+                date: $production->date->toDateString(),
+                employeeId: $production->employee_id,
+            );
+        });
+
+        static::deleting(function (self $production) {
+            // Refresh payroll hours for this employee/date when soft deleted
+            RefreshPayrollHoursJob::dispatch(
+                date: $production->date->toDateString(),
+                employeeId: $production->employee_id,
+            );
+        });
+
+        static::restored(function (self $production) {
+            // Refresh payroll hours for this employee/date when restored
+            RefreshPayrollHoursJob::dispatch(
+                date: $production->date->toDateString(),
+                employeeId: $production->employee_id,
+            );
         });
     }
 
