@@ -26,6 +26,8 @@ class LoginNameResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'login_name';
 
+    protected static ?int $navigationSort = 5;
+
     public static function form(Schema $schema): Schema
     {
         return LoginNameForm::configure($schema);

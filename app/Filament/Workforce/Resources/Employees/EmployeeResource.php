@@ -27,6 +27,8 @@ class EmployeeResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'full_name';
 
+    protected static ?int $navigationSort = 4;
+
     public static function form(Schema $schema): Schema
     {
         return EmployeeForm::configure($schema);

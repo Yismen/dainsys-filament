@@ -26,6 +26,8 @@ class ManageSupervisors extends Page
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBattery50;
 
+    protected static ?int $navigationSort = 7;
+
     public array $selectedEmployees = [];
 
     #[On('employeesSelected')]

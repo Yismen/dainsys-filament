@@ -26,6 +26,8 @@ class DowntimeResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'id';
 
+    protected static ?int $navigationSort = 2;
+
     public static function form(Schema $schema): Schema
     {
         return DowntimeForm::configure($schema);
