@@ -28,7 +28,7 @@ class NightlyHoursTable
                     ->icon(Heroicon::ArrowUpTray),
             ])
             ->columns([
-                TextColumn::make('employee.name')
+                TextColumn::make('employee.full_name')
                     ->label('Employee')
                     ->searchable()
                     ->sortable(),

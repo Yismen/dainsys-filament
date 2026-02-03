@@ -11,7 +11,7 @@ class NightlyHourInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('employee.name')
+                TextEntry::make('employee.full_name')
                     ->label('Employee'),
                 TextEntry::make('date')
                     ->date(),
