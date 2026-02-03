@@ -20,6 +20,9 @@ class NightlyHourForm
                     ->searchable()
                     ->required(),
                 DatePicker::make('date')
+                    ->default(now())
+                    ->minDate(now()->startOfDay()->subDays(30))
+                    ->maxDate(now())
                     ->required(),
                 TextInput::make('total_hours')
                     ->label('Total Hours')
