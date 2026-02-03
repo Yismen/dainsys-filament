@@ -2,6 +2,7 @@
 
 namespace App\Filament\HumanResource\Resources\Employees\Schemas;
 
+use App\Enums\EmployeeStatuses;
 use App\Enums\Genders;
 use App\Models\Citizenship;
 use App\Models\Position;
@@ -30,7 +31,7 @@ class EmployeeForm
                     ->columns(3)
                     ->schema([
                         Section::make('Employee information')
-                            ->columnSpan(2)
+                            ->columnSpan(fn (string $operation) => $operation === 'create' ? 3 : 2)
                             ->columns(2)
                             ->schema([
                                 TextEntry::make('status')
@@ -91,25 +92,31 @@ class EmployeeForm
                             ]),
                         Section::make('Hiring information')
                             ->columnSpan(1)
+                            ->visibleOn("edit")
                             ->schema([
 
                                 Select::make('site_id')
                                     ->relationship('site', 'name')
                                     ->searchable()
+                                    ->disabled(fn ($record) => $record->status === EmployeeStatuses::Created)
                                     ->options(ModelListService::make(Site::query())),
                                 Select::make('project_id')
                                     ->relationship('project', 'name')
+                                    ->disabled(fn ($record) => $record->status === EmployeeStatuses::Created)
                                     ->searchable()
                                     ->options(ModelListService::make(Project::query())),
                                 Select::make('position_id')
                                     ->relationship('position', 'name')
+                                    ->disabled(fn ($record) => $record->status === EmployeeStatuses::Created)
                                     ->searchable()
                                     ->options(ModelListService::make(Position::query())),
                                 Select::make('supervisor_id')
                                     ->relationship('supervisor', 'name')
-                                    ->options(ModelListservice::make(Supervisor::query())),
+                                    ->disabled(fn ($record) => $record->status === EmployeeStatuses::Created)
+                                    ->options(ModelListService::make(Supervisor::query())),
                                 DateTimePicker::make('hired_at')
-                                    ->nullable(),
+                                    ->nullable()
+                                    ->disabled(fn ($record) => $record->status === EmployeeStatuses::Created),
                                 TextInput::make('internal_id')
                                     ->nullable()
                                     ->unique(ignoreRecord: true)
