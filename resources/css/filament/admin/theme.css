@@ -1,7 +1,9 @@
 @import "../../../../vendor/filament/filament/resources/css/theme.css";
 
-@source '../../../../app/Filament';
-@source '../../../../resources/views/filament';
-@source '../../../../vendor/bezhansalleh/filament-panel-switch/resources/views';
+@source '../../../../app/Filament/';
+@source '../../../../resources/views/';
+@source '../../../../resources/views/filament/';
+@source '../../../../vendor/bezhansalleh/filament-panel-switch/resources/views/';
 @source '../../../../vendor/bezhansalleh/filament-language-switch/resources/views/';
-@source '../../../../vendor/jeffgreco13/filament-breezy/resources/views';
+@source '../../../../vendor/jeffgreco13/filament-breezy/resources/views/';
+@source '../../../../vendor/filament/filament-spatie-laravel-activitylog/resources/views/';

@@ -16,17 +16,17 @@ class SupervisorForm
     {
         return $schema
             ->components([
+                TextInput::make('name')
+                    ->required()
+                    ->maxLength(255)
+                    ->unique(ignoreRecord: true)
+                    ->autofocus(),
                 Select::make('user_id')
                     ->relationship('user', 'name')
                     ->options(ModelListService::make(User::query()))
                     ->searchable()
                     ->required()
                     ->unique(ignoreRecord: true),
-                TextInput::make('name')
-                    ->required()
-                    ->maxLength(255)
-                    ->unique(ignoreRecord: true)
-                    ->autofocus(),
                 Toggle::make('is_active')
                     ->default(true)
                     ->required(),

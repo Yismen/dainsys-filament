@@ -20,11 +20,11 @@ class SupervisorsTable
         return $table
             ->defaultSort('name')
             ->columns([
-                TextColumn::make('user.name')
-                    ->label('User')
+                TextColumn::make('name')
                     ->sortable()
                     ->searchable(),
-                TextColumn::make('name')
+                TextColumn::make('user.name')
+                    ->label('User')
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('deleted_at')

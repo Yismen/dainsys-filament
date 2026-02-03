@@ -10,23 +10,42 @@ use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Forms\Components\Select;
+use Filament\Notifications\Notification;
 use Filament\Pages\Page;
-use Filament\Schemas\Concerns\InteractsWithSchemas;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 
 class ManageSupervisors extends Page
 {
     use InteractsWithActions;
-    use InteractsWithSchemas;
 
     protected string $view = 'filament.workforce.pages.manage-supervisors';
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBattery50;
 
     public array $selectedEmployees = [];
+
+    #[On('employeesSelected')]
+    public function employeesSelected($employees): void
+    {
+        // go over the employees array and map to selectedEmployees, removing or adding ids depending on selected value
+        \array_walk($employees, function ($employee) {
+            if ($employee['selected']) {
+                if (! in_array($employee['id'], $this->selectedEmployees)) {
+                    $this->selectedEmployees[] = $employee['id'];
+                }
+            } else {
+                if (in_array($employee['id'], $this->selectedEmployees)) {
+                    $this->selectedEmployees = array_filter($this->selectedEmployees, function ($id) use ($employee) {
+                        return $id !== $employee['id'];
+                    });
+                }
+            }
+        });
+    }
 
     #[Computed]
     public function activeSupervisors(): Collection
@@ -123,30 +142,37 @@ class ManageSupervisors extends Page
                     }
                 }
 
+                $employees = Employee::query()
+                    ->whereIn('id', $this->selectedEmployees)
+                    ->get();
+                $supervisor = Supervisor::find($data['destination_supervisor_id']);
+
+                Notification::make()
+                    ->title('Employees Reassigned')
+                    ->body('The employees '.\implode(', ', $employees->pluck('full_name')->toArray()).' have been reassigned to you.')
+                    ->sendToDatabase($supervisor->user ?? auth()->user());
+
+                Cache::forget('supervisors_with_active');
+                Cache::forget('supervisors_with_inactive');
+                Cache::forget('employees_without_supervisor_list');
+
+                // Unset computed properties to force re-evaluation
+                unset($this->activeSupervisors);
+                unset($this->inactiveSupervisors);
+                unset($this->employeesWithoutSupervisor);
+
                 $this->selectedEmployees = [];
+
+                $this->dispatch('employeesReassigned');
+
+                $this->redirect(request()->header('referer'), navigate: true);
+
             });
-    }
-
-    public function selectAllForSupervisor($supervisor): void
-    {
-        $employeeIds = Supervisor::query()
-            ->withoutGlobalScopes([
-                IsActiveScope::class,
-            ])
-            ->findOrFail($supervisor)
-            ->employees
-            ?->pluck('id')
-            ?->toArray() ?? [];
-        // $selectedEmployeeIds = array_map('intval', $this->selectedEmployees);
-
-        // Add all employees from this supervisor
-        $this->selectedEmployees = array_unique(array_merge($this->selectedEmployees, $employeeIds));
-        $this->selectedEmployees = array_values($this->selectedEmployees);
     }
 
     protected function getSupervisors(bool $isActive): Collection
     {
-        return Cache::rememberForever('supervisors_with_'.($isActive ? 'active' : 'inactive'), function () use ($isActive) {
+        return Cache::rememberForever("supervisors_with_".($isActive ? 'active' : 'inactive'), function () use ($isActive) {
             return Supervisor::query()
                 ->withoutGlobalScopes([
                     IsActiveScope::class,
@@ -160,7 +186,6 @@ class ManageSupervisors extends Page
                 ->where('is_active', $isActive)
                 ->orderBy('name')
                 ->get();
-
         });
     }
 }
