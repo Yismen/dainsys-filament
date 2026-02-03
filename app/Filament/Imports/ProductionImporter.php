@@ -17,14 +17,13 @@ class ProductionImporter extends Importer
         return [
             ImportColumn::make('date')
                 ->requiredMapping()
+                ->castStateUsing(fn ($state) => \Illuminate\Support\Carbon::parse($state)->format('Y-m-d'))
                 ->rules(['required', 'date']),
-            ImportColumn::make('employee')
+            ImportColumn::make('employee_id')
                 ->requiredMapping()
-                ->relationship()
                 ->rules(['required']),
-            ImportColumn::make('campaign')
+            ImportColumn::make('campaign_id')
                 ->requiredMapping()
-                ->relationship()
                 ->rules(['required']),
             // ImportColumn::make('revenue_type')
             //     ->rules(['max:255']),
@@ -33,27 +32,23 @@ class ProductionImporter extends Importer
             // ImportColumn::make('revenue_rate')
             //     ->requiredMapping()
             //     ->numeric()
-            //     ->rules(['required', 'float']),
+            //     ->rules(['required', 'numeric']),
             // ImportColumn::make('sph_goal')
             //     ->requiredMapping()
             //     ->numeric()
-            //     ->rules(['required', 'float']),
+            //     ->rules(['required', 'numeric']),
             ImportColumn::make('conversions')
                 ->requiredMapping()
-                ->numeric()
-                ->rules(['required', 'float']),
+                ->rules(['required', 'numeric']),
             ImportColumn::make('total_time')
                 ->requiredMapping()
-                ->numeric()
-                ->rules(['required', 'float']),
+                ->rules(['required', 'numeric']),
             ImportColumn::make('production_time')
                 ->requiredMapping()
-                ->numeric()
-                ->rules(['required', 'float']),
+                ->rules(['required', 'numeric']),
             ImportColumn::make('talk_time')
                 ->requiredMapping()
-                ->numeric()
-                ->rules(['required', 'float']),
+                ->rules(['required', 'numeric']),
             // ImportColumn::make('converted_to_payroll_at')
             //     ->rules(['datetime']),
         ];
@@ -62,9 +57,9 @@ class ProductionImporter extends Importer
     public function resolveRecord(): Production
     {
         return Production::firstOrNew([
-            'campaign_id' => $this->data['campaign_id'],
-            'employee_id' => $this->data['employee_id'],
             'date' => $this->data['date'],
+            'employee_id' => $this->data['employee_id'],
+            'campaign_id' => $this->data['campaign_id'],
         ]);
     }
 

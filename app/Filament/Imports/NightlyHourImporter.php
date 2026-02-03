@@ -15,14 +15,13 @@ class NightlyHourImporter extends Importer
         return [
             ImportColumn::make('date')
                 ->requiredMapping()
+                ->castStateUsing(fn ($state) => \Illuminate\Support\Carbon::parse($state)->format('Y-m-d'))
                 ->rules(['required', 'date']),
-            ImportColumn::make('employee')
+            ImportColumn::make('employee_id')
                 ->requiredMapping()
-                ->relationship()
                 ->rules(['required']),
             ImportColumn::make('total_hours')
                 ->requiredMapping()
-                ->numeric()
                 ->rules(['required', 'numeric', 'min:0']),
         ];
     }
@@ -30,8 +29,8 @@ class NightlyHourImporter extends Importer
     public function resolveRecord(): NightlyHour
     {
         return NightlyHour::firstOrNew([
-            'employee_id' => $this->data['employee_id'],
             'date' => $this->data['date'],
+            'employee_id' => $this->data['employee_id'],
         ]);
     }
 
