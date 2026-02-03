@@ -124,13 +124,25 @@ class Production extends \App\Models\BaseModels\AppModel
 
     private function calculateBillableHours(): float
     {
-        return RevenueTypes::from($this->campaign->revenue_type->value)
-            ->calculateBillableHours($this);
+        return match ($this->campaign->revenue_type) {
+            RevenueTypes::Downtime => $this->campaign->revenue_rate > 0 ?
+                $this->total_time :
+                0,
+            RevenueTypes::LoginTime => $this->total_time ?? 0,
+            RevenueTypes::ProductionTime => $this->production_time ?? 0,
+            RevenueTypes::TalkTime => $this->talk_time ?? 0,
+            RevenueTypes::Conversions => $this->production_time ?? 0,
+        };
     }
 
     private function calculateRevenue()
     {
-        return RevenueTypes::from($this->campaign->revenue_type->value)
-            ->calculateRevenue($this);
+        return match ($this->campaign->revenue_type) {
+            RevenueTypes::Downtime => $this->total_time * $this->campaign->revenue_rate,
+            RevenueTypes::LoginTime => $this->total_time * $this->campaign->revenue_rate,
+            RevenueTypes::ProductionTime => $this->production_time * $this->campaign->revenue_rate,
+            RevenueTypes::TalkTime => $this->talk_time * $this->campaign->revenue_rate,
+            RevenueTypes::Conversions => $this->conversions * $this->campaign->revenue_rate,
+        };
     }
 }

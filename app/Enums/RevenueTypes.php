@@ -17,37 +17,4 @@ enum RevenueTypes: string implements EnumContract
     case ProductionTime = 'production time';
     case TalkTime = 'talk time';
     case Conversions = 'conversions';
-
-    public function calculateRevenue(Production $production): float
-    {
-        return match ($this) {
-            self::Downtime => 0,
-            self::LoginTime => $production->total_time * $production->campaign->revenue_rate,
-            self::ProductionTime => $production->production_time * $production->campaign->revenue_rate,
-            self::TalkTime => $production->talk_time * $production->campaign->revenue_rate,
-            self::Conversions => $production->conversions * $production->campaign->revenue_rate,
-        };
-    }
-
-    public function productionRevenue(Production $production): float
-    {
-        return match ($this) {
-            self::Downtime => $production->total_time * $production->campaign->revenue_rate,
-            self::LoginTime => $production->total_time * $production->campaign->revenue_rate,
-            self::ProductionTime => $production->production_time * $production->campaign->revenue_rate,
-            self::TalkTime => $production->talk_time * $production->campaign->revenue_rate,
-            self::Conversions => $production->conversions * $production->campaign->revenue_rate,
-        };
-    }
-
-    public function calculateBillableHours(Production $production): float
-    {
-        return match ($this) {
-            self::Downtime => 0,
-            self::LoginTime => $production->total_time ?? 0,
-            self::ProductionTime => $production->production_time ?? 0,
-            self::TalkTime => $production->talk_time ?? 0,
-            self::Conversions => $production->production_time ?? 0,
-        };
-    }
 }

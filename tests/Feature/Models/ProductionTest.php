@@ -217,6 +217,40 @@ test('billable time and revenuve are updated properly when revenue type is login
     ]);
 });
 
+test('billable time and revenuve are updated properly when revenue type is downtime', function () {
+    $campaign = Campaign::factory()->create(['revenue_type' => RevenueTypes::Downtime, 'revenue_rate' => 5]);
+    $production = Production::factory()->create(['campaign_id' => $campaign->id, 'total_time' => 5, 'revenue' => 0]);
+
+    $production->update(['total_time' => 10]);
+
+    expect($production->revenue)->toEqual(50);
+    // = campaign rate * downtime
+    expect($production->billable_time)->toEqual(10);
+    // = login time
+    $this->assertDatabaseHas(Production::class, [
+        'id' => $production->id,
+        'revenue' => 5000,
+        'billable_time' => 10,
+    ]);
+});
+
+test('billable time and revenuve are updated properly when revenue type is downtime and the rate is 0', function () {
+    $campaign = Campaign::factory()->create(['revenue_type' => RevenueTypes::Downtime, 'revenue_rate' => 0]);
+    $production = Production::factory()->create(['campaign_id' => $campaign->id, 'total_time' => 5, 'revenue' => 0]);
+
+    $production->update(['total_time' => 10]);
+
+    expect($production->revenue)->toEqual(0);
+    // = campaign rate * downtime
+    expect($production->billable_time)->toEqual(0);
+    // = login time
+    $this->assertDatabaseHas(Production::class, [
+        'id' => $production->id,
+        'revenue' => 0,
+        'billable_time' => 0,
+    ]);
+});
+
 test('billable time and revenuve are updated properly when revenue type is production time', function () {
     $campaign = Campaign::factory()->create(['revenue_type' => RevenueTypes::ProductionTime, 'revenue_rate' => 5]);
     $production = Production::factory()->create(['campaign_id' => $campaign->id, 'production_time' => 5, 'revenue' => 1000000]);
