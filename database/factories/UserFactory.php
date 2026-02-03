@@ -32,6 +32,7 @@ class UserFactory extends Factory
             'password_set_at' => now(),
             'force_password_change' => false,
             'remember_token' => Str::random(10),
+            'employee_id' => null,
         ];
     }
 

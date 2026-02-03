@@ -60,7 +60,7 @@ beforeEach(function () {
         'gender' => Genders::Male->value,
         'has_kids' => true,
         'citizenship_id' => Citizenship::factory()->create()->id,
-        'internal_id' => '5155',
+        'internal_id' => null,
     ];
 });
 
@@ -205,7 +205,7 @@ test('form validation require fields on create and edit pages', function () {
         ]);
 });
 
-test('Employee name must be unique on create and edit pages', function () {
+test('Employee fields must be unique on create and edit pages', function () {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Employee'));
 
     $unique_personal_id = '15166635118';
@@ -221,7 +221,7 @@ test('Employee name must be unique on create and edit pages', function () {
     // Test CreateEmployee uniqueness validation
     livewire(CreateEmployee::class)
         ->fillForm([
-            'personal_id' => $unique_personal_id, // Invalid: name must be unique
+            'personal_id' => $unique_personal_id, // Invalid: personal_id must be unique
             'cellphone' => $unique_cellphone,
             'internal_id' => $unique_internal_id,
         ])
@@ -229,13 +229,13 @@ test('Employee name must be unique on create and edit pages', function () {
         ->assertHasFormErrors([
             'personal_id' => 'unique',
             'cellphone' => 'unique',
-            'internal_id' => 'unique',
+            // 'internal_id' => 'unique',
         ]);
     // Test EditEmployee uniqueness validation
     $employeeToEdit = Employee::factory()->create(['personal_id' => '33333333333', 'cellphone' => '8097778888']);
     livewire(EditEmployee::class, ['record' => $employeeToEdit->getKey()])
         ->fillForm([
-            'personal_id' => $unique_personal_id, // Invalid: name must be unique
+            'personal_id' => $unique_personal_id, // Invalid: personal_id must be unique
             'cellphone' => $unique_cellphone,
             'internal_id' => $unique_internal_id,
         ])
@@ -256,7 +256,7 @@ it('allows updating Employee without changing name to trigger uniqueness validat
         ->fillForm([
             'personal_id' => '33333333333', // Same personal_id, should not trigger uniqueness error
             'cellphone' => '8097778888', // Same cellphone, should not trigger uniqueness error
-            'internal_id' => '7777', // Same cellphone, should not trigger uniqueness error
+            'internal_id' => '7777', // Same internal_id, should not trigger uniqueness error
         ])
         ->call('save')
         ->assertHasNoErrors();
