@@ -56,46 +56,55 @@ class MyProduction extends Page implements HasTable
             ->columns([
                 TextColumn::make('date')
                     ->date()
+                    ->wrap()
                     ->sortable()
                     ->weight(FontWeight::Bold),
 
                 TextColumn::make('campaign.project.name')
                     ->label('Project')
+                    ->wrap()
                     ->sortable()
                     ->searchable(),
 
                 TextColumn::make('campaign.name')
                     ->label('Campaign')
+                    ->wrap()
                     ->sortable()
                     ->searchable(),
 
                 TextColumn::make('conversions')
                     ->numeric(decimalPlaces: 2)
                     ->sortable()
+                    ->wrapHeader()
                     ->summarize(Sum::make()->label('Total')),
 
                 TextColumn::make('total_time')
                     ->numeric(decimalPlaces: 2)
+                    ->wrapHeader()
                     ->sortable()
                     ->summarize(Sum::make()->label('Total')),
 
                 TextColumn::make('production_time')
                     ->numeric(decimalPlaces: 2)
+                    ->wrapHeader()
                     ->sortable()
                     ->summarize(Sum::make()->label('Total')),
 
                 TextColumn::make('talk_time')
                     ->numeric(decimalPlaces: 2)
+                    ->wrapHeader()
                     ->sortable()
                     ->summarize(Sum::make()->label('Total')),
 
                 TextColumn::make('billable_time')
                     ->numeric(decimalPlaces: 2)
+                    ->wrapHeader()
                     ->sortable()
                     ->summarize(Sum::make()->label('Total')),
 
                 TextColumn::make('sph_goal')
                     ->label('SPH Goal')
+                    ->wrapHeader()
                     ->numeric(decimalPlaces: 2)
                     ->sortable()
                     ->summarize(
