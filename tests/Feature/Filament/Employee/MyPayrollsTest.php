@@ -1,0 +1,88 @@
+<?php
+
+use App\Filament\Employee\Pages\MyPayrolls;
+use App\Models\Citizenship;
+use App\Models\Employee;
+use App\Models\Hire;
+use App\Models\Payroll;
+use App\Models\User;
+use Illuminate\Support\Facades\Mail;
+
+uses()->group('employee-panel');
+
+beforeEach(function () {
+    $this->citizenship = Citizenship::factory()->create();
+});
+
+it('displays payrolls data for authenticated employee', function () {
+    Mail::fake();
+
+    $employee = Employee::factory()->create([
+        'citizenship_id' => $this->citizenship->id,
+    ]);
+
+    Hire::factory()->create([
+        'employee_id' => $employee->id,
+        'date' => now()->subMonths(3),
+    ]);
+
+    $employee->refresh();
+
+    $employeePayrolls = Payroll::factory()->count(3)->create(['employee_id' => $employee->id]);
+    $otherEmployee = Employee::factory()->create(['citizenship_id' => $this->citizenship->id]);
+    Payroll::factory()->count(2)->create(['employee_id' => $otherEmployee->id]);
+
+    $user = User::factory()->create(['employee_id' => $employee->id]);
+
+    $this->actingAs($user);
+
+    $response = $this->get(MyPayrolls::getUrl(panel: 'employee'));
+
+    $response->assertSuccessful()
+        ->assertSee('My Payrolls');
+
+    // Verify the table has 3 records displayed
+    $response->assertSee('Showing 1 to 3 of 3');
+});
+
+it('prevents access for users without employee_id', function () {
+    $user = User::factory()->create([
+        'employee_id' => null,
+    ]);
+
+    $this->actingAs($user);
+
+    $this->get(MyPayrolls::getUrl(panel: 'employee'))
+        ->assertForbidden();
+});
+
+it('only shows payroll data for authenticated employee', function () {
+    Mail::fake();
+
+    $employee1 = Employee::factory()->create([
+        'citizenship_id' => $this->citizenship->id,
+    ]);
+
+    Hire::factory()->create([
+        'employee_id' => $employee1->id,
+        'date' => now()->subMonths(3),
+    ]);
+
+    $employee1->refresh();
+
+    $employee2 = Employee::factory()->create(['citizenship_id' => $this->citizenship->id]);
+
+    $payrolls1 = Payroll::factory()->count(2)->create(['employee_id' => $employee1->id]);
+    Payroll::factory()->count(2)->create(['employee_id' => $employee2->id]);
+
+    $user = User::factory()->create(['employee_id' => $employee1->id]);
+
+    $this->actingAs($user);
+
+    $response = $this->get(MyPayrolls::getUrl(panel: 'employee'));
+
+    $response->assertSuccessful();
+
+    // Verify only employee1's payrolls are visible (2 records)
+    $response->assertSee('Showing 1 to 2 of 2');
+});
