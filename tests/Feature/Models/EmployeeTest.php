@@ -10,7 +10,9 @@ use App\Models\Citizenship;
 use App\Models\Downtime;
 use App\Models\Employee;
 use App\Models\Hire;
+use App\Models\Incentive;
 use App\Models\LoginName;
+use App\Models\Payroll;
 use App\Models\PayrollHour;
 use App\Models\Position;
 use App\Models\Production;
@@ -106,6 +108,8 @@ it('has many', function (string $modelClass, string $relationMethod) {
     [Suspension::class, 'suspensions'],
     [Termination::class, 'terminations'],
     [PayrollHour::class, 'payrollHours'],
+    [Incentive::class, 'incentives'],
+    [Payroll::class, 'payrolls'],
 ]);
 
 test('employees model has direct belongs to relationships', function (string $modelClass, string $relationMethod) {
