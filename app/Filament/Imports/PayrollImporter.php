@@ -22,31 +22,39 @@ class PayrollImporter extends Importer
             ImportColumn::make('employee_id')
                 ->requiredMapping()
                 ->rules(['required']),
-            ImportColumn::make('gross_income')
-                ->rules(['nullable', 'numeric', 'min:0']),
             ImportColumn::make('taxable_payroll')
                 ->rules(['nullable', 'numeric', 'min:0']),
-            ImportColumn::make('hourly_rate')
+            ImportColumn::make('salary_rate')
                 ->rules(['nullable', 'numeric', 'min:0']),
-            ImportColumn::make('regular_hours')
+            ImportColumn::make('total_hours')
                 ->rules(['nullable', 'numeric', 'min:0']),
-            ImportColumn::make('overtime_hours')
+            ImportColumn::make('salary_income')
                 ->rules(['nullable', 'numeric', 'min:0']),
-            ImportColumn::make('holiday_hours')
+            ImportColumn::make('medical_licence')
                 ->rules(['nullable', 'numeric', 'min:0']),
-            ImportColumn::make('night_shift_hours')
+            ImportColumn::make('gross_income')
+                ->rules(['nullable', 'numeric', 'min:0']),
+            ImportColumn::make('deduction_ars')
+                ->rules(['nullable', 'numeric', 'min:0']),
+            ImportColumn::make('deduction_afp')
+                ->rules(['nullable', 'numeric', 'min:0']),
+            ImportColumn::make('deductions_other')
+                ->rules(['nullable', 'numeric', 'min:0']),
+            ImportColumn::make('total_deductions')
+                ->rules(['nullable', 'numeric', 'min:0']),
+            ImportColumn::make('nightly_incomes')
+                ->rules(['nullable', 'numeric', 'min:0']),
+            ImportColumn::make('overtime_incomes')
+                ->rules(['nullable', 'numeric', 'min:0']),
+            ImportColumn::make('holiday_incomes')
                 ->rules(['nullable', 'numeric', 'min:0']),
             ImportColumn::make('additional_incentives_1')
                 ->rules(['nullable', 'numeric', 'min:0']),
             ImportColumn::make('additional_incentives_2')
                 ->rules(['nullable', 'numeric', 'min:0']),
-            ImportColumn::make('deduction_afp')
-                ->rules(['nullable', 'numeric', 'min:0']),
-            ImportColumn::make('deduction_ars')
-                ->rules(['nullable', 'numeric', 'min:0']),
-            ImportColumn::make('other_deductions')
-                ->rules(['nullable', 'numeric', 'min:0']),
             ImportColumn::make('net_payroll')
+                ->rules(['nullable', 'numeric', 'min:0']),
+            ImportColumn::make('total_payroll')
                 ->rules(['nullable', 'numeric', 'min:0']),
         ];
     }

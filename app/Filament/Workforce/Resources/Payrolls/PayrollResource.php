@@ -52,31 +52,40 @@ class PayrollResource extends Resource
                 TextEntry::make('employee.full_name')
                     ->label('Employee')
                     ->placeholder('-'),
-                TextEntry::make('gross_income')
-                    ->numeric(),
                 TextEntry::make('taxable_payroll')
                     ->numeric(),
-                TextEntry::make('hourly_rate')
+                TextEntry::make('salary_rate')
                     ->numeric(),
-                TextEntry::make('regular_hours')
+                TextEntry::make('total_hours')
                     ->numeric(),
-                TextEntry::make('overtime_hours')
+                TextEntry::make('salary_income')
                     ->numeric(),
-                TextEntry::make('holiday_hours')
+                TextEntry::make('medical_licence')
                     ->numeric(),
-                TextEntry::make('night_shift_hours')
+                TextEntry::make('gross_income')
+                    ->numeric(),
+                TextEntry::make('deduction_ars')
+                    ->numeric(),
+                TextEntry::make('deduction_afp')
+                    ->numeric(),
+                TextEntry::make('deductions_other')
+                    ->label('Deductions Other')
+                    ->numeric(),
+                TextEntry::make('total_deductions')
+                    ->numeric(),
+                TextEntry::make('nightly_incomes')
+                    ->numeric(),
+                TextEntry::make('overtime_incomes')
+                    ->numeric(),
+                TextEntry::make('holiday_incomes')
                     ->numeric(),
                 TextEntry::make('additional_incentives_1')
                     ->numeric(),
                 TextEntry::make('additional_incentives_2')
                     ->numeric(),
-                TextEntry::make('deduction_afp')
-                    ->numeric(),
-                TextEntry::make('deduction_ars')
-                    ->numeric(),
-                TextEntry::make('other_deductions')
-                    ->numeric(),
                 TextEntry::make('net_payroll')
+                    ->numeric(),
+                TextEntry::make('total_payroll')
                     ->numeric(),
                 TextEntry::make('deleted_at')
                     ->dateTime()
@@ -116,19 +125,19 @@ class PayrollResource extends Resource
                     ->numeric()
                     ->wrapHeader()
                     ->sortable(),
-                TextColumn::make('hourly_rate')
+                TextColumn::make('salary_rate')
                     ->numeric()
                     ->wrapHeader()
                     ->sortable(),
-                TextColumn::make('regular_hours')
-                    ->numeric()
-                    ->wrapHeader()
-                    ->sortable(),
-                TextColumn::make('overtime_hours')
+                TextColumn::make('total_hours')
                     ->numeric()
                     ->wrapHeader()
                     ->sortable(),
                 TextColumn::make('net_payroll')
+                    ->numeric()
+                    ->wrapHeader()
+                    ->sortable(),
+                TextColumn::make('total_payroll')
                     ->numeric()
                     ->wrapHeader()
                     ->sortable(),

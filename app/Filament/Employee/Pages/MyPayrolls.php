@@ -71,64 +71,93 @@ class MyPayrolls extends Page implements HasTable
                     ->sortable()
                     ->summarize(Sum::make()->label('Total')),
 
-                TextColumn::make('hourly_rate')
+                TextColumn::make('salary_rate')
                     ->numeric(decimalPlaces: 2)
                     ->wrapHeader()
                     ->sortable(),
 
-                TextColumn::make('regular_hours')
+                TextColumn::make('total_hours')
                     ->numeric(decimalPlaces: 2)
                     ->wrapHeader()
                     ->sortable()
                     ->summarize(Sum::make()->label('Total')),
 
-                TextColumn::make('overtime_hours')
+                TextColumn::make('salary_income')
                     ->numeric(decimalPlaces: 2)
                     ->wrapHeader()
                     ->sortable()
                     ->summarize(Sum::make()->label('Total')),
 
-                TextColumn::make('holiday_hours')
+                TextColumn::make('medical_licence')
                     ->numeric(decimalPlaces: 2)
                     ->wrapHeader()
                     ->sortable()
-                    ->summarize(Sum::make()->label('Total')),
-
-                TextColumn::make('night_shift_hours')
-                    ->numeric(decimalPlaces: 2)
-                    ->wrapHeader()
-                    ->sortable()
-                    ->summarize(Sum::make()->label('Total')),
-
-                TextColumn::make('additional_incentives_1')
-                    ->numeric(decimalPlaces: 2)
-                    ->wrapHeader()
-                    ->sortable()
-                    ->summarize(Sum::make()->label('Total')),
-
-                TextColumn::make('additional_incentives_2')
-                    ->numeric(decimalPlaces: 2)
-                    ->wrapHeader()
-                    ->sortable()
-                    ->summarize(Sum::make()->label('Total')),
-
-                TextColumn::make('deduction_afp')
-                    ->numeric(decimalPlaces: 2)
-                    ->wrapHeader()
-                    ->sortable()
-                    ->summarize(Sum::make()->label('Total')),
+                    ->summarize(Sum::make()->label('Total'))
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 TextColumn::make('deduction_ars')
                     ->numeric(decimalPlaces: 2)
                     ->wrapHeader()
                     ->sortable()
-                    ->summarize(Sum::make()->label('Total')),
+                    ->summarize(Sum::make()->label('Total'))
+                    ->toggleable(isToggledHiddenByDefault: true),
 
-                TextColumn::make('other_deductions')
+                TextColumn::make('deduction_afp')
                     ->numeric(decimalPlaces: 2)
                     ->wrapHeader()
                     ->sortable()
-                    ->summarize(Sum::make()->label('Total')),
+                    ->summarize(Sum::make()->label('Total'))
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                TextColumn::make('deductions_other')
+                    ->label('Deductions Other')
+                    ->numeric(decimalPlaces: 2)
+                    ->wrapHeader()
+                    ->sortable()
+                    ->summarize(Sum::make()->label('Total'))
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                TextColumn::make('total_deductions')
+                    ->numeric(decimalPlaces: 2)
+                    ->wrapHeader()
+                    ->sortable()
+                    ->summarize(Sum::make()->label('Total'))
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                TextColumn::make('nightly_incomes')
+                    ->numeric(decimalPlaces: 2)
+                    ->wrapHeader()
+                    ->sortable()
+                    ->summarize(Sum::make()->label('Total'))
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                TextColumn::make('overtime_incomes')
+                    ->numeric(decimalPlaces: 2)
+                    ->wrapHeader()
+                    ->sortable()
+                    ->summarize(Sum::make()->label('Total'))
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                TextColumn::make('holiday_incomes')
+                    ->numeric(decimalPlaces: 2)
+                    ->wrapHeader()
+                    ->sortable()
+                    ->summarize(Sum::make()->label('Total'))
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                TextColumn::make('additional_incentives_1')
+                    ->numeric(decimalPlaces: 2)
+                    ->wrapHeader()
+                    ->sortable()
+                    ->summarize(Sum::make()->label('Total'))
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                TextColumn::make('additional_incentives_2')
+                    ->numeric(decimalPlaces: 2)
+                    ->wrapHeader()
+                    ->sortable()
+                    ->summarize(Sum::make()->label('Total'))
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 Filter::make('payable_date')
