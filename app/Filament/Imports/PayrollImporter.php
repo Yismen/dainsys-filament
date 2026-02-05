@@ -19,11 +19,6 @@ class PayrollImporter extends Importer
                 ->requiredMapping()
                 ->castStateUsing(fn ($state) => \Illuminate\Support\Carbon::parse($state)->format('Y-m-d'))
                 ->rules(['required', 'date']),
-            ImportColumn::make('employee_id')
-                ->requiredMapping()
-                ->rules(['required']),
-            ImportColumn::make('taxable_payroll')
-                ->rules(['nullable', 'numeric', 'min:0']),
             ImportColumn::make('salary_rate')
                 ->rules(['nullable', 'numeric', 'min:0']),
             ImportColumn::make('total_hours')

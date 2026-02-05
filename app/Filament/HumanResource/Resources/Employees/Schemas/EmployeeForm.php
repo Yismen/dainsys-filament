@@ -121,7 +121,7 @@ class EmployeeForm
                                     ->nullable()
                                     ->unique(ignoreRecord: true)
                                     ->minLength(4)
-                                    ->maxLength(5),
+                                    ->maxLength(20),
                             ]),
                     ]),
             ]);

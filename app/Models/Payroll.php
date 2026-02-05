@@ -16,7 +16,6 @@ class Payroll extends \App\Models\BaseModels\AppModel
     protected $fillable = [
         'payable_date',
         'employee_id',
-        'taxable_payroll',
         'salary_rate',
         'total_hours',
         'salary_income',
@@ -37,7 +36,6 @@ class Payroll extends \App\Models\BaseModels\AppModel
 
     protected $casts = [
         'payable_date' => 'date:Y-m-d',
-        'taxable_payroll' => 'decimal:2',
         'salary_rate' => 'decimal:2',
         'total_hours' => 'decimal:2',
         'salary_income' => 'decimal:2',

@@ -15,7 +15,6 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->date('payable_date');
             $table->foreignUuid('employee_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->decimal('taxable_payroll', 12, 2)->default(0);
             $table->decimal('salary_rate', 12, 2)->default(0);
             $table->decimal('total_hours', 12, 2)->default(0);
             $table->decimal('salary_income', 12, 2)->default(0);

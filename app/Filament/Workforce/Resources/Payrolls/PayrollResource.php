@@ -52,8 +52,6 @@ class PayrollResource extends Resource
                 TextEntry::make('employee.full_name')
                     ->label('Employee')
                     ->placeholder('-'),
-                TextEntry::make('taxable_payroll')
-                    ->numeric(),
                 TextEntry::make('salary_rate')
                     ->numeric(),
                 TextEntry::make('total_hours')
@@ -118,10 +116,6 @@ class PayrollResource extends Resource
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('gross_income')
-                    ->numeric()
-                    ->wrapHeader()
-                    ->sortable(),
-                TextColumn::make('taxable_payroll')
                     ->numeric()
                     ->wrapHeader()
                     ->sortable(),

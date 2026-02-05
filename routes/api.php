@@ -23,4 +23,5 @@ Route::middleware(['auth:sanctum', 'ability:use-dainsys'])
         Route::get('campaigns', \App\Http\Controllers\Api\CampaignController::class);
         Route::get('login_names', \App\Http\Controllers\Api\LoginNameController::class);
         Route::get('productions', \App\Http\Controllers\Api\ProductionController::class);
+        Route::get('employees', \App\Http\Controllers\Api\EmployeeController::class);
     });

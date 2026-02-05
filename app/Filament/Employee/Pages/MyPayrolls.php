@@ -65,12 +65,6 @@ class MyPayrolls extends Page implements HasTable
                     ->sortable()
                     ->summarize(Sum::make()->label('Total')),
 
-                TextColumn::make('taxable_payroll')
-                    ->numeric(decimalPlaces: 2)
-                    ->wrapHeader()
-                    ->sortable()
-                    ->summarize(Sum::make()->label('Total')),
-
                 TextColumn::make('salary_rate')
                     ->numeric(decimalPlaces: 2)
                     ->wrapHeader()
