@@ -8,7 +8,7 @@ it('displays welcome page for unauthenticated users', function () {
     $response->assertSuccessful();
     $response->assertSee('Welcome to');
     $response->assertSee('DainSys');
-    $response->assertSee('Your comprehensive workforce management platform');
+    $response->assertSee('Bringing visibility and transparency to your workforce');
     $response->assertSee('Get Started');
 });
 
@@ -34,9 +34,12 @@ it('displays all feature sections', function () {
 
     $response->assertSuccessful();
     $response->assertSee('Key Features');
-    $response->assertSee('Schedule Management');
-    $response->assertSee('Hour Tracking');
-    $response->assertSee('Team Management');
+    $response->assertSee('Hours Tracking');
+    $response->assertSee('Payroll Management');
+    $response->assertSee('Incentives', false);
+    $response->assertSee('Rewards', false);
+    $response->assertSee('Production KPIs');
+    $response->assertSee('Team Communication');
 });
 
 it('displays stats section with all metrics', function () {
