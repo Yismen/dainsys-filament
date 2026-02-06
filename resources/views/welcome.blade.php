@@ -34,12 +34,12 @@
                     <div class="flex items-center space-x-1 sm:space-x-2">
                         @auth
                             <a href="{{ url($authUrl) }}" class="px-4 py-2 text-sm font-medium text-slate-700 hover:text-blue-600 transition-colors duration-200">Dashboard</a>
-                            <form method="POST" action="{{ url('/logout') }}" class="inline">
+                            <form method="POST" action="{{ route('logout') }}" class="inline cursor-pointer">
                                 @csrf
                                 <button type="submit" class="px-4 py-2 text-sm font-medium text-slate-700 hover:text-red-600 transition-colors duration-200">Logout</button>
                             </form>
                         @else
-                            <a href="{{ url('/login') }}" class="px-4 py-2 text-sm font-medium text-slate-700 hover:text-blue-600 transition-colors duration-200">Login</a>
+                            <a href="{{ route('login') }}" class="px-4 py-2 text-sm font-medium text-slate-700 hover:text-blue-600 transition-colors duration-200">Login</a>
                         @endauth
                     </div>
                 </div>
@@ -77,7 +77,7 @@
                             </svg>
                         </a>
                     @else
-                        <a href="{{ url('/login') }}" class="inline-flex items-center justify-center px-8 py-4 bg-linear-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-xl hover:shadow-2xl hover:shadow-blue-500/30 transition-all duration-300 transform hover:scale-105">
+                        <a href="{{ route('login') }}" class="inline-flex items-center justify-center px-8 py-4 bg-linear-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-xl hover:shadow-2xl hover:shadow-blue-500/30 transition-all duration-300 transform hover:scale-105">
                             Get Started
                             <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
@@ -192,7 +192,7 @@
                                     Access Dashboard
                                 </a>
                             @else
-                                <a href="{{ url('/login') }}" class="inline-flex items-center justify-center px-8 py-4 bg-linear-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-xl hover:shadow-2xl hover:shadow-blue-500/30 transition-all duration-300 transform hover:scale-105">
+                                <a href="{{ route('login') }}" class="inline-flex items-center justify-center px-8 py-4 bg-linear-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-xl hover:shadow-2xl hover:shadow-blue-500/30 transition-all duration-300 transform hover:scale-105">
                                     Sign In Now
                                 </a>
                             @endauth
