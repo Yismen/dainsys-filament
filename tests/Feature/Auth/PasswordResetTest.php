@@ -35,7 +35,9 @@ it('renders the reset password page', function () {
 
 it('prefills the reset email from the query string', function () {
     Livewire::test(ResetPassword::class, ['token' => 'token', 'email' => 'jane@example.com'])
-        ->assertSet('email', 'jane@example.com');
+        ->assertSet('email', 'jane@example.com')
+        ->assertSet('emailLocked', true)
+        ->assertSet('lockedEmail', 'jane@example.com');
 });
 
 it('resets the password with a valid token', function () {

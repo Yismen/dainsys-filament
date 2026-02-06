@@ -15,6 +15,10 @@ class ResetPassword extends Component
 
     public string $email = '';
 
+    public bool $emailLocked = false;
+
+    public ?string $lockedEmail = null;
+
     public string $password = '';
 
     public string $password_confirmation = '';
@@ -22,7 +26,17 @@ class ResetPassword extends Component
     public function mount(string $token, ?string $email = null): void
     {
         $this->token = $token;
-        $this->email = $email ?? '';
+        if ($email !== null && $email !== '') {
+            $this->emailLocked = true;
+            $this->lockedEmail = $email;
+            $this->email = $email;
+
+            return;
+        }
+
+        $this->emailLocked = false;
+        $this->lockedEmail = null;
+        $this->email = '';
     }
 
     protected function rules(): array
@@ -39,6 +53,10 @@ class ResetPassword extends Component
      */
     public function resetPassword(): void
     {
+        if ($this->emailLocked && $this->lockedEmail !== null) {
+            $this->email = $this->lockedEmail;
+        }
+
         $credentials = $this->validate();
 
         $status = Password::reset($credentials, function ($user) use ($credentials): void {
