@@ -200,5 +200,8 @@ it('sets status as Terminated when employee is terminated', function () {
     Hire::factory()->for($employee)->create(['date' => now()->subDays(10)]);
     Termination::factory()->for($employee)->create(['date' => now()]);
 
-    $this->assertEquals($employee->fresh()->status, EmployeeStatuses::Terminated);
+    $employee->refresh();
+
+    $this->assertEquals($employee->status, EmployeeStatuses::Terminated);
+    $this->assertEquals($employee->terminated_at, now());
 });

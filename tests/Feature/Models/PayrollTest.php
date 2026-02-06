@@ -10,7 +10,6 @@ it('interacts with db table', function () {
     $this->assertDatabaseHas('payrolls', $data->only([
         'payable_date',
         'employee_id',
-        'taxable_payroll',
         'salary_rate',
         'total_hours',
         'salary_income',

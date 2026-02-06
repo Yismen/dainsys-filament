@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
-use App\Events\EmployeeTerminatedEvent;
-use App\Exceptions\TerminationDateCantBeLowerThanHireDate;
-use App\Models\Traits\BelongsToEmployee;
+use App\Enums\EmployeeStatuses;
 use App\Models\Traits\HasManyComments;
+use App\Events\EmployeeTerminatedEvent;
+use App\Models\Traits\BelongsToEmployee;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Exceptions\TerminationDateCantBeLowerThanHireDate;
 
 class Termination extends \App\Models\BaseModels\AppModel
 {
@@ -41,7 +42,14 @@ class Termination extends \App\Models\BaseModels\AppModel
             }
         });
 
-        static::saved(function ($termination) {
+        static::created(function (Termination $termination) {
+            $employee = $termination->employee;
+            $employee->status = EmployeeStatuses::Terminated;
+            $employee->terminated_at = $termination->date;
+            $employee->save();
+        });
+
+        static::updated(function ($termination) {
             $termination->employee->touch();
         });
     }
