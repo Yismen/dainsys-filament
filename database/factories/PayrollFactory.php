@@ -19,7 +19,6 @@ class PayrollFactory extends Factory
         return [
             'payable_date' => $this->faker->date(),
             'employee_id' => \App\Models\Employee::factory(),
-            'taxable_payroll' => $this->faker->randomFloat(2, 100, 5000),
             'salary_rate' => $this->faker->randomFloat(2, 5, 50),
             'total_hours' => $this->faker->randomFloat(2, 1, 200),
             'salary_income' => $this->faker->randomFloat(2, 100, 5000),
