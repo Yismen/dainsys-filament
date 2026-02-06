@@ -133,6 +133,7 @@ it('can create nightly hour', function () {
 it('can edit nightly hour', function () {
     $nightlyHour = NightlyHour::factory()->create([
         'employee_id' => $this->employee->id,
+        'date' => now()->format('Y-m-d'),
         'total_hours' => 2.0,
     ]);
 
