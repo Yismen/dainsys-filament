@@ -7,7 +7,7 @@ it('displays welcome page for unauthenticated users', function () {
 
     $response->assertSuccessful();
     $response->assertSee('Welcome to');
-    $response->assertSee('DainSys');
+    $response->assertSee('' . config('app.name'));
     $response->assertSee('Bringing visibility and transparency to your workforce');
     $response->assertSee('Get Started');
 });
@@ -59,14 +59,14 @@ it('displays call to action section', function () {
 
     $response->assertSuccessful();
     $response->assertSee('Ready to transform your team?');
-    $response->assertSee('Join thousands of organizations already streamlining their workforce management with DainSys');
+    $response->assertSee('Join thousands of organizations already streamlining their workforce management with ' . config('app.name'));
 });
 
 it('displays footer with company links', function () {
     $response = $this->get('/');
 
     $response->assertSuccessful();
-    $response->assertSee('DainSys');
+    $response->assertSee(config('app.name'));
     $response->assertSee('Company');
     $response->assertSee('Product');
     $response->assertSee('Resources');
