@@ -138,5 +138,13 @@ class AuthServiceProvider extends ServiceProvider
             $ticket->assigned_to === $user->id;
         });
 
+        Gate::define('viewApiDocs', function (User $user) {
+            return $user->isSuperAdmin() ||
+            $user->hasAnyRole([
+                'Workforce Manager',
+                'Workforce Agent',
+            ]);
+        });
+
     }
 }
