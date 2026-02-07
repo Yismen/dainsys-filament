@@ -89,7 +89,7 @@
         </section>
 
         <!-- Features Section -->
-        <section class="py-24 sm:py-32 relative">
+        <section class="py-24 sm:py-32 relative" id="features">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center space-y-4 mb-16">
                     <h2 class="text-4xl sm:text-5xl font-bold text-slate-900">Key Features</h2>
@@ -185,7 +185,7 @@
         </section>
 
         <!-- Stats Section -->
-        <section class="py-24 sm:py-32 bg-linear-to-r from-blue-600 via-blue-700 to-indigo-700 relative overflow-hidden">
+        <section class="py-24 sm:py-32 bg-linear-to-r from-blue-600 via-blue-700 to-indigo-700 relative overflow-hidden"  id="security">
             <!-- Decorative elements -->
             <div class="absolute inset-0 overflow-hidden">
                 <div class="absolute -top-1/2 -right-1/4 w-96 h-96 bg-white rounded-full mix-blend-multiply filter blur-3xl opacity-10"></div>
@@ -238,9 +238,9 @@
                                     Sign In Now
                                 </a>
                             @endauth
-                            <a href="#" class="inline-flex items-center justify-center px-8 py-4 border-2 border-slate-300 text-slate-900 font-semibold rounded-xl hover:border-slate-400 hover:bg-slate-50 transition-all duration-300">
+                            {{-- <a href="#" class="inline-flex items-center justify-center px-8 py-4 border-2 border-slate-300 text-slate-900 font-semibold rounded-xl hover:border-slate-400 hover:bg-slate-50 transition-all duration-300">
                                 Learn More
-                            </a>
+                            </a> --}}
                         </div>
                     </div>
                 </div>
@@ -256,33 +256,33 @@
                     <div>
                         <h3 class="text-sm font-semibold text-white mb-4">Company</h3>
                         <ul class="space-y-3">
-                            <li><a href="#" class="text-slate-400 hover:text-white transition-colors duration-200">About</a></li>
-                            <li><a href="#" class="text-slate-400 hover:text-white transition-colors duration-200">Careers</a></li>
-                            <li><a href="#" class="text-slate-400 hover:text-white transition-colors duration-200">Contact</a></li>
+                            <li><a href="https://eccocorpbpo.com/" class="text-slate-400 hover:text-white transition-colors duration-200">About</a></li>
+                            <li><a href="https://eccocorpbpo.com/apply-now/" class="text-slate-400 hover:text-white transition-colors duration-200">Careers</a></li>
+                            <li><a href="https://eccocorpbpo.com/contact-us/" class="text-slate-400 hover:text-white transition-colors duration-200">Contact</a></li>
                         </ul>
                     </div>
                     <div>
                         <h3 class="text-sm font-semibold text-white mb-4">Product</h3>
                         <ul class="space-y-3">
-                            <li><a href="#" class="text-slate-400 hover:text-white transition-colors duration-200">Features</a></li>
-                            <li><a href="#" class="text-slate-400 hover:text-white transition-colors duration-200">Pricing</a></li>
-                            <li><a href="#" class="text-slate-400 hover:text-white transition-colors duration-200">Security</a></li>
+                            <li><a href="#features" class="text-slate-400 hover:text-white transition-colors duration-200">Features</a></li>
+                            {{-- <li><a href="#" class="text-slate-400 hover:text-white transition-colors duration-200">Pricing</a></li> --}}
+                            <li><a href="#security" class="text-slate-400 hover:text-white transition-colors duration-200">Security</a></li>
                         </ul>
                     </div>
                     <div>
                         <h3 class="text-sm font-semibold text-white mb-4">Resources</h3>
                         <ul class="space-y-3">
-                            <li><a href="#" class="text-slate-400 hover:text-white transition-colors duration-200">Documentation</a></li>
-                            <li><a href="#" class="text-slate-400 hover:text-white transition-colors duration-200">Support</a></li>
+                            <li><a href="/api/docs" class="text-slate-400 hover:text-white transition-colors duration-200">Documentation</a></li>
+                            <li><a href="/support" class="text-slate-400 hover:text-white transition-colors duration-200">Support</a></li>
                             <li><a href="#" class="text-slate-400 hover:text-white transition-colors duration-200">Blog</a></li>
                         </ul>
                     </div>
                     <div>
                         <h3 class="text-sm font-semibold text-white mb-4">Legal</h3>
                         <ul class="space-y-3">
-                            <li><a href="#" class="text-slate-400 hover:text-white transition-colors duration-200">Privacy</a></li>
-                            <li><a href="#" class="text-slate-400 hover:text-white transition-colors duration-200">Terms</a></li>
-                            <li><a href="#" class="text-slate-400 hover:text-white transition-colors duration-200">Cookies</a></li>
+                            <li><a href="/privacy" class="text-slate-400 hover:text-white transition-colors duration-200">Privacy</a></li>
+                            <li><a href="/terms" class="text-slate-400 hover:text-white transition-colors duration-200">Terms</a></li>
+                            <li><a href="/cookies" class="text-slate-400 hover:text-white transition-colors duration-200">Cookies</a></li>
                         </ul>
                     </div>
                 </div>

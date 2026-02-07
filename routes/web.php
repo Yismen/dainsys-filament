@@ -56,3 +56,7 @@ Route::get('/reset-password/{token}', function (Request $request, string $token)
         'email' => $request->query('email'),
     ]);
 })->name('password.reset');
+
+Route::view('/privacy', 'privacy')->name('privacy');
+Route::view('/terms', 'terms')->name('terms');
+Route::view('/cookies', 'cookies')->name('cookies');

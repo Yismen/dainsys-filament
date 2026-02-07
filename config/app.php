@@ -160,4 +160,6 @@ return [
 
     'default_sites' => array_filter(explode(',', env('DEFAULT_SITES', ''))),
 
+    'contact_email' => env('CONTACT_EMAIL', 'yismen.jorge@gmail.com'),
+
 ];
