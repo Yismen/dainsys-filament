@@ -4,6 +4,7 @@ namespace App\Filament\Admin\Widgets;
 
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
@@ -69,7 +70,9 @@ class FailedJobsStatsWidget extends BaseWidget
                     return '—';
                 }
 
-                return now()->diffInDays($oldest->failed_at).' days';
+                $difInDays = Carbon::parse($oldest->failed_at)->diffInDays(now());
+
+                return \number_format(abs($difInDays), 0).' days';
             } catch (\Exception) {
                 return 'N/A';
             }
