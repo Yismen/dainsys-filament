@@ -274,7 +274,7 @@
                         <ul class="space-y-3">
                             <li><a href="/docs/api" target="docs-api" class="text-slate-400 hover:text-white transition-colors duration-200">Documentation</a></li>
                             <li><a href="/support" class="text-slate-400 hover:text-white transition-colors duration-200">Support</a></li>
-                            <li><a href="#" class="text-slate-400 hover:text-white transition-colors duration-200">Blog</a></li>
+                            {{-- <li><a href="#" class="text-slate-400 hover:text-white transition-colors duration-200">Blog</a></li> --}}
                         </ul>
                     </div>
                     <div>
@@ -288,7 +288,7 @@
                 </div>
                 <div class="border-t border-slate-800 pt-8 flex flex-col sm:flex-row gap-4 items-center justify-between text-sm text-slate-400">
                     <p>&copy; {{ now()->year }} {{ config('app.name') }}. All rights reserved.</p>
-                    <p>Laravel v{{ Illuminate\Foundation\Application::VERSION }} | PHP v{{ PHP_VERSION }}</p>
+                    {{-- <p>Laravel v{{ Illuminate\Foundation\Application::VERSION }} | PHP v{{ PHP_VERSION }}</p> --}}
                 </div>
             </div>
         </footer>
