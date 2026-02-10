@@ -6,17 +6,12 @@
         "laravel",
         "framework"
     ],
-    "license": "MIT","repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/Yismen/filament-panel-switch.git"
-        }
-    ],
+    "license": "MIT",
     "require": {
         "php": "^8.2",
         "achyutn/filament-log-viewer": "^1.6",
         "bezhansalleh/filament-language-switch": "^4.0",
-        "bezhansalleh/filament-panel-switch": "^2.0",
+        "bezhansalleh/filament-panel-switch": "^3.0",
         "bezhansalleh/filament-shield": "^4.0",
         "binarybuilds/filament-failed-jobs": "*",
         "dedoc/scramble": "^0.13.12",
