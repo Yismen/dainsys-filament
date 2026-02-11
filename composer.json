@@ -30,6 +30,7 @@
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.16",
+        "driftingly/rector-laravel": "^2.1",
         "fakerphp/faker": "^1.24.1",
         "filament/upgrade": "^4.0",
         "laravel/boost": "^1.8",
@@ -58,8 +59,14 @@
         }
     },
     "scripts": {
-        "format": "./vendor/bin/pint",
-        "lint": "./vendor/bin/pint --test",
+        "format": [
+            "./vendor/bin/pint",
+            "./vendor/bin/rector"
+        ],
+        "lint": [
+            "./vendor/bin/pint --test",
+            "./vendor/bin/rector --dry-run"
+        ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi",
