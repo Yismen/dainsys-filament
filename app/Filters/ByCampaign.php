@@ -15,7 +15,7 @@ class ByCampaign
     public function handle(Builder $builder, \Closure $next)
     {
         if ($this->request->has('campaign')) {
-            $campaign = $this->request->get('campaign');
+            $campaign = $this->request->input('campaign');
 
             $builder->whereHas(
                 'campaign',

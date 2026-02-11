@@ -15,7 +15,7 @@ class ByStatus
     public function handle(Builder $builder, \Closure $next)
     {
         if ($this->request->has('status')) {
-            $status = $this->request->get('status');
+            $status = $this->request->input('status');
 
             $builder->where('status', 'like',$status);
         }

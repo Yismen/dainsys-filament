@@ -18,7 +18,7 @@ class ByDate
         if ($this->request->has('date')) {
             $dates_range = \explode(
                 separator: ',',
-                string: $this->request->get('date'),
+                string: $this->request->input('date'),
                 limit: 2
             );
 

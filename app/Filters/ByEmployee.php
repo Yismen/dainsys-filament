@@ -15,7 +15,7 @@ class ByEmployee
     public function handle(Builder $builder, \Closure $next)
     {
         if ($this->request->has('employee')) {
-            $employee = $this->request->get('employee');
+            $employee = $this->request->input('employee');
 
             $builder->whereHas(
                 'employee',

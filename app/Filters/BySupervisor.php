@@ -15,7 +15,7 @@ class BySupervisor
     public function handle(Builder $builder, \Closure $next)
     {
         if ($this->request->has('supervisor')) {
-            $supervisor = $this->request->get('supervisor');
+            $supervisor = $this->request->input('supervisor');
 
             $builder->whereHas(
                 'supervisor',

@@ -15,13 +15,13 @@ class ByEmployeeSite
     public function handle(Builder $builder, \Closure $next)
     {
         if ($this->request->has('site')) {
-            $site = $this->request->get('site');
+            $builder->whereHas('employee', function ($employeeQuery)  {
+                $employeeQuery->whereHas('site', function ($siteBuilder)  {
+                    $siteBuilder
+                        ->where('id', $this->request->input('site'))
+                        ->orWhere('name', 'like', $this->request->input('site'));
 
-            $builder->whereHas('site', function ($siteBuilder) use ($site) {
-                $siteBuilder
-                    ->where('id', $site)
-                    ->orWhere('name', 'like', $site);
-
+                });
             });
         }
 

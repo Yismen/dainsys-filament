@@ -6,15 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductionApiRequest;
 use App\Http\Resources\ProductionResource;
 use App\Models\Production;
+use Dedoc\Scramble\Attributes\QueryParameter;
 use Illuminate\Http\Request;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\Cache;
 
 class ProductionController extends Controller
 {
-    /**
-     * Handle the incoming request.
-     */
+    #[QueryParameter( 'campaign', description: 'ID or Name of the campaign to filter productions')]
+    #[QueryParameter( 'project', description: 'ID or Name of the project to filter productions')]
+    #[QueryParameter( 'employee', description: 'ID or Name of the employee to filter productions')]
+    #[QueryParameter( 'supervisor', description: 'ID or Name of the supervisor to filter productions')]
     public function __invoke(ProductionApiRequest $request)
     {
         $query_filters = $request->uri()->query()->all();
@@ -42,8 +44,8 @@ class ProductionController extends Controller
                 ->through([
                     \App\Filters\ByDate::class,
                     \App\Filters\ByCampaign::class,
-                    \App\Filters\ByProject::class,
                     \App\Filters\ByEmployee::class,
+                    \App\Filters\ByCampaignProject::class,
                     \App\Filters\BySupervisor::class,
                     // \App\Filters\BySite::class,
                 ])
