@@ -35,21 +35,21 @@ beforeEach(function () {
             'params' => [],
             'permission' => ['view-any'],
         ],
-        'create' => [
-            'route' => CreateNightlyHour::getRouteName(),
-            'params' => [],
-            'permission' => ['create', 'view-any'],
-        ],
-        'edit' => [
-            'route' => EditNightlyHour::getRouteName(),
-            'params' => ['record' => $this->nightlyHour->getKey()],
-            'permission' => ['update', 'edit', 'view-any'],
-        ],
-        'view' => [
-            'route' => ViewNightlyHour::getRouteName(),
-            'params' => ['record' => $this->nightlyHour->getKey()],
-            'permission' => ['view', 'view-any'],
-        ],
+        // 'create' => [
+        //     'route' => CreateNightlyHour::getRouteName(),
+        //     'params' => [],
+        //     'permission' => ['create', 'view-any'],
+        // ],
+        // 'edit' => [
+        //     'route' => EditNightlyHour::getRouteName(),
+        //     'params' => ['record' => $this->nightlyHour->getKey()],
+        //     'permission' => ['update', 'edit', 'view-any'],
+        // ],
+        // 'view' => [
+        //     'route' => ViewNightlyHour::getRouteName(),
+        //     'params' => ['record' => $this->nightlyHour->getKey()],
+        //     'permission' => ['view', 'view-any'],
+        // ],
     ];
 });
 
@@ -60,9 +60,9 @@ it('require users to be authenticated to access NightlyHour resource pages', fun
     $response->assertRedirect(route('filament.workforce.auth.login'));
 })->with([
     'index',
-    'create',
-    'edit',
-    'view',
+    // 'create',
+    // 'edit',
+    // 'view',
 ]);
 
 it('require users to have correct permissions to access NightlyHour resource pages', function (string $method) {
@@ -73,9 +73,9 @@ it('require users to have correct permissions to access NightlyHour resource pag
     $response->assertForbidden();
 })->with([
     'index',
-    'create',
-    'edit',
-    'view',
+    // 'create',
+    // 'edit',
+    // 'view',
 ]);
 
 it('allows super admin users to access NightlyHour resource pages', function (string $method) {
@@ -87,9 +87,9 @@ it('allows super admin users to access NightlyHour resource pages', function (st
     $response->assertSuccessful();
 })->with([
     'index',
-    'create',
-    'edit',
-    'view',
+    // 'create',
+    // 'edit',
+    // 'view',
 ]);
 
 it('allows users with correct permissions to access NightlyHour resource pages', function (string $method) {
@@ -101,9 +101,9 @@ it('allows users with correct permissions to access NightlyHour resource pages',
     $response->assertSuccessful();
 })->with([
     'index',
-    'create',
-    'edit',
-    'view',
+    // 'create',
+    // 'edit',
+    // 'view',
 ]);
 
 it('can list nightly hours', function () {

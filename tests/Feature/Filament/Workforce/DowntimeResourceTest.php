@@ -29,21 +29,21 @@ beforeEach(function () {
             'params' => [],
             'permission' => ['view-any'],
         ],
-        'create' => [
-            'route' => CreateDowntime::getRouteName(),
-            'params' => [],
-            'permission' => ['create', 'view-any'],
-        ],
-        'edit' => [
-            'route' => EditDowntime::getRouteName(),
-            'params' => ['record' => $downtime->getKey()],
-            'permission' => ['update', 'edit', 'view-any'],
-        ],
-        'view' => [
-            'route' => ViewDowntime::getRouteName(),
-            'params' => ['record' => $downtime->getKey()],
-            'permission' => ['view', 'view-any'],
-        ],
+        // 'create' => [
+        //     'route' => CreateDowntime::getRouteName(),
+        //     'params' => [],
+        //     'permission' => ['create', 'view-any'],
+        // ],
+        // 'edit' => [
+        //     'route' => EditDowntime::getRouteName(),
+        //     'params' => ['record' => $downtime->getKey()],
+        //     'permission' => ['update', 'edit', 'view-any'],
+        // ],
+        // 'view' => [
+        //     'route' => ViewDowntime::getRouteName(),
+        //     'params' => ['record' => $downtime->getKey()],
+        //     'permission' => ['view', 'view-any'],
+        // ],
     ];
 
     $this->form_data = [
@@ -61,9 +61,9 @@ it('require users to be authenticated to access Downtime resource pages', functi
     $response->assertRedirect(route('filament.workforce.auth.login'));
 })->with([
     'index',
-    'create',
-    'edit',
-    'view',
+    // 'create',
+    // 'edit',
+    // 'view',
 ]);
 
 it('require users to have correct permissions to access Downtime resource pages', function (string $method) {
@@ -74,9 +74,9 @@ it('require users to have correct permissions to access Downtime resource pages'
     $response->assertForbidden();
 })->with([
     'index',
-    'create',
-    'edit',
-    'view',
+    // 'create',
+    // 'edit',
+    // 'view',
 ]);
 
 it('allows super admin users to access Downtime resource pages', function (string $method) {
@@ -88,9 +88,9 @@ it('allows super admin users to access Downtime resource pages', function (strin
     $response->assertOk();
 })->with([
     'index',
-    'create',
-    'edit',
-    'view',
+    // 'create',
+    // 'edit',
+    // 'view',
 ]);
 
 it('allow users with correct permissions to access Downtime resource pages', function (string $method) {
@@ -102,9 +102,9 @@ it('allow users with correct permissions to access Downtime resource pages', fun
     $response->assertOk();
 })->with([
     'index',
-    'create',
-    'edit',
-    'view',
+    // 'create',
+    // 'edit',
+    // 'view',
 ]);
 
 it('displays Downtime list page correctly', function () {

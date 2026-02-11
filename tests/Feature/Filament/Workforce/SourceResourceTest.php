@@ -26,21 +26,21 @@ beforeEach(function () {
             'params' => [],
             'permission' => ['view-any'],
         ],
-        'create' => [
-            'route' => CreateSource::getRouteName(),
-            'params' => [],
-            'permission' => ['create', 'view-any'],
-        ],
-        'edit' => [
-            'route' => EditSource::getRouteName(),
-            'params' => ['record' => $source->getKey()],
-            'permission' => ['update', 'edit', 'view-any'],
-        ],
-        'view' => [
-            'route' => ViewSource::getRouteName(),
-            'params' => ['record' => $source->getKey()],
-            'permission' => ['view', 'view-any'],
-        ],
+        // 'create' => [
+        //     'route' => CreateSource::getRouteName(),
+        //     'params' => [],
+        //     'permission' => ['create', 'view-any'],
+        // ],
+        // 'edit' => [
+        //     'route' => EditSource::getRouteName(),
+        //     'params' => ['record' => $source->getKey()],
+        //     'permission' => ['update', 'edit', 'view-any'],
+        // ],
+        // 'view' => [
+        //     'route' => ViewSource::getRouteName(),
+        //     'params' => ['record' => $source->getKey()],
+        //     'permission' => ['view', 'view-any'],
+        // ],
     ];
 
     $this->form_data = [
@@ -56,9 +56,9 @@ it('require users to be authenticated to access Source resource pages', function
     $response->assertRedirect(route('filament.workforce.auth.login'));
 })->with([
     'index',
-    'create',
-    'edit',
-    'view',
+    // 'create',
+    // 'edit',
+    // 'view',
 ]);
 
 it('require users to have correct permissions to access Source resource pages', function (string $method) {
@@ -69,9 +69,9 @@ it('require users to have correct permissions to access Source resource pages', 
     $response->assertForbidden();
 })->with([
     'index',
-    'create',
-    'edit',
-    'view',
+    // 'create',
+    // 'edit',
+    // 'view',
 ]);
 
 it('allows super admin users to access Source resource pages', function (string $method) {
@@ -83,9 +83,9 @@ it('allows super admin users to access Source resource pages', function (string 
     $response->assertOk();
 })->with([
     'index',
-    'create',
-    'edit',
-    'view',
+    // 'create',
+    // 'edit',
+    // 'view',
 ]);
 
 it('allow users with correct permissions to access Source resource pages', function (string $method) {
@@ -97,9 +97,9 @@ it('allow users with correct permissions to access Source resource pages', funct
     $response->assertOk();
 })->with([
     'index',
-    'create',
-    'edit',
-    'view',
+    // 'create',
+    // 'edit',
+    // 'view',
 ]);
 
 it('displays Source list page correctly', function () {

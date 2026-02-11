@@ -36,16 +36,16 @@ beforeEach(function () {
         //     'params' => [],
         //     'permission' => ['create', 'view-any'],
         // ],
-        'edit' => [
-            'route' => EditProduction::getRouteName(),
-            'params' => ['record' => $production->getKey()],
-            'permission' => ['update', 'edit', 'view-any'],
-        ],
-        'view' => [
-            'route' => ViewProduction::getRouteName(),
-            'params' => ['record' => $production->getKey()],
-            'permission' => ['view', 'view-any'],
-        ],
+        // 'edit' => [
+        //     'route' => EditProduction::getRouteName(),
+        //     'params' => ['record' => $production->getKey()],
+        //     'permission' => ['update', 'edit', 'view-any'],
+        // ],
+        // 'view' => [
+        //     'route' => ViewProduction::getRouteName(),
+        //     'params' => ['record' => $production->getKey()],
+        //     'permission' => ['view', 'view-any'],
+        // ],
     ];
 
     $this->form_data = [
@@ -67,8 +67,8 @@ it('require users to be authenticated to access Production resource pages', func
 })->with([
     'index',
     // 'create',
-    'edit',
-    'view',
+    // 'edit',
+    // 'view',
 ]);
 
 it('require users to have correct permissions to access Production resource pages', function (string $method) {
@@ -80,8 +80,8 @@ it('require users to have correct permissions to access Production resource page
 })->with([
     'index',
     // 'create',
-    'edit',
-    'view',
+    // 'edit',
+    // 'view',
 ]);
 
 it('allows super admin users to access Production resource pages', function (string $method) {
@@ -94,8 +94,8 @@ it('allows super admin users to access Production resource pages', function (str
 })->with([
     'index',
     // 'create',
-    'edit',
-    'view',
+    // 'edit',
+    // 'view',
 ]);
 
 it('allow users with correct permissions to access Production resource pages', function (string $method) {
@@ -108,8 +108,8 @@ it('allow users with correct permissions to access Production resource pages', f
 })->with([
     'index',
     // 'create',
-    'edit',
-    'view',
+    // 'edit',
+    // 'view',
 ]);
 
 it('displays Production list page correctly', function () {

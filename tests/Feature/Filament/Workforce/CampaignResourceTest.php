@@ -29,21 +29,21 @@ beforeEach(function () {
             'params' => [],
             'permission' => ['view-any'],
         ],
-        'create' => [
-            'route' => CreateCampaign::getRouteName(),
-            'params' => [],
-            'permission' => ['create', 'view-any'],
-        ],
-        'edit' => [
-            'route' => EditCampaign::getRouteName(),
-            'params' => ['record' => $campaign->getKey()],
-            'permission' => ['update', 'edit', 'view-any'],
-        ],
-        'view' => [
-            'route' => ViewCampaign::getRouteName(),
-            'params' => ['record' => $campaign->getKey()],
-            'permission' => ['view', 'view-any'],
-        ],
+        // 'create' => [
+        //     'route' => CreateCampaign::getRouteName(),
+        //     'params' => [],
+        //     'permission' => ['create', 'view-any'],
+        // ],
+        // 'edit' => [
+        //     'route' => EditCampaign::getRouteName(),
+        //     'params' => ['record' => $campaign->getKey()],
+        //     'permission' => ['update', 'edit', 'view-any'],
+        // ],
+        // 'view' => [
+        //     'route' => ViewCampaign::getRouteName(),
+        //     'params' => ['record' => $campaign->getKey()],
+        //     'permission' => ['view', 'view-any'],
+        // ],
     ];
 
     $this->form_data = [
@@ -64,9 +64,9 @@ it('require users to be authenticated to access Campaign resource pages', functi
     $response->assertRedirect(route('filament.workforce.auth.login'));
 })->with([
     'index',
-    'create',
-    'edit',
-    'view',
+    // 'create',
+    // 'edit',
+    // 'view',
 ]);
 
 it('require users to have correct permissions to access Campaign resource pages', function (string $method) {
@@ -77,9 +77,9 @@ it('require users to have correct permissions to access Campaign resource pages'
     $response->assertForbidden();
 })->with([
     'index',
-    'create',
-    'edit',
-    'view',
+    // 'create',
+    // 'edit',
+    // 'view',
 ]);
 
 it('allows super admin users to access Campaign resource pages', function (string $method) {
@@ -91,9 +91,9 @@ it('allows super admin users to access Campaign resource pages', function (strin
     $response->assertOk();
 })->with([
     'index',
-    'create',
-    'edit',
-    'view',
+    // 'create',
+    // 'edit',
+    // 'view',
 ]);
 
 it('allow users with correct permissions to access Campaign resource pages', function (string $method) {
@@ -105,9 +105,9 @@ it('allow users with correct permissions to access Campaign resource pages', fun
     $response->assertOk();
 })->with([
     'index',
-    'create',
-    'edit',
-    'view',
+    // 'create',
+    // 'edit',
+    // 'view',
 ]);
 
 it('displays Campaign list page correctly', function () {

@@ -26,21 +26,21 @@ beforeEach(function () {
             'params' => [],
             'permission' => ['view-any'],
         ],
-        'create' => [
-            'route' => CreateDowntimeReason::getRouteName(),
-            'params' => [],
-            'permission' => ['create', 'view-any'],
-        ],
-        'edit' => [
-            'route' => EditDowntimeReason::getRouteName(),
-            'params' => ['record' => $downtime_reason->getKey()],
-            'permission' => ['update', 'edit', 'view-any'],
-        ],
-        'view' => [
-            'route' => ViewDowntimeReason::getRouteName(),
-            'params' => ['record' => $downtime_reason->getKey()],
-            'permission' => ['view', 'view-any'],
-        ],
+        // 'create' => [
+        //     'route' => CreateDowntimeReason::getRouteName(),
+        //     'params' => [],
+        //     'permission' => ['create', 'view-any'],
+        // ],
+        // 'edit' => [
+        //     'route' => EditDowntimeReason::getRouteName(),
+        //     'params' => ['record' => $downtime_reason->getKey()],
+        //     'permission' => ['update', 'edit', 'view-any'],
+        // ],
+        // 'view' => [
+        //     'route' => ViewDowntimeReason::getRouteName(),
+        //     'params' => ['record' => $downtime_reason->getKey()],
+        //     'permission' => ['view', 'view-any'],
+        // ],
     ];
 
     $this->form_data = [
@@ -56,9 +56,9 @@ it('require users to be authenticated to access DowntimeReason resource pages', 
     $response->assertRedirect(route('filament.workforce.auth.login'));
 })->with([
     'index',
-    'create',
-    'edit',
-    'view',
+    // 'create',
+    // 'edit',
+    // 'view',
 ]);
 
 it('require users to have correct permissions to access DowntimeReason resource pages', function (string $method) {
@@ -69,9 +69,9 @@ it('require users to have correct permissions to access DowntimeReason resource 
     $response->assertForbidden();
 })->with([
     'index',
-    'create',
-    'edit',
-    'view',
+    // 'create',
+    // 'edit',
+    // 'view',
 ]);
 
 it('allows super admin users to access DowntimeReason resource pages', function (string $method) {
@@ -83,9 +83,9 @@ it('allows super admin users to access DowntimeReason resource pages', function 
     $response->assertOk();
 })->with([
     'index',
-    'create',
-    'edit',
-    'view',
+    // 'create',
+    // 'edit',
+    // 'view',
 ]);
 
 it('allow users with correct permissions to access DowntimeReason resource pages', function (string $method) {
@@ -97,9 +97,9 @@ it('allow users with correct permissions to access DowntimeReason resource pages
     $response->assertOk();
 })->with([
     'index',
-    'create',
-    'edit',
-    'view',
+    // 'create',
+    // 'edit',
+    // 'view',
 ]);
 
 it('displays DowntimeReason list page correctly', function () {

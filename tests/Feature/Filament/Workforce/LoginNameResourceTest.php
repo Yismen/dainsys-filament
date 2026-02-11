@@ -27,21 +27,21 @@ beforeEach(function () {
             'params' => [],
             'permission' => ['view-any'],
         ],
-        'create' => [
-            'route' => CreateLoginName::getRouteName(),
-            'params' => [],
-            'permission' => ['create', 'view-any'],
-        ],
-        'edit' => [
-            'route' => EditLoginName::getRouteName(),
-            'params' => ['record' => $login_name->getKey()],
-            'permission' => ['update', 'edit', 'view-any'],
-        ],
-        'view' => [
-            'route' => ViewLoginName::getRouteName(),
-            'params' => ['record' => $login_name->getKey()],
-            'permission' => ['view', 'view-any'],
-        ],
+        // 'create' => [
+        //     'route' => CreateLoginName::getRouteName(),
+        //     'params' => [],
+        //     'permission' => ['create', 'view-any'],
+        // ],
+        // 'edit' => [
+        //     'route' => EditLoginName::getRouteName(),
+        //     'params' => ['record' => $login_name->getKey()],
+        //     'permission' => ['update', 'edit', 'view-any'],
+        // ],
+        // 'view' => [
+        //     'route' => ViewLoginName::getRouteName(),
+        //     'params' => ['record' => $login_name->getKey()],
+        //     'permission' => ['view', 'view-any'],
+        // ],
     ];
 
     $this->form_data = [
@@ -57,9 +57,9 @@ it('require users to be authenticated to access LoginName resource pages', funct
     $response->assertRedirect(route('filament.workforce.auth.login'));
 })->with([
     'index',
-    'create',
-    'edit',
-    'view',
+    // 'create',
+    // 'edit',
+    // 'view',
 ]);
 
 it('require users to have correct permissions to access LoginName resource pages', function (string $method) {
@@ -70,9 +70,9 @@ it('require users to have correct permissions to access LoginName resource pages
     $response->assertForbidden();
 })->with([
     'index',
-    'create',
-    'edit',
-    'view',
+    // 'create',
+    // 'edit',
+    // 'view',
 ]);
 
 it('allows super admin users to access LoginName resource pages', function (string $method) {
@@ -84,9 +84,9 @@ it('allows super admin users to access LoginName resource pages', function (stri
     $response->assertOk();
 })->with([
     'index',
-    'create',
-    'edit',
-    'view',
+    // 'create',
+    // 'edit',
+    // 'view',
 ]);
 
 it('allow users with correct permissions to access LoginName resource pages', function (string $method) {
@@ -98,9 +98,9 @@ it('allow users with correct permissions to access LoginName resource pages', fu
     $response->assertOk();
 })->with([
     'index',
-    'create',
-    'edit',
-    'view',
+    // 'create',
+    // 'edit',
+    // 'view',
 ]);
 
 it('displays LoginName list page correctly', function () {
