@@ -42,105 +42,31 @@
             </div>
 
             <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-                    <div class="space-y-8 text-center lg:text-left">
-                        <div class="space-y-4 animate-float">
-                            <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tighter">
-                                <span class="block text-slate-900 dark:text-slate-100">Welcome to</span>
-                                <span class="block bg-linear-to-r from-blue-600 via-blue-500 to-indigo-600 dark:from-blue-400 dark:via-blue-300 dark:to-indigo-400 bg-clip-text text-transparent drop-shadow-2xl">{{ config('app.name') }}</span>
-                            </h1>
-                            <p class="text-xl sm:text-2xl text-slate-600 dark:text-slate-400 max-w-3xl lg:max-w-none mx-auto lg:mx-0 leading-relaxed drop-shadow-sm">
-                                Bringing visibility and transparency to your workforce. Track hours, manage payroll, celebrate achievements, and bring your team together with powerful collaboration tools.
-                            </p>
-                        </div>
-                        <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                            @auth
-                                <a href="{{ url($authUrl) }}" class="inline-flex items-center justify-center px-8 py-4 bg-linear-to-r from-blue-600 to-blue-700 dark:from-blue-500 dark:to-blue-600 text-white font-semibold rounded-xl hover:shadow-2xl hover:shadow-blue-500/30 transition-all duration-300 transform hover:scale-105">
-                                    Go to Dashboard
-                                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-                                    </svg>
-                                </a>
-                            @else
-                                <a href="{{ route('login') }}" class="inline-flex items-center justify-center px-8 py-4 bg-linear-to-r from-blue-600 to-blue-700 dark:from-blue-500 dark:to-blue-600 text-white font-semibold rounded-xl hover:shadow-2xl hover:shadow-blue-500/30 transition-all duration-300 transform hover:scale-105">
-                                    Get Started
-                                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-                                    </svg>
-                                </a>
-                            @endauth
-                        </div>
-                        <div class="flex flex-wrap items-center justify-center lg:justify-start gap-6 text-sm text-slate-500 dark:text-slate-400">
-                            <div class="inline-flex items-center gap-2">
-                                <span class="inline-flex h-2 w-2 rounded-full bg-blue-500"></span>
-                                Real-time visibility
-                            </div>
-                            <div class="inline-flex items-center gap-2">
-                                <span class="inline-flex h-2 w-2 rounded-full bg-indigo-500"></span>
-                                Transparent payroll
-                            </div>
-                            <div class="inline-flex items-center gap-2">
-                                <span class="inline-flex h-2 w-2 rounded-full bg-sky-500"></span>
-                                Unified teams
-                            </div>
-                        </div>
+                <div class="text-center space-y-8">
+                    <div class="space-y-4 animate-float">
+                        <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tighter">
+                            <span class="block text-slate-900 dark:text-slate-100">Welcome to</span>
+                            <span class="block bg-linear-to-r from-blue-600 via-blue-500 to-indigo-600 dark:from-blue-400 dark:via-blue-300 dark:to-indigo-400 bg-clip-text text-transparent drop-shadow-2xl">{{ config('app.name') }}</span>
+                        </h1>
+                        <p class="text-xl sm:text-2xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto leading-relaxed drop-shadow-sm">
+                            Bringing visibility and transparency to your workforce. Track hours, manage payroll, celebrate achievements, and bring your team together with powerful collaboration tools.
+                        </p>
                     </div>
-                    <div class="relative hidden lg:block">
-                        <div class="absolute -inset-6 bg-linear-to-br from-blue-200/40 via-indigo-200/20 to-transparent dark:from-blue-800/30 dark:via-indigo-800/20 blur-3xl opacity-70"></div>
-                        <div class="relative h-105 w-full max-w-lg mx-auto preserve-3d">
-                            <div class="absolute left-0 right-6 top-0 bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-depth-glow dark:shadow-slate-900 border border-slate-100/60 dark:border-slate-700/60 card-3d animate-float" style="transform: rotateX(8deg) rotateY(-12deg) translateZ(20px);">
-                                <div class="flex items-center justify-between">
-                                    <div class="space-y-2">
-                                        <p class="text-sm text-slate-500 dark:text-slate-400">Today</p>
-                                        <p class="text-2xl font-semibold text-slate-900 dark:text-slate-100">124.5 hours</p>
-                                    </div>
-                                    <div class="h-12 w-12 rounded-xl bg-linear-to-br from-blue-100 dark:from-blue-900 to-blue-50 dark:to-blue-800 flex items-center justify-center">
-                                        <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class="mt-6 h-2 w-full rounded-full bg-slate-100 dark:bg-slate-700 overflow-hidden">
-                                    <div class="h-full w-2/3 bg-linear-to-r from-blue-500 to-indigo-500"></div>
-                                </div>
-                            </div>
-                            <div class="absolute left-6 right-0 top-20 bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-depth-glow dark:shadow-slate-900 border border-slate-100/60 dark:border-slate-700/60 card-3d animate-float-delayed" style="transform: rotateX(-6deg) rotateY(10deg) translateZ(40px);">
-                                <div class="flex items-center justify-between">
-                                    <div class="space-y-2">
-                                        <p class="text-sm text-slate-500 dark:text-slate-400">Payroll Run</p>
-                                        <p class="text-2xl font-semibold text-slate-900 dark:text-slate-100">$86,420</p>
-                                    </div>
-                                    <div class="h-12 w-12 rounded-xl bg-linear-to-br from-indigo-100 dark:from-indigo-900 to-indigo-50 dark:to-indigo-800 flex items-center justify-center">
-                                        <svg class="w-6 h-6 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class="mt-6 flex items-center justify-between text-sm text-slate-500 dark:text-slate-400">
-                                    <span>Processing</span>
-                                    <span class="text-slate-700 dark:text-slate-200">64%</span>
-                                </div>
-                            </div>
-                            <div class="absolute left-10 right-0 top-40 bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-depth-glow dark:shadow-slate-900 border border-slate-100/60 dark:border-slate-700/60 card-3d" style="transform: rotateX(2deg) rotateY(-6deg) translateZ(60px);">
-                                <div class="flex items-center justify-between">
-                                    <div class="space-y-2">
-                                        <p class="text-sm text-slate-500 dark:text-slate-400">Team Wins</p>
-                                        <p class="text-2xl font-semibold text-slate-900 dark:text-slate-100">+18%</p>
-                                    </div>
-                                    <div class="h-12 w-12 rounded-xl bg-linear-to-br from-sky-100 dark:from-sky-900 to-sky-50 dark:to-sky-800 flex items-center justify-center">
-                                        <svg class="w-6 h-6 text-sky-600 dark:text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4"></path>
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class="mt-6 grid grid-cols-3 gap-3 text-xs text-slate-500 dark:text-slate-400">
-                                    <div class="rounded-lg bg-slate-50 dark:bg-slate-700/60 px-3 py-2 text-center">Visibility</div>
-                                    <div class="rounded-lg bg-slate-50 dark:bg-slate-700/60 px-3 py-2 text-center">Trust</div>
-                                    <div class="rounded-lg bg-slate-50 dark:bg-slate-700/60 px-3 py-2 text-center">Momentum</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @auth
+                        <a href="{{ url($authUrl) }}" class="inline-flex items-center justify-center px-8 py-4 bg-linear-to-r from-blue-600 to-blue-700 dark:from-blue-500 dark:to-blue-600 text-white font-semibold rounded-xl hover:shadow-2xl hover:shadow-blue-500/30 transition-all duration-300 transform hover:scale-105">
+                            Go to Dashboard
+                            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                            </svg>
+                        </a>
+                    @else
+                        <a href="{{ route('login') }}" class="inline-flex items-center justify-center px-8 py-4 bg-linear-to-r from-blue-600 to-blue-700 dark:from-blue-500 dark:to-blue-600 text-white font-semibold rounded-xl hover:shadow-2xl hover:shadow-blue-500/30 transition-all duration-300 transform hover:scale-105">
+                            Get Started
+                            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                            </svg>
+                        </a>
+                    @endauth
                 </div>
             </div>
         </section>
@@ -316,105 +242,6 @@
                         </ul>
                     </div>
                     <div>
-                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-                            <div class="space-y-8 text-center lg:text-left">
-                                <div class="space-y-4 animate-float">
-                                    <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tighter">
-                                        <span class="block text-slate-900 dark:text-slate-100">Welcome to</span>
-                                        <span class="block bg-linear-to-r from-blue-600 via-blue-500 to-indigo-600 dark:from-blue-400 dark:via-blue-300 dark:to-indigo-400 bg-clip-text text-transparent drop-shadow-2xl">{{ config('app.name') }}</span>
-                                    </h1>
-                                    <p class="text-xl sm:text-2xl text-slate-600 dark:text-slate-400 max-w-3xl lg:max-w-none mx-auto lg:mx-0 leading-relaxed drop-shadow-sm">
-                                        Bringing visibility and transparency to your workforce. Track hours, manage payroll, celebrate achievements, and bring your team together with powerful collaboration tools.
-                                    </p>
-                                </div>
-                                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                                    @auth
-                                        <a href="{{ url($authUrl) }}" class="inline-flex items-center justify-center px-8 py-4 bg-linear-to-r from-blue-600 to-blue-700 dark:from-blue-500 dark:to-blue-600 text-white font-semibold rounded-xl hover:shadow-2xl hover:shadow-blue-500/30 transition-all duration-300 transform hover:scale-105">
-                                            Go to Dashboard
-                                            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-                                            </svg>
-                                        </a>
-                                    @else
-                                        <a href="{{ route('login') }}" class="inline-flex items-center justify-center px-8 py-4 bg-linear-to-r from-blue-600 to-blue-700 dark:from-blue-500 dark:to-blue-600 text-white font-semibold rounded-xl hover:shadow-2xl hover:shadow-blue-500/30 transition-all duration-300 transform hover:scale-105">
-                                            Get Started
-                                            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-                                            </svg>
-                                        </a>
-                                    @endauth
-                                </div>
-                                <div class="flex flex-wrap items-center justify-center lg:justify-start gap-6 text-sm text-slate-500 dark:text-slate-400">
-                                    <div class="inline-flex items-center gap-2">
-                                        <span class="inline-flex h-2 w-2 rounded-full bg-blue-500"></span>
-                                        Real-time visibility
-                                    </div>
-                                    <div class="inline-flex items-center gap-2">
-                                        <span class="inline-flex h-2 w-2 rounded-full bg-indigo-500"></span>
-                                        Transparent payroll
-                                    </div>
-                                    <div class="inline-flex items-center gap-2">
-                                        <span class="inline-flex h-2 w-2 rounded-full bg-sky-500"></span>
-                                        Unified teams
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="relative hidden lg:block">
-                                <div class="absolute -inset-6 bg-linear-to-br from-blue-200/40 via-indigo-200/20 to-transparent dark:from-blue-800/30 dark:via-indigo-800/20 blur-3xl opacity-70"></div>
-                                <div class="relative h-[420px] w-full max-w-lg mx-auto preserve-3d">
-                                    <div class="absolute left-0 right-6 top-0 bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-depth-glow dark:shadow-slate-900 border border-slate-100/60 dark:border-slate-700/60 card-3d animate-float" style="transform: rotateX(8deg) rotateY(-12deg) translateZ(20px);">
-                                        <div class="flex items-center justify-between">
-                                            <div class="space-y-2">
-                                                <p class="text-sm text-slate-500 dark:text-slate-400">Today</p>
-                                                <p class="text-2xl font-semibold text-slate-900 dark:text-slate-100">124.5 hours</p>
-                                            </div>
-                                            <div class="h-12 w-12 rounded-xl bg-linear-to-br from-blue-100 dark:from-blue-900 to-blue-50 dark:to-blue-800 flex items-center justify-center">
-                                                <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                                </svg>
-                                            </div>
-                                        </div>
-                                        <div class="mt-6 h-2 w-full rounded-full bg-slate-100 dark:bg-slate-700 overflow-hidden">
-                                            <div class="h-full w-2/3 bg-linear-to-r from-blue-500 to-indigo-500"></div>
-                                        </div>
-                                    </div>
-                                    <div class="absolute left-6 right-0 top-20 bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-depth-glow dark:shadow-slate-900 border border-slate-100/60 dark:border-slate-700/60 card-3d animate-float-delayed" style="transform: rotateX(-6deg) rotateY(10deg) translateZ(40px);">
-                                        <div class="flex items-center justify-between">
-                                            <div class="space-y-2">
-                                                <p class="text-sm text-slate-500 dark:text-slate-400">Payroll Run</p>
-                                                <p class="text-2xl font-semibold text-slate-900 dark:text-slate-100">$86,420</p>
-                                            </div>
-                                            <div class="h-12 w-12 rounded-xl bg-linear-to-br from-indigo-100 dark:from-indigo-900 to-indigo-50 dark:to-indigo-800 flex items-center justify-center">
-                                                <svg class="w-6 h-6 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                                </svg>
-                                            </div>
-                                        </div>
-                                        <div class="mt-6 flex items-center justify-between text-sm text-slate-500 dark:text-slate-400">
-                                            <span>Processing</span>
-                                            <span class="text-slate-700 dark:text-slate-200">64%</span>
-                                        </div>
-                                    </div>
-                                    <div class="absolute left-10 right-0 top-40 bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-depth-glow dark:shadow-slate-900 border border-slate-100/60 dark:border-slate-700/60 card-3d" style="transform: rotateX(2deg) rotateY(-6deg) translateZ(60px);">
-                                        <div class="flex items-center justify-between">
-                                            <div class="space-y-2">
-                                                <p class="text-sm text-slate-500 dark:text-slate-400">Team Wins</p>
-                                                <p class="text-2xl font-semibold text-slate-900 dark:text-slate-100">+18%</p>
-                                            </div>
-                                            <div class="h-12 w-12 rounded-xl bg-linear-to-br from-sky-100 dark:from-sky-900 to-sky-50 dark:to-sky-800 flex items-center justify-center">
-                                                <svg class="w-6 h-6 text-sky-600 dark:text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4"></path>
-                                                </svg>
-                                            </div>
-                                        </div>
-                                        <div class="mt-6 grid grid-cols-3 gap-3 text-xs text-slate-500 dark:text-slate-400">
-                                            <div class="rounded-lg bg-slate-50 dark:bg-slate-700/60 px-3 py-2 text-center">Visibility</div>
-                                            <div class="rounded-lg bg-slate-50 dark:bg-slate-700/60 px-3 py-2 text-center">Trust</div>
-                                            <div class="rounded-lg bg-slate-50 dark:bg-slate-700/60 px-3 py-2 text-center">Momentum</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         <h3 class="text-sm font-semibold text-white mb-4">Product</h3>
                         <ul class="space-y-3">
                             <li><a href="/#features" class="text-slate-400 dark:text-slate-500 hover:text-white dark:hover:text-slate-300 transition-colors duration-200">Features</a></li>
