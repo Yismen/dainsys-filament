@@ -1,44 +1,37 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" x-data @init="$store.theme.init()">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Privacy Policy - {{ config('app.name') }}</title>
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <script>
+            if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            }
+        </script>
     </head>
-    <body class="bg-linear-to-br from-slate-50 via-blue-50 to-slate-50 text-slate-900 antialiased">
-        <!-- Navigation -->
-        <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-slate-200/40 shadow-sm">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between items-center h-16">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-10 h-10 rounded-xl bg-linear-to-br from-blue-600 to-blue-700 flex items-center justify-center shadow-lg">
-                            <span class="text-white font-bold text-sm">DS</span>
-                        </div>
-                        <a href="/" class="text-2xl font-bold bg-linear-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent hover:opacity-80 transition-opacity">{{ config('app.name') }}</a>
-                    </div>
-                    <a href="/" class="px-4 py-2 text-sm font-medium text-slate-700 hover:text-blue-600 transition-colors duration-200">Back to Home</a>
-                </div>
-            </div>
-        </nav>
+    <body class="bg-linear-to-br from-slate-50 via-blue-50 to-slate-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 text-slate-900 dark:text-slate-100 antialiased">
+
+        <x-navigation :show-back-link="true" back-link-text="Back to Home" />
 
         <!-- Policy Content -->
         <section class="py-24 sm:py-32 relative">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h1 class="text-5xl font-bold text-slate-900 mb-8">Privacy Policy</h1>
-                <p class="text-lg text-slate-600 mb-8">Last updated: {{ now()->format('F d, Y') }}</p>
+                <h1 class="text-5xl font-bold text-slate-900 dark:text-slate-100 mb-8">Privacy Policy</h1>
+                <p class="text-lg text-slate-600 dark:text-slate-400 mb-8">Last updated: {{ now()->format('F d, Y') }}</p>
 
-                <div class="space-y-8 text-slate-600">
+                <div class="space-y-8 text-slate-600 dark:text-slate-400">
                     <div>
-                        <h2 class="text-3xl font-bold text-slate-900 mb-4">Introduction</h2>
+                        <h2 class="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-4">Introduction</h2>
                         <p class="mb-4">{{ config('app.name') }} ("we", "our", or "us") operates the DainSys application. This page informs you of our policies regarding the collection, use, and disclosure of personal data when you use our Service and the choices you have associated with that data.</p>
                     </div>
 
                     <div>
-                        <h2 class="text-3xl font-bold text-slate-900 mb-4">Information Collection and Use</h2>
+                        <h2 class="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-4">Information Collection and Use</h2>
                         <p class="mb-4">We collect several different types of information for various purposes to provide and improve our Service to you.</p>
 
-                        <h3 class="text-2xl font-semibold text-slate-800 mt-6 mb-3">Types of Data Collected:</h3>
+                        <h3 class="text-2xl font-semibold text-slate-800 dark:text-slate-200 mt-6 mb-3">Types of Data Collected:</h3>
                         <ul class="list-disc list-inside space-y-2 mb-4">
                             <li><strong>Personal Data:</strong> Email address, first name, last name, phone number, address, and other contact information.</li>
                             <li><strong>Usage Data:</strong> Browser type, IP address, pages visited, time and date of visits, and time spent on pages.</li>
@@ -47,7 +40,7 @@
                     </div>
 
                     <div>
-                        <h2 class="text-3xl font-bold text-slate-900 mb-4">Use of Data</h2>
+                        <h2 class="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-4">Use of Data</h2>
                         <p class="mb-4">We use the collected data for various purposes including:</p>
                         <ul class="list-disc list-inside space-y-2">
                             <li>To provide and maintain our Service</li>
@@ -61,7 +54,7 @@
                     </div>
 
                     <div>
-                        <h2 class="text-3xl font-bold text-slate-900 mb-4">Data Security</h2>
+                        <h2 class="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-4">Data Security</h2>
                         <p>The security of your data is important to us but remember that no method of transmission over the Internet or method of electronic storage is 100% secure. While we strive to use commercially acceptable means to protect your Personal Data, we cannot guarantee its absolute security.</p>
                     </div>
 
