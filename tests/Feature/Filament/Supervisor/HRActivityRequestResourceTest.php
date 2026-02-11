@@ -28,7 +28,7 @@ beforeEach(function (): void {
     $this->actingAs($this->user);
 });
 
-test('supervisor can view their own activity requests', function () {
+test('supervisor can view their own activity requests', function (): void {
     $ownRequests = HRActivityRequest::factory()->count(3)->create([
         'supervisor_id' => $this->supervisor->id,
     ]);
@@ -41,7 +41,7 @@ test('supervisor can view their own activity requests', function () {
         ->assertCanNotSeeTableRecords($otherRequests);
 });
 
-test('supervisor can filter their requests by status', function () {
+test('supervisor can filter their requests by status', function (): void {
     $requestedRequest = HRActivityRequest::factory()->create([
         'supervisor_id' => $this->supervisor->id,
         'status' => HRActivityRequestStatuses::Requested,
@@ -60,7 +60,7 @@ test('supervisor can filter their requests by status', function () {
         ->assertCanNotSeeTableRecords([$completedRequest]);
 });
 
-test('supervisor can view individual request', function () {
+test('supervisor can view individual request', function (): void {
     $request = HRActivityRequest::factory()->create([
         'supervisor_id' => $this->supervisor->id,
     ]);
@@ -71,7 +71,7 @@ test('supervisor can view individual request', function () {
         ->assertSee($request->activity_type->value);
 });
 
-test('supervisor can create new hr activity request', function () {
+test('supervisor can create new hr activity request', function (): void {
     $employee = Employee::factory()->create();
 
     // Create a hire record for this employee

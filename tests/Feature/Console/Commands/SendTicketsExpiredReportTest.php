@@ -11,14 +11,14 @@ use App\Models\User;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 
-beforeEach(function () {
+beforeEach(function (): void {
     Mail::fake();
     Event::fake([
         TicketCreatedEvent::class,
     ]);
 });
 
-it('is is schedulled daily at 8:15 am', function () {
+it('is is schedulled daily at 8:15 am', function (): void {
     $addedToScheduler = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
         ->filter(function ($element) {
             return str($element->command)->contains('dainsys:send-tickets-expired-report');
@@ -28,7 +28,7 @@ it('is is schedulled daily at 8:15 am', function () {
     $this->assertEquals('15 8 * * *', $addedToScheduler->expression);
 });
 
-it('send tickets in status expired', function () {
+it('send tickets in status expired', function (): void {
     $role = Role::firstOrCreate(['name' => SupportRoles::Manager->value]);
     $recipient = User::factory()->create();
     $recipient->assignRole($role);
@@ -45,7 +45,7 @@ it('send tickets in status expired', function () {
     });
 });
 
-it('send it only if there is any ticket expired', function () {
+it('send it only if there is any ticket expired', function (): void {
     $role = Role::firstOrCreate(['name' => SupportRoles::Manager->value]);
     $recipient = User::factory()->create();
     $recipient->assignRole($role);

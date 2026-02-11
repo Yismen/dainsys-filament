@@ -9,7 +9,7 @@ use App\Models\Supervisor;
 use App\Models\User;
 use Livewire\Livewire;
 
-test('supervisor can view employee metrics for their employees', function () {
+test('supervisor can view employee metrics for their employees', function (): void {
     $supervisor = Supervisor::factory()->create();
     $supervisorUser = User::factory()->for($supervisor)->create();
 
@@ -24,7 +24,7 @@ test('supervisor can view employee metrics for their employees', function () {
         ->assertCanSeeTableRecords([$employee]);
 });
 
-test('supervisor cannot see terminated employees in metrics', function () {
+test('supervisor cannot see terminated employees in metrics', function (): void {
     $supervisor = Supervisor::factory()->create();
     $supervisorUser = User::factory()->for($supervisor)->create();
 
@@ -44,7 +44,7 @@ test('supervisor cannot see terminated employees in metrics', function () {
         ->assertCanNotSeeTableRecords([$terminatedEmployee]);
 });
 
-test('employee metrics calculates total conversions correctly', function () {
+test('employee metrics calculates total conversions correctly', function (): void {
     $supervisor = Supervisor::factory()->create();
     $supervisorUser = User::factory()->for($supervisor)->create();
 
@@ -75,7 +75,7 @@ test('employee metrics calculates total conversions correctly', function () {
     $response->assertSuccessful();
 });
 
-test('employee metrics calculates sph correctly', function () {
+test('employee metrics calculates sph correctly', function (): void {
     $supervisor = Supervisor::factory()->create();
     $supervisorUser = User::factory()->for($supervisor)->create();
 
@@ -100,7 +100,7 @@ test('employee metrics calculates sph correctly', function () {
     $response->assertSuccessful();
 });
 
-test('employee metrics calculates efficiency rate correctly', function () {
+test('employee metrics calculates efficiency rate correctly', function (): void {
     $supervisor = Supervisor::factory()->create();
     $supervisorUser = User::factory()->for($supervisor)->create();
 
@@ -121,7 +121,7 @@ test('employee metrics calculates efficiency rate correctly', function () {
     $response->assertSuccessful();
 });
 
-test('employee metrics can filter by date range', function () {
+test('employee metrics can filter by date range', function (): void {
     $supervisor = Supervisor::factory()->create();
     $supervisorUser = User::factory()->for($supervisor)->create();
 
@@ -139,7 +139,7 @@ test('employee metrics can filter by date range', function () {
         ->assertSuccessful();
 });
 
-test('metrics table displays correct columns', function () {
+test('metrics table displays correct columns', function (): void {
     $supervisor = Supervisor::factory()->create();
     $supervisorUser = User::factory()->for($supervisor)->create();
 

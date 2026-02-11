@@ -9,7 +9,7 @@ use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 use function Pest\Livewire\livewire;
 
-beforeEach(function () {
+beforeEach(function (): void {
     Filament::setCurrentPanel(
         Filament::getPanel('workforce'),
     );
@@ -25,7 +25,7 @@ beforeEach(function () {
     ];
 });
 
-it('require users to be authenticated to access Incentive resource pages', function (string $method) {
+it('require users to be authenticated to access Incentive resource pages', function (string $method): void {
     $response = get(route($this->resource_routes[$method]['route'],
         $this->resource_routes[$method]['params']));
 
@@ -34,7 +34,7 @@ it('require users to be authenticated to access Incentive resource pages', funct
     'index',
 ]);
 
-it('require users to have correct permissions to access Incentive resource pages', function (string $method) {
+it('require users to have correct permissions to access Incentive resource pages', function (string $method): void {
     actingAs(User::factory()->create());
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -45,7 +45,7 @@ it('require users to have correct permissions to access Incentive resource pages
     'index',
 ]);
 
-it('allows super admin users to access Incentive resource pages', function (string $method) {
+it('allows super admin users to access Incentive resource pages', function (string $method): void {
     actingAs($this->createSuperAdminUser());
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -56,7 +56,7 @@ it('allows super admin users to access Incentive resource pages', function (stri
     'index',
 ]);
 
-it('allow users with correct permissions to access Incentive resource pages', function (string $method) {
+it('allow users with correct permissions to access Incentive resource pages', function (string $method): void {
     actingAs($this->createUserWithPermissionsToActions($this->resource_routes[$method]['permission'], 'Incentive'));
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -67,7 +67,7 @@ it('allow users with correct permissions to access Incentive resource pages', fu
     'index',
 ]);
 
-it('displays Incentive list page correctly', function () {
+it('displays Incentive list page correctly', function (): void {
     Incentive::factory()->create();
     $incentives = Incentive::get();
 

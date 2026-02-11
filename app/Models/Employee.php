@@ -61,15 +61,6 @@ class Employee extends \App\Models\BaseModels\AppModel
         'status',
     ];
 
-    protected $casts = [
-        'date_of_birth' => 'date:Y-m-d',
-        'hired_at' => 'datetime',
-        'status' => EmployeeStatuses::class,
-        'gender' => Genders::class,
-        'has_kids' => 'boolean',
-        'personal_id_type' => PersonalIdTypes::class,
-    ];
-
     protected $dispatchesEvents = [
         // 'saved' => EmployeeSaved::class,
         // 'created' => EmployeeHired::class
@@ -79,13 +70,13 @@ class Employee extends \App\Models\BaseModels\AppModel
     {
         parent::boot();
 
-        static::created(function (Employee $employee) {
+        static::created(function (Employee $employee): void {
             $employee->status = EmployeeStatuses::Created;
 
             $employee->saveQuietly();
         });
 
-        static::saved(function (Employee $employee) {
+        static::saved(function (Employee $employee): void {
             // Reload relationships to ensure we have fresh data
             $employee->load(['hires', 'terminations', 'suspensions']);
 
@@ -132,7 +123,8 @@ class Employee extends \App\Models\BaseModels\AppModel
     //     return $this->hired_at->diffInDays(now());
     // }
 
-    public function scopeActive($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function active($query)
     {
         $query->whereIn('status', [
             EmployeeStatuses::Hired,
@@ -146,7 +138,8 @@ class Employee extends \App\Models\BaseModels\AppModel
             $this->status === EmployeeStatuses::Suspended;
     }
 
-    public function scopeAuthenticatable($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function authenticatable($query)
     {
         return $query->whereIn('status', [
             EmployeeStatuses::Hired,
@@ -154,7 +147,8 @@ class Employee extends \App\Models\BaseModels\AppModel
         ]);
     }
 
-    public function scopeCurrent($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function current($query)
     {
         $query->whereIn('status', [
             EmployeeStatuses::Hired,
@@ -162,17 +156,20 @@ class Employee extends \App\Models\BaseModels\AppModel
         ]);
     }
 
-    public function scopeSuspended($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function suspended($query)
     {
         $query->where('status', EmployeeStatuses::Suspended);
     }
 
-    public function scopeInactive($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function inactive($query)
     {
         $query->where('status', EmployeeStatuses::Terminated);
     }
 
-    public function scopeNotInactive($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function notInactive($query)
     {
         $query->whereIn('status', [
             EmployeeStatuses::Hired,
@@ -180,22 +177,24 @@ class Employee extends \App\Models\BaseModels\AppModel
         ]);
     }
 
-    public function scopeHasActiveSuspension($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function hasActiveSuspension($query)
     {
         $query->with('suspensions')
             ->current()
-            ->where(function ($query) {
-                $query->whereHas('suspensions', function ($suspensions) {
+            ->where(function ($query): void {
+                $query->whereHas('suspensions', function ($suspensions): void {
                     $suspensions->active();
                 });
             });
     }
 
-    public function scopeMissingActiveSuspension($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function missingActiveSuspension($query)
     {
         $query->with('suspensions')
-            ->where(function ($query) {
-                $query->whereDoesntHave('suspensions', function ($suspensions) {
+            ->where(function ($query): void {
+                $query->whereDoesntHave('suspensions', function ($suspensions): void {
                     $suspensions->active();
                 });
             });
@@ -293,4 +292,15 @@ class Employee extends \App\Models\BaseModels\AppModel
     // {
     //     return $this->latestHire()?->date;
     // }
+    protected function casts(): array
+    {
+        return [
+            'date_of_birth' => 'date:Y-m-d',
+            'hired_at' => 'datetime',
+            'status' => EmployeeStatuses::class,
+            'gender' => Genders::class,
+            'has_kids' => 'boolean',
+            'personal_id_type' => PersonalIdTypes::class,
+        ];
+    }
 }

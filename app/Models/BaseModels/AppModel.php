@@ -13,7 +13,7 @@ class AppModel extends Model
 {
     use HasFactory;
     use HasUuids;
-    use InteractsWithModelCaching;
     use InteractsWithActivitylog;
+    use InteractsWithModelCaching;
     use SoftDeletes;
 }

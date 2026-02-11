@@ -89,8 +89,8 @@ class EmployeesStats extends BaseWidget
             function () use ($scope) {
                 return Employee::query()
                     ->$scope()
-                    ->when($this->pageFilters['site'] ?? null, function ($siteQuery) {
-                        $siteQuery->withWhereHas('site', function ($siteQuery) {
+                    ->when($this->pageFilters['site'] ?? null, function ($siteQuery): void {
+                        $siteQuery->withWhereHas('site', function ($siteQuery): void {
                             $siteQuery->when(
                                 is_array($this->pageFilters['site']),
                                 fn ($query) => $query->whereIn('id', $this->pageFilters['site']),
@@ -98,8 +98,8 @@ class EmployeesStats extends BaseWidget
                             );
                         });
                     })
-                    ->when($this->pageFilters['project'] ?? null, function ($hiresQuery) {
-                        $hiresQuery->withWhereHas('project', function ($projectQuery) {
+                    ->when($this->pageFilters['project'] ?? null, function ($hiresQuery): void {
+                        $hiresQuery->withWhereHas('project', function ($projectQuery): void {
                             $projectQuery->when(
                                 is_array($this->pageFilters['project']),
                                 fn ($query) => $query->whereIn('id', $this->pageFilters['project']),
@@ -107,8 +107,8 @@ class EmployeesStats extends BaseWidget
                             );
                         });
                     })
-                    ->when($this->pageFilters['supervisor'] ?? null, function ($hiresQuery) {
-                        $hiresQuery->withWhereHas('supervisor', function ($supervisorQuery) {
+                    ->when($this->pageFilters['supervisor'] ?? null, function ($hiresQuery): void {
+                        $hiresQuery->withWhereHas('supervisor', function ($supervisorQuery): void {
                             $supervisorQuery->when(
                                 is_array($this->pageFilters['supervisor']),
                                 fn ($query) => $query->whereIn('id', $this->pageFilters['supervisor']),

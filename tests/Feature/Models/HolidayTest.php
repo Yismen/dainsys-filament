@@ -2,7 +2,7 @@
 
 use App\Models\Holiday;
 
-test('holidays model interacts with db table', function () {
+test('holidays model interacts with db table', function (): void {
     $data = Holiday::factory()->make();
 
     Holiday::create($data->toArray());

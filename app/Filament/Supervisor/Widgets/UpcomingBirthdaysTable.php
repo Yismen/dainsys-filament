@@ -30,7 +30,7 @@ class UpcomingBirthdaysTable extends BaseWidget
         $until = Carbon::now()->addDays(10)->endOfDay();
 
         $upcomingIds = Employee::query()
-            ->whereHas('supervisor', function ($query) use ($supervisor) {
+            ->whereHas('supervisor', function ($query) use ($supervisor): void {
                 $query->where('id', $supervisor->id);
             })
             ->where('status', EmployeeStatuses::Hired)

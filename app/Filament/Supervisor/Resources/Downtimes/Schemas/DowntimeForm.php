@@ -51,7 +51,7 @@ class DowntimeForm
                 Select::make('employee_id')
                     ->options(ModelListService::make(
                         model: Employee::query()
-                            ->whereHas('supervisor', function ($query) {
+                            ->whereHas('supervisor', function ($query): void {
                                 $query->where('id', auth()->user()->supervisor?->id);
                             }),
                         value_field: 'full_name')

@@ -2,20 +2,20 @@
 
 use App\Filament\Admin\Pages\AdminDashboard;
 
-test('admin dashboard component exists', function () {
+test('admin dashboard component exists', function (): void {
     $dashboard = new AdminDashboard;
 
     expect($dashboard)->toBeInstanceOf(AdminDashboard::class);
 });
 
-test('dashboard has correct widget count', function () {
+test('dashboard has correct widget count', function (): void {
     $dashboard = new AdminDashboard;
     $widgets = $dashboard->getWidgets();
 
     expect(count($widgets))->toBe(7);
 });
 
-test('dashboard uses two column grid', function () {
+test('dashboard uses two column grid', function (): void {
     $dashboard = new AdminDashboard;
     $columns = $dashboard->getColumns();
 

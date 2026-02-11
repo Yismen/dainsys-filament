@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Event;
 
 uses(\App\Traits\EnsureDateNotWeekend::class);
 
-beforeEach(function () {
+beforeEach(function (): void {
     Event::fake([
         TicketCreatedEvent::class,
         TicketAssignedEvent::class,
@@ -27,7 +27,7 @@ beforeEach(function () {
     ]);
 });
 
-test('tickets model interacts with db table', function () {
+test('tickets model interacts with db table', function (): void {
     $data = Ticket::factory()->make();
 
     Ticket::create($data->toArray());
@@ -47,21 +47,21 @@ test('tickets model interacts with db table', function () {
     ]));
 });
 
-test('tickets model belongs to owner', function () {
+test('tickets model belongs to owner', function (): void {
     $ticket = Ticket::factory()->create();
 
     expect($ticket->owner())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
     expect($ticket->owner)->toBeInstanceOf(User::class);
 });
 
-test('tickets model belongs to agent', function () {
+test('tickets model belongs to agent', function (): void {
     $ticket = Ticket::factory()->assigned()->create();
 
     expect($ticket->agent())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
     expect($ticket->agent)->toBeInstanceOf(User::class);
 });
 
-test('tickets model has many replies', function () {
+test('tickets model has many replies', function (): void {
     $ticket = Ticket::factory()->create();
 
     TicketReply::factory()->create(['ticket_id' => $ticket->id]);
@@ -70,7 +70,7 @@ test('tickets model has many replies', function () {
     expect($ticket->replies->first())->toBeInstanceOf(TicketReply::class);
 });
 
-test('tickets model updates expected at when priority is normal', function () {
+test('tickets model updates expected at when priority is normal', function (): void {
     $date = now();
     $ticket = Ticket::factory()->create(['created_at' => $date->copy()]);
 
@@ -82,7 +82,7 @@ test('tickets model updates expected at when priority is normal', function () {
     ]);
 });
 
-test('tickets model updates expected at when priority is medium', function () {
+test('tickets model updates expected at when priority is medium', function (): void {
     $date = now();
     $ticket = Ticket::factory()->create(['created_at' => $date->copy()]);
 
@@ -94,7 +94,7 @@ test('tickets model updates expected at when priority is medium', function () {
     ]);
 });
 
-test('tickets model updates expected at when priority is high', function () {
+test('tickets model updates expected at when priority is high', function (): void {
     $date = now();
     $ticket = Ticket::factory()->create(['created_at' => $date->copy()]);
 
@@ -106,7 +106,7 @@ test('tickets model updates expected at when priority is high', function () {
     ]);
 });
 
-test('tickets model updates expected at when priority is emergency', function () {
+test('tickets model updates expected at when priority is emergency', function (): void {
     $date = now();
     $ticket = Ticket::factory()->create(['created_at' => $date->copy()]);
 
@@ -118,7 +118,7 @@ test('tickets model updates expected at when priority is emergency', function ()
     ]);
 });
 
-test('ticket model updates reference correcly', function () {
+test('ticket model updates reference correcly', function (): void {
     $ticket_1 = Ticket::factory()->create();
     $ticket_2 = Ticket::factory()->create();
     $ticket_3 = Ticket::factory()->create();
@@ -139,7 +139,7 @@ test('ticket model updates reference correcly', function () {
     ]);
 });
 
-test('tickets model can assign an agent', function () {
+test('tickets model can assign an agent', function (): void {
     $ticket = Ticket::factory()->unassigned()->create();
     $agent = User::factory()->create();
 
@@ -152,7 +152,7 @@ test('tickets model can assign an agent', function () {
     ]);
 });
 
-test('tickets model can be completed', function () {
+test('tickets model can be completed', function (): void {
     $agent = User::factory()->create();
     $ticket = Ticket::factory()->assigned()->create();
 
@@ -165,7 +165,7 @@ test('tickets model can be completed', function () {
     ]);
 });
 
-test('tickets model update status to pending when ticket is created', function () {
+test('tickets model update status to pending when ticket is created', function (): void {
     $ticket = Ticket::factory()->create(['status' => TicketStatuses::InProgress]);
 
     $this->assertDatabaseHas(Ticket::class, [
@@ -173,7 +173,7 @@ test('tickets model update status to pending when ticket is created', function (
     ]);
 });
 
-test('tickets model update status to expired when expected at has passed', function () {
+test('tickets model update status to expired when expected at has passed', function (): void {
     $date = now();
     $ticket = Ticket::factory()->create(['status' => TicketStatuses::InProgress]);
 
@@ -185,7 +185,7 @@ test('tickets model update status to expired when expected at has passed', funct
     ]);
 });
 
-test('tickets model update status to in progress', function () {
+test('tickets model update status to in progress', function (): void {
     $ticket = Ticket::factory()->create();
     $ticket->assignTo(User::factory()->create());
 
@@ -194,7 +194,7 @@ test('tickets model update status to in progress', function () {
     ]);
 });
 
-test('tickets model update status to in status expired', function () {
+test('tickets model update status to in status expired', function (): void {
     $date = now();
     $ticket = Ticket::factory()->assigned()->create();
 
@@ -206,7 +206,7 @@ test('tickets model update status to in status expired', function () {
     ]);
 });
 
-test('tickets model update status to in completed compliant', function () {
+test('tickets model update status to in completed compliant', function (): void {
     $ticket = Ticket::factory()->assigned()->create();
 
     $this->actingAs(User::factory()->create());
@@ -217,7 +217,7 @@ test('tickets model update status to in completed compliant', function () {
     ]);
 });
 
-test('tickets model update status to in completed expired', function () {
+test('tickets model update status to in completed expired', function (): void {
     $date = now();
     $ticket = Ticket::factory()->assigned()->create();
 
@@ -231,14 +231,14 @@ test('tickets model update status to in completed expired', function () {
     ]);
 });
 
-test('ticket model emit event when ticket is created', function () {
+test('ticket model emit event when ticket is created', function (): void {
     Event::fake(TicketCreatedEvent::class);
     $ticket = Ticket::factory()->create();
 
     Event::assertDispatched(TicketCreatedEvent::class);
 });
 
-test('ticket model emit event when ticket is completed', function () {
+test('ticket model emit event when ticket is completed', function (): void {
     Event::fake();
     $ticket = Ticket::factory()->create();
 
@@ -248,7 +248,7 @@ test('ticket model emit event when ticket is completed', function () {
     Event::assertDispatched(TicketCompletedEvent::class);
 });
 
-test('ticket model emit event when ticket is assigned', function () {
+test('ticket model emit event when ticket is assigned', function (): void {
     Event::fake(TicketAssignedEvent::class);
     $ticket = Ticket::factory()->create();
 
@@ -257,7 +257,7 @@ test('ticket model emit event when ticket is assigned', function () {
     Event::assertDispatched(TicketAssignedEvent::class);
 });
 
-test('ticket model emit event when ticket is reopened', function () {
+test('ticket model emit event when ticket is reopened', function (): void {
     Event::fake(TicketReopenedEvent::class);
     $ticket = Ticket::factory()->create();
 
@@ -267,7 +267,7 @@ test('ticket model emit event when ticket is reopened', function () {
     Event::assertDispatched(TicketReopenedEvent::class);
 });
 
-test('ticket model get completed attribute', function () {
+test('ticket model get completed attribute', function (): void {
     $ticket = Ticket::factory()->create();
     Ticket::factory()->create();
 
@@ -277,14 +277,14 @@ test('ticket model get completed attribute', function () {
     expect(Ticket::completed()->count())->toEqual(1);
 });
 
-test('ticket model get incompleted attribute', function () {
+test('ticket model get incompleted attribute', function (): void {
     Ticket::factory()->incompleted()->create();
     Ticket::factory()->create();
 
     expect(Ticket::incompleted()->count())->toEqual(2);
 });
 
-test('ticket model get is assigned to agent method', function () {
+test('ticket model get is assigned to agent method', function (): void {
     $agent = User::factory()->create();
     $ticket = Ticket::factory()->create();
 
@@ -293,14 +293,14 @@ test('ticket model get is assigned to agent method', function () {
     expect($ticket->isAssignedTo($agent))->toBeTrue();
 });
 
-test('ticket model get compliant attribute', function () {
+test('ticket model get compliant attribute', function (): void {
     Ticket::factory()->compliant()->create();
     Ticket::factory()->create();
 
     expect(Ticket::compliant()->count())->toEqual(1);
 });
 
-test('ticket model get noncompliant attribute', function () {
+test('ticket model get noncompliant attribute', function (): void {
     Ticket::factory()->noncompliant()->create();
     Ticket::factory()->create();
 

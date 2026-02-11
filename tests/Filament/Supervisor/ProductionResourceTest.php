@@ -8,7 +8,7 @@ use App\Models\Supervisor;
 use App\Models\User;
 use Livewire\Livewire;
 
-test('supervisor can view production data for their employees', function () {
+test('supervisor can view production data for their employees', function (): void {
     $supervisor = Supervisor::factory()->create();
     $supervisorUser = User::factory()->for($supervisor)->create();
 
@@ -32,7 +32,7 @@ test('supervisor can view production data for their employees', function () {
         ->assertCanSeeTableRecords(Production::all());
 });
 
-test('supervisor cannot see terminated employees production data', function () {
+test('supervisor cannot see terminated employees production data', function (): void {
     $supervisor = Supervisor::factory()->create();
     $supervisorUser = User::factory()->for($supervisor)->create();
 
@@ -68,7 +68,7 @@ test('supervisor cannot see terminated employees production data', function () {
         ->assertCanNotSeeTableRecords($terminatedProduction);
 });
 
-test('supervisor can filter production by date range', function () {
+test('supervisor can filter production by date range', function (): void {
     $supervisor = Supervisor::factory()->create();
     $supervisorUser = User::factory()->for($supervisor)->create();
 
@@ -103,7 +103,7 @@ test('supervisor can filter production by date range', function () {
         ->assertCanNotSeeTableRecords([$oldProduction]);
 });
 
-test('supervisor can filter production by employee', function () {
+test('supervisor can filter production by employee', function (): void {
     $supervisor = Supervisor::factory()->create();
     $supervisorUser = User::factory()->for($supervisor)->create();
 
@@ -138,7 +138,7 @@ test('supervisor can filter production by employee', function () {
         ->assertCanNotSeeTableRecords([$production2]);
 });
 
-test('supervisor can filter production by campaign', function () {
+test('supervisor can filter production by campaign', function (): void {
     $supervisor = Supervisor::factory()->create();
     $supervisorUser = User::factory()->for($supervisor)->create();
 
@@ -169,7 +169,7 @@ test('supervisor can filter production by campaign', function () {
         ->assertCanNotSeeTableRecords([$production2]);
 });
 
-test('production table displays correct columns', function () {
+test('production table displays correct columns', function (): void {
     $supervisor = Supervisor::factory()->create();
     $supervisorUser = User::factory()->for($supervisor)->create();
 

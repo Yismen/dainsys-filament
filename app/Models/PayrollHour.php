@@ -28,19 +28,11 @@ class PayrollHour extends \App\Models\BaseModels\AppModel
         'is_holiday',
     ];
 
-    protected $casts = [
-        'date' => 'date:Y-m-d',
-        'week_ending_at' => 'date',
-        'payroll_ending_at' => 'date',
-        'is_sunday' => 'bool',
-        'is_holiday' => 'bool',
-    ];
-
     protected static function boot()
     {
         parent::boot();
 
-        static::saving(function (PayrollHour $payrollHour) {
+        static::saving(function (PayrollHour $payrollHour): void {
             $isHoliday = Cache::remember('date_'.$payrollHour->date->format('Y-m-d').'is_a_holiday', now()->addHour(), function () use ($payrollHour) {
                 return Holiday::query()->whereDate('date', $payrollHour->date)->exists();
             });
@@ -60,5 +52,16 @@ class PayrollHour extends \App\Models\BaseModels\AppModel
             $date->startOfMonth()->addDays(14) :
             $date->endOfMonth();
 
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'date' => 'date:Y-m-d',
+            'week_ending_at' => 'date',
+            'payroll_ending_at' => 'date',
+            'is_sunday' => 'bool',
+            'is_holiday' => 'bool',
+        ];
     }
 }

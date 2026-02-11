@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
-beforeEach(function () {
+beforeEach(function (): void {
     Mail::fake();
     $orders_mock = \Mockery::mock(LivevoxAgentSessionService::class)->makePartial();
     $orders_mock->shouldReceive('query')->andReturn(\App\Models\User::query());
@@ -15,7 +15,7 @@ beforeEach(function () {
     });
 });
 
-it('accepts parameters and options', function () {
+it('accepts parameters and options', function (): void {
     $command = $this->artisan('dainsys:livevox-publishing-production-report', [
         '--date' => '2024-03-12,2024-03-12',
         '--subject' => 'Publishing Hourly Report',
@@ -24,7 +24,7 @@ it('accepts parameters and options', function () {
     $command->assertSuccessful();
 });
 
-test('file is deleted after email is sent', function () {
+test('file is deleted after email is sent', function (): void {
     Storage::fake();
     Cache::flush();
 
@@ -37,7 +37,7 @@ test('file is deleted after email is sent', function () {
     Storage::assertMissing('livevox_publishing_production_report.xlsx');
 });
 
-it('runs hourly', function () {
+it('runs hourly', function (): void {
     $addedToScheduler = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
         ->filter(function ($element) {
             return str($element->command)->contains('dainsys:livevox-publishing-production-report');

@@ -13,7 +13,7 @@ use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 use function Pest\Livewire\livewire;
 
-beforeEach(function () {
+beforeEach(function (): void {
     // Seed roles/permissions if applicable
     Filament::setCurrentPanel(
         Filament::getPanel('human-resource'), // Where `app` is the ID of the panel you want to test.
@@ -44,7 +44,7 @@ beforeEach(function () {
     ];
 });
 
-it('require users to be authenticated to access Project resource pages', function (string $method) {
+it('require users to be authenticated to access Project resource pages', function (string $method): void {
     $response = get(route($this->resource_routes[$method]['route'],
         $this->resource_routes[$method]['params']));
 
@@ -56,7 +56,7 @@ it('require users to be authenticated to access Project resource pages', functio
     'view',
 ]);
 
-it('require users to have correct permissions to access Project resource pages', function (string $method) {
+it('require users to have correct permissions to access Project resource pages', function (string $method): void {
     actingAs(User::factory()->create());
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -69,7 +69,7 @@ it('require users to have correct permissions to access Project resource pages',
     'view',
 ]);
 
-it('allows super admin users to access Project resource pages', function (string $method) {
+it('allows super admin users to access Project resource pages', function (string $method): void {
     actingAs($this->createSuperAdminUser());
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -83,7 +83,7 @@ it('allows super admin users to access Project resource pages', function (string
     'view',
 ]);
 
-it('allow users with correct permissions to access Project resource pages', function (string $method) {
+it('allow users with correct permissions to access Project resource pages', function (string $method): void {
     actingAs($this->createUserWithPermissionsToActions($this->resource_routes[$method]['permission'], 'Project'));
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -97,7 +97,7 @@ it('allow users with correct permissions to access Project resource pages', func
     'view',
 ]);
 
-it('displays Project list page correctly', function () {
+it('displays Project list page correctly', function (): void {
     $projects = Project::factory()->count(5)->create();
 
     actingAs($this->createUserWithPermissionTo('view-any Project'));
@@ -106,7 +106,7 @@ it('displays Project list page correctly', function () {
         ->assertCanSeeTableRecords($projects);
 });
 
-test('create Project page works correctly', function () {
+test('create Project page works correctly', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Project'));
 
     $name = 'new Project';
@@ -122,7 +122,7 @@ test('create Project page works correctly', function () {
     ]);
 });
 
-test('edit Project page works correctly', function () {
+test('edit Project page works correctly', function (): void {
     $project = Project::factory()->create();
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Project'));
@@ -141,7 +141,7 @@ test('edit Project page works correctly', function () {
     ]);
 });
 
-test('form validation require fields on create and edit pages', function () {
+test('form validation require fields on create and edit pages', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Project'));
 
     // Test CreateProject validation
@@ -166,7 +166,7 @@ test('form validation require fields on create and edit pages', function () {
         ->assertHasFormErrors(['name' => 'required']);
 });
 
-test('Project name must be unique on create and edit pages', function () {
+test('Project name must be unique on create and edit pages', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Project'));
 
     $existingProject = Project::factory()->create(['name' => 'Unique Project']);
@@ -188,7 +188,7 @@ test('Project name must be unique on create and edit pages', function () {
         ->assertHasFormErrors(['name' => 'unique']);
 });
 
-it('allows updating Project without changing name to trigger uniqueness validation', function () {
+it('allows updating Project without changing name to trigger uniqueness validation', function (): void {
     $project = Project::factory()->create(['name' => 'Existing Project']);
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Project'));
@@ -206,7 +206,7 @@ it('allows updating Project without changing name to trigger uniqueness validati
     ]);
 });
 
-it('autofocus the name field on create and edit pages', function () {
+it('autofocus the name field on create and edit pages', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Project'));
 
     // Test CreateProject autofocus

@@ -20,7 +20,7 @@ class AproveDowntimeAction
             ->successNotificationTitle('Downtimes aproved!')
             ->authorizeIndividualRecords('aprove')
             ->deselectRecordsAfterCompletion()
-            ->action(function (Downtime $record) {
+            ->action(function (Downtime $record): void {
                 if ($record->aprover_id === null) {
                     $record->aprove();
                 }

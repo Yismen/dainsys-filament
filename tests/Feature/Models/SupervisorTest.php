@@ -4,13 +4,13 @@ use App\Models\Employee;
 use App\Models\Supervisor;
 use App\Models\User;
 
-beforeEach(function () {
+beforeEach(function (): void {
     \Illuminate\Support\Facades\Event::fake([
         \App\Events\EmployeeHiredEvent::class,
     ]);
 });
 
-test('supervisors model interacts with db table', function () {
+test('supervisors model interacts with db table', function (): void {
     $data = Supervisor::factory()->make();
 
     Supervisor::create($data->toArray());
@@ -20,7 +20,7 @@ test('supervisors model interacts with db table', function () {
     ]));
 });
 
-test('supervisors model has many hires', function () {
+test('supervisors model has many hires', function (): void {
     $supervisor = Supervisor::factory()
         ->hasHires()
         ->create();
@@ -29,7 +29,7 @@ test('supervisors model has many hires', function () {
     expect($supervisor->hires())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
 });
 
-test('supervisor model has many employees', function () {
+test('supervisor model has many employees', function (): void {
     $employee = Employee::factory()->create();
     $supervisor = Supervisor::factory()
         ->hasHires(1, [
@@ -41,14 +41,14 @@ test('supervisor model has many employees', function () {
     expect($supervisor->employees())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
 });
 
-test('supervisor model belongs to user', function () {
+test('supervisor model belongs to user', function (): void {
     $supervisor = Supervisor::factory()->create();
 
     expect($supervisor->user)->toBeInstanceOf(User::class);
     expect($supervisor->user())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
 });
 
-it('apply global scope active supervisors', function () {
+it('apply global scope active supervisors', function (): void {
     Supervisor::factory()->count(3)->create(['is_active' => true]);
     Supervisor::factory()->count(2)->create(['is_active' => false]);
 

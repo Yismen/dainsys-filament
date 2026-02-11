@@ -31,7 +31,7 @@ beforeEach(function (): void {
     $this->actingAs($this->hrUser);
 });
 
-test('hr can view list of activity requests', function () {
+test('hr can view list of activity requests', function (): void {
     $requests = HRActivityRequest::factory()->count(3)->create();
 
     livewire(\App\Filament\HumanResource\Resources\HRActivityRequests\Pages\ListHRActivityRequests::class)
@@ -39,7 +39,7 @@ test('hr can view list of activity requests', function () {
         ->assertCanSeeTableRecords($requests);
 });
 
-test('hr can filter requests by status', function () {
+test('hr can filter requests by status', function (): void {
     $requestedRequest = HRActivityRequest::factory()->create([
         'status' => HRActivityRequestStatuses::Requested,
     ]);
@@ -56,7 +56,7 @@ test('hr can filter requests by status', function () {
         ->assertCanNotSeeTableRecords([$completedRequest]);
 });
 
-test('hr can view individual request', function () {
+test('hr can view individual request', function (): void {
     $request = HRActivityRequest::factory()->create();
     $request->load('employee', 'supervisor');
 
@@ -67,7 +67,7 @@ test('hr can view individual request', function () {
         ->assertSee($request->activity_type->value);
 });
 
-test('hr can complete a request with comment', function () {
+test('hr can complete a request with comment', function (): void {
     $request = HRActivityRequest::factory()->create([
         'status' => HRActivityRequestStatuses::Requested,
     ]);

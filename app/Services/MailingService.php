@@ -49,7 +49,7 @@ class MailingService
             function () use ($mailableClass, $includeSuperAdmins): Collection {
 
                 $users = User::query()
-                    ->withWhereHas('mailables', function ($query) use ($mailableClass) {
+                    ->withWhereHas('mailables', function ($query) use ($mailableClass): void {
                         $query->where('name', $mailableClass);
                     })
                     ->get();
@@ -59,7 +59,7 @@ class MailingService
                 }
 
                 $super_admins = User::query()
-                    ->whereHas('roles', function ($query) {
+                    ->whereHas('roles', function ($query): void {
                         $query->where('name', 'like', 'super admin');
                     })
                     ->get()

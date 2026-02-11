@@ -10,7 +10,7 @@ use App\Models\Suspension;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 
-beforeEach(function () {
+beforeEach(function (): void {
     Event::fake([
         EmployeeSuspendedEvent::class,
         EmployeeHiredEvent::class,
@@ -20,12 +20,12 @@ beforeEach(function () {
     Mail::fake();
 });
 
-test('employees suspended run sucessfully', function () {
+test('employees suspended run sucessfully', function (): void {
     $this->artisan('dainsys:send-suspended-employees-email')
         ->assertSuccessful();
 });
 
-test('command is schedulled for daily at 305 am', function () {
+test('command is schedulled for daily at 305 am', function (): void {
     $addedToScheduler = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
         ->filter(function ($element) {
             return str($element->command)->contains('dainsys:send-suspended-employees-email');
@@ -35,7 +35,7 @@ test('command is schedulled for daily at 305 am', function () {
     expect($addedToScheduler->expression)->toEqual('5 3 * * *');
 });
 
-test('employees suspended sends email', function () {
+test('employees suspended sends email', function (): void {
     $employee = Employee::factory()
         ->hasHires()
         ->create();
@@ -50,7 +50,7 @@ test('employees suspended sends email', function () {
     Mail::assertQueued(SuspendedEmployeesMail::class);
 });
 
-test('employees suspended does not sends email if there is not employees suspended', function () {
+test('employees suspended does not sends email if there is not employees suspended', function (): void {
     $employee = Employee::factory()
         ->hasHires()
         ->create();

@@ -13,7 +13,7 @@ beforeEach(function (): void {
     Event::fake();
 });
 
-test('upcoming birthdays widget shows employees with birthdays in next 10 days', function () {
+test('upcoming birthdays widget shows employees with birthdays in next 10 days', function (): void {
     // Create employee with birthday in 5 days
     $employee1 = Employee::factory()->create([
         'status' => EmployeeStatuses::Hired,
@@ -44,7 +44,7 @@ test('upcoming birthdays widget shows employees with birthdays in next 10 days',
         ->assertCanNotSeeTableRecords([$employee3, $employee4]);
 });
 
-test('upcoming birthdays widget excludes terminated employees', function () {
+test('upcoming birthdays widget excludes terminated employees', function (): void {
     // Create hired employee with upcoming birthday
     $hiredEmployee = Employee::factory()->create([
         'status' => EmployeeStatuses::Hired,
@@ -63,7 +63,7 @@ test('upcoming birthdays widget excludes terminated employees', function () {
         ->assertCanNotSeeTableRecords([$terminatedEmployee]);
 });
 
-test('upcoming birthdays widget can be rendered', function () {
+test('upcoming birthdays widget can be rendered', function (): void {
     Employee::factory()->create([
         'status' => EmployeeStatuses::Hired,
         'date_of_birth' => now()->addDays(5)->setYear(1990)->format('Y-m-d'),

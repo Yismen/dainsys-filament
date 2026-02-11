@@ -25,7 +25,7 @@ class ReopenTicketAction
                         ->required(),
                 ])
                 ->successNotificationTitle(fn (Ticket $record) => "Ticket {$record->reference} has been closed!")
-                ->action(function (Ticket $record, array $data, $livewire) {
+                ->action(function (Ticket $record, array $data, $livewire): void {
                     $record->reOpen($data['comment']);
 
                     $livewire->dispatch('refreshRelationManagers');

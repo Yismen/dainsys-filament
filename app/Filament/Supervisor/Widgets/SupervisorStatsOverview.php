@@ -17,7 +17,7 @@ class SupervisorStatsOverview extends StatsOverviewWidget
         $supervisor = Auth::user()?->supervisor;
 
         $employees = Employee::query()
-            ->whereHas('supervisor', function ($query) use ($supervisor) {
+            ->whereHas('supervisor', function ($query) use ($supervisor): void {
                 $query->where('id', $supervisor?->id);
             });
 

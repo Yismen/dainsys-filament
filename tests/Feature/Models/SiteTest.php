@@ -3,13 +3,13 @@
 use App\Models\Employee;
 use App\Models\Site;
 
-beforeEach(function () {
+beforeEach(function (): void {
     \Illuminate\Support\Facades\Event::fake([
         \App\Events\EmployeeHiredEvent::class,
     ]);
 });
 
-test('sites model interacts with db table', function () {
+test('sites model interacts with db table', function (): void {
     $data = Site::factory()->make();
 
     Site::create($data->toArray());
@@ -19,7 +19,7 @@ test('sites model interacts with db table', function () {
     ]));
 });
 
-test('sites model has many hires', function () {
+test('sites model has many hires', function (): void {
     $site = Site::factory()
         ->hasHires()
         ->create();
@@ -28,7 +28,7 @@ test('sites model has many hires', function () {
     expect($site->hires())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
 });
 
-test('site model has many employees', function () {
+test('site model has many employees', function (): void {
     $employee = Employee::factory()->create();
     $site = Site::factory()
         ->hasHires(1, [

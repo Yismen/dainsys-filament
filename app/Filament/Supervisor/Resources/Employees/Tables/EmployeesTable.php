@@ -159,7 +159,7 @@ class EmployeesTable
                             return;
                         }
 
-                        $records->each(function ($employee) use ($data) {
+                        $records->each(function ($employee) use ($data): void {
                             $downtime = Downtime::create([
                                 'employee_id' => $employee->id,
                                 'campaign_id' => $data['campaign_id'],

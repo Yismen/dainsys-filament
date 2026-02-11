@@ -2,7 +2,7 @@
 
 use App\Enums\TicketStatuses;
 
-test('values method return specific names', function () {
+test('values method return specific names', function (): void {
     expect(TicketStatuses::names())->toEqual([
         'Pending',
         'PendingExpired',
@@ -13,7 +13,7 @@ test('values method return specific names', function () {
     ]);
 });
 
-test('values method return specific values', function () {
+test('values method return specific values', function (): void {
     expect(TicketStatuses::values())->toEqual([
         'not assigned',
         'expired before assignment',
@@ -24,7 +24,7 @@ test('values method return specific values', function () {
     ]);
 });
 
-test('all method return associative array', function () {
+test('all method return associative array', function (): void {
     expect(TicketStatuses::toArray())->toEqual([
         'not assigned' => 'Pending',
         'expired before assignment' => 'PendingExpired',

@@ -14,7 +14,7 @@ function setImporterData(IncentiveImporter $importer, array $data): void
     $property->setValue($importer, $data);
 }
 
-it('resolves existing incentives by payable_date, employee_id, and project_id', function () {
+it('resolves existing incentives by payable_date, employee_id, and project_id', function (): void {
     $employee = Employee::factory()->create();
     $project = Project::factory()->create();
     $payableDate = now()->format('Y-m-d');
@@ -48,7 +48,7 @@ it('resolves existing incentives by payable_date, employee_id, and project_id', 
     expect($record->is($incentive))->toBeTrue();
 });
 
-it('creates a new incentive when no matching record exists', function () {
+it('creates a new incentive when no matching record exists', function (): void {
     $employee = Employee::factory()->create();
     $project = Project::factory()->create();
     $payableDate = now()->subDay()->format('Y-m-d');

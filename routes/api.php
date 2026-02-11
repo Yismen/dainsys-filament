@@ -19,7 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware(['auth:sanctum', 'ability:use-dainsys'])
-    ->group(function () {
+    ->group(function (): void {
         Route::get('campaigns', \App\Http\Controllers\Api\CampaignController::class);
         Route::get('login_names', \App\Http\Controllers\Api\LoginNameController::class);
         Route::get('productions', \App\Http\Controllers\Api\ProductionController::class);

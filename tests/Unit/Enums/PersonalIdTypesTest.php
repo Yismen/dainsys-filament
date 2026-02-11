@@ -2,7 +2,7 @@
 
 use App\Enums\PersonalIdTypes;
 
-test('values method return specific values', function () {
+test('values method return specific values', function (): void {
     expect(PersonalIdTypes::values())->toEqual([
         'dominican id',
         'passport',
@@ -10,7 +10,7 @@ test('values method return specific values', function () {
     ]);
 });
 
-test('all method return associative array', function () {
+test('all method return associative array', function (): void {
     expect(PersonalIdTypes::toArray())->toEqual([
         'dominican id' => 'DominicanId',
         'passport' => 'Passport',

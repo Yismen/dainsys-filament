@@ -12,7 +12,7 @@ use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 use function Pest\Livewire\livewire;
 
-beforeEach(function () {
+beforeEach(function (): void {
     // Seed roles/permissions if applicable
     Filament::setCurrentPanel(
         Filament::getPanel('workforce'), // Where `app` is the ID of the panel you want to test.
@@ -49,7 +49,7 @@ beforeEach(function () {
     ];
 });
 
-it('require users to be authenticated to access Source resource pages', function (string $method) {
+it('require users to be authenticated to access Source resource pages', function (string $method): void {
     $response = get(route($this->resource_routes[$method]['route'],
         $this->resource_routes[$method]['params']));
 
@@ -61,7 +61,7 @@ it('require users to be authenticated to access Source resource pages', function
     // 'view',
 ]);
 
-it('require users to have correct permissions to access Source resource pages', function (string $method) {
+it('require users to have correct permissions to access Source resource pages', function (string $method): void {
     actingAs(User::factory()->create());
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -74,7 +74,7 @@ it('require users to have correct permissions to access Source resource pages', 
     // 'view',
 ]);
 
-it('allows super admin users to access Source resource pages', function (string $method) {
+it('allows super admin users to access Source resource pages', function (string $method): void {
     actingAs($this->createSuperAdminUser());
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -88,7 +88,7 @@ it('allows super admin users to access Source resource pages', function (string 
     // 'view',
 ]);
 
-it('allow users with correct permissions to access Source resource pages', function (string $method) {
+it('allow users with correct permissions to access Source resource pages', function (string $method): void {
     actingAs($this->createUserWithPermissionsToActions($this->resource_routes[$method]['permission'], 'Source'));
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -102,7 +102,7 @@ it('allow users with correct permissions to access Source resource pages', funct
     // 'view',
 ]);
 
-it('displays Source list page correctly', function () {
+it('displays Source list page correctly', function (): void {
     Source::factory()->create();
     $sources = Source::get();
 
@@ -112,7 +112,7 @@ it('displays Source list page correctly', function () {
         ->assertCanSeeTableRecords($sources);
 });
 
-test('table shows desired fields', function ($field) {
+test('table shows desired fields', function ($field): void {
     $source = Source::factory()->create();
 
     actingAs($this->createUserWithPermissionTo('view-any Source'));
@@ -125,7 +125,7 @@ test('table shows desired fields', function ($field) {
     'description',
 ]);
 
-test('create Source page works correctly', function () {
+test('create Source page works correctly', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Source'));
 
     livewire(CreateSource::class)
@@ -135,7 +135,7 @@ test('create Source page works correctly', function () {
     $this->assertDatabaseHas('sources', $this->form_data);
 });
 
-test('edit Source page works correctly', function () {
+test('edit Source page works correctly', function (): void {
     $source = Source::factory()->create();
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Source'));
@@ -148,7 +148,7 @@ test('edit Source page works correctly', function () {
     $this->assertDatabaseHas('sources', array_merge(['id' => $source->id], $this->form_data));
 });
 
-test('form validation require fields on create and edit pages', function (string $field) {
+test('form validation require fields on create and edit pages', function (string $field): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Source'));
 
     // Test CreateSource validation
@@ -166,7 +166,7 @@ test('form validation require fields on create and edit pages', function (string
     'name',
 ]);
 
-test('Source fields must be unique on create and edit pages', function (string $field) {
+test('Source fields must be unique on create and edit pages', function (string $field): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Source'));
 
     $existingSource = Source::factory()->create(['name' => 'Unique Source']);
@@ -190,7 +190,7 @@ test('Source fields must be unique on create and edit pages', function (string $
     'name',
 ]);
 
-it('allows updating Source without changing field to trigger uniqueness validation', function (string $field) {
+it('allows updating Source without changing field to trigger uniqueness validation', function (string $field): void {
     $source = Source::factory()->create([$field => 'Existing Source']);
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Source'));
@@ -210,7 +210,7 @@ it('allows updating Source without changing field to trigger uniqueness validati
     'name',
 ]);
 
-it('autofocus the employee_id field on create and edit pages', function () {
+it('autofocus the employee_id field on create and edit pages', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Source'));
 
     // Test CreateSource autofocus

@@ -12,7 +12,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
 
-beforeEach(function () {
+beforeEach(function (): void {
     Bus::fake();
 
     Event::fake([
@@ -20,7 +20,7 @@ beforeEach(function () {
     ]);
 });
 
-test('production model interacts with db table', function () {
+test('production model interacts with db table', function (): void {
     $data = Production::factory()->make();
 
     Production::create($data->toArray());
@@ -44,7 +44,7 @@ test('production model interacts with db table', function () {
     ]));
 });
 
-it('casts revenue type as enum', function () {
+it('casts revenue type as enum', function (): void {
     $production = Production::factory()->create([
         'revenue_type' => RevenueTypes::LoginTime,
     ]);
@@ -53,7 +53,7 @@ it('casts revenue type as enum', function () {
     expect($production->revenue_type)->toBe(RevenueTypes::LoginTime);
 });
 
-it('casts revenue as money', function () {
+it('casts revenue as money', function (): void {
 
     $campaign = Campaign::factory()->create(['revenue_type' => RevenueTypes::LoginTime, 'revenue_rate' => 5]);
     $production = Production::factory()->create(['campaign_id' => $campaign->id, 'total_time' => 5]);
@@ -66,7 +66,7 @@ it('casts revenue as money', function () {
 
 });
 
-test('production model belongs to relationship', function (string $modelClass, string $relationship) {
+test('production model belongs to relationship', function (string $modelClass, string $relationship): void {
     $production = Production::factory()
         ->create();
 
@@ -83,7 +83,7 @@ test('production model belongs to relationship', function (string $modelClass, s
     [Supervisor::class, 'supervisor'],
 ]);
 
-it('belongs to project thru campaign', function () {
+it('belongs to project thru campaign', function (): void {
     $production = Production::factory()
         ->create();
 
@@ -91,7 +91,7 @@ it('belongs to project thru campaign', function () {
     expect($production->project)->toBeInstanceOf(Project::class);
 });
 
-it('updates revenue type and revenue rate and sph_goal based on the campaign when created', function () {
+it('updates revenue type and revenue rate and sph_goal based on the campaign when created', function (): void {
     $campaign = Campaign::factory()->create(['revenue_type' => RevenueTypes::LoginTime, 'revenue_rate' => 5, 'sph_goal' => 1000]);
     $production = Production::factory()->create(['campaign_id' => $campaign->id]);
 
@@ -106,7 +106,7 @@ it('updates revenue type and revenue rate and sph_goal based on the campaign whe
     ]);
 });
 
-it('updates revenue type and revenue rate and sph_goal based on the campaign when the campaign is updated', function () {
+it('updates revenue type and revenue rate and sph_goal based on the campaign when the campaign is updated', function (): void {
     $campaign = Campaign::factory()->create(['revenue_type' => RevenueTypes::LoginTime, 'revenue_rate' => 5, 'sph_goal' => 1000]);
     $campaign_2 = Campaign::factory()->create(['revenue_type' => RevenueTypes::TalkTime, 'revenue_rate' => 20, 'sph_goal' => 30]);
 
@@ -125,7 +125,7 @@ it('updates revenue type and revenue rate and sph_goal based on the campaign whe
     ]);
 });
 
-it('keeps revenue type and revenue rate and sph_goal if any other field that is not campaign_id is updated', function () {
+it('keeps revenue type and revenue rate and sph_goal if any other field that is not campaign_id is updated', function (): void {
     $campaign = Campaign::factory()->create(['revenue_type' => RevenueTypes::LoginTime, 'revenue_rate' => 5, 'sph_goal' => 5]);
 
     $production = Production::factory()->create(['campaign_id' => $campaign->id]);
@@ -145,7 +145,7 @@ it('keeps revenue type and revenue rate and sph_goal if any other field that is 
     ]);
 });
 
-it('updates supervisor id based on employee when created', function () {
+it('updates supervisor id based on employee when created', function (): void {
     $supervisor = Supervisor::factory()->create();
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->for($supervisor)->create();
@@ -158,7 +158,7 @@ it('updates supervisor id based on employee when created', function () {
     expect($production->supervisor_id)->toBe($production->employee->supervisor_id);
 });
 
-it('updates supervisor id based on employee when employee is changed', function () {
+it('updates supervisor id based on employee when employee is changed', function (): void {
     $supervisor = Supervisor::factory()->create();
     $supervisor2 = Supervisor::factory()->create();
     $employee = Employee::factory()->create();
@@ -181,7 +181,7 @@ it('updates supervisor id based on employee when employee is changed', function 
     expect($production->supervisor_id)->toBe($employee2->supervisor_id);
 });
 
-it('keeps supervisor id if employee is not changed even if supervisor has changed for the employee', function () {
+it('keeps supervisor id if employee is not changed even if supervisor has changed for the employee', function (): void {
     $supervisor = Supervisor::factory()->create();
     $employee = Employee::factory()->create();
     $hire = Hire::factory()->for($employee)->for($supervisor)->create();
@@ -200,7 +200,7 @@ it('keeps supervisor id if employee is not changed even if supervisor has change
     expect($production->supervisor_id)->toBe($supervisor->id);
 });
 
-test('billable time and revenuve are updated properly when revenue type is login time', function () {
+test('billable time and revenuve are updated properly when revenue type is login time', function (): void {
     $campaign = Campaign::factory()->create(['revenue_type' => RevenueTypes::LoginTime, 'revenue_rate' => 5]);
     $production = Production::factory()->create(['campaign_id' => $campaign->id, 'total_time' => 5, 'revenue' => 0]);
 
@@ -217,7 +217,7 @@ test('billable time and revenuve are updated properly when revenue type is login
     ]);
 });
 
-test('billable time and revenuve are updated properly when revenue type is downtime', function () {
+test('billable time and revenuve are updated properly when revenue type is downtime', function (): void {
     $campaign = Campaign::factory()->create(['revenue_type' => RevenueTypes::Downtime, 'revenue_rate' => 5]);
     $production = Production::factory()->create(['campaign_id' => $campaign->id, 'total_time' => 5, 'revenue' => 0]);
 
@@ -234,7 +234,7 @@ test('billable time and revenuve are updated properly when revenue type is downt
     ]);
 });
 
-test('billable time and revenuve are updated properly when revenue type is downtime and the rate is 0', function () {
+test('billable time and revenuve are updated properly when revenue type is downtime and the rate is 0', function (): void {
     $campaign = Campaign::factory()->create(['revenue_type' => RevenueTypes::Downtime, 'revenue_rate' => 0]);
     $production = Production::factory()->create(['campaign_id' => $campaign->id, 'total_time' => 5, 'revenue' => 0]);
 
@@ -251,7 +251,7 @@ test('billable time and revenuve are updated properly when revenue type is downt
     ]);
 });
 
-test('billable time and revenuve are updated properly when revenue type is production time', function () {
+test('billable time and revenuve are updated properly when revenue type is production time', function (): void {
     $campaign = Campaign::factory()->create(['revenue_type' => RevenueTypes::ProductionTime, 'revenue_rate' => 5]);
     $production = Production::factory()->create(['campaign_id' => $campaign->id, 'production_time' => 5, 'revenue' => 1000000]);
 
@@ -268,7 +268,7 @@ test('billable time and revenuve are updated properly when revenue type is produ
     ]);
 });
 
-test('billable time and revenuve are updated properly when revenue type is talk time', function () {
+test('billable time and revenuve are updated properly when revenue type is talk time', function (): void {
     $campaign = Campaign::factory()->create(['revenue_type' => RevenueTypes::TalkTime, 'revenue_rate' => 5]);
     $production = Production::factory()->create(['campaign_id' => $campaign->id, 'talk_time' => 5, 'revenue' => 1000000]);
 
@@ -285,7 +285,7 @@ test('billable time and revenuve are updated properly when revenue type is talk 
     ]);
 });
 
-test('billable time and revenuve are updated properly when revenue type is sales', function () {
+test('billable time and revenuve are updated properly when revenue type is sales', function (): void {
     $campaign = Campaign::factory()->create(['revenue_type' => RevenueTypes::Conversions, 'revenue_rate' => 5]);
     $production = Production::factory()->create(['campaign_id' => $campaign->id, 'conversions' => 5, 'revenue' => 1000000]);
 
@@ -302,14 +302,14 @@ test('billable time and revenuve are updated properly when revenue type is sales
     ]);
 });
 
-test('date is instance of Date', function () {
+test('date is instance of Date', function (): void {
     $downtime = Production::factory()
         ->create();
 
     expect($downtime->date)->toBeInstanceOf(Carbon::class);
 });
 
-it('calculates unique_id field', function () {
+it('calculates unique_id field', function (): void {
     $employee = Employee::factory()->create();
     $campaign = Campaign::factory()->create();
     $date = now();

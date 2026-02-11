@@ -79,7 +79,6 @@ class MyPayrolls extends Page implements HasTable
                                     'state' => Number::currency($state),
                                 ])),
 
-
                             TextColumn::make('additional_incentives_1')
                                 ->numeric(decimalPlaces: 2)
                                 ->formatStateUsing(fn ($state) => view('filament.partials.tables.stacked-field', [
@@ -101,7 +100,7 @@ class MyPayrolls extends Page implements HasTable
                                     'label' => 'Gross Income',
                                     'state' => Number::currency($state),
                                 ]))
-                                ->summarize(Sum::make()->label('Total Gross Income')) ,
+                                ->summarize(Sum::make()->label('Total Gross Income')),
                         ]),
                     Grid::make(2) // grid 2
                         ->schema([
@@ -198,7 +197,7 @@ class MyPayrolls extends Page implements HasTable
                                 ])),
 
                         ]),
-                ])
+                ]),
             ])
             ->filters([
                 Filter::make('payable_date')

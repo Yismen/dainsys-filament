@@ -9,20 +9,20 @@ use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 use function Pest\Livewire\livewire;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->employee = Employee::factory()->create();
     $this->user = User::factory()->create([
         'employee_id' => $this->employee->id,
     ]);
 });
 
-it('requires users to be authenticated to access my nightly hours', function () {
+it('requires users to be authenticated to access my nightly hours', function (): void {
     $response = get(MyNightlyHours::getUrl(panel: 'employee'));
 
     $response->assertRedirect(route('filament.employee.auth.login'));
 });
 
-it('requires users to have an employee record', function () {
+it('requires users to have an employee record', function (): void {
     $userWithoutEmployee = User::factory()->create([
         'employee_id' => null,
     ]);
@@ -33,7 +33,7 @@ it('requires users to have an employee record', function () {
         ->assertForbidden();
 });
 
-it('displays only the authenticated employees nightly hours', function () {
+it('displays only the authenticated employees nightly hours', function (): void {
     $otherEmployee = Employee::factory()->create();
 
     $myNightlyHours = NightlyHour::factory()->count(3)->create([
@@ -52,7 +52,7 @@ it('displays only the authenticated employees nightly hours', function () {
         ->assertCanNotSeeTableRecords($otherNightlyHours);
 });
 
-it('can filter nightly hours by date range', function () {
+it('can filter nightly hours by date range', function (): void {
     NightlyHour::factory()->create([
         'employee_id' => $this->employee->id,
         'date' => '2025-01-15',
@@ -82,7 +82,7 @@ it('can filter nightly hours by date range', function () {
         ->assertCountTableRecords(1);
 });
 
-it('displays nightly hours sorted by date descending by default', function () {
+it('displays nightly hours sorted by date descending by default', function (): void {
     $older = NightlyHour::factory()->create([
         'employee_id' => $this->employee->id,
         'date' => '2025-01-01',
@@ -99,7 +99,7 @@ it('displays nightly hours sorted by date descending by default', function () {
         ->assertCanSeeTableRecords([$newer, $older], inOrder: true);
 });
 
-it('displays total hours summary', function () {
+it('displays total hours summary', function (): void {
     NightlyHour::factory()->create([
         'employee_id' => $this->employee->id,
         'total_hours' => 2.5,

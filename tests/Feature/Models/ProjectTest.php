@@ -6,13 +6,13 @@ use App\Models\Employee;
 use App\Models\Hire;
 use App\Models\Project;
 
-beforeEach(function () {
+beforeEach(function (): void {
     \Illuminate\Support\Facades\Event::fake([
         \App\Events\EmployeeHiredEvent::class,
     ]);
 });
 
-test('projects model interacts with db table', function () {
+test('projects model interacts with db table', function (): void {
     $data = Project::factory()->make();
 
     Project::create($data->toArray());
@@ -22,7 +22,7 @@ test('projects model interacts with db table', function () {
     ]));
 });
 
-test('projects model belongs to client', function () {
+test('projects model belongs to client', function (): void {
     $project = Project::factory()
         ->create();
 
@@ -30,7 +30,7 @@ test('projects model belongs to client', function () {
     expect($project->client())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
 });
 
-test('projects model has many campaigns', function () {
+test('projects model has many campaigns', function (): void {
     $project = Project::factory()
         ->has(Campaign::factory())
         ->create();
@@ -39,7 +39,7 @@ test('projects model has many campaigns', function () {
     expect($project->campaigns())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
 });
 
-test('projects model has many hires', function () {
+test('projects model has many hires', function (): void {
     $project = Project::factory()
         ->hasHires()
         ->create();
@@ -48,7 +48,7 @@ test('projects model has many hires', function () {
     expect($project->hires())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
 });
 
-test('projects model has many employees', function () {
+test('projects model has many employees', function (): void {
     $project = Project::factory()
         ->has(
             Hire::factory()

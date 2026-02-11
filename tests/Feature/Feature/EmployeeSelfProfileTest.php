@@ -9,13 +9,13 @@ use Illuminate\Support\Facades\Mail;
 
 uses()->group('employee-panel');
 
-beforeEach(function () {
+beforeEach(function (): void {
     Mail::fake();
 
     $this->citizenship = Citizenship::factory()->create();
 });
 
-it('displays employee profile for authenticated employee', function () {
+it('displays employee profile for authenticated employee', function (): void {
     $employee = Employee::factory()->create([
         'citizenship_id' => $this->citizenship->id,
         'full_name' => 'John Doe',
@@ -43,7 +43,7 @@ it('displays employee profile for authenticated employee', function () {
         ->assertSee('Current Employment');
 });
 
-it('prevents access for users without employee_id', function () {
+it('prevents access for users without employee_id', function (): void {
     $user = User::factory()->create([
         'employee_id' => null,
     ]);
@@ -54,7 +54,7 @@ it('prevents access for users without employee_id', function () {
         ->assertForbidden();
 });
 
-it('displays employee hires history', function () {
+it('displays employee hires history', function (): void {
     $employee = Employee::factory()->create([
         'citizenship_id' => $this->citizenship->id,
     ]);

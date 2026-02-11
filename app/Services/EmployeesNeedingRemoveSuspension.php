@@ -11,7 +11,7 @@ class EmployeesNeedingRemoveSuspension implements ServicesContract
         return Employee::query()
             ->suspended()
             ->with('suspensions')
-            ->whereHas('suspensions', function ($suspensionQuery) {
+            ->whereHas('suspensions', function ($suspensionQuery): void {
                 $suspensionQuery->where('starts_at', '>', now())
                     ->orWhere('ends_at', '<', now()->endOfDay());
             })

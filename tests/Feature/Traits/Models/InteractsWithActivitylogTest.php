@@ -3,7 +3,7 @@
 use App\Models\Employee;
 use App\Models\Site;
 
-it('logs changes for created event', function () {
+it('logs changes for created event', function (): void {
     $employee = Employee::factory()->create();
 
     $this->assertDatabaseHas('activity_log', [
@@ -13,7 +13,7 @@ it('logs changes for created event', function () {
     ]);
 });
 
-it('logs changes for updated event', function () {
+it('logs changes for updated event', function (): void {
     $employee = Employee::factory()->create();
 
     $employee->first_name = 'UpdatedName';
@@ -26,7 +26,7 @@ it('logs changes for updated event', function () {
     ]);
 });
 
-it('logs changes for deleted event', function () {
+it('logs changes for deleted event', function (): void {
     $employee = Employee::factory()->create();
 
     $employee->delete();
@@ -38,7 +38,7 @@ it('logs changes for deleted event', function () {
     ]);
 });
 
-it('logs changes for related models event', function () {
+it('logs changes for related models event', function (): void {
     $employee = Employee::factory()->create();
     $site = Site::factory()->create();
 
@@ -52,7 +52,7 @@ it('logs changes for related models event', function () {
     ]);
 });
 
-it('does not log changes when only ignored attributes are changed', function () {
+it('does not log changes when only ignored attributes are changed', function (): void {
     $employee = Employee::factory()->create();
 
     $employee->created_at = now()->addMinutes(5);

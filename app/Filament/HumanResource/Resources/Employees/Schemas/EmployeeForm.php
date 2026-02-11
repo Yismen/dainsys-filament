@@ -92,7 +92,7 @@ class EmployeeForm
                             ]),
                         Section::make('Hiring information')
                             ->columnSpan(1)
-                            ->visibleOn("edit")
+                            ->visibleOn('edit')
                             ->schema([
 
                                 Select::make('site_id')

@@ -18,14 +18,14 @@ use Illuminate\Support\Facades\Queue;
 //     ]);
 // });
 
-it('runs correctly', function () {
+it('runs correctly', function (): void {
     Queue::fake([RefreshPayrollHoursJob::class]);
 
     $this->artisan('dainsys:import-payroll-hours-from-production', ['date' => now()])
         ->assertSuccessful();
 });
 
-it('dispatches RefreshPayrollHoursJob with the correct date argument', function () {
+it('dispatches RefreshPayrollHoursJob with the correct date argument', function (): void {
     Queue::fake([RefreshPayrollHoursJob::class]);
 
     $date = '2025-01-15';
@@ -39,11 +39,11 @@ it('dispatches RefreshPayrollHoursJob with the correct date argument', function 
     });
 });
 
-it('summarize all data for downtimes and production for the week', function () {
+it('summarize all data for downtimes and production for the week', function (): void {
     Bus::fake();
 
     $employee = Employee::factory()->create();
-    Production::withoutEvents(function () use ($employee) {
+    Production::withoutEvents(function () use ($employee): void {
         Production::factory()->for($employee)->create(['date' => '2026-01-10', 'total_time' => 7]);
         Production::factory()->for($employee)->create(['date' => '2026-01-10', 'total_time' => 7]);
         Production::factory()->for($employee)->create(['date' => '2026-01-07', 'total_time' => 7]);
@@ -65,10 +65,10 @@ it('summarize all data for downtimes and production for the week', function () {
     ]);
 });
 
-it('sumarize data based on dates for the same week', function () {
+it('sumarize data based on dates for the same week', function (): void {
     Bus::fake();
 
-    Production::withoutEvents(function () {
+    Production::withoutEvents(function (): void {
         Production::factory()->create(['date' => '2026-01-10', 'total_time' => 7]);
         Production::factory()->create(['date' => '2026-01-09', 'total_time' => 7]);
     });
@@ -86,12 +86,12 @@ it('sumarize data based on dates for the same week', function () {
     ]);
 });
 
-it('summarize data based on employees for the same week', function () {
+it('summarize data based on employees for the same week', function (): void {
     Bus::fake();
 
     $employee_one = Employee::factory()->create();
     $employee_two = Employee::factory()->create();
-    Production::withoutEvents(function () use ($employee_one, $employee_two) {
+    Production::withoutEvents(function () use ($employee_one, $employee_two): void {
         Production::factory()->for($employee_one)->create(['date' => '2026-01-10', 'total_time' => 10]);
         Production::factory()->for($employee_two)->create(['date' => '2026-01-10', 'total_time' => 7]);
     });
@@ -111,11 +111,11 @@ it('summarize data based on employees for the same week', function () {
     ]);
 });
 
-it('summarize data based on the week and ignores other weeks', function () {
+it('summarize data based on the week and ignores other weeks', function (): void {
     Bus::fake();
 
     $employee = Employee::factory()->create();
-    Production::withoutEvents(function () use ($employee) {
+    Production::withoutEvents(function () use ($employee): void {
         Production::factory()->for($employee)->create(['date' => '2026-01-01', 'total_time' => 10]);
         Production::factory()->for($employee)->create(['date' => '2026-01-10', 'total_time' => 7]);
     });
@@ -129,7 +129,7 @@ it('summarize data based on the week and ignores other weeks', function () {
     ]);
 });
 
-it('is schedulled to run every hour at the 23 minute', function () {
+it('is schedulled to run every hour at the 23 minute', function (): void {
     $addedToScheduler = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
         ->filter(function ($element) {
             return str($element->command)->contains('dainsys:import-payroll-hours-from-production');
@@ -139,7 +139,7 @@ it('is schedulled to run every hour at the 23 minute', function () {
     expect($addedToScheduler->expression)->toEqual('23 * * * *');
 });
 
-it('is schedulled to run for the previous day', function () {
+it('is schedulled to run for the previous day', function (): void {
     $addedToScheduler = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
         ->filter(function ($element) {
             return str($element->command)->contains('dainsys:import-payroll-hours-from-production date="'.now()->subDay()->format('Y-m-d'));

@@ -4,7 +4,7 @@ use App\Events\EmployeeHiredEvent;
 use App\Listeners\SendEmployeeHiredEmail;
 use Illuminate\Support\Facades\Event;
 
-test('employee created event sends email', function () {
+test('employee created event sends email', function (): void {
     Event::fake([
         EmployeeHiredEvent::class,
     ]);

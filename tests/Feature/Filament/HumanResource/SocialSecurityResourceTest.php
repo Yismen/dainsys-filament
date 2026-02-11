@@ -19,7 +19,7 @@ use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 use function Pest\Livewire\livewire;
 
-beforeEach(function () {
+beforeEach(function (): void {
     // Seed roles/permissions if applicable
     Filament::setCurrentPanel(
         Filament::getPanel('human-resource'), // Where `app` is the ID of the panel you want to test.
@@ -67,7 +67,7 @@ beforeEach(function () {
     ];
 });
 
-it('require users to be authenticated to access SocialSecurity resource pages', function (string $method) {
+it('require users to be authenticated to access SocialSecurity resource pages', function (string $method): void {
     $response = get(route($this->resource_routes[$method]['route'],
         $this->resource_routes[$method]['params']));
 
@@ -79,7 +79,7 @@ it('require users to be authenticated to access SocialSecurity resource pages', 
     'view',
 ]);
 
-it('require users to have correct permissions to access SocialSecurity resource pages', function (string $method) {
+it('require users to have correct permissions to access SocialSecurity resource pages', function (string $method): void {
     actingAs(User::factory()->create());
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -92,7 +92,7 @@ it('require users to have correct permissions to access SocialSecurity resource 
     'view',
 ]);
 
-it('allows super admin users to access SocialSecurity resource pages', function (string $method) {
+it('allows super admin users to access SocialSecurity resource pages', function (string $method): void {
     actingAs($this->createSuperAdminUser());
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -106,7 +106,7 @@ it('allows super admin users to access SocialSecurity resource pages', function 
     'view',
 ]);
 
-it('allow users with correct permissions to access SocialSecurity resource pages', function (string $method) {
+it('allow users with correct permissions to access SocialSecurity resource pages', function (string $method): void {
     actingAs($this->createUserWithPermissionsToActions($this->resource_routes[$method]['permission'], 'SocialSecurity'));
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -120,7 +120,7 @@ it('allow users with correct permissions to access SocialSecurity resource pages
     'view',
 ]);
 
-it('displays SocialSecurity list page correctly', function () {
+it('displays SocialSecurity list page correctly', function (): void {
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create();
     SocialSecurity::factory()->for($employee)->create();
@@ -132,7 +132,7 @@ it('displays SocialSecurity list page correctly', function () {
         ->assertCanSeeTableRecords($social_securities);
 });
 
-test('create SocialSecurity page works correctly', function () {
+test('create SocialSecurity page works correctly', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'SocialSecurity'));
 
     livewire(CreateSocialSecurity::class)
@@ -142,7 +142,7 @@ test('create SocialSecurity page works correctly', function () {
     $this->assertDatabaseHas('social_securities', $this->form_data);
 });
 
-test('edit SocialSecurity page works correctly', function () {
+test('edit SocialSecurity page works correctly', function (): void {
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create();
     $social_security = SocialSecurity::factory()->for($employee)->create();
@@ -157,7 +157,7 @@ test('edit SocialSecurity page works correctly', function () {
     $this->assertDatabaseHas('social_securities', array_merge(['id' => $social_security->id], $this->form_data));
 });
 
-test('form validation require fields on create and edit pages', function (string $field) {
+test('form validation require fields on create and edit pages', function (string $field): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'SocialSecurity'));
 
     // Test CreateSocialSecurity validation

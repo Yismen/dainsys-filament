@@ -2,7 +2,7 @@
 
 use App\Enums\CampaignSources;
 
-test('names method return specific names', function () {
+test('names method return specific names', function (): void {
     expect(CampaignSources::names())->toEqual([
         'Chat',
         'Email',
@@ -14,7 +14,7 @@ test('names method return specific names', function () {
     ]);
 });
 
-test('values method return specific values', function () {
+test('values method return specific values', function (): void {
     expect(CampaignSources::values())->toEqual([
         'Chat',
         'Email',
@@ -26,7 +26,7 @@ test('values method return specific values', function () {
     ]);
 });
 
-test('all method return associative array', function () {
+test('all method return associative array', function (): void {
     expect(CampaignSources::toArray())->toEqual([
         'Chat' => 'Chat',
         'Email' => 'Email',

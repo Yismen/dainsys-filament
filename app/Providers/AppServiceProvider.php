@@ -28,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
         Model::preventSilentlyDiscardingAttributes(! app()->isProduction());
         Model::preventLazyLoading(! app()->isProduction());
 
-        PanelSwitch::configureUsing(function (PanelSwitch $panelSwitch) {
+        PanelSwitch::configureUsing(function (PanelSwitch $panelSwitch): void {
             $panelSwitch
                 ->modalHeading('Modules')
                 // ->areUserProvidedPanelsValid
@@ -37,7 +37,7 @@ class AppServiceProvider extends ServiceProvider
 
         Livewire::component('sanctum_tokens', SanctumTokens::class);
 
-        LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
+        LanguageSwitch::configureUsing(function (LanguageSwitch $switch): void {
             $switch
                 ->locales(['es', 'en'])
                 ->circular()

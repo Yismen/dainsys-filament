@@ -8,7 +8,7 @@ use App\Models\TicketReply;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 
-test('event is dispatched', function () {
+test('event is dispatched', function (): void {
     Event::fake([
         TicketReplyCreatedEvent::class,
         TicketCreatedEvent::class,
@@ -24,7 +24,7 @@ test('event is dispatched', function () {
     );
 });
 
-test('when reply is created an email is sent', function () {
+test('when reply is created an email is sent', function (): void {
     Mail::fake();
 
     $reply = TicketReply::factory()->create();

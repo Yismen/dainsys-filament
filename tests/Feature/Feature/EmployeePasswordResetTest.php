@@ -11,12 +11,12 @@ use Illuminate\Support\Facades\Notification;
 
 use function Pest\Laravel\assertDatabaseHas;
 
-beforeEach(function () {
+beforeEach(function (): void {
     Notification::fake();
     Mail::fake(); // Prevent email sending in tests
 });
 
-it('resets employee password and sets force_password_change flag', function () {
+it('resets employee password and sets force_password_change flag', function (): void {
     $citizenship = Citizenship::factory()->create();
 
     $employee = Employee::factory()->create([
@@ -47,7 +47,7 @@ it('resets employee password and sets force_password_change flag', function () {
     ]);
 });
 
-it('sends notification to supervisor when password is reset', function () {
+it('sends notification to supervisor when password is reset', function (): void {
     $citizenship = Citizenship::factory()->create();
 
     $supervisorUser = User::factory()->create();
@@ -84,7 +84,7 @@ it('sends notification to supervisor when password is reset', function () {
     Notification::assertSentTo($employee->supervisor->user, EmployeePasswordReset::class);
 });
 
-it('allows user to update password when force_password_change is true', function () {
+it('allows user to update password when force_password_change is true', function (): void {
     $citizenship = Citizenship::factory()->create();
 
     $employee = Employee::factory()->create([

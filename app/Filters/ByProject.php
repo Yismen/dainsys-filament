@@ -17,7 +17,7 @@ class ByProject
         if ($this->request->has('project')) {
             $project = $this->request->input('project');
 
-            $builder->whereHas('project', function ($projectBuilder) use ($project) {
+            $builder->whereHas('project', function ($projectBuilder) use ($project): void {
                 $projectBuilder
                     ->where('id', $project)
                     ->orWhere('name', 'like', $project);

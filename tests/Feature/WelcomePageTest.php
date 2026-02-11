@@ -2,17 +2,17 @@
 
 use App\Models\User;
 
-it('displays welcome page for unauthenticated users', function () {
+it('displays welcome page for unauthenticated users', function (): void {
     $response = $this->get('/');
 
     $response->assertSuccessful();
     $response->assertSee('Welcome to');
-    $response->assertSee('' . config('app.name'));
+    $response->assertSee(''.config('app.name'));
     $response->assertSee('Bringing visibility and transparency to your workforce');
     $response->assertSee('Get Started');
 });
 
-it('displays login and register links for unauthenticated users', function () {
+it('displays login and register links for unauthenticated users', function (): void {
     $response = $this->get('/');
 
     $response->assertSuccessful();
@@ -20,7 +20,7 @@ it('displays login and register links for unauthenticated users', function () {
     $response->assertViewHas('__env');
 });
 
-it('displays dashboard link for authenticated users', function () {
+it('displays dashboard link for authenticated users', function (): void {
     $user = User::factory()->create();
 
     $response = $this->actingAs($user)->get('/');
@@ -29,7 +29,7 @@ it('displays dashboard link for authenticated users', function () {
     $response->assertSee('Go to Dashboard');
 });
 
-it('displays all feature sections', function () {
+it('displays all feature sections', function (): void {
     $response = $this->get('/');
 
     $response->assertSuccessful();
@@ -42,7 +42,7 @@ it('displays all feature sections', function () {
     $response->assertSee('Team Communication');
 });
 
-it('displays stats section with all metrics', function () {
+it('displays stats section with all metrics', function (): void {
     $response = $this->get('/');
 
     $response->assertSuccessful();
@@ -54,15 +54,15 @@ it('displays stats section with all metrics', function () {
     $response->assertSee('Fast');
 });
 
-it('displays call to action section', function () {
+it('displays call to action section', function (): void {
     $response = $this->get('/');
 
     $response->assertSuccessful();
     $response->assertSee('Ready to transform your team?');
-    $response->assertSee('Join thousands of organizations already streamlining their workforce management with ' . config('app.name'));
+    $response->assertSee('Join thousands of organizations already streamlining their workforce management with '.config('app.name'));
 });
 
-it('displays footer with company links', function () {
+it('displays footer with company links', function (): void {
     $response = $this->get('/');
 
     $response->assertSuccessful();
@@ -72,7 +72,7 @@ it('displays footer with company links', function () {
     $response->assertSee('Resources');
 });
 
-it('displays proper page title', function () {
+it('displays proper page title', function (): void {
     $response = $this->get('/');
 
     $response->assertSuccessful();

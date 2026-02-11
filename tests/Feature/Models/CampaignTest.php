@@ -5,11 +5,11 @@ use App\Models\Project;
 use App\Models\Source;
 use Illuminate\Support\Facades\Bus;
 
-beforeEach(function () {
+beforeEach(function (): void {
     Bus::fake();
 });
 
-test('campaigns model interacts with db table', function () {
+test('campaigns model interacts with db table', function (): void {
     $data = Campaign::factory()->make();
 
     Campaign::create($data->toArray());
@@ -19,7 +19,7 @@ test('campaigns model interacts with db table', function () {
     ]));
 });
 
-test('campaigns model belongs to related models', function (string $modelClass, string $relationship) {
+test('campaigns model belongs to related models', function (string $modelClass, string $relationship): void {
     $campaign = Campaign::factory()->create();
 
     expect($campaign->$relationship)->toBeInstanceOf($modelClass);
@@ -29,7 +29,7 @@ test('campaigns model belongs to related models', function (string $modelClass, 
     [Source::class, 'source'],
 ]);
 
-test('campaigns model has many productions', function () {
+test('campaigns model has many productions', function (): void {
     $campaign = Campaign::factory()
         ->has(\App\Models\Production::factory())->create();
 
@@ -37,7 +37,7 @@ test('campaigns model has many productions', function () {
     expect($campaign->productions())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
 });
 
-test('campaigns model casts revenue_type to RevenueTypes enum', function () {
+test('campaigns model casts revenue_type to RevenueTypes enum', function (): void {
     $campaign = Campaign::factory()->create([
         'revenue_type' => 'login time',
     ]);

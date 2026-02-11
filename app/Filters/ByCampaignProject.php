@@ -17,8 +17,8 @@ class ByCampaignProject
         if ($this->request->has('project')) {
             $project = $this->request->input('project');
 
-            $builder->whereHas('campaign', function ($campaignQuery) use ($project) {
-                $campaignQuery->whereHas('project', function ($projectBuilder) use ($project) {
+            $builder->whereHas('campaign', function ($campaignQuery) use ($project): void {
+                $campaignQuery->whereHas('project', function ($projectBuilder) use ($project): void {
                     $projectBuilder
                         ->where('id', $project)
                         ->orWhere('name', 'like', $project);

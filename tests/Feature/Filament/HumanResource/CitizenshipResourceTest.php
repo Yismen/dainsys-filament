@@ -12,7 +12,7 @@ use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 use function Pest\Livewire\livewire;
 
-beforeEach(function () {
+beforeEach(function (): void {
     // Seed roles/permissions if applicable
     Filament::setCurrentPanel(
         Filament::getPanel('human-resource'), // Where `app` is the ID of the panel you want to test.
@@ -43,7 +43,7 @@ beforeEach(function () {
     ];
 });
 
-it('require users to be authenticated to access Citizenship resource pages', function (string $method) {
+it('require users to be authenticated to access Citizenship resource pages', function (string $method): void {
     $response = get(route($this->resource_routes[$method]['route'],
         $this->resource_routes[$method]['params']));
 
@@ -55,7 +55,7 @@ it('require users to be authenticated to access Citizenship resource pages', fun
     'view',
 ]);
 
-it('require users to have correct permissions to access Citizenship resource pages', function (string $method) {
+it('require users to have correct permissions to access Citizenship resource pages', function (string $method): void {
     actingAs(User::factory()->create());
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -68,7 +68,7 @@ it('require users to have correct permissions to access Citizenship resource pag
     'view',
 ]);
 
-it('allows super admin users to access Citizenship resource pages', function (string $method) {
+it('allows super admin users to access Citizenship resource pages', function (string $method): void {
     actingAs($this->createSuperAdminUser());
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -82,7 +82,7 @@ it('allows super admin users to access Citizenship resource pages', function (st
     'view',
 ]);
 
-it('allow users with correct permissions to access Citizenship resource pages', function (string $method) {
+it('allow users with correct permissions to access Citizenship resource pages', function (string $method): void {
     actingAs($this->createUserWithPermissionsToActions($this->resource_routes[$method]['permission'], 'Citizenship'));
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -96,7 +96,7 @@ it('allow users with correct permissions to access Citizenship resource pages', 
     'view',
 ]);
 
-it('displays Citizenship list page correctly', function () {
+it('displays Citizenship list page correctly', function (): void {
     $citizenships = Citizenship::factory()->count(5)->create();
 
     actingAs($this->createUserWithPermissionTo('view-any Citizenship'));
@@ -105,7 +105,7 @@ it('displays Citizenship list page correctly', function () {
         ->assertCanSeeTableRecords($citizenships);
 });
 
-test('create Citizenship page works correctly', function () {
+test('create Citizenship page works correctly', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Citizenship'));
 
     $name = 'new Citizenship';
@@ -120,7 +120,7 @@ test('create Citizenship page works correctly', function () {
     ]);
 });
 
-test('edit Citizenship page works correctly', function () {
+test('edit Citizenship page works correctly', function (): void {
     $citizenship = Citizenship::factory()->create();
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Citizenship'));
@@ -139,7 +139,7 @@ test('edit Citizenship page works correctly', function () {
     ]);
 });
 
-test('form validation require fields on create and edit pages', function () {
+test('form validation require fields on create and edit pages', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Citizenship'));
 
     // Test CreateCitizenship validation
@@ -159,7 +159,7 @@ test('form validation require fields on create and edit pages', function () {
         ->assertHasFormErrors(['name' => 'required']);
 });
 
-test('Citizenship name must be unique on create and edit pages', function () {
+test('Citizenship name must be unique on create and edit pages', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Citizenship'));
 
     $existingCitizenship = Citizenship::factory()->create(['name' => 'Unique Citizenship']);
@@ -181,7 +181,7 @@ test('Citizenship name must be unique on create and edit pages', function () {
         ->assertHasFormErrors(['name' => 'unique']);
 });
 
-it('allows updating Citizenship without changing name to trigger uniqueness validation', function () {
+it('allows updating Citizenship without changing name to trigger uniqueness validation', function (): void {
     $citizenship = Citizenship::factory()->create(['name' => 'Existing Citizenship']);
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Citizenship'));
@@ -199,7 +199,7 @@ it('allows updating Citizenship without changing name to trigger uniqueness vali
     ]);
 });
 
-it('autofocus the name field on create and edit pages', function () {
+it('autofocus the name field on create and edit pages', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Citizenship'));
 
     // Test CreateCitizenship autofocus

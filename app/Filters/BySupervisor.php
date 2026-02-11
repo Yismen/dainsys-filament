@@ -19,7 +19,7 @@ class BySupervisor
 
             $builder->whereHas(
                 'supervisor',
-                function ($supervisorBuilder) use ($supervisor) {
+                function ($supervisorBuilder) use ($supervisor): void {
                     $supervisorBuilder
                         ->where('id', $supervisor)
                         ->orWhere('name', 'like', $supervisor);

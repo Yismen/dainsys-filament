@@ -19,7 +19,7 @@ class ByEmployee
 
             $builder->whereHas(
                 'employee',
-                function ($employeeBuilder) use ($employee) {
+                function ($employeeBuilder) use ($employee): void {
                     $employeeBuilder
                         ->where('id', $employee)
                         ->orWhere('full_name', 'like', $employee);

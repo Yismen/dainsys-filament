@@ -31,8 +31,8 @@ class AssignTicketAction
                         ModelListService::make(
                             User::query()
                                 ->where('id', '!=', Auth::id())
-                                ->where(function ($userQuery) {
-                                    $userQuery->whereHas('roles', function ($rolesQuery) {
+                                ->where(function ($userQuery): void {
+                                    $userQuery->whereHas('roles', function ($rolesQuery): void {
                                         $rolesQuery->whereIn('name', [
                                             SupportRoles::Manager->value,
                                             SupportRoles::Agent->value,
@@ -42,7 +42,7 @@ class AssignTicketAction
                         )
                     ),
             ])
-            ->action(function (Ticket $record, array $data) {
+            ->action(function (Ticket $record, array $data): void {
                 $record->assignTo($data['user_id']);
             });
     }

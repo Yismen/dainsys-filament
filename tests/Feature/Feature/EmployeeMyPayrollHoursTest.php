@@ -10,13 +10,13 @@ use Illuminate\Support\Facades\Mail;
 
 uses()->group('employee-panel');
 
-beforeEach(function () {
+beforeEach(function (): void {
     Mail::fake();
 
     $this->citizenship = Citizenship::factory()->create();
 });
 
-it('displays payroll hours for authenticated employee', function () {
+it('displays payroll hours for authenticated employee', function (): void {
     $employee = Employee::factory()->create([
         'citizenship_id' => $this->citizenship->id,
     ]);
@@ -56,7 +56,7 @@ it('displays payroll hours for authenticated employee', function () {
         ->assertSee('My Hours');
 });
 
-it('prevents access for users without employee_id', function () {
+it('prevents access for users without employee_id', function (): void {
     $user = User::factory()->create()->load('employee');
 
     $this->actingAs($user);
@@ -66,7 +66,7 @@ it('prevents access for users without employee_id', function () {
     $response->assertForbidden();
 });
 
-it('only shows payroll hours for authenticated employee', function () {
+it('only shows payroll hours for authenticated employee', function (): void {
     $employee1 = Employee::factory()->create([
         'citizenship_id' => $this->citizenship->id,
     ]);
@@ -114,7 +114,7 @@ it('only shows payroll hours for authenticated employee', function () {
     $this->assertStringNotContainsString('10.00', $response->content());
 });
 
-it('displays total hours summary', function () {
+it('displays total hours summary', function (): void {
     $employee = Employee::factory()->create([
         'citizenship_id' => $this->citizenship->id,
     ]);
@@ -149,7 +149,7 @@ it('displays total hours summary', function () {
     $this->assertStringContainsString('Summary', $response->content());
 });
 
-it('displays week ending and payroll ending filter options', function () {
+it('displays week ending and payroll ending filter options', function (): void {
     $employee = Employee::factory()->create([
         'citizenship_id' => $this->citizenship->id,
     ]);

@@ -16,7 +16,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -39,15 +38,6 @@ class Ticket extends \App\Models\BaseModels\AppModel
         'completed_at',
     ];
 
-    protected $casts = [
-        'assigned_at' => 'datetime',
-        'expected_at' => 'datetime',
-        'completed_at' => 'datetime',
-        'images' => 'array',
-        'status' => TicketStatuses::class,
-        'priority' => TicketPriorities::class,
-    ];
-
     // protected $appends = [
     //     'reference',
     // ];
@@ -58,13 +48,13 @@ class Ticket extends \App\Models\BaseModels\AppModel
     {
         parent::booted();
 
-        static::creating(function ($model) {
+        static::creating(function ($model): void {
             if (Auth::check()) {
                 $model->owner_id = Auth::id();
             }
         });
 
-        static::created(function (Ticket $model) {
+        static::created(function (Ticket $model): void {
             $model->status = TicketStatuses::Pending;
             $model->reference = $model->getReference();
 
@@ -73,20 +63,20 @@ class Ticket extends \App\Models\BaseModels\AppModel
             TicketCreatedEvent::dispatch($model);
         });
 
-        static::saved(function (Ticket $model) {
+        static::saved(function (Ticket $model): void {
             $model->expected_at = $model->getExpectedDate();
             $model->status = $model->getStatus();
 
             $model->saveQuietly();
         });
-        static::deleting(function ($model) {
+        static::deleting(function ($model): void {
             // if ($model->image) {
             //     $imageCreatorService = new ImageCreatorService();
 
             //     $imageCreatorService->delete($model->image);
             // }
         });
-        static::deleted(function ($model) {
+        static::deleted(function ($model): void {
             TicketDeletedEvent::dispatch($model);
         });
     }
@@ -229,61 +219,65 @@ class Ticket extends \App\Models\BaseModels\AppModel
             : TicketStatuses::CompletedExpired;
     }
 
-    public function scopeIncompleted(Builder $query): Builder
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function incompleted(Builder $query): Builder
     {
         return $query->where('completed_at', null);
     }
 
-    public function scopeCompleted(Builder $query): Builder
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function completed(Builder $query): Builder
     {
         return $query->where('completed_at', '!=', null);
     }
 
-    public function scopeInProgress(Builder $query): Builder
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function inProgress(Builder $query): Builder
     {
         return $query
             ->where('assigned_to', '!=', null)
             ->where('completed_at', null);
     }
 
-    public function scopePending(Builder $query): Builder
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function pending(Builder $query): Builder
     {
         return $query
             ->where('assigned_to', '=', null);
     }
 
-    public function scopeCompliant(Builder $query): Builder
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function compliant(Builder $query): Builder
     {
         return $query->whereColumn('completed_at', '<', 'expected_at')
             ->where('completed_at', '!=', null);
     }
 
-    public function scopeNonCompliant(Builder $query): Builder
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function nonCompliant(Builder $query): Builder
     {
         return $query->whereColumn('completed_at', '>=', 'expected_at')
             ->where('completed_at', '!=', null);
     }
 
-    public function scopeExpired(Builder $query): Builder
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function expired(Builder $query): Builder
     {
         return $query->where('expected_at', '<', now());
     }
 
-    public function getImagePathAttribute()
+    protected function imagePath(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        return Storage::url($this->image).'?'.Str::random(5);
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: function () {
+            return Storage::url($this->image).'?'.Str::random(5);
+        });
     }
 
-    // public function getPriorityAttribute()
-    // {
-    //     return Cache::rememberForever('ticket_priority_' . $this->id, function () {
-    //         return $this->priority->value;
-    //     });
-    // }
-
-    public function getMailPriorityAttribute(): float|int
+    protected function mailPriority(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        return $this->priority->value > 5 ? 5 : 5 - $this->priority->value;
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: function () {
+            return $this->priority->value > 5 ? 5 : 5 - $this->priority->value;
+        });
     }
 
     protected function getExpectedDate(): Carbon
@@ -326,4 +320,15 @@ class Ticket extends \App\Models\BaseModels\AppModel
     // {
     //     return $this->attributes['reference'] ?? null;
     // }
+    protected function casts(): array
+    {
+        return [
+            'assigned_at' => 'datetime',
+            'expected_at' => 'datetime',
+            'completed_at' => 'datetime',
+            'images' => 'array',
+            'status' => TicketStatuses::class,
+            'priority' => TicketPriorities::class,
+        ];
+    }
 }

@@ -49,7 +49,7 @@ class SendSuspendedEmployeesEmail extends Command
                 'suspensions' => fn ($query) => $query->active(),
             ])
             ->where('status', EmployeeStatuses::Suspended)
-            ->whereHas('suspensions', function ($query) {
+            ->whereHas('suspensions', function ($query): void {
                 $query->active();
             })
             ->get();

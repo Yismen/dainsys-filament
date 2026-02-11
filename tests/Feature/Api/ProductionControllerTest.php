@@ -12,7 +12,7 @@ use Laravel\Sanctum\Sanctum;
 
 beforeEach(fn () => Mail::fake());
 
-it('protects the route against unauthorized tokens', function () {
+it('protects the route against unauthorized tokens', function (): void {
     Sanctum::actingAs(User::factory()->create());
 
     $response = $this->getJson('/api/productions?date='.now()->format('Y-m-d'));
@@ -20,7 +20,7 @@ it('protects the route against unauthorized tokens', function () {
     $response->assertForbidden();
 });
 
-it('returns correct structure', function () {
+it('returns correct structure', function (): void {
 
     Production::factory()->create();
     Sanctum::actingAs(user: User::factory()->create(), abilities: ['use-dainsys']);
@@ -62,7 +62,7 @@ it('returns correct structure', function () {
         ]);
 });
 
-it('date filter is required', function () {
+it('date filter is required', function (): void {
     Production::factory()->create();
     Sanctum::actingAs(user: User::factory()->create(), abilities: ['use-dainsys']);
 
@@ -71,7 +71,7 @@ it('date filter is required', function () {
 
 });
 // filters data by date
-it('filters by date', function () {
+it('filters by date', function (): void {
 
     Production::factory()->create(['date' => now()]);
     Production::factory()->create(['date' => now()->subDays(5)]);
@@ -84,7 +84,7 @@ it('filters by date', function () {
         ->tobe(1);
 });
 // filters data by date range comma separated
-it('filters by date range if date is separated by comma', function () {
+it('filters by date range if date is separated by comma', function (): void {
 
     Production::factory()->create(['date' => now()]);
     Production::factory()->create(['date' => now()->subMonth()]);
@@ -96,7 +96,7 @@ it('filters by date range if date is separated by comma', function () {
         ->tobe(1);
 });
 // filters data by campaign
-it('filters by campaign', function () {
+it('filters by campaign', function (): void {
     $campaign_1 = Campaign::factory()->create();
     $campaign_2 = Campaign::factory()->create();
 
@@ -115,7 +115,7 @@ it('filters by campaign', function () {
         ->tobe(1);
 });
 // filters data by project
-it('filters by project', function () {
+it('filters by project', function (): void {
     $campaign_1 = Campaign::factory()->create();
     $campaign_2 = Campaign::factory()->create();
 
@@ -136,7 +136,7 @@ it('filters by project', function () {
         ->tobe(1);
 });
 // filters data by employee
-it('filters by employee', function () {
+it('filters by employee', function (): void {
     $employee_1 = Employee::factory()->create();
     Employee::factory()->create();
 
@@ -155,7 +155,7 @@ it('filters by employee', function () {
         ->tobe(1);
 });
 // filters data by supervisor
-it('filters by supervisor', function () {
+it('filters by supervisor', function (): void {
     $supervisor = Supervisor::factory()->create();
     $employee = Employee::factory()->create();
     Hire::factory()

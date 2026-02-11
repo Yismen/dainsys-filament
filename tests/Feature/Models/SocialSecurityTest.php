@@ -2,7 +2,7 @@
 
 use App\Models\SocialSecurity;
 
-test('social securities model interacts with db table', function () {
+test('social securities model interacts with db table', function (): void {
     $data = SocialSecurity::factory()->make();
 
     SocialSecurity::create($data->toArray());
@@ -12,7 +12,7 @@ test('social securities model interacts with db table', function () {
     ]));
 });
 
-test('social_securities model belongs to model', function (string $modelClass, string $relationMethod) {
+test('social_securities model belongs to model', function (string $modelClass, string $relationMethod): void {
     $socialSecurity = SocialSecurity::factory()->create();
 
     expect($socialSecurity->$relationMethod)->toBeInstanceOf($modelClass);

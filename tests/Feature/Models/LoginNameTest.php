@@ -2,7 +2,7 @@
 
 use App\Models\LoginName;
 
-test('login names model interacts with db table', function () {
+test('login names model interacts with db table', function (): void {
     $data = LoginName::factory()->make();
 
     LoginName::create($data->toArray());
@@ -12,7 +12,7 @@ test('login names model interacts with db table', function () {
     ]));
 });
 
-test('login names model belongs to one employee', function () {
+test('login names model belongs to one employee', function (): void {
     $login_name = LoginName::factory()->create();
 
     expect($login_name->employee)->toBeInstanceOf(\App\Models\Employee::class);

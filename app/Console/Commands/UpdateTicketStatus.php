@@ -41,7 +41,7 @@ class UpdateTicketStatus extends Command
     {
         $this->tickets = Ticket::incompleted()->get();
 
-        $this->tickets->each(function (Ticket $ticket) {
+        $this->tickets->each(function (Ticket $ticket): void {
             $ticket->touch();
         });
 

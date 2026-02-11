@@ -4,7 +4,7 @@ use App\Models\Mailable;
 use App\Models\MailableUser;
 use App\Models\User;
 
-test('mailing subscriptions model interacts with db table', function () {
+test('mailing subscriptions model interacts with db table', function (): void {
     $user = User::factory()->create();
     $mailable = Mailable::factory()->create();
 
@@ -16,7 +16,7 @@ test('mailing subscriptions model interacts with db table', function () {
     ]);
 });
 
-test('mailing subscriptions model relations', function () {
+test('mailing subscriptions model relations', function (): void {
     $user = User::factory()->create();
     $mailable = Mailable::factory()->create();
 

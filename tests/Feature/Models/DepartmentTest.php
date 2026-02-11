@@ -5,7 +5,7 @@ use App\Models\Employee;
 use App\Models\Hire;
 use App\Models\Position;
 
-test('departments model interacts with db table', function () {
+test('departments model interacts with db table', function (): void {
     $data = Department::factory()->make();
 
     Department::create($data->toArray());
@@ -15,7 +15,7 @@ test('departments model interacts with db table', function () {
     ]));
 });
 
-test('departments model has many positions', function () {
+test('departments model has many positions', function (): void {
     $department = Department::factory()
         ->has(Position::factory())
         ->create();

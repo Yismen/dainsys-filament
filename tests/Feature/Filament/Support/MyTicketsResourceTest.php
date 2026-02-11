@@ -21,7 +21,7 @@ use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 use function Pest\Livewire\livewire;
 
-beforeEach(function () {
+beforeEach(function (): void {
     // Seed roles/permissions if applicable
     Filament::setCurrentPanel(
         Filament::getPanel('support'), // Where `app` is the ID of the panel you want to test.
@@ -68,7 +68,7 @@ beforeEach(function () {
     ];
 });
 
-it('require users to be authenticated to access MyTicket resource pages', function (string $method) {
+it('require users to be authenticated to access MyTicket resource pages', function (string $method): void {
     $response = get(route($this->resource_routes[$method]['route'],
         $this->resource_routes[$method]['params']));
 
@@ -80,7 +80,7 @@ it('require users to be authenticated to access MyTicket resource pages', functi
     'view',
 ]);
 
-it('require users to have correct permissions to access MyTicket resource pages', function (string $method) {
+it('require users to have correct permissions to access MyTicket resource pages', function (string $method): void {
     actingAs(User::factory()->create());
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -93,7 +93,7 @@ it('require users to have correct permissions to access MyTicket resource pages'
     'view',
 ]);
 
-it('allow users with correct permissions to access MyTicket resource pages', function (string $method, string $component) {
+it('allow users with correct permissions to access MyTicket resource pages', function (string $method, string $component): void {
     $user = User::factory()->create();
     $this->actingAs($user);
 
@@ -108,7 +108,7 @@ it('allow users with correct permissions to access MyTicket resource pages', fun
     ['view', ViewMyTicket::class],
 ]);
 
-it('prevent users from working tickets they dont own', function (string $method, string $component) {
+it('prevent users from working tickets they dont own', function (string $method, string $component): void {
     $user = User::factory()->create();
     $another_user = User::factory()->create();
 
@@ -138,7 +138,7 @@ it('prevent users from working tickets they dont own', function (string $method,
 //         ->assertCanSeeTableRecords($tickets);
 // });
 
-it('does not displays MyTicket list created by other users', function () {
+it('does not displays MyTicket list created by other users', function (): void {
     $user = User::factory()->create();
     $another_user = User::factory()->create();
     Ticket::factory()->for($another_user, 'owner')->create();
@@ -150,7 +150,7 @@ it('does not displays MyTicket list created by other users', function () {
         ->assertCanNotSeeTableRecords($tickets);
 });
 
-test('table shows desired fields', function ($field) {
+test('table shows desired fields', function ($field): void {
     $user = User::factory()->create();
     actingAs($user);
     $ticket = Ticket::factory()->for($user, 'owner')->create();
@@ -163,7 +163,7 @@ test('table shows desired fields', function ($field) {
     // 'description',
 ]);
 
-test('create MyTicket page works correctly', function () {
+test('create MyTicket page works correctly', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'MyTicket'));
 
     livewire(CreateMyTicket::class)
@@ -186,7 +186,7 @@ test('create MyTicket page works correctly', function () {
 //     $this->assertDatabaseHas('tickets', array_merge(['id' => $ticket->id], $this->form_data));
 // });
 
-test('form validation require fields on create and edit pages', function (string $field) {
+test('form validation require fields on create and edit pages', function (string $field): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'MyTicket'));
 
     // Test CreateMyTicket validation
@@ -205,7 +205,7 @@ test('form validation require fields on create and edit pages', function (string
     'description',
 ]);
 
-it('autofocus the employee_id field on create and edit pages', function () {
+it('autofocus the employee_id field on create and edit pages', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'MyTicket'));
 
     // Test CreateMyTicket autofocus

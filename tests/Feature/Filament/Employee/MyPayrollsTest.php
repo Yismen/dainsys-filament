@@ -10,11 +10,11 @@ use Illuminate\Support\Facades\Mail;
 
 uses()->group('employee-panel');
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->citizenship = Citizenship::factory()->create();
 });
 
-it('displays payrolls data for authenticated employee', function () {
+it('displays payrolls data for authenticated employee', function (): void {
     Mail::fake();
 
     $employee = Employee::factory()->create([
@@ -45,7 +45,7 @@ it('displays payrolls data for authenticated employee', function () {
     $response->assertSee('Showing 1 to 3 of 3');
 });
 
-it('prevents access for users without employee_id', function () {
+it('prevents access for users without employee_id', function (): void {
     $user = User::factory()->create([
         'employee_id' => null,
     ]);
@@ -56,7 +56,7 @@ it('prevents access for users without employee_id', function () {
         ->assertForbidden();
 });
 
-it('only shows payroll data for authenticated employee', function () {
+it('only shows payroll data for authenticated employee', function (): void {
     Mail::fake();
 
     $employee1 = Employee::factory()->create([

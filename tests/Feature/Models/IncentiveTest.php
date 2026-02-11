@@ -2,7 +2,7 @@
 
 use App\Models\Incentive;
 
-it('interacts with db table', function () {
+it('interacts with db table', function (): void {
     $data = Incentive::factory()->make();
 
     Incentive::create($data->toArray());
@@ -18,7 +18,7 @@ it('interacts with db table', function () {
     ]));
 });
 
-it('belongs to one employee', function () {
+it('belongs to one employee', function (): void {
     $incentive = Incentive::factory()->create();
 
     expect($incentive->employee)->toBeInstanceOf(\App\Models\Employee::class);

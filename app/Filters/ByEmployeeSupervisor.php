@@ -17,10 +17,10 @@ class ByEmployeeSupervisor
         if ($this->request->has('supervisor')) {
             $supervisor = $this->request->input('supervisor');
 
-            $builder->whereHas('employee', function($employeeBuilder) use ($supervisor) {
+            $builder->whereHas('employee', function ($employeeBuilder) use ($supervisor): void {
                 $employeeBuilder->whereHas(
                     'supervisor',
-                    function ($supervisorBuilder) use ($supervisor) {
+                    function ($supervisorBuilder) use ($supervisor): void {
                         $supervisorBuilder
                             ->where('id', $supervisor)
                             ->orWhere('name', 'like', $supervisor);

@@ -8,13 +8,13 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
 
-beforeEach(function () {
+beforeEach(function (): void {
     Event::fake();
 
     Mail::fake();
 });
 
-it('runs without error and job is queued', function () {
+it('runs without error and job is queued', function (): void {
 
     Queue::fake([
         RegenerateIuidForModelJob::class,
@@ -43,7 +43,7 @@ it('runs without error and job is queued', function () {
 
 });
 
-it('if a table is passed only that table is regenerated', function () {
+it('if a table is passed only that table is regenerated', function (): void {
     $user = User::factory()->create();
     $ticket = Ticket::factory()->create();
 
@@ -64,7 +64,7 @@ it('if a table is passed only that table is regenerated', function () {
     ]);
 });
 
-it('changes children uuids when parent is updated', function () {
+it('changes children uuids when parent is updated', function (): void {
     $user = User::factory()->create();
     $ticket = Ticket::factory()->for($user, 'owner')->create();
 
@@ -79,7 +79,7 @@ it('changes children uuids when parent is updated', function () {
     ]);
 });
 
-it('works only if app is not in production', function () {
+it('works only if app is not in production', function (): void {
     Queue::fake();
     $user = User::factory()->create();
     $ticket = Ticket::factory()->for($user, 'owner')->create();

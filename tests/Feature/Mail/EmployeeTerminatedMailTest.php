@@ -6,11 +6,11 @@ use App\Models\Hire;
 use App\Models\Termination;
 use Illuminate\Support\Facades\Mail;
 
-beforeEach(function () {
+beforeEach(function (): void {
     Mail::fake();
 });
 
-it('contains employee info', function () {
+it('contains employee info', function (): void {
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create();
     $termination = Termination::factory()->for($employee)->create();

@@ -62,7 +62,7 @@ abstract class AbstractHCService implements HCContract
             ->groupBy('name')
             ->orderBy('name')
             ->select(['name', 'id'])
-            ->whereHas('employees', function ($query) {
+            ->whereHas('employees', function ($query): void {
                 $query->notInactive();
             });
     }

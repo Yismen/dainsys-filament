@@ -7,7 +7,7 @@ use App\Models\Hire;
 use App\Models\Production;
 use App\Models\Project;
 
-test('clients model interacts with db table', function () {
+test('clients model interacts with db table', function (): void {
     $data = Client::factory()->make();
 
     Client::create($data->toArray());
@@ -17,7 +17,7 @@ test('clients model interacts with db table', function () {
     ]));
 });
 
-test('clients model has many projects', function () {
+test('clients model has many projects', function (): void {
     $client = Client::factory()
         ->has(Project::factory(), 'projects')
         ->create();
@@ -26,7 +26,7 @@ test('clients model has many projects', function () {
     expect($client->projects())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
 });
 
-test('clients model has many campaigns thru projects', function () {
+test('clients model has many campaigns thru projects', function (): void {
     $client = Client::factory()
         ->has(Project::factory()->has(Campaign::factory()), 'projects')
         ->create();

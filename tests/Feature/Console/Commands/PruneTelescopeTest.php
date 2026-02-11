@@ -1,6 +1,6 @@
 <?php
 
-test('command is schedulled for evey day at midnight', function () {
+test('command is schedulled for evey day at midnight', function (): void {
     $addedToScheduler = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
         ->filter(function ($element) {
             return str($element->command)->contains('telescope:prune --hours=120');

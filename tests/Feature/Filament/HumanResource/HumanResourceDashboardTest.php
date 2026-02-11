@@ -26,12 +26,12 @@ beforeEach(function (): void {
     actingAs($user);
 });
 
-test('human resource dashboard can be rendered', function () {
+test('human resource dashboard can be rendered', function (): void {
     livewire(HumanResourceDashboard::class)
         ->assertSuccessful();
 });
 
-test('dashboard displays all widgets', function () {
+test('dashboard displays all widgets', function (): void {
     livewire(HumanResourceDashboard::class)
         ->assertSuccessful()
         ->assertSeeHtml('EmployeesStats')
@@ -43,20 +43,20 @@ test('dashboard displays all widgets', function () {
         ->assertSeeHtml('HeadCountBySupervisor');
 });
 
-test('dashboard has filter action button', function () {
+test('dashboard has filter action button', function (): void {
     livewire(HumanResourceDashboard::class)
         ->assertSuccessful()
         ->assertSee('Filter');
 });
 
-test('dashboard applies default sites from config', function () {
+test('dashboard applies default sites from config', function (): void {
     config(['app.default_sites' => []]);
 
     livewire(HumanResourceDashboard::class)
         ->assertSuccessful();
 });
 
-test('dashboard persists filters in filters action', function () {
+test('dashboard persists filters in filters action', function (): void {
     $site = Site::factory()->create();
     $project = Project::factory()->create();
 
@@ -64,7 +64,7 @@ test('dashboard persists filters in filters action', function () {
         ->assertSuccessful();
 });
 
-test('dashboard widgets respond to site filter', function () {
+test('dashboard widgets respond to site filter', function (): void {
     $site1 = Site::factory()->create();
     $site2 = Site::factory()->create();
 
@@ -90,7 +90,7 @@ test('dashboard widgets respond to site filter', function () {
         ->assertSuccessful();
 });
 
-test('dashboard does not persist filters in session', function () {
+test('dashboard does not persist filters in session', function (): void {
     $dashboard = new HumanResourceDashboard;
 
     expect($dashboard->persistsFiltersInSession())->toBeFalse();

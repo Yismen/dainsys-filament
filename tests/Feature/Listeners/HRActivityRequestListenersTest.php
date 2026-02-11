@@ -33,7 +33,7 @@ beforeEach(function (): void {
     ]);
 });
 
-test('hr activity request created notification sends emails to supervisor and hr staff', function () {
+test('hr activity request created notification sends emails to supervisor and hr staff', function (): void {
     $request = HRActivityRequest::factory()->create();
 
     // Create HR users with roles
@@ -64,7 +64,7 @@ test('hr activity request created notification sends emails to supervisor and hr
     });
 });
 
-test('hr activity request completed notification sends emails to supervisor and hr staff', function () {
+test('hr activity request completed notification sends emails to supervisor and hr staff', function (): void {
     $request = HRActivityRequest::factory()->create();
     $comment = 'Request has been completed';
 

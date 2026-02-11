@@ -2,7 +2,7 @@
 
 use App\Models\Universal;
 
-test('universals model interacts with db table', function () {
+test('universals model interacts with db table', function (): void {
     $data = Universal::factory()->make();
 
     Universal::create($data->toArray());
@@ -12,7 +12,7 @@ test('universals model interacts with db table', function () {
     ]));
 });
 
-test('universals model belongs to employee', function () {
+test('universals model belongs to employee', function (): void {
     $universal = Universal::factory()->create();
 
     expect($universal->employee)->toBeInstanceOf(\App\Models\Employee::class);

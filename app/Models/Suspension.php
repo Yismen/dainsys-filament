@@ -17,19 +17,13 @@ class Suspension extends \App\Models\BaseModels\AppModel
 
     protected $fillable = ['employee_id', 'suspension_type_id', 'starts_at', 'ends_at', 'comment'];
 
-    protected $casts = [
-        'starts_at' => 'datetime',
-        'ends_at' => 'datetime',
-        'status' => SuspensionStatuses::class,
-    ];
-
     protected $dispatchesEvents = [
         'created' => EmployeeSuspendedEvent::class,
     ];
 
     protected static function booted()
     {
-        static::creating(function (Suspension $suspension) {
+        static::creating(function (Suspension $suspension): void {
             if ($suspension->employee->canBeSuspended() === false) {
                 throw new \App\Exceptions\EmployeeCantBeSuspended;
             }
@@ -41,7 +35,7 @@ class Suspension extends \App\Models\BaseModels\AppModel
             }
         });
 
-        static::saved(function (Suspension $suspension) {
+        static::saved(function (Suspension $suspension): void {
             if ($suspension->starts_at > now()) {
                 $suspension->status = SuspensionStatuses::Pending;
             } elseif ($suspension->ends_at < now()) {
@@ -57,31 +51,46 @@ class Suspension extends \App\Models\BaseModels\AppModel
 
     }
 
-    public function getDurationAttribute()
+    protected function duration(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        return $this->starts_at ? $this->starts_at->diffInDays($this->ends_at) + 1 .' days' : null;
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: function () {
+            return $this->starts_at ? $this->starts_at->diffInDays($this->ends_at) + 1 .' days' : null;
+        });
     }
 
-    public function scopeActive($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function active($query)
     {
-        $query->where(function ($query) {
+        $query->where(function ($query): void {
             $query
                 ->whereDate('starts_at', '<=', now()->format('Y-m-d'))
                 ->whereDate('ends_at', '>=', now()->format('Y-m-d'));
         });
     }
 
-    public function scopeInactive($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function inactive($query)
     {
-        $query->where(function ($query) {
+        $query->where(function ($query): void {
             $query
                 ->whereDate('starts_at', '>', now()->format('Y-m-d'))
                 ->orWhereDate('ends_at', '<', now()->format('Y-m-d'));
         });
     }
 
-    public function getIsActiveAttribute(): bool
+    protected function isActive(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        return now()->isBetween($this->starts_at->startOfDay(), $this->ends_at->endOfDay());
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: function () {
+            return now()->isBetween($this->starts_at->startOfDay(), $this->ends_at->endOfDay());
+        });
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'starts_at' => 'datetime',
+            'ends_at' => 'datetime',
+            'status' => SuspensionStatuses::class,
+        ];
     }
 }

@@ -136,8 +136,8 @@ class ProductionsTable
                     ->options(ModelListService::make(Project::query()))
                     ->searchable()
                     ->query(function ($query, $value) {
-                        return $query->when($value, function ($query, $value) {
-                            $query->whereHas('campaign', function ($query) use ($value) {
+                        return $query->when($value, function ($query, $value): void {
+                            $query->whereHas('campaign', function ($query) use ($value): void {
                                 $query->where('project_id', $value);
                             });
                         });

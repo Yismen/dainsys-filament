@@ -27,7 +27,7 @@ class ListEmployees extends ListRecords
         }
 
         return Employee::query()
-            ->whereHas('supervisor', function ($query) use ($supervisor) {
+            ->whereHas('supervisor', function ($query) use ($supervisor): void {
                 $query->where('id', $supervisor->id);
             })
             ->whereNotIn('status', [EmployeeStatuses::Terminated]);

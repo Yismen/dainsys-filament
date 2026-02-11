@@ -10,7 +10,7 @@ use App\Models\Suspension;
 use App\Models\Termination;
 use Illuminate\Support\Facades\Event;
 
-beforeEach(function () {
+beforeEach(function (): void {
     Event::fake([
         EmployeeHiredEvent::class,
         EmployeeSuspendedEvent::class,
@@ -18,7 +18,7 @@ beforeEach(function () {
     ]);
 });
 
-test('hires model interacts with db table', function () {
+test('hires model interacts with db table', function (): void {
     $data = Hire::factory()->make();
 
     Hire::create($data->toArray());
@@ -33,7 +33,7 @@ test('hires model interacts with db table', function () {
     ]));
 });
 
-test('hires model belongs to model', function (string $modelClass, string $relationMethod) {
+test('hires model belongs to model', function (string $modelClass, string $relationMethod): void {
     $hire = Hire::factory()->create();
 
     expect($hire->$relationMethod)->toBeInstanceOf($modelClass);
@@ -46,19 +46,19 @@ test('hires model belongs to model', function (string $modelClass, string $relat
     [\App\Models\Supervisor::class, 'supervisor'],
 ]);
 
-it('casts fields as date', function () {
+it('casts fields as date', function (): void {
     $hire = Hire::factory()->create();
 
     expect($hire->date)->toBeInstanceOf(\Illuminate\Support\Carbon::class);
 });
 
-it('fires event when a employee hire is created', function () {
+it('fires event when a employee hire is created', function (): void {
     Hire::factory()->create();
 
     Event::assertDispatched(EmployeeHiredEvent::class);
 });
 
-test('employees with status of Hired cannot be hired again', function () {
+test('employees with status of Hired cannot be hired again', function (): void {
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create();
 
@@ -66,7 +66,7 @@ test('employees with status of Hired cannot be hired again', function () {
         ->toThrow(EmployeeCantBeHired::class);
 });
 
-test('employees with status of Suspended cannot be hired', function () {
+test('employees with status of Suspended cannot be hired', function (): void {
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create();
     Suspension::factory()->for($employee)->create();
@@ -75,7 +75,7 @@ test('employees with status of Suspended cannot be hired', function () {
         ->toThrow(EmployeeCantBeHired::class);
 });
 
-test('terminated employee can be hired', function () {
+test('terminated employee can be hired', function (): void {
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create();
 
@@ -86,7 +86,7 @@ test('terminated employee can be hired', function () {
         ->toThrow(EmployeeCantBeHired::class);
 });
 
-test('Created employee can be hired', function () {
+test('Created employee can be hired', function (): void {
     $employee = Employee::factory()->create();
 
     expect(fn () => Hire::factory()->for($employee)->create())

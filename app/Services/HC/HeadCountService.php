@@ -50,21 +50,21 @@ class HeadCountService
 
         $resultQuery = $query
             ->withCount('employees')
-            ->withWhereHas('employees', function ($employeeQuery) {
+            ->withWhereHas('employees', function ($employeeQuery): void {
                 $employeeQuery
                     ->notInactive()
-                    ->when(self::$filters['site'] ?? null, function ($employeeQuery) {
-                        $employeeQuery->whereHas('site', function ($q) {
+                    ->when(self::$filters['site'] ?? null, function ($employeeQuery): void {
+                        $employeeQuery->whereHas('site', function ($q): void {
                             $q->whereIn('id', is_array(self::$filters['site']) ? self::$filters['site'] : [self::$filters['site']]);
                         });
                     })
-                    ->when(self::$filters['project'] ?? null, function ($employeeQuery) {
-                        $employeeQuery->whereHas('project', function ($q) {
+                    ->when(self::$filters['project'] ?? null, function ($employeeQuery): void {
+                        $employeeQuery->whereHas('project', function ($q): void {
                             $q->whereIn('id', is_array(self::$filters['project']) ? self::$filters['project'] : [self::$filters['project']]);
                         });
                     })
-                    ->when(self::$filters['supervisor'] ?? null, function ($employeeQuery) {
-                        $employeeQuery->whereHas('supervisor', function ($q) {
+                    ->when(self::$filters['supervisor'] ?? null, function ($employeeQuery): void {
+                        $employeeQuery->whereHas('supervisor', function ($q): void {
                             $q->whereIn('id', is_array(self::$filters['supervisor']) ? self::$filters['supervisor'] : [self::$filters['supervisor']]);
                         });
                     });

@@ -2,7 +2,7 @@
 
 use App\Enums\SalaryTypes;
 
-test('values method return specific values', function () {
+test('values method return specific values', function (): void {
     expect(SalaryTypes::values())->toEqual([
         'salary',
         'hourly',
@@ -10,7 +10,7 @@ test('values method return specific values', function () {
     ]);
 });
 
-test('all method return associative array', function () {
+test('all method return associative array', function (): void {
     expect(SalaryTypes::toArray())->toEqual([
         'salary' => 'Salary',
         'hourly' => 'Hourly',

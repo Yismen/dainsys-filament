@@ -15,14 +15,14 @@ use Illuminate\Support\Facades\Mail;
 
 uses()->group('employee-panel');
 
-beforeEach(function () {
+beforeEach(function (): void {
     Mail::fake();
 
     $this->citizenship = Citizenship::factory()->create();
     $this->downtime_reason = DowntimeReason::factory()->create();
 });
 
-it('displays downtime data for authenticated employee', function () {
+it('displays downtime data for authenticated employee', function (): void {
     $employee = Employee::factory()->create([
         'citizenship_id' => $this->citizenship->id,
     ]);
@@ -82,7 +82,7 @@ it('displays downtime data for authenticated employee', function () {
         ->assertSee($project->name);
 });
 
-it('prevents access for users without employee_id', function () {
+it('prevents access for users without employee_id', function (): void {
     $user = User::factory()->create()->load('employee');
 
     $this->actingAs($user);
@@ -92,7 +92,7 @@ it('prevents access for users without employee_id', function () {
     $response->assertForbidden();
 });
 
-it('only shows downtime data for authenticated employee', function () {
+it('only shows downtime data for authenticated employee', function (): void {
     $employee1 = Employee::factory()->create([
         'citizenship_id' => $this->citizenship->id,
     ]);
@@ -152,7 +152,7 @@ it('only shows downtime data for authenticated employee', function () {
         ->assertDontSee('8.00'); // Employee 2's total time should not be visible
 });
 
-it('displays downtime status badge', function () {
+it('displays downtime status badge', function (): void {
     $employee = Employee::factory()->create([
         'citizenship_id' => $this->citizenship->id,
     ]);

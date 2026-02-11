@@ -8,7 +8,7 @@ use App\Models\Supervisor;
 use App\Models\User;
 use Illuminate\Support\Facades\Event;
 
-test('users model interacts with db table', function () {
+test('users model interacts with db table', function (): void {
     $data = User::factory()->create();
 
     $this->assertDatabaseHas('users', $data->only([
@@ -19,7 +19,7 @@ test('users model interacts with db table', function () {
     ]));
 });
 
-test('users model belongs to many mailables', function () {
+test('users model belongs to many mailables', function (): void {
     $user = User::factory()
         ->has(Mailable::factory(), 'mailables')
         ->create();
@@ -28,7 +28,7 @@ test('users model belongs to many mailables', function () {
     expect($user->mailables->first())->toBeInstanceOf(Mailable::class);
 });
 
-test('users model has one supervisor', function () {
+test('users model has one supervisor', function (): void {
     $user = User::factory()->create();
     Supervisor::factory()->create(['user_id' => $user->id]);
 
@@ -36,7 +36,7 @@ test('users model has one supervisor', function () {
     expect($user->supervisor())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasOne::class);
 });
 
-it('users model has many employees through supervisor', function () {
+it('users model has many employees through supervisor', function (): void {
     Event::fake([
         EmployeeHiredEvent::class,
     ]);
@@ -49,7 +49,7 @@ it('users model has many employees through supervisor', function () {
     expect($supervisorUser->employees())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasManyThrough::class);
 });
 
-it('apply global scope active users', function () {
+it('apply global scope active users', function (): void {
     User::factory()->count(3)->create(['is_active' => true]);
     User::factory()->count(2)->create(['is_active' => false]);
 

@@ -16,7 +16,7 @@ class BySite
     {
         if ($this->request->has('site')) {
 
-            $builder->whereHas('site', function ($siteBuilder) {
+            $builder->whereHas('site', function ($siteBuilder): void {
                 $siteBuilder
                     ->where('id', $this->request->input('site'))
                     ->orWhere('name', 'like', $this->request->input('site'));

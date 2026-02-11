@@ -15,7 +15,7 @@ use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 use function Pest\Livewire\livewire;
 
-beforeEach(function () {
+beforeEach(function (): void {
     // Seed roles/permissions if applicable
     Filament::setCurrentPanel(
         Filament::getPanel('workforce'), // Where `app` is the ID of the panel you want to test.
@@ -63,7 +63,7 @@ beforeEach(function () {
     ];
 });
 
-it('require users to be authenticated to access Employee resource pages', function (string $method) {
+it('require users to be authenticated to access Employee resource pages', function (string $method): void {
     $response = get(route($this->resource_routes[$method]['route'],
         $this->resource_routes[$method]['params']));
 
@@ -75,7 +75,7 @@ it('require users to be authenticated to access Employee resource pages', functi
     // 'view',
 ]);
 
-it('require users to have correct permissions to access Employee resource pages', function (string $method) {
+it('require users to have correct permissions to access Employee resource pages', function (string $method): void {
     actingAs(User::factory()->create());
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -88,7 +88,7 @@ it('require users to have correct permissions to access Employee resource pages'
     // 'view',
 ]);
 
-it('allows super admin users to access Employee resource pages', function (string $method) {
+it('allows super admin users to access Employee resource pages', function (string $method): void {
     actingAs($this->createSuperAdminUser());
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -102,7 +102,7 @@ it('allows super admin users to access Employee resource pages', function (strin
     // 'view',
 ]);
 
-it('allow users with correct permissions to access Employee resource pages', function (string $method) {
+it('allow users with correct permissions to access Employee resource pages', function (string $method): void {
     actingAs($this->createUserWithPermissionsToActions($this->resource_routes[$method]['permission'], 'Employee'));
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -116,7 +116,7 @@ it('allow users with correct permissions to access Employee resource pages', fun
     // 'view',
 ]);
 
-it('displays Employee list page correctly', function () {
+it('displays Employee list page correctly', function (): void {
     $employees = Employee::factory()->count(5)->create();
 
     actingAs($this->createUserWithPermissionTo('view-any Employee'));
@@ -125,7 +125,7 @@ it('displays Employee list page correctly', function () {
         ->assertCanSeeTableRecords($employees);
 });
 
-test('create Employee page works correctly', function () {
+test('create Employee page works correctly', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Employee'));
 
     livewire(CreateEmployee::class)
@@ -135,7 +135,7 @@ test('create Employee page works correctly', function () {
     $this->assertDatabaseHas('employees', $this->form_data);
 });
 
-test('edit Employee page works correctly', function () {
+test('edit Employee page works correctly', function (): void {
     $employee = Employee::factory()->create();
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Employee'));
@@ -149,7 +149,7 @@ test('edit Employee page works correctly', function () {
     $this->assertDatabaseHas('employees', $this->form_data);
 });
 
-test('form validation require fields on create and edit pages', function () {
+test('form validation require fields on create and edit pages', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Employee'));
 
     // Test CreateEmployee validation
@@ -204,7 +204,7 @@ test('form validation require fields on create and edit pages', function () {
         ]);
 });
 
-test('Employee name must be unique on create and edit pages', function () {
+test('Employee name must be unique on create and edit pages', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Employee'));
 
     $unique_personal_id = '15166635118';
@@ -240,7 +240,7 @@ test('Employee name must be unique on create and edit pages', function () {
         ]);
 });
 
-it('allows updating Employee without changing name to trigger uniqueness validation', function () {
+it('allows updating Employee without changing name to trigger uniqueness validation', function (): void {
     $employee = Employee::factory()->create(['personal_id' => '33333333333', 'cellphone' => '8097778888']);
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Employee'));
@@ -260,7 +260,7 @@ it('allows updating Employee without changing name to trigger uniqueness validat
     ]);
 });
 
-it('autofocus the name field on create and edit pages', function () {
+it('autofocus the name field on create and edit pages', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Employee'));
 
     // Test CreateEmployee autofocus

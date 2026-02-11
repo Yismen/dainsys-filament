@@ -20,14 +20,14 @@ use Livewire\Livewire;
 
 use function Pest\Laravel\actingAs;
 
-beforeEach(function () {
+beforeEach(function (): void {
     Bus::fake();
 
     $this->user = User::factory()->create();
     actingAs($this->user);
 });
 
-it('displays workforce stats overview correctly', function () {
+it('displays workforce stats overview correctly', function (): void {
     $campaign = Campaign::factory()->create(['revenue_type' => RevenueTypes::Downtime]);
     $employee = Employee::factory()->create();
 
@@ -63,7 +63,7 @@ it('displays workforce stats overview correctly', function () {
         ->assertSee('Production revenue today');
 });
 
-it('displays pending downtimes table with records', function () {
+it('displays pending downtimes table with records', function (): void {
     $campaign = Campaign::factory()->create(['revenue_type' => RevenueTypes::Downtime]);
     $employee = Employee::factory()->create();
     $reason = DowntimeReason::factory()->create();
@@ -83,7 +83,7 @@ it('displays pending downtimes table with records', function () {
         ->assertSee($reason->name);
 });
 
-it('approves a downtime from pending table', function () {
+it('approves a downtime from pending table', function (): void {
     $campaign = Campaign::factory()->create(['revenue_type' => RevenueTypes::Downtime]);
     $employee = Employee::factory()->create();
 
@@ -105,7 +105,7 @@ it('approves a downtime from pending table', function () {
         ->and(Comment::where('commentable_id', $downtime->id)->where('text', 'like', '%Approved%')->exists())->toBeTrue();
 });
 
-it('rejects a downtime from pending table', function () {
+it('rejects a downtime from pending table', function (): void {
     $campaign = Campaign::factory()->create(['revenue_type' => RevenueTypes::Downtime]);
     $employee = Employee::factory()->create();
 
@@ -127,7 +127,7 @@ it('rejects a downtime from pending table', function () {
         ->and(Comment::where('commentable_id', $downtime->id)->where('text', 'like', '%Rejected%')->exists())->toBeTrue();
 });
 
-it('displays recent downtimes table', function () {
+it('displays recent downtimes table', function (): void {
     $campaign = Campaign::factory()->create(['revenue_type' => RevenueTypes::Downtime]);
     $employee = Employee::factory()->create();
 
@@ -150,7 +150,7 @@ it('displays recent downtimes table', function () {
         ->assertCanNotSeeTableRecords([$oldDowntime]);
 });
 
-it('renders downtime by reason chart', function () {
+it('renders downtime by reason chart', function (): void {
     $campaign = Campaign::factory()->create(['revenue_type' => RevenueTypes::Downtime]);
     $employee = Employee::factory()->create();
     $reason1 = DowntimeReason::factory()->create(['name' => 'Break']);
@@ -176,7 +176,7 @@ it('renders downtime by reason chart', function () {
         ->assertSee('Downtime by reason');
 });
 
-it('renders production revenue trend chart', function () {
+it('renders production revenue trend chart', function (): void {
     $campaign = Campaign::factory()->create(['revenue_type' => RevenueTypes::Conversions]);
     $employee = Employee::factory()->create();
 

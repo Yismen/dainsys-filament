@@ -3,7 +3,7 @@
 use App\Models\Campaign;
 use App\Models\Source;
 
-test('sources model interacts with db table', function () {
+test('sources model interacts with db table', function (): void {
     $source = Source::factory()->make();
 
     Source::create($source->toArray());
@@ -13,7 +13,7 @@ test('sources model interacts with db table', function () {
     ]));
 });
 
-test('sources model has many campaigns', function () {
+test('sources model has many campaigns', function (): void {
     $source = Source::factory()
         ->has(Campaign::factory())
         ->create();

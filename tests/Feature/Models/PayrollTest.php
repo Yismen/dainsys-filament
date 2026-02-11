@@ -2,7 +2,7 @@
 
 use App\Models\Payroll;
 
-it('interacts with db table', function () {
+it('interacts with db table', function (): void {
     $data = Payroll::factory()->make();
 
     Payroll::create($data->toArray());
@@ -29,7 +29,7 @@ it('interacts with db table', function () {
     ]));
 });
 
-it('belongs to one employee', function () {
+it('belongs to one employee', function (): void {
     $payroll = Payroll::factory()->create();
 
     expect($payroll->employee)->toBeInstanceOf(\App\Models\Employee::class);

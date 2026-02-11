@@ -12,7 +12,7 @@ use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 use function Pest\Livewire\livewire;
 
-beforeEach(function () {
+beforeEach(function (): void {
     // Seed roles/permissions if applicable
     Filament::setCurrentPanel(
         Filament::getPanel('human-resource'), // Where `app` is the ID of the panel you want to test.
@@ -43,7 +43,7 @@ beforeEach(function () {
     ];
 });
 
-it('require users to be authenticated to access SuspensionType resource pages', function (string $method) {
+it('require users to be authenticated to access SuspensionType resource pages', function (string $method): void {
     $response = get(route($this->resource_routes[$method]['route'],
         $this->resource_routes[$method]['params']));
 
@@ -55,7 +55,7 @@ it('require users to be authenticated to access SuspensionType resource pages', 
     'view',
 ]);
 
-it('require users to have correct permissions to access SuspensionType resource pages', function (string $method) {
+it('require users to have correct permissions to access SuspensionType resource pages', function (string $method): void {
     actingAs(User::factory()->create());
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -68,7 +68,7 @@ it('require users to have correct permissions to access SuspensionType resource 
     'view',
 ]);
 
-it('allows super admin users to access SuspensionType resource pages', function (string $method) {
+it('allows super admin users to access SuspensionType resource pages', function (string $method): void {
     actingAs($this->createSuperAdminUser());
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -82,7 +82,7 @@ it('allows super admin users to access SuspensionType resource pages', function 
     'view',
 ]);
 
-it('allow users with correct permissions to access SuspensionType resource pages', function (string $method) {
+it('allow users with correct permissions to access SuspensionType resource pages', function (string $method): void {
     actingAs($this->createUserWithPermissionsToActions($this->resource_routes[$method]['permission'], 'SuspensionType'));
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -96,7 +96,7 @@ it('allow users with correct permissions to access SuspensionType resource pages
     'view',
 ]);
 
-it('displays SuspensionType list page correctly', function () {
+it('displays SuspensionType list page correctly', function (): void {
     $suspension_types = SuspensionType::factory()->count(5)->create();
 
     actingAs($this->createUserWithPermissionTo('view-any SuspensionType'));
@@ -105,7 +105,7 @@ it('displays SuspensionType list page correctly', function () {
         ->assertCanSeeTableRecords($suspension_types);
 });
 
-test('create SuspensionType page works correctly', function () {
+test('create SuspensionType page works correctly', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'SuspensionType'));
 
     $name = 'new SuspensionType';
@@ -120,7 +120,7 @@ test('create SuspensionType page works correctly', function () {
     ]);
 });
 
-test('edit SuspensionType page works correctly', function () {
+test('edit SuspensionType page works correctly', function (): void {
     $suspension_type = SuspensionType::factory()->create();
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'SuspensionType'));
@@ -139,7 +139,7 @@ test('edit SuspensionType page works correctly', function () {
     ]);
 });
 
-test('form validation require fields on create and edit pages', function () {
+test('form validation require fields on create and edit pages', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'SuspensionType'));
 
     // Test CreateSuspensionType validation
@@ -159,7 +159,7 @@ test('form validation require fields on create and edit pages', function () {
         ->assertHasFormErrors(['name' => 'required']);
 });
 
-test('SuspensionType name must be unique on create and edit pages', function () {
+test('SuspensionType name must be unique on create and edit pages', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'SuspensionType'));
 
     $existingSuspensionType = SuspensionType::factory()->create(['name' => 'Unique SuspensionType']);
@@ -181,7 +181,7 @@ test('SuspensionType name must be unique on create and edit pages', function () 
         ->assertHasFormErrors(['name' => 'unique']);
 });
 
-it('allows updating SuspensionType without changing name to trigger uniqueness validation', function () {
+it('allows updating SuspensionType without changing name to trigger uniqueness validation', function (): void {
     $suspension_type = SuspensionType::factory()->create(['name' => 'Existing SuspensionType']);
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'SuspensionType'));
@@ -199,7 +199,7 @@ it('allows updating SuspensionType without changing name to trigger uniqueness v
     ]);
 });
 
-it('autofocus the name field on create and edit pages', function () {
+it('autofocus the name field on create and edit pages', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'SuspensionType'));
 
     // Test CreateSuspensionType autofocus

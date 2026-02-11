@@ -12,7 +12,7 @@ use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 use function Pest\Livewire\livewire;
 
-beforeEach(function () {
+beforeEach(function (): void {
     // Seed roles/permissions if applicable
     Filament::setCurrentPanel(
         Filament::getPanel('human-resource'), // Where `app` is the ID of the panel you want to test.
@@ -43,7 +43,7 @@ beforeEach(function () {
     ];
 });
 
-it('require users to be authenticated to access Holiday resource pages', function (string $method) {
+it('require users to be authenticated to access Holiday resource pages', function (string $method): void {
     $response = get(route($this->resource_routes[$method]['route'],
         $this->resource_routes[$method]['params']));
 
@@ -55,7 +55,7 @@ it('require users to be authenticated to access Holiday resource pages', functio
     'view',
 ]);
 
-it('require users to have correct permissions to access Holiday resource pages', function (string $method) {
+it('require users to have correct permissions to access Holiday resource pages', function (string $method): void {
     actingAs(User::factory()->create());
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -68,7 +68,7 @@ it('require users to have correct permissions to access Holiday resource pages',
     'view',
 ]);
 
-it('allows super admin users to access Holiday resource pages', function (string $method) {
+it('allows super admin users to access Holiday resource pages', function (string $method): void {
     actingAs($this->createSuperAdminUser());
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -82,7 +82,7 @@ it('allows super admin users to access Holiday resource pages', function (string
     'view',
 ]);
 
-it('allow users with correct permissions to access Holiday resource pages', function (string $method) {
+it('allow users with correct permissions to access Holiday resource pages', function (string $method): void {
     actingAs($this->createUserWithPermissionsToActions($this->resource_routes[$method]['permission'], 'Holiday'));
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -96,7 +96,7 @@ it('allow users with correct permissions to access Holiday resource pages', func
     'view',
 ]);
 
-it('displays Holiday list page correctly', function () {
+it('displays Holiday list page correctly', function (): void {
     $holidays = Holiday::factory()->count(5)->create();
 
     actingAs($this->createUserWithPermissionTo('view-any Holiday'));
@@ -105,7 +105,7 @@ it('displays Holiday list page correctly', function () {
         ->assertCanSeeTableRecords($holidays);
 });
 
-test('create Holiday page works correctly', function () {
+test('create Holiday page works correctly', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Holiday'));
 
     $name = 'new Holiday';
@@ -122,7 +122,7 @@ test('create Holiday page works correctly', function () {
     ]);
 });
 
-test('edit Holiday page works correctly', function () {
+test('edit Holiday page works correctly', function (): void {
     $holiday = Holiday::factory()->create();
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Holiday'));
@@ -143,7 +143,7 @@ test('edit Holiday page works correctly', function () {
     ]);
 });
 
-test('form validation require fields on create and edit pages', function () {
+test('form validation require fields on create and edit pages', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Holiday'));
 
     // Test CreateHoliday validation
@@ -165,7 +165,7 @@ test('form validation require fields on create and edit pages', function () {
         ->assertHasFormErrors(keys: ['name' => 'required', 'date' => 'required']);
 });
 
-test('Holiday date must be unique on create and edit pages', function () {
+test('Holiday date must be unique on create and edit pages', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Holiday'));
 
     $existingHoliday = Holiday::factory()->create(['date' => now()->format('Y-m-d')]);
@@ -188,7 +188,7 @@ test('Holiday date must be unique on create and edit pages', function () {
         ->assertHasFormErrors(['date' => 'unique']);
 });
 
-it('allows updating Holiday without changing name to trigger uniqueness validation', function () {
+it('allows updating Holiday without changing name to trigger uniqueness validation', function (): void {
     $holiday = Holiday::factory()->create(['name' => 'Existing Holiday']);
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Holiday'));
@@ -206,7 +206,7 @@ it('allows updating Holiday without changing name to trigger uniqueness validati
     ]);
 });
 
-it('autofocus the name field on create and edit pages', function () {
+it('autofocus the name field on create and edit pages', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Holiday'));
 
     // Test CreateHoliday autofocus

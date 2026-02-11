@@ -7,14 +7,14 @@ use App\Models\Suspension;
 use App\Models\SuspensionType;
 use Illuminate\Support\Facades\Event;
 
-beforeEach(function () {
+beforeEach(function (): void {
     Event::fake([
         \App\Events\EmployeeSuspendedEvent::class,
         EmployeeHiredEvent::class,
     ]);
 });
 
-test('suspension types model interacts with db table', function () {
+test('suspension types model interacts with db table', function (): void {
     $data = SuspensionType::factory()->make();
 
     SuspensionType::create($data->toArray());
@@ -24,7 +24,7 @@ test('suspension types model interacts with db table', function () {
     ]));
 });
 
-test('suspension types model has many suspensions', function () {
+test('suspension types model has many suspensions', function (): void {
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create();
     $suspension_type = SuspensionType::factory()
@@ -35,7 +35,7 @@ test('suspension types model has many suspensions', function () {
     expect($suspension_type->suspensions())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
 });
 
-test('suspension types model has many employees', function () {
+test('suspension types model has many employees', function (): void {
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create();
     $suspension_type = SuspensionType::factory()

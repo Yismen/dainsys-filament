@@ -6,7 +6,7 @@ use App\Models\HRActivityRequest;
 use App\Models\Supervisor;
 use Illuminate\Support\Facades\Event;
 
-test('hr activity request model interacts with db table', function () {
+test('hr activity request model interacts with db table', function (): void {
     Event::fake();
     $data = HRActivityRequest::factory()->make();
 
@@ -19,7 +19,7 @@ test('hr activity request model interacts with db table', function () {
     ]);
 });
 
-test('hr activity request belongs to employee', function () {
+test('hr activity request belongs to employee', function (): void {
     Event::fake();
     $request = HRActivityRequest::factory()->create();
 
@@ -27,7 +27,7 @@ test('hr activity request belongs to employee', function () {
     expect($request->employee())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
 });
 
-test('hr activity request belongs to supervisor', function () {
+test('hr activity request belongs to supervisor', function (): void {
     Event::fake();
     $request = HRActivityRequest::factory()->create();
 
@@ -35,7 +35,7 @@ test('hr activity request belongs to supervisor', function () {
     expect($request->supervisor())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
 });
 
-test('hr activity types enum has all required cases', function () {
+test('hr activity types enum has all required cases', function (): void {
     expect(HRActivityTypes::cases())->toHaveCount(7);
     expect(HRActivityTypes::Vacations->value)->toBe('Vacations');
     expect(HRActivityTypes::Permission->value)->toBe('Permission');

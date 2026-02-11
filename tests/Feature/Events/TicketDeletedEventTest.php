@@ -8,7 +8,7 @@ use App\Models\Ticket;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 
-test('event is dispatched', function () {
+test('event is dispatched', function (): void {
     Event::fake([
         TicketDeletedEvent::class,
         TicketCreatedEvent::class,
@@ -25,7 +25,7 @@ test('event is dispatched', function () {
     );
 });
 
-test('when ticket is created an email is sent', function () {
+test('when ticket is created an email is sent', function (): void {
     Mail::fake();
 
     $ticket = Ticket::factory()->create();

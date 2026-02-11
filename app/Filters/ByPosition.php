@@ -17,7 +17,7 @@ class ByPosition
         if ($this->request->has('position')) {
             $position = $this->request->input('position');
 
-            $builder->whereHas('position', function ($positionBuilder) use ($position) {
+            $builder->whereHas('position', function ($positionBuilder) use ($position): void {
                 $positionBuilder
                     ->where('id', $position)
                     ->orWhere('name', 'like', $position);

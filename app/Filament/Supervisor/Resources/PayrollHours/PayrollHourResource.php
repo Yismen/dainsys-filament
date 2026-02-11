@@ -37,7 +37,7 @@ class PayrollHourResource extends Resource
         }
 
         return parent::getEloquentQuery()
-            ->whereHas('employee', function ($query) use ($supervisor) {
+            ->whereHas('employee', function ($query) use ($supervisor): void {
                 $query->where('supervisor_id', $supervisor->id)
                     ->whereIn('status', [EmployeeStatuses::Hired, EmployeeStatuses::Suspended]);
             });

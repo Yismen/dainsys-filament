@@ -3,11 +3,11 @@
 namespace App\Models;
 
 use App\Enums\EmployeeStatuses;
-use App\Models\Traits\HasManyComments;
 use App\Events\EmployeeTerminatedEvent;
-use App\Models\Traits\BelongsToEmployee;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Exceptions\TerminationDateCantBeLowerThanHireDate;
+use App\Models\Traits\BelongsToEmployee;
+use App\Models\Traits\HasManyComments;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Termination extends \App\Models\BaseModels\AppModel
 {
@@ -21,16 +21,11 @@ class Termination extends \App\Models\BaseModels\AppModel
         'created' => EmployeeTerminatedEvent::class,
     ];
 
-    protected $casts = [
-        'date' => 'datetime',
-        'is_rehireable' => 'boolean',
-    ];
-
     protected static function booted()
     {
         parent::booted();
 
-        static::creating(function ($termination) {
+        static::creating(function ($termination): void {
             if ($termination->employee->canBeTerminated() === false) {
                 throw new \App\Exceptions\EmployeeCantBeTerminated;
             }
@@ -42,15 +37,23 @@ class Termination extends \App\Models\BaseModels\AppModel
             }
         });
 
-        static::created(function (Termination $termination) {
+        static::created(function (Termination $termination): void {
             $employee = $termination->employee;
             $employee->status = EmployeeStatuses::Terminated;
             $employee->terminated_at = $termination->date;
             $employee->save();
         });
 
-        static::updated(function ($termination) {
+        static::updated(function ($termination): void {
             $termination->employee->touch();
         });
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'date' => 'datetime',
+            'is_rehireable' => 'boolean',
+        ];
     }
 }

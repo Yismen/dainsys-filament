@@ -143,7 +143,7 @@ class DowntimesTable
                                 ->label('Approval comment')
                                 ->required(),
                         ])
-                        ->action(function (Downtime $record, array $data) {
+                        ->action(function (Downtime $record, array $data): void {
                             $record->aprove();
 
                             \App\Models\Comment::query()->forceCreate([
@@ -162,7 +162,7 @@ class DowntimesTable
                                 ->label('Rejection comment')
                                 ->required(),
                         ])
-                        ->action(function (Downtime $record, array $data) {
+                        ->action(function (Downtime $record, array $data): void {
                             $record->status = DowntimeStatuses::Rejected;
                             $record->aprover_id = null;
                             $record->saveQuietly();
@@ -192,8 +192,8 @@ class DowntimesTable
                                 ->label('Approval comment')
                                 ->required(),
                         ])
-                        ->action(function (Collection $records, array $data) {
-                            $records->each(function (Downtime $record) use ($data) {
+                        ->action(function (Collection $records, array $data): void {
+                            $records->each(function (Downtime $record) use ($data): void {
                                 if ($record->status === DowntimeStatuses::Pending) {
                                     $record->aprove();
 
@@ -215,8 +215,8 @@ class DowntimesTable
                                 ->label('Rejection comment')
                                 ->required(),
                         ])
-                        ->action(function (Collection $records, array $data) {
-                            $records->each(function (Downtime $record) use ($data) {
+                        ->action(function (Collection $records, array $data): void {
+                            $records->each(function (Downtime $record) use ($data): void {
                                 if ($record->status === DowntimeStatuses::Pending) {
                                     $record->status = DowntimeStatuses::Rejected;
                                     $record->aprover_id = null;

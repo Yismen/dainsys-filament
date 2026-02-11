@@ -9,7 +9,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 
-test('event is dispatched when ticket is assigned', function () {
+test('event is dispatched when ticket is assigned', function (): void {
     Event::fake([
         TicketAssignedEvent::class,
         TicketCreatedEvent::class,
@@ -26,7 +26,7 @@ test('event is dispatched when ticket is assigned', function () {
     );
 });
 
-test('event is dispatched is grabbed', function () {
+test('event is dispatched is grabbed', function (): void {
     Event::fake([
         TicketAssignedEvent::class,
         TicketCreatedEvent::class,
@@ -41,7 +41,7 @@ test('event is dispatched is grabbed', function () {
     Event::assertDispatched(TicketAssignedEvent::class);
 });
 
-test('when ticket is created an email is sent', function () {
+test('when ticket is created an email is sent', function (): void {
     Mail::fake();
 
     $ticket = Ticket::factory()->create();

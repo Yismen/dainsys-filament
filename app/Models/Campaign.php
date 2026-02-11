@@ -18,14 +18,18 @@ class Campaign extends \App\Models\BaseModels\AppModel
 
     protected $fillable = ['name', 'project_id', 'source_id', 'revenue_type', 'sph_goal', 'revenue_rate', 'description'];
 
-    protected $casts = [
-        // 'source' => CampaignSources::class,
-        'revenue_type' => RevenueTypes::class,
-    ];
-
-    public function scopeIsDowntime(Builder $builder)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function isDowntime(Builder $builder)
     {
         $builder->where('name', 'like', '%downtime%')
             ->orWhere('rate', '0');
+    }
+
+    protected function casts(): array
+    {
+        return [
+            // 'source' => CampaignSources::class,
+            'revenue_type' => RevenueTypes::class,
+        ];
     }
 }

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Mail;
 
-test('downtime model interacts with db table', function () {
+test('downtime model interacts with db table', function (): void {
     Mail::fake();
     $data = PayrollHour::factory()->make();
 
@@ -27,14 +27,14 @@ test('downtime model interacts with db table', function () {
     ]));
 });
 
-test('downtime model belongs to employee', function () {
+test('downtime model belongs to employee', function (): void {
     $downtime = PayrollHour::factory()->create();
 
     expect($downtime->employee)->toBeInstanceOf(\App\Models\Employee::class);
     expect($downtime->employee())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
 });
 
-it('casts date attribute to date object', function () {
+it('casts date attribute to date object', function (): void {
     $payrollHour = PayrollHour::factory()->create([
         'date' => '2025-08-15',
     ]);
@@ -43,7 +43,7 @@ it('casts date attribute to date object', function () {
     expect($payrollHour->date->toDateString())->toBe('2025-08-15');
 });
 
-it('casts payroll ending at attribute to date object', function () {
+it('casts payroll ending at attribute to date object', function (): void {
     $payrollHour = PayrollHour::factory()->create([
         'date' => '2025-08-15',
     ]);
@@ -52,7 +52,7 @@ it('casts payroll ending at attribute to date object', function () {
     expect($payrollHour->payroll_ending_at->toDateString())->toBe('2025-08-15');
 });
 
-it('casts week ending at attribute to date object', function () {
+it('casts week ending at attribute to date object', function (): void {
     $payrollHour = PayrollHour::factory()->create([
         'date' => '2025-12-17',
     ]);
@@ -62,7 +62,7 @@ it('casts week ending at attribute to date object', function () {
 });
 
 // it generate payroll id on update
-it('generates payroll id to format YYYY-MM-15 on update when date is before or equal to the 15', function () {
+it('generates payroll id to format YYYY-MM-15 on update when date is before or equal to the 15', function (): void {
     $payrollHour = PayrollHour::factory()->create([
         'payroll_ending_at' => null,
         'date' => Carbon::parse('2025-08-13'),
@@ -75,7 +75,7 @@ it('generates payroll id to format YYYY-MM-15 on update when date is before or e
     expect($payrollHour->payroll_ending_at->format('Y-m-d'))->toBe('2025-12-15');
 });
 
-it('generates payroll id to format YYYY-MM-EOM on update when date is after the 15', function () {
+it('generates payroll id to format YYYY-MM-EOM on update when date is after the 15', function (): void {
     $payrollHour = PayrollHour::factory()->create([
         'payroll_ending_at' => null,
         'date' => Date::parse('2025-08-18'),
@@ -88,7 +88,7 @@ it('generates payroll id to format YYYY-MM-EOM on update when date is after the 
     expect($payrollHour->payroll_ending_at->format('Y-m-d'))->toBe('2025-12-31');
 });
 
-it('calculates the week ending field based on date', function () {
+it('calculates the week ending field based on date', function (): void {
     $payrollHour = PayrollHour::factory()->create([
         'week_ending_at' => null,
         'date' => Date::parse('2025-12-11'),
@@ -101,7 +101,7 @@ it('calculates the week ending field based on date', function () {
     expect($payrollHour->week_ending_at->format('Y-m-d'))->toBe('2025-12-21');
 });
 
-it('parses is_sunday attribute correctly', function () {
+it('parses is_sunday attribute correctly', function (): void {
     $is_sunday = PayrollHour::factory()->create([
         'date' => Date::parse('2026-01-04'), // sunday
     ]);
@@ -116,7 +116,7 @@ it('parses is_sunday attribute correctly', function () {
         ->tobe(true);
 });
 
-it('parses is_holiday attribute correctly', function () {
+it('parses is_holiday attribute correctly', function (): void {
     Cache::flush();
 
     Holiday::factory()->create(['date' => '2026-01-04']);
@@ -134,7 +134,7 @@ it('parses is_holiday attribute correctly', function () {
         ->tobe(true);
 });
 
-it('parses holiday_hours correctly', function () {
+it('parses holiday_hours correctly', function (): void {
     Holiday::factory()->create(['date' => '2026-01-04']);
     $is_holiday = PayrollHour::factory()->create([
         'date' => Date::parse('2026-01-04'), // holiday
@@ -151,7 +151,7 @@ it('parses holiday_hours correctly', function () {
     ]);
 });
 
-it('parses non holiday_hours correctly', function () {
+it('parses non holiday_hours correctly', function (): void {
     Holiday::factory()->create(['date' => '2026-01-04']);
     $non_holiday = PayrollHour::factory()->create([
         'date' => Date::parse('2026-01-08'), // holiday

@@ -56,7 +56,7 @@ class SuspendEmployeeAction
                                 ->required()
                                 ->columnSpanFull(),
                         ]),
-                ])->action(function (Employee $record, $data) {
+                ])->action(function (Employee $record, $data): void {
                     $record->suspensions()->create($data);
 
                     Notification::make()

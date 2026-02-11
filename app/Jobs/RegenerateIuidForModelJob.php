@@ -24,10 +24,10 @@ class RegenerateIuidForModelJob implements ShouldQueue
      */
     public function handle(): void
     {
-        DB::transaction(function () {
+        DB::transaction(function (): void {
             DB::table($this->table)
                 ->lazyById(1000) // Fetches 1,000 at a time, but yields one-by-one
-                ->each(function (object $record) {
+                ->each(function (object $record): void {
                     // Perform your update
                     DB::table($this->table)
                         ->where('id', $record->id)

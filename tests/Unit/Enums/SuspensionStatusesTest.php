@@ -2,7 +2,7 @@
 
 use App\Enums\SuspensionStatuses;
 
-test('values method return specific values', function () {
+test('values method return specific values', function (): void {
     expect(SuspensionStatuses::values())->toEqual([
         'Pending',
         'Current',
@@ -10,7 +10,7 @@ test('values method return specific values', function () {
     ]);
 });
 
-test('all method return associative array', function () {
+test('all method return associative array', function (): void {
     expect(SuspensionStatuses::toArray())->toEqual([
         'Pending' => 'Pending',
         'Current' => 'Current',

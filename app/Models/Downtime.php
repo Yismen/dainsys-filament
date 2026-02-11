@@ -37,26 +37,21 @@ class Downtime extends \App\Models\BaseModels\AppModel
         'converted_to_payroll_at',
     ];
 
-    protected $casts = [
-        'date' => 'date:Y-m-d',
-        'status' => DowntimeStatuses::class,
-    ];
-
     protected static function booted()
     {
         parent::booted();
 
-        static::creating(function (Downtime $downtime) {
+        static::creating(function (Downtime $downtime): void {
             $downtime->requester_id = auth()->user()?->id;
         });
 
-        static::saving(function (Downtime $downtime) {
+        static::saving(function (Downtime $downtime): void {
             if ($downtime->campaign->revenue_type !== RevenueTypes::Downtime) {
                 throw new InvalidDowntimeCampaign;
             }
         });
 
-        static::saved(function (Downtime $downtime) {
+        static::saved(function (Downtime $downtime): void {
             $downtime->unique_id = implode('_', [
                 $downtime->date->format('Y-m-d'),
                 $downtime->campaign_id,
@@ -75,11 +70,11 @@ class Downtime extends \App\Models\BaseModels\AppModel
             }
         });
 
-        static::softDeleted(function (Downtime $downtime) {
+        static::softDeleted(function (Downtime $downtime): void {
             $downtime->unAprove();
         });
 
-        static::deleted(function (Downtime $downtime) {
+        static::deleted(function (Downtime $downtime): void {
             $downtime->unAprove();
         });
     }
@@ -96,7 +91,7 @@ class Downtime extends \App\Models\BaseModels\AppModel
 
     public function aprove()
     {
-        DB::transaction(function () {
+        DB::transaction(function (): void {
             $this->aprover_id = auth()->user()->id;
             $this->status = DowntimeStatuses::Approved;
 
@@ -134,5 +129,13 @@ class Downtime extends \App\Models\BaseModels\AppModel
             ->first()
             ?->forceDelete();
 
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'date' => 'date:Y-m-d',
+            'status' => DowntimeStatuses::class,
+        ];
     }
 }

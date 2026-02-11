@@ -27,7 +27,7 @@ class ManageMailables extends ManageRecords
                 ->icon(Heroicon::OutlinedCircleStack)
                 ->color(Color::Teal)
                 ->successNotificationTitle('Mailables Synced')
-                ->action(function () {
+                ->action(function (): void {
                     Artisan::call('dainsys:sync-mailables-table');
                 }),
         ];

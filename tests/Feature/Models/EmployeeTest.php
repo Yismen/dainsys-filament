@@ -30,7 +30,7 @@ use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 
-beforeEach(function () {
+beforeEach(function (): void {
     Mail::fake();
     Event::fake([
         EmployeeSuspendedEvent::class,
@@ -39,7 +39,7 @@ beforeEach(function () {
     ]);
 });
 
-test('employee model interacts with employees table', function () {
+test('employee model interacts with employees table', function (): void {
     $data = Employee::factory()->make();
 
     Employee::create($data->toArray());
@@ -65,7 +65,7 @@ test('employee model interacts with employees table', function () {
     ]));
 });
 
-test('employee model update full name when saved', function () {
+test('employee model update full name when saved', function (): void {
     $employee = Employee::factory()->create();
 
     $name = trim(
@@ -83,7 +83,7 @@ test('employee model update full name when saved', function () {
     ]);
 });
 
-it('has socialSecurity', function () {
+it('has socialSecurity', function (): void {
     $employee = Employee::factory()->createQuietly();
 
     SocialSecurity::factory()->for($employee)->createQuietly();
@@ -93,7 +93,7 @@ it('has socialSecurity', function () {
 
 });
 
-it('has many', function (string $modelClass, string $relationMethod) {
+it('has many', function (string $modelClass, string $relationMethod): void {
     $employee = Employee::factory()->createQuietly();
 
     $modelClass::factory()->for($employee)->createQuietly();
@@ -112,7 +112,7 @@ it('has many', function (string $modelClass, string $relationMethod) {
     [Payroll::class, 'payrolls'],
 ]);
 
-test('employees model has direct belongs to relationships', function (string $modelClass, string $relationMethod) {
+test('employees model has direct belongs to relationships', function (string $modelClass, string $relationMethod): void {
     $model = $modelClass::factory()->create();
     $employee = Employee::factory()->createQuietly();
 
@@ -128,7 +128,7 @@ test('employees model has direct belongs to relationships', function (string $mo
     [Supervisor::class, 'supervisor'],
 ]);
 
-test('creating a hire syncs employee current assignment fields', function () {
+test('creating a hire syncs employee current assignment fields', function (): void {
     $employee = Employee::factory()->create();
     $site = Site::factory()->create();
     $project = Project::factory()->create();
@@ -153,7 +153,7 @@ test('creating a hire syncs employee current assignment fields', function () {
     expect($employee->hired_at->timestamp)->toBe($hireDate->timestamp);
 });
 
-test('employees model thru social security belongs to ', function (string $modelClass, string $relationMethod) {
+test('employees model thru social security belongs to ', function (string $modelClass, string $relationMethod): void {
     $employee = Employee::factory()->createQuietly();
 
     SocialSecurity::factory()->for($employee)->for($modelClass::factory())->createQuietly();
@@ -166,27 +166,27 @@ test('employees model thru social security belongs to ', function (string $model
     // [Universal::class, 'universal'],
 ]);
 
-test('employees model belongs to citizenship', function () {
+test('employees model belongs to citizenship', function (): void {
     $employee = Employee::factory()->createQuietly();
 
     expect($employee->citizenship)->toBeInstanceOf(Citizenship::class);
     expect($employee->citizenship())->toBeInstanceOf(BelongsTo::class);
 });
 
-it('sets status as Created by default when employee is created', function () {
+it('sets status as Created by default when employee is created', function (): void {
     $employee = Employee::factory()->create();
 
     $this->assertEquals($employee->status, EmployeeStatuses::Created);
 });
 
-it('sets status to Hired when employee is hired', function () {
+it('sets status to Hired when employee is hired', function (): void {
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create();
 
     $this->assertEquals($employee->fresh()->status, EmployeeStatuses::Hired);
 });
 
-it('sets status to Suspended when employee is suspended', function () {
+it('sets status to Suspended when employee is suspended', function (): void {
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create(['date' => now()->subDays(10)]);
 
@@ -195,7 +195,7 @@ it('sets status to Suspended when employee is suspended', function () {
     $this->assertEquals($employee->fresh()->status, EmployeeStatuses::Suspended);
 });
 
-it('sets status as Terminated when employee is terminated', function () {
+it('sets status as Terminated when employee is terminated', function (): void {
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create(['date' => now()->subDays(10)]);
     Termination::factory()->for($employee)->create(['date' => now()]);

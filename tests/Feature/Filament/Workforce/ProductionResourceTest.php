@@ -15,7 +15,7 @@ use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 use function Pest\Livewire\livewire;
 
-beforeEach(function () {
+beforeEach(function (): void {
     Bus::fake();
 
     // Seed roles/permissions if applicable
@@ -59,7 +59,7 @@ beforeEach(function () {
     ];
 });
 
-it('require users to be authenticated to access Production resource pages', function (string $method) {
+it('require users to be authenticated to access Production resource pages', function (string $method): void {
     $response = get(route($this->resource_routes[$method]['route'],
         $this->resource_routes[$method]['params']));
 
@@ -71,7 +71,7 @@ it('require users to be authenticated to access Production resource pages', func
     // 'view',
 ]);
 
-it('require users to have correct permissions to access Production resource pages', function (string $method) {
+it('require users to have correct permissions to access Production resource pages', function (string $method): void {
     actingAs(User::factory()->create());
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -84,7 +84,7 @@ it('require users to have correct permissions to access Production resource page
     // 'view',
 ]);
 
-it('allows super admin users to access Production resource pages', function (string $method) {
+it('allows super admin users to access Production resource pages', function (string $method): void {
     actingAs($this->createSuperAdminUser());
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -98,7 +98,7 @@ it('allows super admin users to access Production resource pages', function (str
     // 'view',
 ]);
 
-it('allow users with correct permissions to access Production resource pages', function (string $method) {
+it('allow users with correct permissions to access Production resource pages', function (string $method): void {
     actingAs($this->createUserWithPermissionsToActions($this->resource_routes[$method]['permission'], 'Production'));
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -112,7 +112,7 @@ it('allow users with correct permissions to access Production resource pages', f
     // 'view',
 ]);
 
-it('displays Production list page correctly', function () {
+it('displays Production list page correctly', function (): void {
     Production::factory()->create();
     $productions = Production::get();
 
@@ -122,7 +122,7 @@ it('displays Production list page correctly', function () {
         ->assertCanSeeTableRecords($productions);
 });
 
-test('table shows desired fields', function ($field) {
+test('table shows desired fields', function ($field): void {
     $production = Production::factory()->create();
 
     actingAs($this->createUserWithPermissionTo('view-any Production'));
@@ -140,7 +140,7 @@ test('table shows desired fields', function ($field) {
     'talk_time',
 ]);
 
-test('edit Production page works correctly', function () {
+test('edit Production page works correctly', function (): void {
     $production = Production::factory()->create();
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Production'));
@@ -157,7 +157,7 @@ test('edit Production page works correctly', function () {
     $this->assertDatabaseHas('productions', array_merge(['id' => $production->id], $data));
 });
 
-test('form validation require fields on create and edit pages', function (string $field) {
+test('form validation require fields on create and edit pages', function (string $field): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Production'));
 
     // Test EditProduction validation

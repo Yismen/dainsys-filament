@@ -6,7 +6,7 @@ use App\Models\Holiday;
 use App\Models\PayrollHour;
 use Illuminate\Support\Carbon;
 
-it('moves all hours to holiday hours when date is a holiday', function () {
+it('moves all hours to holiday hours when date is a holiday', function (): void {
     $employee = Employee::factory()->create();
     $date = Carbon::parse('2026-01-15');
 
@@ -35,7 +35,7 @@ it('moves all hours to holiday hours when date is a holiday', function () {
     ]);
 });
 
-it('assigns seventh day hours when employee worked all seven days and the date is sunday', function () {
+it('assigns seventh day hours when employee worked all seven days and the date is sunday', function (): void {
     $employee = Employee::factory()->create();
     $sunday = Carbon::parse('2026-01-18');
     $monday = $sunday->clone()->startOfWeek();
@@ -74,7 +74,7 @@ it('assigns seventh day hours when employee worked all seven days and the date i
     ]);
 });
 
-it('moves weekly excess regular hours into overtime hours', function () {
+it('moves weekly excess regular hours into overtime hours', function (): void {
     $employee = Employee::factory()->create();
     $friday = Carbon::parse('2026-01-16');
     $monday = $friday->clone()->startOfWeek();

@@ -13,12 +13,12 @@ use Livewire\Livewire;
 
 use function Pest\Laravel\assertDatabaseHas;
 
-beforeEach(function () {
+beforeEach(function (): void {
     Mail::fake(); // Prevent email sending in tests
     $this->citizenship = Citizenship::factory()->create();
 });
 
-it('allows hired employee to log in with personal id and password', function () {
+it('allows hired employee to log in with personal id and password', function (): void {
     $employee = Employee::factory()->create([
         'personal_id' => '12345678901',
         'internal_id' => 'EMP001',
@@ -44,7 +44,7 @@ it('allows hired employee to log in with personal id and password', function () 
     expect(Livewire::test(Login::class)->get('showPasswordForm'))->toBeFalse();
 });
 
-it('allows suspended employee to log in', function () {
+it('allows suspended employee to log in', function (): void {
     $employee = Employee::factory()->create([
         'personal_id' => '12345678902',
         'internal_id' => 'EMP002',
@@ -68,7 +68,7 @@ it('allows suspended employee to log in', function () {
     // Should proceed since employee is suspended but still active
 });
 
-it('prevents terminated employee from logging in', function () {
+it('prevents terminated employee from logging in', function (): void {
     $employee = Employee::factory()->create([
         'personal_id' => '12345678903',
         'internal_id' => 'EMP003',
@@ -97,7 +97,7 @@ it('prevents terminated employee from logging in', function () {
         ->assertHasErrors(['data.personalId']);
 });
 
-it('creates user account on first login when password is set', function () {
+it('creates user account on first login when password is set', function (): void {
     $employee = Employee::factory()->create([
         'personal_id' => '12345678904',
         'internal_id' => 'EMP004',
@@ -145,7 +145,7 @@ it('creates user account on first login when password is set', function () {
     expect($user->is_active)->toBeTrue();
 });
 
-it('authenticates existing user with correct password', function () {
+it('authenticates existing user with correct password', function (): void {
     $employee = Employee::factory()->create([
         'personal_id' => '12345678905',
         'internal_id' => 'EMP005',
@@ -174,7 +174,7 @@ it('authenticates existing user with correct password', function () {
         ->assertHasNoErrors();
 });
 
-it('rejects invalid credentials', function () {
+it('rejects invalid credentials', function (): void {
     Livewire::test(Login::class)
         ->fillForm([
             'personalId' => '99999999999',
@@ -183,7 +183,7 @@ it('rejects invalid credentials', function () {
         ->assertHasErrors(['data.personalId']);
 });
 
-it('prevents employee panel access for users without employee_id', function () {
+it('prevents employee panel access for users without employee_id', function (): void {
     $user = User::factory()->create([
         'employee_id' => null,
     ]);
@@ -195,7 +195,7 @@ it('prevents employee panel access for users without employee_id', function () {
     expect($user->canAccessPanel($panel))->toBeFalse();
 });
 
-it('allows employee panel access for hired employees', function () {
+it('allows employee panel access for hired employees', function (): void {
     $employee = Employee::factory()->create([
         'citizenship_id' => $this->citizenship->id,
     ]);

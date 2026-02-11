@@ -13,9 +13,9 @@ class ActivesStartService extends BaseAttritionService
             // ->where('hired_at', '<', $this->date_from)
             // ->filter(request()->all())
             // ->forDefaultSites()
-            ->where(function ($query) {
+            ->where(function ($query): void {
                 $query->notInactive()
-                    ->orWhereHas('terminations', function ($query) {
+                    ->orWhereHas('terminations', function ($query): void {
                         $query->where('date', '>', $this->date_from);
                     });
             });

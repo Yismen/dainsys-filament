@@ -47,7 +47,7 @@ class UpdateEmployeeSuspensions extends Command
         $SuspendedEmployeesToActivateCount = $SuspendedEmployeesToActivate->count();
 
         if ($employeesTosuspendCount) {
-            $employeesTosuspend->each(function (Employee $employee) {
+            $employeesTosuspend->each(function (Employee $employee): void {
                 $employee->suspensions->each->touch();
                 $employee->touch();
             });
@@ -55,7 +55,7 @@ class UpdateEmployeeSuspensions extends Command
         }
 
         if ($SuspendedEmployeesToActivateCount) {
-            $SuspendedEmployeesToActivate->each(function (Employee $employee) {
+            $SuspendedEmployeesToActivate->each(function (Employee $employee): void {
                 $employee->suspensions->each->touch();
                 $employee->touch();
             });

@@ -32,23 +32,19 @@ class Hire extends \App\Models\BaseModels\AppModel
         'supervisor_id',
     ];
 
-    protected $casts = [
-        'date' => 'datetime',
-    ];
-
     protected $dispatchesEvents = [
         'created' => EmployeeHiredEvent::class,
     ];
 
     protected static function booted()
     {
-        static::creating(function (Hire $hire) {
+        static::creating(function (Hire $hire): void {
             if ($hire->employee->canBeHired() === false) {
                 throw new \App\Exceptions\EmployeeCantBeHired;
             }
         });
 
-        static::created(function (Hire $hire) {
+        static::created(function (Hire $hire): void {
             // Update employee's current assignment fields to match this new hire
             $employee = $hire->employee;
 
@@ -62,8 +58,15 @@ class Hire extends \App\Models\BaseModels\AppModel
             $employee->save();
         });
 
-        static::saved(function (Hire $hire) {
+        static::saved(function (Hire $hire): void {
             $hire->employee->touch();
         });
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'date' => 'datetime',
+        ];
     }
 }

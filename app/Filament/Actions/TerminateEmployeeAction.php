@@ -45,7 +45,7 @@ class TerminateEmployeeAction
                                 ->minLength(5),
                         ]),
 
-                ])->action(function (Employee $record, $data) {
+                ])->action(function (Employee $record, $data): void {
                     $record->terminations()->create($data);
 
                     Notification::make()

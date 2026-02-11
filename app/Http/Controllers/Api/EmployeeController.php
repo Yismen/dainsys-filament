@@ -2,23 +2,21 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
+use App\Http\Resources\EmployeeResource;
 use App\Models\Employee;
+use Dedoc\Scramble\Attributes\QueryParameter;
 use Illuminate\Http\Request;
 use Illuminate\Pipeline\Pipeline;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
-use App\Http\Resources\EmployeeResource;
-use App\Http\Requests\EmployeeApiRequest;
-use Dedoc\Scramble\Attributes\QueryParameter;
 
 class EmployeeController extends Controller
 {
-
-    #[QueryParameter( 'status', description: 'Status of the employee to filter')]
-    #[QueryParameter( 'site', description: 'ID or Name of the site to filter employees')]
-    #[QueryParameter( 'project', description: 'ID or Name of the project to filter employees')]
-    #[QueryParameter( 'position', description: 'ID or Name of the position to filter employees')]
-    #[QueryParameter( 'supervisor', description: 'ID or Name of the supervisor to filter employees')]
+    #[QueryParameter('status', description: 'Status of the employee to filter')]
+    #[QueryParameter('site', description: 'ID or Name of the site to filter employees')]
+    #[QueryParameter('project', description: 'ID or Name of the project to filter employees')]
+    #[QueryParameter('position', description: 'ID or Name of the position to filter employees')]
+    #[QueryParameter('supervisor', description: 'ID or Name of the supervisor to filter employees')]
     public function __invoke(Request $request)
     {
         $query_filters = $request->uri()->query()->all();

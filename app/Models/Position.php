@@ -27,7 +27,7 @@ class Position extends \App\Models\BaseModels\AppModel
     {
         parent::boot();
 
-        static::saved(function (Position $position) {
+        static::saved(function (Position $position): void {
             $position->details = implode(', ', [
                 $position->name,
                 $position->department->name,

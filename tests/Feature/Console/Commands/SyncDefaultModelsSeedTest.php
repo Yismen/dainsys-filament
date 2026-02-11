@@ -4,7 +4,7 @@ use App\Console\Commands\SyncDefaultModelsSeed;
 use App\Jobs\SyncDefaultModelsJob;
 use Illuminate\Support\Facades\Queue;
 
-it('runs without error the job is not pushed to the queue', function () {
+it('runs without error the job is not pushed to the queue', function (): void {
     Queue::fake([
         SyncDefaultModelsJob::class,
     ]);
@@ -18,7 +18,7 @@ it('runs without error the job is not pushed to the queue', function () {
     $command->assertExitCode(0);
 });
 
-it('does not duplicate values', function () {
+it('does not duplicate values', function (): void {
     Queue::fake([
         SyncDefaultModelsJob::class,
     ]);
@@ -29,7 +29,7 @@ it('does not duplicate values', function () {
     $command->assertExitCode(0);
 });
 
-it('sync default models seeds', function () {
+it('sync default models seeds', function (): void {
     $defaultModels = [
         \App\Models\Site::class => [
             [

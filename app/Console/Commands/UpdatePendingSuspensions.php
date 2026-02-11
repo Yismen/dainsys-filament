@@ -42,10 +42,10 @@ class UpdatePendingSuspensions extends Command
     {
         $suspensions = Suspension::query()
             ->with('employee')
-            ->whereHas('employee', function ($employeeQuery) {
+            ->whereHas('employee', function ($employeeQuery): void {
                 $employeeQuery->where('status', '<>', EmployeeStatuses::Terminated);
             })
-            ->where(function ($query) {
+            ->where(function ($query): void {
                 $query->where('status', SuspensionStatuses::Current)
                     ->orWhere('status', SuspensionStatuses::Pending);
             })

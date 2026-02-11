@@ -12,7 +12,7 @@ use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 use function Pest\Livewire\livewire;
 
-beforeEach(function () {
+beforeEach(function (): void {
     // Seed roles/permissions if applicable
     Filament::setCurrentPanel(
         Filament::getPanel('workforce'), // Where `app` is the ID of the panel you want to test.
@@ -49,7 +49,7 @@ beforeEach(function () {
     ];
 });
 
-it('require users to be authenticated to access DowntimeReason resource pages', function (string $method) {
+it('require users to be authenticated to access DowntimeReason resource pages', function (string $method): void {
     $response = get(route($this->resource_routes[$method]['route'],
         $this->resource_routes[$method]['params']));
 
@@ -61,7 +61,7 @@ it('require users to be authenticated to access DowntimeReason resource pages', 
     // 'view',
 ]);
 
-it('require users to have correct permissions to access DowntimeReason resource pages', function (string $method) {
+it('require users to have correct permissions to access DowntimeReason resource pages', function (string $method): void {
     actingAs(User::factory()->create());
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -74,7 +74,7 @@ it('require users to have correct permissions to access DowntimeReason resource 
     // 'view',
 ]);
 
-it('allows super admin users to access DowntimeReason resource pages', function (string $method) {
+it('allows super admin users to access DowntimeReason resource pages', function (string $method): void {
     actingAs($this->createSuperAdminUser());
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -88,7 +88,7 @@ it('allows super admin users to access DowntimeReason resource pages', function 
     // 'view',
 ]);
 
-it('allow users with correct permissions to access DowntimeReason resource pages', function (string $method) {
+it('allow users with correct permissions to access DowntimeReason resource pages', function (string $method): void {
     actingAs($this->createUserWithPermissionsToActions($this->resource_routes[$method]['permission'], 'DowntimeReason'));
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -102,7 +102,7 @@ it('allow users with correct permissions to access DowntimeReason resource pages
     // 'view',
 ]);
 
-it('displays DowntimeReason list page correctly', function () {
+it('displays DowntimeReason list page correctly', function (): void {
     DowntimeReason::factory()->create();
     $downtime_reasons = DowntimeReason::get();
 
@@ -112,7 +112,7 @@ it('displays DowntimeReason list page correctly', function () {
         ->assertCanSeeTableRecords($downtime_reasons);
 });
 
-test('table shows desired fields', function ($field) {
+test('table shows desired fields', function ($field): void {
     $downtime_reason = DowntimeReason::factory()->create();
 
     actingAs($this->createUserWithPermissionTo('view-any DowntimeReason'));
@@ -125,7 +125,7 @@ test('table shows desired fields', function ($field) {
     'description',
 ]);
 
-test('create DowntimeReason page works correctly', function () {
+test('create DowntimeReason page works correctly', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'DowntimeReason'));
 
     livewire(CreateDowntimeReason::class)
@@ -135,7 +135,7 @@ test('create DowntimeReason page works correctly', function () {
     $this->assertDatabaseHas('downtime_reasons', $this->form_data);
 });
 
-test('edit DowntimeReason page works correctly', function () {
+test('edit DowntimeReason page works correctly', function (): void {
     $downtime_reason = DowntimeReason::factory()->create();
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'DowntimeReason'));
@@ -148,7 +148,7 @@ test('edit DowntimeReason page works correctly', function () {
     $this->assertDatabaseHas('downtime_reasons', array_merge(['id' => $downtime_reason->id], $this->form_data));
 });
 
-test('form validation require fields on create and edit pages', function (string $field) {
+test('form validation require fields on create and edit pages', function (string $field): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'DowntimeReason'));
 
     // Test CreateDowntimeReason validation
@@ -166,7 +166,7 @@ test('form validation require fields on create and edit pages', function (string
     'name',
 ]);
 
-test('DowntimeReason fields must be unique on create and edit pages', function (string $field) {
+test('DowntimeReason fields must be unique on create and edit pages', function (string $field): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'DowntimeReason'));
 
     $existingDowntimeReason = DowntimeReason::factory()->create(['name' => 'Unique DowntimeReason']);
@@ -190,7 +190,7 @@ test('DowntimeReason fields must be unique on create and edit pages', function (
     'name',
 ]);
 
-it('allows updating DowntimeReason without changing field to trigger uniqueness validation', function (string $field) {
+it('allows updating DowntimeReason without changing field to trigger uniqueness validation', function (string $field): void {
     $downtime_reason = DowntimeReason::factory()->create([$field => 'Existing DowntimeReason']);
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'DowntimeReason'));
@@ -210,7 +210,7 @@ it('allows updating DowntimeReason without changing field to trigger uniqueness 
     'name',
 ]);
 
-it('autofocus the employee_id field on create and edit pages', function () {
+it('autofocus the employee_id field on create and edit pages', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'DowntimeReason'));
 
     // Test CreateDowntimeReason autofocus

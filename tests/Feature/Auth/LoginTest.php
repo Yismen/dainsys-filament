@@ -4,13 +4,13 @@ use App\Livewire\Auth\Login;
 use App\Models\User;
 use Livewire\Livewire;
 
-it('renders the login page', function () {
+it('renders the login page', function (): void {
     $this->get(route('login'))
         ->assertOk()
         ->assertSeeLivewire(Login::class);
 });
 
-it('authenticates users with valid credentials', function () {
+it('authenticates users with valid credentials', function (): void {
     $user = User::factory()->create();
 
     Livewire::test(Login::class)
@@ -22,7 +22,7 @@ it('authenticates users with valid credentials', function () {
     $this->assertAuthenticatedAs($user);
 });
 
-it('rejects invalid credentials', function () {
+it('rejects invalid credentials', function (): void {
     $user = User::factory()->create();
 
     Livewire::test(Login::class)
@@ -34,7 +34,7 @@ it('rejects invalid credentials', function () {
     $this->assertGuest();
 });
 
-it('logs out authenticated users', function () {
+it('logs out authenticated users', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user)

@@ -19,7 +19,7 @@ use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 use function Pest\Livewire\livewire;
 
-beforeEach(function () {
+beforeEach(function (): void {
     // Seed roles/permissions if applicable
     Filament::setCurrentPanel(
         Filament::getPanel('human-resource'), // Where `app` is the ID of the panel you want to test.
@@ -67,7 +67,7 @@ beforeEach(function () {
     ];
 });
 
-it('require users to be authenticated to access Hire resource pages', function (string $method) {
+it('require users to be authenticated to access Hire resource pages', function (string $method): void {
     $response = get(route($this->resource_routes[$method]['route'],
         $this->resource_routes[$method]['params']));
 
@@ -79,7 +79,7 @@ it('require users to be authenticated to access Hire resource pages', function (
     'view',
 ]);
 
-it('require users to have correct permissions to access Hire resource pages', function (string $method) {
+it('require users to have correct permissions to access Hire resource pages', function (string $method): void {
     actingAs(User::factory()->create());
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -92,7 +92,7 @@ it('require users to have correct permissions to access Hire resource pages', fu
     'view',
 ]);
 
-it('allows super admin users to access Hire resource pages', function (string $method) {
+it('allows super admin users to access Hire resource pages', function (string $method): void {
     actingAs($this->createSuperAdminUser());
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -106,7 +106,7 @@ it('allows super admin users to access Hire resource pages', function (string $m
     'view',
 ]);
 
-it('allow users with correct permissions to access Hire resource pages', function (string $method) {
+it('allow users with correct permissions to access Hire resource pages', function (string $method): void {
     actingAs($this->createUserWithPermissionsToActions($this->resource_routes[$method]['permission'], 'Hire'));
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -120,7 +120,7 @@ it('allow users with correct permissions to access Hire resource pages', functio
     'view',
 ]);
 
-it('displays Hire list page correctly', function () {
+it('displays Hire list page correctly', function (): void {
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create();
     $hires = Hire::get();
@@ -131,7 +131,7 @@ it('displays Hire list page correctly', function () {
         ->assertCanSeeTableRecords($hires);
 });
 
-test('create Hire page works correctly', function () {
+test('create Hire page works correctly', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Hire'));
 
     livewire(CreateHire::class)
@@ -141,7 +141,7 @@ test('create Hire page works correctly', function () {
     $this->assertDatabaseHas('hires', $this->form_data);
 });
 
-test('edit Hire page works correctly', function () {
+test('edit Hire page works correctly', function (): void {
     $employee = Employee::factory()->create();
     $hire = Hire::factory()->for($employee)->create();
 
@@ -155,7 +155,7 @@ test('edit Hire page works correctly', function () {
     $this->assertDatabaseHas('hires', array_merge(['id' => $hire->id], $this->form_data));
 });
 
-test('form validation require fields on create and edit pages', function (string $field) {
+test('form validation require fields on create and edit pages', function (string $field): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Hire'));
 
     // Test CreateHire validation

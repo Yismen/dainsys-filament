@@ -8,37 +8,37 @@ use App\Filament\Admin\Widgets\PermissionsOverviewWidget;
 use App\Filament\Admin\Widgets\RecentUsersWidget;
 use App\Filament\Admin\Widgets\SchedulerStatusWidget;
 
-test('admin overview stats widget can be instantiated', function () {
+test('admin overview stats widget can be instantiated', function (): void {
     $widget = new AdminOverviewStats;
     expect($widget)->toBeInstanceOf(AdminOverviewStats::class);
 });
 
-test('failed jobs stats widget can be instantiated', function () {
+test('failed jobs stats widget can be instantiated', function (): void {
     $widget = new FailedJobsStatsWidget;
     expect($widget)->toBeInstanceOf(FailedJobsStatsWidget::class);
 });
 
-test('permissions overview widget can be instantiated', function () {
+test('permissions overview widget can be instantiated', function (): void {
     $widget = new PermissionsOverviewWidget;
     expect($widget)->toBeInstanceOf(PermissionsOverviewWidget::class);
 });
 
-test('mail queue widget can be instantiated', function () {
+test('mail queue widget can be instantiated', function (): void {
     $widget = new MailQueueWidget;
     expect($widget)->toBeInstanceOf(MailQueueWidget::class);
 });
 
-test('scheduler status widget can be instantiated', function () {
+test('scheduler status widget can be instantiated', function (): void {
     $widget = new SchedulerStatusWidget;
     expect($widget)->toBeInstanceOf(SchedulerStatusWidget::class);
 });
 
-test('recent users widget can be instantiated', function () {
+test('recent users widget can be instantiated', function (): void {
     $widget = new RecentUsersWidget;
     expect($widget)->toBeInstanceOf(RecentUsersWidget::class);
 });
 
-test('activity log widget can be instantiated', function () {
+test('activity log widget can be instantiated', function (): void {
     $widget = new ActivityLogWidget;
     expect($widget)->toBeInstanceOf(ActivityLogWidget::class);
 });

@@ -34,10 +34,10 @@
                     <div class="flex items-center space-x-1 sm:space-x-2">
                         @auth
                             <a href="{{ url($authUrl) }}" class="px-4 py-2 text-sm font-medium text-slate-700 hover:text-blue-600 transition-colors duration-200">Dashboard</a>
-                            <form method="POST" action="{{ route('logout') }}" class="inline ">
+                            {{-- <form method="POST" action="{{ route('logout') }}" class="inline ">
                                 @csrf
                                 <button type="submit" class="px-4 py-2 text-sm font-medium text-slate-700 hover:text-red-600 transition-colors duration-200 cursor-pointer" >Logout</button>
-                            </form>
+                            </form> --}}
                         @else
                             <a href="{{ route('login') }}" class="px-4 py-2 text-sm font-medium text-slate-700 hover:text-blue-600 transition-colors duration-200">Login</a>
                         @endauth

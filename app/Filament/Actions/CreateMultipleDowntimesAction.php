@@ -54,7 +54,7 @@ class CreateMultipleDowntimesAction
                             ->columnSpanFull()
                             ->options(ModelListService::make(
                                 model: Employee::query()
-                                    ->whereHas('supervisor', function ($query) {
+                                    ->whereHas('supervisor', function ($query): void {
                                         $query->where('id', auth()->user()->supervisor?->id);
                                     }),
                                 value_field: 'full_name'
@@ -62,7 +62,7 @@ class CreateMultipleDowntimesAction
                             ->required(),
                     ]),
             ])
-            ->action(function (array $data) {
+            ->action(function (array $data): void {
                 $newData = [
                     'date' => $data['date'],
                     'campaign_id' => $data['campaign_id'],

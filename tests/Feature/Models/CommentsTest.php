@@ -5,12 +5,12 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 
-beforeEach(function () {
+beforeEach(function (): void {
     Mail::fake();
     Event::fake();
 });
 
-test('comment model interacts with db table', function () {
+test('comment model interacts with db table', function (): void {
     $data = Comment::factory()->create();
 
     $this->assertDatabaseHas('comments', $data->only([
@@ -18,7 +18,7 @@ test('comment model interacts with db table', function () {
     ]));
 });
 
-test('models are commentable', function (string $modelClass) {
+test('models are commentable', function (string $modelClass): void {
     $model = $modelClass::factory()->create();
 
     Comment::factory()->create([

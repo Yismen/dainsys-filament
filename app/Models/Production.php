@@ -36,24 +36,18 @@ class Production extends \App\Models\BaseModels\AppModel
         // 'revenue',
     ];
 
-    protected $casts = [
-        'revenue_type' => RevenueTypes::class,
-        'revenue' => AsMoney::class,
-        'date' => 'date:Y-m-d',
-    ];
-
     protected static function boot(): void
     {
         parent::boot();
 
-        static::created(function (self $production) {
+        static::created(function (self $production): void {
             $production->load('campaign', 'employee');
 
             $production->updateQuietly([
             ]);
         });
 
-        static::saved(function (self $production) {
+        static::saved(function (self $production): void {
             $production->load('campaign', 'employee');
             $changed_keys = \array_keys($production->getChanges());
 
@@ -87,7 +81,7 @@ class Production extends \App\Models\BaseModels\AppModel
             );
         });
 
-        static::deleting(function (self $production) {
+        static::deleting(function (self $production): void {
             // Refresh payroll hours for this employee/date when soft deleted
             RefreshPayrollHoursJob::dispatch(
                 date: $production->date->toDateString(),
@@ -95,7 +89,7 @@ class Production extends \App\Models\BaseModels\AppModel
             );
         });
 
-        static::restored(function (self $production) {
+        static::restored(function (self $production): void {
             // Refresh payroll hours for this employee/date when restored
             RefreshPayrollHoursJob::dispatch(
                 date: $production->date->toDateString(),
@@ -144,5 +138,14 @@ class Production extends \App\Models\BaseModels\AppModel
             RevenueTypes::TalkTime => $this->talk_time * $this->campaign->revenue_rate,
             RevenueTypes::Conversions => $this->conversions * $this->campaign->revenue_rate,
         };
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'revenue_type' => RevenueTypes::class,
+            'revenue' => AsMoney::class,
+            'date' => 'date:Y-m-d',
+        ];
     }
 }

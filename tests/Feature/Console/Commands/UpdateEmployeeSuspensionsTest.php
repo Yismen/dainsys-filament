@@ -11,7 +11,7 @@ use App\Models\Suspension;
 use App\Models\Termination;
 use Illuminate\Support\Facades\Event;
 
-beforeEach(function () {
+beforeEach(function (): void {
     Event::fake([
         EmployeeHiredEvent::class,
         EmployeeSuspendedEvent::class,
@@ -19,12 +19,12 @@ beforeEach(function () {
     ]);
 });
 
-test('install command creates site', function () {
+test('install command creates site', function (): void {
     $this->artisan('dainsys:update-employee-suspensions')
         ->assertSuccessful();
 });
 
-test('command is schedulled for daily at 300 am', function () {
+test('command is schedulled for daily at 300 am', function (): void {
     $addedToScheduler = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
         ->filter(function ($element) {
             return str($element->command)->contains('dainsys:update-employee-suspensions');
@@ -34,7 +34,7 @@ test('command is schedulled for daily at 300 am', function () {
     expect($addedToScheduler->expression)->toEqual('0 3 * * *');
 });
 
-test('current employees are suspended', function () {
+test('current employees are suspended', function (): void {
     $current = Employee::factory()
         ->hasHires()
         ->create();
@@ -52,7 +52,7 @@ test('current employees are suspended', function () {
     ]);
 });
 
-test('inactive employees are not suspended', function () {
+test('inactive employees are not suspended', function (): void {
     $current = Employee::factory()
         ->hasHires()
         ->create();
@@ -67,7 +67,7 @@ test('inactive employees are not suspended', function () {
     ]);
 });
 
-test('employee is not suspended if starts at is after now', function () {
+test('employee is not suspended if starts at is after now', function (): void {
     $current = Employee::factory()
         ->create();
     Hire::factory()->for($current)->create(['date' => now()->subDays(10)]);
@@ -86,7 +86,7 @@ test('employee is not suspended if starts at is after now', function () {
     ]);
 });
 
-test('employee is not suspended if ends at is before now', function () {
+test('employee is not suspended if ends at is before now', function (): void {
     $current = Employee::factory()->create();
     Hire::factory()->for($current)->create(['date' => now()->subDays(5)]);
     Suspension::factory()->create([
@@ -103,7 +103,7 @@ test('employee is not suspended if ends at is before now', function () {
     ]);
 });
 
-test('suspended employees are activated if today is prior to starts at', function () {
+test('suspended employees are activated if today is prior to starts at', function (): void {
     $current = Employee::factory()->create();
     Hire::factory()->for($current)->create();
     Suspension::factory()->create([
@@ -127,7 +127,7 @@ test('suspended employees are activated if today is prior to starts at', functio
     ]);
 });
 
-test('suspended employees are activated if today is after ends at', function () {
+test('suspended employees are activated if today is after ends at', function (): void {
     $current = Employee::factory()->create();
     Hire::factory()->for($current)->create();
     Suspension::factory()->create([

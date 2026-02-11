@@ -10,11 +10,11 @@ trait InteractsWithModelCaching
     {
         parent::booted();
 
-        static::saved(function ($model) {
+        static::saved(function ($model): void {
             Cache::flush();
         });
 
-        static::deleted(function ($model) {
+        static::deleted(function ($model): void {
             Cache::flush();
         });
     }

@@ -3,7 +3,7 @@
 use App\Models\Afp;
 use App\Models\Employee;
 
-test('afps model interacts with db table', function () {
+test('afps model interacts with db table', function (): void {
     $data = Afp::factory()->make();
 
     Afp::create($data->toArray());
@@ -13,7 +13,7 @@ test('afps model interacts with db table', function () {
     ]));
 });
 
-test('afps model has many social securities', function () {
+test('afps model has many social securities', function (): void {
     $afp = Afp::factory()
         ->hasSocialSecurities(1)
         ->create();
@@ -22,7 +22,7 @@ test('afps model has many social securities', function () {
     expect($afp->socialSecurities())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
 });
 
-test('afps model has many employees', function () {
+test('afps model has many employees', function (): void {
     $employee = Employee::factory()->create();
     $afp = Afp::factory()
         ->hasSocialSecurities(1, [

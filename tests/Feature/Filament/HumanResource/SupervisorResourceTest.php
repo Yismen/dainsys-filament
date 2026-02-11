@@ -12,7 +12,7 @@ use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 use function Pest\Livewire\livewire;
 
-beforeEach(function () {
+beforeEach(function (): void {
     // Seed roles/permissions if applicable
     Filament::setCurrentPanel(
         Filament::getPanel('human-resource'), // Where `app` is the ID of the panel you want to test.
@@ -48,7 +48,7 @@ beforeEach(function () {
     ];
 });
 
-it('require users to be authenticated to access Supervisor resource pages', function (string $method) {
+it('require users to be authenticated to access Supervisor resource pages', function (string $method): void {
     $response = get(route($this->resource_routes[$method]['route'],
         $this->resource_routes[$method]['params']));
 
@@ -60,7 +60,7 @@ it('require users to be authenticated to access Supervisor resource pages', func
     'view',
 ]);
 
-it('require users to have correct permissions to access Supervisor resource pages', function (string $method) {
+it('require users to have correct permissions to access Supervisor resource pages', function (string $method): void {
     actingAs(User::factory()->create());
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -73,7 +73,7 @@ it('require users to have correct permissions to access Supervisor resource page
     'view',
 ]);
 
-it('allows super admin users to access Supervisor resource pages', function (string $method) {
+it('allows super admin users to access Supervisor resource pages', function (string $method): void {
     actingAs($this->createSuperAdminUser());
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -87,7 +87,7 @@ it('allows super admin users to access Supervisor resource pages', function (str
     'view',
 ]);
 
-it('allow users with correct permissions to access Supervisor resource pages', function (string $method) {
+it('allow users with correct permissions to access Supervisor resource pages', function (string $method): void {
     actingAs($this->createUserWithPermissionsToActions($this->resource_routes[$method]['permission'], 'Supervisor'));
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -101,7 +101,7 @@ it('allow users with correct permissions to access Supervisor resource pages', f
     'view',
 ]);
 
-it('displays Supervisor list page correctly', function () {
+it('displays Supervisor list page correctly', function (): void {
     $supervisors = Supervisor::factory()->count(5)->create();
 
     actingAs($this->createUserWithPermissionTo('view-any Supervisor'));
@@ -110,7 +110,7 @@ it('displays Supervisor list page correctly', function () {
         ->assertCanSeeTableRecords($supervisors);
 });
 
-test('create Supervisor page works correctly', function () {
+test('create Supervisor page works correctly', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Supervisor'));
 
     livewire(CreateSupervisor::class)
@@ -123,7 +123,7 @@ test('create Supervisor page works correctly', function () {
     ]);
 });
 
-test('edit Supervisor page works correctly', function () {
+test('edit Supervisor page works correctly', function (): void {
     $supervisor = Supervisor::factory()->create();
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Supervisor'));
@@ -144,7 +144,7 @@ test('edit Supervisor page works correctly', function () {
     ]);
 });
 
-test('form validation require fields on create and edit pages', function () {
+test('form validation require fields on create and edit pages', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Supervisor'));
 
     // Test CreateSupervisor validation
@@ -172,7 +172,7 @@ test('form validation require fields on create and edit pages', function () {
         ]);
 });
 
-test('Supervisor name must be unique on create and edit pages', function () {
+test('Supervisor name must be unique on create and edit pages', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Supervisor'));
 
     $existingSupervisor = Supervisor::factory()->create(['name' => 'Unique Supervisor']);
@@ -196,7 +196,7 @@ test('Supervisor name must be unique on create and edit pages', function () {
         ->assertHasFormErrors(['name' => 'unique']);
 });
 
-test('Supervisor user must be unique on create', function () {
+test('Supervisor user must be unique on create', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Supervisor'));
 
     $user = User::factory()->create();
@@ -215,7 +215,7 @@ test('Supervisor user must be unique on create', function () {
         ]);
 });
 
-it('allows updating Supervisor without changing name to trigger uniqueness validation', function () {
+it('allows updating Supervisor without changing name to trigger uniqueness validation', function (): void {
     $supervisor = Supervisor::factory()->create(['name' => 'Existing Supervisor']);
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Supervisor'));
@@ -235,7 +235,7 @@ it('allows updating Supervisor without changing name to trigger uniqueness valid
     ]);
 });
 
-it('autofocus the name field on create and edit pages', function () {
+it('autofocus the name field on create and edit pages', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Supervisor'));
 
     // Test CreateSupervisor autofocus

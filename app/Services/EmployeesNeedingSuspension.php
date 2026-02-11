@@ -12,8 +12,8 @@ class EmployeesNeedingSuspension implements ServicesContract
         return Employee::query()
             ->where('status', EmployeeStatuses::Hired)
             ->with('suspensions')
-            ->where(function ($query) {
-                $query->whereHas('suspensions', function ($suspensionsQuery) {
+            ->where(function ($query): void {
+                $query->whereHas('suspensions', function ($suspensionsQuery): void {
                     $suspensionsQuery->active();
                 });
             })

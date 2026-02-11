@@ -7,7 +7,7 @@ use App\Models\Supervisor;
 use App\Models\User;
 use Livewire\Livewire;
 
-test('supervisor can view nightly hours for their employees', function () {
+test('supervisor can view nightly hours for their employees', function (): void {
     $supervisor = Supervisor::factory()->create();
     $supervisorUser = User::factory()->for($supervisor)->create();
 
@@ -27,7 +27,7 @@ test('supervisor can view nightly hours for their employees', function () {
         ->assertCanSeeTableRecords(NightlyHour::all());
 });
 
-test('supervisor cannot see terminated employees nightly hours', function () {
+test('supervisor cannot see terminated employees nightly hours', function (): void {
     $supervisor = Supervisor::factory()->create();
     $supervisorUser = User::factory()->for($supervisor)->create();
 
@@ -57,7 +57,7 @@ test('supervisor cannot see terminated employees nightly hours', function () {
         ->assertCanNotSeeTableRecords($terminatedHours);
 });
 
-test('supervisor can filter nightly hours by date range', function () {
+test('supervisor can filter nightly hours by date range', function (): void {
     $supervisor = Supervisor::factory()->create();
     $supervisorUser = User::factory()->for($supervisor)->create();
 
@@ -86,7 +86,7 @@ test('supervisor can filter nightly hours by date range', function () {
         ->assertCanNotSeeTableRecords([$oldHours]);
 });
 
-test('supervisor can filter nightly hours by employee', function () {
+test('supervisor can filter nightly hours by employee', function (): void {
     $supervisor = Supervisor::factory()->create();
     $supervisorUser = User::factory()->for($supervisor)->create();
 
@@ -110,7 +110,7 @@ test('supervisor can filter nightly hours by employee', function () {
         ->assertCanNotSeeTableRecords([$hours2]);
 });
 
-test('nightly hours table displays correct columns', function () {
+test('nightly hours table displays correct columns', function (): void {
     $supervisor = Supervisor::factory()->create();
     $supervisorUser = User::factory()->for($supervisor)->create();
 

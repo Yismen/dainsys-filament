@@ -7,7 +7,7 @@ use App\Models\Supervisor;
 use App\Models\User;
 use Livewire\Livewire;
 
-test('supervisor can view payroll hours for their employees', function () {
+test('supervisor can view payroll hours for their employees', function (): void {
     $supervisor = Supervisor::factory()->create();
     $supervisorUser = User::factory()->for($supervisor)->create();
 
@@ -27,7 +27,7 @@ test('supervisor can view payroll hours for their employees', function () {
         ->assertCanSeeTableRecords(PayrollHour::all());
 });
 
-test('supervisor cannot see terminated employees payroll hours', function () {
+test('supervisor cannot see terminated employees payroll hours', function (): void {
     $supervisor = Supervisor::factory()->create();
     $supervisorUser = User::factory()->for($supervisor)->create();
 
@@ -57,7 +57,7 @@ test('supervisor cannot see terminated employees payroll hours', function () {
         ->assertCanNotSeeTableRecords($terminatedHours);
 });
 
-test('supervisor cannot see other supervisors employees payroll hours', function () {
+test('supervisor cannot see other supervisors employees payroll hours', function (): void {
     $supervisor1 = Supervisor::factory()->create();
     $supervisor2 = Supervisor::factory()->create();
     $supervisorUser = User::factory()->for($supervisor1)->create();
@@ -81,7 +81,7 @@ test('supervisor cannot see other supervisors employees payroll hours', function
         ->assertCanNotSeeTableRecords([$hours2]);
 });
 
-test('supervisor can filter payroll hours by date range', function () {
+test('supervisor can filter payroll hours by date range', function (): void {
     $supervisor = Supervisor::factory()->create();
     $supervisorUser = User::factory()->for($supervisor)->create();
 
@@ -110,7 +110,7 @@ test('supervisor can filter payroll hours by date range', function () {
         ->assertCanNotSeeTableRecords([$oldHours]);
 });
 
-test('supervisor can filter payroll hours by employee', function () {
+test('supervisor can filter payroll hours by employee', function (): void {
     $supervisor = Supervisor::factory()->create();
     $supervisorUser = User::factory()->for($supervisor)->create();
 
@@ -134,7 +134,7 @@ test('supervisor can filter payroll hours by employee', function () {
         ->assertCanNotSeeTableRecords([$hours2]);
 });
 
-test('payroll hours table displays correct columns', function () {
+test('payroll hours table displays correct columns', function (): void {
     $supervisor = Supervisor::factory()->create();
     $supervisorUser = User::factory()->for($supervisor)->create();
 

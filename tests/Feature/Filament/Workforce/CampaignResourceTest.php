@@ -15,7 +15,7 @@ use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 use function Pest\Livewire\livewire;
 
-beforeEach(function () {
+beforeEach(function (): void {
     // Seed roles/permissions if applicable
     Filament::setCurrentPanel(
         Filament::getPanel('workforce'), // Where `app` is the ID of the panel you want to test.
@@ -57,7 +57,7 @@ beforeEach(function () {
     ];
 });
 
-it('require users to be authenticated to access Campaign resource pages', function (string $method) {
+it('require users to be authenticated to access Campaign resource pages', function (string $method): void {
     $response = get(route($this->resource_routes[$method]['route'],
         $this->resource_routes[$method]['params']));
 
@@ -69,7 +69,7 @@ it('require users to be authenticated to access Campaign resource pages', functi
     // 'view',
 ]);
 
-it('require users to have correct permissions to access Campaign resource pages', function (string $method) {
+it('require users to have correct permissions to access Campaign resource pages', function (string $method): void {
     actingAs(User::factory()->create());
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -82,7 +82,7 @@ it('require users to have correct permissions to access Campaign resource pages'
     // 'view',
 ]);
 
-it('allows super admin users to access Campaign resource pages', function (string $method) {
+it('allows super admin users to access Campaign resource pages', function (string $method): void {
     actingAs($this->createSuperAdminUser());
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -96,7 +96,7 @@ it('allows super admin users to access Campaign resource pages', function (strin
     // 'view',
 ]);
 
-it('allow users with correct permissions to access Campaign resource pages', function (string $method) {
+it('allow users with correct permissions to access Campaign resource pages', function (string $method): void {
     actingAs($this->createUserWithPermissionsToActions($this->resource_routes[$method]['permission'], 'Campaign'));
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -110,7 +110,7 @@ it('allow users with correct permissions to access Campaign resource pages', fun
     // 'view',
 ]);
 
-it('displays Campaign list page correctly', function () {
+it('displays Campaign list page correctly', function (): void {
     Campaign::factory()->create();
     $campaigns = Campaign::get();
 
@@ -120,7 +120,7 @@ it('displays Campaign list page correctly', function () {
         ->assertCanSeeTableRecords($campaigns);
 });
 
-test('table shows desired fields', function ($field) {
+test('table shows desired fields', function ($field): void {
     $campaign = Campaign::factory()->create();
 
     actingAs($this->createUserWithPermissionTo('view-any Campaign'));
@@ -138,7 +138,7 @@ test('table shows desired fields', function ($field) {
     'description',
 ]);
 
-test('create Campaign page works correctly', function () {
+test('create Campaign page works correctly', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Campaign'));
 
     livewire(CreateCampaign::class)
@@ -148,7 +148,7 @@ test('create Campaign page works correctly', function () {
     $this->assertDatabaseHas('campaigns', $this->form_data);
 });
 
-test('edit Campaign page works correctly', function () {
+test('edit Campaign page works correctly', function (): void {
     $campaign = Campaign::factory()->create();
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Campaign'));
@@ -161,7 +161,7 @@ test('edit Campaign page works correctly', function () {
     $this->assertDatabaseHas('campaigns', array_merge(['id' => $campaign->id], $this->form_data));
 });
 
-test('form validation require fields on create and edit pages', function (string $field) {
+test('form validation require fields on create and edit pages', function (string $field): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Campaign'));
 
     // Test CreateCampaign validation
@@ -185,7 +185,7 @@ test('form validation require fields on create and edit pages', function (string
     // 'description',
 ]);
 
-test('fields must be unique on create and edit pages', function (string $field) {
+test('fields must be unique on create and edit pages', function (string $field): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Campaign'));
 
     $existingCampaign = Campaign::factory()->create(['name' => 'Unique Campaign']);
@@ -209,7 +209,7 @@ test('fields must be unique on create and edit pages', function (string $field) 
     'name',
 ]);
 
-it('allows updating Campaign without changing field to trigger uniqueness validation', function (string $field) {
+it('allows updating Campaign without changing field to trigger uniqueness validation', function (string $field): void {
     $campaign = Campaign::factory()->create([$field => 'Existing Campaign']);
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Campaign'));
@@ -229,7 +229,7 @@ it('allows updating Campaign without changing field to trigger uniqueness valida
     'name',
 ]);
 
-it('autofocus the employee_id field on create and edit pages', function () {
+it('autofocus the employee_id field on create and edit pages', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Campaign'));
 
     // Test CreateCampaign autofocus

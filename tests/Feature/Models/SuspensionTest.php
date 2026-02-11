@@ -12,7 +12,7 @@ use App\Models\Suspension;
 use App\Models\Termination;
 use Illuminate\Support\Facades\Event;
 
-beforeEach(function () {
+beforeEach(function (): void {
     Event::fake([
         EmployeeSuspendedEvent::class,
         EmployeeHiredEvent::class,
@@ -20,7 +20,7 @@ beforeEach(function () {
     ]);
 });
 
-test('suspensions model interacts with db table', function () {
+test('suspensions model interacts with db table', function (): void {
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create(['date' => now()->subDay()]);
     $suspension = Suspension::factory()->for($employee)->create();
@@ -35,7 +35,7 @@ test('suspensions model interacts with db table', function () {
     ]);
 });
 
-test('suspensions model belongs to employee', function (string $relationship) {
+test('suspensions model belongs to employee', function (string $relationship): void {
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create(['date' => now()->subDay()]);
     $suspension = Suspension::factory()->for($employee)->create();
@@ -46,7 +46,7 @@ test('suspensions model belongs to employee', function (string $relationship) {
     'suspensionType',
 ]);
 
-it('casts fields as date', function ($field) {
+it('casts fields as date', function ($field): void {
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create(['date' => now()->subDay()]);
     $suspension = Suspension::factory()->for($employee)->create();
@@ -57,7 +57,7 @@ it('casts fields as date', function ($field) {
     'ends_at',
 ]);
 
-test('suspension model fires event when created', function () {
+test('suspension model fires event when created', function (): void {
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create(['date' => now()->subDay()]);
     Suspension::factory()->for($employee)->create();
@@ -65,14 +65,14 @@ test('suspension model fires event when created', function () {
     Event::assertDispatched(EmployeeSuspendedEvent::class);
 });
 
-test('employees with status of Created cannot be suspended', function () {
+test('employees with status of Created cannot be suspended', function (): void {
 
     $employee = Employee::factory()->create();
 
     Suspension::factory()->for($employee)->create();
 })->throws(EmployeeCantBeSuspended::class);
 
-test('terminated employee cannot be suspended', function () {
+test('terminated employee cannot be suspended', function (): void {
 
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create();
@@ -82,14 +82,14 @@ test('terminated employee cannot be suspended', function () {
     Suspension::factory()->for($employee)->create();
 })->throws(EmployeeCantBeSuspended::class);
 
-test('suspension date cannot be prior to hire date', function () {
+test('suspension date cannot be prior to hire date', function (): void {
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create(['date' => now()]);
 
     Suspension::factory()->for($employee)->create(['starts_at' => now()->subDay()]);
 })->throws(SuspensionDateCantBeLowerThanHireDate::class);
 
-it('casts status as instance of Suspensionstatuses', function () {
+it('casts status as instance of Suspensionstatuses', function (): void {
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create(['date' => now()->subDays(10)]);
 
@@ -100,7 +100,7 @@ it('casts status as instance of Suspensionstatuses', function () {
 
 });
 
-it('sets status to Pending if starts at is future', function () {
+it('sets status to Pending if starts at is future', function (): void {
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create(['date' => now()->subDays(10)]);
 
@@ -113,7 +113,7 @@ it('sets status to Pending if starts at is future', function () {
         ->toBe(SuspensionStatuses::Pending);
 });
 
-it('sets status to Current if starts at is past and ends at is future', function () {
+it('sets status to Current if starts at is past and ends at is future', function (): void {
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create(['date' => now()->subDays(10)]);
 
@@ -126,7 +126,7 @@ it('sets status to Current if starts at is past and ends at is future', function
         ->toBe(SuspensionStatuses::Current);
 });
 
-it('sets status to Completed if ends at is past', function () {
+it('sets status to Completed if ends at is past', function (): void {
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create(['date' => now()->subDays(10)]);
 

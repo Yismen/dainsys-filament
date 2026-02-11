@@ -3,7 +3,7 @@
 use App\Models\Citizenship;
 use App\Models\Employee;
 
-test('citizenships model interacts with db table', function () {
+test('citizenships model interacts with db table', function (): void {
     $data = Citizenship::factory()->make();
 
     Citizenship::create($data->toArray());
@@ -13,7 +13,7 @@ test('citizenships model interacts with db table', function () {
     ]));
 });
 
-test('citizenship model has many employees', function () {
+test('citizenship model has many employees', function (): void {
     $citizenship = Citizenship::factory()->create();
     $employee = Employee::factory()->create(['citizenship_id' => $citizenship->id]);
 

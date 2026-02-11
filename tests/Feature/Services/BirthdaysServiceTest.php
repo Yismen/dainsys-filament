@@ -9,7 +9,7 @@ use App\Models\Termination;
 use App\Services\BirthdaysService;
 use Illuminate\Support\Facades\Event;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->service = new BirthdaysService;
 
     Event::fake([
@@ -19,7 +19,7 @@ beforeEach(function () {
     ]);
 });
 
-test('birthdays service returns birthdays for today', function () {
+test('birthdays service returns birthdays for today', function (): void {
     $employee_today = Employee::factory()
         ->hasHires()
         ->create(['date_of_birth' => now()]);
@@ -33,7 +33,7 @@ test('birthdays service returns birthdays for today', function () {
     expect($birthdays->contains('id', $employee_yesterday->id))->toBeFalse();
 });
 
-test('birthdays service returns birthdays for yesterday', function () {
+test('birthdays service returns birthdays for yesterday', function (): void {
     $employee_yesterday = Employee::factory()
         ->hasHires()
         ->create(['date_of_birth' => now()->subDay()]);
@@ -47,7 +47,7 @@ test('birthdays service returns birthdays for yesterday', function () {
     expect($birthdays->contains('id', $employee_today->id))->toBeFalse();
 });
 
-test('birthdays service returns birthdays for tomorrow', function () {
+test('birthdays service returns birthdays for tomorrow', function (): void {
     $employee_tomorrow = Employee::factory()
         ->hasHires()
         ->create(['date_of_birth' => now()->addDay()]);
@@ -61,7 +61,7 @@ test('birthdays service returns birthdays for tomorrow', function () {
     expect($birthdays->contains('id', $employee_today->id))->toBeFalse();
 });
 
-test('birthdays service returns birthdays for this month', function () {
+test('birthdays service returns birthdays for this month', function (): void {
     $employee_this_month = Employee::factory()
         ->hasHires()
         ->create(['date_of_birth' => now()->startOfMonth()]);
@@ -75,7 +75,7 @@ test('birthdays service returns birthdays for this month', function () {
     expect($birthdays->contains('id', $employee_last_month->id))->toBeFalse();
 });
 
-test('birthdays service returns birthdays for last month', function () {
+test('birthdays service returns birthdays for last month', function (): void {
     $employee_this_month = Employee::factory()
         ->hasHires()
         ->create(['date_of_birth' => now()->startOfMonth()]);
@@ -89,7 +89,7 @@ test('birthdays service returns birthdays for last month', function () {
     expect($birthdays->contains('id', $employee_this_month->id))->toBeFalse();
 });
 
-test('birthdays service returns birthdays for next month', function () {
+test('birthdays service returns birthdays for next month', function (): void {
     $employee_this_month = Employee::factory()
         ->hasHires()
         ->create(['date_of_birth' => now()]);
@@ -103,7 +103,7 @@ test('birthdays service returns birthdays for next month', function () {
     expect($birthdays->contains('id', $employee_this_month->id))->toBeFalse();
 });
 
-test('birthdays service includes suspended employees', function () {
+test('birthdays service includes suspended employees', function (): void {
     $suspended_employee = Employee::factory()
         ->hasHires()
         ->create(['date_of_birth' => now()]);
@@ -115,7 +115,7 @@ test('birthdays service includes suspended employees', function () {
     expect($birthdays->contains('id', $suspended_employee->id))->toBeTrue();
 });
 
-test('birthdays service doesnt include created or unhired employees', function () {
+test('birthdays service doesnt include created or unhired employees', function (): void {
     Employee::factory()
         ->create(['date_of_birth' => now()]);
 
@@ -124,7 +124,7 @@ test('birthdays service doesnt include created or unhired employees', function (
     expect($birthdays)->toBeEmpty();
 });
 
-test('birthdays service doesnt include inactive employees', function () {
+test('birthdays service doesnt include inactive employees', function (): void {
     $employee_today = Employee::factory()
         ->hasHires()
         ->create(['date_of_birth' => now()]);

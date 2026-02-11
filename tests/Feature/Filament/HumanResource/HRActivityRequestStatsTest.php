@@ -13,7 +13,7 @@ beforeEach(function (): void {
     Event::fake();
 });
 
-test('hr activity request stats widget displays correct counts', function () {
+test('hr activity request stats widget displays correct counts', function (): void {
     // Create requests with different statuses
     HRActivityRequest::factory()->count(5)->create([
         'status' => HRActivityRequestStatuses::Requested,
@@ -37,7 +37,7 @@ test('hr activity request stats widget displays correct counts', function () {
         ->assertSee('2'); // Completed
 });
 
-test('hr activity request stats widget can be rendered', function () {
+test('hr activity request stats widget can be rendered', function (): void {
     HRActivityRequest::factory()->create([
         'status' => HRActivityRequestStatuses::Requested,
     ]);

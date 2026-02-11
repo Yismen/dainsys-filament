@@ -50,7 +50,7 @@ class RefreshPayrollHoursJob implements ShouldQueue
             ])
             ->get();
 
-        $productions->each(function (Production $production) {
+        $productions->each(function (Production $production): void {
             PayrollHour::updateOrCreate(
                 [
                     'employee_id' => $production->employee_id,

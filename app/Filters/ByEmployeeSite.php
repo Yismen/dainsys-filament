@@ -15,8 +15,8 @@ class ByEmployeeSite
     public function handle(Builder $builder, \Closure $next)
     {
         if ($this->request->has('site')) {
-            $builder->whereHas('employee', function ($employeeQuery)  {
-                $employeeQuery->whereHas('site', function ($siteBuilder)  {
+            $builder->whereHas('employee', function ($employeeQuery): void {
+                $employeeQuery->whereHas('site', function ($siteBuilder): void {
                     $siteBuilder
                         ->where('id', $this->request->input('site'))
                         ->orWhere('name', 'like', $this->request->input('site'));

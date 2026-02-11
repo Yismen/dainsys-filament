@@ -28,7 +28,7 @@ class TicketRecipientsService
     public function superAdmins(): self
     {
         $super_admins = User::query()
-            ->withWhereHas('roles', function ($roleQuery) {
+            ->withWhereHas('roles', function ($roleQuery): void {
                 $roleQuery->whereIn('name', [
                     'Super Admin',
                     'super admin',
@@ -52,7 +52,7 @@ class TicketRecipientsService
     public function supportManagers(): self
     {
         $managers = User::query()
-            ->withWhereHas('roles', function ($roleQuery) {
+            ->withWhereHas('roles', function ($roleQuery): void {
                 $roleQuery->where('name', SupportRoles::Manager->value);
             })
             ->get();
@@ -71,7 +71,7 @@ class TicketRecipientsService
     public function supportAgents(): self
     {
         $agents = User::query()
-            ->withWhereHas('roles', function ($roleQuery) {
+            ->withWhereHas('roles', function ($roleQuery): void {
                 $roleQuery->where('name', SupportRoles::Agent->value);
             })
             ->get();

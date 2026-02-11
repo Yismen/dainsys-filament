@@ -13,7 +13,7 @@ use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 use function Pest\Livewire\livewire;
 
-beforeEach(function () {
+beforeEach(function (): void {
     Filament::setCurrentPanel(
         Filament::getPanel('workforce'),
     );
@@ -53,7 +53,7 @@ beforeEach(function () {
     ];
 });
 
-it('require users to be authenticated to access NightlyHour resource pages', function (string $method) {
+it('require users to be authenticated to access NightlyHour resource pages', function (string $method): void {
     $response = get(route($this->resource_routes[$method]['route'],
         $this->resource_routes[$method]['params']));
 
@@ -65,7 +65,7 @@ it('require users to be authenticated to access NightlyHour resource pages', fun
     // 'view',
 ]);
 
-it('require users to have correct permissions to access NightlyHour resource pages', function (string $method) {
+it('require users to have correct permissions to access NightlyHour resource pages', function (string $method): void {
     actingAs(User::factory()->create());
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -78,7 +78,7 @@ it('require users to have correct permissions to access NightlyHour resource pag
     // 'view',
 ]);
 
-it('allows super admin users to access NightlyHour resource pages', function (string $method) {
+it('allows super admin users to access NightlyHour resource pages', function (string $method): void {
     actingAs($this->createSuperAdminUser());
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -92,7 +92,7 @@ it('allows super admin users to access NightlyHour resource pages', function (st
     // 'view',
 ]);
 
-it('allows users with correct permissions to access NightlyHour resource pages', function (string $method) {
+it('allows users with correct permissions to access NightlyHour resource pages', function (string $method): void {
     actingAs($this->createUserWithPermissionsToActions($this->resource_routes[$method]['permission'], 'NightlyHour'));
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -106,7 +106,7 @@ it('allows users with correct permissions to access NightlyHour resource pages',
     // 'view',
 ]);
 
-it('can list nightly hours', function () {
+it('can list nightly hours', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['view-any'], 'NightlyHour'));
 
     $nightly = NightlyHour::factory()->create();
@@ -115,7 +115,7 @@ it('can list nightly hours', function () {
         ->assertSuccessful();
 });
 
-it('can create nightly hour', function () {
+it('can create nightly hour', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'NightlyHour'));
 
     livewire(CreateNightlyHour::class)
@@ -130,7 +130,7 @@ it('can create nightly hour', function () {
     ]);
 });
 
-it('can edit nightly hour', function () {
+it('can edit nightly hour', function (): void {
     $nightlyHour = NightlyHour::factory()->create([
         'employee_id' => $this->employee->id,
         'date' => now()->format('Y-m-d'),
@@ -151,7 +151,7 @@ it('can edit nightly hour', function () {
     expect($nightlyHour->refresh()->total_hours)->toBe(5.5);
 });
 
-it('can delete nightly hour', function () {
+it('can delete nightly hour', function (): void {
     $nightlyHour = NightlyHour::factory()->create();
 
     actingAs($this->createUserWithPermissionsToActions(['delete', 'view-any'], 'NightlyHour'));

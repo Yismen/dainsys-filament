@@ -12,7 +12,7 @@ use App\Models\Termination;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Event;
 
-beforeEach(function () {
+beforeEach(function (): void {
     Event::fake([
         EmployeeTerminatedEvent::class,
         EmployeeHiredEvent::class,
@@ -20,7 +20,7 @@ beforeEach(function () {
     ]);
 });
 
-test('terminations model interacts with db table', function () {
+test('terminations model interacts with db table', function (): void {
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create(['date' => now()->subDay()]);
     $termination = Termination::factory()->for($employee)->create();
@@ -35,7 +35,7 @@ test('terminations model interacts with db table', function () {
     ]);
 });
 
-it('casts date as date format Y-m-d', function () {
+it('casts date as date format Y-m-d', function (): void {
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create(['date' => now()->subDay()]);
     $termination = Termination::factory()->for($employee)->create();
@@ -43,7 +43,7 @@ it('casts date as date format Y-m-d', function () {
     expect($termination->date)->toBeInstanceOf(Carbon::class);
 });
 
-it('casts is_rehireable as boolean', function () {
+it('casts is_rehireable as boolean', function (): void {
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create(['date' => now()->subDay()]);
     $termination = Termination::factory()->for($employee)->create(['is_rehireable' => 1]);
@@ -51,7 +51,7 @@ it('casts is_rehireable as boolean', function () {
     expect($termination->is_rehireable)->toBeTrue();
 });
 
-test('terminations model belongs to employee', function () {
+test('terminations model belongs to employee', function (): void {
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create(['date' => now()->subDay()]);
     $termination = Termination::factory()->for($employee)->create();
@@ -60,7 +60,7 @@ test('terminations model belongs to employee', function () {
     expect($termination->employee())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
 });
 
-test('termination model fires event when created', function () {
+test('termination model fires event when created', function (): void {
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create(['date' => now()->subDay()]);
     Termination::factory()->for($employee)->create();
@@ -68,14 +68,14 @@ test('termination model fires event when created', function () {
     Event::assertDispatched(EmployeeTerminatedEvent::class);
 });
 
-test('employees with status of Created cannot be terminated', function () {
+test('employees with status of Created cannot be terminated', function (): void {
 
     $employee = Employee::factory()->create();
 
     Termination::factory()->for($employee)->create();
 })->throws(EmployeeCantBeTerminated::class);
 
-test('suspended employee cannot be terminated', function () {
+test('suspended employee cannot be terminated', function (): void {
 
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create();
@@ -88,7 +88,7 @@ test('suspended employee cannot be terminated', function () {
     Termination::factory()->for($employee)->create(['date' => now()->addDays(2)]);
 })->throws(EmployeeCantBeTerminated::class);
 
-test('termination date cannot be prior to hire date', function () {
+test('termination date cannot be prior to hire date', function (): void {
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create(['date' => now()]);
 

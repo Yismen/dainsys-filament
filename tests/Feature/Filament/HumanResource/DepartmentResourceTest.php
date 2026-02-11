@@ -12,7 +12,7 @@ use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 use function Pest\Livewire\livewire;
 
-beforeEach(function () {
+beforeEach(function (): void {
     // Seed roles/permissions if applicable
     Filament::setCurrentPanel(
         Filament::getPanel('human-resource'), // Where `app` is the ID of the panel you want to test.
@@ -43,7 +43,7 @@ beforeEach(function () {
     ];
 });
 
-it('require users to be authenticated to access Department resource pages', function (string $method) {
+it('require users to be authenticated to access Department resource pages', function (string $method): void {
     $response = get(route($this->resource_routes[$method]['route'],
         $this->resource_routes[$method]['params']));
 
@@ -55,7 +55,7 @@ it('require users to be authenticated to access Department resource pages', func
     'view',
 ]);
 
-it('require users to have correct permissions to access Department resource pages', function (string $method) {
+it('require users to have correct permissions to access Department resource pages', function (string $method): void {
     actingAs(User::factory()->create());
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -68,7 +68,7 @@ it('require users to have correct permissions to access Department resource page
     'view',
 ]);
 
-it('allows super admin users to access Department resource pages', function (string $method) {
+it('allows super admin users to access Department resource pages', function (string $method): void {
     actingAs($this->createSuperAdminUser());
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -82,7 +82,7 @@ it('allows super admin users to access Department resource pages', function (str
     'view',
 ]);
 
-it('allow users with correct permissions to access Department resource pages', function (string $method) {
+it('allow users with correct permissions to access Department resource pages', function (string $method): void {
     actingAs($this->createUserWithPermissionsToActions($this->resource_routes[$method]['permission'], 'Department'));
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -96,7 +96,7 @@ it('allow users with correct permissions to access Department resource pages', f
     'view',
 ]);
 
-it('displays Department list page correctly', function () {
+it('displays Department list page correctly', function (): void {
     $departments = Department::factory()->count(5)->create();
 
     actingAs($this->createUserWithPermissionTo('view-any Department'));
@@ -105,7 +105,7 @@ it('displays Department list page correctly', function () {
         ->assertCanSeeTableRecords($departments);
 });
 
-test('create Department page works correctly', function () {
+test('create Department page works correctly', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Department'));
 
     $name = 'new Department';
@@ -120,7 +120,7 @@ test('create Department page works correctly', function () {
     ]);
 });
 
-test('edit Department page works correctly', function () {
+test('edit Department page works correctly', function (): void {
     $department = Department::factory()->create();
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Department'));
@@ -139,7 +139,7 @@ test('edit Department page works correctly', function () {
     ]);
 });
 
-test('form validation require fields on create and edit pages', function () {
+test('form validation require fields on create and edit pages', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Department'));
 
     // Test CreateDepartment validation
@@ -159,7 +159,7 @@ test('form validation require fields on create and edit pages', function () {
         ->assertHasFormErrors(['name' => 'required']);
 });
 
-test('Department name must be unique on create and edit pages', function () {
+test('Department name must be unique on create and edit pages', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Department'));
 
     $existingDepartment = Department::factory()->create(['name' => 'Unique Department']);
@@ -181,7 +181,7 @@ test('Department name must be unique on create and edit pages', function () {
         ->assertHasFormErrors(['name' => 'unique']);
 });
 
-it('allows updating Department without changing name to trigger uniqueness validation', function () {
+it('allows updating Department without changing name to trigger uniqueness validation', function (): void {
     $department = Department::factory()->create(['name' => 'Existing Department']);
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Department'));
@@ -199,7 +199,7 @@ it('allows updating Department without changing name to trigger uniqueness valid
     ]);
 });
 
-it('autofocus the name field on create and edit pages', function () {
+it('autofocus the name field on create and edit pages', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Department'));
 
     // Test CreateDepartment autofocus

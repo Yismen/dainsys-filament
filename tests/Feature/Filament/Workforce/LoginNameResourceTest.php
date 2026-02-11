@@ -13,7 +13,7 @@ use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 use function Pest\Livewire\livewire;
 
-beforeEach(function () {
+beforeEach(function (): void {
     // Seed roles/permissions if applicable
     Filament::setCurrentPanel(
         Filament::getPanel('workforce'), // Where `app` is the ID of the panel you want to test.
@@ -50,7 +50,7 @@ beforeEach(function () {
     ];
 });
 
-it('require users to be authenticated to access LoginName resource pages', function (string $method) {
+it('require users to be authenticated to access LoginName resource pages', function (string $method): void {
     $response = get(route($this->resource_routes[$method]['route'],
         $this->resource_routes[$method]['params']));
 
@@ -62,7 +62,7 @@ it('require users to be authenticated to access LoginName resource pages', funct
     // 'view',
 ]);
 
-it('require users to have correct permissions to access LoginName resource pages', function (string $method) {
+it('require users to have correct permissions to access LoginName resource pages', function (string $method): void {
     actingAs(User::factory()->create());
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -75,7 +75,7 @@ it('require users to have correct permissions to access LoginName resource pages
     // 'view',
 ]);
 
-it('allows super admin users to access LoginName resource pages', function (string $method) {
+it('allows super admin users to access LoginName resource pages', function (string $method): void {
     actingAs($this->createSuperAdminUser());
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -89,7 +89,7 @@ it('allows super admin users to access LoginName resource pages', function (stri
     // 'view',
 ]);
 
-it('allow users with correct permissions to access LoginName resource pages', function (string $method) {
+it('allow users with correct permissions to access LoginName resource pages', function (string $method): void {
     actingAs($this->createUserWithPermissionsToActions($this->resource_routes[$method]['permission'], 'LoginName'));
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -103,7 +103,7 @@ it('allow users with correct permissions to access LoginName resource pages', fu
     // 'view',
 ]);
 
-it('displays LoginName list page correctly', function () {
+it('displays LoginName list page correctly', function (): void {
     LoginName::factory()->create();
     $login_names = LoginName::get();
 
@@ -113,7 +113,7 @@ it('displays LoginName list page correctly', function () {
         ->assertCanSeeTableRecords($login_names);
 });
 
-test('table shows desired fields', function ($field) {
+test('table shows desired fields', function ($field): void {
     $login_name = LoginName::factory()->create();
 
     actingAs($this->createUserWithPermissionTo('view-any LoginName'));
@@ -126,7 +126,7 @@ test('table shows desired fields', function ($field) {
     // 'employee.full_name',
 ]);
 
-test('create LoginName page works correctly', function () {
+test('create LoginName page works correctly', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'LoginName'));
 
     livewire(CreateLoginName::class)
@@ -136,7 +136,7 @@ test('create LoginName page works correctly', function () {
     $this->assertDatabaseHas('login_names', $this->form_data);
 });
 
-test('edit LoginName page works correctly', function () {
+test('edit LoginName page works correctly', function (): void {
     $login_name = LoginName::factory()->create();
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'LoginName'));
@@ -149,7 +149,7 @@ test('edit LoginName page works correctly', function () {
     $this->assertDatabaseHas('login_names', array_merge(['id' => $login_name->id], $this->form_data));
 });
 
-test('form validation require fields on create and edit pages', function (string $field) {
+test('form validation require fields on create and edit pages', function (string $field): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'LoginName'));
 
     // Test CreateLoginName validation
@@ -168,7 +168,7 @@ test('form validation require fields on create and edit pages', function (string
     'employee_id',
 ]);
 
-test('fields must be unique on create and edit pages', function (string $field) {
+test('fields must be unique on create and edit pages', function (string $field): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'LoginName'));
 
     $existingLoginName = LoginName::factory()->create(['login_name' => 'Unique LoginName']);
@@ -192,7 +192,7 @@ test('fields must be unique on create and edit pages', function (string $field) 
     'login_name',
 ]);
 
-it('allows updating LoginName without changing field to trigger uniqueness validation', function (string $field) {
+it('allows updating LoginName without changing field to trigger uniqueness validation', function (string $field): void {
     $login_name = LoginName::factory()->create([$field => 'Existing LoginName']);
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'LoginName'));
@@ -212,7 +212,7 @@ it('allows updating LoginName without changing field to trigger uniqueness valid
     'login_name',
 ]);
 
-it('autofocus the employee_id field on create and edit pages', function () {
+it('autofocus the employee_id field on create and edit pages', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'LoginName'));
 
     // Test CreateLoginName autofocus

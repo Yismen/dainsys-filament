@@ -2,7 +2,7 @@
 
 use App\Enums\RevenueTypes;
 
-test('values method return specific values', function () {
+test('values method return specific values', function (): void {
     expect(RevenueTypes::values())->toEqual([
         'downtime',
         'login time',
@@ -12,7 +12,7 @@ test('values method return specific values', function () {
     ]);
 });
 
-test('all method return associative array', function () {
+test('all method return associative array', function (): void {
     expect(RevenueTypes::toArray())->toEqual([
         'downtime' => 'Downtime',
         'login time' => 'LoginTime',

@@ -3,7 +3,7 @@
 use App\Models\Ars;
 use App\Models\Employee;
 
-test('arss model interacts with db table', function () {
+test('arss model interacts with db table', function (): void {
     $data = Ars::factory()->make();
 
     Ars::create($data->toArray());
@@ -13,7 +13,7 @@ test('arss model interacts with db table', function () {
     ]));
 });
 
-test('arss model has many social securities', function () {
+test('arss model has many social securities', function (): void {
     $ars = Ars::factory()
         ->hasSocialSecurities(1)
         ->create();
@@ -22,7 +22,7 @@ test('arss model has many social securities', function () {
     expect($ars->socialSecurities())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
 });
 
-test('arss model has many employees', function () {
+test('arss model has many employees', function (): void {
     $employee = Employee::factory()->create();
     $ars = Ars::factory()
         ->hasSocialSecurities(1, [

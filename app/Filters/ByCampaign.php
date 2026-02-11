@@ -19,7 +19,7 @@ class ByCampaign
 
             $builder->whereHas(
                 'campaign',
-                function ($campaignBuilder) use ($campaign) {
+                function ($campaignBuilder) use ($campaign): void {
                     $campaignBuilder
                         ->where('id', $campaign)
                         ->orWhere('name', 'like', $campaign);

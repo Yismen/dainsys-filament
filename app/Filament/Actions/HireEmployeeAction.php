@@ -53,7 +53,7 @@ class HireEmployeeAction
                                 ->required(),
 
                         ]),
-                ])->action(function (Employee $record, $data) {
+                ])->action(function (Employee $record, $data): void {
                     $record->hires()->create($data);
 
                     Notification::make()

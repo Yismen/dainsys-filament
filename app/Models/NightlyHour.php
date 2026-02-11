@@ -18,7 +18,10 @@ class NightlyHour extends \App\Models\BaseModels\AppModel
         'total_hours',
     ];
 
-    protected $casts = [
-        'date' => 'date:Y-m-d',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'date' => 'date:Y-m-d',
+        ];
+    }
 }

@@ -7,17 +7,17 @@ use App\Models\User;
 use App\Services\TicketRecipientsService;
 use Illuminate\Support\Facades\Mail;
 
-beforeEach(function () {
+beforeEach(function (): void {
     Mail::fake();
 });
 
-test('service can be initialized', function () {
+test('service can be initialized', function (): void {
     $service = new TicketRecipientsService;
 
     expect($service)->toBeInstanceOf(TicketRecipientsService::class);
 });
 
-test('service collection contains ticket owner', function () {
+test('service collection contains ticket owner', function (): void {
     $ticket = Ticket::factory()->createQuietly();
     $service = new TicketRecipientsService;
 
@@ -26,7 +26,7 @@ test('service collection contains ticket owner', function () {
     expect($recipients->contains($ticket->owner))->toBeTrue();
 });
 
-test('service collection contains super admin user', function () {
+test('service collection contains super admin user', function (): void {
     $regular_user = User::factory()->create();
     $super_admin_user = User::factory()->create();
     $role = Role::firstOrCreate(['name' => 'super_admin']);
@@ -44,7 +44,7 @@ test('service collection contains super admin user', function () {
     expect($recipients->contains($super_admin_user))->toBeTrue();
 });
 
-test('service collection contains Support Managers', function () {
+test('service collection contains Support Managers', function (): void {
     $regular_user = User::factory()->create();
     $tickets_admin = User::factory()->create();
     $role = Role::firstOrCreate(['name' => SupportRoles::Manager->value]);
@@ -62,7 +62,7 @@ test('service collection contains Support Managers', function () {
     expect($recipients->contains($tickets_admin))->toBeTrue();
 });
 
-test('service collection contains Support Agents', function () {
+test('service collection contains Support Agents', function (): void {
     $regular_user = User::factory()->create();
     $ticket_agents = User::factory()->create();
     $role = Role::firstOrCreate(['name' => SupportRoles::Agent->value]);

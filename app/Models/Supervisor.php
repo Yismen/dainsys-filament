@@ -20,12 +20,15 @@ class Supervisor extends \App\Models\BaseModels\AppModel
 
     protected $fillable = ['name', 'description', 'user_id', 'is_active'];
 
-    protected $casts = [
-        'is_active' => 'boolean',
-    ];
-
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'is_active' => 'boolean',
+        ];
     }
 }

@@ -12,7 +12,7 @@ use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 use function Pest\Livewire\livewire;
 
-beforeEach(function () {
+beforeEach(function (): void {
     // Seed roles/permissions if applicable
     Filament::setCurrentPanel(
         Filament::getPanel('human-resource'), // Where `app` is the ID of the panel you want to test.
@@ -51,7 +51,7 @@ beforeEach(function () {
     ];
 });
 
-it('require users to be authenticated to access Bank resource pages', function (string $method) {
+it('require users to be authenticated to access Bank resource pages', function (string $method): void {
     $response = get(route($this->resource_routes[$method]['route'],
         $this->resource_routes[$method]['params']));
 
@@ -63,7 +63,7 @@ it('require users to be authenticated to access Bank resource pages', function (
     'view',
 ]);
 
-it('require users to have correct permissions to access Bank resource pages', function (string $method) {
+it('require users to have correct permissions to access Bank resource pages', function (string $method): void {
     actingAs(User::factory()->create());
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -76,7 +76,7 @@ it('require users to have correct permissions to access Bank resource pages', fu
     'view',
 ]);
 
-it('allows super admin users to access Bank resource pages', function (string $method) {
+it('allows super admin users to access Bank resource pages', function (string $method): void {
     actingAs($this->createSuperAdminUser());
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -90,7 +90,7 @@ it('allows super admin users to access Bank resource pages', function (string $m
     'view',
 ]);
 
-it('allow users with correct permissions to access Bank resource pages', function (string $method) {
+it('allow users with correct permissions to access Bank resource pages', function (string $method): void {
     actingAs($this->createUserWithPermissionsToActions($this->resource_routes[$method]['permission'], 'Bank'));
 
     $response = get(route($this->resource_routes[$method]['route'],
@@ -104,7 +104,7 @@ it('allow users with correct permissions to access Bank resource pages', functio
     'view',
 ]);
 
-it('displays Bank list page correctly', function () {
+it('displays Bank list page correctly', function (): void {
     $banks = Bank::factory()->count(5)->create();
 
     actingAs($this->createUserWithPermissionTo('view-any Bank'));
@@ -113,7 +113,7 @@ it('displays Bank list page correctly', function () {
         ->assertCanSeeTableRecords($banks);
 });
 
-test('create Bank page works correctly', function () {
+test('create Bank page works correctly', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Bank'));
 
     livewire(CreateBank::class)
@@ -123,7 +123,7 @@ test('create Bank page works correctly', function () {
     $this->assertDatabaseHas('banks', $this->form_data);
 });
 
-test('edit Bank page works correctly', function () {
+test('edit Bank page works correctly', function (): void {
     $bank = Bank::factory()->create();
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Bank'));
@@ -139,7 +139,7 @@ test('edit Bank page works correctly', function () {
     $this->assertDatabaseHas('banks', $this->form_data);
 });
 
-test('form validation require fields on create and edit pages', function () {
+test('form validation require fields on create and edit pages', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Bank'));
 
     // Test CreateBank validation
@@ -159,7 +159,7 @@ test('form validation require fields on create and edit pages', function () {
         ->assertHasFormErrors(['name' => 'required']);
 });
 
-test('Bank name must be unique on create and edit pages', function () {
+test('Bank name must be unique on create and edit pages', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Bank'));
 
     $existingBank = Bank::factory()->create(['name' => 'Unique Bank']);
@@ -181,7 +181,7 @@ test('Bank name must be unique on create and edit pages', function () {
         ->assertHasFormErrors(['name' => 'unique']);
 });
 
-it('allows updating Bank without changing name to trigger uniqueness validation', function () {
+it('allows updating Bank without changing name to trigger uniqueness validation', function (): void {
     $bank = Bank::factory()->create(['name' => 'Existing Bank']);
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Bank'));
@@ -199,7 +199,7 @@ it('allows updating Bank without changing name to trigger uniqueness validation'
     ]);
 });
 
-it('autofocus the name field on create and edit pages', function () {
+it('autofocus the name field on create and edit pages', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Bank'));
 
     // Test CreateBank autofocus

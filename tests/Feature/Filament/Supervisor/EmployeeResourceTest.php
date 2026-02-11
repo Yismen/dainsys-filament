@@ -37,7 +37,7 @@ it('displays employees assigned to supervisor in query', function (): void {
     $unassignedEmployee = Employee::factory()->create();
 
     $query = Employee::query()
-        ->whereHas('hires', function ($q) use ($supervisor) {
+        ->whereHas('hires', function ($q) use ($supervisor): void {
             $q->where('supervisor_id', $supervisor->id);
         })
         ->whereNotIn('status', [EmployeeStatuses::Terminated]);
@@ -80,7 +80,7 @@ it('does not show terminated employees in query', function (): void {
     expect($terminatedEmployee->status)->toBe(EmployeeStatuses::Terminated);
 
     $query = Employee::query()
-        ->whereHas('hires', function ($q) use ($supervisor) {
+        ->whereHas('hires', function ($q) use ($supervisor): void {
             $q->where('supervisor_id', $supervisor->id);
         })
         ->whereNotIn('status', [EmployeeStatuses::Terminated]);

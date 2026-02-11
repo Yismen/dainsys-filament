@@ -5,7 +5,7 @@ use App\Jobs\RefreshPayrollHoursJob;
 use Illuminate\Bus\PendingBatch;
 use Illuminate\Support\Facades\Bus;
 
-it('dispatches a batch of refresh jobs for the provided date range', function () {
+it('dispatches a batch of refresh jobs for the provided date range', function (): void {
     Bus::fake();
 
     $this->artisan(RecalculatePayrollHours::class, [
@@ -24,7 +24,7 @@ it('dispatches a batch of refresh jobs for the provided date range', function ()
     });
 });
 
-it('does not dispatch a batch when the date range is invalid', function () {
+it('does not dispatch a batch when the date range is invalid', function (): void {
     Bus::fake();
 
     $this->artisan(RecalculatePayrollHours::class, [

@@ -6,7 +6,7 @@ use App\Events\HRActivityRequestCreated;
 use App\Models\HRActivityRequest;
 use Illuminate\Support\Facades\Event;
 
-test('hr activity request created event is dispatched', function () {
+test('hr activity request created event is dispatched', function (): void {
     Event::fake();
 
     HRActivityRequest::factory()->create();
@@ -14,7 +14,7 @@ test('hr activity request created event is dispatched', function () {
     Event::assertDispatched(HRActivityRequestCreated::class);
 });
 
-test('hr activity request completed event is dispatched when marked as completed', function () {
+test('hr activity request completed event is dispatched when marked as completed', function (): void {
     Event::fake();
 
     $request = HRActivityRequest::factory()->create();
@@ -24,7 +24,7 @@ test('hr activity request completed event is dispatched when marked as completed
     Event::assertDispatched(HRActivityRequestCompleted::class);
 });
 
-test('marking request as completed updates status and timestamps', function () {
+test('marking request as completed updates status and timestamps', function (): void {
     Event::fake(); // Fake all events to prevent listeners from querying non-existent roles
 
     $request = HRActivityRequest::factory()->create([

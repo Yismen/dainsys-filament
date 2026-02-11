@@ -34,28 +34,33 @@ class Payroll extends \App\Models\BaseModels\AppModel
         'total_payroll',
     ];
 
-    protected $casts = [
-        'payable_date' => 'date:Y-m-d',
-        'salary_rate' => 'decimal:2',
-        'total_hours' => 'decimal:2',
-        'salary_income' => 'decimal:2',
-        'medical_licence' => 'decimal:2',
-        'gross_income' => 'decimal:2',
-        'deduction_ars' => 'decimal:2',
-        'deduction_afp' => 'decimal:2',
-        'deductions_other' => 'decimal:2',
-        'total_deductions' => 'decimal:2',
-        'nightly_incomes' => 'decimal:2',
-        'overtime_incomes' => 'decimal:2',
-        'holiday_incomes' => 'decimal:2',
-        'additional_incentives_1' => 'decimal:2',
-        'additional_incentives_2' => 'decimal:2',
-        'net_payroll' => 'decimal:2',
-        'total_payroll' => 'decimal:2',
-    ];
-
-    public function getPayableDateAttribute($value): string
+    protected function payableDate(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        return Carbon::parse($value)->format('Y-m-d');
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: function ($value) {
+            return Carbon::parse($value)->format('Y-m-d');
+        });
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'payable_date' => 'date:Y-m-d',
+            'salary_rate' => 'decimal:2',
+            'total_hours' => 'decimal:2',
+            'salary_income' => 'decimal:2',
+            'medical_licence' => 'decimal:2',
+            'gross_income' => 'decimal:2',
+            'deduction_ars' => 'decimal:2',
+            'deduction_afp' => 'decimal:2',
+            'deductions_other' => 'decimal:2',
+            'total_deductions' => 'decimal:2',
+            'nightly_incomes' => 'decimal:2',
+            'overtime_incomes' => 'decimal:2',
+            'holiday_incomes' => 'decimal:2',
+            'additional_incentives_1' => 'decimal:2',
+            'additional_incentives_2' => 'decimal:2',
+            'net_payroll' => 'decimal:2',
+            'total_payroll' => 'decimal:2',
+        ];
     }
 }

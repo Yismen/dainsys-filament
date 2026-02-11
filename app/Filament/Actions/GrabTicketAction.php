@@ -19,7 +19,7 @@ class GrabTicketAction
             ->color(Color::Lime)
             ->requiresConfirmation()
             ->successNotificationTitle('You are now assigned to this record')
-            ->action(function (Ticket $record) {
+            ->action(function (Ticket $record): void {
                 $record->grab();
             });
     }

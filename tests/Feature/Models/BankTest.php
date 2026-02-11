@@ -4,7 +4,7 @@ use App\Models\Bank;
 use App\Models\BankAccount;
 use App\Models\Employee;
 
-test('banks model interacts with db table', function () {
+test('banks model interacts with db table', function (): void {
     $data = Bank::factory()->make();
 
     Bank::create($data->toArray());
@@ -14,7 +14,7 @@ test('banks model interacts with db table', function () {
     ]));
 });
 
-test('has many bank accounts', function () {
+test('has many bank accounts', function (): void {
     $bank = Bank::factory()
         ->hasBankAccounts(1)
         ->create();
@@ -23,7 +23,7 @@ test('has many bank accounts', function () {
     expect($bank->bankAccounts())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
 });
 
-test('bank model has many employees', function () {
+test('bank model has many employees', function (): void {
     $bank = Bank::factory()
         ->has(BankAccount::factory())
         ->create();

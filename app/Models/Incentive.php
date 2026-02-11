@@ -25,15 +25,20 @@ class Incentive extends \App\Models\BaseModels\AppModel
         'notes',
     ];
 
-    protected $casts = [
-        'payable_date' => 'date:Y-m-d',
-        'total_production_hours' => 'decimal:2',
-        'total_sales' => 'decimal:2',
-        'amount' => 'decimal:2',
-    ];
-
-    public function getPayableDateAttribute($value): string
+    protected function payableDate(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        return Carbon::parse($value)->format('Y-m-d');
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: function ($value) {
+            return Carbon::parse($value)->format('Y-m-d');
+        });
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'payable_date' => 'date:Y-m-d',
+            'total_production_hours' => 'decimal:2',
+            'total_sales' => 'decimal:2',
+            'amount' => 'decimal:2',
+        ];
     }
 }

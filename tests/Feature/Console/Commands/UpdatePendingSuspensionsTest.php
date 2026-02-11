@@ -12,7 +12,7 @@ use App\Models\Suspension;
 use App\Models\Termination;
 use Illuminate\Support\Facades\Event;
 
-beforeEach(function () {
+beforeEach(function (): void {
     Event::fake([
         EmployeeHiredEvent::class,
         EmployeeSuspendedEvent::class,
@@ -20,12 +20,12 @@ beforeEach(function () {
     ]);
 });
 
-test('install command creates site', function () {
+test('install command creates site', function (): void {
     $this->artisan('dainsys:update-employee-suspensions')
         ->assertSuccessful();
 });
 
-test('command is schedulled to run every hour at the 15 minute', function () {
+test('command is schedulled to run every hour at the 15 minute', function (): void {
     $addedToScheduler = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
         ->filter(function ($element) {
             return str($element->command)->contains('dainsys:update-pending-suspensions');
@@ -35,7 +35,7 @@ test('command is schedulled to run every hour at the 15 minute', function () {
     expect($addedToScheduler->expression)->toEqual('*/15 * * * *');
 });
 
-test('It ignores suspensions in status Completed', function () {
+test('It ignores suspensions in status Completed', function (): void {
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create(['date' => now()->subDays(10)]);
     $suspension = Suspension::factory()->create([
@@ -53,7 +53,7 @@ test('It ignores suspensions in status Completed', function () {
         ->toBe(SuspensionStatuses::Completed);
 });
 
-test('It change pasts suspensions to status Completed', function () {
+test('It change pasts suspensions to status Completed', function (): void {
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create(['date' => now()->subDays(10)]);
     $suspension = Suspension::factory()->create([
@@ -73,7 +73,7 @@ test('It change pasts suspensions to status Completed', function () {
         ->toBe(SuspensionStatuses::Completed);
 });
 
-test('It change pending suspensions to status Current', function () {
+test('It change pending suspensions to status Current', function (): void {
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create(['date' => now()->subDays(10)]);
     $suspension = Suspension::factory()->create([
@@ -93,7 +93,7 @@ test('It change pending suspensions to status Current', function () {
         ->toBe(SuspensionStatuses::Current);
 });
 
-test('inactive employees are ignrored', function () {
+test('inactive employees are ignrored', function (): void {
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create(['date' => now()->subDays(10)]);
     $suspension = Suspension::factory()->create([

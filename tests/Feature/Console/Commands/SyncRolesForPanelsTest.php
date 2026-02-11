@@ -3,7 +3,7 @@
 use App\Console\Commands\SyncRolesForPanels;
 use Filament\Facades\Filament;
 
-it('sync default roles and all panels', function () {
+it('sync default roles and all panels', function (): void {
     $panels = Filament::getPanels();
     $types = ['manager', 'agent'];
 
@@ -35,7 +35,7 @@ it('sync default roles and all panels', function () {
     }
 });
 
-it('sync includes super admins and default roles', function () {
+it('sync includes super admins and default roles', function (): void {
     $expectedCount = (\count(Filament::getPanels()) * 2) - 2 + 1;
 
     $this->artisan(SyncRolesForPanels::class, ['guard_name' => 'web']);
@@ -45,7 +45,7 @@ it('sync includes super admins and default roles', function () {
     $this->assertDatabaseCount('roles', $expectedCount);
 });
 
-it('does not syn roles for admin', function () {
+it('does not syn roles for admin', function (): void {
     $this->artisan(SyncRolesForPanels::class, ['guard_name' => 'web']);
 
     $this->assertDatabaseMissing('roles', [
@@ -57,7 +57,7 @@ it('does not syn roles for admin', function () {
     ]);
 });
 
-it('does not duplciate roles when command is run multiple times', function () {
+it('does not duplciate roles when command is run multiple times', function (): void {
     $expectedCount = (\count(Filament::getPanels()) * 2) - 2 + 1;
 
     $this->artisan(SyncRolesForPanels::class, ['guard_name' => 'web']);

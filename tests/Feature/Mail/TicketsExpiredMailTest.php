@@ -12,14 +12,14 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
-beforeEach(function () {
+beforeEach(function (): void {
     Mail::fake();
     Event::fake([
         TicketCreatedEvent::class,
     ]);
 });
 
-it('renders correctly with attachment file', function () {
+it('renders correctly with attachment file', function (): void {
     $ticketsAdmin = User::factory()->create();
     $adminRole = Role::firstOrCreate(['name' => SupportRoles::Manager->value]);
     $ticketsAdmin->assignRole($adminRole);

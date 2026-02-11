@@ -11,11 +11,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Bus;
 
-beforeEach(function () {
+beforeEach(function (): void {
     Bus::fake();
 });
 
-test('downtime model interacts with db table', function () {
+test('downtime model interacts with db table', function (): void {
     $data = Downtime::factory()->make();
 
     Downtime::create($data->toArray());
@@ -32,7 +32,7 @@ test('downtime model interacts with db table', function () {
     ]));
 });
 
-test('downtime model belongs to employee', function () {
+test('downtime model belongs to employee', function (): void {
     $downtime = Downtime::factory()
         ->has(Employee::factory(), 'employee')
         ->create();
@@ -41,7 +41,7 @@ test('downtime model belongs to employee', function () {
     expect($downtime->employee())->toBeInstanceOf(BelongsTo::class);
 });
 
-test('downtime model belongs to campaign', function () {
+test('downtime model belongs to campaign', function (): void {
     $downtime = Downtime::factory()
         ->has(Campaign::factory(), 'campaign')
         ->create();
@@ -50,7 +50,7 @@ test('downtime model belongs to campaign', function () {
     expect($downtime->campaign())->toBeInstanceOf(BelongsTo::class);
 });
 
-test('downtime model belongs to downtime reason', function () {
+test('downtime model belongs to downtime reason', function (): void {
     $downtime = Downtime::factory()
         ->has(DowntimeReason::factory(), 'downtimeReason')
         ->create();
@@ -59,7 +59,7 @@ test('downtime model belongs to downtime reason', function () {
     expect($downtime->downtimeReason())->toBeInstanceOf(BelongsTo::class);
 });
 
-test('downtime model belongs to requester', function () {
+test('downtime model belongs to requester', function (): void {
     $this->actingAs(User::factory()->create());
 
     $downtime = Downtime::factory()
@@ -69,7 +69,7 @@ test('downtime model belongs to requester', function () {
     expect($downtime->requester())->toBeInstanceOf(BelongsTo::class);
 });
 
-test('downtime model belongs to aprover', function () {
+test('downtime model belongs to aprover', function (): void {
     $downtime = Downtime::factory()
         ->create();
 
@@ -81,14 +81,14 @@ test('downtime model belongs to aprover', function () {
     expect($downtime->aprover())->toBeInstanceOf(BelongsTo::class);
 });
 
-test('date is instance of Date', function () {
+test('date is instance of Date', function (): void {
     $downtime = Downtime::factory()
         ->create();
 
     expect($downtime->date)->toBeInstanceOf(Carbon::class);
 });
 
-it('calculates unique_id field', function () {
+it('calculates unique_id field', function (): void {
     $employee = Employee::factory()->create();
     $campaign = Campaign::factory()->create(['revenue_type' => RevenueTypes::Downtime]);
     $date = now();
@@ -107,13 +107,13 @@ it('calculates unique_id field', function () {
         ]));
 });
 
-it('throws exception if campaign revenue type is not downtime', function () {
+it('throws exception if campaign revenue type is not downtime', function (): void {
     Downtime::factory()
         ->for(Campaign::factory(state: ['revenue_type' => RevenueTypes::LoginTime]))
         ->create();
 })->throws(InvalidDowntimeCampaign::class);
 
-test('unaproved downtimes dont go to productions', function () {
+test('unaproved downtimes dont go to productions', function (): void {
     $downtime = Downtime::factory()
         ->create();
 
@@ -126,7 +126,7 @@ test('unaproved downtimes dont go to productions', function () {
 
 });
 
-test('aproved downtimes are synced to productions', function () {
+test('aproved downtimes are synced to productions', function (): void {
     $downtime = Downtime::factory()
         ->create();
 
@@ -143,7 +143,7 @@ test('aproved downtimes are synced to productions', function () {
 
 });
 
-test('deleted downtimes are synced to productions', function () {
+test('deleted downtimes are synced to productions', function (): void {
     $downtime = Downtime::factory()
         ->create();
 

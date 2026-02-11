@@ -34,7 +34,7 @@ class ManageSupervisors extends Page
     public function employeesSelected($employees): void
     {
         // go over the employees array and map to selectedEmployees, removing or adding ids depending on selected value
-        \array_walk($employees, function ($employee) {
+        \array_walk($employees, function ($employee): void {
             if ($employee['selected']) {
                 if (! in_array($employee['id'], $this->selectedEmployees)) {
                     $this->selectedEmployees[] = $employee['id'];
@@ -174,12 +174,12 @@ class ManageSupervisors extends Page
 
     protected function getSupervisors(bool $isActive): Collection
     {
-        return Cache::rememberForever("supervisors_with_".($isActive ? 'active' : 'inactive'), function () use ($isActive) {
+        return Cache::rememberForever('supervisors_with_'.($isActive ? 'active' : 'inactive'), function () use ($isActive) {
             return Supervisor::query()
                 ->withoutGlobalScopes([
                     IsActiveScope::class,
                 ])
-                ->with(['employees' => function ($query) {
+                ->with(['employees' => function ($query): void {
                     $query
                         ->active()
                         ->with(['position', 'site'])

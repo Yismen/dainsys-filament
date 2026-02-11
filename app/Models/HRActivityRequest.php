@@ -24,13 +24,6 @@ class HRActivityRequest extends \App\Models\BaseModels\AppModel
         'completed_at',
     ];
 
-    protected $casts = [
-        'activity_type' => HRActivityTypes::class,
-        'status' => HRActivityRequestStatuses::class,
-        'requested_at' => 'datetime',
-        'completed_at' => 'datetime',
-    ];
-
     protected $dispatchesEvents = [
         'created' => HRActivityRequestCreated::class,
     ];
@@ -54,5 +47,15 @@ class HRActivityRequest extends \App\Models\BaseModels\AppModel
         ]);
 
         HRActivityRequestCompleted::dispatch($this, $comment);
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'activity_type' => HRActivityTypes::class,
+            'status' => HRActivityRequestStatuses::class,
+            'requested_at' => 'datetime',
+            'completed_at' => 'datetime',
+        ];
     }
 }

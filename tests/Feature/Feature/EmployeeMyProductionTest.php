@@ -12,13 +12,13 @@ use Illuminate\Support\Facades\Mail;
 
 uses()->group('employee-panel');
 
-beforeEach(function () {
+beforeEach(function (): void {
     Mail::fake();
 
     $this->citizenship = Citizenship::factory()->create();
 });
 
-it('displays production data for authenticated employee', function () {
+it('displays production data for authenticated employee', function (): void {
     $employee = Employee::factory()->create([
         'citizenship_id' => $this->citizenship->id,
     ]);
@@ -75,7 +75,7 @@ it('displays production data for authenticated employee', function () {
         ->assertSee($project->name);
 });
 
-it('prevents access for users without employee_id', function () {
+it('prevents access for users without employee_id', function (): void {
     $user = User::factory()->create([
         'employee_id' => null,
     ]);
@@ -86,7 +86,7 @@ it('prevents access for users without employee_id', function () {
         ->assertForbidden();
 });
 
-it('only shows production data for authenticated employee', function () {
+it('only shows production data for authenticated employee', function (): void {
     $employee1 = Employee::factory()->create([
         'citizenship_id' => $this->citizenship->id,
     ]);
@@ -144,7 +144,7 @@ it('only shows production data for authenticated employee', function () {
         ->assertDontSee('100.00'); // Employee 2's conversions should not be visible
 });
 
-it('displays calculated percentage to goal', function () {
+it('displays calculated percentage to goal', function (): void {
     $employee = Employee::factory()->create([
         'citizenship_id' => $this->citizenship->id,
     ]);

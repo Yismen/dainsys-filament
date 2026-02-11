@@ -12,7 +12,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 
-beforeEach(function () {
+beforeEach(function (): void {
     Event::fake([
         EmployeeHiredEvent::class,
         EmployeeSuspendedEvent::class,
@@ -24,12 +24,12 @@ beforeEach(function () {
     Hire::factory()->for($this->employee)->create();
 });
 
-it('trows exception if report type is not registered in the command', function () {
+it('trows exception if report type is not registered in the command', function (): void {
     $this->artisan('dainsys:birthdays', ['invalid' => 'Invalid']);
 
 })->throws(Exception::class);
 
-test('birthdays command run sucessfully with type=', function (string $type) {
+test('birthdays command run sucessfully with type=', function (string $type): void {
     $this->artisan('dainsys:birthdays', ['type' => $type])
         ->assertSuccessful();
 })->with([
@@ -41,7 +41,7 @@ test('birthdays command run sucessfully with type=', function (string $type) {
     'last_month',
 ]);
 
-it('runs daily at 4:00 am with type=today', function (string $type, string $expression) {
+it('runs daily at 4:00 am with type=today', function (string $type, string $expression): void {
     $schedule = app()->make(Schedule::class);
 
     $command = collect($schedule->events())->filter(function (SchedulingEvent $event) use ($type) {
@@ -55,7 +55,7 @@ it('runs daily at 4:00 am with type=today', function (string $type, string $expr
     ['this_month', '1 4 1 * *'],
 ]);
 
-test('birthdays command sends email', function () {
+test('birthdays command sends email', function (): void {
     Employee::factory()
         ->hasHires()
         ->create();
@@ -65,7 +65,7 @@ test('birthdays command sends email', function () {
     Mail::assertQueued(BirthdaysMail::class);
 });
 
-test('birthdays command doesnot send email if service is empty', function () {
+test('birthdays command doesnot send email if service is empty', function (): void {
     $this->employee->update(['date_of_birth' => now()->addDay()]);
 
     $this->artisan(Birthdays::class, ['type' => 'today']);

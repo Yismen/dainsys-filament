@@ -2,7 +2,7 @@
 
 use App\Models\DowntimeReason;
 
-test('downtime reasons model interacts with db table', function () {
+test('downtime reasons model interacts with db table', function (): void {
     $data = DowntimeReason::factory()->make();
 
     DowntimeReason::create($data->toArray());
@@ -12,7 +12,7 @@ test('downtime reasons model interacts with db table', function () {
     ]));
 });
 
-test('downtime reasons model has many downtimes', function () {
+test('downtime reasons model has many downtimes', function (): void {
     $downtime_reason = DowntimeReason::factory()
         ->has(\App\Models\Downtime::factory(), 'downtimes')
         ->create();

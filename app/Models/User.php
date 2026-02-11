@@ -62,19 +62,6 @@ class User extends Authenticatable implements FilamentUser
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
-        'is_active' => 'boolean',
-        'force_password_change' => 'boolean',
-        'password_set_at' => 'datetime',
-    ];
-
     public function canAccessPanel(Panel $panel): bool
     {
         if (! Auth::check()) {
@@ -138,5 +125,21 @@ class User extends Authenticatable implements FilamentUser
             related: Employee::class,
             through: Supervisor::class,
         );
+    }
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+            'is_active' => 'boolean',
+            'force_password_change' => 'boolean',
+            'password_set_at' => 'datetime',
+        ];
     }
 }

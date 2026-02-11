@@ -13,7 +13,7 @@ function setPayrollImporterData(PayrollImporter $importer, array $data): void
     $property->setValue($importer, $data);
 }
 
-it('resolves existing payrolls by payable_date and employee_id', function () {
+it('resolves existing payrolls by payable_date and employee_id', function (): void {
     $employee = Employee::factory()->create();
     $payableDate = now()->format('Y-m-d');
 
@@ -44,7 +44,7 @@ it('resolves existing payrolls by payable_date and employee_id', function () {
     expect($record->is($payroll))->toBeTrue();
 });
 
-it('creates a new payroll when no matching record exists', function () {
+it('creates a new payroll when no matching record exists', function (): void {
     $employee = Employee::factory()->create();
     $payableDate = now()->subDay()->format('Y-m-d');
 
