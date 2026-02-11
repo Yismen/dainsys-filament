@@ -55,9 +55,9 @@ class EmployeeResource extends Resource
     {
         return [
             'index' => ListEmployees::route('/'),
-            'create' => CreateEmployee::route('/create'),
-            'view' => ViewEmployee::route('/{record}'),
-            'edit' => EditEmployee::route('/{record}/edit'),
+            // 'create' => CreateEmployee::route('/create'),
+            // 'view' => ViewEmployee::route('/{record}'),
+            // 'edit' => EditEmployee::route('/{record}/edit'),
         ];
     }
 

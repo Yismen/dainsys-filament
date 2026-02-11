@@ -54,9 +54,9 @@ class NightlyHourResource extends Resource
     {
         return [
             'index' => ListNightlyHours::route('/'),
-            'create' => CreateNightlyHour::route('/create'),
-            'view' => ViewNightlyHour::route('/{record}'),
-            'edit' => EditNightlyHour::route('/{record}/edit'),
+            // 'create' => CreateNightlyHour::route('/create'),
+            // 'view' => ViewNightlyHour::route('/{record}'),
+            // 'edit' => EditNightlyHour::route('/{record}/edit'),
         ];
     }
 

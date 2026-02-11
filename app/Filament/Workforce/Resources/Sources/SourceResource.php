@@ -55,9 +55,9 @@ class SourceResource extends Resource
     {
         return [
             'index' => ListSources::route('/'),
-            'create' => CreateSource::route('/create'),
-            'view' => ViewSource::route('/{record}'),
-            'edit' => EditSource::route('/{record}/edit'),
+            // 'create' => CreateSource::route('/create'),
+            // 'view' => ViewSource::route('/{record}'),
+            // 'edit' => EditSource::route('/{record}/edit'),
         ];
     }
 

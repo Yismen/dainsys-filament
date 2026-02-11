@@ -54,9 +54,9 @@ class DowntimeReasonResource extends Resource
     {
         return [
             'index' => ListDowntimeReasons::route('/'),
-            'create' => CreateDowntimeReason::route('/create'),
-            'view' => ViewDowntimeReason::route('/{record}'),
-            'edit' => EditDowntimeReason::route('/{record}/edit'),
+            // 'create' => CreateDowntimeReason::route('/create'),
+            // 'view' => ViewDowntimeReason::route('/{record}'),
+            // 'edit' => EditDowntimeReason::route('/{record}/edit'),
         ];
     }
 

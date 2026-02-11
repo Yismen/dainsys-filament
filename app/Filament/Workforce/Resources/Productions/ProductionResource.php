@@ -55,8 +55,8 @@ class ProductionResource extends Resource
         return [
             'index' => ListProductions::route('/'),
             // 'create' => CreateProduction::route('/create'),
-            'view' => ViewProduction::route('/{record}'),
-            'edit' => EditProduction::route('/{record}/edit'),
+            // 'view' => ViewProduction::route('/{record}'),
+            // 'edit' => EditProduction::route('/{record}/edit'),
         ];
     }
 

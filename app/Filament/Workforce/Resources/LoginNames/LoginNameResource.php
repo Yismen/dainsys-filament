@@ -54,9 +54,9 @@ class LoginNameResource extends Resource
     {
         return [
             'index' => ListLoginNames::route('/'),
-            'create' => CreateLoginName::route('/create'),
-            'view' => ViewLoginName::route('/{record}'),
-            'edit' => EditLoginName::route('/{record}/edit'),
+            // 'create' => CreateLoginName::route('/create'),
+            // 'view' => ViewLoginName::route('/{record}'),
+            // 'edit' => EditLoginName::route('/{record}/edit'),
         ];
     }
 
