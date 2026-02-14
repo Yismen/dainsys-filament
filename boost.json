@@ -2,10 +2,12 @@
     "agents": [
         "copilot"
     ],
-    "editors": [
-        "vscode"
-    ],
-    "guidelines": [
+    "guidelines": true,
+    "packages": [
         "filament/filament"
+    ],
+    "skills": [
+        "pest-testing",
+        "tailwindcss-development"
     ]
 }
