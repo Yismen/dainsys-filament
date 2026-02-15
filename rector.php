@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
+use Rector\Set\ValueObject\SetList;
+use Rector\Transform\Rector\String_\StringToClassConstantRector;
 use RectorLaravel\Set\LaravelLevelSetList;
 use RectorLaravel\Set\LaravelSetProvider;
 
@@ -16,11 +18,12 @@ return RectorConfig::configure()
         __DIR__.'/routes',
         __DIR__.'/tests',
     ])
-    // uncomment to reach your current PHP version
-    // ->withPhpSets()
-
+    ->withSkip([
+        StringToClassConstantRector::class,
+    ])
     ->withSets([
         LaravelLevelSetList::UP_TO_LARAVEL_120,
+        SetList::PHP_82,
     ])
     ->withSetProviders(LaravelSetProvider::class)
     ->withComposerBased(laravel: true/** other options */)
