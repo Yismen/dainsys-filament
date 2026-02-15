@@ -38,7 +38,7 @@
                             <span class="block bg-linear-to-r from-blue-600 via-blue-500 to-indigo-600 dark:from-blue-400 dark:via-blue-300 dark:to-indigo-400 bg-clip-text text-transparent drop-shadow-2xl">{{ config('app.name') }}</span>
                         </h1>
                         <p class="text-xl sm:text-2xl text-slate-600 dark:text-slate-400 max-w-3xl lg:max-w-none mx-auto lg:mx-0 leading-relaxed drop-shadow-sm">
-                            Built for Ecco Outsourcing Group employees. Track your shifts, review approvals, and understand every line of your pay before payday.
+                            Built for you. Track your payroll hours, review incentives and commissions, and understand every line of your pay before payday.
                         </p>
                     </div>
                     <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
@@ -61,15 +61,15 @@
                     <div class="flex flex-wrap items-center justify-center lg:justify-start gap-6 text-sm text-slate-500 dark:text-slate-400">
                         <div class="inline-flex items-center gap-2">
                             <span class="inline-flex h-2 w-2 rounded-full bg-blue-500"></span>
-                            Clear Ecco pay breakdowns
+                            Clear pay breakdowns
                         </div>
                         <div class="inline-flex items-center gap-2">
                             <span class="inline-flex h-2 w-2 rounded-full bg-indigo-500"></span>
-                            Ecco approvals you can see
+                            Approval turnaround
                         </div>
                         <div class="inline-flex items-center gap-2">
                             <span class="inline-flex h-2 w-2 rounded-full bg-sky-500"></span>
-                            Ecco privacy standards
+                            Privacy standards
                         </div>
                     </div>
                 </div>
@@ -138,16 +138,16 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div class="rounded-2xl bg-white/80 dark:bg-slate-800/70 border border-slate-100/60 dark:border-slate-700/60 p-8 shadow-depth-glow dark:shadow-slate-900">
-                    <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-800">Payroll clarity</h3>
-                    <p class="mt-3 text-slate-600 dark:text-slate-400">See how every hour, rate, and incentive is calculated for Ecco payroll.</p>
+                    <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Payroll clarity</h3>
+                    <p class="mt-3 text-slate-600 dark:text-slate-400">See how every hour, rate, and incentive is calculated for your payroll.</p>
                 </div>
                 <div class="rounded-2xl bg-white/80 dark:bg-slate-800/70 border border-slate-100/60 dark:border-slate-700/60 p-8 shadow-depth-glow dark:shadow-slate-900">
-                    <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-800">Wide visibility</h3>
-                    <p class="mt-3 text-slate-600 dark:text-slate-400">Approvals and edits are visible across Ecco teams, keeping trust intact.</p>
+                    <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Wide visibility</h3>
+                    <p class="mt-3 text-slate-600 dark:text-slate-400">Approvals and edits are visible across your team, keeping trust intact.</p>
                 </div>
                 <div class="rounded-2xl bg-white/80 dark:bg-slate-800/70 border border-slate-100/60 dark:border-slate-700/60 p-8 shadow-depth-glow dark:shadow-slate-900">
-                    <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-800">Privacy first</h3>
-                    <p class="mt-3 text-slate-600 dark:text-slate-400">Your Ecco data stays protected with role-based access and audit trails.</p>
+                    <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Privacy first</h3>
+                    <p class="mt-3 text-slate-600 dark:text-slate-400">Your data stays protected with role-based access and audit trails.</p>
                 </div>
             </div>
         </div>
@@ -314,19 +314,19 @@
             <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
                 <div class="text-center space-y-3">
                     <div class="text-4xl sm:text-5xl font-bold text-white">99.9%</div>
-                    <p class="text-blue-100 font-medium">Ecco payroll accuracy</p>
+                    <p class="text-blue-100 font-medium">Payroll accuracy</p>
                 </div>
                 <div class="text-center space-y-3">
                     <div class="text-4xl sm:text-5xl font-bold text-white">2 min</div>
-                    <p class="text-blue-100 font-medium">Ecco approval turnaround</p>
+                    <p class="text-blue-100 font-medium">Approval turnaround</p>
                 </div>
                 <div class="text-center space-y-3">
                     <div class="text-4xl sm:text-5xl font-bold text-white">24/7</div>
-                    <p class="text-blue-100 font-medium">Ecco employee support</p>
+                    <p class="text-blue-100 font-medium">Employee support</p>
                 </div>
                 <div class="text-center space-y-3">
                     <div class="text-4xl sm:text-5xl font-bold text-white">🔒</div>
-                    <p class="text-blue-100 font-medium">Ecco data privacy</p>
+                    <p class="text-blue-100 font-medium">Data privacy</p>
                 </div>
             </div>
         </div>
@@ -337,7 +337,7 @@
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center space-y-4 mb-16">
                 <h2 class="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-slate-100">Questions Ecco employees ask</h2>
-                <p class="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">Quick answers for Ecco teammates.</p>
+                <p class="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">Quick answers for teammates.</p>
             </div>
             <div class="space-y-4">
                 <details class="group rounded-2xl bg-white dark:bg-slate-800 border border-slate-100/60 dark:border-slate-700/60 p-6 shadow-depth-glow dark:shadow-slate-900">
@@ -376,7 +376,7 @@
                     <div class="text-center space-y-4 animate-float">
                         <h2 class="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-slate-100 drop-shadow-sm">Ready for your next shift?</h2>
                         <p class="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed drop-shadow-sm">
-                            This is the Ecco employee hub in {{ config('app.name') }}. Sign in to review your hours, approvals, and pay details.
+                            This is the employee's hub in {{ config('app.name') }}. Sign in to review your hours, approvals, and pay details.
                         </p>
                     </div>
                     <div class="flex flex-col sm:flex-row gap-4 justify-center">
