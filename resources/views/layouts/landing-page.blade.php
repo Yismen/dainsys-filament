@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" x-data @init="$store.theme.init()">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" x-data @init="$store.theme.init()" class="scroll-smooth">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,7 +11,7 @@
             }
         </script>
     </head>
-    <body class="bg-linear-to-br from-slate-50 via-blue-50 to-slate-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 text-slate-900 dark:text-slate-100 antialiased">
+    <body class=" bg-linear-to-br from-slate-50 via-blue-50 to-slate-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 text-slate-900 dark:text-slate-100 antialiased">
         @php
             $panels = \Filament\Facades\Filament::getPanels();
             $panel = collect($panels)->first(function($panel) {
@@ -55,8 +55,9 @@
                     <div>
                         <h3 class="text-sm font-semibold text-white mb-4">Resources</h3>
                         <ul class="space-y-3">
-                            <li><a href="/docs/api" target="docs-api" class="text-slate-400 dark:text-slate-500 hover:text-white dark:hover:text-slate-300 transition-colors duration-200">Documentation</a></li>
-                            <li><a href="/support" class="text-slate-400 dark:text-slate-500 hover:text-white dark:hover:text-slate-300 transition-colors duration-200">Support</a></li>
+                            <li><a href="/knowledge-base" class="text-slate-400 dark:text-slate-500 hover:text-white dark:hover:text-slate-300 transition-colors duration-200">Knowledge Base</a></li>
+                            <li><a href="/docs/api" target="docs-api" class="text-slate-400 dark:text-slate-500 hover:text-white dark:hover:text-slate-300 transition-colors duration-200">API Documentation</a></li>
+                            <li><a href="/support" class="text-slate-400 dark:text-slate-500 hover:text-white dark:hover:text-slate-300 transition-colors duration-200">IT Support</a></li>
                         </ul>
                     </div>
                     <div>
