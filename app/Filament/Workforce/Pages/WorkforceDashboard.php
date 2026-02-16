@@ -9,7 +9,7 @@ use App\Filament\Workforce\Widgets\RecentDowntimesTable;
 use App\Filament\Workforce\Widgets\WorkforceStatsOverview;
 use Filament\Pages\Dashboard as BaseDashboard;
 
-class Dashboard extends BaseDashboard
+class WorkforceDashboard extends BaseDashboard
 {
     public function getWidgets(): array
     {

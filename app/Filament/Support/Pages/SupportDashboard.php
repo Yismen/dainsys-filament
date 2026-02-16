@@ -9,7 +9,7 @@ use App\Filament\Support\Widgets\TicketsStatsOverview;
 use Filament\Pages\Dashboard as BaseDashboard;
 use Illuminate\Support\Facades\Auth;
 
-class Dashboard extends BaseDashboard
+class SupportDashboard extends BaseDashboard
 {
     public static function shouldRegisterNavigation(): bool
     {

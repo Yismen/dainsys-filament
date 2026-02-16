@@ -3,6 +3,8 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Workforce\Pages\Dashboard;
+use App\Filament\Workforce\Pages\WorkforceDashboard;
+use App\Services\FilamentPanelsService;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -24,48 +26,27 @@ class WorkforcePanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
-        return $panel
+        return FilamentPanelsService::make($panel)
             ->id('workforce')
             ->path('workforce')
             ->colors([
                 'primary' => Color::Red,
             ])
-            ->login()
-            // ->registration()
-            ->passwordReset()
-            ->emailVerification()
-            ->sidebarCollapsibleOnDesktop()
-            ->spa()
-            ->viteTheme('resources/css/filament/admin/theme.css')
+            ->topNavigation(false)
             ->discoverResources(in: app_path('Filament/Workforce/Resources'), for: 'App\Filament\Workforce\Resources')
             ->discoverPages(in: app_path('Filament/Workforce/Pages'), for: 'App\Filament\Workforce\Pages')
-            ->pages([
-                Dashboard::class,
-            ])
-            ->databaseNotifications()
-            ->plugins([
-                BreezyCore::make()
-                    ->myProfile()
-                    ->enableTwoFactorAuthentication(),
-            ])
             ->discoverWidgets(in: app_path('Filament/Workforce/Widgets'), for: 'App\Filament\Workforce\Widgets')
             ->widgets([
                 AccountWidget::class,
                 FilamentInfoWidget::class,
             ])
-            ->middleware([
-                EncryptCookies::class,
-                AddQueuedCookiesToResponse::class,
-                StartSession::class,
-                AuthenticateSession::class,
-                ShareErrorsFromSession::class,
-                VerifyCsrfToken::class,
-                SubstituteBindings::class,
-                DisableBladeIconComponents::class,
-                DispatchServingFilamentEvent::class,
+            ->pages([
+                WorkforceDashboard::class,
             ])
-            ->authMiddleware([
-                Authenticate::class,
+            ->plugins([
+                BreezyCore::make()
+                    ->myProfile()
+                    ->enableTwoFactorAuthentication(),
             ]);
     }
 }

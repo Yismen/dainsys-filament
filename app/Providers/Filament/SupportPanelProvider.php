@@ -3,6 +3,9 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Support\Pages\Dashboard;
+use App\Filament\Support\Pages\SupportDashboard;
+use App\Services\FilamentPanelsService;
+use Filament\Facades\Filament;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -24,48 +27,22 @@ class SupportPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
-        return $panel
+        return FilamentPanelsService::make($panel)
             ->id('support')
             ->path('support')
-            ->login()
-            // ->registration()
-            ->passwordReset()
-            ->emailVerification()
-            ->spa()
-            ->databaseNotifications()
             ->plugins([
                 BreezyCore::make()
                     ->myProfile()
                     ->enableTwoFactorAuthentication(),
             ])
-            ->topNavigation()
-            ->viteTheme('resources/css/filament/admin/theme.css')
             ->colors([
                 'primary' => Color::Amber,
             ])
             ->discoverResources(in: app_path('Filament/Support/Resources'), for: 'App\\Filament\\Support\\Resources')
             ->discoverPages(in: app_path('Filament/Support/Pages'), for: 'App\\Filament\\Support\\Pages')
             ->pages([
-                Dashboard::class,
+                SupportDashboard::class,
             ])
-            ->discoverWidgets(in: app_path('Filament/Support/Widgets'), for: 'App\\Filament\\Support\\Widgets')
-            ->widgets([
-                // AccountWidget::class,
-                // FilamentInfoWidget::class,
-            ])
-            ->middleware([
-                EncryptCookies::class,
-                AddQueuedCookiesToResponse::class,
-                StartSession::class,
-                AuthenticateSession::class,
-                ShareErrorsFromSession::class,
-                VerifyCsrfToken::class,
-                SubstituteBindings::class,
-                DisableBladeIconComponents::class,
-                DispatchServingFilamentEvent::class,
-            ])
-            ->authMiddleware([
-                Authenticate::class,
-            ]);
+            ->discoverWidgets(in: app_path('Filament/Support/Widgets'), for: 'App\\Filament\\Support\\Widgets');
     }
 }

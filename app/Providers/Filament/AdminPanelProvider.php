@@ -3,57 +3,29 @@
 namespace App\Providers\Filament;
 
 use AchyutN\FilamentLogViewer\FilamentLogViewer;
-use App\Filament\Admin\Pages\AdminDashboard;
+use App\Services\FilamentPanelsService;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use BinaryBuilds\FilamentFailedJobs\FilamentFailedJobsPlugin;
-use Filament\Http\Middleware\Authenticate;
-use Filament\Http\Middleware\DisableBladeIconComponents;
-use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Navigation\NavigationItem;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
-use Filament\Widgets\AccountWidget;
-use Filament\Widgets\FilamentInfoWidget;
-use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
-use Illuminate\Cookie\Middleware\EncryptCookies;
-use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
-use Illuminate\Routing\Middleware\SubstituteBindings;
-use Illuminate\Session\Middleware\AuthenticateSession;
-use Illuminate\Session\Middleware\StartSession;
-use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Jeffgreco13\FilamentBreezy\BreezyCore;
 
 class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
-        return $panel
+        return FilamentPanelsService::make($panel)
             ->default()
             ->id('admin')
             ->path('admin')
-            ->login()
-            // ->registration()
-            ->passwordReset()
-            ->emailVerification()
-            ->sidebarCollapsibleOnDesktop()
-            ->spa()
-            ->viteTheme('resources/css/filament/admin/theme.css')
-            ->navigationItems([
-                NavigationItem::make()
-                    ->group('System')
-                    ->label('Pulse')
-                    ->icon('heroicon-o-bolt')
-                    ->url(fn (): string => route('pulse'))
-                    ->openUrlInNewTab(),
-                NavigationItem::make()
-                    ->group('System')
-                    ->label('Telescope')
-                    ->icon('heroicon-o-cursor-arrow-ripple')
-                    ->url(fn (): string => route('telescope'))
-                    ->openUrlInNewTab(),
+            ->colors([
+                'primary' => Color::Emerald,
             ])
-            ->databaseNotifications()
+            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
+            ->discoverPages(in: app_path('Filament/Admin/Pages'), for: 'App\\Filament\\Admin\\Pages')
+            ->discoverWidgets(in: app_path('Filament/Admin/Widgets'), for: 'App\\Filament\\Admin\\Widgets')
             ->plugins([
                 FilamentShieldPlugin::make()
                     ->navigationGroup('Access Control')
@@ -75,34 +47,19 @@ class AdminPanelProvider extends PanelProvider
                     ->enableTwoFactorAuthentication()
                     ->enableSanctumTokens(permissions: ['use-dainsys']),
             ])
-            ->colors([
-                'primary' => Color::Emerald,
-            ])
-            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
-            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
-            ->discoverPages(in: app_path('Filament/Admin/Pages'), for: 'App\\Filament\\Admin\\Pages')
-            ->pages([
-                AdminDashboard::class,
-            ])
-            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
-            ->discoverWidgets(in: app_path('Filament/Admin/Widgets'), for: 'App\\Filament\\Admin\\Widgets')
-            ->widgets([
-                AccountWidget::class,
-                FilamentInfoWidget::class,
-            ])
-            ->middleware([
-                EncryptCookies::class,
-                AddQueuedCookiesToResponse::class,
-                StartSession::class,
-                AuthenticateSession::class,
-                ShareErrorsFromSession::class,
-                VerifyCsrfToken::class,
-                SubstituteBindings::class,
-                DisableBladeIconComponents::class,
-                DispatchServingFilamentEvent::class,
-            ])
-            ->authMiddleware([
-                Authenticate::class,
+            ->navigationItems([
+                NavigationItem::make()
+                    ->group('System')
+                    ->label('Pulse')
+                    ->icon('heroicon-o-bolt')
+                    ->url(fn (): string => route('pulse'))
+                    ->openUrlInNewTab(),
+                NavigationItem::make()
+                    ->group('System')
+                    ->label('Telescope')
+                    ->icon('heroicon-o-cursor-arrow-ripple')
+                    ->url(fn (): string => route('telescope'))
+                    ->openUrlInNewTab(),
             ]);
     }
 }

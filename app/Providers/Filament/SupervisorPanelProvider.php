@@ -3,6 +3,8 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Supervisor\Pages\SupervisorDashboard;
+use App\Services\FilamentPanelsService;
+use Filament\Facades\Filament;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -24,19 +26,14 @@ class SupervisorPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
-        return $panel
+        return FilamentPanelsService::make($panel)
             ->id('supervisor')
             ->path('supervisor')
             ->colors([
                 'primary' => Color::Blue,
             ])
-            ->login()
-            ->passwordReset()
-            ->emailVerification()
-            ->spa()
-            ->databaseNotifications()
-            ->sidebarCollapsibleOnDesktop()
-            ->viteTheme('resources/css/filament/admin/theme.css')
+
+            ->topNavigation(false)
             ->discoverResources(in: app_path('Filament/Supervisor/Resources'), for: 'App\\Filament\\Supervisor\\Resources')
             ->discoverPages(in: app_path('Filament/Supervisor/Pages'), for: 'App\\Filament\\Supervisor\\Pages')
             ->discoverWidgets(in: app_path('Filament/Supervisor/Widgets'), for: 'App\\Filament\\Supervisor\\Widgets')
@@ -47,24 +44,6 @@ class SupervisorPanelProvider extends PanelProvider
                 BreezyCore::make()
                     ->myProfile()
                     ->enableTwoFactorAuthentication(),
-            ])
-            ->widgets([
-                AccountWidget::class,
-                FilamentInfoWidget::class,
-            ])
-            ->middleware([
-                EncryptCookies::class,
-                AddQueuedCookiesToResponse::class,
-                StartSession::class,
-                AuthenticateSession::class,
-                ShareErrorsFromSession::class,
-                VerifyCsrfToken::class,
-                SubstituteBindings::class,
-                DisableBladeIconComponents::class,
-                DispatchServingFilamentEvent::class,
-            ])
-            ->authMiddleware([
-                Authenticate::class,
             ]);
     }
 }

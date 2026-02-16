@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use App\Filament\HumanResource\Pages\HumanResourceDashboard;
+use App\Services\FilamentPanelsService;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -25,18 +26,10 @@ class HumanResourcePanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
-        return $panel
+        return FilamentPanelsService::make($panel)
             ->id('human-resource')
             ->path('human-resource')
-            ->login()
-            // ->registration()
-            ->passwordReset()
-            ->emailVerification()
-            ->spa()
-            ->viteTheme('resources/css/filament/admin/theme.css')
-            ->subNavigationPosition(SubNavigationPosition::Top)
-            // ->topNavigation()
-            ->sidebarCollapsibleOnDesktop()
+            ->topNavigation()
             ->colors([
                 'primary' => Color::Amber,
             ])
@@ -59,29 +52,10 @@ class HumanResourcePanelProvider extends PanelProvider
             ->pages([
                 HumanResourceDashboard::class,
             ])
-            ->databaseNotifications()
             ->plugins([
                 BreezyCore::make()
                     ->myProfile()
                     ->enableTwoFactorAuthentication(),
-            ])
-            ->widgets([
-                AccountWidget::class,
-                FilamentInfoWidget::class,
-            ])
-            ->middleware([
-                EncryptCookies::class,
-                AddQueuedCookiesToResponse::class,
-                StartSession::class,
-                AuthenticateSession::class,
-                ShareErrorsFromSession::class,
-                VerifyCsrfToken::class,
-                SubstituteBindings::class,
-                DisableBladeIconComponents::class,
-                DispatchServingFilamentEvent::class,
-            ])
-            ->authMiddleware([
-                Authenticate::class,
             ]);
     }
 }
