@@ -77,19 +77,19 @@ class User extends Authenticatable implements FilamentUser
         }
 
         if ($panel_id === 'human-resource') {
-            return Auth::user()->can('manageHumanResources');
+            return Auth::user()->can('interactsWithHumanResource');
         }
 
         if ($panel_id === 'workforce') {
-            return Auth::user()->can('manageWorkforce');
+            return Auth::user()->can('interactsWithWorkforce');
         }
 
         if ($panel_id === 'support') {
-            return true;
+            return Gate::allows('interactsWithSupport');
         }
 
         if ($panel_id === 'supervisor') {
-            return Gate::allows('manageSupervisor');
+            return Gate::allows('isActiveSupervisor');
         }
 
         if ($panel_id === 'employee') {

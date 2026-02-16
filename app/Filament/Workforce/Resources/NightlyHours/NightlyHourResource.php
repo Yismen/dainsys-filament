@@ -70,6 +70,6 @@ class NightlyHourResource extends Resource
 
     public static function canAccess(): bool
     {
-        return auth()->user()->can('manageWorkforce');
+        return auth()->user()->can('interactsWithWorkforce');
     }
 }

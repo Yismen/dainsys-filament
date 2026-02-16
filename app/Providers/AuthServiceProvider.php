@@ -44,21 +44,21 @@ class AuthServiceProvider extends ServiceProvider
                 $user->isTicketsAgent();
         });
 
-        Gate::define('manageHumanResources', function (User $user) {
+        Gate::define('interactsWithHumanResource', function (User $user) {
             return $user->hasAnyRole([
                 'Human Resource Manager',
                 'Human Resource Agent',
             ]);
         });
 
-        Gate::define('manageWorkforce', function (User $user) {
+        Gate::define('interactsWithWorkforce', function (User $user) {
             return $user->hasAnyRole([
                 'Workforce Manager',
                 'Workforce Agent',
             ]);
         });
 
-        Gate::define('manageSupervisor', function (User $user): bool {
+        Gate::define('isActiveSupervisor', function (User $user): bool {
             return $user->supervisor()->where('is_active', true)->exists();
         });
 
@@ -145,6 +145,14 @@ class AuthServiceProvider extends ServiceProvider
                 'Workforce Agent',
             ]);
         });
+
+        Gate::define('interactsWithSupport', function (User $user) {
+            return $user->can('manageTickets') ||
+                $user->can('interactsWithWorkforce') ||
+                $user->can('interactsWithHumanResource') ||
+                $user->can('isActiveSupervisor')
+                ;
+            });
 
     }
 }
