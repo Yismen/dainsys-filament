@@ -10,6 +10,7 @@ use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 
@@ -53,6 +54,11 @@ class UsersTable
             ])
             ->filters([
                 TrashedFilter::make(),
+                TernaryFilter::make('is_active')
+                    ->default(true)
+                    ->label('Active')
+                    ->trueLabel('Active')
+                    ->falseLabel('Inactive'),
             ])
             ->recordActions([
                 ViewAction::make(),
