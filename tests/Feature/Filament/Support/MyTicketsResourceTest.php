@@ -81,7 +81,7 @@ it('require users to be authenticated to access MyTicket resource pages', functi
 ]);
 
 it('require users to have correct permissions to access MyTicket resource pages', function (string $method): void {
-    actingAs(User::factory()->create());
+    actingAs($this->createUserWithRole('Human Resource Agent'));
 
     $response = get(route($this->resource_routes[$method]['route'],
         $this->resource_routes[$method]['params']));
@@ -94,7 +94,7 @@ it('require users to have correct permissions to access MyTicket resource pages'
 ]);
 
 it('allow users with correct permissions to access MyTicket resource pages', function (string $method, string $component): void {
-    $user = User::factory()->create();
+    $user = $this->createUserWithPermissionsToActions(['update', 'view-any'], 'MyTicket');
     $this->actingAs($user);
 
     $ticket = Ticket::factory()->for($user, 'owner')->create();
@@ -109,8 +109,8 @@ it('allow users with correct permissions to access MyTicket resource pages', fun
 ]);
 
 it('prevent users from working tickets they dont own', function (string $method, string $component): void {
-    $user = User::factory()->create();
-    $another_user = User::factory()->create();
+    $user = $this->createUserWithRole('Human Resource Agent');
+    $another_user = $this->createUserWithRole('Human Resource Agent');
 
     $ticket = Ticket::factory()->for($another_user, 'owner')->create();
     $this->actingAs($user);
@@ -139,8 +139,8 @@ it('prevent users from working tickets they dont own', function (string $method,
 // });
 
 it('does not displays MyTicket list created by other users', function (): void {
-    $user = User::factory()->create();
-    $another_user = User::factory()->create();
+    $user = $this->createUserWithRole('Human Resource Agent');
+    $another_user = $this->createUserWithRole('Human Resource Agent');
     Ticket::factory()->for($another_user, 'owner')->create();
     $this->actingAs($user);
 

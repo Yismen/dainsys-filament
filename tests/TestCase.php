@@ -41,6 +41,17 @@ abstract class TestCase extends BaseTestCase
         return $user;
     }
 
+    public function createUserWithRole(string $roleName): AuthUser
+    {
+        $role = Role::firstOrCreate(['name' => $roleName]);
+
+        $user = User::factory()->create();
+
+        $user->assignRole($role);
+
+        return $user;
+    }
+
     public function createUserWithPermissionsToActions(array $actions, string $model_name): AuthUser
     {
         $user = $this->createFilamentPanelManager();
