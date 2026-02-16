@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Livewire\MyMailingSubscriptions;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,3 +30,7 @@ Route::get('/reset-password/{token}', [LoginController::class, 'resetPassword'])
 Route::view('/privacy', 'privacy')->name('privacy');
 Route::view('/terms', 'terms')->name('terms');
 Route::view('/cookies', 'cookies')->name('cookies');
+
+Route::get('/my-subscriptions', MyMailingSubscriptions::class)
+    ->middleware('auth')
+    ->name('my-subscriptions');
