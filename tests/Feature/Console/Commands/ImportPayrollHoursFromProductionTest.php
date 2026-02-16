@@ -130,6 +130,8 @@ it('summarize data based on the week and ignores other weeks', function (): void
 });
 
 it('is schedulled to run every hour at the 23 minute', function (): void {
+     $this->app->make(\Illuminate\Contracts\Console\Kernel::class);
+
     $addedToScheduler = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
         ->filter(function ($element) {
             return str($element->command)->contains('dainsys:import-payroll-hours-from-production');
@@ -140,6 +142,8 @@ it('is schedulled to run every hour at the 23 minute', function (): void {
 });
 
 it('is schedulled to run for the previous day', function (): void {
+     $this->app->make(\Illuminate\Contracts\Console\Kernel::class);
+
     $addedToScheduler = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
         ->filter(function ($element) {
             return str($element->command)->contains('dainsys:import-payroll-hours-from-production date="'.now()->subDay()->format('Y-m-d'));

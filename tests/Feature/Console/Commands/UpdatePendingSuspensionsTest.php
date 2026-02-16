@@ -26,6 +26,8 @@ test('install command creates site', function (): void {
 });
 
 test('command is schedulled to run every hour at the 15 minute', function (): void {
+     $this->app->make(\Illuminate\Contracts\Console\Kernel::class);
+
     $addedToScheduler = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
         ->filter(function ($element) {
             return str($element->command)->contains('dainsys:update-pending-suspensions');
