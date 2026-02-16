@@ -4,6 +4,8 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{{ config('app.name') }} - Intranet</title>
+        <link rel="icon" type="image/png" href="{{ asset('images/ecco-favicon.png') }}">
+        <link rel="apple-touch-icon" href="{{ asset('images/ecco-logo.png') }}">
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <script>
             if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
