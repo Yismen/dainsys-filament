@@ -19,15 +19,12 @@ beforeEach(function (): void {
 });
 
 it('is is schedulled daily at 8:15 am', function (): void {
-     $this->app->make(\Illuminate\Contracts\Console\Kernel::class);
-
-    $addedToScheduler = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
-        ->filter(function ($element) {
+    $command = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
+        ->first(function ($element) {
             return str($element->command)->contains('dainsys:send-tickets-expired-report');
-        })->first();
+        });
 
-    $this->assertNotNull($addedToScheduler);
-    $this->assertEquals('15 8 * * *', $addedToScheduler->expression);
+    $this->assertEquals('15 8 * * *', $command->expression);
 });
 
 it('send tickets in status expired', function (): void {

@@ -26,15 +26,12 @@ test('install command creates site', function (): void {
 });
 
 test('command is schedulled to run every hour at the 15 minute', function (): void {
-     $this->app->make(\Illuminate\Contracts\Console\Kernel::class);
-
     $addedToScheduler = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
-        ->filter(function ($element) {
+        ->first(function ($element) {
             return str($element->command)->contains('dainsys:update-pending-suspensions');
-        })->first();
+        });
 
-    expect($addedToScheduler)->not->toBeNull();
-    expect($addedToScheduler->expression)->toEqual('*/15 * * * *');
+    expect($addedToScheduler->expression)->toBe('*/15 * * * *');
 });
 
 test('It ignores suspensions in status Completed', function (): void {
