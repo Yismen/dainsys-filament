@@ -34,6 +34,7 @@ jobs:
       env:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
+        CACHE_DRIVER: file
       run: php artisan migrate --force
     - name: Execute tests (Unit and Feature tests) via PHPUnit/Pest
       env:
