@@ -26,14 +26,12 @@ test('employees suspended run sucessfully', function (): void {
 });
 
 test('command is schedulled for daily at 305 am', function (): void {
-     $this->app->make(\Illuminate\Contracts\Console\Kernel::class);
-
     $addedToScheduler = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
         ->first(function ($element) {
             return str($element->command)->contains('dainsys:send-suspended-employees-email');
         });
-        
-    expect($addedToScheduler->expression)->toEqual('5 3 * * *');
+
+    expect($addedToScheduler->expression)->toBe('5 3 * * *');
 });
 
 test('employees suspended sends email', function (): void {

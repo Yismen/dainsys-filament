@@ -8,7 +8,6 @@ use App\Mail\BirthdaysMail;
 use App\Models\Employee;
 use App\Models\Hire;
 use Illuminate\Console\Scheduling\Event as SchedulingEvent;
-use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 
@@ -42,9 +41,9 @@ test('birthdays command run sucessfully with type=', function (string $type): vo
 ]);
 
 it('runs daily at 4:00 am with type=today', function (string $type, string $expression): void {
-    $schedule = app()->make(Schedule::class);
-
-    $command = collect($schedule->events())->first(function (SchedulingEvent $event) use ($type) {
+    $command = collect(
+        app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events()
+    )->first(function (SchedulingEvent $event) use ($type) {
         return stripos($event->command, 'dainsys:birthdays type="'.$type.'"') !== false;
     });
 
