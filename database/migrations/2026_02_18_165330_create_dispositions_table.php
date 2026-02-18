@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('dispositions', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name')->unique();
-            $table->decimal('sales', 10, 2);
+            $table->float('sales');
             $table->text('description')->nullable();
             $table->softDeletes();
             $table->timestamps();
