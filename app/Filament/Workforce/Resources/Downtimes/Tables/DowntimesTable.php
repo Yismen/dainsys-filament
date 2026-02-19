@@ -126,7 +126,8 @@ class DowntimesTable
                     ->options(ModelListService::make(User::query()))
                     ->preload(),
                 SelectFilter::make('status')
-                    ->options(DowntimeStatuses::class),
+                    ->options(DowntimeStatuses::class)
+                    ->default(DowntimeStatuses::Pending->value),
                 TrashedFilter::make(),
             ])
             ->recordActions([
@@ -139,14 +140,14 @@ class DowntimesTable
                         ->color('success')
                         ->visible(fn (Downtime $record) => $record->status->value === 'Pending')
                         ->schema([
-                            \Filament\Forms\Components\Textarea::make('comment')
+                            Textarea::make('comment')
                                 ->label('Approval comment')
                                 ->required(),
                         ])
                         ->action(function (Downtime $record, array $data): void {
                             $record->aprove();
 
-                            \App\Models\Comment::query()->forceCreate([
+                            Comment::query()->forceCreate([
                                 'text' => 'Approved: '.($data['comment'] ?? ''),
                                 'commentable_id' => $record->id,
                                 'commentable_type' => Downtime::class,
@@ -171,7 +172,7 @@ class DowntimesTable
                                 $record->removeFromProduction();
                             }
 
-                            \App\Models\Comment::query()->forceCreate([
+                            Comment::query()->forceCreate([
                                 'text' => 'Rejected: '.($data['comment'] ?? ''),
                                 'commentable_id' => $record->id,
                                 'commentable_type' => Downtime::class,

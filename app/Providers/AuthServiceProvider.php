@@ -150,9 +150,8 @@ class AuthServiceProvider extends ServiceProvider
             return $user->can('manageTickets') ||
                 $user->can('interactsWithWorkforce') ||
                 $user->can('interactsWithHumanResource') ||
-                $user->can('isActiveSupervisor')
-                ;
-            });
+                $user->can('isActiveSupervisor');
+        });
 
     }
 }
