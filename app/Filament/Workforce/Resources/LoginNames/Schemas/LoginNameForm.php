@@ -3,7 +3,6 @@
 namespace App\Filament\Workforce\Resources\LoginNames\Schemas;
 
 use App\Filament\Schemas\Workforce\EmployeeSchema;
-use App\Filament\Workforce\Resources\Employees\Schemas\EmployeeForm;
 use App\Models\Employee;
 use App\Services\ModelListService;
 use Filament\Forms\Components\Select;
@@ -30,7 +29,7 @@ class LoginNameForm
                         Grid::make(2)
                             ->schema(
                                 EmployeeSchema::make()
-                            )
+                            ),
                     ])
                     ->preload(10)
                     ->createOptionModalHeading('Create Employee'),

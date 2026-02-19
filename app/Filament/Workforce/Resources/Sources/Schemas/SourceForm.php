@@ -2,8 +2,7 @@
 
 namespace App\Filament\Workforce\Resources\Sources\Schemas;
 
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
+use App\Filament\Schemas\Workforce\SourceSchema;
 use Filament\Schemas\Schema;
 
 class SourceForm
@@ -11,13 +10,6 @@ class SourceForm
     public static function configure(Schema $schema): Schema
     {
         return $schema
-            ->components([
-                TextInput::make('name')
-                    ->unique(ignoreRecord: true)
-                    ->autofocus()
-                    ->required(),
-                Textarea::make('description')
-                    ->columnSpanFull(),
-            ]);
+            ->components(SourceSchema::make());
     }
 }

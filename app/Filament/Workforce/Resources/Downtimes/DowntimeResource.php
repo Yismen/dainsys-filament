@@ -31,7 +31,6 @@ class DowntimeResource extends Resource
 
     protected static string|UnitEnum|null $navigationGroup = 'Imports';
 
-
     public static function form(Schema $schema): Schema
     {
         return DowntimeForm::configure($schema);
