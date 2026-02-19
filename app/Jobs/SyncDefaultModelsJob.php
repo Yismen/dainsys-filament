@@ -25,10 +25,10 @@ class SyncDefaultModelsJob
             foreach ($records as $record) {
                 $firstKey = array_keys($record)[0];
                 $checkArray = [
-                    $firstKey => $record[$firstKey]
+                    $firstKey => $record[$firstKey],
                 ];
 
-                 (new $model)->firstOrCreate(
+                (new $model)->firstOrCreate(
                     $checkArray,
                     $record
                 );
@@ -206,318 +206,318 @@ class SyncDefaultModelsJob
                 [
                     'name' => ' Hang-up During Presentation',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Answering Machine',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Answering Machine - Live',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Answering Machine or VoiceMail',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Bad Number',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Busy',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Busy Signal',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Call Back',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Call Back Later',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Complete',
                     'sales' => 1.00,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Complete Replacement',
                     'sales' => 1.00,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Complete With Referral',
                     'sales' => 2.00,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Completed Survey',
                     'sales' => 1.00,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Contact',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Customer already has - ordered the product - has warranty',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Customer Requested Call Back',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Deceased',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Decision Maker Not Available',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Decision Maker Unavailable',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Disconnect',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Disconnected Phone (Agent)',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Do Not Call',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Do Not Call - Call Result',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Do Not Call - Do Not Solict',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Do Not Call NF',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Dual Dispo for Two Pubs',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Early Hangup',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Elderly or Fixed Income',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Immediate Hang-up',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Initial Refusal',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Language Barrier',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Language barrier - customer speaks only Spanish',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Language barrier-speaks language other than Spanish or English',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Machine Hangup',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Never Reached/Ring No Answer',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'New Name Accept, Keep Old',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'New Name Accept, Remove Old',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'New Name Refused, Remove Old',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'No Answer',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'No Answer / Answering Machine',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'No English',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'No longer w company No Replacement',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Non-Qualified Company/Disqual at company question',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Not Interested in Product or Offer',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Original Name Accept, Engagement Made',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Original Name Refused',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Patch',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Phone Busy ',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Problem with Client',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Refused',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Respondent Not Available/Generic callback',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Ring No Answer',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'RNA Ring No Answer',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Sale',
                     'sales' => 1.00,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Satisfied with Current Provider',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Service too expensive',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Take my number off the list',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Transferred to 3rd Party',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Vendor Do Not Call - Prior to Calling',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Voicemail',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Wrong - Bad Number',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Wrong Number',
                     'sales' => 0,
-                    'description' => ''
+                    'description' => '',
                 ],
                 [
                     'name' => 'Non-Qualified Respondent/Disqual at person quest',
                     'sales' => 0,
-                    'description' => ''
-                ]
+                    'description' => '',
+                ],
             ],
         ];
     }

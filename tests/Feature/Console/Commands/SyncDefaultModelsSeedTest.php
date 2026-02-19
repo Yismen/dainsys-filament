@@ -258,8 +258,8 @@ it('sync default models seeds', function (): void {
             ['name' => 'Voicemail', 'sales' => 0, 'description' => ''],
             ['name' => 'Wrong - Bad Number', 'sales' => 0, 'description' => ''],
             ['name' => 'Wrong Number', 'sales' => 0, 'description' => ''],
-            ['name' => 'Non-Qualified Respondent/Disqual at person quest', 'sales' => 0, 'description' => '']
-        ]
+            ['name' => 'Non-Qualified Respondent/Disqual at person quest', 'sales' => 0, 'description' => ''],
+        ],
     ];
 
     $this->artisan('dainsys:sync-default-models-seed');
