@@ -21,7 +21,6 @@ class WorkforcePanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Red,
             ])
-            ->topNavigation(false)
             ->discoverResources(in: app_path('Filament/Workforce/Resources'), for: 'App\Filament\Workforce\Resources')
             ->discoverPages(in: app_path('Filament/Workforce/Pages'), for: 'App\Filament\Workforce\Pages')
             ->discoverWidgets(in: app_path('Filament/Workforce/Widgets'), for: 'App\Filament\Workforce\Widgets')

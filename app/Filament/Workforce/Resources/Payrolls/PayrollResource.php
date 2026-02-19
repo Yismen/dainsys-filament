@@ -23,6 +23,7 @@ use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use UnitEnum;
 
 class PayrollResource extends Resource
 {
@@ -33,6 +34,8 @@ class PayrollResource extends Resource
     protected static ?string $recordTitleAttribute = 'payable_date';
 
     protected static ?int $navigationSort = 6;
+
+    protected static string|UnitEnum|null $navigationGroup = 'Imports';
 
     public static function form(Schema $schema): Schema
     {

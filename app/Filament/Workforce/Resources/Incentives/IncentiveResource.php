@@ -24,6 +24,7 @@ use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use UnitEnum;
 
 class IncentiveResource extends Resource
 {
@@ -34,6 +35,8 @@ class IncentiveResource extends Resource
     protected static ?string $recordTitleAttribute = 'payable_date';
 
     protected static ?int $navigationSort = 5;
+
+    protected static string|UnitEnum|null $navigationGroup = 'Imports';
 
     public static function form(Schema $schema): Schema
     {

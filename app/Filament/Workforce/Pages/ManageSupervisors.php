@@ -17,6 +17,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
+use UnitEnum;
 
 class ManageSupervisors extends Page
 {
@@ -29,6 +30,8 @@ class ManageSupervisors extends Page
     protected static ?int $navigationSort = 7;
 
     public array $selectedEmployees = [];
+
+    protected static string|UnitEnum|null $navigationGroup = 'Management';
 
     #[On('employeesSelected')]
     public function employeesSelected($employees): void
