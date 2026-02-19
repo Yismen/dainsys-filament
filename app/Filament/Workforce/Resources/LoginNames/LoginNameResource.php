@@ -17,6 +17,7 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use UnitEnum;
 
 class LoginNameResource extends Resource
 {
@@ -27,6 +28,8 @@ class LoginNameResource extends Resource
     protected static ?string $recordTitleAttribute = 'login_name';
 
     protected static ?int $navigationSort = 5;
+
+    protected static string|UnitEnum|null $navigationGroup = 'APIs';
 
     public static function form(Schema $schema): Schema
     {

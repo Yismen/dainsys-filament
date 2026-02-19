@@ -13,6 +13,7 @@ class DispositionForm
         return $schema
             ->components([
                 TextInput::make('name')
+                    ->autofocus()
                     ->unique(ignoreRecord: true)
                     ->required(),
                 TextInput::make('sales')

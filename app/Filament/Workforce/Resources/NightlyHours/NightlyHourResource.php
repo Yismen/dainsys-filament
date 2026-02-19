@@ -17,6 +17,7 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use UnitEnum;
 
 class NightlyHourResource extends Resource
 {
@@ -27,6 +28,8 @@ class NightlyHourResource extends Resource
     protected static ?string $recordTitleAttribute = 'id';
 
     protected static ?int $navigationSort = 3;
+
+    protected static string|UnitEnum|null $navigationGroup = 'Imports';
 
     public static function form(Schema $schema): Schema
     {
