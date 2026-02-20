@@ -3,7 +3,7 @@
 namespace App\Filament\Supervisor\Resources\Employees\Pages;
 
 use App\Enums\EmployeeStatuses;
-use App\Filament\Supervisor\Resources\EmployeeResource;
+use App\Filament\Supervisor\Resources\Employees\EmployeeResource;
 use App\Models\Employee;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Database\Eloquent\Builder;

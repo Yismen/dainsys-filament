@@ -12,6 +12,7 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use UnitEnum;
 
 class ProductionResource extends Resource
 {
@@ -21,7 +22,9 @@ class ProductionResource extends Resource
 
     protected static ?string $navigationLabel = 'Production';
 
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 6;
+
+    protected static string|UnitEnum|null $navigationGroup = 'Team Insights';
 
     public static function table(Table $table): Table
     {

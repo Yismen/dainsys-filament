@@ -22,6 +22,7 @@ class EmployeeMetricsTable
                     ->searchable()
                     ->wrap(),
                 TextColumn::make('total_production_time')
+                    ->wrapHeader()
                     ->label('Total Production Time')
                     ->state(function ($record) {
                         return $record->productions()
@@ -38,6 +39,7 @@ class EmployeeMetricsTable
                     ->numeric(decimalPlaces: 2),
                 TextColumn::make('total_conversions')
                     ->label('Total Conversions')
+                    ->wrapHeader()
                     ->state(function ($record) {
                         return $record->productions()
                             ->when(
@@ -53,6 +55,7 @@ class EmployeeMetricsTable
                     ->numeric(decimalPlaces: 2),
                 TextColumn::make('conversions_goal')
                     ->label('Conversions Goal')
+                    ->wrapHeader()
                     ->state(function ($record) {
                         return $record->productions()
                             ->when(
@@ -68,6 +71,7 @@ class EmployeeMetricsTable
                     ->numeric(decimalPlaces: 2),
                 TextColumn::make('sph')
                     ->label('SPH')
+                    ->wrapHeader()
                     ->state(function ($record) {
                         $conversions = $record->productions()
                             ->when(
@@ -96,6 +100,7 @@ class EmployeeMetricsTable
                     ->numeric(decimalPlaces: 2),
                 TextColumn::make('sph_percentage')
                     ->label('SPH % to Goal')
+                    ->wrapHeader()
                     ->state(function ($record) {
                         $conversions = $record->productions()
                             ->when(
@@ -121,9 +126,20 @@ class EmployeeMetricsTable
 
                         return $conversionsGoal > 0 ? ($conversions / $conversionsGoal) * 100 : 0;
                     })
-                    ->formatStateUsing(fn ($state) => round($state, 1).'%'),
+                    ->formatStateUsing(fn ($state) => round($state, 1).'%')
+                    ->badge()
+                    ->color(function ($state) {
+                        if ($state >= 100) {
+                            return 'success';
+                        } elseif ($state >= 80) {
+                            return 'warning';
+                        } else {
+                            return 'danger';
+                        }
+                    }),
                 TextColumn::make('efficiency_rate')
                     ->label('Efficiency Rate %')
+                    ->wrapHeader()
                     ->state(function ($record) {
                         $totalHours = $record->productions()
                             ->when(
@@ -149,7 +165,17 @@ class EmployeeMetricsTable
 
                         return $totalHours > 0 ? ($billableHours / $totalHours) * 100 : 0;
                     })
-                    ->formatStateUsing(fn ($state) => round($state, 1).'%'),
+                    ->formatStateUsing(fn ($state) => round($state, 1).'%')
+                    ->badge()
+                    ->color(function ($state) {
+                        if ($state >= 100) {
+                            return 'success';
+                        } elseif ($state >= 90) {
+                            return 'warning';
+                        } else {
+                            return 'danger';
+                        }
+                    }),
             ])
             ->filters([
                 Filter::make('date')

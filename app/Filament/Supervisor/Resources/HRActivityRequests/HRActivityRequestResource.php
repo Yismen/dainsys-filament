@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Filament\Supervisor\Resources;
+namespace App\Filament\Supervisor\Resources\HRActivityRequests;
 
 use App\Enums\HRActivityRequestStatuses;
 use App\Enums\HRActivityTypes;
-use App\Filament\Supervisor\Resources\Pages\ListHRActivityRequests;
-use App\Filament\Supervisor\Resources\Pages\ViewHRActivityRequest;
+use App\Filament\Supervisor\Resources\HRActivityRequests\Pages\ListHRActivityRequests;
+use App\Filament\Supervisor\Resources\HRActivityRequests\Pages\ViewHRActivityRequest;
 use App\Models\Employee;
 use App\Models\HRActivityRequest;
 use App\Services\ModelListService;
@@ -26,6 +26,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use UnitEnum;
 
 class HRActivityRequestResource extends Resource
 {
@@ -33,9 +34,13 @@ class HRActivityRequestResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedClipboardDocumentList;
 
-    protected static ?string $navigationLabel = 'My HR Requests';
+    protected static ?string $navigationLabel = 'HR Requests';
 
     protected static ?string $modelLabel = 'HR Request';
+
+    protected static ?int $navigationSort = 3;
+
+    protected static string|UnitEnum|null $navigationGroup = 'Team Management';
 
     public static function getEloquentQuery(): Builder
     {

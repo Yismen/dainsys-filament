@@ -34,7 +34,8 @@ class WorkforcePanelProvider extends PanelProvider
             ->plugins([
                 BreezyCore::make()
                     ->myProfile()
-                    ->enableTwoFactorAuthentication(),
+                    ->enableTwoFactorAuthentication()
+                    ->enableSanctumTokens(permissions: ['use-dainsys']),
             ]);
     }
 }

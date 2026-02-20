@@ -8,7 +8,7 @@ use Filament\Support\Contracts\HasLabel;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Contracts\Support\Htmlable;
 
-enum HRNavigationEnum: string implements HasIcon, HasLabel
+enum HRNavigationEnum: string implements HasLabel
 {
     case HUMAN_RESOURCE_DASHBOARD = 'human-resource-dashboard';
     case EMPLOYEES_MANAGEMENT = 'employees-management';
@@ -23,12 +23,12 @@ enum HRNavigationEnum: string implements HasIcon, HasLabel
         };
     }
 
-    public function getIcon(): string|BackedEnum|Htmlable|null
-    {
-        return match ($this) {
-            self::HUMAN_RESOURCE_DASHBOARD => Heroicon::OutlinedChartBar,
-            self::EMPLOYEES_MANAGEMENT => Heroicon::OutlinedUsers,
-            self::HR_MANAGEMENT => Heroicon::OutlinedBuildingOffice,
-        };
-    }
+    // public function getIcon(): string|BackedEnum|Htmlable|null
+    // {
+    //     return match ($this) {
+    //         self::HUMAN_RESOURCE_DASHBOARD => Heroicon::OutlinedChartBar,
+    //         self::EMPLOYEES_MANAGEMENT => Heroicon::OutlinedUsers,
+    //         self::HR_MANAGEMENT => Heroicon::OutlinedBuildingOffice,
+    //     };
+    // }
 }

@@ -1,15 +1,17 @@
 <?php
 
 use App\Enums\HRActivityRequestStatuses;
+use App\Filament\Supervisor\Resources\HRActivityRequests\Pages\ListHRActivityRequests;
+use App\Filament\Supervisor\Resources\HRActivityRequests\Pages\ViewHRActivityRequest;
 use App\Models\Employee;
 use App\Models\HRActivityRequest;
 use App\Models\Supervisor;
 use App\Models\User;
 use Filament\Facades\Filament;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Mail;
 
 use function Pest\Livewire\livewire;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Mail;
 
 beforeEach(function (): void {
     Mail::fake();
@@ -35,7 +37,7 @@ test('supervisor can view their own activity requests', function (): void {
 
     $otherRequests = HRActivityRequest::factory()->count(2)->create();
 
-    livewire(\App\Filament\Supervisor\Resources\Pages\ListHRActivityRequests::class)
+    livewire(ListHRActivityRequests::class)
         ->assertSuccessful()
         ->assertCanSeeTableRecords($ownRequests)
         ->assertCanNotSeeTableRecords($otherRequests);
@@ -54,7 +56,7 @@ test('supervisor can filter their requests by status', function (): void {
         'completion_comment' => 'Done',
     ]);
 
-    livewire(\App\Filament\Supervisor\Resources\Pages\ListHRActivityRequests::class)
+    livewire(ListHRActivityRequests::class)
         ->filterTable('status', [HRActivityRequestStatuses::Requested->value])
         ->assertCanSeeTableRecords([$requestedRequest])
         ->assertCanNotSeeTableRecords([$completedRequest]);
@@ -65,7 +67,7 @@ test('supervisor can view individual request', function (): void {
         'supervisor_id' => $this->supervisor->id,
     ]);
 
-    livewire(\App\Filament\Supervisor\Resources\Pages\ViewHRActivityRequest::class, ['record' => $request->id])
+    livewire(ViewHRActivityRequest::class, ['record' => $request->id])
         ->assertSuccessful()
         ->assertSee($request->employee->full_name)
         ->assertSee($request->activity_type->value);

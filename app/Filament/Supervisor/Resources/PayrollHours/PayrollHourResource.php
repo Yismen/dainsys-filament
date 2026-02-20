@@ -12,6 +12,7 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use UnitEnum;
 
 class PayrollHourResource extends Resource
 {
@@ -21,7 +22,9 @@ class PayrollHourResource extends Resource
 
     protected static ?string $navigationLabel = 'Payroll Hours';
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 5;
+
+    protected static string|UnitEnum|null $navigationGroup = 'Team Insights';
 
     public static function table(Table $table): Table
     {

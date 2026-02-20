@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Supervisor\Resources\Pages;
+namespace App\Filament\Supervisor\Resources\HRActivityRequests\Pages;
 
-use App\Filament\Supervisor\Resources\HRActivityRequestResource;
+use App\Filament\Supervisor\Resources\HRActivityRequests\HRActivityRequestResource;
 use Filament\Resources\Pages\ListRecords;
 
 class ListHRActivityRequests extends ListRecords
