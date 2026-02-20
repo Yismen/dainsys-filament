@@ -108,7 +108,7 @@ class DowntimesTable
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make()
-                    ->visible(fn ($record) => $record->status->value === 'Pending'),
+                    ->visible(fn ($record) => $record->status->value === 'Pending' && $record->employee->supervisor_id === Auth::user()?->supervisor?->id),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

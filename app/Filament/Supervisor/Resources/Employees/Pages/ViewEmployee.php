@@ -2,7 +2,7 @@
 
 namespace App\Filament\Supervisor\Resources\Employees\Pages;
 
-use App\Filament\Supervisor\Resources\EmployeeResource;
+use App\Filament\Supervisor\Resources\Employees\EmployeeResource;
 use App\Filament\Supervisor\Resources\Employees\Schemas\EmployeeInfolist;
 use Filament\Resources\Pages\ViewRecord;
 

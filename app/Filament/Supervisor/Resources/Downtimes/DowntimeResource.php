@@ -15,6 +15,7 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use UnitEnum;
 
 class DowntimeResource extends Resource
 {
@@ -22,9 +23,13 @@ class DowntimeResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
-    protected static ?string $navigationLabel = 'My Team Downtimes';
+    protected static ?string $navigationLabel = 'Downtimes';
 
     protected static ?string $pluralModelLabel = 'Team Downtimes';
+
+    protected static ?int $navigationSort = 2;
+
+    protected static string|UnitEnum|null $navigationGroup = 'Team Management';
 
     public static function form(Schema $schema): Schema
     {

@@ -4,6 +4,7 @@ namespace App\Filament\Supervisor\Resources\Productions\Tables;
 
 use App\Models\Campaign;
 use App\Models\Employee;
+use App\Models\Production;
 use App\Services\ModelListService;
 use Filament\Support\Enums\Width;
 use Filament\Tables\Columns\TextColumn;
@@ -33,35 +34,47 @@ class ProductionsTable
                     ->label('Campaign')
                     ->sortable()
                     ->searchable()
+                    ->limit(25)
+                    ->tooltip(fn (Production $record) => $record->campaign?->name)
                     ->wrap(),
                 TextColumn::make('conversions')
                     ->label('Conversions')
                     ->numeric(decimalPlaces: 2)
                     ->sortable(),
                 TextColumn::make('total_time')
+                    ->wrapHeader()
                     ->label('Total Time')
                     ->numeric(decimalPlaces: 2)
                     ->sortable(),
                 TextColumn::make('talk_time')
+                    ->wrapHeader()
                     ->label('Talk Time')
                     ->numeric(decimalPlaces: 2)
                     ->sortable(),
                 TextColumn::make('billable_time')
+                    ->wrapHeader()
                     ->label('Billable Time')
                     ->numeric(decimalPlaces: 2)
                     ->sortable(),
-                TextColumn::make('revenue')
-                    ->label('Revenue')
-                    ->money('USD')
-                    ->sortable(),
+                // TextColumn::make('revenue')
+                //     ->label('Revenue')
+                //     ->money('USD')
+                //     ->sortable(),
                 // TextColumn::make('revenue_rate')
                 //     ->label('Revenue Rate')
                 //     ->numeric(decimalPlaces: 2)
                 //     ->sortable(),
-                // TextColumn::make('sph_goal')
-                //     ->label('SPH Goal')
-                //     ->numeric(decimalPlaces: 2)
-                //     ->sortable(),
+                TextColumn::make('sph_goal')
+                    ->wrapHeader()
+                    ->label('SPH Goal')
+                    ->numeric(decimalPlaces: 2)
+                    ->sortable(),
+                TextColumn::make(name: 'sph')
+                    ->wrapHeader()
+                    ->label('SPH')
+                    ->numeric(decimalPlaces: 2)
+                    ->state(fn (Production $record) => $record->billable_time > 0 ? round($record->conversions / $record->billable_time, 2) : 0  )
+                    ->sortable(),
             ])
             ->filters([
                 Filter::make('date')

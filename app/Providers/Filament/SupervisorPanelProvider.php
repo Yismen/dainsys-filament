@@ -20,7 +20,7 @@ class SupervisorPanelProvider extends PanelProvider
                 'primary' => Color::Blue,
             ])
 
-            ->topNavigation(false)
+            // ->topNavigation(false)
             ->discoverResources(in: app_path('Filament/Supervisor/Resources'), for: 'App\\Filament\\Supervisor\\Resources')
             ->discoverPages(in: app_path('Filament/Supervisor/Pages'), for: 'App\\Filament\\Supervisor\\Pages')
             ->discoverWidgets(in: app_path('Filament/Supervisor/Widgets'), for: 'App\\Filament\\Supervisor\\Widgets')

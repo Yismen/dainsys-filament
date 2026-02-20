@@ -12,6 +12,7 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use UnitEnum;
 
 class EmployeeMetricsResource extends Resource
 {
@@ -21,7 +22,9 @@ class EmployeeMetricsResource extends Resource
 
     protected static ?string $navigationLabel = 'Employee Metrics';
 
-    protected static ?int $navigationSort = 5;
+    protected static ?int $navigationSort = 4;
+
+    protected static string|UnitEnum|null $navigationGroup = 'Team Insights';
 
     protected static ?string $slug = 'employee-metrics';
 

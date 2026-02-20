@@ -13,14 +13,17 @@ use App\Models\DowntimeReason;
 use App\Models\HRActivityRequest;
 use Filament\Actions\Action;
 use Filament\Actions\BulkAction;
+use Filament\Actions\ViewAction;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Grid;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Spatie\FlareClient\View;
 
 class EmployeesTable
 {
@@ -31,6 +34,7 @@ class EmployeesTable
             ->columns([
                 TextColumn::make('full_name')
                     ->label('Employee')
+                    ->wrap()
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('email')
@@ -48,9 +52,11 @@ class EmployeesTable
                     ]),
             ])
             ->recordActions([
+                ViewAction::make(),
                 Action::make('requestActivity')
-                    ->label('Request HR Activity')
+                    ->label('HR Activity')
                     ->icon('heroicon-o-paper-clip')
+                    ->color('info')
                     ->schema([
                         Select::make('activity_type')
                             ->label('Activity Type')
@@ -76,29 +82,33 @@ class EmployeesTable
                     })
                     ->successNotificationTitle('HR Activity Request created successfully'),
                 Action::make('requestDowntime')
-                    ->label('Request Downtime')
+                    ->label('Downtime')
                     ->icon('heroicon-o-clock')
+                    ->color('warning')
                     ->modalHeading('Request downtime')
                     ->schema([
-                        DatePicker::make('date')->required(),
-                        Select::make('campaign_id')
-                            ->label('Campaign')
-                            ->options(Campaign::query()->where('revenue_type', \App\Enums\RevenueTypes::Downtime)->pluck('name', 'id'))
-                            ->required(),
-                        Select::make('downtime_reason_id')
-                            ->label('Reason')
-                            ->options(DowntimeReason::query()->pluck('name', 'id'))
-                            ->required(),
-                        TextInput::make('total_time')
-                            ->label('Total time (hours)')
-                            ->numeric()
-                            ->minValue(0.25)
-                            ->step(0.25)
-                            ->required(),
-                        Textarea::make('comment')
-                            ->label('Comment')
-                            ->nullable()
-                            ->rows(3),
+                        Grid::make(2)
+                            ->schema([
+                                DatePicker::make('date')->required(),
+                                Select::make('campaign_id')
+                                    ->label('Campaign')
+                                    ->options(Campaign::query()->where('revenue_type', \App\Enums\RevenueTypes::Downtime)->pluck('name', 'id'))
+                                    ->required(),
+                                Select::make('downtime_reason_id')
+                                    ->label('Reason')
+                                    ->options(DowntimeReason::query()->pluck('name', 'id'))
+                                    ->required(),
+                                TextInput::make('total_time')
+                                    ->label('Total time (hours)')
+                                    ->numeric()
+                                    ->minValue(0.25)
+                                    ->step(0.25)
+                                    ->required(),
+                                Textarea::make('comment')
+                                    ->label('Comment')
+                                    ->nullable()
+                                    ->rows(3),
+                            ])
                     ])
                     ->action(function ($record, array $data): void {
                         $supervisor = Auth::user()?->supervisor;
