@@ -29,7 +29,7 @@ class FilamentPanelsService
             ->spa()
             ->favicon(asset('images/ecco-favicon.png'))
             ->databaseNotifications()
-            ->sidebarCollapsibleOnDesktop()
+            // ->sidebarCollapsibleOnDesktop()
             ->topNavigation()
             ->subNavigationPosition(SubNavigationPosition::Top)
             ->viteTheme('resources/css/filament/admin/theme.css')

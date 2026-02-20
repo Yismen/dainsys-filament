@@ -16,7 +16,6 @@ class HumanResourcePanelProvider extends PanelProvider
         return FilamentPanelsService::make($panel)
             ->id('human-resource')
             ->path('human-resource')
-            ->topNavigation()
             ->colors([
                 'primary' => Color::Amber,
             ])
