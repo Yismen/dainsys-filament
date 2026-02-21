@@ -28,9 +28,9 @@ class MyProduction extends Page implements HasTable
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-chart-bar';
 
-    protected static ?string $navigationLabel = 'My Production';
+    protected static ?string $navigationLabel = 'My Productions';
 
-    protected static ?string $title = 'My Production';
+    protected static ?string $title = 'My Productions';
 
     protected static ?int $navigationSort = 3;
 
