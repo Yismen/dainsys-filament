@@ -130,6 +130,8 @@ it('summarize data based on the week and ignores other weeks', function (): void
 });
 
 it('is schedulled to run for the previous day and every hour at the 23 minute', function (): void {
+    $this->app->make(\Illuminate\Contracts\Console\Kernel::class);
+
     $command = collect(
         app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events()
     )
