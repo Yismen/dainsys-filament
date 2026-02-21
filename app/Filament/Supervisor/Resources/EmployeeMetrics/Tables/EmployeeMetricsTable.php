@@ -8,7 +8,6 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Log;
 
 class EmployeeMetricsTable
 {
@@ -140,12 +139,12 @@ class EmployeeMetricsTable
                     ->query(function (Builder $query, array $data): Builder {
                         return $query->when(
                             $data['date_from'],
-                            fn($q, $date) => $q->whereHas('productions', fn($q) => $q->whereDate('date', '>=', $date))
+                            fn ($q, $date) => $q->whereHas('productions', fn ($q) => $q->whereDate('date', '>=', $date))
                         )
-                        ->when(
-                            $data['date_until'],
-                            fn($q, $date) => $q->whereHas('productions', fn($q) => $q->whereDate('date', '<=', $date))
-                        );
+                            ->when(
+                                $data['date_until'],
+                                fn ($q, $date) => $q->whereHas('productions', fn ($q) => $q->whereDate('date', '<=', $date))
+                            );
                     }),
             ])
             ->filtersFormColumns(2)

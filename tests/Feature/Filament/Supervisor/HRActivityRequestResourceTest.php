@@ -8,10 +8,10 @@ use App\Models\HRActivityRequest;
 use App\Models\Supervisor;
 use App\Models\User;
 use Filament\Facades\Filament;
-
-use function Pest\Livewire\livewire;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
+
+use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
     Mail::fake();

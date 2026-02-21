@@ -87,7 +87,7 @@ class MyDowntimes extends Page implements HasTable
             ->filters([
                 Filter::make('date')
                     ->columnSpanFull()
-                    ->indicateUsing(function(array $data) {
+                    ->indicateUsing(function (array $data) {
                         if ($data['date_from'] && $data['date_until']) {
                             return "From {$data['date_from']} to {$data['date_until']}";
                         }

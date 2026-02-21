@@ -7,10 +7,8 @@ use App\Services\ModelListService;
 use Filament\Forms\Components\DatePicker;
 use Filament\Support\Enums\Width;
 use Filament\Tables\Columns\Summarizers\Sum;
-use Filament\Tables\Columns\Summarizers\Summarizer;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
-use Filament\Tables\Filters\QueryBuilder\Constraints\DateConstraint;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -37,35 +35,35 @@ class PayrollHoursTable
                     ->numeric(decimalPlaces: 2)
                     ->sortable()
                     ->summarize([
-                        Sum::make()
+                        Sum::make(),
                     ]),
                 TextColumn::make('overtime_hours')
                     ->label('Overtime Hours')
                     ->numeric(decimalPlaces: 2)
                     ->sortable()
                     ->summarize([
-                        Sum::make()
+                        Sum::make(),
                     ]),
                 TextColumn::make('holiday_hours')
                     ->label('Holiday Hours')
                     ->numeric(decimalPlaces: 2)
                     ->sortable()
                     ->summarize([
-                        Sum::make()
+                        Sum::make(),
                     ]),
                 TextColumn::make('seventh_day_hours')
                     ->label('Seventh Day Hours')
                     ->numeric(decimalPlaces: 2)
                     ->sortable()
                     ->summarize([
-                        Sum::make()
+                        Sum::make(),
                     ]),
                 TextColumn::make('total_hours')
                     ->label('Total Hours')
                     ->numeric(decimalPlaces: 2)
                     ->sortable()
                     ->summarize([
-                        Sum::make()
+                        Sum::make(),
                     ]),
             ])
             ->filters([

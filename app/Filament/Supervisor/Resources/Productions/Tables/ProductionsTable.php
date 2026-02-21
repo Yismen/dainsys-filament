@@ -73,7 +73,7 @@ class ProductionsTable
                     ->wrapHeader()
                     ->label('SPH')
                     ->numeric(decimalPlaces: 2)
-                    ->state(fn (Production $record) => $record->billable_time > 0 ? round($record->conversions / $record->billable_time, 2) : 0  )
+                    ->state(fn (Production $record) => $record->billable_time > 0 ? round($record->conversions / $record->billable_time, 2) : 0)
                     ->sortable(),
             ])
             ->filters([

@@ -179,6 +179,7 @@ class MyProduction extends Page implements HasTable
                         if ($data['date_until']) {
                             return "Until {$data['date_until']}";
                         }
+
                         return null;
                     })
                     ->schema([

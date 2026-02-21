@@ -23,7 +23,6 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
-use Spatie\FlareClient\View;
 
 class EmployeesTable
 {
@@ -108,7 +107,7 @@ class EmployeesTable
                                     ->label('Comment')
                                     ->nullable()
                                     ->rows(3),
-                            ])
+                            ]),
                     ])
                     ->action(function ($record, array $data): void {
                         $supervisor = Auth::user()?->supervisor;
