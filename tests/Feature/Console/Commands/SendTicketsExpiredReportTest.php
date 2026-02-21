@@ -24,6 +24,8 @@ it('is is schedulled daily at 8:15 am', function (): void {
             return str($element->command)->contains('dainsys:send-tickets-expired-report');
         });
 
+
+    expect($command)->not()->toBeNull();
     $this->assertEquals('15 8 * * *', $command->expression);
 });
 

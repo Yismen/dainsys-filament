@@ -26,12 +26,13 @@ test('employees suspended run sucessfully', function (): void {
 });
 
 test('command is schedulled for daily at 305 am', function (): void {
-    $addedToScheduler = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
+    $command = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
         ->first(function ($element) {
             return str($element->command)->contains('dainsys:send-suspended-employees-email');
         });
 
-    expect($addedToScheduler->expression)->toBe('5 3 * * *');
+    expect($command)->not()->toBeNull();
+    expect($command->expression)->toBe('5 3 * * *');
 });
 
 test('employees suspended sends email', function (): void {
@@ -62,10 +63,10 @@ test('employees suspended does not sends email if there is not employees suspend
 // /** @test */
 // public function command_is_schedulled_for_evey_thirty_minutes()
 // {
-//     $addedToScheduler = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
+//     $command = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
 //         ->filter(function ($element) {
 //             return str($element->command)->contains('support:update-ticket-status');
 //         })->first();
-//     $this->assertNotNull($addedToScheduler);
-//     $this->assertEquals('0,30 * * * *', $addedToScheduler->expression);
+//     $this->assertNotNull($command);
+//     $this->assertEquals('0,30 * * * *', $command->expression);
 // }
