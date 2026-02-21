@@ -75,13 +75,33 @@ class MyNightlyHours extends Page implements HasTable
             ])
             ->filters([
                 Filter::make('date')
+                    ->columnSpanFull()
+                    ->indicateUsing(function (array $data) {
+                        if ($data['date_from'] && $data['date_until']) {
+                            return "From {$data['date_from']} to {$data['date_until']}";
+                        }
+
+                        if ($data['date_from']) {
+                            return "From {$data['date_from']}";
+                        }
+
+                        if ($data['date_until']) {
+                            return "Until {$data['date_until']}";
+                        }
+
+                        return null;
+                    })
                     ->schema([
                         DatePicker::make('date_from')
                             ->label('Date from')
-                            ->placeholder('Start date'),
+                            ->placeholder('Start date')
+                            ->minDate(now()->subYear())
+                            ->maxDate(now()),
                         DatePicker::make('date_until')
                             ->label('Date until')
-                            ->placeholder('End date'),
+                            ->placeholder('End date')
+                            ->minDate(now()->subYear())
+                            ->maxDate(now()),
                     ])
                     ->columns(2)
                     ->query(function (Builder $query, array $data): Builder {

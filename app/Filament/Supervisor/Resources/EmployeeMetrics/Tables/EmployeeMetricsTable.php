@@ -8,6 +8,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Log;
 
 class EmployeeMetricsTable
 {
@@ -25,15 +26,7 @@ class EmployeeMetricsTable
                     ->wrapHeader()
                     ->label('Total Production Time')
                     ->state(function ($record) {
-                        return $record->productions()
-                            ->when(
-                                session('metrics_date_from'),
-                                fn ($q, $date) => $q->whereDate('date', '>=', $date)
-                            )
-                            ->when(
-                                session('metrics_date_until'),
-                                fn ($q, $date) => $q->whereDate('date', '<=', $date)
-                            )
+                        return $record->productions
                             ->sum('production_time');
                     })
                     ->numeric(decimalPlaces: 2),
@@ -41,15 +34,7 @@ class EmployeeMetricsTable
                     ->label('Total Conversions')
                     ->wrapHeader()
                     ->state(function ($record) {
-                        return $record->productions()
-                            ->when(
-                                session('metrics_date_from'),
-                                fn ($q, $date) => $q->whereDate('date', '>=', $date)
-                            )
-                            ->when(
-                                session('metrics_date_until'),
-                                fn ($q, $date) => $q->whereDate('date', '<=', $date)
-                            )
+                        return $record->productions
                             ->sum('conversions');
                     })
                     ->numeric(decimalPlaces: 2),
@@ -57,15 +42,7 @@ class EmployeeMetricsTable
                     ->label('Conversions Goal')
                     ->wrapHeader()
                     ->state(function ($record) {
-                        return $record->productions()
-                            ->when(
-                                session('metrics_date_from'),
-                                fn ($q, $date) => $q->whereDate('date', '>=', $date)
-                            )
-                            ->when(
-                                session('metrics_date_until'),
-                                fn ($q, $date) => $q->whereDate('date', '<=', $date)
-                            )
+                        return $record->productions
                             ->sum('conversions_goal');
                     })
                     ->numeric(decimalPlaces: 2),
@@ -73,26 +50,10 @@ class EmployeeMetricsTable
                     ->label('SPH')
                     ->wrapHeader()
                     ->state(function ($record) {
-                        $conversions = $record->productions()
-                            ->when(
-                                session('metrics_date_from'),
-                                fn ($q, $date) => $q->whereDate('date', '>=', $date)
-                            )
-                            ->when(
-                                session('metrics_date_until'),
-                                fn ($q, $date) => $q->whereDate('date', '<=', $date)
-                            )
+                        $conversions = $record->productions
                             ->sum('conversions');
 
-                        $productionHours = $record->productions()
-                            ->when(
-                                session('metrics_date_from'),
-                                fn ($q, $date) => $q->whereDate('date', '>=', $date)
-                            )
-                            ->when(
-                                session('metrics_date_until'),
-                                fn ($q, $date) => $q->whereDate('date', '<=', $date)
-                            )
+                        $productionHours = $record->productions
                             ->sum('production_time');
 
                         return $productionHours > 0 ? $conversions / ($productionHours) : 0;
@@ -102,26 +63,10 @@ class EmployeeMetricsTable
                     ->label('SPH % to Goal')
                     ->wrapHeader()
                     ->state(function ($record) {
-                        $conversions = $record->productions()
-                            ->when(
-                                session('metrics_date_from'),
-                                fn ($q, $date) => $q->whereDate('date', '>=', $date)
-                            )
-                            ->when(
-                                session('metrics_date_until'),
-                                fn ($q, $date) => $q->whereDate('date', '<=', $date)
-                            )
+                        $conversions = $record->productions
                             ->sum('conversions');
 
-                        $conversionsGoal = $record->productions()
-                            ->when(
-                                session('metrics_date_from'),
-                                fn ($q, $date) => $q->whereDate('date', '>=', $date)
-                            )
-                            ->when(
-                                session('metrics_date_until'),
-                                fn ($q, $date) => $q->whereDate('date', '<=', $date)
-                            )
+                        $conversionsGoal = $record->productions
                             ->sum('conversions_goal');
 
                         return $conversionsGoal > 0 ? ($conversions / $conversionsGoal) * 100 : 0;
@@ -141,26 +86,10 @@ class EmployeeMetricsTable
                     ->label('Efficiency Rate %')
                     ->wrapHeader()
                     ->state(function ($record) {
-                        $totalHours = $record->productions()
-                            ->when(
-                                session('metrics_date_from'),
-                                fn ($q, $date) => $q->whereDate('date', '>=', $date)
-                            )
-                            ->when(
-                                session('metrics_date_until'),
-                                fn ($q, $date) => $q->whereDate('date', '<=', $date)
-                            )
+                        $totalHours = $record->productions
                             ->sum('total_time');
 
-                        $billableHours = $record->productions()
-                            ->when(
-                                session('metrics_date_from'),
-                                fn ($q, $date) => $q->whereDate('date', '>=', $date)
-                            )
-                            ->when(
-                                session('metrics_date_until'),
-                                fn ($q, $date) => $q->whereDate('date', '<=', $date)
-                            )
+                        $billableHours = $record->productions
                             ->sum('billable_time');
 
                         return $totalHours > 0 ? ($billableHours / $totalHours) * 100 : 0;
@@ -180,21 +109,46 @@ class EmployeeMetricsTable
             ->filters([
                 Filter::make('date')
                     ->columnSpanFull()
+                    ->columns(2)
+                    ->indicateUsing(function ($data) {
+                        if (isset($data['date_from']) && isset($data['date_until'])) {
+                            return 'From '.$data['date_from'].' until '.$data['date_until'];
+                        }
+
+                        if (isset($data['date_from'])) {
+                            return 'From '.$data['date_from'];
+                        }
+
+                        if (isset($data['date_until'])) {
+                            return 'Until '.$data['date_until'];
+                        }
+
+                        return null;
+                    })
                     ->schema([
                         DatePicker::make('date_from')
-                            ->label('Date from'),
+                            ->label('From')
+                            ->default(now()->subMonth())
+                            ->minDate(now()->subYear())
+                            ->maxDate(now()),
                         DatePicker::make('date_until')
-                            ->label('Date until'),
+                            ->label('Until')
+                            ->default(now())
+                            ->minDate(now()->subYear())
+                            ->maxDate(now()),
                     ])
-                    ->columns(2)
                     ->query(function (Builder $query, array $data): Builder {
-                        session(['metrics_date_from' => $data['date_from'], 'metrics_date_until' => $data['date_until']]);
-
-                        return $query;
+                        return $query->when(
+                            $data['date_from'],
+                            fn($q, $date) => $q->whereHas('productions', fn($q) => $q->whereDate('date', '>=', $date))
+                        )
+                        ->when(
+                            $data['date_until'],
+                            fn($q, $date) => $q->whereHas('productions', fn($q) => $q->whereDate('date', '<=', $date))
+                        );
                     }),
             ])
             ->filtersFormColumns(2)
-            ->filtersFormWidth(Width::Large)
-            ->paginated([10, 25, 50, 100]);
+            ->filtersFormWidth(Width::Large);
     }
 }

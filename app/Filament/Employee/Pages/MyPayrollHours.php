@@ -116,13 +116,29 @@ class MyPayrollHours extends Page implements HasTable
             ])
             ->filters([
                 Filter::make('date')
+                    ->columnSpanFull()
+                    ->columns(2)
+                    ->indicateUsing(function ($data) {
+                        $from = $data['date_from'] ? date('M d, Y', strtotime($data['date_from'])) : null;
+                        $until = $data['date_until'] ? date('M d, Y', strtotime($data['date_until'])) : null;
+
+                        if ($from && $until) {
+                            return "From {$from} to {$until}";
+                        }
+
+                        return $from ? "From {$from}" : ($until ? "Until {$until}" : null);
+                    })
                     ->schema([
                         DatePicker::make('date_from')
                             ->label('Date from')
-                            ->placeholder('Start date'),
+                            ->placeholder('Start date')
+                            ->minDate(now()->subYear())
+                            ->maxDate(now()),
                         DatePicker::make('date_until')
                             ->label('Date until')
-                            ->placeholder('End date'),
+                            ->placeholder('End date')
+                            ->minDate(now()->subYear())
+                            ->maxDate(now()),
                     ])
                     ->columns(2)
                     ->query(function (Builder $query, array $data): Builder {
