@@ -137,5 +137,6 @@ it('is schedulled to run for the previous day and every hour at the 23 minute', 
             return str($element->command)->contains('dainsys:import-payroll-hours-from-production date="'.now()->subDay()->format('Y-m-d').'"');
         });
 
+    expect($command)->not()->toBeNull();
     expect($command->expression)->toBe('23 * * * *');
 });

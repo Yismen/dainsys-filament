@@ -80,13 +80,34 @@ class MyIncentives extends Page implements HasTable
             ])
             ->filters([
                 Filter::make('payable_date')
+                    ->label('Payable Date')
+                    ->columnSpanFull()
+                    ->indicateUsing(function (array $state): ?string {
+                        if ($state['payable_date_from'] && $state['payable_date_until']) {
+                            return "Payable date from {$state['payable_date_from']} until {$state['payable_date_until']}";
+                        }
+
+                        if ($state['payable_date_from']) {
+                            return "Payable date from {$state['payable_date_from']}";
+                        }
+
+                        if ($state['payable_date_until']) {
+                            return "Payable date until {$state['payable_date_until']}";
+                        }
+
+                        return null;
+                    })
                     ->schema([
                         DatePicker::make('payable_date_from')
                             ->label('Payable date from')
-                            ->placeholder('Start date'),
+                            ->placeholder('Start date')
+                            ->minDate(now()->subYear())
+                            ->maxDate(now()),
                         DatePicker::make('payable_date_until')
                             ->label('Payable date until')
-                            ->placeholder('End date'),
+                            ->placeholder('End date')
+                            ->minDate(now()->subYear())
+                            ->maxDate(now()),
                     ])
                     ->columns(2)
                     ->query(function (Builder $query, array $data): Builder {

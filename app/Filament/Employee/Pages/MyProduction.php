@@ -28,9 +28,9 @@ class MyProduction extends Page implements HasTable
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-chart-bar';
 
-    protected static ?string $navigationLabel = 'My Production';
+    protected static ?string $navigationLabel = 'My Productions';
 
-    protected static ?string $title = 'My Production';
+    protected static ?string $title = 'My Productions';
 
     protected static ?int $navigationSort = 3;
 
@@ -168,13 +168,30 @@ class MyProduction extends Page implements HasTable
             ])
             ->filters([
                 Filter::make('date')
+                    ->columnSpanFull()
+                    ->indicateUsing(function (array $data) {
+                        if ($data['date_from'] && $data['date_until']) {
+                            return "From {$data['date_from']} to {$data['date_until']}";
+                        }
+                        if ($data['date_from']) {
+                            return "From {$data['date_from']}";
+                        }
+                        if ($data['date_until']) {
+                            return "Until {$data['date_until']}";
+                        }
+                        return null;
+                    })
                     ->schema([
                         DatePicker::make('date_from')
                             ->label('Date from')
-                            ->placeholder('Start date'),
+                            ->placeholder('Start date')
+                            ->minDate(now()->subYear())
+                            ->maxDate(now()),
                         DatePicker::make('date_until')
                             ->label('Date until')
-                            ->placeholder('End date'),
+                            ->placeholder('End date')
+                            ->minDate(now()->subYear())
+                            ->maxDate(now()),
                     ])
                     ->columns(2)
                     ->query(function (Builder $query, array $data): Builder {

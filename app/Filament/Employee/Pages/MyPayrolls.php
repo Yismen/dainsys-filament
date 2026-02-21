@@ -201,13 +201,36 @@ class MyPayrolls extends Page implements HasTable
             ])
             ->filters([
                 Filter::make('payable_date')
+                    ->columnSpanFull()
+                    ->indicateUsing(function ($data) {
+                        $from = $data['payable_date_from'] ? Carbon::parse($data['payable_date_from'])->format('M d, Y') : null;
+                        $until = $data['payable_date_until'] ? Carbon::parse($data['payable_date_until'])->format('M d, Y') : null;
+
+                        if ($from && $until) {
+                            return "Payable Date: From {$from} until {$until}";
+                        }
+
+                        if ($from) {
+                            return "Payable Date: From {$from}";
+                        }
+
+                        if ($until) {
+                            return "Payable Date: Until {$until}";
+                        }
+
+                        return 'Payable Date';
+                    })
                     ->schema([
                         DatePicker::make('payable_date_from')
                             ->label('Payable date from')
-                            ->placeholder('Start date'),
+                            ->placeholder('Start date')
+                            ->minDate(now()->subYear())
+                            ->maxDate(now()),
                         DatePicker::make('payable_date_until')
                             ->label('Payable date until')
-                            ->placeholder('End date'),
+                            ->placeholder('End date')
+                            ->minDate(now()->subYear())
+                            ->maxDate(now()),
                     ])
                     ->columns(2)
                     ->query(function (Builder $query, array $data): Builder {

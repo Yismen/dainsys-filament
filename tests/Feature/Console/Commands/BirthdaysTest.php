@@ -47,6 +47,7 @@ it('runs daily at 4:00 am with type=today', function (string $type, string $expr
         return stripos($event->command, 'dainsys:birthdays type="'.$type.'"') !== false;
     });
 
+    expect($command)->not()->toBeNull();
     expect($command->expression)->toEqual($expression);
 })->with([
     ['today', '0 4 * * *'],

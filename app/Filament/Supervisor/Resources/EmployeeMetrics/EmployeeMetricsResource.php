@@ -26,6 +26,8 @@ class EmployeeMetricsResource extends Resource
 
     protected static string|UnitEnum|null $navigationGroup = 'Team Insights';
 
+    protected static ?string $modelLabel = 'Employee Metrics';
+
     protected static ?string $slug = 'employee-metrics';
 
     public static function table(Table $table): Table
@@ -42,6 +44,7 @@ class EmployeeMetricsResource extends Resource
         }
 
         return parent::getEloquentQuery()
+            ->with('productions')
             ->where('supervisor_id', $supervisor->id)
             ->whereIn('status', [EmployeeStatuses::Hired, EmployeeStatuses::Suspended]);
     }

@@ -15,12 +15,13 @@ beforeEach(function (): void {
 });
 
 test('command is schedulled for evey thirty minutes', function (): void {
-    $addedToScheduler = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
+    $command = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
         ->first(function ($element) {
             return str($element->command)->contains('dainsys:update-ticket-status');
         });
 
-    expect($addedToScheduler->expression)->toBe('*/30 * * * *');
+    expect($command)->not()->toBeNull();
+    expect($command->expression)->toBe('*/30 * * * *');
 });
 
 test('update tickets status', function (): void {
