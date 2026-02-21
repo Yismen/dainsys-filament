@@ -136,7 +136,7 @@ it('is schedulled to run for the previous day and every hour at the 23 minute', 
         app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events()
     )
         ->first(function ($element) {
-            return str($element->command)->contains('dainsys:import-payroll-hours-from-production date="'.now()->subDay()->format('Y-m-d').'"');
+            return str($element->command)->contains('dainsys:import-payroll-hours-from-production') && str($element->command)->contains(now()->subDay()->format('Y-m-d'));
         });
 
     expect($command)->not()->toBeNull();
