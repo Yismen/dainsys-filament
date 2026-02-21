@@ -41,10 +41,12 @@ test('birthdays command run sucessfully with type=', function (string $type): vo
 ]);
 
 it('runs daily at 4:00 am with type=today', function (string $type, string $expression): void {
+    $this->app->make(\Illuminate\Contracts\Console\Kernel::class);
+
     $command = collect(
         app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events()
     )->first(function (SchedulingEvent $event) use ($type) {
-        return stripos($event->command, 'dainsys:birthdays type="'.$type.'"') !== false;
+        return str($event->command)->contains("dainsys:birthdays type=\"{$type}\"");
     });
 
     expect($command)->not()->toBeNull();
