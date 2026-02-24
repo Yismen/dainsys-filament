@@ -22,7 +22,7 @@ class LoginNamesTable
         return $table
             ->columns([
                 TextColumn::make('id')
-                    ->label("ID")
+                    ->label('ID')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('login_name')

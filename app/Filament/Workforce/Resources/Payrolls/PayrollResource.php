@@ -2,8 +2,8 @@
 
 namespace App\Filament\Workforce\Resources\Payrolls;
 
-use App\Imports\Filament\PayrollImporter;
 use App\Filament\Workforce\Resources\Payrolls\Pages\ManagePayrolls;
+use App\Imports\Filament\PayrollImporter;
 use App\Models\Employee;
 use App\Models\Payroll;
 use App\Services\ModelListService;
@@ -51,7 +51,7 @@ class PayrollResource extends Resource
             ->columns(2)
             ->components([
                 TextColumn::make('id')
-                    ->label("ID")
+                    ->label('ID')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextEntry::make('payable_date')

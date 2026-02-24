@@ -29,7 +29,7 @@ class NightlyHoursTable
             ])
             ->columns([
                 TextColumn::make('id')
-                    ->label("ID")
+                    ->label('ID')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('employee.full_name')

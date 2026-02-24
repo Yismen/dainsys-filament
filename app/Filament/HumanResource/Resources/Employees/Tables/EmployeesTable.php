@@ -26,7 +26,7 @@ class EmployeesTable
             ->defaultSort('full_name')
             ->columns([
                 TextColumn::make('id')
-                    ->label("ID")
+                    ->label('ID')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('full_name')

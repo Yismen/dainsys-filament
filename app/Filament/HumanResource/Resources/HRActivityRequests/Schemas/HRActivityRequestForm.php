@@ -21,7 +21,7 @@ class HRActivityRequestForm
                     ->options(ModelListService::make(
                         model: Employee::query()->active(),
                         value_field: 'full_name',
-                        ))
+                    ))
                     ->searchable()
                     ->required(),
                 Select::make('supervisor_id')

@@ -18,7 +18,7 @@ class UniversalForm
                     ->options(ModelListService::get(
                         model: Employee::query()->active(),
                         value_field: 'full_name'
-                        ))
+                    ))
                     ->searchable()
                     ->unique(ignoreRecord: true)
                     ->required()

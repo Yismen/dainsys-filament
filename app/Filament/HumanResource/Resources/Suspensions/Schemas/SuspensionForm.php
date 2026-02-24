@@ -2,7 +2,6 @@
 
 namespace App\Filament\HumanResource\Resources\Suspensions\Schemas;
 
-use App\Enums\EmployeeStatuses;
 use App\Models\Employee;
 use App\Models\SuspensionType;
 use App\Services\ModelListService;
@@ -29,7 +28,7 @@ class SuspensionForm
                     ->options(
                         ModelListService::get(
                             model: Employee::query()
-                            ->active(),
+                                ->active(),
                             value_field: 'full_name'
                         )
                     )

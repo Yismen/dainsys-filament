@@ -25,7 +25,7 @@ class CampaignsTable
             ->defaultSort('name')
             ->columns([
                 TextColumn::make('id')
-                    ->label("ID")
+                    ->label('ID')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('name')

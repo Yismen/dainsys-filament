@@ -2,8 +2,8 @@
 
 namespace App\Filament\Workforce\Resources\LoginNames\Schemas;
 
-use App\Schemas\Filament\Workforce\EmployeeSchema;
 use App\Models\Employee;
+use App\Schemas\Filament\Workforce\EmployeeSchema;
 use App\Services\ModelListService;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;

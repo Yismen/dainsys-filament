@@ -3,10 +3,10 @@
 namespace App\Filament\Workforce\Resources\Campaigns\Schemas;
 
 use App\Enums\RevenueTypes;
-use App\Schemas\Filament\Workforce\ProjectSchema;
-use App\Schemas\Filament\Workforce\SourceSchema;
 use App\Models\Project;
 use App\Models\Source;
+use App\Schemas\Filament\Workforce\ProjectSchema;
+use App\Schemas\Filament\Workforce\SourceSchema;
 use App\Services\ModelListService;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
