@@ -68,8 +68,8 @@ class EmployeeSchema
             Toggle::make('has_kids')
                 ->required(),
             Select::make('citizenship_id')
-                ->relationship('citizenship', 'name')
                 ->options(ModelListService::get(Citizenship::class))
+                ->searchable()
                 ->required(),
         ];
     }

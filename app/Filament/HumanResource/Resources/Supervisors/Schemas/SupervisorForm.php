@@ -22,7 +22,6 @@ class SupervisorForm
                     ->unique(ignoreRecord: true)
                     ->autofocus(),
                 Select::make('user_id')
-                    ->relationship('user', 'name')
                     ->options(ModelListService::make(User::query()))
                     ->searchable()
                     ->required()

@@ -19,7 +19,6 @@ class EmployeeTableFilters
     {
         return [
             SelectFilter::make('citizenship')
-                ->relationship('citizenship', 'name')
                 ->options(ModelListService::make(Citizenship::query()))
                 ->searchable(),
             SelectFilter::make('gender')
@@ -30,22 +29,18 @@ class EmployeeTableFilters
                 ->searchable(),
             TernaryFilter::make('has_kids'),
             SelectFilter::make('site')
-                ->relationship('site', 'id')
                 ->options(ModelListService::make(Site::query()))
                 ->searchable()
                 ->label('Site'),
             SelectFilter::make('supervisor')
-                ->relationship('supervisor', 'id')
                 ->options(ModelListService::make(Supervisor::query()))
                 ->searchable()
                 ->label('Supervisor'),
             SelectFilter::make('project')
-                ->relationship('project', 'id')
                 ->options(ModelListService::make(Project::query()))
                 ->searchable()
                 ->label('Project'),
             SelectFilter::make('position')
-                ->relationship('position', 'id')
                 ->options(ModelListService::make(Position::query()))
                 ->searchable()
                 ->label('Position'),

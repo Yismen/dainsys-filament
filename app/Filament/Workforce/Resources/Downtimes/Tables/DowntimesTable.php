@@ -107,28 +107,20 @@ class DowntimesTable
                     }),
                 SelectFilter::make('employee_id')
                     ->label('Employee')
-                    ->relationship('employee', 'full_name')
                     ->options(ModelListService::make(model: Employee::query(), value_field: 'full_name'))
-                    ->searchable()
-                    ->preload(),
+                    ->searchable(),
                 SelectFilter::make('campaign_id')
                     ->label('Campaign')
-                    ->relationship('campaign', 'name')
                     ->searchable()
-                    ->preload()
                     ->options(ModelListService::make(Campaign::query())),
                 SelectFilter::make('requester_id')
                     ->label('Requester')
-                    ->relationship('requester', 'name')
                     ->options(ModelListService::make(User::query()))
-                    ->searchable()
-                    ->preload(),
+                    ->searchable(),
                 SelectFilter::make('aprover_id')
                     ->label('Approver')
                     ->searchable()
-                    ->relationship('aprover', 'name')
-                    ->options(ModelListService::make(User::query()))
-                    ->preload(),
+                    ->options(ModelListService::make(User::query())),
                 SelectFilter::make('status')
                     ->options(DowntimeStatuses::class)
                     ->default(DowntimeStatuses::Pending->value),

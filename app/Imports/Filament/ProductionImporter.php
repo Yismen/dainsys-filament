@@ -25,18 +25,6 @@ class ProductionImporter extends Importer
             ImportColumn::make('campaign_id')
                 ->requiredMapping()
                 ->rules(['required']),
-            // ImportColumn::make('revenue_type')
-            //     ->rules(['max:255']),
-            // ImportColumn::make('supervisor')
-            //     ->relationship(),
-            // ImportColumn::make('revenue_rate')
-            //     ->requiredMapping()
-            //     ->numeric()
-            //     ->rules(['required', 'numeric']),
-            // ImportColumn::make('sph_goal')
-            //     ->requiredMapping()
-            //     ->numeric()
-            //     ->rules(['required', 'numeric']),
             ImportColumn::make('conversions')
                 ->requiredMapping()
                 ->rules(['required', 'numeric']),
@@ -49,8 +37,6 @@ class ProductionImporter extends Importer
             ImportColumn::make('talk_time')
                 ->requiredMapping()
                 ->rules(['required', 'numeric']),
-            // ImportColumn::make('converted_to_payroll_at')
-            //     ->rules(['datetime']),
         ];
     }
 

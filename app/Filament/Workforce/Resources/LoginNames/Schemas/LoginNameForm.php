@@ -24,14 +24,12 @@ class LoginNameForm
                     ->options(ModelListService::get(model: Employee::query(), value_field: 'full_name'))
                     ->searchable()
                     ->required()
-                    ->relationship('employee', 'full_name')
                     ->createOptionForm([
                         Grid::make(2)
                             ->schema(
                                 EmployeeSchema::make()
                             ),
                     ])
-                    ->preload(10)
                     ->createOptionModalHeading('Create Employee'),
             ]);
     }

@@ -15,8 +15,10 @@ class UniversalForm
         return $schema
             ->components([
                 Select::make('employee_id')
-                    ->relationship('employee', 'id')
-                    ->options(ModelListService::get(model: Employee::class, value_field: 'full_name'))
+                    ->options(ModelListService::get(
+                        model: Employee::query()->active(),
+                        value_field: 'full_name'
+                        ))
                     ->searchable()
                     ->unique(ignoreRecord: true)
                     ->required()

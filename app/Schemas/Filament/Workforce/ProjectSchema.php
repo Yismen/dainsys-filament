@@ -22,8 +22,6 @@ class ProjectSchema
             Select::make('client_id')
                 ->options(ModelListService::get(Client::class))
                 ->searchable()
-                ->preload()
-                ->relationship('client', 'name')
                 ->createOptionModalHeading('Create Client')
                 ->createOptionForm([
                     Grid::make(2)

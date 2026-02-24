@@ -22,7 +22,6 @@ class PositionForm
                     ->unique(ignoreRecord: true)
                     ->autofocus(),
                 Select::make('department_id')
-                    ->relationship('department', 'name')
                     ->options(ModelListService::get(model: Department::class))
                     ->searchable()
                     ->required(),

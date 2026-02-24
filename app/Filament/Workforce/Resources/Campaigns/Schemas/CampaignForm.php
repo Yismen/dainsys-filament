@@ -28,8 +28,6 @@ class CampaignForm
                 Select::make('project_id')
                     ->options(ModelListService::make(Project::query()))
                     ->searchable()
-                    ->preload()
-                    ->relationship('project', 'name')
                     ->createOptionModalHeading('Create Project')
                     ->createOptionForm([
                         Grid::make(2)
@@ -39,8 +37,6 @@ class CampaignForm
                 Select::make('source_id')
                     ->options(ModelListService::make(Source::query()))
                     ->searchable()
-                    ->preload()
-                    ->relationship('source', 'name')
                     ->createOptionModalHeading('Create Source')
                     ->createOptionForm([
                         Grid::make(1)

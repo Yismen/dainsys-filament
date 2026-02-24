@@ -3,6 +3,9 @@
 namespace App\Filament\HumanResource\Resources\HRActivityRequests\Schemas;
 
 use App\Enums\HRActivityTypes;
+use App\Models\Employee;
+use App\Models\Supervisor;
+use App\Services\ModelListService;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -15,10 +18,15 @@ class HRActivityRequestForm
         return $schema
             ->components([
                 Select::make('employee_id')
-                    ->relationship('employee', 'id')
+                    ->options(ModelListService::make(
+                        model: Employee::query()->active(),
+                        value_field: 'full_name',
+                        ))
+                    ->searchable()
                     ->required(),
                 Select::make('supervisor_id')
-                    ->relationship('supervisor', 'name')
+                    ->options(ModelListService::make(Supervisor::query()))
+                    ->searchable()
                     ->required(),
                 Select::make('activity_type')
                     ->options(HRActivityTypes::class)

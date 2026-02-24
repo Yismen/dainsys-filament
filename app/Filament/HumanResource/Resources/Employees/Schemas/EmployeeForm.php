@@ -85,8 +85,8 @@ class EmployeeForm
                                 Toggle::make('has_kids')
                                     ->required(),
                                 Select::make('citizenship_id')
-                                    ->relationship('citizenship', 'name')
                                     ->options(ModelListService::get(Citizenship::class))
+                                    ->searchable()
                                     ->required(),
 
                             ]),
@@ -96,24 +96,21 @@ class EmployeeForm
                             ->schema([
 
                                 Select::make('site_id')
-                                    ->relationship('site', 'name')
                                     ->searchable()
                                     ->disabled(fn ($record) => $record->status === EmployeeStatuses::Created)
                                     ->options(ModelListService::make(Site::query())),
                                 Select::make('project_id')
-                                    ->relationship('project', 'name')
                                     ->disabled(fn ($record) => $record->status === EmployeeStatuses::Created)
                                     ->searchable()
                                     ->options(ModelListService::make(Project::query())),
                                 Select::make('position_id')
-                                    ->relationship('position', 'name')
                                     ->disabled(fn ($record) => $record->status === EmployeeStatuses::Created)
                                     ->searchable()
                                     ->options(ModelListService::make(Position::query())),
                                 Select::make('supervisor_id')
-                                    ->relationship('supervisor', 'name')
                                     ->disabled(fn ($record) => $record->status === EmployeeStatuses::Created)
-                                    ->options(ModelListService::make(Supervisor::query())),
+                                    ->options(ModelListService::make(Supervisor::query()))
+                                    ->searchable(),
                                 DateTimePicker::make('hired_at')
                                     ->nullable()
                                     ->disabled(fn ($record) => $record->status === EmployeeStatuses::Created),

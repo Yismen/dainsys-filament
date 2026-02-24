@@ -25,14 +25,13 @@ class SuspensionForm
                     ->inlineLabel()
                     ->alignLeft(),
                 Select::make('employee_id')
-                    // ->relationship('employee', 'id')
                     ->autofocus()
                     ->options(
-                        ModelListService::get(model: Employee::query()
-                            ->whereIn('status', [
-                                EmployeeStatuses::Hired,
-                                EmployeeStatuses::Suspended,
-                            ]), value_field: 'full_name')
+                        ModelListService::get(
+                            model: Employee::query()
+                            ->active(),
+                            value_field: 'full_name'
+                        )
                     )
                     ->searchable()
                     ->required()
