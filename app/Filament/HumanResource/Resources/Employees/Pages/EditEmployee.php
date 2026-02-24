@@ -2,9 +2,9 @@
 
 namespace App\Filament\HumanResource\Resources\Employees\Pages;
 
-use App\Filament\Actions\HireEmployeeAction;
-use App\Filament\Actions\SuspendEmployeeAction;
-use App\Filament\Actions\TerminateEmployeeAction;
+use App\Actions\Filament\HireEmployeeAction;
+use App\Actions\Filament\SuspendEmployeeAction;
+use App\Actions\Filament\TerminateEmployeeAction;
 use App\Filament\HumanResource\Resources\Employees\EmployeeResource;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\ForceDeleteAction;

@@ -18,6 +18,10 @@ class SourcesTable
     {
         return $table
             ->columns([
+                TextColumn::make('id')
+                    ->label("ID")
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('name')
                     ->sortable()
                     ->searchable(),

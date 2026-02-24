@@ -3,7 +3,7 @@
 namespace App\Filament\Workforce\Resources\Downtimes\Tables;
 
 use App\Enums\DowntimeStatuses;
-use App\Filament\Actions\AproveDowntimeAction;
+use App\Actions\Filament\AproveDowntimeAction;
 use App\Models\Campaign;
 use App\Models\Comment;
 use App\Models\Downtime;
@@ -39,6 +39,10 @@ class DowntimesTable
             ->filtersFormColumns(2)
             ->filtersFormWidth(Width::FiveExtraLarge)
             ->columns([
+                TextColumn::make('id')
+                    ->label("ID")
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('date')
                     ->date()
                     ->sortable(),

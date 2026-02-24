@@ -19,6 +19,10 @@ class DowntimeReasonsTable
         return $table
             ->defaultSort('name')
             ->columns([
+                TextColumn::make('id')
+                    ->label("ID")
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('name')
                     ->sortable()
                     ->searchable(),

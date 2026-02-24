@@ -2,7 +2,7 @@
 
 namespace App\Filament\Support\Widgets;
 
-use App\Filament\Actions\ReopenTicketAction;
+use App\Actions\Filament\ReopenTicketAction;
 use App\Filament\Support\Widgets\Tables\TicketsTable;
 use App\Models\Ticket;
 use Filament\Actions\Action;

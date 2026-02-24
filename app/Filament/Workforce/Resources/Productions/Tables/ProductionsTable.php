@@ -3,7 +3,7 @@
 namespace App\Filament\Workforce\Resources\Productions\Tables;
 
 use App\Enums\RevenueTypes;
-use App\Filament\Imports\ProductionImporter;
+use App\Imports\Filament\ProductionImporter;
 use App\Models\Campaign;
 use App\Models\Employee;
 use App\Models\Project;
@@ -32,6 +32,7 @@ class ProductionsTable
     {
         return $table
             ->filtersFormColumns(2)
+            ->defaultSort('date', 'DESC')
             ->headerActions([
                 ImportAction::make()
                     ->importer(ProductionImporter::class)
@@ -39,6 +40,10 @@ class ProductionsTable
                     ->icon(Heroicon::ArrowUpTray),
             ])
             ->columns([
+                TextColumn::make('id')
+                    ->label("ID")
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('date')
                     ->date()
                     ->sortable(),

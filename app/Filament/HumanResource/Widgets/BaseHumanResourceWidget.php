@@ -2,8 +2,8 @@
 
 namespace App\Filament\HumanResource\Widgets;
 
-use App\Filament\Traits\HasColors;
-use App\Filament\Traits\HasMaxHeight;
+use App\Traits\Filament\HasColors;
+use App\Traits\Filament\HasMaxHeight;
 use App\Services\HC\HeadCountService;
 use Filament\Support\RawJs;
 use Filament\Widgets\ChartWidget;

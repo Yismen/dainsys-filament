@@ -2,7 +2,7 @@
 
 namespace App\Filament\Workforce\Resources\Employees\Tables;
 
-use App\Filament\Resources\Employees\Tables\EmployeeTableFilters;
+use App\Filament\Admin\Resources\Employees\Tables\EmployeeTableFilters;
 use App\Models\Employee;
 use App\Notifications\EmployeePasswordReset;
 use Filament\Actions\Action;
@@ -24,6 +24,10 @@ class EmployeesTable
     {
         return $table
             ->columns([
+                TextColumn::make('id')
+                    ->label("ID")
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('full_name')
                     ->wrap()
                     ->sortable()

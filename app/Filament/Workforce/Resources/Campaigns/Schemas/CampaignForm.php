@@ -3,8 +3,8 @@
 namespace App\Filament\Workforce\Resources\Campaigns\Schemas;
 
 use App\Enums\RevenueTypes;
-use App\Filament\Schemas\Workforce\ProjectSchema;
-use App\Filament\Schemas\Workforce\SourceSchema;
+use App\Schemas\Filament\Workforce\ProjectSchema;
+use App\Schemas\Filament\Workforce\SourceSchema;
 use App\Models\Project;
 use App\Models\Source;
 use App\Services\ModelListService;

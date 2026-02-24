@@ -2,9 +2,9 @@
 
 namespace App\Filament\Support\Widgets;
 
-use App\Filament\Actions\AssignTicketAction;
-use App\Filament\Actions\CloseTicketAction;
-use App\Filament\Actions\GrabTicketAction;
+use App\Actions\Filament\AssignTicketAction;
+use App\Actions\Filament\CloseTicketAction;
+use App\Actions\Filament\GrabTicketAction;
 use App\Filament\Support\Widgets\Tables\TicketsTable;
 use App\Models\Ticket;
 use Filament\Actions\Action;

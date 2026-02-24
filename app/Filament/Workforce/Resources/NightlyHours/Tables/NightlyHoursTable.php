@@ -2,7 +2,7 @@
 
 namespace App\Filament\Workforce\Resources\NightlyHours\Tables;
 
-use App\Filament\Imports\NightlyHourImporter;
+use App\Imports\Filament\NightlyHourImporter;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -28,6 +28,10 @@ class NightlyHoursTable
                     ->icon(Heroicon::ArrowUpTray),
             ])
             ->columns([
+                TextColumn::make('id')
+                    ->label("ID")
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('employee.full_name')
                     ->label('Employee')
                     ->searchable()

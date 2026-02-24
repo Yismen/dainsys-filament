@@ -2,7 +2,7 @@
 
 namespace App\Filament\Workforce\Resources\Downtimes\Pages;
 
-use App\Filament\Actions\AproveDowntimeAction;
+use App\Actions\Filament\AproveDowntimeAction;
 use App\Filament\Workforce\Resources\Downtimes\DowntimeResource;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\ForceDeleteAction;

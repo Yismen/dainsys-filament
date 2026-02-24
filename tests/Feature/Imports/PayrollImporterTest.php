@@ -1,6 +1,6 @@
 <?php
 
-use App\Filament\Imports\PayrollImporter;
+use App\Imports\Filament\PayrollImporter;
 use App\Models\Employee;
 use App\Models\Payroll;
 use App\Models\User;

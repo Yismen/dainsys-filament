@@ -1,6 +1,6 @@
 <?php
 
-use App\Filament\Imports\IncentiveImporter;
+use App\Imports\Filament\IncentiveImporter;
 use App\Models\Employee;
 use App\Models\Incentive;
 use App\Models\Project;

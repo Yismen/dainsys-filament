@@ -2,8 +2,8 @@
 
 namespace App\Filament\HumanResource\Resources\Employees\Tables;
 
-use App\Filament\Exports\EmployeeExporter;
-use App\Filament\Resources\Employees\Tables\EmployeeTableFilters;
+use App\Exports\Filament\EmployeeExporter;
+use App\Filament\Admin\Resources\Employees\Tables\EmployeeTableFilters;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -25,6 +25,10 @@ class EmployeesTable
         return $table
             ->defaultSort('full_name')
             ->columns([
+                TextColumn::make('id')
+                    ->label("ID")
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('full_name')
                     ->wrap()
                     ->sortable()

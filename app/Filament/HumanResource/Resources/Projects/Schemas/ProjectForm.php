@@ -2,7 +2,7 @@
 
 namespace App\Filament\HumanResource\Resources\Projects\Schemas;
 
-use App\Filament\Schemas\Workforce\ProjectSchema;
+use App\Schemas\Filament\Workforce\ProjectSchema;
 use Filament\Schemas\Schema;
 
 class ProjectForm

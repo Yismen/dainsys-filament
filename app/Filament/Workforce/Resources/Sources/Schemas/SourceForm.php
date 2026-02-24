@@ -2,7 +2,7 @@
 
 namespace App\Filament\Workforce\Resources\Sources\Schemas;
 
-use App\Filament\Schemas\Workforce\SourceSchema;
+use App\Schemas\Filament\Workforce\SourceSchema;
 use Filament\Schemas\Schema;
 
 class SourceForm

@@ -2,10 +2,10 @@
 
 namespace App\Filament\Support\Resources\MyTickets\Pages;
 
-use App\Filament\Actions\AssignTicketAction;
-use App\Filament\Actions\CloseTicketAction;
-use App\Filament\Actions\GrabTicketAction;
-use App\Filament\Actions\ReopenTicketAction;
+use App\Actions\Filament\AssignTicketAction;
+use App\Actions\Filament\CloseTicketAction;
+use App\Actions\Filament\GrabTicketAction;
+use App\Actions\Filament\ReopenTicketAction;
 use App\Filament\Support\Resources\MyTickets\MyTicketResource;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;

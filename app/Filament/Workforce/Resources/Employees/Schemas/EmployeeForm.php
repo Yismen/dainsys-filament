@@ -2,7 +2,7 @@
 
 namespace App\Filament\Workforce\Resources\Employees\Schemas;
 
-use App\Filament\Schemas\Workforce\EmployeeSchema;
+use App\Schemas\Filament\Workforce\EmployeeSchema;
 use Filament\Schemas\Schema;
 
 class EmployeeForm

@@ -2,7 +2,7 @@
 
 namespace App\Filament\HumanResource\Resources\Clients\Schemas;
 
-use App\Filament\Schemas\Workforce\ClientSchema;
+use App\Schemas\Filament\Workforce\ClientSchema;
 use Filament\Schemas\Schema;
 
 class ClientForm

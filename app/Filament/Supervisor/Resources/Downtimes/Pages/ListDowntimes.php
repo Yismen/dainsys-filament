@@ -2,7 +2,7 @@
 
 namespace App\Filament\Supervisor\Resources\Downtimes\Pages;
 
-use App\Filament\Actions\CreateMultipleDowntimesAction;
+use App\Actions\Filament\CreateMultipleDowntimesAction;
 use App\Filament\Supervisor\Resources\Downtimes\DowntimeResource;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;

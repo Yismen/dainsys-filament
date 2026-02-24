@@ -2,7 +2,7 @@
 
 namespace App\Filament\Workforce\Resources\Incentives;
 
-use App\Filament\Imports\IncentiveImporter;
+use App\Imports\Filament\IncentiveImporter;
 use App\Filament\Workforce\Resources\Incentives\Pages\ManageIncentives;
 use App\Models\Employee;
 use App\Models\Incentive;
@@ -51,6 +51,10 @@ class IncentiveResource extends Resource
         return $schema
             ->columns(2)
             ->components([
+                TextColumn::make('id')
+                    ->label("ID")
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextEntry::make('payable_date')
                     ->date(),
                 TextEntry::make('employee.full_name')
