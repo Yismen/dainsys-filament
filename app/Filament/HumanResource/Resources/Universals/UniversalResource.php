@@ -24,7 +24,7 @@ class UniversalResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedGlobeAlt;
 
-    protected static ?string $recordTitleAttribute = 'employee_id';
+    // protected static ?string $recordTitleAttribute = 'employee.full_name';
 
     protected static \UnitEnum|string|null $navigationGroup = \App\Filament\HumanResource\Enums\HRNavigationEnum::EMPLOYEES_MANAGEMENT;
 

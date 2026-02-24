@@ -1,19 +1,25 @@
 <?php
 
+use App\Events\EmployeeHiredEvent;
 use App\Filament\HumanResource\Resources\Universals\Pages\CreateUniversal;
 use App\Filament\HumanResource\Resources\Universals\Pages\EditUniversal;
 use App\Filament\HumanResource\Resources\Universals\Pages\ListUniversals;
 use App\Filament\HumanResource\Resources\Universals\Pages\ViewUniversal;
 use App\Models\Employee;
+use App\Models\Hire;
 use App\Models\Universal;
 use App\Models\User;
 use Filament\Facades\Filament;
+use Illuminate\Support\Facades\Event;
 
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
+    Event::fake([
+        EmployeeHiredEvent::class,
+    ]);
     // Seed roles/permissions if applicable
     Filament::setCurrentPanel(
         Filament::getPanel('human-resource'), // Where `app` is the ID of the panel you want to test.
@@ -109,7 +115,7 @@ it('displays Universal list page correctly', function (): void {
 test('create Universal page works correctly', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Universal'));
 
-    $date_since = '2024-01-01';
+    $date_since = now()->format('Y-m-d');
     livewire(CreateUniversal::class)
         ->fillForm([
             'date_since' => $date_since,
@@ -123,11 +129,13 @@ test('create Universal page works correctly', function (): void {
 });
 
 test('edit Universal page works correctly', function (): void {
-    $universal = Universal::factory()->create();
+    $employee = Employee::factory()->create();
+    Hire::factory()->for($employee)->create();
+    $universal = Universal::factory()->for($employee)->create();
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Universal'));
 
-    $newDate = '2024-02-02';
+    $newDate = now()->subDay(3)->format('Y-m-d');
     livewire(EditUniversal::class, ['record' => $universal->getKey()])
         ->fillForm([
             'date_since' => $newDate,
@@ -169,6 +177,7 @@ test('form validation require fields on create and edit pages', function (): voi
 test('Universal name must be unique on create and edit pages', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Universal'));
     $employee = Employee::factory()->create();
+    Hire::factory()->for($employee)->create();
 
     $existingUniversal = Universal::factory()->create(['employee_id' => $employee->id]);
 
@@ -191,6 +200,7 @@ test('Universal name must be unique on create and edit pages', function (): void
 
 it('allows updating Universal without changing name to trigger uniqueness validation', function (): void {
     $employee = Employee::factory()->create();
+    Hire::factory()->for($employee)->create();
     $universal = Universal::factory()->create(['employee_id' => $employee->id]);
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Universal'));
