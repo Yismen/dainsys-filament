@@ -18,7 +18,7 @@ class EmployeeTableFilters
     public static function get(): array
     {
         return [
-            SelectFilter::make('citizenship')
+            SelectFilter::make('citizenship_id')
                 ->options(ModelListService::make(Citizenship::query()))
                 ->searchable(),
             SelectFilter::make('gender')
@@ -28,19 +28,19 @@ class EmployeeTableFilters
                 ->options(EmployeeStatuses::class)
                 ->searchable(),
             TernaryFilter::make('has_kids'),
-            SelectFilter::make('site')
+            SelectFilter::make('site_id')
                 ->options(ModelListService::make(Site::query()))
                 ->searchable()
                 ->label('Site'),
-            SelectFilter::make('supervisor')
+            SelectFilter::make('supervisor_id')
                 ->options(ModelListService::make(Supervisor::query()))
                 ->searchable()
                 ->label('Supervisor'),
-            SelectFilter::make('project')
+            SelectFilter::make('project_id')
                 ->options(ModelListService::make(Project::query()))
                 ->searchable()
                 ->label('Project'),
-            SelectFilter::make('position')
+            SelectFilter::make('position_id')
                 ->options(ModelListService::make(Position::query()))
                 ->searchable()
                 ->label('Position'),
