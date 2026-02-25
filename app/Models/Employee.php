@@ -178,6 +178,18 @@ class Employee extends \App\Models\BaseModels\AppModel
     }
 
     #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function activesOrRecentlyTerminated($query)
+    {
+        $query
+            ->with('terminations')
+            ->active()
+            ->orWhere('status', EmployeeStatuses::Created)
+            ->orWhereHas('terminations', function ($query) {
+                $query->whereDate('date', '>=', now()->subDays(30));
+            });
+    }
+
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
     protected function hasActiveSuspension($query)
     {
         $query->with('suspensions')

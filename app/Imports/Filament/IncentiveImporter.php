@@ -21,18 +21,19 @@ class IncentiveImporter extends Importer
                 ->rules(['required', 'date']),
             ImportColumn::make('employee_id')
                 ->requiredMapping()
-                ->rules(['required']),
+                ->rules(['required', 'exists:employees.id']),
             ImportColumn::make('project_id')
                 ->requiredMapping()
                 ->rules(['required']),
             ImportColumn::make('total_production_hours')
-                ->rules(['nullable', 'numeric', 'min:0']),
+                ->rules(['required', 'numeric', 'min:0'])
+                ->requiredMapping(),
             ImportColumn::make('total_sales')
-                ->rules(['nullable', 'numeric', 'min:0']),
+                ->rules(['required', 'numeric', 'min:0'])
+                ->requiredMapping(),
             ImportColumn::make('amount')
-                ->rules(['nullable', 'numeric', 'min:0']),
-            ImportColumn::make('notes')
-                ->rules(['nullable', 'string']),
+                ->rules(['required', 'numeric', 'min:0'])
+                ->requiredMapping(),
         ];
     }
 

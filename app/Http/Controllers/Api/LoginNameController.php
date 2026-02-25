@@ -19,7 +19,9 @@ class LoginNameController extends Controller
 
         $data = Cache::rememberForever($cache_key, function () {
             return LoginName::query()
-                ->with(['employee'])
+                ->withWhereHas('employees', function ($query) {
+                    $query->activesOrRecentlyTerminated();
+                })
                 ->get();
         });
 
