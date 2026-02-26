@@ -182,12 +182,12 @@ class ManageSupervisors extends Page
                 ->withoutGlobalScopes([
                     IsActiveScope::class,
                 ])
-                ->with(['employees' => function ($query): void {
+                ->withWhereHas('employees', function ($query): void {
                     $query
                         ->active()
-                        ->with(['position', 'site'])
+                        // ->with(['position', 'site'])
                         ->orderBy('full_name');
-                }])
+                })
                 ->where('is_active', $isActive)
                 ->orderBy('name')
                 ->get();
