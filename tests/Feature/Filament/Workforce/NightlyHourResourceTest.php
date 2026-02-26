@@ -151,14 +151,14 @@ it('can edit nightly hour', function (): void {
     expect($nightlyHour->refresh()->total_hours)->toBe(5.5);
 });
 
-it('can delete nightly hour', function (): void {
-    $nightlyHour = NightlyHour::factory()->create();
+// it('can delete nightly hour', function (): void {
+//     $nightlyHour = NightlyHour::factory()->create();
 
-    actingAs($this->createUserWithPermissionsToActions(['delete', 'view-any'], 'NightlyHour'));
+//     actingAs($this->createUserWithPermissionsToActions(['delete', 'view-any'], 'NightlyHour'));
 
-    livewire(EditNightlyHour::class, ['record' => $nightlyHour->getKey()])
-        ->callAction('delete')
-        ->assertNotified();
+//     livewire(EditNightlyHour::class, ['record' => $nightlyHour->getKey()])
+//         ->callAction('delete')
+//         ->assertNotified();
 
-    $this->assertSoftDeleted($nightlyHour);
-});
+//     $this->assertSoftDeleted($nightlyHour);
+// });

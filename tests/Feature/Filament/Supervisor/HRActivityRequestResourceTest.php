@@ -21,7 +21,10 @@ beforeEach(function (): void {
         Filament::getPanel('supervisor'),
     );
 
-    $this->user = User::factory()->create();
+    $this->user = $this->createUserWithPermissionsToActions(
+        actions: ['view', 'viewAny', 'create'],
+        model_name: 'HRActivityRequest'
+    );
     $this->supervisor = Supervisor::factory()->create([
         'user_id' => $this->user->id,
         'is_active' => true,

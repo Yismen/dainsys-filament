@@ -25,10 +25,16 @@ beforeEach(function (): void {
     Role::firstOrCreate(['name' => 'Human Resource Manager'], ['guard_name' => 'web']);
     Role::firstOrCreate(['name' => 'Human Resource Agent'], ['guard_name' => 'web']);
 
-    $this->hrUser = User::factory()->create();
-    $this->hrUser->assignRole('Human Resource Agent');
+    $this->hrUser = $this->createUserWithPermissionsToActions(
+        actions: ['view', 'viewAny', 'complete'],
+        model_name: 'HRActivityRequest'
+    );
+    // $this->hrUser->assignRole('Human Resource Agent');
+
+
 
     $this->actingAs($this->hrUser);
+
 });
 
 test('hr can view list of activity requests', function (): void {

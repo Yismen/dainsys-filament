@@ -59,8 +59,8 @@ abstract class TestCase extends BaseTestCase
         foreach ($actions as $action) {
             $permissionName = str($action)->camel().' '.str($model_name)->camel();
 
-            Permission::firstOrCreate(['name' => $permissionName]);
-            $user->givePermissionTo($permissionName);
+            $permission = Permission::firstOrCreate(['name' => $permissionName]);
+            $user->givePermissionTo($permission);
         }
 
         return $user;
