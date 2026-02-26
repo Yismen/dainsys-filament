@@ -21,7 +21,8 @@ class LoginNameForm
                     ->autofocus()
                     ->required(),
                 Select::make('employee_id')
-                    ->options(ModelListService::get(model: Employee::query(), value_field: 'full_name'))
+                    ->options(ModelListService::get(model: Employee::query()
+                        ->activesOrRecentlyTerminated(), value_field: 'full_name'))
                     ->searchable()
                     ->required()
                     ->createOptionForm([
