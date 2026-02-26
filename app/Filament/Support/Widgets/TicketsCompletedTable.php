@@ -4,10 +4,13 @@ namespace App\Filament\Support\Widgets;
 
 use App\Actions\Filament\ReopenTicketAction;
 use App\Filament\Support\Widgets\Tables\TicketsTable;
+use App\Filters\Filament\Support\TicketAgentsFilter;
+use App\Filters\Filament\Support\TicketOwnersFilter;
+use App\Infolists\Filament\Support\TicketInfolist;
 use App\Models\Ticket;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
-use Filament\Facades\Filament;
+use Filament\Schemas\Components\Grid;
 use Filament\Tables\Enums\PaginationMode;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
@@ -33,12 +36,16 @@ class TicketsCompletedTable extends TableWidget
             ->paginationMode(PaginationMode::Default)
             ->filters([
                 TrashedFilter::make(),
+                TicketOwnersFilter::make(),
+                TicketAgentsFilter::make(),
             ])
             ->recordActions([
                 Action::make('view')
                     ->button()
-                    ->url(fn (Ticket $record) => url(Filament::getCurrentPanel()->getId().'/tickets', ['record' => $record->getRouteKey()]))
-                    ->openUrlInNewTab(),
+                    ->schema([
+                        Grid::make(2)
+                            ->schema(TicketInfolist::make()),
+                    ]),
                 ReopenTicketAction::make(),
                 // EditAction::make(),
             ])

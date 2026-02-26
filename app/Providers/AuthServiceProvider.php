@@ -147,9 +147,7 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('interactsWithSupport', function (User $user) {
-            return $user->can('manageTickets') ||
-                $user->can('interactsWithWorkforce') ||
-                $user->can('interactsWithHumanResource');
+            return $user->can('manageTickets');
         });
 
     }

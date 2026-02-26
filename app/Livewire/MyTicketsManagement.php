@@ -7,8 +7,10 @@ use App\Actions\Filament\CloseTicketAction;
 use App\Actions\Filament\ReopenTicketAction;
 use App\Enums\TicketPriorities;
 use App\Enums\TicketStatuses;
+use App\Infolists\Filament\Support\TicketInfolist;
 use App\Models\Ticket;
 use App\Schemas\Filament\Support\TicketSchema;
+use BackedEnum;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\Contracts\HasActions;
@@ -28,6 +30,7 @@ use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Concerns\InteractsWithSchemas;
 use Filament\Schemas\Contracts\HasSchemas;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
@@ -44,6 +47,8 @@ class MyTicketsManagement extends Page implements HasActions, HasSchemas, HasTab
     use InteractsWithActions;
     use InteractsWithSchemas;
     use InteractsWithTable;
+
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedTicket;
 
     public function table(Table $table): Table
     {
@@ -127,32 +132,7 @@ class MyTicketsManagement extends Page implements HasActions, HasSchemas, HasTab
                     ])
                     ->schema([
                         Grid::make(2)
-                            ->schema([
-                                TextEntry::make('reference'),
-                                TextEntry::make('status')
-                                    ->badge()
-                                    ->color(fn ($state) => $state->color() ?? TicketStatuses::from($state)->color()),
-                                TextEntry::make('priority')
-                                    ->badge(),
-                                TextEntry::make('created_at')
-                                    ->label(__('Created by'))
-                                    ->formatStateUsing(fn ($record) => $record->owner->name.', at '.$record->created_at),
-                                TextEntry::make('subject')
-                                    ->label('Subject'),
-                                TextEntry::make('description')
-                                    ->label('Description'),
-                                TextEntry::make('agent.name')
-                                    ->label('Assigned to'),
-                                TextEntry::make('assigned_at')
-                                    ->dateTime(),
-                                TextEntry::make('completed_at')
-                                    ->wrap()
-                                    ->dateTime(),
-                                TextEntry::make('expected_at')
-                                    ->dateTime(),
-                                TextEntry::make('updated_at')
-                                    ->dateTime(),
-                            ]),
+                            ->schema(TicketInfolist::make()),
                     ]),
                 EditAction::make()
                     ->schema(TicketSchema::make())

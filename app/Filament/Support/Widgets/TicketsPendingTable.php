@@ -6,12 +6,16 @@ use App\Actions\Filament\AssignTicketAction;
 use App\Actions\Filament\CloseTicketAction;
 use App\Actions\Filament\GrabTicketAction;
 use App\Filament\Support\Widgets\Tables\TicketsTable;
+use App\Filters\Filament\Support\TicketAgentsFilter;
+use App\Filters\Filament\Support\TicketOwnersFilter;
+use App\Infolists\Filament\Support\TicketInfolist;
 use App\Models\Ticket;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
-use Filament\Facades\Filament;
+use Filament\Schemas\Components\Grid;
 use Filament\Tables\Enums\PaginationMode;
+use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget;
 use Illuminate\Database\Eloquent\Builder;
@@ -35,7 +39,9 @@ class TicketsPendingTable extends TableWidget
             ->queryStringIdentifier(identifier: 'tickets_incompleted')
             ->paginationMode(PaginationMode::Default)
             ->filters([
-                //
+                TrashedFilter::make(),
+                TicketOwnersFilter::make(),
+                TicketAgentsFilter::make(),
             ])
             ->headerActions([
                 //
@@ -44,8 +50,10 @@ class TicketsPendingTable extends TableWidget
                 ActionGroup::make([
                     Action::make('view')
                         ->button()
-                        ->url(fn (Ticket $record) => url(Filament::getCurrentPanel()->getId().'/tickets', ['record' => $record->getRouteKey()]))
-                        ->openUrlInNewTab(),
+                        ->schema([
+                            Grid::make(2)
+                                ->schema(TicketInfolist::make()),
+                        ]),
                     GrabTicketAction::make(),
                     AssignTicketAction::make(),
                     CloseTicketAction::make(),
