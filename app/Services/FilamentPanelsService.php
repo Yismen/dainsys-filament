@@ -38,6 +38,10 @@ class FilamentPanelsService
                     ->label('Email Subscriptions')
                     ->icon(Heroicon::OutlinedEnvelopeOpen)
                     ->url(fn (): string => route('my-subscriptions')),
+                Action::make('support')
+                    ->label('My Tickets')
+                    ->icon(Heroicon::OutlinedEnvelopeOpen)
+                    ->url(fn (): string => route('my-tickets-management')),
             ])
             ->middleware([
                 EncryptCookies::class,

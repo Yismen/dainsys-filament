@@ -7,7 +7,6 @@ use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\Contracts\HasActions;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
-use Filament\Facades\Filament;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Support\Icons\Heroicon;
@@ -25,12 +24,6 @@ class MyMailingSubscriptions extends Component implements HasActions, HasForms, 
     use InteractsWithActions;
     use InteractsWithForms;
     use InteractsWithTable;
-
-    public function mount(): void
-    {
-        // Set Filament panel context for asset loading
-        Filament::setCurrentPanel(Filament::getPanel('support'));
-    }
 
     public function table(Table $table): Table
     {

@@ -211,7 +211,6 @@ it('applies scope for activesOrRecentlyTerminated', function (): void {
     Hire::factory()->for($employee)->create(['date' => now()->subYear()]);
     Termination::factory()->for($employee)->create(['date' => now()->subDays(40)]);
 
-
     $this->assertEquals(Employee::count(), 1);
     $this->assertEquals(Employee::activesOrRecentlyTerminated()->count(), 0);
     // $this->assertEquals($employee->terminated_at, now());

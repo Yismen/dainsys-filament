@@ -184,7 +184,7 @@ class Employee extends \App\Models\BaseModels\AppModel
             ->with('terminations')
             ->active()
             ->orWhere('status', EmployeeStatuses::Created)
-            ->orWhereHas('terminations', function ($query) {
+            ->orWhereHas('terminations', function ($query): void {
                 $query->whereDate('date', '>=', now()->subDays(30));
             });
     }

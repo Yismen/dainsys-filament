@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Livewire\MyMailingSubscriptions;
+use App\Livewire\MyTicketsManagement;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,3 +35,7 @@ Route::view('/cookies', 'cookies')->name('cookies');
 Route::get('/my-subscriptions', MyMailingSubscriptions::class)
     ->middleware('auth')
     ->name('my-subscriptions');
+
+Route::get('/my-tickets-management', MyTicketsManagement::class)
+    ->middleware('auth')
+    ->name('my-tickets-management');
