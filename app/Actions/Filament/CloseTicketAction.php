@@ -13,7 +13,7 @@ class CloseTicketAction
     public static function make(string $name = 'finish'): Action
     {
         return Action::make($name)
-            ->color(Color::Orange)
+            ->color(Color::Red)
             ->button()
             ->visible(function (Ticket $record) {
                 return Auth::user()->can('close', $record);
