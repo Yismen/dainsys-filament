@@ -3,6 +3,7 @@
 namespace App\Infolists\Filament\Support;
 
 use App\Enums\TicketStatuses;
+use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\TextEntry;
 
 class TicketInfolist
@@ -35,6 +36,14 @@ class TicketInfolist
             TextEntry::make('completed_at')
                 ->wrap()
                 ->dateTime(),
+            ImageEntry::make('images')
+                ->disk('public')
+                ->openUrlInNewTab()
+                ->url(url: fn (string $state) => \asset('storage/'.$state), shouldOpenInNewTab: true)
+                ->circular()
+                ->stacked()
+                // ->limit(3)
+                ->limitedRemainingText(),
         ];
     }
 }
