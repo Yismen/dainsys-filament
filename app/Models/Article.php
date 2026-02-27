@@ -110,6 +110,7 @@ class Article extends \App\Models\BaseModels\AppModel
 
         });
     }
+
     protected function casts(): array
     {
         return [

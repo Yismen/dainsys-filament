@@ -60,8 +60,8 @@ it('lists accessible categories on the index sidebar', function (): void {
     $catA = Category::factory()->create();
     $catB = Category::factory()->create();
 
-    CategoryAccess::create([ 'category_id' => $catA->id, 'user_id' => $user->id ]);
-    CategoryAccess::create([ 'category_id' => $catB->id, 'user_id' => $user->id ]);
+    CategoryAccess::create(['category_id' => $catA->id, 'user_id' => $user->id]);
+    CategoryAccess::create(['category_id' => $catB->id, 'user_id' => $user->id]);
 
     Article::factory()->published()->create()->categories()->attach($catA);
 

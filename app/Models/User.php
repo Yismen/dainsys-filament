@@ -96,7 +96,7 @@ class User extends Authenticatable implements FilamentUser
             return Gate::allows('isAuthenticableEmployee');
         }
 
-        if( $panel_id === 'blog') {
+        if ($panel_id === 'blog') {
             return Auth::user()->can('interactsWithBlog');
         }
 

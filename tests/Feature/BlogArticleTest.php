@@ -14,7 +14,7 @@ it('can publish an article', function (): void {
     $article->update([
         'status' => ArticleStatus::Published,
         // 'published_at' => now()
-        ]);
+    ]);
     expect($article->refresh()->status)->toBe(ArticleStatus::Published);
 });
 
