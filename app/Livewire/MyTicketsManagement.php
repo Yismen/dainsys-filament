@@ -98,6 +98,7 @@ class MyTicketsManagement extends Page implements HasActions, HasSchemas, HasTab
                     ->circular()
                     ->stacked()
                     ->limit(3)
+                    ->url(url: fn (string $state) => \asset('storage/'.$state), shouldOpenInNewTab: true)
                     ->limitedRemainingText(),
                 TextColumn::make('priority')
                     ->badge()

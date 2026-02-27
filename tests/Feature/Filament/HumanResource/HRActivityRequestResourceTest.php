@@ -3,7 +3,6 @@
 use App\Enums\HRActivityRequestStatuses;
 use App\Models\HRActivityRequest;
 use App\Models\Role;
-use App\Models\User;
 use Filament\Facades\Filament;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
@@ -30,8 +29,6 @@ beforeEach(function (): void {
         model_name: 'HRActivityRequest'
     );
     // $this->hrUser->assignRole('Human Resource Agent');
-
-
 
     $this->actingAs($this->hrUser);
 

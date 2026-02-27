@@ -33,6 +33,7 @@ class FilamentPanelsService
             ->topNavigation()
             ->subNavigationPosition(SubNavigationPosition::Top)
             ->viteTheme('resources/css/filament/admin/theme.css')
+            ->plugin(\Sanzgrapher\DraggableModal\DraggableModalPlugin::make())
             ->userMenuItems([
                 Action::make('mailing-subscriptions')
                     ->label('Email Subscriptions')
