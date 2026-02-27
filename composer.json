@@ -28,6 +28,7 @@
         "php-http/guzzle7-adapter": "^1.1",
         "pxlrbt/filament-excel": "^3.4",
         "railsware/mailtrap-php": "^3.10",
+        "sanzgrapher/filament-draggable-modal": "^1.0",
         "spatie/laravel-activitylog": "^4.11",
         "spatie/laravel-permission": "^6.24",
         "symfony/http-client": "^7.4",

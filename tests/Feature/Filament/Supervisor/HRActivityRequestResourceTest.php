@@ -6,7 +6,6 @@ use App\Filament\Supervisor\Resources\HRActivityRequests\Pages\ViewHRActivityReq
 use App\Models\Employee;
 use App\Models\HRActivityRequest;
 use App\Models\Supervisor;
-use App\Models\User;
 use Filament\Facades\Filament;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;

@@ -19,7 +19,7 @@ beforeEach(function (): void {
     );
 
     Event::fake([
-        EmployeeHiredEvent::class
+        EmployeeHiredEvent::class,
     ]);
 });
 
@@ -31,12 +31,12 @@ it('renders supervisors with their employees', function (): void {
         'supervisor_id' => $supervisor->id,
     ]);
 
-     /** @var User $user */
-     $user = User::factory()->createOne();
-     $role = Role::firstOrCreate(['name' => 'Super Admin', 'guard_name' => 'web']);
-     $user->assignRole($role);
+    /** @var User $user */
+    $user = User::factory()->createOne();
+    $role = Role::firstOrCreate(['name' => 'Super Admin', 'guard_name' => 'web']);
+    $user->assignRole($role);
 
-     actingAs($user);
+    actingAs($user);
 
     /** @var User $user */
     $user = User::factory()->createOne();
