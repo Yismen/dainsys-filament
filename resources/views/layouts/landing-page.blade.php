@@ -65,7 +65,7 @@
                     <div>
                         <h3 class="text-sm font-semibold text-white mb-4">Resources</h3>
                         <ul class="space-y-3">
-                            <li><a href="/knowledge-base" class="text-slate-400 dark:text-slate-500 hover:text-white dark:hover:text-slate-300 transition-colors duration-200">Knowledge Base</a></li>
+                            <li><a href="/blog" class="text-slate-400 dark:text-slate-500 hover:text-white dark:hover:text-slate-300 transition-colors duration-200">Articles</a></li>
                             <li><a href="/docs/api" target="docs-api" class="text-slate-400 dark:text-slate-500 hover:text-white dark:hover:text-slate-300 transition-colors duration-200">API Documentation</a></li>
                             <li><a href="/support" class="text-slate-400 dark:text-slate-500 hover:text-white dark:hover:text-slate-300 transition-colors duration-200">IT Support</a></li>
                         </ul>

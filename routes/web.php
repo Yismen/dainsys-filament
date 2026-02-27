@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\BlogController;
 use App\Livewire\MyMailingSubscriptions;
 use App\Livewire\MyTicketsManagement;
 use Illuminate\Support\Facades\Route;
@@ -39,3 +40,8 @@ Route::livewire('/my-subscriptions', MyMailingSubscriptions::class)
 Route::livewire('/my-tickets-management', MyTicketsManagement::class)
     ->middleware('auth')
     ->name('my-tickets-management');
+
+Route::middleware('auth')->group(function (): void {
+    Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
+    Route::get('/blog/{article:slug}', [BlogController::class, 'show'])->name('blog.show');
+});

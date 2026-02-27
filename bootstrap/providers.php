@@ -13,4 +13,5 @@ return [
     App\Providers\Filament\WorkforcePanelProvider::class,
     App\Providers\Filament\SupervisorPanelProvider::class,
     App\Providers\Filament\EmployeePanelProvider::class,
+    App\Providers\Filament\BlogPanelProvider::class,
 ];
