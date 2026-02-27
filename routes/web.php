@@ -32,10 +32,10 @@ Route::view('/privacy', 'privacy')->name('privacy');
 Route::view('/terms', 'terms')->name('terms');
 Route::view('/cookies', 'cookies')->name('cookies');
 
-Route::get('/my-subscriptions', MyMailingSubscriptions::class)
+Route::livewire('/my-subscriptions', MyMailingSubscriptions::class)
     ->middleware('auth')
     ->name('my-subscriptions');
 
-Route::get('/my-tickets-management', MyTicketsManagement::class)
+Route::livewire('/my-tickets-management', MyTicketsManagement::class)
     ->middleware('auth')
     ->name('my-tickets-management');
