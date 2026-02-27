@@ -1,0 +1,33 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('category_accesses', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->foreignUuid('category_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignUuid('user_id')->nullable()->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignUuid('role_id')->nullable()->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->unique(['category_id', 'user_id', 'role_id']);
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('category_accesses');
+    }
+};

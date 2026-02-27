@@ -8,8 +8,6 @@ use App\Models\User;
 use App\Services\ModelListService;
 use BackedEnum;
 use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\TextInput;
@@ -32,12 +30,16 @@ class MailableResource extends Resource
         return $schema
             ->components([
                 TextInput::make('name')
-                    ->readOnlyOn(['edit'])
-                    ->disabledOn(['edit'])
+                    ->visibleOn('create')
                     ->required(),
+                TextInput::make('name')
+                    ->disabled()
+                    ->visibleOn('edit'),
                 TextInput::make('description')
-                    ->readOnlyOn(['edit'])
-                    ->disabledOn(['edit']),
+                    ->visibleOn('create'),
+                TextInput::make('description')
+                    ->disabled()
+                    ->visibleOn('edit'),
                 CheckboxList::make('users')
                     ->relationship('users', 'name')
                     ->columnSpanFull()

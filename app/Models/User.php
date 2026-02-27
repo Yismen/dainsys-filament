@@ -68,7 +68,7 @@ class User extends Authenticatable implements FilamentUser
             return true;
         }
 
-        \abort_if(! Auth::user()->is_active, 403, 'You are an inactive user. Contact the administrator!');
+        // \abort_if(! Auth::user()->is_active, 403, 'You are an inactive user. Contact the administrator!');
 
         $panel_id = $panel->getId();
 
@@ -94,6 +94,10 @@ class User extends Authenticatable implements FilamentUser
 
         if ($panel_id === 'employee') {
             return Gate::allows('isAuthenticableEmployee');
+        }
+
+        if( $panel_id === 'blog') {
+            return Auth::user()->can('interactsWithBlog');
         }
 
         return true;
