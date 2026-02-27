@@ -95,7 +95,10 @@ class ArticleForm
                     ->schema([
                         FileUpload::make('featured_image_path')
                             ->image()
-                            ->maxSize(5120),
+                            ->disk('public')
+                            ->maxSize(5120)
+                            ->directory('featured-images')
+                            ->preserveFilenames(),
                     ]),
             ]);
     }

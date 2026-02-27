@@ -1,9 +1,12 @@
 <?php
 
+use App\Livewire\ArticleShow;
+use App\Livewire\BlogIndex;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\CategoryAccess;
 use App\Models\User;
+use Livewire\Livewire;
 
 it('redirects guests to login when accessing the blog index', function (): void {
     $this->get('/blog')->assertRedirect('/login');
@@ -13,7 +16,6 @@ it('allows authenticated users to view the blog index and shows accessible artic
     $user = User::factory()->create();
     $category = Category::factory()->create();
 
-    // grant access to user
     CategoryAccess::create([
         'category_id' => $category->id,
         'user_id' => $user->id,
@@ -22,9 +24,8 @@ it('allows authenticated users to view the blog index and shows accessible artic
     $article = Article::factory()->published()->create();
     $article->categories()->attach($category);
 
-    $this->actingAs($user)
-        ->get('/blog')
-        ->assertOk()
+    Livewire::actingAs($user)
+        ->test(BlogIndex::class)
         ->assertSee($article->title);
 });
 
@@ -43,16 +44,15 @@ it('shows an accessible article on the show route and hides drafts', function ()
     $draft = Article::factory()->draft()->create();
     $draft->categories()->attach($category);
 
-    // published visible
-    $this->actingAs($user)
-        ->get(route('blog.show', $published->slug))
-        ->assertOk()
+    // published visible via Livewire component
+    Livewire::actingAs($user)
+        ->test(ArticleShow::class, ['article' => $published])
         ->assertSee($published->title);
 
-    // draft returns 404 for published-only access
-    $this->actingAs($user)
-        ->get(route('blog.show', $draft->slug))
-        ->assertStatus(404);
+    // draft should return 404
+    Livewire::actingAs($user)
+        ->test(ArticleShow::class, ['article' => $draft])
+        ->assertNotFound();
 });
 
 it('lists accessible categories on the index sidebar', function (): void {
@@ -65,12 +65,10 @@ it('lists accessible categories on the index sidebar', function (): void {
 
     Article::factory()->published()->create()->categories()->attach($catA);
 
-    $response = $this->actingAs($user)->get('/blog');
-
-    $response->assertOk()
+    Livewire::actingAs($user)
+        ->test(BlogIndex::class)
         ->assertSee($catA->name)
-        ->assertSee($catB->name)
-        ->assertSee('/blog?category='.$catA->slug);
+        ->assertSee($catB->name);
 });
 
 it('filters articles by search term', function (): void {
@@ -92,11 +90,36 @@ it('filters articles by search term', function (): void {
     ]);
     $other->categories()->attach($category);
 
-    $this->actingAs($user)
-        ->get('/blog?search=SpecialSearchTerm')
-        ->assertOk()
+    Livewire::actingAs($user)
+        ->test(BlogIndex::class)
+        ->set('search', 'SpecialSearchTerm')
         ->assertSee('SpecialSearchTerm')
         ->assertDontSee('Other Article');
+});
+
+it('can clear the search term via the inline button', function (): void {
+    $user = User::factory()->create();
+    $category = Category::factory()->create();
+
+    CategoryAccess::create([
+        'category_id' => $category->id,
+        'user_id' => $user->id,
+    ]);
+
+    $article = Article::factory()->published()->create(['title' => 'Foo Bar']);
+    $article->categories()->attach($category);
+
+    $other = Article::factory()->published()->create(['title' => 'Another']);
+    $other->categories()->attach($category);
+
+    Livewire::actingAs($user)
+        ->test(BlogIndex::class)
+        ->set('search', 'Foo')
+        ->assertSet('search', 'Foo')
+        ->call('clearSearch')
+        ->assertSet('search', '')
+        ->assertSee('Foo Bar')
+        ->assertSee('Another');
 });
 
 it('filters articles by category parameter', function (): void {
@@ -104,7 +127,6 @@ it('filters articles by category parameter', function (): void {
     $category = Category::factory()->create();
     $otherCategory = Category::factory()->create();
 
-    // give user access to both categories so index can load them
     CategoryAccess::create([
         'category_id' => $category->id,
         'user_id' => $user->id,
@@ -120,9 +142,9 @@ it('filters articles by category parameter', function (): void {
     $outCategory = Article::factory()->published()->create();
     $outCategory->categories()->attach($otherCategory);
 
-    $this->actingAs($user)
-        ->get('/blog?category='.$category->slug)
-        ->assertOk()
+    Livewire::actingAs($user)
+        ->test(BlogIndex::class)
+        ->call('filterByCategory', $category->slug)
         ->assertSee($inCategory->title)
         ->assertDontSee($outCategory->title);
 });
