@@ -96,6 +96,7 @@ class ArticleForm
                         FileUpload::make('featured_image_path')
                             ->image()
                             ->disk('public')
+                            ->imageEditor()
                             ->maxSize(5120)
                             ->directory('featured-images')
                             ->preserveFilenames(),

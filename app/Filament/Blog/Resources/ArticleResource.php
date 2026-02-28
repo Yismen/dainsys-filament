@@ -50,8 +50,8 @@ class ArticleResource extends Resource
     {
         return [
             'index' => ListArticles::route('/'),
-            'create' => CreateArticle::route('/create'),
-            'edit' => EditArticle::route('/{record}/edit'),
+            // 'create' => CreateArticle::route('/create'),
+            // 'edit' => EditArticle::route('/{record}/edit'),
         ];
     }
 

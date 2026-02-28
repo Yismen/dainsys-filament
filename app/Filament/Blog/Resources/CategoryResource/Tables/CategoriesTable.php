@@ -19,18 +19,29 @@ class CategoriesTable
             ->defaultSort('display_order')
             ->columns([
                 TextColumn::make('name')
+                    ->wrap()
                     ->sortable()
                     ->searchable()
                     ->weight('medium'),
                 TextColumn::make('slug')
+                    ->wrap()
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('description')
+                    ->wrap()
                     ->limit(50)
                     ->wrap(),
-                TextColumn::make('parent.name')
-                    ->label('Parent Category')
-                    ->sortable()
+                TextColumn::make('accesses.user.name')
+                    ->wrap()
+                    ->badge()
+                    ->label('Users')
+                    ->color('primary')
+                    ->searchable(),
+                TextColumn::make('accesses.role.name')
+                    ->wrap()
+                    ->badge()
+                    ->label('Roles')
+                    ->color('primary')
                     ->searchable(),
                 TextColumn::make('display_order')
                     ->label('Order')

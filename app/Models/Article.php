@@ -64,6 +64,7 @@ class Article extends \App\Models\BaseModels\AppModel
             ->pluck('category_id')
             ->unique()
             ->toArray();
+
         if (empty($accessibleCategoryIds)) {
             return $query->whereRaw('1 = 0'); // Return empty result
         }

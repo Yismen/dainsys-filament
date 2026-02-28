@@ -8,6 +8,7 @@ use App\Services\CategoryService;
 use Illuminate\Contracts\Pagination\Paginator;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -16,9 +17,11 @@ class BlogIndex extends Component
 {
     use WithPagination;
 
+    #[Url]
     public string $search = '';
 
-    public string $selectedCategory = '';
+    #[Url]
+    public string $category = '';
 
     public int $perPage = 15;
 
@@ -40,9 +43,9 @@ class BlogIndex extends Component
             $query->where('title', 'like', "%{$this->search}%");
         }
 
-        if (filled($this->selectedCategory)) {
+        if (filled($this->category)) {
             $query->whereHas('categories', function ($q): void {
-                $q->where('slug', $this->selectedCategory);
+                $q->where('slug', $this->category);
             });
         }
 
@@ -58,14 +61,14 @@ class BlogIndex extends Component
 
     public function filterByCategory(string $slug): void
     {
-        $this->selectedCategory = $slug;
+        $this->category = $slug;
         $this->resetPage();
     }
 
     public function clearFilters(): void
     {
         $this->search = '';
-        $this->selectedCategory = '';
+        $this->category = '';
         $this->resetPage();
     }
 

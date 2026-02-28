@@ -11,6 +11,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
+use Filament\Support\Enums\Width;
 use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -25,23 +26,26 @@ class ArticlesTable
             ->defaultSort('created_at', 'desc')
             ->columns([
                 TextColumn::make('title')
+                    ->wrap()
                     ->sortable()
                     ->searchable()
-                    ->weight('medium')
-                    ->limit(50),
+                    ->weight('medium'),
                 TextColumn::make('slug')
+                    ->wrap()
                     ->sortable()
-                    ->searchable()
-                    ->limit(30),
+                    ->searchable(),
                 TextColumn::make('author.name')
+                    ->wrap()
                     ->label('Author')
                     ->sortable()
                     ->searchable(),
-                BadgeColumn::make('status')
+                TextColumn::make('status')
                     ->formatStateUsing(fn (ArticleStatus $state) => $state->name)
                     ->color(fn (ArticleStatus $state) => $state->color())
+                    ->badge()
                     ->sortable(),
                 TextColumn::make('categories.name')
+                    ->wrap()
                     ->label('Categories')
                     ->badge()
                     ->separator(',')
@@ -79,7 +83,9 @@ class ArticlesTable
                     ->searchable(),
             ])
             ->recordActions([
-                EditAction::make(),
+                EditAction::make()
+                    ->modalWidth(Width::FiveExtraLarge)
+                    ->closeModalByClickingAway(false),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

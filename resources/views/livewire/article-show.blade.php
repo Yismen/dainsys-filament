@@ -42,7 +42,7 @@
             @endif
 
             <div class="prose prose-invert max-w-none dark:prose-invert">
-                {!! $article->content !!}
+                {!! str($article->content)->sanitizeHtml() !!}
             </div>
 
             <!-- SEO Meta -->

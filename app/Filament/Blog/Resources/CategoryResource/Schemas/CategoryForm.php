@@ -20,14 +20,14 @@ class CategoryForm
                         TextInput::make('name')
                             ->required()
                             ->maxLength(255),
-                        // slug is auto-generated from name
-                        Textarea::make('description')
-                            ->columnSpanFull()
-                            ->rows(3),
                         // Single-level categories: no parent selection
                         TextInput::make('display_order')
                             ->numeric()
                             ->default(0),
+                        // slug is auto-generated from name
+                        Textarea::make('description')
+                            ->columnSpanFull()
+                            ->rows(3),
                     ]),
             ]);
     }
