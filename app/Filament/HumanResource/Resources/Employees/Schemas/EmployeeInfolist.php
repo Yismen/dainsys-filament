@@ -5,6 +5,7 @@ namespace App\Filament\HumanResource\Resources\Employees\Schemas;
 use App\Models\Employee;
 use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
 class EmployeeInfolist
@@ -36,9 +37,22 @@ class EmployeeInfolist
                     ->boolean(),
                 TextEntry::make('citizenship.name')
                     ->label('Citizenship'),
-                TextEntry::make('supervisor.name')
-                    ->label('Supervisor'),
                 TextEntry::make('internal_id'),
+                Section::make('Job Information')
+                    ->columns(5)
+                    ->columnSpanFull()
+                    ->components([
+                        TextEntry::make('hired_at')
+                            ->date(),
+                        TextEntry::make('site.name')
+                            ->label('Site'),
+                        TextEntry::make('project.name')
+                            ->label('Project'),
+                        TextEntry::make('position.name')
+                            ->label('Position'),
+                    TextEntry::make('supervisor.name')
+                        ->label('Supervisor'),
+                    ]),
                 TextEntry::make('deleted_at')
                     ->dateTime()
                     ->visible(fn (Employee $record): bool => $record->trashed()),
@@ -48,6 +62,7 @@ class EmployeeInfolist
                 TextEntry::make('updated_at')
                     ->dateTime()
                     ->placeholder('-'),
+
             ]);
     }
 }

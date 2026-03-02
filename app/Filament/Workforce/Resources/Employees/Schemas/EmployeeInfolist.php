@@ -4,6 +4,7 @@ namespace App\Filament\Workforce\Resources\Employees\Schemas;
 
 use App\Models\Employee;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
 class EmployeeInfolist
@@ -30,14 +31,24 @@ class EmployeeInfolist
                     ->placeholder('-'),
                 TextEntry::make('gender')
                     ->badge(),
-                TextEntry::make('site.name')
-                    ->label('Site'),
-                TextEntry::make('project.name')
-                    ->label('Project'),
-                TextEntry::make('supervisor.name')
-                    ->label('Supervisor'),
                 TextEntry::make('citizenship.name')
                     ->label('Citizenship'),
+
+                Section::make('Job Information')
+                    ->columns(5)
+                    ->columnSpanFull()
+                    ->components([
+                        TextEntry::make('hired_at')
+                            ->date(),
+                        TextEntry::make('site.name')
+                            ->label('Site'),
+                        TextEntry::make('project.name')
+                            ->label('Project'),
+                        TextEntry::make('position.name')
+                            ->label('Position'),
+                    TextEntry::make('supervisor.name')
+                        ->label('Supervisor'),
+                    ]),
                 TextEntry::make('deleted_at')
                     ->dateTime()
                     ->visible(fn (Employee $record): bool => $record->trashed()),
