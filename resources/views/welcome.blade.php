@@ -134,7 +134,7 @@
     </section>
 
     <!-- Trust Strip -->
-    <section class="py-16 sm:py-20 relative">
+    <section class="py-16 sm:py-20 bg-linear-to-l from-blue-100 dark:from-blue-900/20 to-transparent relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div class="rounded-2xl bg-white/80 dark:bg-slate-800/70 border border-slate-100/60 dark:border-slate-700/60 p-8 shadow-depth-glow dark:shadow-slate-900">
@@ -276,32 +276,6 @@
         </div>
     </section>
 
-    <!-- Employee Story -->
-    <section class="py-24 sm:py-32 relative">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center space-y-4 mb-16">
-                <h2 class="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-slate-100">Feel the difference</h2>
-                <p class="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">Real words from Ecco Outsourcing Group teammates.</p>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="rounded-2xl bg-white dark:bg-slate-800 border border-slate-100/60 dark:border-slate-700/60 p-8 shadow-depth-glow dark:shadow-slate-900">
-                    <p class="text-lg text-slate-700 dark:text-slate-200 leading-relaxed">"I can see my hours, incentives and payments right away. If something is off, it gets fixed before payroll runs."</p>
-                    <div class="mt-6">
-                        <p class="font-semibold text-slate-900 dark:text-slate-100">Alex M.</p>
-                        <p class="text-sm text-slate-500 dark:text-slate-400">Outbound Agent</p>
-                    </div>
-                </div>
-                <div class="rounded-2xl bg-white dark:bg-slate-800 border border-slate-100/60 dark:border-slate-700/60 p-8 shadow-depth-glow dark:shadow-slate-900">
-                    <p class="text-lg text-slate-700 dark:text-slate-200 leading-relaxed">"The payment breakdown makes sense now. I know exactly how incentives are calculated."</p>
-                    <div class="mt-6">
-                        <p class="font-semibold text-slate-900 dark:text-slate-100">Jordan R.</p>
-                        <p class="text-sm text-slate-500 dark:text-slate-400">Team Lead</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Stats Section -->
     <section class="py-24 sm:py-32 bg-linear-to-r from-blue-600 via-blue-700 to-indigo-700 dark:from-blue-900 dark:via-blue-800 dark:to-indigo-900 relative overflow-hidden"  id="security">
         <!-- Decorative elements -->
@@ -332,8 +306,35 @@
         </div>
     </section>
 
-    <!-- FAQ -->
+
+    <!-- Employee Story -->
     <section class="py-24 sm:py-32 relative">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center space-y-4 mb-16">
+                <h2 class="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-slate-100">Feel the difference</h2>
+                <p class="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">Real words from Ecco Outsourcing Group teammates.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="rounded-2xl bg-white dark:bg-slate-800 border border-slate-100/60 dark:border-slate-700/60 p-8 shadow-depth-glow dark:shadow-slate-900">
+                    <p class="text-lg text-slate-700 dark:text-slate-200 leading-relaxed">"I can see my hours, incentives and payments right away. If something is off, it gets fixed before payroll runs."</p>
+                    <div class="mt-6">
+                        <p class="font-semibold text-slate-900 dark:text-slate-100">Alex M.</p>
+                        <p class="text-sm text-slate-500 dark:text-slate-400">Outbound Agent</p>
+                    </div>
+                </div>
+                <div class="rounded-2xl bg-white dark:bg-slate-800 border border-slate-100/60 dark:border-slate-700/60 p-8 shadow-depth-glow dark:shadow-slate-900">
+                    <p class="text-lg text-slate-700 dark:text-slate-200 leading-relaxed">"The payment breakdown makes sense now. I know exactly how incentives are calculated."</p>
+                    <div class="mt-6">
+                        <p class="font-semibold text-slate-900 dark:text-slate-100">Jordan R.</p>
+                        <p class="text-sm text-slate-500 dark:text-slate-400">Team Lead</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- FAQ -->
+
+    <section class="py-24 sm:py-32 relative bg-linear-to-r from-blue-100 dark:from-blue-900/20 to-transparent">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center space-y-4 mb-16">
                 <h2 class="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-slate-100">Questions Ecco employees ask</h2>
