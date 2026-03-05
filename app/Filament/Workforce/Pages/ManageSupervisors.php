@@ -5,11 +5,15 @@ namespace App\Filament\Workforce\Pages;
 use App\Models\Employee;
 use App\Models\Scopes\IsActiveScope;
 use App\Models\Supervisor;
+use App\Models\User;
 use App\Services\ModelListService;
 use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Support\Icons\Heroicon;
@@ -155,7 +159,7 @@ class ManageSupervisors extends Page
                 Notification::make()
                     ->title('Employees Reassigned')
                     ->body('The employees '.\implode(', ', $employees->pluck('full_name')->toArray()).' have been reassigned to you.')
-                    ->sendToDatabase($supervisor->user ?? auth()->user());
+                    ->send();
 
                 Cache::forget('supervisors_with_active');
                 Cache::forget('supervisors_with_inactive');
@@ -193,4 +197,52 @@ class ManageSupervisors extends Page
                 ->get();
         });
     }
+
+    protected function getHeaderActions(): array
+{
+    return [
+        Action::make('create_supervisor')
+            ->label('Create Supervisor')
+            ->icon(Heroicon::OutlinedUserPlus)
+            ->color('info')
+            ->schema([
+                TextInput::make('name')
+                    ->required()
+                    ->maxLength(255)
+                    ->unique(ignoreRecord: true)
+                    ->autofocus(),
+                Select::make('user_id')
+                    ->options(ModelListService::make(User::query()))
+                    ->searchable()
+                    ->required()
+                    ->unique(ignoreRecord: true),
+                Toggle::make('is_active')
+                    ->default(true)
+                    ->required(),
+                Textarea::make('description')
+                    ->columnSpanFull(),
+            ])
+            ->action(function (array $data): void {
+                $supervisor = Supervisor::create([
+                    'name' => $data['name'],
+                    'user_id' => $data['user_id'],
+                    'is_active' => $data['is_active'],
+                    'description' => $data['description'] ?? null,
+                ]);
+
+                Notification::make()
+                    ->title('Supervisor Created')
+                    ->body('The supervisor '.$supervisor->name.' has been created.')
+                    ->send();
+
+                // Unset computed properties to force re-evaluation
+                unset($this->activeSupervisors);
+                unset($this->inactiveSupervisors);
+
+                $this->dispatch('supervisorCreated');
+
+                $this->redirect(request()->header('referer'), navigate: true);
+            })
+    ];
+}
 }
