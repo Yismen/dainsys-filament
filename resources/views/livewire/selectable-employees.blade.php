@@ -1,5 +1,6 @@
-<div class="flex flex-col w-full">
+<div class="flex flex-col w-full overflow-y-auto h-full">
         @if (count($this->employees))
+
             <div>
                 @if ($this->allSelected === false)
                     <button
