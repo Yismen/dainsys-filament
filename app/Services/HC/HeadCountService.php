@@ -49,8 +49,7 @@ class HeadCountService
         $query = self::$model;
 
         $resultQuery = $query
-            ->withCount('employees')
-            ->withWhereHas('employees', function ($employeeQuery): void {
+            ->withCount(['employees' => function($employeeQuery): void {
                 $employeeQuery
                     ->notInactive()
                     ->when(self::$filters['site'] ?? null, function ($employeeQuery): void {
@@ -68,7 +67,7 @@ class HeadCountService
                             $q->whereIn('id', is_array(self::$filters['supervisor']) ? self::$filters['supervisor'] : [self::$filters['supervisor']]);
                         });
                     });
-            });
+            }]);
 
         return $resultQuery;
     }
