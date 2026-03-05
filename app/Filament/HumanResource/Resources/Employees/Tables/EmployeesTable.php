@@ -2,21 +2,28 @@
 
 namespace App\Filament\HumanResource\Resources\Employees\Tables;
 
+use App\Enums\EmployeeStatuses;
 use App\Exports\Filament\EmployeeExporter;
 use App\Filament\Admin\Resources\Employees\Tables\EmployeeTableFilters;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
+use App\Models\Position;
+use App\Models\Project;
+use App\Models\Site;
+use App\Models\Supervisor;
+use App\Services\ModelListService;
+use Filament\Actions\BulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ExportBulkAction;
-use Filament\Actions\ForceDeleteBulkAction;
-use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Select;
+use Filament\Schemas\Components\Grid;
 use Filament\Support\Colors\Color;
 use Filament\Support\Enums\Width;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Collection;
 
 class EmployeesTable
 {
@@ -105,14 +112,52 @@ class EmployeesTable
                 EditAction::make(),
             ])
             ->toolbarActions([
+                BulkAction::make('hire_employees')
+                    ->label('Hire Employees')
+                    ->color(Color::Indigo)
+                    ->schema([
+                        Grid::make(2)
+                            ->schema([
+                                Select::make('site_id')
+                                    ->required()
+                                    ->searchable()
+                                    ->options(ModelListService::make(Site::query())),
+                                Select::make('project_id')
+                                    ->searchable()
+                                    ->required()
+                                    ->options(ModelListService::make(Project::query())),
+                                Select::make('position_id')
+                                    ->searchable()
+                                    ->required()
+                                    ->options(ModelListService::make(Position::query())),
+                                Select::make('supervisor_id')
+                                    ->required()
+                                    ->options(ModelListService::make(Supervisor::query()))
+                                    ->searchable(),
+                                DateTimePicker::make('hired_at')
+                                    ->required()
+                                    ->default(now()),
+                            ]),
+                    ])
+                    ->successNotificationTitle('Employees hired')
+                    ->deselectRecordsAfterCompletion()
+                    ->action(function (BulkAction $bulkAction, array $data, Collection $records): void {
+                        $records = $records->filter(fn ($record) => $record->status === EmployeeStatuses::Created);
+
+                        foreach ($records as $record) {
+                            $record->hires()
+                                ->create([
+                                    'site_id' => $data['site_id'] ?? null,
+                                    'project_id' => $data['project_id'] ?? null,
+                                    'position_id' => $data['position_id'] ?? null,
+                                    'supervisor_id' => $data['supervisor_id'] ?? null,
+                                    'date' => $data['hired_at'] ?? now(),
+                                ]);
+                        }
+                    }),
                 ExportBulkAction::make()
                     ->color(Color::Teal)
                     ->exporter(EmployeeExporter::class),
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                    ForceDeleteBulkAction::make(),
-                    RestoreBulkAction::make(),
-                ]),
             ]);
     }
 }
