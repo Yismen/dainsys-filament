@@ -31,15 +31,6 @@ class Category extends \App\Models\BaseModels\AppModel
     }
 
     /**
-     * Get all root (top-level) categories
-     */
-    #[\Illuminate\Database\Eloquent\Attributes\Scope]
-    protected function roots($query)
-    {
-        return $query->orderBy('display_order');
-    }
-
-    /**
      * Get category with all descendants (children, grandchildren, etc.)
      */
     // No descendants/ancestors for flat categories

@@ -50,8 +50,8 @@ class EmployeeInfolist
                             ->label('Project'),
                         TextEntry::make('position.name')
                             ->label('Position'),
-                    TextEntry::make('supervisor.name')
-                        ->label('Supervisor'),
+                        TextEntry::make('supervisor.name')
+                            ->label('Supervisor'),
                     ]),
                 TextEntry::make('deleted_at')
                     ->dateTime()

@@ -3,17 +3,11 @@
 namespace App\Services;
 
 use App\Models\Category;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 
 class CategoryService
 {
-    /**
-     * Get all root categories with their tree
-     */
-    public static function getRootCategoriesWithChildren()
-    {
-        return Category::roots()->with('children')->get();
-    }
 
     /**
      * Generate slug from name
@@ -51,7 +45,7 @@ class CategoryService
             return collect();
         }
 
-        return Category::whereHas('accesses', function ($q) use ($user) {
+        return Category::whereHas('accesses', function (Builder $q) use ($user): void {
             $q->where('user_id', $user->id);
         })->get();
     }

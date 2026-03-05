@@ -49,7 +49,7 @@ class HeadCountService
         $query = self::$model;
 
         $resultQuery = $query
-            ->withCount(['employees' => function($employeeQuery): void {
+            ->withCount(['employees' => function ($employeeQuery): void {
                 $employeeQuery
                     ->notInactive()
                     ->when(self::$filters['site'] ?? null, function ($employeeQuery): void {
