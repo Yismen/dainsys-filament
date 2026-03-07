@@ -5,10 +5,13 @@ namespace App\Filament\HumanResource\Widgets;
 use App\Enums\EmployeeStatuses;
 use App\Filament\HumanResource\Resources\Employees\EmployeeResource;
 use App\Models\Employee;
+use Carbon\Carbon;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Number;
 
 class EmployeesStats extends BaseWidget
 {
@@ -18,6 +21,10 @@ class EmployeesStats extends BaseWidget
 
     protected function getStats(): array
     {
+        $tenure = $this->filteredQuery('active')
+            ->pluck('hired_at')
+            ->avg(fn (mixed $date) => Carbon::parse($date)->diffInDays(Carbon::now())) / 365.25;
+
         return [
             Stat::make(
                 'Employees Active',
@@ -70,10 +77,39 @@ class EmployeesStats extends BaseWidget
                         return null;
                     }
                 }),
+            Stat::make(
+                'Averange Tenure (years)',
+                Number::format($tenure).' years'
+            )
+                ->description('Average tenure of active employees')
+                ->color('secondary')
+                ->url(function () {
+                    try {
+                        return EmployeeResource::getUrl('index', [
+                            'filters' => [
+                                'status' => ['value' => EmployeeStatuses::Hired->value],
+                            ],
+                        ]);
+                    } catch (\Exception $e) {
+                        return null;
+                    }
+                }),
         ];
     }
 
     protected function employeesCount(string $scope): int
+    {
+
+        return Cache::rememberForever(
+            $this->getCacheKey($scope),
+            function () use ($scope) {
+                return $this->filteredQuery($scope)
+                    ->count();
+            }
+        );
+    }
+
+    protected function getCacheKey(string $scope): string
     {
         $filtersString = $this->buildFiltersString();
 
@@ -84,41 +120,7 @@ class EmployeesStats extends BaseWidget
             $filtersString,
         ]);
 
-        return Cache::rememberForever(
-            $cacheKey,
-            function () use ($scope) {
-                return Employee::query()
-                    ->$scope()
-                    ->when($this->pageFilters['site'] ?? null, function ($siteQuery): void {
-                        $siteQuery->withWhereHas('site', function ($siteQuery): void {
-                            $siteQuery->when(
-                                is_array($this->pageFilters['site']),
-                                fn ($query) => $query->whereIn('id', $this->pageFilters['site']),
-                                fn ($query) => $query->where('id', $this->pageFilters['site'])
-                            );
-                        });
-                    })
-                    ->when($this->pageFilters['project'] ?? null, function ($hiresQuery): void {
-                        $hiresQuery->withWhereHas('project', function ($projectQuery): void {
-                            $projectQuery->when(
-                                is_array($this->pageFilters['project']),
-                                fn ($query) => $query->whereIn('id', $this->pageFilters['project']),
-                                fn ($query) => $query->where('id', $this->pageFilters['project'])
-                            );
-                        });
-                    })
-                    ->when($this->pageFilters['supervisor'] ?? null, function ($hiresQuery): void {
-                        $hiresQuery->withWhereHas('supervisor', function ($supervisorQuery): void {
-                            $supervisorQuery->when(
-                                is_array($this->pageFilters['supervisor']),
-                                fn ($query) => $query->whereIn('id', $this->pageFilters['supervisor']),
-                                fn ($query) => $query->where('id', $this->pageFilters['supervisor'])
-                            );
-                        });
-                    })
-                    ->count();
-            }
-        );
+        return $cacheKey;
     }
 
     protected function buildFiltersString(): string
@@ -132,5 +134,38 @@ class EmployeesStats extends BaseWidget
         }
 
         return $filtersString ?: 'no_filters';
+    }
+
+    protected function filteredQuery(string $scope): Builder
+    {
+        return Employee::query()
+            ->$scope()
+            ->when($this->pageFilters['site'] ?? null, function ($siteQuery): void {
+                $siteQuery->withWhereHas('site', function ($siteQuery): void {
+                    $siteQuery->when(
+                        is_array($this->pageFilters['site']),
+                        fn ($query) => $query->whereIn('id', $this->pageFilters['site']),
+                        fn ($query) => $query->where('id', $this->pageFilters['site'])
+                    );
+                });
+            })
+            ->when($this->pageFilters['project'] ?? null, function ($hiresQuery): void {
+                $hiresQuery->withWhereHas('project', function ($projectQuery): void {
+                    $projectQuery->when(
+                        is_array($this->pageFilters['project']),
+                        fn ($query) => $query->whereIn('id', $this->pageFilters['project']),
+                        fn ($query) => $query->where('id', $this->pageFilters['project'])
+                    );
+                });
+            })
+            ->when($this->pageFilters['supervisor'] ?? null, function ($hiresQuery): void {
+                $hiresQuery->withWhereHas('supervisor', function ($supervisorQuery): void {
+                    $supervisorQuery->when(
+                        is_array($this->pageFilters['supervisor']),
+                        fn ($query) => $query->whereIn('id', $this->pageFilters['supervisor']),
+                        fn ($query) => $query->where('id', $this->pageFilters['supervisor'])
+                    );
+                });
+            });
     }
 }
