@@ -199,50 +199,50 @@ class ManageSupervisors extends Page
     }
 
     protected function getHeaderActions(): array
-{
-    return [
-        Action::make('create_supervisor')
-            ->label('Create Supervisor')
-            ->icon(Heroicon::OutlinedUserPlus)
-            ->color('info')
-            ->schema([
-                TextInput::make('name')
-                    ->required()
-                    ->maxLength(255)
-                    ->unique(ignoreRecord: true)
-                    ->autofocus(),
-                Select::make('user_id')
-                    ->options(ModelListService::make(User::query()))
-                    ->searchable()
-                    ->required()
-                    ->unique(ignoreRecord: true),
-                Toggle::make('is_active')
-                    ->default(true)
-                    ->required(),
-                Textarea::make('description')
-                    ->columnSpanFull(),
-            ])
-            ->action(function (array $data): void {
-                $supervisor = Supervisor::create([
-                    'name' => $data['name'],
-                    'user_id' => $data['user_id'],
-                    'is_active' => $data['is_active'],
-                    'description' => $data['description'] ?? null,
-                ]);
+    {
+        return [
+            Action::make('create_supervisor')
+                ->label('Create Supervisor')
+                ->icon(Heroicon::OutlinedUserPlus)
+                ->color('info')
+                ->schema([
+                    TextInput::make('name')
+                        ->required()
+                        ->maxLength(255)
+                        ->unique(ignoreRecord: true)
+                        ->autofocus(),
+                    Select::make('user_id')
+                        ->options(ModelListService::make(User::query()))
+                        ->searchable()
+                        ->required()
+                        ->unique(ignoreRecord: true),
+                    Toggle::make('is_active')
+                        ->default(true)
+                        ->required(),
+                    Textarea::make('description')
+                        ->columnSpanFull(),
+                ])
+                ->action(function (array $data): void {
+                    $supervisor = Supervisor::create([
+                        'name' => $data['name'],
+                        'user_id' => $data['user_id'],
+                        'is_active' => $data['is_active'],
+                        'description' => $data['description'] ?? null,
+                    ]);
 
-                Notification::make()
-                    ->title('Supervisor Created')
-                    ->body('The supervisor '.$supervisor->name.' has been created.')
-                    ->send();
+                    Notification::make()
+                        ->title('Supervisor Created')
+                        ->body('The supervisor '.$supervisor->name.' has been created.')
+                        ->send();
 
-                // Unset computed properties to force re-evaluation
-                unset($this->activeSupervisors);
-                unset($this->inactiveSupervisors);
+                    // Unset computed properties to force re-evaluation
+                    unset($this->activeSupervisors);
+                    unset($this->inactiveSupervisors);
 
-                $this->dispatch('supervisorCreated');
+                    $this->dispatch('supervisorCreated');
 
-                $this->redirect(request()->header('referer'), navigate: true);
-            })
-    ];
-}
+                    $this->redirect(request()->header('referer'), navigate: true);
+                }),
+        ];
+    }
 }

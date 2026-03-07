@@ -8,7 +8,6 @@ use Illuminate\Support\Arr;
 
 class CategoryService
 {
-
     /**
      * Generate slug from name
      */
