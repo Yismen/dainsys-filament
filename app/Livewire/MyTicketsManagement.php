@@ -41,7 +41,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 
-#[Layout('layouts.landing-page')]
+#[Layout('layouts.landing-page', ['navType' => 'static'])]
 class MyTicketsManagement extends Page implements HasActions, HasSchemas, HasTable
 {
     use InteractsWithActions;
@@ -121,7 +121,11 @@ class MyTicketsManagement extends Page implements HasActions, HasSchemas, HasTab
             ])
             ->headerActions([
                 CreateAction::make()
-                    ->schema(TicketSchema::make()),
+                    ->schema([
+                        Grid::make(2)
+                            ->schema(TicketSchema::make()),
+                    ])
+                    ->stickyModalHeader(),
             ])
             ->recordActions([
                 ViewAction::make()
@@ -134,14 +138,19 @@ class MyTicketsManagement extends Page implements HasActions, HasSchemas, HasTab
                     ->schema([
                         Grid::make(2)
                             ->schema(TicketInfolist::make()),
-                    ]),
+                    ])
+                    ->stickyModalHeader(),
                 EditAction::make()
-                    ->schema(TicketSchema::make())
+                    ->schema([
+                        Grid::make(2)
+                            ->schema(TicketSchema::make()),
+                    ])
                     ->modalFooterActions([
                         CloseTicketAction::make(),
                         ReopenTicketAction::make(),
                         AssignTicketAction::make(),
-                    ]),
+                    ])
+                    ->stickyModalHeader(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

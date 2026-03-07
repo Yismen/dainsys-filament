@@ -1,5 +1,9 @@
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" x-data @init="$store.theme.init()" class="scroll-smooth">
+    @props([
+        'navType' => 'sticky'
+    ])
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -35,8 +39,7 @@
 
             $authUrl = $panel ? $panel->getUrl() : '/login';
         @endphp
-
-        <x-navigation :auth-url="$authUrl" />
+        <x-navigation :auth-url="$authUrl" navType="{{ $navType }}"/>
 
         @yield('content')
         {{ $slot ?? null }}

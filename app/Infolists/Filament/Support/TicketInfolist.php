@@ -26,7 +26,8 @@ class TicketInfolist
             TextEntry::make('subject')
                 ->label('Subject'),
             TextEntry::make('description')
-                ->label('Description'),
+                ->label('Description')
+                ->html(),
             TextEntry::make('agent.name')
                 ->label('Assigned to'),
             TextEntry::make('assigned_at')

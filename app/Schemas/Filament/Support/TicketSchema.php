@@ -4,6 +4,7 @@ namespace App\Schemas\Filament\Support;
 
 use App\Enums\TicketPriorities;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -22,9 +23,23 @@ class TicketSchema
                 ->options(TicketPriorities::class)
                 ->default(TicketPriorities::Normal)
                 ->required(),
-            Textarea::make('description')
+            RichEditor::make('description')
                 ->required()
-                ->columnSpanFull(),
+                ->columnSpanFull()
+                ->toolbarButtons([
+                    'bold',
+                    'italic',
+                    'strike',
+                    'h2',
+                    'h3',
+                    'orderedList',
+                    'bulletList',
+                    'link',
+                    'blockquote',
+                    'codeBlock',
+                    'undo',
+                    'redo',
+                ]),
             FileUpload::make('images')
                 ->visibility('public')
                 ->disk('public')

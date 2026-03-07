@@ -18,7 +18,7 @@ use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
-#[Layout('layouts.landing-page')]
+#[Layout('layouts.landing-page', ['navType' => 'static'])]
 class MyMailingSubscriptions extends Component implements HasActions, HasForms, HasTable
 {
     use InteractsWithActions;

@@ -1,4 +1,4 @@
-<div class="relative overflow-hidden">
+<div class="relative overflow-hidden bg-slate-50 dark:bg-slate-900 min-h-screen">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div class="mb-8">
             <h1 class="text-3xl font-bold text-slate-900 dark:text-slate-100">My Tickets</h1>
