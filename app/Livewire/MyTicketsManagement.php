@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Actions\Filament\AssignTicketAction;
 use App\Actions\Filament\CloseTicketAction;
+use App\Actions\Filament\EditTicketAction;
 use App\Actions\Filament\ReopenTicketAction;
 use App\Enums\TicketPriorities;
 use App\Enums\TicketStatuses;
@@ -133,6 +134,7 @@ class MyTicketsManagement extends Page implements HasActions, HasSchemas, HasTab
                         CloseTicketAction::make(),
                         ReopenTicketAction::make(),
                         AssignTicketAction::make(),
+                        EditTicketAction::make(),
 
                     ])
                     ->schema([
@@ -140,17 +142,7 @@ class MyTicketsManagement extends Page implements HasActions, HasSchemas, HasTab
                             ->schema(TicketInfolist::make()),
                     ])
                     ->stickyModalHeader(),
-                EditAction::make()
-                    ->schema([
-                        Grid::make(2)
-                            ->schema(TicketSchema::make()),
-                    ])
-                    ->modalFooterActions([
-                        CloseTicketAction::make(),
-                        ReopenTicketAction::make(),
-                        AssignTicketAction::make(),
-                    ])
-                    ->stickyModalHeader(),
+                EditTicketAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
