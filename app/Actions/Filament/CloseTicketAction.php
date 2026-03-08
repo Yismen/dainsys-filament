@@ -6,6 +6,7 @@ use App\Models\Ticket;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Textarea;
 use Filament\Support\Colors\Color;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\Auth;
 
 class CloseTicketAction
@@ -14,6 +15,7 @@ class CloseTicketAction
     {
         return Action::make($name)
             ->color(Color::Red)
+            ->icon(Heroicon::OutlinedXMark)
             ->button()
             ->visible(function (Ticket $record) {
                 return Auth::user()->can('close', $record);

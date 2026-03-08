@@ -6,6 +6,7 @@ use App\Models\Ticket;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Textarea;
 use Filament\Support\Colors\Color;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\Auth;
 
 class ReopenTicketAction
@@ -16,6 +17,7 @@ class ReopenTicketAction
             Action::make(name: 'reOpen')
                 ->color(Color::Blue)
                 ->button()
+                ->icon(Heroicon::OutlinedArrowPath)
                 ->visible(function (Ticket $record) {
                     return Auth::user()->can('reopen', $record);
                 })

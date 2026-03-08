@@ -9,6 +9,7 @@ use App\Services\ModelListService;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Select;
 use Filament\Support\Colors\Color;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\Auth;
 
 class AssignTicketAction
@@ -20,6 +21,7 @@ class AssignTicketAction
                 return Auth::user()->can('assign', $record);
             })
             ->button()
+            ->icon(Heroicon::OutlinedHandThumbUp)
             ->size('sm')
             ->color(Color::Indigo)
             ->successNotificationTitle('Ticket has been assigned!')

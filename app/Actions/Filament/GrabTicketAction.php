@@ -5,6 +5,7 @@ namespace App\Actions\Filament;
 use App\Models\Ticket;
 use Filament\Actions\Action;
 use Filament\Support\Colors\Color;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\Auth;
 
 class GrabTicketAction
@@ -17,6 +18,7 @@ class GrabTicketAction
             })
             ->button()
             ->color(Color::Lime)
+            ->icon(Heroicon::OutlinedHandRaised)
             ->requiresConfirmation()
             ->successNotificationTitle('You are now assigned to this record')
             ->action(function (Ticket $record): void {

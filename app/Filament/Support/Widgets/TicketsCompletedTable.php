@@ -11,6 +11,7 @@ use App\Models\Ticket;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Schemas\Components\Grid;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Enums\PaginationMode;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
@@ -42,6 +43,7 @@ class TicketsCompletedTable extends TableWidget
             ->recordActions([
                 Action::make('view')
                     ->button()
+                    ->icon(Heroicon::OutlinedEye)
                     ->schema([
                         Grid::make(2)
                             ->schema(TicketInfolist::make()),
