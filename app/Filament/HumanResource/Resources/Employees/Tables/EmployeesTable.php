@@ -5,6 +5,7 @@ namespace App\Filament\HumanResource\Resources\Employees\Tables;
 use App\Enums\EmployeeStatuses;
 use App\Exports\Filament\EmployeeExporter;
 use App\Filament\Admin\Resources\Employees\Tables\EmployeeTableFilters;
+use App\Models\Employee;
 use App\Models\Position;
 use App\Models\Project;
 use App\Models\Site;
@@ -20,6 +21,7 @@ use Filament\Schemas\Components\Grid;
 use Filament\Support\Colors\Color;
 use Filament\Support\Enums\Width;
 use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
@@ -32,6 +34,12 @@ class EmployeesTable
         return $table
             ->defaultSort('full_name')
             ->columns([
+                SpatieMediaLibraryImageColumn::make('profile_photo')
+                    ->label('Photo')
+                    ->collection(Employee::PROFILE_PHOTO_COLLECTION)
+                    ->conversion(Employee::PROFILE_PHOTO_THUMBNAIL_CONVERSION)
+                    ->defaultImageUrl(fn (Employee $record): string => $record->getProfilePhotoPlaceholderUrl())
+                    ->circular(),
                 TextColumn::make('id')
                     ->label('ID')
                     ->searchable()

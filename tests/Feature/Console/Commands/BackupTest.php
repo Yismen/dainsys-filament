@@ -1,14 +1,5 @@
 <?php
 
-use App\Console\Commands\Birthdays;
-use App\Events\EmployeeHiredEvent;
-use App\Events\EmployeeSuspendedEvent;
-use App\Events\EmployeeTerminatedEvent;
-use App\Mail\BirthdaysMail;
-use App\Models\Employee;
-use App\Models\Hire;
-use Illuminate\Console\Scheduling\Event as SchedulingEvent;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 
 beforeEach(function (): void {

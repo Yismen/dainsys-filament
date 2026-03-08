@@ -4,10 +4,12 @@ namespace App\Filament\HumanResource\Resources\Employees\Schemas;
 
 use App\Enums\Genders;
 use App\Models\Citizenship;
+use App\Models\Employee;
 use App\Schemas\Filament\HumanResource\HireEmployeeSchema;
 use App\Services\ModelListService;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Infolists\Components\TextEntry;
@@ -34,6 +36,16 @@ class EmployeeForm
                                     ->badge()
                                     ->hiddenLabel()
                                     ->visibleOn('edit'),
+                                SpatieMediaLibraryFileUpload::make('profile_photo')
+                                    ->label('Photo')
+                                    ->collection(Employee::PROFILE_PHOTO_COLLECTION)
+                                    ->conversion(Employee::PROFILE_PHOTO_THUMBNAIL_CONVERSION)
+                                    ->disk('public')
+                                    ->image()
+                                    ->imageEditor()
+                                    ->circleCropper()
+                                    ->maxSize(2048)
+                                    ->columnSpanFull(),
                                 TextInput::make('first_name')
                                     ->autofocus()
                                     ->maxLength(255)

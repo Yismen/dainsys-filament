@@ -10,6 +10,8 @@ use App\Models\Citizenship;
 use App\Models\Employee;
 use App\Models\User;
 use Filament\Facades\Filament;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
@@ -280,4 +282,89 @@ it('autofocus the name field on create and edit pages', function (): void {
     $employee = Employee::factory()->create();
     livewire(EditEmployee::class, ['record' => $employee->getKey()])
         ->assertSeeHtml('autofocus');
+});
+
+it('shows photo upload only on human resource employee form', function (): void {
+    actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Employee'));
+
+    livewire(CreateEmployee::class)
+        ->assertSee('Photo');
+});
+
+it('creates an employee photo from human resource employee create page', function (): void {
+    Storage::fake('public');
+
+    actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Employee'));
+
+    livewire(CreateEmployee::class)
+        ->fillForm([
+            ...$this->form_data,
+            'profile_photo' => UploadedFile::fake()->image('employee-photo.jpg'),
+        ])
+        ->call('create')
+        ->assertHasNoErrors();
+
+    $employee = Employee::query()->where('personal_id', $this->form_data['personal_id'])->firstOrFail();
+
+    expect($employee->getMedia(Employee::PROFILE_PHOTO_COLLECTION))->toHaveCount(1);
+});
+
+it('updates and removes an employee photo from human resource employee edit page', function (): void {
+    Storage::fake('public');
+
+    actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Employee'));
+
+    $employee = Employee::factory()->create([
+        'personal_id' => '99911122233',
+        'cellphone' => '8094442211',
+        'internal_id' => 'E-100',
+    ]);
+
+    $editData = [
+        ...$this->form_data,
+        'personal_id' => '99911122233',
+        'cellphone' => '8094442211',
+        'internal_id' => 'E-100',
+    ];
+
+    livewire(EditEmployee::class, ['record' => $employee->getKey()])
+        ->fillForm([
+            ...$editData,
+            'profile_photo' => UploadedFile::fake()->image('first-photo.jpg'),
+        ])
+        ->call('save')
+        ->assertHasNoErrors();
+
+    $employee->refresh();
+
+    $firstMediaId = $employee->getFirstMedia(Employee::PROFILE_PHOTO_COLLECTION)?->id;
+
+    expect($employee->getMedia(Employee::PROFILE_PHOTO_COLLECTION))->toHaveCount(1);
+
+    livewire(EditEmployee::class, ['record' => $employee->getKey()])
+        ->fillForm([
+            ...$editData,
+            'profile_photo' => UploadedFile::fake()->image('second-photo.jpg'),
+        ])
+        ->call('save')
+        ->assertHasNoErrors();
+
+    $employee->refresh();
+
+    $secondMediaId = $employee->getFirstMedia(Employee::PROFILE_PHOTO_COLLECTION)?->id;
+
+    expect($employee->getMedia(Employee::PROFILE_PHOTO_COLLECTION))->toHaveCount(1)
+        ->and($secondMediaId)->not()->toBe($firstMediaId);
+
+    livewire(EditEmployee::class, ['record' => $employee->getKey()])
+        ->fillForm([
+            ...$editData,
+            'profile_photo' => null,
+        ])
+        ->call('save')
+        ->assertHasNoErrors();
+
+    $employee->refresh();
+
+    expect($employee->getMedia(Employee::PROFILE_PHOTO_COLLECTION))->toHaveCount(0);
 });

@@ -76,3 +76,25 @@ it('displays employee hires history', function (): void {
         ->assertSuccessful()
         ->assertSee('Employment History');
 });
+
+it('displays employee photo placeholder in self profile', function (): void {
+    $employee = Employee::factory()->create([
+        'citizenship_id' => $this->citizenship->id,
+        'full_name' => 'Jane Employee',
+    ]);
+
+    $user = User::factory()->create([
+        'employee_id' => $employee->id,
+    ]);
+
+    Hire::factory()->create([
+        'employee_id' => $employee->id,
+        'date' => now()->subDays(5),
+    ]);
+
+    $this->actingAs($user);
+
+    $this->get(SelfProfile::getUrl(panel: 'employee'))
+        ->assertSuccessful()
+        ->assertSee('ui-avatars.com');
+});

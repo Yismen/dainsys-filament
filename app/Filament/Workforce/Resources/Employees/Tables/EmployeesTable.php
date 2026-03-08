@@ -14,6 +14,7 @@ use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
 use Filament\Support\Enums\Width;
 use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
@@ -24,6 +25,12 @@ class EmployeesTable
     {
         return $table
             ->columns([
+                SpatieMediaLibraryImageColumn::make('profile_photo')
+                    ->label('Photo')
+                    ->collection(Employee::PROFILE_PHOTO_COLLECTION)
+                    ->conversion(Employee::PROFILE_PHOTO_THUMBNAIL_CONVERSION)
+                    ->defaultImageUrl(fn (Employee $record): string => $record->getProfilePhotoPlaceholderUrl())
+                    ->circular(),
                 TextColumn::make('id')
                     ->label('ID')
                     ->searchable()

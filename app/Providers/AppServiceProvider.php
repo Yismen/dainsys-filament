@@ -49,7 +49,6 @@ class AppServiceProvider extends ServiceProvider
                 ->renderHook('panels::global-search.before');
         });
 
-
         Storage::extend('dropbox', function ($app, $config) {
             $client = new Client($config['accessToken']);
 

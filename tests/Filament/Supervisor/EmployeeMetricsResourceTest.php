@@ -151,6 +151,7 @@ test('metrics table displays correct columns', function (): void {
     Livewire::actingAs($supervisorUser)
         ->test(\App\Filament\Supervisor\Resources\EmployeeMetrics\Pages\ListEmployeeMetrics::class)
         ->assertCanSeeTableColumns([
+            'profile_photo',
             'full_name',
             'total_conversions',
             'sph',

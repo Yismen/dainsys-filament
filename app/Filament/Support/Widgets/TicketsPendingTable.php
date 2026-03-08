@@ -14,6 +14,7 @@ use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Schemas\Components\Grid;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Enums\PaginationMode;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
@@ -49,14 +50,20 @@ class TicketsPendingTable extends TableWidget
             ->recordActions([
                 ActionGroup::make([
                     Action::make('view')
-                        ->button()
                         ->schema([
                             Grid::make(2)
                                 ->schema(TicketInfolist::make()),
-                        ]),
-                    GrabTicketAction::make(),
-                    AssignTicketAction::make(),
-                    CloseTicketAction::make(),
+                        ])
+                        ->icon(Heroicon::OutlinedEye),
+                    GrabTicketAction::make()
+                        ->link()
+                        ->icon(Heroicon::OutlinedHandRaised),
+                    AssignTicketAction::make()
+                        ->link()
+                        ->icon(Heroicon::OutlinedHandThumbUp),
+                    CloseTicketAction::make()
+                        ->link()
+                        ->icon(Heroicon::OutlinedXMark),
                 ])
                     ->iconButton(),
             ])

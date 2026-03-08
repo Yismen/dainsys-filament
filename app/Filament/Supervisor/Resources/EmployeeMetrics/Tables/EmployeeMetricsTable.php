@@ -2,8 +2,10 @@
 
 namespace App\Filament\Supervisor\Resources\EmployeeMetrics\Tables;
 
+use App\Models\Employee;
 use Filament\Forms\Components\DatePicker;
 use Filament\Support\Enums\Width;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
@@ -16,6 +18,12 @@ class EmployeeMetricsTable
         return $table
             ->defaultSort('full_name')
             ->columns([
+                SpatieMediaLibraryImageColumn::make('profile_photo')
+                    ->label('Photo')
+                    ->collection(Employee::PROFILE_PHOTO_COLLECTION)
+                    ->conversion(Employee::PROFILE_PHOTO_THUMBNAIL_CONVERSION)
+                    ->defaultImageUrl(fn (Employee $record): string => $record->getProfilePhotoPlaceholderUrl())
+                    ->circular(),
                 TextColumn::make('full_name')
                     ->label('Employee')
                     ->sortable()

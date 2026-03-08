@@ -10,8 +10,10 @@ use App\Models\Campaign;
 use App\Models\Comment;
 use App\Models\Downtime;
 use App\Models\DowntimeReason;
+use App\Models\Employee;
 use App\Models\HRActivityRequest;
 use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\DatePicker;
@@ -19,6 +21,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Grid;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Collection;
@@ -31,6 +34,12 @@ class EmployeesTable
         return $table
             ->defaultSort('full_name')
             ->columns([
+                SpatieMediaLibraryImageColumn::make('profile_photo')
+                    ->label('Photo')
+                    ->collection(Employee::PROFILE_PHOTO_COLLECTION)
+                    ->conversion(Employee::PROFILE_PHOTO_THUMBNAIL_CONVERSION)
+                    ->defaultImageUrl(fn ($record) => $record->getProfilePhotoPlaceholderUrl())
+                    ->circular(),
                 TextColumn::make('full_name')
                     ->label('Employee')
                     ->wrap()
@@ -51,96 +60,98 @@ class EmployeesTable
                     ]),
             ])
             ->recordActions([
-                ViewAction::make(),
-                Action::make('requestActivity')
-                    ->label('HR Activity')
-                    ->icon('heroicon-o-paper-clip')
-                    ->color('info')
-                    ->schema([
-                        Select::make('activity_type')
-                            ->label('Activity Type')
-                            ->options(HRActivityTypes::class)
-                            ->required(),
-                        Textarea::make('description')
-                            ->label('Description')
-                            ->rows(3),
-                    ])
-                    ->action(function ($record, array $data): void {
-                        $supervisor = Auth::user()?->supervisor;
+                ActionGroup::make([
+                    ViewAction::make(),
+                    Action::make('requestActivity')
+                        ->label('HR Activity')
+                        ->icon('heroicon-o-paper-clip')
+                        ->color('info')
+                        ->schema([
+                            Select::make('activity_type')
+                                ->label('Activity Type')
+                                ->options(HRActivityTypes::class)
+                                ->required(),
+                            Textarea::make('description')
+                                ->label('Description')
+                                ->rows(3),
+                        ])
+                        ->action(function ($record, array $data): void {
+                            $supervisor = Auth::user()?->supervisor;
 
-                        if ($supervisor) {
-                            HRActivityRequest::create([
+                            if ($supervisor) {
+                                HRActivityRequest::create([
+                                    'employee_id' => $record->id,
+                                    'supervisor_id' => $supervisor->id,
+                                    'activity_type' => $data['activity_type'],
+                                    'status' => HRActivityRequestStatuses::Requested,
+                                    'description' => $data['description'] ?? null,
+                                    'requested_at' => now(),
+                                ]);
+                            }
+                        })
+                        ->successNotificationTitle('HR Activity Request created successfully'),
+                    Action::make('requestDowntime')
+                        ->label('Downtime')
+                        ->icon('heroicon-o-clock')
+                        ->color('warning')
+                        ->modalHeading('Request downtime')
+                        ->schema([
+                            Grid::make(2)
+                                ->schema([
+                                    DatePicker::make('date')->required(),
+                                    Select::make('campaign_id')
+                                        ->label('Campaign')
+                                        ->options(Campaign::query()->where('revenue_type', \App\Enums\RevenueTypes::Downtime)->pluck('name', 'id'))
+                                        ->required(),
+                                    Select::make('downtime_reason_id')
+                                        ->label('Reason')
+                                        ->options(DowntimeReason::query()->pluck('name', 'id'))
+                                        ->required(),
+                                    TextInput::make('total_time')
+                                        ->label('Total time (hours)')
+                                        ->numeric()
+                                        ->minValue(0.25)
+                                        ->step(0.25)
+                                        ->required(),
+                                    Textarea::make('comment')
+                                        ->label('Comment')
+                                        ->nullable()
+                                        ->rows(3),
+                                ]),
+                        ])
+                        ->action(function ($record, array $data): void {
+                            $supervisor = Auth::user()?->supervisor;
+
+                            if (! $supervisor) {
+                                return;
+                            }
+
+                            $downtime = Downtime::create([
                                 'employee_id' => $record->id,
-                                'supervisor_id' => $supervisor->id,
-                                'activity_type' => $data['activity_type'],
-                                'status' => HRActivityRequestStatuses::Requested,
-                                'description' => $data['description'] ?? null,
-                                'requested_at' => now(),
+                                'campaign_id' => $data['campaign_id'],
+                                'downtime_reason_id' => $data['downtime_reason_id'],
+                                'date' => $data['date'],
+                                'total_time' => $data['total_time'],
+                                'status' => DowntimeStatuses::Pending,
                             ]);
-                        }
-                    })
-                    ->successNotificationTitle('HR Activity Request created successfully'),
-                Action::make('requestDowntime')
-                    ->label('Downtime')
-                    ->icon('heroicon-o-clock')
-                    ->color('warning')
-                    ->modalHeading('Request downtime')
-                    ->schema([
-                        Grid::make(2)
-                            ->schema([
-                                DatePicker::make('date')->required(),
-                                Select::make('campaign_id')
-                                    ->label('Campaign')
-                                    ->options(Campaign::query()->where('revenue_type', \App\Enums\RevenueTypes::Downtime)->pluck('name', 'id'))
-                                    ->required(),
-                                Select::make('downtime_reason_id')
-                                    ->label('Reason')
-                                    ->options(DowntimeReason::query()->pluck('name', 'id'))
-                                    ->required(),
-                                TextInput::make('total_time')
-                                    ->label('Total time (hours)')
-                                    ->numeric()
-                                    ->minValue(0.25)
-                                    ->step(0.25)
-                                    ->required(),
-                                Textarea::make('comment')
-                                    ->label('Comment')
-                                    ->nullable()
-                                    ->rows(3),
-                            ]),
-                    ])
-                    ->action(function ($record, array $data): void {
-                        $supervisor = Auth::user()?->supervisor;
 
-                        if (! $supervisor) {
-                            return;
-                        }
-
-                        $downtime = Downtime::create([
-                            'employee_id' => $record->id,
-                            'campaign_id' => $data['campaign_id'],
-                            'downtime_reason_id' => $data['downtime_reason_id'],
-                            'date' => $data['date'],
-                            'total_time' => $data['total_time'],
-                            'status' => DowntimeStatuses::Pending,
-                        ]);
-
-                        if (! empty($data['comment'])) {
-                            Comment::query()->forceCreate([
-                                'text' => $data['comment'],
-                                'commentable_id' => $downtime->id,
-                                'commentable_type' => Downtime::class,
-                            ]);
-                        }
-                    })
-                    ->successNotificationTitle('Downtime requested successfully'),
+                            if (! empty($data['comment'])) {
+                                Comment::query()->forceCreate([
+                                    'text' => $data['comment'],
+                                    'commentable_id' => $downtime->id,
+                                    'commentable_type' => Downtime::class,
+                                ]);
+                            }
+                        })
+                        ->successNotificationTitle('Downtime requested successfully'),
+                ]),
             ])
-            ->bulkActions([
+            ->toolbarActions([
                 BulkAction::make('requestDowntimes')
                     ->label('Request Downtimes')
                     ->icon('heroicon-o-clock')
                     ->modalHeading('Request downtimes for selected')
-                    ->form([
+                    ->schema([
                         DatePicker::make('date')->required(),
                         Select::make('campaign_id')
                             ->label('Campaign')

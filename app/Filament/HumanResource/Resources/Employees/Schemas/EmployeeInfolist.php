@@ -4,6 +4,7 @@ namespace App\Filament\HumanResource\Resources\Employees\Schemas;
 
 use App\Models\Employee;
 use Filament\Infolists\Components\IconEntry;
+use Filament\Infolists\Components\SpatieMediaLibraryImageEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -14,6 +15,12 @@ class EmployeeInfolist
     {
         return $schema
             ->components([
+                SpatieMediaLibraryImageEntry::make('profile_photo')
+                    ->label('Photo')
+                    ->collection(Employee::PROFILE_PHOTO_COLLECTION)
+                    ->conversion(Employee::PROFILE_PHOTO_THUMBNAIL_CONVERSION)
+                    ->defaultImageUrl(fn (Employee $record): string => $record->getProfilePhotoPlaceholderUrl())
+                    ->circular(),
                 TextEntry::make('status')
                     ->badge(),
                 TextEntry::make('id')

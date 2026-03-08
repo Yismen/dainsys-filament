@@ -17,11 +17,14 @@ use App\Models\Traits\HasManySuspensions;
 use App\Models\Traits\HasManyTerminations;
 use App\Models\Traits\HasOneSocialSocialSecurity;
 use App\Models\Traits\HasRelationsThruSocialSecurity;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Spatie\Image\Enums\Fit;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Employee extends \App\Models\BaseModels\AppModel
+class Employee extends \App\Models\BaseModels\AppModel implements HasMedia
 {
     use BelongsToCitizenship;
     use HasManyDowntimes;
@@ -35,6 +38,11 @@ class Employee extends \App\Models\BaseModels\AppModel
     use HasManyTerminations;
     use HasOneSocialSocialSecurity;
     use HasRelationsThruSocialSecurity;
+    use InteractsWithMedia;
+
+    public const PROFILE_PHOTO_COLLECTION = 'profile_photo';
+
+    public const PROFILE_PHOTO_THUMBNAIL_CONVERSION = 'thumbnail';
 
     protected $fillable = [
         'first_name',
@@ -279,6 +287,42 @@ class Employee extends \App\Models\BaseModels\AppModel
                 $this->second_last_name,
             ]))
         );
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection(self::PROFILE_PHOTO_COLLECTION)
+            ->singleFile()
+            ->useDisk('public');
+    }
+
+    public function registerMediaConversions(?Media $media = null): void
+    {
+        $this->addMediaConversion(self::PROFILE_PHOTO_THUMBNAIL_CONVERSION)
+            ->fit(Fit::Crop, 300, 300)
+            ->performOnCollections(self::PROFILE_PHOTO_COLLECTION)
+            ->nonQueued();
+    }
+
+    public function getProfilePhotoUrl(?string $conversion = self::PROFILE_PHOTO_THUMBNAIL_CONVERSION): string
+    {
+        $url = blank($conversion)
+            ? $this->getFirstMediaUrl(self::PROFILE_PHOTO_COLLECTION)
+            : $this->getFirstMediaUrl(self::PROFILE_PHOTO_COLLECTION, $conversion);
+
+        if (filled($url)) {
+            return $url;
+        }
+
+        return $this->getProfilePhotoPlaceholderUrl();
+    }
+
+    public function getProfilePhotoPlaceholderUrl(): string
+    {
+        $displayName = filled($this->full_name) ? $this->full_name : trim("{$this->first_name} {$this->last_name}");
+        $encodedName = rawurlencode($displayName ?: 'Employee');
+
+        return "https://ui-avatars.com/api/?name={$encodedName}&background=1f2937&color=ffffff";
     }
 
     public function canBeHired(): bool

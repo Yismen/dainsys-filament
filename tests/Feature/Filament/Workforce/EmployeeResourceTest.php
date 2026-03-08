@@ -272,3 +272,15 @@ it('autofocus the name field on create and edit pages', function (): void {
     livewire(EditEmployee::class, ['record' => $employee->getKey()])
         ->assertSeeHtml('autofocus');
 });
+
+it('keeps employee photo as view-only in workforce panel', function (): void {
+    actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Employee'));
+
+    livewire(CreateEmployee::class)
+        ->assertDontSee('Photo');
+
+    actingAs($this->createUserWithPermissionTo('view-any Employee'));
+
+    livewire(ListEmployees::class)
+        ->assertSee('Photo');
+});

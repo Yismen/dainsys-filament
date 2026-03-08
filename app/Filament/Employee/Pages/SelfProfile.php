@@ -5,6 +5,7 @@ namespace App\Filament\Employee\Pages;
 use App\Models\Employee;
 use BackedEnum;
 use Filament\Infolists\Components\RepeatableEntry;
+use Filament\Infolists\Components\SpatieMediaLibraryImageEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Concerns\InteractsWithInfolists;
 use Filament\Infolists\Contracts\HasInfolists;
@@ -50,6 +51,7 @@ class SelfProfile extends Page implements HasInfolists
             'hires.supervisor',
             'terminations',
             'suspensions.suspensionType',
+            'media',
         ])->findOrFail($user->employee_id);
     }
 
@@ -60,6 +62,13 @@ class SelfProfile extends Page implements HasInfolists
             ->components([
                 Section::make('Personal Information')
                     ->schema([
+                        SpatieMediaLibraryImageEntry::make('profile_photo')
+                            ->hiddenLabel()
+                            ->collection(Employee::PROFILE_PHOTO_COLLECTION)
+                            ->conversion(Employee::PROFILE_PHOTO_THUMBNAIL_CONVERSION)
+                            ->defaultImageUrl(fn (Employee $record): string => $record->getProfilePhotoPlaceholderUrl())
+                            ->circular()
+                            ->columnSpanFull(),
                         TextEntry::make('full_name')
                             ->label('Full Name')
                             ->weight(FontWeight::Bold),
