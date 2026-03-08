@@ -24,7 +24,7 @@ class TerminationResource extends Resource
 {
     protected static ?string $model = Termination::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedStop;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedXMark;
 
     protected static ?string $recordTitleAttribute = 'id';
 

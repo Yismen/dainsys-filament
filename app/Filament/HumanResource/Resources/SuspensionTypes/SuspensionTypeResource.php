@@ -22,7 +22,7 @@ class SuspensionTypeResource extends Resource
 {
     protected static ?string $model = SuspensionType::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedXCircle;
 
     protected static ?string $recordTitleAttribute = 'name';
 
