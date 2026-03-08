@@ -7,7 +7,9 @@ use App\Filament\HumanResource\Widgets\HeadCountByPosition;
 use App\Filament\HumanResource\Widgets\HeadCountByProject;
 use App\Filament\HumanResource\Widgets\HeadCountBySite;
 use App\Filament\HumanResource\Widgets\HeadCountBySupervisor;
+use App\Filament\HumanResource\Widgets\HiresVsTerminationsChart;
 use App\Filament\HumanResource\Widgets\HRActivityRequestStats;
+use App\Filament\HumanResource\Widgets\MonthlyAttritionChart;
 use App\Filament\HumanResource\Widgets\UpcomingEmployeeBirthdays;
 use App\Models\Project;
 use App\Models\Site;
@@ -37,6 +39,8 @@ class HumanResourceDashboard extends Dashboard
     {
         return [
             EmployeesStats::class,
+            MonthlyAttritionChart::class,
+            HiresVsTerminationsChart::class,
             HeadCountBySite::class,
             HeadCountByProject::class,
             HeadCountByPosition::class,
