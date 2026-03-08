@@ -71,6 +71,10 @@
         }
     },
     "scripts": {
+        "pest": [
+            "php artisan test --parallel --stop-on-failure",
+            "composer format"
+        ],
         "format": [
             "./vendor/bin/pint",
             "./vendor/bin/rector"
