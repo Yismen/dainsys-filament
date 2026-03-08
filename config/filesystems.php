@@ -36,6 +36,18 @@ return [
             'throw' => false,
         ],
 
+        'dropbox' => [
+            'driver' => 'dropbox',
+            'accessToken' => env('DROPBOX_ACCESS_TOKEN'),
+            'appSecret' => env('DROPBOX_APP_SECRET'),
+            'app' => 'dainsys-filament',
+            // 'prefix'     => 'your-prefix',
+            // 'visibility' => 'public',
+            // 'pirate'     => false,
+            // 'eventable'  => true,
+            // 'cache'      => 'foo'
+        ],
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),

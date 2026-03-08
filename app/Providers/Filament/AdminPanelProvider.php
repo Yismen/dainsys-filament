@@ -11,6 +11,7 @@ use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
 use Jeffgreco13\FilamentBreezy\BreezyCore;
+use ShuvroRoy\FilamentSpatieLaravelBackup\FilamentSpatieLaravelBackupPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -26,6 +27,9 @@ class AdminPanelProvider extends PanelProvider
             ->discoverResources(in: app_path('Filament/Admin/Resources'), for: 'App\\Filament\\Admin\\Resources')
             ->discoverPages(in: app_path('Filament/Admin/Pages'), for: 'App\\Filament\\Admin\\Pages')
             ->discoverWidgets(in: app_path('Filament/Admin/Widgets'), for: 'App\\Filament\\Admin\\Widgets')
+            ->plugin(
+                FilamentSpatieLaravelBackupPlugin::make(),
+            )
             ->plugins([
                 FilamentShieldPlugin::make()
                     ->navigationGroup('Access Control')

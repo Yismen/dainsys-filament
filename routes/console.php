@@ -7,6 +7,8 @@ use App\Console\Commands\RecalculatePayrollHours;
 use App\Console\Commands\SendTicketsExpiredReport;
 use App\Console\Commands\UpdateTicketStatus;
 use Illuminate\Support\Facades\Schedule;
+use Spatie\Backup\Commands\BackupCommand;
+use Spatie\Backup\Commands\CleanupCommand;
 
 Schedule::command(\App\Console\Commands\UpdatePendingSuspensions::class)->everyFifteenMinutes();
 Schedule::command(\App\Console\Commands\UpdateEmployeeSuspensions::class)->dailyAt('03:00');
@@ -30,3 +32,6 @@ Schedule::command('telescope:prune --hours=120')->daily();
 
 Schedule::command(UpdateTicketStatus::class)->everyThirtyMinutes();
 Schedule::command(SendTicketsExpiredReport::class)->dailyAt('08:15');
+
+Schedule::command(BackupCommand::class)->dailyAt('20:15');
+Schedule::command(CleanupCommand::class)->dailyAt('21:15');

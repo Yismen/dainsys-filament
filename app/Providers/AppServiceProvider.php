@@ -5,9 +5,14 @@ namespace App\Providers;
 use BezhanSalleh\LanguageSwitch\LanguageSwitch;
 use BezhanSalleh\PanelSwitch\PanelSwitch;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Filesystem\FilesystemAdapter;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
 use Jeffgreco13\FilamentBreezy\Livewire\SanctumTokens;
+use League\Flysystem\Filesystem;
 use Livewire\Livewire;
+use Spatie\Dropbox\Client;
+use Spatie\FlysystemDropbox\DropboxAdapter;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -42,6 +47,16 @@ class AppServiceProvider extends ServiceProvider
                 ->locales(['es', 'en'])
                 ->circular()
                 ->renderHook('panels::global-search.before');
+        });
+
+
+        Storage::extend('dropbox', function ($app, $config) {
+            $client = new Client($config['accessToken']);
+
+            $adapter = new DropboxAdapter($client);
+            $driver = new Filesystem($adapter, ['case_sensitive' => false]);
+
+            return new FilesystemAdapter($driver, $adapter);
         });
     }
 }
