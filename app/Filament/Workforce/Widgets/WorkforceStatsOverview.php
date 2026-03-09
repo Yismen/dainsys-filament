@@ -13,6 +13,8 @@ use Illuminate\Support\Carbon;
 
 class WorkforceStatsOverview extends StatsOverviewWidget
 {
+    protected ?string $pollingInterval = null;
+
     protected function getStats(): array
     {
         $today = Carbon::today();

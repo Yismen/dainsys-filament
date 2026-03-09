@@ -13,6 +13,8 @@ class DowntimeByReasonChart extends ChartWidget
 
     protected int|string|array $columnSpan = 1;
 
+    protected ?string $pollingInterval = null;
+
     protected ?string $maxHeight = '300px';
 
     protected function getType(): string

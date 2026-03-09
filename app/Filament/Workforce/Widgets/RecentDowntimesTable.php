@@ -15,6 +15,8 @@ class RecentDowntimesTable extends TableWidget
 
     protected static ?string $heading = 'Recent downtimes';
 
+    protected ?string $pollingInterval = null;
+
     public function table(Table $table): Table
     {
         return $table

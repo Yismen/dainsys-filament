@@ -15,6 +15,8 @@ class ProductionRevenueTrendChart extends ChartWidget
 
     protected ?string $maxHeight = '300px';
 
+    protected ?string $pollingInterval = null;
+
     protected function getType(): string
     {
         return 'line';
@@ -25,26 +27,25 @@ class ProductionRevenueTrendChart extends ChartWidget
         $since = Carbon::today()->subDays(14);
 
         $byDate = Production::query()
-            ->selectRaw('date, SUM(revenue) as revenue_cents, SUM(billable_time) as billable_minutes')
             ->whereDate('date', '>=', $since)
-            ->groupBy('date')
             ->orderBy('date')
-            ->get();
+            ->get(['date', 'revenue', 'billable_time'])
+            ->groupBy(fn ($row) => $row->date?->format('Y-m-d'));
 
-        $labels = $byDate->map(fn ($row) => $row->date?->format('M d'));
+        $labels = $byDate->keys()->map(fn ($date) => Carbon::parse($date)->format('M d'))->toArray();
 
         return [
             'datasets' => [
                 [
                     'label' => 'Revenue',
-                    'data' => $byDate->map(fn ($row) => round(($row->revenue_cents ?? 0) / 100, 2)),
+                    'data' => $byDate->map(fn ($row) => round(($row->sum('revenue') ?? 0), 2)),
                     'borderColor' => '#ef4444',
                     'backgroundColor' => 'rgba(239, 68, 68, 0.15)',
                     'tension' => 0.3,
                 ],
                 [
-                    'label' => 'Billable minutes',
-                    'data' => $byDate->map(fn ($row) => $row->billable_minutes ?? 0),
+                    'label' => 'Billable time',
+                    'data' => $byDate->map(fn ($row) => $row->sum('billable_time') ?? 0),
                     'borderColor' => '#0ea5e9',
                     'backgroundColor' => 'rgba(14, 165, 233, 0.15)',
                     'tension' => 0.3,
