@@ -57,7 +57,8 @@ class ProductionsTable
                     ->searchable()
                     ->limit(25)
                     ->tooltip(fn ($state, $record) => $record->campaign?->name),
-                TextColumn::make('project.name')
+                TextColumn::make('campaign.project.name')
+                    ->label('Project')
                     ->wrap()
                     ->sortable()
                     ->searchable(),
@@ -157,8 +158,8 @@ class ProductionsTable
                     ->query(function ($query, $data): void {
                         $value = $data['value'] ?? null;
 
-                        $query->when($value, function ($query, $value)  {
-                            $query->whereHas('campaign', function ($query) use ($value)  {
+                        $query->when($value, function ($query, $value): void {
+                            $query->whereHas('campaign', function ($query) use ($value): void {
                                 $query->where('project_id', $value);
                             });
                         });
