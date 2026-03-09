@@ -15,12 +15,6 @@ Schedule::command(\App\Console\Commands\UpdateEmployeeSuspensions::class)->daily
 Schedule::command(\App\Console\Commands\SendSuspendedEmployeesEmail::class)->dailyAt('03:05');
 Schedule::command(Birthdays::class, ['today'])->dailyAt('04:00');
 Schedule::command(Birthdays::class, ['this_month'])->monthlyOn(1, '04:01');
-// Publishing
-Schedule::command(PublishingProductionReport::class, [
-    '--date' => now()->format('Y-m-d'),
-    '--subject' => 'Publishing Hourly Production Report',
-
-])->hourly();
 
 Schedule::command(ImportPayrollHoursFromProduction::class, [
     now()->subDay()->format('Y-m-d'),
@@ -35,3 +29,10 @@ Schedule::command(SendTicketsExpiredReport::class)->dailyAt('08:15');
 
 Schedule::command(BackupCommand::class)->dailyAt('20:15');
 Schedule::command(CleanupCommand::class)->dailyAt('21:15');
+
+// LiveVox
+// Schedule::command(PublishingProductionReport::class, [
+//     '--date' => now()->format('Y-m-d'),
+//     '--subject' => 'Publishing Hourly Production Report',
+
+// ])->hourly();

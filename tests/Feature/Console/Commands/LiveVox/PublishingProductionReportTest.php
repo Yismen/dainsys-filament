@@ -37,12 +37,12 @@ test('file is deleted after email is sent', function (): void {
     Storage::assertMissing('livevox_publishing_production_report.xlsx');
 });
 
-it('runs hourly', function (): void {
-    $addedToScheduler = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
-        ->filter(function ($element) {
-            return str($element->command)->contains('dainsys:livevox-publishing-production-report');
-        })->first();
+// it('runs hourly', function (): void {
+//     $addedToScheduler = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
+//         ->filter(function ($element) {
+//             return str($element->command)->contains('dainsys:livevox-publishing-production-report');
+//         })->first();
 
-    expect($addedToScheduler)->not->toBeNull();
-    expect($addedToScheduler->expression)->toEqual('0 * * * *');
-});
+//     expect($addedToScheduler)->not->toBeNull();
+//     expect($addedToScheduler->expression)->toEqual('0 * * * *');
+// });
