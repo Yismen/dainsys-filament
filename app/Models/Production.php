@@ -73,12 +73,6 @@ class Production extends \App\Models\BaseModels\AppModel
             $production->conversions_goal = $production->campaign?->sph_goal * $production->production_time;
 
             $production->saveQuietly();
-
-            // Refresh payroll hours for this employee/date
-            RefreshPayrollHoursJob::dispatch(
-                date: $production->date->toDateString(),
-                employeeId: $production->employee_id,
-            );
         });
 
         static::deleting(function (self $production): void {
@@ -86,7 +80,15 @@ class Production extends \App\Models\BaseModels\AppModel
             RefreshPayrollHoursJob::dispatch(
                 date: $production->date->toDateString(),
                 employeeId: $production->employee_id,
-            );
+            )->delay(now()->addSeconds(10)); // Delay to ensure the production record is soft deleted before the job runs
+        });
+
+        static::updated(function (self $production): void {
+            // Refresh payroll hours for this employee/date when updated
+            RefreshPayrollHoursJob::dispatch(
+                date: $production->date->toDateString(),
+                employeeId: $production->employee_id,
+            )->delay(now()->addSeconds(10)); // Delay to ensure DB transactions are committed
         });
 
         static::restored(function (self $production): void {
@@ -94,7 +96,7 @@ class Production extends \App\Models\BaseModels\AppModel
             RefreshPayrollHoursJob::dispatch(
                 date: $production->date->toDateString(),
                 employeeId: $production->employee_id,
-            );
+            )->delay(now()->addSeconds(10)); // Delay to ensure DB transactions are committed
         });
     }
 
