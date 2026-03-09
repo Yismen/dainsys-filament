@@ -7,7 +7,6 @@ beforeEach(function (): void {
 });
 
 it('runs daily at 20:15', function (): void {
-    $this->app->make(\Illuminate\Contracts\Console\Kernel::class);
 
     $command = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
         ->first(function ($element) {
@@ -19,7 +18,6 @@ it('runs daily at 20:15', function (): void {
 });
 
 it('cleanup runs daily at 21:15', function (): void {
-    $this->app->make(\Illuminate\Contracts\Console\Kernel::class);
 
     $command = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
         ->first(function ($element) {

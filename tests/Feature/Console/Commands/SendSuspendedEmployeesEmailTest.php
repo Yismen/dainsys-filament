@@ -26,7 +26,6 @@ test('employees suspended run sucessfully', function (): void {
 });
 
 test('command is schedulled for daily at 305 am', function (): void {
-    $this->app->make(\Illuminate\Contracts\Console\Kernel::class);
 
     $command = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
         ->first(function ($element) {

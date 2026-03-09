@@ -19,7 +19,6 @@ beforeEach(function (): void {
 });
 
 it('is is schedulled daily at 8:15 am', function (): void {
-    $this->app->make(\Illuminate\Contracts\Console\Kernel::class);
 
     $command = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
         ->first(function ($element) {
