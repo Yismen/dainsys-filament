@@ -34,3 +34,14 @@ it('does not dispatch a batch when the date range is invalid', function (): void
 
     Bus::assertNothingBatched();
 });
+
+it('is is schedulled daily at 2:00 am', function (): void {
+
+    $command = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
+        ->first(function ($element) {
+            return str($element->command)->contains('dainsys:recalculate-payroll-hours');
+        });
+
+    expect($command)->not()->toBeNull();
+    $this->assertEquals('0 2 * * *', $command->expression);
+});
