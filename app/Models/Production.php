@@ -101,7 +101,6 @@ class Production extends \App\Models\BaseModels\AppModel
     public function project(): HasOneThrough
     {
         return $this->hasOneThrough(
-
             related: \App\Models\Project::class,
             through: \App\Models\Campaign::class,
             firstKey: 'id', // Foreign key on the Through table table...

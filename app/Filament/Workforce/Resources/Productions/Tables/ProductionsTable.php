@@ -54,41 +54,55 @@ class ProductionsTable
                 TextColumn::make('campaign.name')
                     ->wrap()
                     ->sortable()
+                    ->searchable()
+                    ->limit(25)
+                    ->tooltip(fn ($state, $record) => $record->campaign?->name),
+                TextColumn::make('project.name')
+                    ->wrap()
+                    ->sortable()
                     ->searchable(),
                 TextColumn::make('revenue_type')
                     ->wrap()
                     ->sortable()
-                    ->searchable()
+                    ->wrapHeader()
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('revenue_rate')
-                    ->numeric()
-                    ->sortable(),
                 TextColumn::make('sph_goal')
                     ->numeric()
+                    ->wrapHeader()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('conversions')
-                    ->numeric()
-                    ->sortable(),
                 TextColumn::make('total_time')
                     ->numeric()
+                    ->wrapHeader()
                     ->sortable(),
                 TextColumn::make('production_time')
                     ->numeric()
+                    ->wrapHeader()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('talk_time')
                     ->numeric()
+                    ->wrapHeader()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('billable_time')
                     ->numeric()
+                    ->wrapHeader()
                     ->sortable(),
+                TextColumn::make('conversions')
+                    ->numeric()
+                    ->wrapHeader()
+                    ->sortable(),
+                TextColumn::make('revenue_rate')
+                    ->numeric()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('revenue')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('converted_to_payroll_at')
                     ->dateTime()
+                    ->wrapHeader()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('deleted_at')
@@ -140,9 +154,11 @@ class ProductionsTable
                     ->label('Project')
                     ->options(ModelListService::make(Project::query()))
                     ->searchable()
-                    ->query(function ($query, $value) {
-                        return $query->when($value, function ($query, $value): void {
-                            $query->whereHas('campaign', function ($query) use ($value): void {
+                    ->query(function ($query, $data): void {
+                        $value = $data['value'] ?? null;
+
+                        $query->when($value, function ($query, $value)  {
+                            $query->whereHas('campaign', function ($query) use ($value)  {
                                 $query->where('project_id', $value);
                             });
                         });

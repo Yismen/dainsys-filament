@@ -40,8 +40,14 @@ class EmployeesTable
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('cellphone')
+                    ->wrap()
+                    ->searchable(),
+                TextColumn::make('personal_id')
+                    ->wrap()
+                    ->copyable()
                     ->searchable(),
                 TextColumn::make('citizenship.name')
+                    ->wrap()
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('gender')
@@ -98,7 +104,7 @@ class EmployeesTable
                     ->label('Reset Password')
                     ->icon('heroicon-o-key')
                     ->requiresConfirmation()
-                    ->visible(fn (Employee $record): bool => (bool) $record->user)
+                    ->visible(fn (Employee $record): bool => (bool) $record->user && $record->user->password_set_at)
                     ->action(function (Employee $employee): void {
                         self::resetEmployeePassword($employee);
                     })
@@ -127,7 +133,10 @@ class EmployeesTable
 
         $user->update([
             'force_password_change' => true,
+            'password_set_at' => null,
         ]);
+
+        // $user->forceDelete();
 
         // Notify the supervisor
         if ($employee->supervisor) {
