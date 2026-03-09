@@ -10,7 +10,7 @@ it('runs daily at 20:15', function (): void {
 
     $command = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
         ->first(function ($element) {
-            return str($element->command)->contains('backup:run');
+            return str($element->command)->contains('backup:run --only-db');
         });
 
     expect($command)->not()->toBeNull();

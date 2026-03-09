@@ -27,7 +27,7 @@ Schedule::command('telescope:prune --hours=120')->daily();
 Schedule::command(UpdateTicketStatus::class)->everyThirtyMinutes();
 Schedule::command(SendTicketsExpiredReport::class)->dailyAt('08:15');
 
-Schedule::command(BackupCommand::class)->dailyAt('20:15');
+Schedule::command(BackupCommand::class, ['--only-db'])->dailyAt('20:15');
 Schedule::command(CleanupCommand::class)->dailyAt('21:15');
 
 // LiveVox
