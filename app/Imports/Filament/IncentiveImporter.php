@@ -21,7 +21,7 @@ class IncentiveImporter extends Importer
                 ->rules(['required', 'date']),
             ImportColumn::make('employee_id')
                 ->requiredMapping()
-                ->rules(['required', 'exists:employees.id']),
+                ->rules(['required', 'exists:employees,id']),
             ImportColumn::make('project_id')
                 ->requiredMapping()
                 ->rules(['required']),
