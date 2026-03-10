@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Schedule;
 use Spatie\Backup\Commands\BackupCommand;
 use Spatie\Backup\Commands\CleanupCommand;
 
-Schedule::command(\App\Console\Commands\UpdatePendingSuspensions::class)->everyFifteenMinutes();
+Schedule::command(\App\Console\Commands\UpdatePendingSuspensions::class)->everyThirtyMinutes();
 Schedule::command(\App\Console\Commands\UpdateEmployeeSuspensions::class)->dailyAt('03:00');
 Schedule::command(\App\Console\Commands\SendSuspendedEmployeesEmail::class)->dailyAt('03:05');
 Schedule::command(Birthdays::class, ['today'])->dailyAt('04:00');
