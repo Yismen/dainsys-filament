@@ -3,6 +3,8 @@
 namespace App\Filament\Supervisor\Resources\Employees\Schemas;
 
 use Filament\Infolists\Components\TextEntry;
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
 class EmployeeInfolist
@@ -36,6 +38,22 @@ class EmployeeInfolist
                 TextEntry::make('updated_at')
                     ->dateTime()
                     ->label('Updated'),
+                Section::make('Employment Information')
+                    ->label('Employment Information')
+                    ->columnSpanFull()
+                    ->schema([
+                        Grid::make(3)
+                            ->schema([
+                                TextEntry::make('position.name')
+                                    ->label('Position'),
+                                TextEntry::make('position.department.name')
+                                    ->label('Department'),
+                                TextEntry::make('hired_at')
+                                    ->date('M d, Y')
+                                    ->label('Date Hired'),
+                            ]),
+                    ])
+                    ->collapsible(),
             ]);
     }
 }
