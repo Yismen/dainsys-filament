@@ -7,6 +7,7 @@ use App\Services\ModelListService;
 use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\Select;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables\Columns\TextColumn;
@@ -22,15 +23,17 @@ class CategoryAccessRelationManager extends RelationManager
     {
         return $schema
             ->schema([
-                Select::make('user_id')
+                CheckboxList::make('user_id')
                     ->label('User')
                     ->options(ModelListService::make(\App\Models\User::query()))
                     ->searchable()
+                    ->bulkToggleable(true)
                     ->nullable(),
-                Select::make('role_id')
+                CheckboxList::make('role_id')
                     ->label('Role')
                     ->options(ModelListService::make(Role::query()))
                     ->searchable()
+                    ->bulkToggleable(true)
                     ->nullable(),
             ]);
     }
@@ -58,7 +61,19 @@ class CategoryAccessRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                CreateAction::make(),
+                CreateAction::make()
+                    ->action(function ($livewire, $data) {
+                        foreach ($data['user_id'] ?? [] as $userId) {
+                            $livewire->ownerRecord->accesses()->firstOrCreate([
+                                'user_id' => $userId,
+                            ]);
+                        }
+                        foreach ($data['role_id'] ?? [] as $roleId) {
+                            $livewire->ownerRecord->accesses()->firstOrCreate([
+                                'role_id' => $roleId,
+                            ]);
+                        }
+                    }),
             ])
             ->recordActions([
                 EditAction::make(),
