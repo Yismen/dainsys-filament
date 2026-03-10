@@ -26,16 +26,16 @@ class DowntimeForm
                 DatePicker::make('date')
                     ->default(now())
                     ->required(),
-                Select::make('employee_id')
-                    ->options(ModelListService::get(model: Employee::query(), value_field: 'full_name'))
-                    ->searchable()
-                    ->required(),
                 Select::make('campaign_id')
                     ->options(ModelListService::get(model: Campaign::query()->where('revenue_type', RevenueTypes::Downtime)))
                     ->searchable()
                     ->required(),
                 Select::make('downtime_reason_id')
                     ->options(ModelListService::get(model: DowntimeReason::query()))
+                    ->searchable()
+                    ->required(),
+                Select::make('employee_id')
+                    ->options(ModelListService::get(model: Employee::query(), value_field: 'full_name'))
                     ->searchable()
                     ->required(),
                 TextInput::make('total_time')

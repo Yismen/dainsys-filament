@@ -13,7 +13,13 @@ class ListDowntimes extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            CreateAction::make(),
+            CreateAction::make()
+                ->preserveFormDataWhenCreatingAnother([
+                        // 'employee_id',
+                        'campaign_id',
+                        'downtime_reason_id',
+                        'date',
+                ]),
         ];
     }
 }
