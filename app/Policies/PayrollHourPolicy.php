@@ -1,65 +1,69 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Models\PayrollHour;
-use App\Models\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Foundation\Auth\User as AuthUser;
 
 class PayrollHourPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
+    use HandlesAuthorization;
+
+    public function viewAny(AuthUser $authUser): bool
     {
-        return false;
+        return $authUser->can('viewAny payrollHour');
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, PayrollHour $payrollHour): bool
+    public function view(AuthUser $authUser, PayrollHour $payrollHour): bool
     {
-        return false;
+        return $authUser->can('view payrollHour');
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
+    public function create(AuthUser $authUser): bool
     {
-        return false;
+        return $authUser->can('create payrollHour');
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, PayrollHour $payrollHour): bool
+    public function update(AuthUser $authUser, PayrollHour $payrollHour): bool
     {
-        return false;
+        return $authUser->can('update payrollHour');
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, PayrollHour $payrollHour): bool
+    public function delete(AuthUser $authUser, PayrollHour $payrollHour): bool
     {
-        return false;
+        return $authUser->can('delete payrollHour');
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, PayrollHour $payrollHour): bool
+    public function restore(AuthUser $authUser, PayrollHour $payrollHour): bool
     {
-        return false;
+        return $authUser->can('restore payrollHour');
     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, PayrollHour $payrollHour): bool
+    public function forceDelete(AuthUser $authUser, PayrollHour $payrollHour): bool
     {
-        return false;
+        return $authUser->can('forceDelete payrollHour');
+    }
+
+    public function forceDeleteAny(AuthUser $authUser): bool
+    {
+        return $authUser->can('forceDeleteAny payrollHour');
+    }
+
+    public function restoreAny(AuthUser $authUser): bool
+    {
+        return $authUser->can('restoreAny payrollHour');
+    }
+
+    public function replicate(AuthUser $authUser, PayrollHour $payrollHour): bool
+    {
+        return $authUser->can('replicate payrollHour');
+    }
+
+    public function reorder(AuthUser $authUser): bool
+    {
+        return $authUser->can('reorder payrollHour');
     }
 }
