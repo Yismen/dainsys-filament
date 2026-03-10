@@ -8,7 +8,6 @@ use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\CheckboxList;
-use Filament\Forms\Components\Select;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -62,7 +61,7 @@ class CategoryAccessRelationManager extends RelationManager
             ])
             ->headerActions([
                 CreateAction::make()
-                    ->action(function ($livewire, $data) {
+                    ->action(function ($livewire, $data): void {
                         foreach ($data['user_id'] ?? [] as $userId) {
                             $livewire->ownerRecord->accesses()->firstOrCreate([
                                 'user_id' => $userId,

@@ -15,10 +15,10 @@ class ListDowntimes extends ListRecords
         return [
             CreateAction::make()
                 ->preserveFormDataWhenCreatingAnother([
-                        // 'employee_id',
-                        'campaign_id',
-                        'downtime_reason_id',
-                        'date',
+                    // 'employee_id',
+                    'campaign_id',
+                    'downtime_reason_id',
+                    'date',
                 ]),
         ];
     }
