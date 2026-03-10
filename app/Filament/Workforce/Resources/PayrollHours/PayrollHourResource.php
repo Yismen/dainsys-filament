@@ -2,33 +2,21 @@
 
 namespace App\Filament\Workforce\Resources\PayrollHours;
 
+use App\Actions\Filament\UpdatePayrollHoursAction;
 use App\Filament\Workforce\Resources\PayrollHours\Pages\ManagePayrollHours;
 use App\Models\Employee;
 use App\Models\PayrollHour;
 use App\Services\ModelListService;
 use BackedEnum;
 use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
-use Filament\Actions\ForceDeleteAction;
-use Filament\Actions\ForceDeleteBulkAction;
-use Filament\Actions\RestoreAction;
-use Filament\Actions\RestoreBulkAction;
 use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Columns\Layout\Split;
 use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
-use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -52,6 +40,9 @@ class PayrollHourResource extends Resource
         return $table
             ->recordTitleAttribute('full_name')
             ->defaultSort('date', 'desc')
+            ->headerActions([
+                UpdatePayrollHoursAction::make(),
+            ])
             ->columns([
                 TextColumn::make('id')
                     ->label('ID')
@@ -132,32 +123,32 @@ class PayrollHourResource extends Resource
                     ])
                     ->query(function (Builder $query, array $data) {
                         return $query
-                            ->when($data['from'], fn(Builder $query, $date) => $query->where('date', '>=', $date))
-                            ->when($data['to'], fn(Builder $query, $date) => $query->where('date', '<=', $date));
+                            ->when($data['from'], fn (Builder $query, $date) => $query->where('date', '>=', $date))
+                            ->when($data['to'], fn (Builder $query, $date) => $query->where('date', '<=', $date));
                     }),
                 SelectFilter::make('week_ending_at')
-                    ->options(function() {
-                        return Cache::rememberForever('payroll_week_ending_dates', function() {
+                    ->options(function () {
+                        return Cache::rememberForever('payroll_week_ending_dates', function () {
                             return PayrollHour::query()
                                 ->select('week_ending_at')
                                 ->distinct()
                                 ->orderBy('week_ending_at', 'desc')
                                 ->pluck('week_ending_at')
-                                ->mapWithKeys(fn($date) => [
+                                ->mapWithKeys(fn ($date) => [
                                     $date->toDateString() => $date->toFormattedDateString(),
                                 ]);
                         });
                     }),
-                
+
                 SelectFilter::make('payroll_ending_at')
-                    ->options(function() {
-                        return Cache::rememberForever('payroll_ending_dates', function() {
+                    ->options(function () {
+                        return Cache::rememberForever('payroll_ending_dates', function () {
                             return PayrollHour::query()
                                 ->select('payroll_ending_at')
                                 ->distinct()
                                 ->orderBy('payroll_ending_at', 'desc')
                                 ->pluck('payroll_ending_at')
-                                ->mapWithKeys(fn($date) => [
+                                ->mapWithKeys(fn ($date) => [
                                     $date->toDateString() => $date->toFormattedDateString(),
                                 ]);
                         });

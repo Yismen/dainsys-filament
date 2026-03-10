@@ -4,6 +4,8 @@ namespace App\Jobs;
 
 use App\Models\Holiday;
 use App\Models\PayrollHour;
+use App\Models\User;
+use Filament\Notifications\Notification;
 use Illuminate\Bus\Batchable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
@@ -13,18 +15,10 @@ class DistributePayrollHoursJob implements ShouldQueue
 {
     use Batchable, Queueable;
 
-    public string $date;
-
-    public string $employeeId;
-
     /**
      * Create a new job instance.
      */
-    public function __construct(string $date, string $employeeId)
-    {
-        $this->date = $date;
-        $this->employeeId = $employeeId;
-    }
+    public function __construct(public string $date, public string $employeeId, public ?User $userToNotify = null) {}
 
     /**
      * Execute the job.
@@ -104,6 +98,14 @@ class DistributePayrollHoursJob implements ShouldQueue
             $payrollHour->save();
 
             $excessHours -= $hoursToShift;
+        }
+
+        if ($this->userToNotify) {
+            Notification::make()
+                ->title('Payroll hours have been distributed!')
+                ->body('Payroll hours for the week of '.$startOfWeek->toFormattedDateString().' - '.$endOfWeek->toFormattedDateString().' have been distributed based on production records.')
+                ->success()
+                ->sendToDatabase($this->userToNotify);
         }
     }
 }

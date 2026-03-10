@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Casts\AsMoney;
 use App\Enums\RevenueTypes;
-use App\Jobs\RefreshPayrollHoursJob;
 use App\Models\Traits\BelongsToCampaign;
 use App\Models\Traits\BelongsToEmployee;
 use App\Models\Traits\BelongsToSupervisor;
@@ -73,30 +72,6 @@ class Production extends \App\Models\BaseModels\AppModel
             $production->conversions_goal = $production->campaign?->sph_goal * $production->production_time;
 
             $production->saveQuietly();
-        });
-
-        static::deleting(function (self $production): void {
-            // Refresh payroll hours for this employee/date when soft deleted
-            RefreshPayrollHoursJob::dispatch(
-                date: $production->date->toDateString(),
-                employeeId: $production->employee_id,
-            )->delay(now()->addSeconds(10)); // Delay to ensure the production record is soft deleted before the job runs
-        });
-
-        static::updated(function (self $production): void {
-            // Refresh payroll hours for this employee/date when updated
-            RefreshPayrollHoursJob::dispatch(
-                date: $production->date->toDateString(),
-                employeeId: $production->employee_id,
-            )->delay(now()->addSeconds(10)); // Delay to ensure DB transactions are committed
-        });
-
-        static::restored(function (self $production): void {
-            // Refresh payroll hours for this employee/date when restored
-            RefreshPayrollHoursJob::dispatch(
-                date: $production->date->toDateString(),
-                employeeId: $production->employee_id,
-            )->delay(now()->addSeconds(10)); // Delay to ensure DB transactions are committed
         });
     }
 

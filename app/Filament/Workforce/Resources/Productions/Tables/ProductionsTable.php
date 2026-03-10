@@ -2,6 +2,7 @@
 
 namespace App\Filament\Workforce\Resources\Productions\Tables;
 
+use App\Actions\Filament\UpdatePayrollHoursAction;
 use App\Enums\RevenueTypes;
 use App\Imports\Filament\ProductionImporter;
 use App\Models\Campaign;
@@ -38,6 +39,7 @@ class ProductionsTable
                     ->importer(ProductionImporter::class)
                     ->color(Color::Indigo)
                     ->icon(Heroicon::ArrowUpTray),
+                UpdatePayrollHoursAction::make(),
             ])
             ->columns([
                 TextColumn::make('id')

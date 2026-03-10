@@ -4,6 +4,8 @@ namespace App\Jobs;
 
 use App\Models\PayrollHour;
 use App\Models\Production;
+use App\Models\User;
+use Filament\Notifications\Notification;
 use Illuminate\Bus\Batchable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
@@ -15,15 +17,7 @@ class RefreshPayrollHoursJob implements ShouldQueue
 {
     use Batchable, Queueable;
 
-    public string $date;
-
-    public ?string $employeeId;
-
-    public function __construct(string $date, ?string $employeeId = null)
-    {
-        $this->date = $date;
-        $this->employeeId = $employeeId;
-    }
+    public function __construct(public string $date, public ?string $employeeId = null, public ?User $userToNotify = null) {}
 
     public function handle(): void
     {
@@ -64,13 +58,21 @@ class RefreshPayrollHoursJob implements ShouldQueue
 
         $employeeIds = $productions->pluck('employee_id')->unique()->values();
 
+        if ($this->userToNotify) {
+            Notification::make()
+                ->title('Payroll hours have been updated!')
+                ->body('Payroll hours for the week of '.$startOfWeek->toFormattedDateString().' - '.$endOfWeek->toFormattedDateString().' have been refreshed based on production records.')
+                ->success()
+                ->sendToDatabase($this->userToNotify);
+        }
+
         if ($employeeIds->isEmpty()) {
             return;
         }
 
         Bus::batch(
             $employeeIds
-                ->map(fn (string $employeeId) => new DistributePayrollHoursJob($this->date, $employeeId))
+                ->map(fn (string $employeeId) => new DistributePayrollHoursJob($this->date, $employeeId, $this->userToNotify))
                 ->all()
         )->dispatch();
     }
