@@ -60,7 +60,7 @@ it('displays workforce stats overview correctly', function (): void {
         ->assertSee('Pending downtimes')
         ->assertSee('1')
         ->assertSee('Today\'s downtime (min)')
-        ->assertSee('Production revenue today');
+        ->assertSee('Total Hours last 30 days');
 });
 
 it('displays pending downtimes table with records', function (): void {
