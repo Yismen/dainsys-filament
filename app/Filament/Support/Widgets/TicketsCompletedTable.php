@@ -2,6 +2,9 @@
 
 namespace App\Filament\Support\Widgets;
 
+use App\Actions\Filament\AssignTicketAction;
+use App\Actions\Filament\CloseTicketAction;
+use App\Actions\Filament\GrabTicketAction;
 use App\Actions\Filament\ReopenTicketAction;
 use App\Filament\Support\Widgets\Tables\TicketsTable;
 use App\Filters\Filament\Support\TicketAgentsFilter;
@@ -10,6 +13,7 @@ use App\Infolists\Filament\Support\TicketInfolist;
 use App\Models\Ticket;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\ViewAction;
 use Filament\Schemas\Components\Grid;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Enums\PaginationMode;
@@ -41,22 +45,20 @@ class TicketsCompletedTable extends TableWidget
                 TicketAgentsFilter::make(),
             ])
             ->recordActions([
-                Action::make('view')
-                    ->button()
-                    ->icon(Heroicon::OutlinedEye)
+                ViewAction::make()
+                    ->icon('heroicon-o-eye')
                     ->schema([
                         Grid::make(2)
                             ->schema(TicketInfolist::make()),
+                    ])
+                    ->modalFooterActions([
+                        GrabTicketAction::make(),
+                        AssignTicketAction::make(),
+                        CloseTicketAction::make(),
+                        ReopenTicketAction::make(),
                     ]),
-                ReopenTicketAction::make(),
-                // EditAction::make(),
             ])
             ->toolbarActions([
-                BulkActionGroup::make([
-                    // DeleteBulkAction::make(),
-                    // ForceDeleteBulkAction::make(),
-                    // RestoreBulkAction::make(),
-                ]),
             ]);
 
     }

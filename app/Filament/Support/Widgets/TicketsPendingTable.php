@@ -8,11 +8,13 @@ use App\Actions\Filament\GrabTicketAction;
 use App\Filament\Support\Widgets\Tables\TicketsTable;
 use App\Filters\Filament\Support\TicketAgentsFilter;
 use App\Filters\Filament\Support\TicketOwnersFilter;
+use App\Filters\Filament\Support\TicketStatusFilter;
 use App\Infolists\Filament\Support\TicketInfolist;
 use App\Models\Ticket;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\ViewAction;
 use Filament\Schemas\Components\Grid;
 use Filament\Tables\Enums\PaginationMode;
 use Filament\Tables\Filters\TrashedFilter;
@@ -42,29 +44,25 @@ class TicketsPendingTable extends TableWidget
                 TrashedFilter::make(),
                 TicketOwnersFilter::make(),
                 TicketAgentsFilter::make(),
+                TicketStatusFilter::make(),
             ])
             ->headerActions([
                 //
             ])
             ->recordActions([
-                ActionGroup::make([
-                    Action::make('view')
-                        ->button()
-                        ->icon('heroicon-o-eye')
-                        ->schema([
-                            Grid::make(2)
-                                ->schema(TicketInfolist::make()),
-                        ]),
-                    GrabTicketAction::make(),
-                    AssignTicketAction::make(),
-                    CloseTicketAction::make(),
-                ])
-                    ->iconButton(),
+                ViewAction::make()
+                    ->icon('heroicon-o-eye')
+                    ->schema([
+                        Grid::make(2)
+                            ->schema(TicketInfolist::make()),
+                    ])
+                    ->modalFooterActions([
+                        GrabTicketAction::make(),
+                        AssignTicketAction::make(),
+                        CloseTicketAction::make(),
+                    ]),
             ])
             ->toolbarActions([
-                BulkActionGroup::make([
-                    //
-                ]),
             ]);
     }
 }

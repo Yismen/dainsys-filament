@@ -13,7 +13,7 @@ class TicketAgentsFilter
         return SelectFilter::make('assigned_to')
             ->label(__('Agent'))
             ->options(
-                Cache::rememberForever('ticket_agents_compactasdfasdfadsfadsfadsf_list', function () {
+                Cache::rememberForever('ticket_agents_compact_list', function () {
                     return Ticket::query()
                         ->select('assigned_to')
                         ->distinct()
