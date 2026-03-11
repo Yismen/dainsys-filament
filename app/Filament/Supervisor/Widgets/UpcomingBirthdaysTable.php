@@ -29,27 +29,13 @@ class UpcomingBirthdaysTable extends BaseWidget
         $today = Carbon::now()->startOfDay();
         $until = Carbon::now()->addDays(10)->endOfDay();
 
-        $upcomingIds = Employee::query()
-            ->whereHas('supervisor', function ($query) use ($supervisor): void {
-                $query->where('id', $supervisor->id);
-            })
-            ->where('status', EmployeeStatuses::Hired)
-            ->whereNotNull('date_of_birth')
-            ->get(['id', 'date_of_birth'])
-            ->filter(function (Employee $employee) use ($today, $until) {
-                $nextBirthday = Carbon::parse($employee->date_of_birth)->year($today->year);
-
-                if ($nextBirthday->isBefore($today)) {
-                    $nextBirthday->addYear();
-                }
-
-                return $nextBirthday->between($today, $until);
-            })
-            ->pluck('id')
-            ->all();
-
         return Employee::query()
-            ->whereKey($upcomingIds);
+            ->active()
+            ->where('supervisor_id', $supervisor->id)
+            ->whereMonth('date_of_birth', $today->month)
+            ->whereDay('date_of_birth', '>=', $today->day)
+            ->whereDay('date_of_birth', '<=', $until->day)
+            ->orderByRaw("DATE_FORMAT(date_of_birth, '%m-%d') asc");
     }
 
     public function table(Table $table): Table
@@ -60,16 +46,17 @@ class UpcomingBirthdaysTable extends BaseWidget
                     ->label('Employee')
                     ->searchable(),
                 TextColumn::make('date_of_birth')
-                    ->date('M d')
+                    ->date()
                     ->label('Birthday')
+                    ->formatStateUsing(fn (string $state) => Carbon::parse($state)->format('m-d') . ' (' . Carbon::parse($state)->age . ' years)')
                     ->sortable(),
-                BadgeColumn::make('status')
+                TextColumn::make('status')
+                    ->badge()
                     ->colors([
                         'warning' => EmployeeStatuses::Suspended,
                         'success' => EmployeeStatuses::Hired,
                     ]),
             ])
-            ->defaultSort('date_of_birth', 'asc')
             ->emptyStateHeading('No upcoming birthdays')
             ->paginated(false);
     }

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Supervisor\Resources\Employees\Schemas;
 
+use Dom\Text;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
@@ -19,7 +20,8 @@ class EmployeeInfolist
                     ->label('Full Name'),
                 TextEntry::make('personal_id')
                     ->label('Personal ID'),
-                TextEntry::make('email'),
+                TextEntry::make('email')
+                    ->label('Email'),
                 TextEntry::make('cellphone')
                     ->label('Phone'),
                 TextEntry::make('date_of_birth')
@@ -42,7 +44,11 @@ class EmployeeInfolist
                     ->label('Employment Information')
                     ->columnSpanFull()
                     ->schema([
-                        Grid::make(3)
+                        Grid::make([
+                            'default' => 2,
+                            'sm' => 3,
+                            'lg' => 4,
+                        ])
                             ->schema([
                                 TextEntry::make('position.name')
                                     ->label('Position'),
@@ -51,6 +57,8 @@ class EmployeeInfolist
                                 TextEntry::make('hired_at')
                                     ->date('M d, Y')
                                     ->label('Date Hired'),
+                                TextEntry::make('internal_id')
+                                    ->label('Punch ID'),
                             ]),
                     ])
                     ->collapsible(),
