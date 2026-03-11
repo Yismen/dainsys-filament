@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\HumanResource\Resources\Projects;
+namespace App\Filament\Workforce\Resources\Projects;
 
-use App\Filament\HumanResource\Resources\Projects\Pages\CreateProject;
-use App\Filament\HumanResource\Resources\Projects\Pages\EditProject;
-use App\Filament\HumanResource\Resources\Projects\Pages\ListProjects;
-use App\Filament\HumanResource\Resources\Projects\Pages\ViewProject;
-use App\Filament\HumanResource\Resources\Projects\Schemas\ProjectForm;
-use App\Filament\HumanResource\Resources\Projects\Schemas\ProjectInfolist;
-use App\Filament\HumanResource\Resources\Projects\Tables\ProjectsTable;
+use App\Filament\Workforce\Resources\Projects\Pages\CreateProject;
+use App\Filament\Workforce\Resources\Projects\Pages\EditProject;
+use App\Filament\Workforce\Resources\Projects\Pages\ListProjects;
+use App\Filament\Workforce\Resources\Projects\Pages\ViewProject;
+use App\Filament\Workforce\Resources\Projects\Schemas\ProjectForm;
+use App\Filament\Workforce\Resources\Projects\Schemas\ProjectInfolist;
+use App\Filament\Workforce\Resources\Projects\Tables\ProjectsTable;
 use App\Models\Project;
 use BackedEnum;
 use Filament\Resources\Resource;
@@ -26,7 +26,9 @@ class ProjectResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static \UnitEnum|string|null $navigationGroup = \App\Filament\HumanResource\Enums\HRNavigationEnum::HR_MANAGEMENT;
+    protected static \UnitEnum|string|null $navigationGroup =  'Management';
+
+    protected static ?int $navigationSort = 10;
 
     public static function form(Schema $schema): Schema
     {

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\HumanResource\Resources\Clients\Pages;
+namespace App\Filament\Workforce\Resources\Clients\Pages;
 
-use App\Filament\HumanResource\Resources\Clients\ClientResource;
+use App\Filament\Workforce\Resources\Clients\ClientResource;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
 

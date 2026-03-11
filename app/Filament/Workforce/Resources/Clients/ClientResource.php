@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\HumanResource\Resources\Clients;
+namespace App\Filament\Workforce\Resources\Clients;
 
-use App\Filament\HumanResource\Resources\Clients\Pages\CreateClient;
-use App\Filament\HumanResource\Resources\Clients\Pages\EditClient;
-use App\Filament\HumanResource\Resources\Clients\Pages\ListClients;
-use App\Filament\HumanResource\Resources\Clients\Pages\ViewClient;
-use App\Filament\HumanResource\Resources\Clients\Schemas\ClientForm;
-use App\Filament\HumanResource\Resources\Clients\Schemas\ClientInfolist;
-use App\Filament\HumanResource\Resources\Clients\Tables\ClientsTable;
+use App\Filament\Workforce\Resources\Clients\Pages\CreateClient;
+use App\Filament\Workforce\Resources\Clients\Pages\EditClient;
+use App\Filament\Workforce\Resources\Clients\Pages\ListClients;
+use App\Filament\Workforce\Resources\Clients\Pages\ViewClient;
+use App\Filament\Workforce\Resources\Clients\Schemas\ClientForm;
+use App\Filament\Workforce\Resources\Clients\Schemas\ClientInfolist;
+use App\Filament\Workforce\Resources\Clients\Tables\ClientsTable;
 use App\Models\Client;
 use BackedEnum;
 use Filament\Resources\Resource;
@@ -17,6 +17,7 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use UnitEnum;
 
 class ClientResource extends Resource
 {
@@ -26,7 +27,9 @@ class ClientResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static \UnitEnum|string|null $navigationGroup = \App\Filament\HumanResource\Enums\HRNavigationEnum::HR_MANAGEMENT;
+    protected static ?int $navigationSort = 9;
+
+    protected static string|UnitEnum|null $navigationGroup = 'Management';
 
     public static function form(Schema $schema): Schema
     {

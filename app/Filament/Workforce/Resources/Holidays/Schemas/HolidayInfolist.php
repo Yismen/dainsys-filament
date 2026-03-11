@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Filament\HumanResource\Resources\Clients\Schemas;
+namespace App\Filament\Workforce\Resources\Holidays\Schemas;
 
-use App\Models\Client;
+use App\Models\Holiday;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 
-class ClientInfolist
+class HolidayInfolist
 {
     public static function configure(Schema $schema): Schema
     {
@@ -16,20 +16,14 @@ class ClientInfolist
                     ->label('ID')
                     ->columnSpanFull(),
                 TextEntry::make('name'),
-                TextEntry::make('person_of_contact')
-                    ->placeholder('-'),
-                TextEntry::make('phone')
-                    ->placeholder('-'),
-                TextEntry::make('email')
-                    ->placeholder('-'),
-                TextEntry::make('website')
-                    ->placeholder('-'),
+                TextEntry::make('date')
+                    ->date(),
                 TextEntry::make('description')
                     ->placeholder('-')
                     ->columnSpanFull(),
                 TextEntry::make('deleted_at')
                     ->dateTime()
-                    ->visible(fn (Client $record): bool => $record->trashed()),
+                    ->visible(fn (Holiday $record): bool => $record->trashed()),
                 TextEntry::make('created_at')
                     ->dateTime()
                     ->placeholder('-'),

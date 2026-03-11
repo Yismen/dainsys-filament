@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Filament\HumanResource\Resources\Projects\Pages;
+namespace App\Filament\Workforce\Resources\Clients\Pages;
 
-use App\Filament\HumanResource\Resources\Projects\ProjectResource;
+use App\Filament\Workforce\Resources\Clients\ClientResource;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\ForceDeleteAction;
 use Filament\Actions\RestoreAction;
 use Filament\Actions\ViewAction;
 use Filament\Resources\Pages\EditRecord;
 
-class EditProject extends EditRecord
+class EditClient extends EditRecord
 {
-    protected static string $resource = ProjectResource::class;
+    protected static string $resource = ClientResource::class;
 
     protected function getHeaderActions(): array
     {

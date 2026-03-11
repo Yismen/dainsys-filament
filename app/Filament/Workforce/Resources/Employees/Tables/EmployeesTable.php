@@ -98,7 +98,8 @@ class EmployeesTable
             ->filtersFormWidth(Width::Large)
             ->recordActions([
                 ViewAction::make(),
-                EditAction::make(),
+                EditAction::make()
+                    ->modalWidth(Width::SevenExtraLarge),
                 ResetEmployeePasswordAction::make(),
             ])
             ->toolbarActions([

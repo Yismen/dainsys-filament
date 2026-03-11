@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\HumanResource\Resources\Projects\Tables;
+namespace App\Filament\Workforce\Resources\Holidays\Tables;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -12,7 +12,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 
-class ProjectsTable
+class HolidaysTable
 {
     public static function configure(Table $table): Table
     {
@@ -22,9 +22,13 @@ class ProjectsTable
                 TextColumn::make('name')
                     ->sortable()
                     ->searchable(),
-                TextColumn::make('client.name')
-                    ->sortable()
-                    ->searchable(),
+                TextColumn::make('date')
+                    ->date()
+                    ->sortable(),
+                TextColumn::make('description')
+                    ->wrap()
+                    ->limit(50)
+                    ->tooltip(fn (string $state) => $state),
                 TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Filament\HumanResource\Resources\Projects\Schemas;
+namespace App\Filament\Workforce\Resources\Clients\Schemas;
 
-use App\Models\Project;
+use App\Models\Client;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 
-class ProjectInfolist
+class ClientInfolist
 {
     public static function configure(Schema $schema): Schema
     {
@@ -16,14 +16,20 @@ class ProjectInfolist
                     ->label('ID')
                     ->columnSpanFull(),
                 TextEntry::make('name'),
-                TextEntry::make('client.name')
-                    ->label('Client'),
+                TextEntry::make('person_of_contact')
+                    ->placeholder('-'),
+                TextEntry::make('phone')
+                    ->placeholder('-'),
+                TextEntry::make('email')
+                    ->placeholder('-'),
+                TextEntry::make('website')
+                    ->placeholder('-'),
                 TextEntry::make('description')
                     ->placeholder('-')
                     ->columnSpanFull(),
                 TextEntry::make('deleted_at')
                     ->dateTime()
-                    ->visible(fn (Project $record): bool => $record->trashed()),
+                    ->visible(fn (Client $record): bool => $record->trashed()),
                 TextEntry::make('created_at')
                     ->dateTime()
                     ->placeholder('-'),

@@ -20,27 +20,35 @@ class HireEmployeeSchema
             Select::make('site_id')
                 ->searchable()
                 ->disabled(fn ($record) => $record->status === EmployeeStatuses::Created)
-                ->options(ModelListService::make(Site::query())),
+                ->options(ModelListService::make(Site::query()))
+                ->required(fn ($record) => $record->status !== EmployeeStatuses::Created),
             Select::make('project_id')
                 ->disabled(fn ($record) => $record->status === EmployeeStatuses::Created)
                 ->searchable()
-                ->options(ModelListService::make(Project::query())),
+                ->options(ModelListService::make(Project::query()))
+                ->required(fn ($record) => $record->status !== EmployeeStatuses::Created),
             Select::make('position_id')
                 ->disabled(fn ($record) => $record->status === EmployeeStatuses::Created)
                 ->searchable()
-                ->options(ModelListService::make(Position::query())),
+                ->options(ModelListService::make(Position::query()))
+                ->required(fn ($record) => $record->status !== EmployeeStatuses::Created),
             Select::make('supervisor_id')
                 ->disabled(fn ($record) => $record->status === EmployeeStatuses::Created)
                 ->options(ModelListService::make(Supervisor::query()))
-                ->searchable(),
+                ->searchable()
+                ->required(fn ($record) => $record->status !== EmployeeStatuses::Created),
             DateTimePicker::make('hired_at')
                 ->nullable()
-                ->disabled(fn ($record) => $record->status === EmployeeStatuses::Created),
+                ->default(now())
+                ->maxDate(now()->addDays(5))
+                ->disabled(fn ($record) => $record->status === EmployeeStatuses::Created)
+                ->required(fn ($record) => $record->status !== EmployeeStatuses::Created),
             TextInput::make('internal_id')
                 ->nullable()
                 ->unique(ignoreRecord: true)
                 ->minLength(4)
-                ->maxLength(20),
+                ->maxLength(20)
+                ->required(fn ($record) => $record->status !== EmployeeStatuses::Created),
         ];
     }
 }

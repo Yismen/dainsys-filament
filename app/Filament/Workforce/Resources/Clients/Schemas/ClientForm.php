@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\HumanResource\Resources\Clients\Schemas;
+namespace App\Filament\Workforce\Resources\Clients\Schemas;
 
 use App\Schemas\Filament\Workforce\ClientSchema;
 use Filament\Schemas\Schema;
