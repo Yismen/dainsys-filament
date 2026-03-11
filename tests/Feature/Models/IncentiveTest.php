@@ -1,6 +1,8 @@
 <?php
 
+use App\Models\Employee;
 use App\Models\Incentive;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 it('interacts with db table', function (): void {
     $data = Incentive::factory()->make();
@@ -21,6 +23,6 @@ it('interacts with db table', function (): void {
 it('belongs to one employee', function (): void {
     $incentive = Incentive::factory()->create();
 
-    expect($incentive->employee)->toBeInstanceOf(\App\Models\Employee::class);
-    expect($incentive->employee())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
+    expect($incentive->employee)->toBeInstanceOf(Employee::class);
+    expect($incentive->employee())->toBeInstanceOf(BelongsTo::class);
 });

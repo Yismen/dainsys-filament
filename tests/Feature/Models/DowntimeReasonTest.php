@@ -1,6 +1,8 @@
 <?php
 
+use App\Models\Downtime;
 use App\Models\DowntimeReason;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 test('downtime reasons model interacts with db table', function (): void {
     $data = DowntimeReason::factory()->make();
@@ -14,9 +16,9 @@ test('downtime reasons model interacts with db table', function (): void {
 
 test('downtime reasons model has many downtimes', function (): void {
     $downtime_reason = DowntimeReason::factory()
-        ->has(\App\Models\Downtime::factory(), 'downtimes')
+        ->has(Downtime::factory(), 'downtimes')
         ->create();
 
-    expect($downtime_reason->downtimes->first())->toBeInstanceOf(\App\Models\Downtime::class);
-    expect($downtime_reason->downtimes())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
+    expect($downtime_reason->downtimes->first())->toBeInstanceOf(Downtime::class);
+    expect($downtime_reason->downtimes())->toBeInstanceOf(HasMany::class);
 });

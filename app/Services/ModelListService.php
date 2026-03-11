@@ -50,7 +50,7 @@ class ModelListService
     }
 
     public static function make(
-        Builder|collection $model,
+        string|Builder|Collection $model,
         string $key_field = 'id',
         string $value_field = 'name',
     ): array {

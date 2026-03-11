@@ -7,6 +7,7 @@ use App\Events\EmployeeTerminatedEvent;
 use App\Mail\SuspendedEmployeesMail;
 use App\Models\Employee;
 use App\Models\Suspension;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 
@@ -27,7 +28,7 @@ test('employees suspended run sucessfully', function (): void {
 
 test('command is schedulled for daily at 305 am', function (): void {
 
-    $command = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
+    $command = collect(app()->make(Schedule::class)->events())
         ->first(function ($element) {
             return str($element->command)->contains('dainsys:send-suspended-employees-email');
         });

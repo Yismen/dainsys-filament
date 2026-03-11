@@ -3,6 +3,10 @@
 use App\Console\Commands\SyncDefaultModelsSeed;
 use App\Jobs\SyncDefaultModelsJob;
 use App\Models\Disposition;
+use App\Models\DowntimeReason;
+use App\Models\Site;
+use App\Models\Source;
+use App\Models\SuspensionType;
 use Illuminate\Support\Facades\Queue;
 
 it('runs without error the job is not pushed to the queue', function (): void {
@@ -32,7 +36,7 @@ it('does not duplicate values', function (): void {
 
 it('sync default models seeds', function (): void {
     $defaultModels = [
-        \App\Models\Site::class => [
+        Site::class => [
             [
                 'name' => 'Ecco Headquarters Santiago',
                 'description' => 'Main Office',
@@ -42,7 +46,7 @@ it('sync default models seeds', function (): void {
                 'description' => 'Work From Home',
             ],
         ],
-        \App\Models\SuspensionType::class => [
+        SuspensionType::class => [
             [
                 'name' => 'Suspension por Mutuo Acuerdo',
                 'description' => 'El empleado y el empleador estuvieron de acuerdo con una suspension temporal',
@@ -104,7 +108,7 @@ it('sync default models seeds', function (): void {
                 'description' => 'Para los padres, nacimiento de un hijo (2 dias)',
             ],
         ],
-        \App\Models\Source::class => [
+        Source::class => [
             [
                 'name' => 'Data Entry',
             ],
@@ -133,7 +137,7 @@ it('sync default models seeds', function (): void {
                 'name' => 'Outbound Calls',
             ],
         ],
-        \App\Models\DowntimeReason::class => [
+        DowntimeReason::class => [
             [
                 'name' => 'Backoffice Work',
                 'description' => 'Tasks related to backoffice work that require downtime',

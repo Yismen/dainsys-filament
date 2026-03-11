@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\BaseModels\AppModel;
 use App\Models\Traits\HasManyEmployeesThruPositions;
 use App\Models\Traits\HasManyPositions;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Department extends \App\Models\BaseModels\AppModel
+class Department extends AppModel
 {
     use HasManyEmployeesThruPositions;
     use HasManyPositions;

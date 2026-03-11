@@ -5,6 +5,9 @@ namespace App\Imports\Filament;
 use App\Models\NightlyHour;
 use Filament\Actions\Imports\ImportColumn;
 use Filament\Actions\Imports\Importer;
+use Filament\Actions\Imports\Models\Import;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Number;
 
 class NightlyHourImporter extends Importer
 {
@@ -15,7 +18,7 @@ class NightlyHourImporter extends Importer
         return [
             ImportColumn::make('date')
                 ->requiredMapping()
-                ->castStateUsing(fn ($state) => \Illuminate\Support\Carbon::parse($state)->format('Y-m-d'))
+                ->castStateUsing(fn ($state) => Carbon::parse($state)->format('Y-m-d'))
                 ->rules(['required', 'date']),
             ImportColumn::make('employee_id')
                 ->requiredMapping()
@@ -34,12 +37,12 @@ class NightlyHourImporter extends Importer
         ]);
     }
 
-    public static function getCompletedNotificationBody(\Filament\Actions\Imports\Models\Import $import): string
+    public static function getCompletedNotificationBody(Import $import): string
     {
-        $body = 'Your nightly hours import has completed and '.\Illuminate\Support\Number::format($import->successful_rows).' '.str('row')->plural($import->successful_rows).' imported.';
+        $body = 'Your nightly hours import has completed and '.Number::format($import->successful_rows).' '.str('row')->plural($import->successful_rows).' imported.';
 
         if ($failedRowsCount = $import->getFailedRowsCount()) {
-            $body .= ' '.\Illuminate\Support\Number::format($failedRowsCount).' '.str('row')->plural($failedRowsCount).' failed to import.';
+            $body .= ' '.Number::format($failedRowsCount).' '.str('row')->plural($failedRowsCount).' failed to import.';
         }
 
         return $body;

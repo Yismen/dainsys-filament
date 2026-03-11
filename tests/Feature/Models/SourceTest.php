@@ -2,6 +2,7 @@
 
 use App\Models\Campaign;
 use App\Models\Source;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 test('sources model interacts with db table', function (): void {
     $source = Source::factory()->make();
@@ -18,6 +19,6 @@ test('sources model has many campaigns', function (): void {
         ->has(Campaign::factory())
         ->create();
 
-    expect($source->campaigns->first())->toBeInstanceOf(\App\Models\Campaign::class);
-    expect($source->campaigns())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
+    expect($source->campaigns->first())->toBeInstanceOf(Campaign::class);
+    expect($source->campaigns())->toBeInstanceOf(HasMany::class);
 });

@@ -2,6 +2,8 @@
 
 namespace App\Models\Traits;
 
+use App\Models\Afp;
+use App\Models\Ars;
 use App\Models\SocialSecurity;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
@@ -10,7 +12,7 @@ trait HasRelationsThruSocialSecurity
     public function afp(): HasOneThrough
     {
         return $this->hasOneThrough(
-            \App\Models\Afp::class,
+            Afp::class,
             SocialSecurity::class,
             'employee_id', // Foreign key on social security table...
             'id', // Foreign key on afps table...
@@ -22,7 +24,7 @@ trait HasRelationsThruSocialSecurity
     public function ars(): HasOneThrough
     {
         return $this->hasOneThrough(
-            \App\Models\Ars::class,
+            Ars::class,
             SocialSecurity::class,
             'employee_id', // Foreign key on social security table...
             'id', // Foreign key on arss table...

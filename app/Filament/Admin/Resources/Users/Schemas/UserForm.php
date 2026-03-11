@@ -2,6 +2,7 @@
 
 namespace App\Filament\Admin\Resources\Users\Schemas;
 
+use App\Models\Role;
 use App\Services\ModelListService;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\DateTimePicker;
@@ -41,7 +42,7 @@ class UserForm
 
                         CheckboxList::make('roles')
                             ->relationship('roles', 'name')
-                            ->options(ModelListService::make(\App\Models\Role::query()))
+                            ->options(ModelListService::make(Role::query()))
                             ->columns(2)
                             ->columnSpanFull()
                             ->searchable()

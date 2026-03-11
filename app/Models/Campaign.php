@@ -3,13 +3,15 @@
 namespace App\Models;
 
 use App\Enums\RevenueTypes;
+use App\Models\BaseModels\AppModel;
 use App\Models\Traits\BelongsToProject;
 use App\Models\Traits\BelongsToSource;
 use App\Models\Traits\HasManyProductions;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Campaign extends \App\Models\BaseModels\AppModel
+class Campaign extends AppModel
 {
     use BelongsToProject;
     use BelongsToSource;
@@ -18,7 +20,7 @@ class Campaign extends \App\Models\BaseModels\AppModel
 
     protected $fillable = ['name', 'project_id', 'source_id', 'revenue_type', 'sph_goal', 'revenue_rate', 'description'];
 
-    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    #[Scope]
     protected function isDowntime(Builder $builder)
     {
         $builder->where('name', 'like', '%downtime%')

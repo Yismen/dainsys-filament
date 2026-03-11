@@ -10,13 +10,14 @@ use App\Filament\Admin\Widgets\PermissionsOverviewWidget;
 use App\Filament\Admin\Widgets\RecentUsersWidget;
 use App\Filament\Admin\Widgets\SchedulerStatusWidget;
 use Filament\Pages\Dashboard;
+use Filament\Widgets\Widget;
 
 class AdminDashboard extends Dashboard
 {
     protected static ?string $title = 'Dashboard';
 
     /**
-     * @return array<class-string<\Filament\Widgets\Widget>|string>
+     * @return array<class-string<Widget>|string>
      */
     public function getWidgets(): array
     {

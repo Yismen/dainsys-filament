@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\EmployeeStatuses;
 use App\Enums\Genders;
 use App\Enums\PersonalIdTypes;
+use App\Models\BaseModels\AppModel;
 use App\Models\Traits\BelongsToCitizenship;
 use App\Models\Traits\HasManyDowntimes;
 use App\Models\Traits\HasManyHires;
@@ -17,6 +18,7 @@ use App\Models\Traits\HasManySuspensions;
 use App\Models\Traits\HasManyTerminations;
 use App\Models\Traits\HasOneSocialSocialSecurity;
 use App\Models\Traits\HasRelationsThruSocialSecurity;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Spatie\Image\Enums\Fit;
@@ -24,7 +26,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Employee extends \App\Models\BaseModels\AppModel implements HasMedia
+class Employee extends AppModel implements HasMedia
 {
     use BelongsToCitizenship;
     use HasManyDowntimes;
@@ -91,7 +93,7 @@ class Employee extends \App\Models\BaseModels\AppModel implements HasMedia
             $fullName = $employee->getFullName();
             $status = $employee->getStatus();
 
-            if($status === EmployeeStatuses::Terminated) {
+            if ($status === EmployeeStatuses::Terminated) {
                 $employee->terminated_at = $employee->latestTermination()?->date;
                 $employee->saveQuietly();
             }
@@ -136,7 +138,7 @@ class Employee extends \App\Models\BaseModels\AppModel implements HasMedia
     //     return $this->hired_at->diffInDays(now());
     // }
 
-    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    #[Scope]
     protected function active($query)
     {
         $query->whereIn('status', [
@@ -151,7 +153,7 @@ class Employee extends \App\Models\BaseModels\AppModel implements HasMedia
             $this->status === EmployeeStatuses::Suspended;
     }
 
-    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    #[Scope]
     protected function authenticatable($query)
     {
         return $query->whereIn('status', [
@@ -160,7 +162,7 @@ class Employee extends \App\Models\BaseModels\AppModel implements HasMedia
         ]);
     }
 
-    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    #[Scope]
     protected function current($query)
     {
         $query->whereIn('status', [
@@ -169,19 +171,19 @@ class Employee extends \App\Models\BaseModels\AppModel implements HasMedia
         ]);
     }
 
-    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    #[Scope]
     protected function suspended($query)
     {
         $query->where('status', EmployeeStatuses::Suspended);
     }
 
-    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    #[Scope]
     protected function inactive($query)
     {
         $query->where('status', EmployeeStatuses::Terminated);
     }
 
-    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    #[Scope]
     protected function notInactive($query)
     {
         $query->whereIn('status', [
@@ -190,7 +192,7 @@ class Employee extends \App\Models\BaseModels\AppModel implements HasMedia
         ]);
     }
 
-    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    #[Scope]
     protected function activesOrRecentlyTerminated($query)
     {
         $query
@@ -202,7 +204,7 @@ class Employee extends \App\Models\BaseModels\AppModel implements HasMedia
             });
     }
 
-    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    #[Scope]
     protected function hasActiveSuspension($query)
     {
         $query->with('suspensions')
@@ -214,7 +216,7 @@ class Employee extends \App\Models\BaseModels\AppModel implements HasMedia
             });
     }
 
-    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    #[Scope]
     protected function missingActiveSuspension($query)
     {
         $query->with('suspensions')

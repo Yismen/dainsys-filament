@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\BaseModels\AppModel;
 use App\Models\Traits\BelongsToAfp;
 use App\Models\Traits\BelongsToArs;
 use App\Models\Traits\BelongsToEmployee;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class SocialSecurity extends \App\Models\BaseModels\AppModel
+class SocialSecurity extends AppModel
 {
     use BelongsToAfp;
     use BelongsToArs;

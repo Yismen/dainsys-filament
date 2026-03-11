@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Filters\ByPosition;
+use App\Filters\ByProject;
+use App\Filters\BySite;
+use App\Filters\ByStatus;
+use App\Filters\BySupervisor;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\EmployeeResource;
 use App\Models\Employee;
@@ -36,11 +41,11 @@ class EmployeeController extends Controller
                         ])
                 )
                 ->through([
-                    \App\Filters\ByStatus::class,
-                    \App\Filters\ByProject::class,
-                    \App\Filters\ByPosition::class,
-                    \App\Filters\BySupervisor::class,
-                    \App\Filters\BySite::class,
+                    ByStatus::class,
+                    ByProject::class,
+                    ByPosition::class,
+                    BySupervisor::class,
+                    BySite::class,
                 ])
                 ->thenReturn()
                 ->get();

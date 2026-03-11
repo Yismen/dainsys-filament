@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\BaseModels\AppModel;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
 // Models
 
-class Category extends \App\Models\BaseModels\AppModel
+class Category extends AppModel
 {
     protected $fillable = [
         'name',

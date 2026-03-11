@@ -4,6 +4,7 @@ namespace App\Filament\Blog\Resources\ArticleResource\Schemas;
 
 use App\Enums\ArticleStatus;
 use App\Models\Article;
+use App\Models\Category;
 use App\Models\User;
 use App\Services\ModelListService;
 use Filament\Forms\Components\CheckboxList;
@@ -74,7 +75,7 @@ class ArticleForm
                     ->schema([
                         CheckboxList::make('categories')
                             ->relationship('categories', 'name')
-                            ->options(ModelListService::make(\App\Models\Category::query()))
+                            ->options(ModelListService::make(Category::query()))
                             ->columns(2)
                             ->searchable(),
                     ]),

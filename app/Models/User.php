@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Models\Scopes\IsActiveScope;
 use App\Models\Traits\BelongsToManyMailables;
 use App\Models\Traits\HasOneSupervisor;
 use App\Models\Traits\InteractWithSupportTickets;
@@ -13,6 +14,8 @@ use Filament\Panel;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -22,7 +25,7 @@ use Jeffgreco13\FilamentBreezy\Traits\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
-#[ScopedBy([\App\Models\Scopes\IsActiveScope::class])]
+#[ScopedBy([IsActiveScope::class])]
 class User extends Authenticatable implements FilamentUser
 {
     use BelongsToManyMailables;
@@ -118,12 +121,12 @@ class User extends Authenticatable implements FilamentUser
         return $this->is_active;
     }
 
-    public function employee(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function employee(): BelongsTo
     {
         return $this->belongsTo(Employee::class);
     }
 
-    public function employees(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
+    public function employees(): HasManyThrough
     {
         return $this->hasManyThrough(
             related: Employee::class,

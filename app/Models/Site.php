@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+use App\Models\BaseModels\AppModel;
 use App\Models\Traits\HasManyEmployees;
 use App\Models\Traits\HasManyHires;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Site extends \App\Models\BaseModels\AppModel
+class Site extends AppModel
 {
     use HasManyEmployees;
     use HasManyHires;

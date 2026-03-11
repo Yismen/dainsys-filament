@@ -8,7 +8,7 @@ use App\Models\SuspensionType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Suspension>
+ * @extends Factory<Suspension>
  */
 class SuspensionFactory extends Factory
 {

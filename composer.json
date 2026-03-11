@@ -72,11 +72,12 @@
     },
     "scripts": {
         "pest": [
+            "composer format",
             "php artisan test --parallel --stop-on-failure"
         ],
         "format": [
-            "./vendor/bin/pint",
-            "./vendor/bin/rector"
+            "./vendor/bin/rector",
+            "./vendor/bin/pint"
         ],
         "lint": [
             "./vendor/bin/pint --test",

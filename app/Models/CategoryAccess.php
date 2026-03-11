@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\BaseModels\AppModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class CategoryAccess extends \App\Models\BaseModels\AppModel
+class CategoryAccess extends AppModel
 {
     protected $fillable = [
         'category_id',

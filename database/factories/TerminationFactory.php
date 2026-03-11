@@ -8,7 +8,7 @@ use App\Models\Termination;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Termination>
+ * @extends Factory<Termination>
  */
 class TerminationFactory extends Factory
 {

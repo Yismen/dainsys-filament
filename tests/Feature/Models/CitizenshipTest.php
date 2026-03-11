@@ -2,6 +2,7 @@
 
 use App\Models\Citizenship;
 use App\Models\Employee;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 test('citizenships model interacts with db table', function (): void {
     $data = Citizenship::factory()->make();
@@ -18,5 +19,5 @@ test('citizenship model has many employees', function (): void {
     $employee = Employee::factory()->create(['citizenship_id' => $citizenship->id]);
 
     expect($citizenship->employees->first())->toBeInstanceOf(Employee::class);
-    expect($citizenship->employees())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
+    expect($citizenship->employees())->toBeInstanceOf(HasMany::class);
 });

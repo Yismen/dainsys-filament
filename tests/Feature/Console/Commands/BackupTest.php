@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\Mail;
 
 beforeEach(function (): void {
@@ -8,7 +9,7 @@ beforeEach(function (): void {
 
 it('runs daily at 20:15', function (): void {
 
-    $command = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
+    $command = collect(app()->make(Schedule::class)->events())
         ->first(function ($element) {
             return str($element->command)->contains('backup:run --only-db');
         });
@@ -19,7 +20,7 @@ it('runs daily at 20:15', function (): void {
 
 it('cleanup runs daily at 21:15', function (): void {
 
-    $command = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
+    $command = collect(app()->make(Schedule::class)->events())
         ->first(function ($element) {
             return str($element->command)->contains('backup:clean');
         });

@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Filters\ByCampaign;
+use App\Filters\ByCampaignProject;
+use App\Filters\ByDate;
+use App\Filters\ByEmployee;
+use App\Filters\BySupervisor;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductionApiRequest;
 use App\Http\Resources\ProductionResource;
@@ -41,11 +46,11 @@ class ProductionController extends Controller
                         ])
                 )
                 ->through([
-                    \App\Filters\ByDate::class,
-                    \App\Filters\ByCampaign::class,
-                    \App\Filters\ByEmployee::class,
-                    \App\Filters\ByCampaignProject::class,
-                    \App\Filters\BySupervisor::class,
+                    ByDate::class,
+                    ByCampaign::class,
+                    ByEmployee::class,
+                    ByCampaignProject::class,
+                    BySupervisor::class,
                     // \App\Filters\BySite::class,
                 ])
                 ->thenReturn()

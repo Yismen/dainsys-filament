@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+use App\Models\BaseModels\AppModel;
 use App\Models\Traits\BelongsToBank;
 use App\Models\Traits\BelongsToEmployee;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class BankAccount extends \App\Models\BaseModels\AppModel
+class BankAccount extends AppModel
 {
     use BelongsToBank;
     use BelongsToEmployee;

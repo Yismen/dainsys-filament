@@ -6,10 +6,11 @@ use App\Enums\HRActivityRequestStatuses;
 use App\Enums\HRActivityTypes;
 use App\Events\HRActivityRequestCompleted;
 use App\Events\HRActivityRequestCreated;
+use App\Models\BaseModels\AppModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class HRActivityRequest extends \App\Models\BaseModels\AppModel
+class HRActivityRequest extends AppModel
 {
     use SoftDeletes;
 

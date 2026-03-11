@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Enums\EmployeeStatuses;
+use App\Mail\SuspendedEmployeesMail;
 use App\Models\Employee;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
@@ -55,7 +56,7 @@ class SendSuspendedEmployeesEmail extends Command
             ->get();
 
         if ($employees->count() > 0) {
-            Mail::send(new \App\Mail\SuspendedEmployeesMail($employees));
+            Mail::send(new SuspendedEmployeesMail($employees));
             $this->info('Employees suspended report sent');
         } else {
             $this->warn('Nothing to send!');

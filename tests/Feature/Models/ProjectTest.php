@@ -1,14 +1,18 @@
 <?php
 
+use App\Events\EmployeeHiredEvent;
 use App\Models\Campaign;
 use App\Models\Client;
 use App\Models\Employee;
 use App\Models\Hire;
 use App\Models\Project;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Event;
 
 beforeEach(function (): void {
-    \Illuminate\Support\Facades\Event::fake([
-        \App\Events\EmployeeHiredEvent::class,
+    Event::fake([
+        EmployeeHiredEvent::class,
     ]);
 });
 
@@ -27,7 +31,7 @@ test('projects model belongs to client', function (): void {
         ->create();
 
     expect($project->client)->toBeInstanceOf(Client::class);
-    expect($project->client())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
+    expect($project->client())->toBeInstanceOf(BelongsTo::class);
 });
 
 test('projects model has many campaigns', function (): void {
@@ -36,7 +40,7 @@ test('projects model has many campaigns', function (): void {
         ->create();
 
     expect($project->campaigns->first())->toBeInstanceOf(Campaign::class);
-    expect($project->campaigns())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
+    expect($project->campaigns())->toBeInstanceOf(HasMany::class);
 });
 
 test('projects model has many hires', function (): void {
@@ -44,8 +48,8 @@ test('projects model has many hires', function (): void {
         ->hasHires()
         ->create();
 
-    expect($project->hires->first())->toBeInstanceOf(\App\Models\Hire::class);
-    expect($project->hires())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
+    expect($project->hires->first())->toBeInstanceOf(Hire::class);
+    expect($project->hires())->toBeInstanceOf(HasMany::class);
 });
 
 test('projects model has many employees', function (): void {
@@ -57,5 +61,5 @@ test('projects model has many employees', function (): void {
         ->create();
 
     expect($project->employees->first())->toBeInstanceOf(Employee::class);
-    expect($project->employees())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
+    expect($project->employees())->toBeInstanceOf(HasMany::class);
 });

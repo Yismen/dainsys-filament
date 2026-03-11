@@ -6,7 +6,7 @@ use App\Models\Citizenship;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Citizenship>
+ * @extends Factory<Citizenship>
  */
 class CitizenshipFactory extends Factory
 {

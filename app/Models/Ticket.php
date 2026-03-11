@@ -9,9 +9,12 @@ use App\Events\TicketCompletedEvent;
 use App\Events\TicketCreatedEvent;
 use App\Events\TicketDeletedEvent;
 use App\Events\TicketReopenedEvent;
+use App\Models\BaseModels\AppModel;
 use App\Traits\EnsureDateNotWeekend;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -19,7 +22,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-class Ticket extends \App\Models\BaseModels\AppModel
+class Ticket extends AppModel
 {
     use EnsureDateNotWeekend;
     use SoftDeletes;
@@ -219,19 +222,19 @@ class Ticket extends \App\Models\BaseModels\AppModel
             : TicketStatuses::CompletedExpired;
     }
 
-    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    #[Scope]
     protected function incompleted(Builder $query): Builder
     {
         return $query->where('completed_at', null);
     }
 
-    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    #[Scope]
     protected function completed(Builder $query): Builder
     {
         return $query->where('completed_at', '!=', null);
     }
 
-    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    #[Scope]
     protected function inProgress(Builder $query): Builder
     {
         return $query
@@ -239,43 +242,43 @@ class Ticket extends \App\Models\BaseModels\AppModel
             ->where('completed_at', null);
     }
 
-    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    #[Scope]
     protected function pending(Builder $query): Builder
     {
         return $query
             ->where('assigned_to', '=', null);
     }
 
-    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    #[Scope]
     protected function compliant(Builder $query): Builder
     {
         return $query->whereColumn('completed_at', '<', 'expected_at')
             ->where('completed_at', '!=', null);
     }
 
-    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    #[Scope]
     protected function nonCompliant(Builder $query): Builder
     {
         return $query->whereColumn('completed_at', '>=', 'expected_at')
             ->where('completed_at', '!=', null);
     }
 
-    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    #[Scope]
     protected function expired(Builder $query): Builder
     {
         return $query->where('expected_at', '<', now());
     }
 
-    protected function imagePath(): \Illuminate\Database\Eloquent\Casts\Attribute
+    protected function imagePath(): Attribute
     {
-        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: function () {
+        return Attribute::make(get: function () {
             return Storage::url($this->image).'?'.Str::random(5);
         });
     }
 
-    protected function mailPriority(): \Illuminate\Database\Eloquent\Casts\Attribute
+    protected function mailPriority(): Attribute
     {
-        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: function () {
+        return Attribute::make(get: function () {
             return $this->priority->value > 5 ? 5 : 5 - $this->priority->value;
         });
     }

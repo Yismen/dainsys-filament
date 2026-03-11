@@ -3,6 +3,7 @@
 use App\Console\Commands\RecalculatePayrollHours;
 use App\Jobs\RefreshPayrollHoursJob;
 use Illuminate\Bus\PendingBatch;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\Bus;
 
 it('dispatches a batch of refresh jobs for the provided date range', function (): void {
@@ -37,7 +38,7 @@ it('does not dispatch a batch when the date range is invalid', function (): void
 
 it('is is schedulled daily at 2:00 am', function (): void {
 
-    $command = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
+    $command = collect(app()->make(Schedule::class)->events())
         ->first(function ($element) {
             return str($element->command)->contains('dainsys:recalculate-payroll-hours');
         });

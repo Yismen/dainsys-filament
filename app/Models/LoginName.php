@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
+use App\Models\BaseModels\AppModel;
 use App\Models\Traits\BelongsToEmployee;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class LoginName extends \App\Models\BaseModels\AppModel
+class LoginName extends AppModel
 {
     use BelongsToEmployee;
     use SoftDeletes;

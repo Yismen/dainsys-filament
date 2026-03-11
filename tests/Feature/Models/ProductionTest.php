@@ -9,6 +9,8 @@ use App\Models\Hire;
 use App\Models\Production;
 use App\Models\Project;
 use App\Models\Supervisor;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
@@ -77,7 +79,7 @@ test('production model belongs to relationship', function (string $modelClass, s
     $production->save();
 
     expect($production->$relationship)->toBeInstanceOf($modelClass);
-    expect($production->$relationship())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
+    expect($production->$relationship())->toBeInstanceOf(BelongsTo::class);
 })->with([
     [Employee::class, 'employee'],
     [Campaign::class, 'campaign'],
@@ -91,14 +93,14 @@ it('belongs to downtime', function (): void {
         ]);
 
     expect($production->downtime)->toBeInstanceOf(Downtime::class);
-    expect($production->downtime())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
+    expect($production->downtime())->toBeInstanceOf(BelongsTo::class);
 });
 
 it('belongs to project thru campaign', function (): void {
     $production = Production::factory()
         ->create();
 
-    expect($production->project())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasOneThrough::class);
+    expect($production->project())->toBeInstanceOf(HasOneThrough::class);
     expect($production->project)->toBeInstanceOf(Project::class);
 });
 

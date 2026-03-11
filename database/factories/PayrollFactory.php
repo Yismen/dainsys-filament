@@ -2,10 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Models\Employee;
+use App\Models\Payroll;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Payroll>
+ * @extends Factory<Payroll>
  */
 class PayrollFactory extends Factory
 {
@@ -18,7 +20,7 @@ class PayrollFactory extends Factory
     {
         return [
             'payable_date' => $this->faker->date(),
-            'employee_id' => \App\Models\Employee::factory(),
+            'employee_id' => Employee::factory(),
             'salary_rate' => $this->faker->randomFloat(2, 5, 50),
             'total_hours' => $this->faker->randomFloat(2, 1, 200),
             'salary_income' => $this->faker->randomFloat(2, 100, 5000),

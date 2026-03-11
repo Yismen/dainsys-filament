@@ -3,12 +3,14 @@
 namespace App\Filament\Blog\Resources\CategoryResource\RelationManagers;
 
 use App\Models\Role;
+use App\Models\User;
 use App\Services\ModelListService;
 use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -18,13 +20,13 @@ class CategoryAccessRelationManager extends RelationManager
 
     protected static ?string $recordTitleAttribute = 'id';
 
-    public function form(\Filament\Schemas\Schema $schema): \Filament\Schemas\Schema
+    public function form(Schema $schema): Schema
     {
         return $schema
             ->schema([
                 CheckboxList::make('user_id')
                     ->label('User')
-                    ->options(ModelListService::make(\App\Models\User::query()))
+                    ->options(ModelListService::make(User::query()))
                     ->searchable()
                     ->bulkToggleable(true)
                     ->nullable(),

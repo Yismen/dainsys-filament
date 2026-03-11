@@ -3,12 +3,13 @@
 namespace Database\Factories;
 
 use App\Enums\RevenueTypes;
+use App\Models\Campaign;
 use App\Models\Project;
 use App\Models\Source;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Campaign>
+ * @extends Factory<Campaign>
  */
 class CampaignFactory extends Factory
 {

@@ -6,6 +6,7 @@ use App\Models\Production;
 use Filament\Actions\Imports\ImportColumn;
 use Filament\Actions\Imports\Importer;
 use Filament\Actions\Imports\Models\Import;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Number;
 
 class ProductionImporter extends Importer
@@ -17,7 +18,7 @@ class ProductionImporter extends Importer
         return [
             ImportColumn::make('date')
                 ->requiredMapping()
-                ->castStateUsing(fn ($state) => \Illuminate\Support\Carbon::parse($state)->format('Y-m-d'))
+                ->castStateUsing(fn ($state) => Carbon::parse($state)->format('Y-m-d'))
                 ->rules(['required', 'date']),
             ImportColumn::make('employee_id')
                 ->requiredMapping()

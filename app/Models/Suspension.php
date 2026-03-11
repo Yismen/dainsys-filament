@@ -4,12 +4,16 @@ namespace App\Models;
 
 use App\Enums\SuspensionStatuses;
 use App\Events\EmployeeSuspendedEvent;
+use App\Exceptions\EmployeeCantBeSuspended;
 use App\Exceptions\SuspensionDateCantBeLowerThanHireDate;
+use App\Models\BaseModels\AppModel;
 use App\Models\Traits\BelongsToEmployee;
 use App\Models\Traits\BelongsToSuspensionType;
 use App\Models\Traits\HasManyComments;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
-class Suspension extends \App\Models\BaseModels\AppModel
+class Suspension extends AppModel
 {
     use BelongsToEmployee;
     use BelongsToSuspensionType;
@@ -25,7 +29,7 @@ class Suspension extends \App\Models\BaseModels\AppModel
     {
         static::creating(function (Suspension $suspension): void {
             if ($suspension->employee->canBeSuspended() === false) {
-                throw new \App\Exceptions\EmployeeCantBeSuspended;
+                throw new EmployeeCantBeSuspended;
             }
 
             $latestHireDate = $suspension->employee->latestHire()?->date;
@@ -51,14 +55,14 @@ class Suspension extends \App\Models\BaseModels\AppModel
 
     }
 
-    protected function duration(): \Illuminate\Database\Eloquent\Casts\Attribute
+    protected function duration(): Attribute
     {
-        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: function () {
+        return Attribute::make(get: function () {
             return $this->starts_at ? $this->starts_at->diffInDays($this->ends_at) + 1 .' days' : null;
         });
     }
 
-    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    #[Scope]
     protected function active($query)
     {
         $query->where(function ($query): void {
@@ -68,7 +72,7 @@ class Suspension extends \App\Models\BaseModels\AppModel
         });
     }
 
-    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    #[Scope]
     protected function inactive($query)
     {
         $query->where(function ($query): void {
@@ -78,9 +82,9 @@ class Suspension extends \App\Models\BaseModels\AppModel
         });
     }
 
-    protected function isActive(): \Illuminate\Database\Eloquent\Casts\Attribute
+    protected function isActive(): Attribute
     {
-        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: function () {
+        return Attribute::make(get: function () {
             return now()->isBetween($this->starts_at->startOfDay(), $this->ends_at->endOfDay());
         });
     }

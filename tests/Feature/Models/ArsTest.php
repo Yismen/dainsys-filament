@@ -2,6 +2,9 @@
 
 use App\Models\Ars;
 use App\Models\Employee;
+use App\Models\SocialSecurity;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 test('arss model interacts with db table', function (): void {
     $data = Ars::factory()->make();
@@ -18,8 +21,8 @@ test('arss model has many social securities', function (): void {
         ->hasSocialSecurities(1)
         ->create();
 
-    expect($ars->socialSecurities->first())->toBeInstanceOf(\App\Models\SocialSecurity::class);
-    expect($ars->socialSecurities())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
+    expect($ars->socialSecurities->first())->toBeInstanceOf(SocialSecurity::class);
+    expect($ars->socialSecurities())->toBeInstanceOf(HasMany::class);
 });
 
 test('arss model has many employees', function (): void {
@@ -31,5 +34,5 @@ test('arss model has many employees', function (): void {
         ->create();
 
     expect($ars->employees->first())->toBeInstanceOf(Employee::class);
-    expect($ars->employees())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasManyThrough::class);
+    expect($ars->employees())->toBeInstanceOf(HasManyThrough::class);
 });

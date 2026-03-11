@@ -1,6 +1,8 @@
 <?php
 
+use App\Models\Employee;
 use App\Models\LoginName;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 test('login names model interacts with db table', function (): void {
     $data = LoginName::factory()->make();
@@ -15,6 +17,6 @@ test('login names model interacts with db table', function (): void {
 test('login names model belongs to one employee', function (): void {
     $login_name = LoginName::factory()->create();
 
-    expect($login_name->employee)->toBeInstanceOf(\App\Models\Employee::class);
-    expect($login_name->employee())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
+    expect($login_name->employee)->toBeInstanceOf(Employee::class);
+    expect($login_name->employee())->toBeInstanceOf(BelongsTo::class);
 });

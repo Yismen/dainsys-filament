@@ -3,6 +3,8 @@
 use App\Models\Bank;
 use App\Models\BankAccount;
 use App\Models\Employee;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 test('banks model interacts with db table', function (): void {
     $data = Bank::factory()->make();
@@ -20,7 +22,7 @@ test('has many bank accounts', function (): void {
         ->create();
 
     expect($bank->bankAccounts->first())->toBeInstanceOf(BankAccount::class);
-    expect($bank->bankAccounts())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
+    expect($bank->bankAccounts())->toBeInstanceOf(HasMany::class);
 });
 
 test('bank model has many employees', function (): void {
@@ -29,5 +31,5 @@ test('bank model has many employees', function (): void {
         ->create();
 
     expect($bank->employees->first())->toBeInstanceOf(Employee::class);
-    expect($bank->employees())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasManyThrough::class);
+    expect($bank->employees())->toBeInstanceOf(HasManyThrough::class);
 });

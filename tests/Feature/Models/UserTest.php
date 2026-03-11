@@ -6,6 +6,9 @@ use App\Models\Hire;
 use App\Models\Mailable;
 use App\Models\Supervisor;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Event;
 
 test('users model interacts with db table', function (): void {
@@ -24,7 +27,7 @@ test('users model belongs to many mailables', function (): void {
         ->has(Mailable::factory(), 'mailables')
         ->create();
 
-    expect($user->mailables())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsToMany::class);
+    expect($user->mailables())->toBeInstanceOf(BelongsToMany::class);
     expect($user->mailables->first())->toBeInstanceOf(Mailable::class);
 });
 
@@ -33,7 +36,7 @@ test('users model has one supervisor', function (): void {
     Supervisor::factory()->create(['user_id' => $user->id]);
 
     expect($user->supervisor)->toBeInstanceOf(Supervisor::class);
-    expect($user->supervisor())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasOne::class);
+    expect($user->supervisor())->toBeInstanceOf(HasOne::class);
 });
 
 it('users model has many employees through supervisor', function (): void {
@@ -46,7 +49,7 @@ it('users model has many employees through supervisor', function (): void {
 
     expect($supervisorUser->employees)->toHaveCount(3);
     expect($supervisorUser->employees->first())->toBeInstanceOf(Employee::class);
-    expect($supervisorUser->employees())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasManyThrough::class);
+    expect($supervisorUser->employees())->toBeInstanceOf(HasManyThrough::class);
 });
 
 it('apply global scope active users', function (): void {

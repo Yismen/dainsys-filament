@@ -1,8 +1,10 @@
 <?php
 
 use App\Jobs\DistributePayrollHoursJob;
+use App\Models\Employee;
 use App\Models\Holiday;
 use App\Models\PayrollHour;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Date;
@@ -30,8 +32,8 @@ test('downtime model interacts with db table', function (): void {
 test('downtime model belongs to employee', function (): void {
     $downtime = PayrollHour::factory()->create();
 
-    expect($downtime->employee)->toBeInstanceOf(\App\Models\Employee::class);
-    expect($downtime->employee())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
+    expect($downtime->employee)->toBeInstanceOf(Employee::class);
+    expect($downtime->employee())->toBeInstanceOf(BelongsTo::class);
 });
 
 it('casts date attribute to date object', function (): void {
@@ -39,7 +41,7 @@ it('casts date attribute to date object', function (): void {
         'date' => '2025-08-15',
     ]);
 
-    expect($payrollHour->date)->toBeInstanceOf(\Illuminate\Support\Carbon::class);
+    expect($payrollHour->date)->toBeInstanceOf(Carbon::class);
     expect($payrollHour->date->toDateString())->toBe('2025-08-15');
 });
 
@@ -48,7 +50,7 @@ it('casts payroll ending at attribute to date object', function (): void {
         'date' => '2025-08-15',
     ]);
 
-    expect($payrollHour->payroll_ending_at)->toBeInstanceOf(\Illuminate\Support\Carbon::class);
+    expect($payrollHour->payroll_ending_at)->toBeInstanceOf(Carbon::class);
     expect($payrollHour->payroll_ending_at->toDateString())->toBe('2025-08-15');
 });
 
@@ -57,7 +59,7 @@ it('casts week ending at attribute to date object', function (): void {
         'date' => '2025-12-17',
     ]);
 
-    expect($payrollHour->week_ending_at)->toBeInstanceOf(\Illuminate\Support\Carbon::class);
+    expect($payrollHour->week_ending_at)->toBeInstanceOf(Carbon::class);
     expect($payrollHour->week_ending_at->toDateString())->toBe('2025-12-21');
 });
 

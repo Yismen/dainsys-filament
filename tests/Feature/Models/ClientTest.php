@@ -6,6 +6,8 @@ use App\Models\Employee;
 use App\Models\Hire;
 use App\Models\Production;
 use App\Models\Project;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 test('clients model interacts with db table', function (): void {
     $data = Client::factory()->make();
@@ -23,7 +25,7 @@ test('clients model has many projects', function (): void {
         ->create();
 
     expect($client->projects->first())->toBeInstanceOf(Project::class);
-    expect($client->projects())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
+    expect($client->projects())->toBeInstanceOf(HasMany::class);
 });
 
 test('clients model has many campaigns thru projects', function (): void {
@@ -32,7 +34,7 @@ test('clients model has many campaigns thru projects', function (): void {
         ->create();
 
     expect($client->campaigns->first())->toBeInstanceOf(Campaign::class);
-    expect($client->campaigns())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasManyThrough::class);
+    expect($client->campaigns())->toBeInstanceOf(HasManyThrough::class);
 });
 
 // test('clients model has many productions thru campaign', function () {

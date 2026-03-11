@@ -5,6 +5,7 @@ namespace App\Livewire\Auth;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password as PasswordRule;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
@@ -49,7 +50,7 @@ class ResetPassword extends Component
     }
 
     /**
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws ValidationException
      */
     public function resetPassword(): void
     {
@@ -62,7 +63,7 @@ class ResetPassword extends Component
         $status = Password::reset($credentials, function ($user) use ($credentials): void {
             $user->forceFill([
                 'password' => Hash::make($credentials['password']),
-                'remember_token' => \Illuminate\Support\Str::random(60),
+                'remember_token' => Str::random(60),
             ])->save();
         });
 

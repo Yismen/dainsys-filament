@@ -3,10 +3,11 @@
 namespace Database\Factories;
 
 use App\Models\Employee;
+use App\Models\Universal;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Universal>
+ * @extends Factory<Universal>
  */
 class UniversalFactory extends Factory
 {

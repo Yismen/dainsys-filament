@@ -2,17 +2,20 @@
 
 namespace App\Models;
 
+use App\Models\BaseModels\AppModel;
 use App\Models\Traits\BelongsToEmployee;
 use App\Models\Traits\BelongsToProject;
+use Database\Factories\IncentiveFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Carbon;
 
-class Incentive extends \App\Models\BaseModels\AppModel
+class Incentive extends AppModel
 {
     use BelongsToEmployee;
     use BelongsToProject;
 
-    /** @use HasFactory<\Database\Factories\IncentiveFactory> */
+    /** @use HasFactory<IncentiveFactory> */
     use HasFactory;
 
     protected $fillable = [
@@ -25,9 +28,9 @@ class Incentive extends \App\Models\BaseModels\AppModel
         'notes',
     ];
 
-    protected function payableDate(): \Illuminate\Database\Eloquent\Casts\Attribute
+    protected function payableDate(): Attribute
     {
-        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: function ($value) {
+        return Attribute::make(get: function ($value) {
             return Carbon::parse($value)->format('Y-m-d');
         });
     }

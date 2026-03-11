@@ -4,6 +4,7 @@ use App\Models\Department;
 use App\Models\Employee;
 use App\Models\Hire;
 use App\Models\Position;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 test('departments model interacts with db table', function (): void {
     $data = Department::factory()->make();
@@ -20,8 +21,8 @@ test('departments model has many positions', function (): void {
         ->has(Position::factory())
         ->create();
 
-    expect($department->positions->first())->toBeInstanceOf(\App\Models\Position::class);
-    expect($department->positions())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
+    expect($department->positions->first())->toBeInstanceOf(Position::class);
+    expect($department->positions())->toBeInstanceOf(HasMany::class);
 });
 
 // test('departments model has many employees thru positions', function () {

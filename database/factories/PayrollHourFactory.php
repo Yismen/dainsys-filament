@@ -2,10 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Models\Employee;
+use App\Models\PayrollHour;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\PayrollHour>
+ * @extends Factory<PayrollHour>
  */
 class PayrollHourFactory extends Factory
 {
@@ -17,7 +19,7 @@ class PayrollHourFactory extends Factory
     public function definition(): array
     {
         return [
-            'employee_id' => \App\Models\Employee::factory(),
+            'employee_id' => Employee::factory(),
             'date' => $this->faker->date(),
             'total_hours' => $this->faker->randomFloat(2, 1, 12),
             // 'regular_hours' => $this->faker->randomFloat(2, 0, 8),

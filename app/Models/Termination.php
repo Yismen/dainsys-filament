@@ -4,12 +4,14 @@ namespace App\Models;
 
 use App\Enums\EmployeeStatuses;
 use App\Events\EmployeeTerminatedEvent;
+use App\Exceptions\EmployeeCantBeTerminated;
 use App\Exceptions\TerminationDateCantBeLowerThanHireDate;
+use App\Models\BaseModels\AppModel;
 use App\Models\Traits\BelongsToEmployee;
 use App\Models\Traits\HasManyComments;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Termination extends \App\Models\BaseModels\AppModel
+class Termination extends AppModel
 {
     use BelongsToEmployee;
     use HasManyComments;
@@ -27,7 +29,7 @@ class Termination extends \App\Models\BaseModels\AppModel
 
         static::creating(function ($termination): void {
             if ($termination->employee->canBeTerminated() === false) {
-                throw new \App\Exceptions\EmployeeCantBeTerminated;
+                throw new EmployeeCantBeTerminated;
             }
 
             $latestHireDate = $termination->employee->latestHire()?->date;

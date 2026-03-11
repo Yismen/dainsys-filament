@@ -1,6 +1,10 @@
 <?php
 
 use App\Models\Comment;
+use App\Models\Downtime;
+use App\Models\Hire;
+use App\Models\Suspension;
+use App\Models\Termination;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
@@ -29,10 +33,10 @@ test('models are commentable', function (string $modelClass): void {
     expect($model->comments->first())->toBeInstanceOf(Comment::class);
     expect($model->comments())->toBeInstanceOf(MorphMany::class);
 })->with([
-    \App\Models\Hire::class,
-    \App\Models\Termination::class,
-    \App\Models\Suspension::class,
-    \App\Models\Downtime::class,
+    Hire::class,
+    Termination::class,
+    Suspension::class,
+    Downtime::class,
     // \App\Models\Absence::class,
     // \App\Models\HumanResourceRequest::class,
     // \App\Models\Universal::class,

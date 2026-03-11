@@ -11,6 +11,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 beforeEach(function (): void {
     Mail::fake();
@@ -18,14 +19,14 @@ beforeEach(function (): void {
 
     // Create roles with proper UUIDs using DB::table
     DB::table('roles')->insert([
-        'id' => \Illuminate\Support\Str::uuid()->toString(),
+        'id' => Str::uuid()->toString(),
         'name' => 'Human Resource Manager',
         'guard_name' => 'web',
         'created_at' => now(),
         'updated_at' => now(),
     ]);
     DB::table('roles')->insert([
-        'id' => \Illuminate\Support\Str::uuid()->toString(),
+        'id' => Str::uuid()->toString(),
         'name' => 'Human Resource Agent',
         'guard_name' => 'web',
         'created_at' => now(),

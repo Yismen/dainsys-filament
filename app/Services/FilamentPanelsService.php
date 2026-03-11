@@ -16,6 +16,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Sanzgrapher\DraggableModal\DraggableModalPlugin;
 
 class FilamentPanelsService
 {
@@ -32,7 +33,7 @@ class FilamentPanelsService
             ->sidebarCollapsibleOnDesktop()
             ->subNavigationPosition(SubNavigationPosition::Top)
             ->viteTheme('resources/css/filament/admin/theme.css')
-            ->plugin(\Sanzgrapher\DraggableModal\DraggableModalPlugin::make())
+            ->plugin(DraggableModalPlugin::make())
             ->userMenuItems([
                 Action::make('mailing-subscriptions')
                     ->label('Email Subscriptions')

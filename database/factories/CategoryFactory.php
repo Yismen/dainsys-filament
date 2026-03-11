@@ -2,10 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Category>
+ * @extends Factory<Category>
  */
 class CategoryFactory extends Factory
 {
@@ -20,7 +22,7 @@ class CategoryFactory extends Factory
 
         return [
             'name' => $name,
-            'slug' => \Illuminate\Support\Str::slug($name).'-'.fake()->unique()->randomNumber(5),
+            'slug' => Str::slug($name).'-'.fake()->unique()->randomNumber(5),
             'description' => fake()->sentence(),
             'display_order' => 0,
         ];

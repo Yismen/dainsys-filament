@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use App\Traits\Models\InteractsWithModelCaching;
+use Database\Factories\MailableFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Mailable extends Model
 {
-    /** @use HasFactory<\Database\Factories\MailableFactory> */
+    /** @use HasFactory<MailableFactory> */
     use HasFactory;
 
     use HasUuids;

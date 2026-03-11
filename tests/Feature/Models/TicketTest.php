@@ -11,9 +11,12 @@ use App\Events\TicketReplyCreatedEvent;
 use App\Models\Ticket;
 use App\Models\TicketReply;
 use App\Models\User;
+use App\Traits\EnsureDateNotWeekend;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Event;
 
-uses(\App\Traits\EnsureDateNotWeekend::class);
+uses(EnsureDateNotWeekend::class);
 
 beforeEach(function (): void {
     Event::fake([
@@ -50,14 +53,14 @@ test('tickets model interacts with db table', function (): void {
 test('tickets model belongs to owner', function (): void {
     $ticket = Ticket::factory()->create();
 
-    expect($ticket->owner())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
+    expect($ticket->owner())->toBeInstanceOf(BelongsTo::class);
     expect($ticket->owner)->toBeInstanceOf(User::class);
 });
 
 test('tickets model belongs to agent', function (): void {
     $ticket = Ticket::factory()->assigned()->create();
 
-    expect($ticket->agent())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
+    expect($ticket->agent())->toBeInstanceOf(BelongsTo::class);
     expect($ticket->agent)->toBeInstanceOf(User::class);
 });
 
@@ -66,7 +69,7 @@ test('tickets model has many replies', function (): void {
 
     TicketReply::factory()->create(['ticket_id' => $ticket->id]);
 
-    expect($ticket->replies())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
+    expect($ticket->replies())->toBeInstanceOf(HasMany::class);
     expect($ticket->replies->first())->toBeInstanceOf(TicketReply::class);
 });
 

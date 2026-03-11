@@ -2,6 +2,7 @@
 
 namespace App\Filament\Employee\Pages;
 
+use App\Models\User;
 use Filament\Actions\Action;
 use Filament\Facades\Filament;
 use Filament\Forms\Components\TextInput;
@@ -68,7 +69,7 @@ class UpdatePassword extends Page implements HasForms
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = Filament::auth()->user();
         $user->update([
             'password' => Hash::make($this->password),

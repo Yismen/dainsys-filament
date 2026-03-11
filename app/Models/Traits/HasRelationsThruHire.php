@@ -3,6 +3,10 @@
 namespace App\Models\Traits;
 
 use App\Models\Hire;
+use App\Models\Position;
+use App\Models\Project;
+use App\Models\Site;
+use App\Models\Supervisor;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 trait HasRelationsThruHire
@@ -10,7 +14,7 @@ trait HasRelationsThruHire
     public function site(): HasOneThrough
     {
         return $this->hasOneThrough(
-            \App\Models\Site::class,
+            Site::class,
             Hire::class,
             'employee_id', // Foreign key on hires table...
             'id', // Foreign key on sites table...
@@ -22,7 +26,7 @@ trait HasRelationsThruHire
     public function project(): HasOneThrough
     {
         return $this->hasOneThrough(
-            \App\Models\Project::class,
+            Project::class,
             Hire::class,
             'employee_id', // Foreign key on hires table...
             'id', // Foreign key on projects table...
@@ -34,7 +38,7 @@ trait HasRelationsThruHire
     public function position(): HasOneThrough
     {
         return $this->hasOneThrough(
-            \App\Models\Position::class,
+            Position::class,
             Hire::class,
             'employee_id', // Foreign key on hires table...
             'id', // Foreign key on positions table...
@@ -46,7 +50,7 @@ trait HasRelationsThruHire
     public function supervisor(): HasOneThrough
     {
         return $this->hasOneThrough(
-            \App\Models\Supervisor::class,
+            Supervisor::class,
             Hire::class,
             'employee_id', // Foreign key on hires table...
             'id', // Foreign key on supervisors table...

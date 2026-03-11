@@ -4,6 +4,7 @@ use App\Enums\HRActivityTypes;
 use App\Models\Employee;
 use App\Models\HRActivityRequest;
 use App\Models\Supervisor;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Event;
 
 test('hr activity request model interacts with db table', function (): void {
@@ -24,7 +25,7 @@ test('hr activity request belongs to employee', function (): void {
     $request = HRActivityRequest::factory()->create();
 
     expect($request->employee)->toBeInstanceOf(Employee::class);
-    expect($request->employee())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
+    expect($request->employee())->toBeInstanceOf(BelongsTo::class);
 });
 
 test('hr activity request belongs to supervisor', function (): void {
@@ -32,7 +33,7 @@ test('hr activity request belongs to supervisor', function (): void {
     $request = HRActivityRequest::factory()->create();
 
     expect($request->supervisor)->toBeInstanceOf(Supervisor::class);
-    expect($request->supervisor())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
+    expect($request->supervisor())->toBeInstanceOf(BelongsTo::class);
 });
 
 test('hr activity types enum has all required cases', function (): void {

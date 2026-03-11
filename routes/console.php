@@ -4,15 +4,18 @@ use App\Console\Commands\Birthdays;
 use App\Console\Commands\ImportPayrollHoursFromProduction;
 use App\Console\Commands\LiveVox\PublishingProductionReport;
 use App\Console\Commands\RecalculatePayrollHours;
+use App\Console\Commands\SendSuspendedEmployeesEmail;
 use App\Console\Commands\SendTicketsExpiredReport;
+use App\Console\Commands\UpdateEmployeeSuspensions;
+use App\Console\Commands\UpdatePendingSuspensions;
 use App\Console\Commands\UpdateTicketStatus;
 use Illuminate\Support\Facades\Schedule;
 use Spatie\Backup\Commands\BackupCommand;
 use Spatie\Backup\Commands\CleanupCommand;
 
-Schedule::command(\App\Console\Commands\UpdatePendingSuspensions::class)->everyThirtyMinutes();
-Schedule::command(\App\Console\Commands\UpdateEmployeeSuspensions::class)->dailyAt('03:00');
-Schedule::command(\App\Console\Commands\SendSuspendedEmployeesEmail::class)->dailyAt('03:05');
+Schedule::command(UpdatePendingSuspensions::class)->everyThirtyMinutes();
+Schedule::command(UpdateEmployeeSuspensions::class)->dailyAt('03:00');
+Schedule::command(SendSuspendedEmployeesEmail::class)->dailyAt('03:05');
 Schedule::command(Birthdays::class, ['today'])->dailyAt('04:00');
 Schedule::command(Birthdays::class, ['this_month'])->monthlyOn(1, '04:01');
 

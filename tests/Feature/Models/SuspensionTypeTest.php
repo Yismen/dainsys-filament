@@ -1,15 +1,18 @@
 <?php
 
 use App\Events\EmployeeHiredEvent;
+use App\Events\EmployeeSuspendedEvent;
 use App\Models\Employee;
 use App\Models\Hire;
 use App\Models\Suspension;
 use App\Models\SuspensionType;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Support\Facades\Event;
 
 beforeEach(function (): void {
     Event::fake([
-        \App\Events\EmployeeSuspendedEvent::class,
+        EmployeeSuspendedEvent::class,
         EmployeeHiredEvent::class,
     ]);
 });
@@ -32,7 +35,7 @@ test('suspension types model has many suspensions', function (): void {
     Suspension::factory()->for($employee)->for($suspension_type)->create();
 
     expect($suspension_type->suspensions->first())->toBeInstanceOf(Suspension::class);
-    expect($suspension_type->suspensions())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
+    expect($suspension_type->suspensions())->toBeInstanceOf(HasMany::class);
 });
 
 test('suspension types model has many employees', function (): void {
@@ -42,6 +45,6 @@ test('suspension types model has many employees', function (): void {
         ->create();
     Suspension::factory()->for($employee)->for($suspension_type)->create();
 
-    expect($suspension_type->employees->first())->toBeInstanceOf(\App\Models\Employee::class);
-    expect($suspension_type->employees())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasManyThrough::class);
+    expect($suspension_type->employees->first())->toBeInstanceOf(Employee::class);
+    expect($suspension_type->employees())->toBeInstanceOf(HasManyThrough::class);
 });

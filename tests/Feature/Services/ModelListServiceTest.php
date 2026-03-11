@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Cache;
 it('returns correct results', function (): void {
     User::factory(3)->create(0);
 
-    $reflectionMethod = new \ReflectionMethod(ModelListService::class, 'get');
+    $reflectionMethod = new ReflectionMethod(ModelListService::class, 'get');
 
     $result = $reflectionMethod->invoke(null, User::query());
 
@@ -18,7 +18,7 @@ it('returns correct results', function (): void {
 it('store the correct key in the cache system and return the correct values for the cache', function (): void {
     User::factory(3)->create(0);
 
-    $reflectionMethod = new \ReflectionMethod(ModelListService::class, 'get');
+    $reflectionMethod = new ReflectionMethod(ModelListService::class, 'get');
 
     $result = $reflectionMethod->invoke(null, User::query());
 

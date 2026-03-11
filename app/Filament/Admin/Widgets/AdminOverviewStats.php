@@ -7,6 +7,7 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Illuminate\Support\Facades\Cache;
+use Laravel\Sanctum\PersonalAccessToken;
 use Spatie\Permission\Models\Role;
 
 class AdminOverviewStats extends BaseWidget
@@ -52,7 +53,7 @@ class AdminOverviewStats extends BaseWidget
     private function getActiveSessions(): int
     {
         return Cache::remember('admin.active_sessions', now()->addMinutes(10), function (): int {
-            return \Laravel\Sanctum\PersonalAccessToken::where('last_used_at', '>=', now()->subHours(1))->count();
+            return PersonalAccessToken::where('last_used_at', '>=', now()->subHours(1))->count();
         });
     }
 

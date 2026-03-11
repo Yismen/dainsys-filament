@@ -2,10 +2,13 @@
 
 namespace Database\Factories;
 
+use App\Models\Employee;
+use App\Models\Incentive;
+use App\Models\Project;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Incentive>
+ * @extends Factory<Incentive>
  */
 class IncentiveFactory extends Factory
 {
@@ -18,8 +21,8 @@ class IncentiveFactory extends Factory
     {
         return [
             'payable_date' => $this->faker->date(),
-            'employee_id' => \App\Models\Employee::factory(),
-            'project_id' => \App\Models\Project::factory(),
+            'employee_id' => Employee::factory(),
+            'project_id' => Project::factory(),
             'total_production_hours' => $this->faker->randomFloat(2, 1, 200),
             'total_sales' => $this->faker->randomFloat(2, 0, 10000),
             'amount' => $this->faker->randomFloat(2, 0, 5000),

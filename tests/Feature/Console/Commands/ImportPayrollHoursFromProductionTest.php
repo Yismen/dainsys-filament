@@ -6,6 +6,7 @@ use App\Events\EmployeeTerminatedEvent;
 use App\Jobs\RefreshPayrollHoursJob;
 use App\Models\Employee;
 use App\Models\Production;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
@@ -132,7 +133,7 @@ it('summarize data based on the week and ignores other weeks', function (): void
 it('is schedulled to run for the previous day and every hour at the 23 minute', function (): void {
 
     $command = collect(
-        app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events()
+        app()->make(Schedule::class)->events()
     )
         ->first(function ($element) {
             return str($element->command)->contains('dainsys:import-payroll-hours-from-production') && str($element->command)->contains(now()->subDay()->format('Y-m-d'));

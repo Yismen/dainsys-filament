@@ -6,7 +6,7 @@ use App\Models\SuspensionType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\SuspensionType>
+ * @extends Factory<SuspensionType>
  */
 class SuspensionTypeFactory extends Factory
 {

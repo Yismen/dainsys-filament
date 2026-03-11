@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Casts\AsMoney;
 use App\Enums\RevenueTypes;
+use App\Models\BaseModels\AppModel;
 use App\Models\Traits\BelongsToCampaign;
 use App\Models\Traits\BelongsToEmployee;
 use App\Models\Traits\BelongsToSupervisor;
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Production extends \App\Models\BaseModels\AppModel
+class Production extends AppModel
 {
     use BelongsToCampaign;
     use BelongsToEmployee;
@@ -95,8 +96,8 @@ class Production extends \App\Models\BaseModels\AppModel
     public function project(): HasOneThrough
     {
         return $this->hasOneThrough(
-            related: \App\Models\Project::class,
-            through: \App\Models\Campaign::class,
+            related: Project::class,
+            through: Campaign::class,
             firstKey: 'id', // Foreign key on the Through table table...
             secondKey: 'id', // Foreign key on Related table...
             localKey: 'campaign_id', // Local key on this Model table...

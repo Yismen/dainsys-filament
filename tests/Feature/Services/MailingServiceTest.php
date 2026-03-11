@@ -3,9 +3,11 @@
 use App\Console\Commands\SyncMailables;
 use App\Models\Mailable;
 use App\Models\User;
+use App\Services\MailingService;
+use Illuminate\Support\Collection;
 
 it('retunrs mailing files as array', function (): void {
-    $files = \App\Services\MailingService::toArray();
+    $files = MailingService::toArray();
 
     expect($files)->toBeArray();
 });
@@ -17,16 +19,16 @@ it('retunrs mailing users as collection', function (): void {
     $user = User::factory()->create();
     $user->mailables()->attach($mailable);
 
-    $users = \App\Services\MailingService::subscribers($mailable->name);
+    $users = MailingService::subscribers($mailable->name);
 
     expect($users->first())->toBeInstanceOf(User::class);
-    expect($users)->toBeInstanceOf(\Illuminate\Support\Collection::class);
+    expect($users)->toBeInstanceOf(Collection::class);
 });
 
 it('returns a null user instance if no users are subscribed', function (): void {
     $this->artisan(SyncMailables::class);
     $mailable = Mailable::first();
 
-    $users = \App\Services\MailingService::subscribers($mailable->name);
-    expect($users)->toBeInstanceOf(\Illuminate\Support\Collection::class);
+    $users = MailingService::subscribers($mailable->name);
+    expect($users)->toBeInstanceOf(Collection::class);
 });

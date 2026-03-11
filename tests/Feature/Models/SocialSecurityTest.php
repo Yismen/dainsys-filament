@@ -1,6 +1,10 @@
 <?php
 
+use App\Models\Afp;
+use App\Models\Ars;
+use App\Models\Employee;
 use App\Models\SocialSecurity;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 test('social securities model interacts with db table', function (): void {
     $data = SocialSecurity::factory()->make();
@@ -16,9 +20,9 @@ test('social_securities model belongs to model', function (string $modelClass, s
     $socialSecurity = SocialSecurity::factory()->create();
 
     expect($socialSecurity->$relationMethod)->toBeInstanceOf($modelClass);
-    expect($socialSecurity->$relationMethod())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
+    expect($socialSecurity->$relationMethod())->toBeInstanceOf(BelongsTo::class);
 })->with([
-    [\App\Models\Employee::class, 'employee'],
-    [\App\Models\Ars::class, 'ars'],
-    [\App\Models\Afp::class, 'afp'],
+    [Employee::class, 'employee'],
+    [Ars::class, 'ars'],
+    [Afp::class, 'afp'],
 ]);

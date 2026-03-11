@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 
@@ -38,7 +39,7 @@ class CategoryService
      * Used by the blog index to render a sidebar of links that
      * the user can click in order to filter the article list.
      */
-    public static function accessibleFor(?\App\Models\User $user)
+    public static function accessibleFor(?User $user)
     {
         if (! $user) {
             return collect();

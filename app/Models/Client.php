@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\BaseModels\AppModel;
 use App\Models\Traits\HasManyProjects;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Client extends AppModel
 {
@@ -11,7 +12,7 @@ class Client extends AppModel
 
     protected $fillable = ['name', 'person_of_contact', 'phone', 'email', 'website', 'description'];
 
-    public function campaigns(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
+    public function campaigns(): HasManyThrough
     {
         return $this->hasManyThrough(Campaign::class, Project::class);
     }

@@ -10,7 +10,7 @@ use App\Models\Supervisor;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\HRActivityRequest>
+ * @extends Factory<HRActivityRequest>
  */
 class HRActivityRequestFactory extends Factory
 {

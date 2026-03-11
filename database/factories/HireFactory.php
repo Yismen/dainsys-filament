@@ -2,10 +2,16 @@
 
 namespace Database\Factories;
 
+use App\Models\Employee;
+use App\Models\Hire;
+use App\Models\Position;
+use App\Models\Project;
+use App\Models\Site;
+use App\Models\Supervisor;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Hire>
+ * @extends Factory<Hire>
  */
 class HireFactory extends Factory
 {
@@ -18,11 +24,11 @@ class HireFactory extends Factory
     {
         return [
             'date' => now(),
-            'employee_id' => \App\Models\Employee::factory(),
-            'site_id' => \App\Models\Site::factory(),
-            'project_id' => \App\Models\Project::factory(),
-            'position_id' => \App\Models\Position::factory(),
-            'supervisor_id' => \App\Models\Supervisor::factory(),
+            'employee_id' => Employee::factory(),
+            'site_id' => Site::factory(),
+            'project_id' => Project::factory(),
+            'position_id' => Position::factory(),
+            'supervisor_id' => Supervisor::factory(),
         ];
     }
 }

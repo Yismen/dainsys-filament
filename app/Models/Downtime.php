@@ -5,23 +5,25 @@ namespace App\Models;
 use App\Enums\DowntimeStatuses;
 use App\Enums\RevenueTypes;
 use App\Exceptions\InvalidDowntimeCampaign;
+use App\Models\BaseModels\AppModel;
 use App\Models\Traits\BelongsToCampaign;
 use App\Models\Traits\BelongsToDowntimeReason;
 use App\Models\Traits\BelongsToEmployee;
 use App\Models\Traits\HasManyComments;
+use Database\Factories\DowntimeFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 
-class Downtime extends \App\Models\BaseModels\AppModel
+class Downtime extends AppModel
 {
     use BelongsToCampaign;
     use BelongsToDowntimeReason;
     use BelongsToEmployee;
 
-    /** @use HasFactory<\Database\Factories\DowntimeFactory> */
+    /** @use HasFactory<DowntimeFactory> */
     use HasManyComments;
 
     use SoftDeletes;
@@ -63,7 +65,7 @@ class Downtime extends \App\Models\BaseModels\AppModel
 
             // Track initial request as a comment only if none exists
             if ($downtime->wasRecentlyCreated && ! $downtime->comments()->exists()) {
-                \App\Models\Comment::query()->forceCreate([
+                Comment::query()->forceCreate([
                     'text' => 'Requested by: '.(auth()->user()?->name ?? 'system'),
                     'commentable_id' => $downtime->id,
                     'commentable_type' => self::class,

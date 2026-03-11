@@ -10,6 +10,8 @@ use App\Models\Employee;
 use App\Models\Hire;
 use App\Models\Suspension;
 use App\Models\Termination;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Event;
 
 beforeEach(function (): void {
@@ -40,7 +42,7 @@ test('suspensions model belongs to employee', function (string $relationship): v
     Hire::factory()->for($employee)->create(['date' => now()->subDay()]);
     $suspension = Suspension::factory()->for($employee)->create();
 
-    expect($suspension->$relationship())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
+    expect($suspension->$relationship())->toBeInstanceOf(BelongsTo::class);
 })->with([
     'employee',
     'suspensionType',
@@ -51,7 +53,7 @@ it('casts fields as date', function ($field): void {
     Hire::factory()->for($employee)->create(['date' => now()->subDay()]);
     $suspension = Suspension::factory()->for($employee)->create();
 
-    expect($suspension->$field)->toBeInstanceOf(\Illuminate\Support\Carbon::class);
+    expect($suspension->$field)->toBeInstanceOf(Carbon::class);
 })->with([
     'starts_at',
     'ends_at',

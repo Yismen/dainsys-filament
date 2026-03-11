@@ -4,11 +4,15 @@ namespace Database\Factories;
 
 use App\Enums\DowntimeStatuses;
 use App\Enums\RevenueTypes;
+use App\Models\Campaign;
+use App\Models\Downtime;
+use App\Models\DowntimeReason;
+use App\Models\Employee;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Downtime>
+ * @extends Factory<Downtime>
  */
 class DowntimeFactory extends Factory
 {
@@ -21,9 +25,9 @@ class DowntimeFactory extends Factory
     {
         return [
             'date' => now()->toDateString(),
-            'employee_id' => \App\Models\Employee::factory(),
-            'campaign_id' => \App\Models\Campaign::factory(state: ['revenue_type' => RevenueTypes::Downtime]),
-            'downtime_reason_id' => \App\Models\DowntimeReason::factory(),
+            'employee_id' => Employee::factory(),
+            'campaign_id' => Campaign::factory(state: ['revenue_type' => RevenueTypes::Downtime]),
+            'downtime_reason_id' => DowntimeReason::factory(),
             'total_time' => 4,
             'status' => DowntimeStatuses::Pending,
             // 'requester_id' => User::factory(),

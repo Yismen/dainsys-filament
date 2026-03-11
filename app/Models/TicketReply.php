@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use App\Events\TicketReplyCreatedEvent;
+use App\Models\BaseModels\AppModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class TicketReply extends \App\Models\BaseModels\AppModel
+class TicketReply extends AppModel
 {
     use SoftDeletes;
 

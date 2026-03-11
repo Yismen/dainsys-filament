@@ -21,7 +21,7 @@ class ForgotPassword extends Component
     }
 
     /**
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws ValidationException
      */
     public function sendResetLink(): void
     {

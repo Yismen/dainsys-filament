@@ -3,11 +3,13 @@
 namespace App\Models;
 
 use App\Enums\ArticleStatus;
+use App\Models\BaseModels\AppModel;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 
-class Article extends \App\Models\BaseModels\AppModel
+class Article extends AppModel
 {
     protected $fillable = [
         'title',
@@ -35,7 +37,7 @@ class Article extends \App\Models\BaseModels\AppModel
     /**
      * Get only draft articles
      */
-    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    #[Scope]
     protected function draft($query)
     {
         return $query->where('status', ArticleStatus::Draft);
@@ -44,7 +46,7 @@ class Article extends \App\Models\BaseModels\AppModel
     /**
      * Get only published articles
      */
-    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    #[Scope]
     protected function published($query)
     {
         return $query->where('status', ArticleStatus::Published);
@@ -53,10 +55,10 @@ class Article extends \App\Models\BaseModels\AppModel
     /**
      * Filter articles accessible to a user based on category access
      */
-    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    #[Scope]
     protected function onlyAccessibleTo($query, User $user)
     {
-        $accessibleCategoryIds = \App\Models\CategoryAccess::query()
+        $accessibleCategoryIds = CategoryAccess::query()
             ->where(function ($q) use ($user): void {
                 $q->where('user_id', $user->id)
                     ->orWhereIn('role_id', $user->roles()->pluck('id'));

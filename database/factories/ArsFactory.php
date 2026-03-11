@@ -6,7 +6,7 @@ use App\Models\Ars;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Ars>
+ * @extends Factory<Ars>
  */
 class ArsFactory extends Factory
 {

@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Models\BaseModels\AppModel;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Ars extends AppModel
 {
@@ -10,12 +12,12 @@ class Ars extends AppModel
 
     protected $table = 'arss';
 
-    public function socialSecurities(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function socialSecurities(): HasMany
     {
         return $this->hasMany(SocialSecurity::class, 'ars_id');
     }
 
-    public function employees(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
+    public function employees(): HasManyThrough
     {
         return $this->hasManyThrough(
             Employee::class,

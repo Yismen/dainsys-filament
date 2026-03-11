@@ -6,8 +6,14 @@ use App\Events\EmployeeTerminatedEvent;
 use App\Exceptions\EmployeeCantBeHired;
 use App\Models\Employee;
 use App\Models\Hire;
+use App\Models\Position;
+use App\Models\Project;
+use App\Models\Site;
+use App\Models\Supervisor;
 use App\Models\Suspension;
 use App\Models\Termination;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Event;
 
 beforeEach(function (): void {
@@ -37,19 +43,19 @@ test('hires model belongs to model', function (string $modelClass, string $relat
     $hire = Hire::factory()->create();
 
     expect($hire->$relationMethod)->toBeInstanceOf($modelClass);
-    expect($hire->$relationMethod())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
+    expect($hire->$relationMethod())->toBeInstanceOf(BelongsTo::class);
 })->with([
-    [\App\Models\Employee::class, 'employee'],
-    [\App\Models\Site::class, 'site'],
-    [\App\Models\Project::class, 'project'],
-    [\App\Models\Position::class, 'position'],
-    [\App\Models\Supervisor::class, 'supervisor'],
+    [Employee::class, 'employee'],
+    [Site::class, 'site'],
+    [Project::class, 'project'],
+    [Position::class, 'position'],
+    [Supervisor::class, 'supervisor'],
 ]);
 
 it('casts fields as date', function (): void {
     $hire = Hire::factory()->create();
 
-    expect($hire->date)->toBeInstanceOf(\Illuminate\Support\Carbon::class);
+    expect($hire->date)->toBeInstanceOf(Carbon::class);
 });
 
 it('fires event when a employee hire is created', function (): void {

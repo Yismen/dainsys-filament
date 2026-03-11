@@ -5,11 +5,12 @@ namespace Database\Factories;
 use App\Enums\RevenueTypes;
 use App\Models\Campaign;
 use App\Models\Employee;
+use App\Models\Production;
 use App\Models\Supervisor;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Production>
+ * @extends Factory<Production>
  */
 class ProductionFactory extends Factory
 {

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\BaseModels\AppModel;
 use App\Models\Scopes\IsActiveScope;
 use App\Models\Traits\HasManyEmployees;
 use App\Models\Traits\HasManyHires;
@@ -12,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 #[ScopedBy([
     IsActiveScope::class,
 ])]
-class Supervisor extends \App\Models\BaseModels\AppModel
+class Supervisor extends AppModel
 {
     use HasManyEmployees;
     use HasManyHires;

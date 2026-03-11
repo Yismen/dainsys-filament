@@ -2,14 +2,15 @@
 
 use App\Console\Commands\LiveVox\PublishingProductionReport;
 use App\Models\Services\LivevoxAgentSessionService;
+use App\Models\User;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 beforeEach(function (): void {
     Mail::fake();
-    $orders_mock = \Mockery::mock(LivevoxAgentSessionService::class)->makePartial();
-    $orders_mock->shouldReceive('query')->andReturn(\App\Models\User::query());
+    $orders_mock = Mockery::mock(LivevoxAgentSessionService::class)->makePartial();
+    $orders_mock->shouldReceive('query')->andReturn(User::query());
     $this->app->bind(LivevoxAgentSessionService::class, function () use ($orders_mock) {
         return $orders_mock;
     });

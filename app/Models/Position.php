@@ -4,12 +4,13 @@ namespace App\Models;
 
 use App\Casts\AsMoney;
 use App\Enums\SalaryTypes;
+use App\Models\BaseModels\AppModel;
 use App\Models\Traits\BelongsToDepartment;
 use App\Models\Traits\HasManyEmployees;
 use App\Models\Traits\HasManyHires;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Position extends \App\Models\BaseModels\AppModel
+class Position extends AppModel
 {
     use BelongsToDepartment;
     use HasManyEmployees;

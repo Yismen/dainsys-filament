@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Events\EmployeeHiredEvent;
+use App\Exceptions\EmployeeCantBeHired;
+use App\Models\BaseModels\AppModel;
 use App\Models\Traits\BelongsToCitizenship;
 use App\Models\Traits\BelongsToEmployee;
 use App\Models\Traits\BelongsToPosition;
@@ -12,7 +14,7 @@ use App\Models\Traits\BelongsToSupervisor;
 use App\Models\Traits\HasManyComments;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Hire extends \App\Models\BaseModels\AppModel
+class Hire extends AppModel
 {
     use BelongsToCitizenship;
     use BelongsToEmployee;
@@ -40,7 +42,7 @@ class Hire extends \App\Models\BaseModels\AppModel
     {
         static::creating(function (Hire $hire): void {
             if ($hire->employee->canBeHired() === false) {
-                throw new \App\Exceptions\EmployeeCantBeHired;
+                throw new EmployeeCantBeHired;
             }
         });
 

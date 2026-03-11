@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\BaseModels\AppModel;
 use App\Models\Traits\BelongsToEmployee;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 
-class PayrollHour extends \App\Models\BaseModels\AppModel
+class PayrollHour extends AppModel
 {
     use BelongsToEmployee;
     use HasFactory;

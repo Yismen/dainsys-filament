@@ -8,6 +8,7 @@ use App\Mail\TicketsExpiredMail;
 use App\Models\Role;
 use App\Models\Ticket;
 use App\Models\User;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 
@@ -20,7 +21,7 @@ beforeEach(function (): void {
 
 it('is is schedulled daily at 8:15 am', function (): void {
 
-    $command = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
+    $command = collect(app()->make(Schedule::class)->events())
         ->first(function ($element) {
             return str($element->command)->contains('dainsys:send-tickets-expired-report');
         });

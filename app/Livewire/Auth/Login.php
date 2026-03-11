@@ -26,7 +26,7 @@ class Login extends Component
     }
 
     /**
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws ValidationException
      */
     public function login(): Redirector|Response
     {

@@ -2,15 +2,18 @@
 
 namespace App\Models;
 
+use App\Models\BaseModels\AppModel;
 use App\Models\Traits\BelongsToEmployee;
+use Database\Factories\PayrollFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Carbon;
 
-class Payroll extends \App\Models\BaseModels\AppModel
+class Payroll extends AppModel
 {
     use BelongsToEmployee;
 
-    /** @use HasFactory<\Database\Factories\PayrollFactory> */
+    /** @use HasFactory<PayrollFactory> */
     use HasFactory;
 
     protected $fillable = [
@@ -34,9 +37,9 @@ class Payroll extends \App\Models\BaseModels\AppModel
         'total_payroll',
     ];
 
-    protected function payableDate(): \Illuminate\Database\Eloquent\Casts\Attribute
+    protected function payableDate(): Attribute
     {
-        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: function ($value) {
+        return Attribute::make(get: function ($value) {
             return Carbon::parse($value)->format('Y-m-d');
         });
     }

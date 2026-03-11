@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\BaseModels\AppModel;
 use App\Models\Traits\BelongsToClient;
 use App\Models\Traits\HasManyCampaigns;
 use App\Models\Traits\HasManyEmployees;
 use App\Models\Traits\HasManyHires;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Project extends \App\Models\BaseModels\AppModel
+class Project extends AppModel
 {
     use BelongsToClient;
     use HasManyCampaigns;

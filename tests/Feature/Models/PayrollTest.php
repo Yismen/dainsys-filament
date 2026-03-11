@@ -1,6 +1,8 @@
 <?php
 
+use App\Models\Employee;
 use App\Models\Payroll;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 it('interacts with db table', function (): void {
     $data = Payroll::factory()->make();
@@ -32,6 +34,6 @@ it('interacts with db table', function (): void {
 it('belongs to one employee', function (): void {
     $payroll = Payroll::factory()->create();
 
-    expect($payroll->employee)->toBeInstanceOf(\App\Models\Employee::class);
-    expect($payroll->employee())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
+    expect($payroll->employee)->toBeInstanceOf(Employee::class);
+    expect($payroll->employee())->toBeInstanceOf(BelongsTo::class);
 });

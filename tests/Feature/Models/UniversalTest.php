@@ -1,6 +1,8 @@
 <?php
 
+use App\Models\Employee;
 use App\Models\Universal;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 test('universals model interacts with db table', function (): void {
     $data = Universal::factory()->make();
@@ -15,6 +17,6 @@ test('universals model interacts with db table', function (): void {
 test('universals model belongs to employee', function (): void {
     $universal = Universal::factory()->create();
 
-    expect($universal->employee)->toBeInstanceOf(\App\Models\Employee::class);
-    expect($universal->employee())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
+    expect($universal->employee)->toBeInstanceOf(Employee::class);
+    expect($universal->employee())->toBeInstanceOf(BelongsTo::class);
 });

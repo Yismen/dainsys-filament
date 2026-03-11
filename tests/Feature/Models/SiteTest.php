@@ -1,11 +1,15 @@
 <?php
 
+use App\Events\EmployeeHiredEvent;
 use App\Models\Employee;
+use App\Models\Hire;
 use App\Models\Site;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Event;
 
 beforeEach(function (): void {
-    \Illuminate\Support\Facades\Event::fake([
-        \App\Events\EmployeeHiredEvent::class,
+    Event::fake([
+        EmployeeHiredEvent::class,
     ]);
 });
 
@@ -24,8 +28,8 @@ test('sites model has many hires', function (): void {
         ->hasHires()
         ->create();
 
-    expect($site->hires->first())->toBeInstanceOf(\App\Models\Hire::class);
-    expect($site->hires())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
+    expect($site->hires->first())->toBeInstanceOf(Hire::class);
+    expect($site->hires())->toBeInstanceOf(HasMany::class);
 });
 
 test('site model has many employees', function (): void {
@@ -37,5 +41,5 @@ test('site model has many employees', function (): void {
         ->create();
 
     expect($site->employees->first())->toBeInstanceOf(Employee::class);
-    expect($site->employees())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
+    expect($site->employees())->toBeInstanceOf(HasMany::class);
 });

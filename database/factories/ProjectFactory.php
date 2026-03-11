@@ -2,11 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Models\Client;
 use App\Models\Project;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Project>
+ * @extends Factory<Project>
  */
 class ProjectFactory extends Factory
 {
@@ -26,7 +27,7 @@ class ProjectFactory extends Factory
     {
         return [
             'name' => $this->faker->company(),
-            'client_id' => \App\Models\Client::factory(),
+            'client_id' => Client::factory(),
             'description' => $this->faker->text(),
         ];
     }

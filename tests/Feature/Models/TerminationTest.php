@@ -9,6 +9,7 @@ use App\Models\Employee;
 use App\Models\Hire;
 use App\Models\Suspension;
 use App\Models\Termination;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Event;
 
@@ -57,7 +58,7 @@ test('terminations model belongs to employee', function (): void {
     $termination = Termination::factory()->for($employee)->create();
 
     expect($termination->employee)->toBeInstanceOf(Employee::class);
-    expect($termination->employee())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
+    expect($termination->employee())->toBeInstanceOf(BelongsTo::class);
 });
 
 test('termination model fires event when created', function (): void {

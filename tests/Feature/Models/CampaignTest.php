@@ -1,8 +1,12 @@
 <?php
 
+use App\Enums\RevenueTypes;
 use App\Models\Campaign;
+use App\Models\Production;
 use App\Models\Project;
 use App\Models\Source;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Bus;
 
 beforeEach(function (): void {
@@ -23,7 +27,7 @@ test('campaigns model belongs to related models', function (string $modelClass, 
     $campaign = Campaign::factory()->create();
 
     expect($campaign->$relationship)->toBeInstanceOf($modelClass);
-    expect($campaign->$relationship())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
+    expect($campaign->$relationship())->toBeInstanceOf(BelongsTo::class);
 })->with([
     [Project::class, 'project'],
     [Source::class, 'source'],
@@ -31,10 +35,10 @@ test('campaigns model belongs to related models', function (string $modelClass, 
 
 test('campaigns model has many productions', function (): void {
     $campaign = Campaign::factory()
-        ->has(\App\Models\Production::factory())->create();
+        ->has(Production::factory())->create();
 
-    expect($campaign->productions->first())->toBeInstanceOf(\App\Models\Production::class);
-    expect($campaign->productions())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
+    expect($campaign->productions->first())->toBeInstanceOf(Production::class);
+    expect($campaign->productions())->toBeInstanceOf(HasMany::class);
 });
 
 test('campaigns model casts revenue_type to RevenueTypes enum', function (): void {
@@ -42,7 +46,7 @@ test('campaigns model casts revenue_type to RevenueTypes enum', function (): voi
         'revenue_type' => 'login time',
     ]);
 
-    expect($campaign->revenue_type)->toBeInstanceOf(\App\Enums\RevenueTypes::class);
+    expect($campaign->revenue_type)->toBeInstanceOf(RevenueTypes::class);
     expect($campaign->revenue_type->value)->toBe('login time');
 });
 

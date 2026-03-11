@@ -2,6 +2,7 @@
 
 use App\Models\Mailable;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 test('mailables model interacts with db table', function (): void {
     $mailable = Mailable::factory()->make();
@@ -19,5 +20,5 @@ test('mailables model belongs to many users', function (): void {
         ->create();
 
     expect($mailable->users->first())->toBeInstanceOf(User::class);
-    expect($mailable->users())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsToMany::class);
+    expect($mailable->users())->toBeInstanceOf(BelongsToMany::class);
 });

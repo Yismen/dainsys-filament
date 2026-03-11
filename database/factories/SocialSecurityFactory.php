@@ -2,10 +2,14 @@
 
 namespace Database\Factories;
 
+use App\Models\Afp;
+use App\Models\Ars;
+use App\Models\Employee;
+use App\Models\SocialSecurity;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\SocialSecurity>
+ * @extends Factory<SocialSecurity>
  */
 class SocialSecurityFactory extends Factory
 {
@@ -17,9 +21,9 @@ class SocialSecurityFactory extends Factory
     public function definition(): array
     {
         return [
-            'employee_id' => \App\Models\Employee::factory(),
-            'ars_id' => \App\Models\Ars::factory(),
-            'afp_id' => \App\Models\Afp::factory(),
+            'employee_id' => Employee::factory(),
+            'ars_id' => Ars::factory(),
+            'afp_id' => Afp::factory(),
             'number' => $this->faker->unique()->numerify('SS-########'),
         ];
     }

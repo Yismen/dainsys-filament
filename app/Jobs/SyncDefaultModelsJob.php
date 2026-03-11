@@ -2,6 +2,11 @@
 
 namespace App\Jobs;
 
+use App\Models\Disposition;
+use App\Models\DowntimeReason;
+use App\Models\Site;
+use App\Models\Source;
+use App\Models\SuspensionType;
 use Illuminate\Foundation\Queue\Queueable;
 
 class SyncDefaultModelsJob
@@ -39,7 +44,7 @@ class SyncDefaultModelsJob
     protected function getDefaultModels(): array
     {
         return [
-            \App\Models\Site::class => [
+            Site::class => [
                 [
                     'name' => 'Ecco Headquarters Santiago',
                     'description' => 'Main Office',
@@ -49,7 +54,7 @@ class SyncDefaultModelsJob
                     'description' => 'Work From Home',
                 ],
             ],
-            \App\Models\SuspensionType::class => [
+            SuspensionType::class => [
                 [
                     'name' => 'Suspension por Mutuo Acuerdo',
                     'description' => 'El empleado y el empleador estuvieron de acuerdo con una suspension temporal',
@@ -111,7 +116,7 @@ class SyncDefaultModelsJob
                     'description' => 'Para los padres, nacimiento de un hijo (2 dias)',
                 ],
             ],
-            \App\Models\Source::class => [
+            Source::class => [
                 [
                     'name' => 'Data Entry',
                 ],
@@ -140,7 +145,7 @@ class SyncDefaultModelsJob
                     'name' => 'Outbound Calls',
                 ],
             ],
-            \App\Models\DowntimeReason::class => [
+            DowntimeReason::class => [
                 [
                     'name' => 'Backoffice Work',
                     'description' => 'Tasks related to backoffice work that require downtime',
@@ -202,7 +207,7 @@ class SyncDefaultModelsJob
                     'description' => 'Training sessions for new hires that require downtime',
                 ],
             ],
-            \App\Models\Disposition::class => [
+            Disposition::class => [
                 [
                     'name' => ' Hang-up During Presentation',
                     'sales' => 0,

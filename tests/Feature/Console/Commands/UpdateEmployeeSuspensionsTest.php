@@ -9,6 +9,7 @@ use App\Models\Employee;
 use App\Models\Hire;
 use App\Models\Suspension;
 use App\Models\Termination;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\Event;
 
 beforeEach(function (): void {
@@ -26,7 +27,7 @@ test('install command creates site', function (): void {
 
 test('command is schedulled for daily at 300 am', function (): void {
 
-    $command = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
+    $command = collect(app()->make(Schedule::class)->events())
         ->first(function ($element) {
             return str($element->command)->contains('dainsys:update-employee-suspensions');
         });

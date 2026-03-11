@@ -2,17 +2,19 @@
 
 namespace App\Models;
 
+use App\Models\BaseModels\AppModel;
 use App\Models\Traits\HasManyBankAccounts;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Bank extends \App\Models\BaseModels\AppModel
+class Bank extends AppModel
 {
     use HasManyBankAccounts;
     use SoftDeletes;
 
     protected $fillable = ['name', 'person_of_contact', 'phone', 'email', 'description'];
 
-    public function employees(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
+    public function employees(): HasManyThrough
     {
         return $this->hasManyThrough(
             Employee::class,

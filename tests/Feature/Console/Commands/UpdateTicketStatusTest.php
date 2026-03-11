@@ -5,6 +5,7 @@ use App\Enums\TicketStatuses;
 use App\Events\TicketCompletedEvent;
 use App\Events\TicketCreatedEvent;
 use App\Models\Ticket;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\Event;
 
 beforeEach(function (): void {
@@ -15,7 +16,7 @@ beforeEach(function (): void {
 });
 
 test('command is schedulled for evey thirty minutes', function (): void {
-    $command = collect(app()->make(\Illuminate\Console\Scheduling\Schedule::class)->events())
+    $command = collect(app()->make(Schedule::class)->events())
         ->first(function ($element) {
             return str($element->command)->contains('dainsys:update-ticket-status');
         });

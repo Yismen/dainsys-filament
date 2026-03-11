@@ -1,8 +1,12 @@
 <?php
 
 use App\Events\EmployeeHiredEvent;
+use App\Models\Department;
 use App\Models\Employee;
+use App\Models\Hire;
 use App\Models\Position;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Event;
 
 test('position model interacts with positions table', function (): void {
@@ -22,8 +26,8 @@ test('position model interacts with positions table', function (): void {
 test('positions model belongs to department', function (): void {
     $position = Position::factory()->create();
 
-    expect($position->department)->toBeInstanceOf(\App\Models\Department::class);
-    expect($position->department())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
+    expect($position->department)->toBeInstanceOf(Department::class);
+    expect($position->department())->toBeInstanceOf(BelongsTo::class);
 });
 
 it('cast salary as money', function (): void {
@@ -49,8 +53,8 @@ test('position model has many hires', function (): void {
         ->hasHires()
         ->create();
 
-    expect($position->hires->first())->toBeInstanceOf(\App\Models\Hire::class);
-    expect($position->hires())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
+    expect($position->hires->first())->toBeInstanceOf(Hire::class);
+    expect($position->hires())->toBeInstanceOf(HasMany::class);
 });
 
 test('position model has many employees', function (): void {
@@ -65,7 +69,7 @@ test('position model has many employees', function (): void {
         ->create();
 
     expect($position->employees->first())->toBeInstanceOf(Employee::class);
-    expect($position->employees())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class);
+    expect($position->employees())->toBeInstanceOf(HasMany::class);
 });
 
 it('updates the description field', function (): void {
