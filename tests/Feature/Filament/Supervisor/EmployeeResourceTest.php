@@ -6,7 +6,9 @@ use App\Events\EmployeeHiredEvent;
 use App\Events\HRActivityRequestCreated;
 use App\Models\Employee;
 use App\Models\Hire;
+use App\Models\HRActivityRequest;
 use App\Models\Supervisor;
+use App\Models\Termination;
 use App\Models\User;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
@@ -67,7 +69,7 @@ it('does not show terminated employees in query', function (): void {
         'supervisor_id' => $supervisor->id,
         'date' => now()->subDay(),
     ]);
-    \App\Models\Termination::factory()->create([
+    Termination::factory()->create([
         'employee_id' => $terminatedEmployee->id,
         'date' => now(),
     ]);
@@ -105,7 +107,7 @@ it('allows requesting hr activity for employee', function (): void {
 
     actingAs($user);
 
-    $activityRequest = \App\Models\HRActivityRequest::create([
+    $activityRequest = HRActivityRequest::create([
         'employee_id' => $employee->id,
         'supervisor_id' => $supervisor->id,
         'activity_type' => HRActivityTypes::Vacations,

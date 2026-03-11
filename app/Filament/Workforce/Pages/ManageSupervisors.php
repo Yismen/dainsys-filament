@@ -141,9 +141,9 @@ class ManageSupervisors extends Page
                 Select::make('user_id')
                     ->label('Select User')
                     ->options(
-                        fn($livewire) => User::query()
+                        fn ($livewire) => User::query()
                             ->where('is_active', true)
-                            ->whereDoesntHave('supervisor', function($query) {
+                            ->whereDoesntHave('supervisor', function ($query): void {
                                 $query->withoutGlobalScopes([
                                     IsActiveScope::class,
                                 ]);
@@ -261,7 +261,7 @@ class ManageSupervisors extends Page
                         ->options(ModelListService::make(
                             User::query()
                                 ->where('is_active', true)
-                                ->whereDoesntHave('supervisor', function($query) {
+                                ->whereDoesntHave('supervisor', function ($query): void {
                                     $query->withoutGlobalScopes([
                                         IsActiveScope::class,
                                     ]);

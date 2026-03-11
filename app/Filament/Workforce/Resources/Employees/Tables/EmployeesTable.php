@@ -94,8 +94,8 @@ class EmployeesTable
                 TrashedFilter::make(),
                 ...EmployeeTableFilters::get(),
             ])
-            ->filtersFormColumns(2)
-            ->filtersFormWidth(Width::Large)
+            ->filtersFormColumns(3)
+            ->filtersFormWidth(Width::FourExtraLarge)
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make()

@@ -2,6 +2,7 @@
 
 namespace App\Filament\HumanResource\Resources\Hires;
 
+use App\Filament\HumanResource\Enums\HRNavigationEnum;
 use App\Filament\HumanResource\Resources\Hires\Pages\CreateHire;
 use App\Filament\HumanResource\Resources\Hires\Pages\EditHire;
 use App\Filament\HumanResource\Resources\Hires\Pages\ListHires;
@@ -28,7 +29,7 @@ class HireResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'id';
 
-    protected static \UnitEnum|string|null $navigationGroup = \App\Filament\HumanResource\Enums\HRNavigationEnum::EMPLOYEES_MANAGEMENT;
+    protected static \UnitEnum|string|null $navigationGroup = HRNavigationEnum::EMPLOYEES_MANAGEMENT;
 
     protected static ?int $navigationSort = 2;
 

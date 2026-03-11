@@ -3,6 +3,7 @@
 namespace App\Filament\HumanResource\Resources\Employees\Schemas;
 
 use App\Enums\Genders;
+use App\Enums\PersonalIdTypes;
 use App\Models\Citizenship;
 use App\Models\Employee;
 use App\Schemas\Filament\HumanResource\HireEmployeeSchema;
@@ -58,7 +59,7 @@ class EmployeeForm
                                 TextInput::make('second_last_name')
                                     ->maxLength(255),
                                 Select::make('personal_id_type')
-                                    ->options(\App\Enums\PersonalIdTypes::class)
+                                    ->options(PersonalIdTypes::class)
                                     ->required(),
                                 TextInput::make('personal_id')
                                     ->minLength(10)

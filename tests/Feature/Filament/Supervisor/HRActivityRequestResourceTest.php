@@ -1,9 +1,11 @@
 <?php
 
 use App\Enums\HRActivityRequestStatuses;
+use App\Enums\HRActivityTypes;
 use App\Filament\Supervisor\Resources\HRActivityRequests\Pages\ListHRActivityRequests;
 use App\Filament\Supervisor\Resources\HRActivityRequests\Pages\ViewHRActivityRequest;
 use App\Models\Employee;
+use App\Models\Hire;
 use App\Models\HRActivityRequest;
 use App\Models\Supervisor;
 use Filament\Facades\Filament;
@@ -79,7 +81,7 @@ test('supervisor can create new hr activity request', function (): void {
     $employee = Employee::factory()->create();
 
     // Create a hire record for this employee
-    \App\Models\Hire::factory()->create([
+    Hire::factory()->create([
         'employee_id' => $employee->id,
         'supervisor_id' => $this->supervisor->id,
     ]);
@@ -88,7 +90,7 @@ test('supervisor can create new hr activity request', function (): void {
     $request = HRActivityRequest::create([
         'employee_id' => $employee->id,
         'supervisor_id' => $this->supervisor->id,
-        'activity_type' => \App\Enums\HRActivityTypes::Vacations,
+        'activity_type' => HRActivityTypes::Vacations,
         'description' => 'Employee vacation request',
         'status' => HRActivityRequestStatuses::Requested,
         'requested_at' => now(),
@@ -97,7 +99,7 @@ test('supervisor can create new hr activity request', function (): void {
     $this->assertDatabaseHas('h_r_activity_requests', [
         'employee_id' => $employee->id,
         'supervisor_id' => $this->supervisor->id,
-        'activity_type' => \App\Enums\HRActivityTypes::Vacations->value,
+        'activity_type' => HRActivityTypes::Vacations->value,
         'status' => HRActivityRequestStatuses::Requested->value,
         'description' => 'Employee vacation request',
     ]);

@@ -2,6 +2,7 @@
 
 namespace App\Filament\HumanResource\Resources\Banks;
 
+use App\Filament\HumanResource\Enums\HRNavigationEnum;
 use App\Filament\HumanResource\Resources\Banks\Pages\CreateBank;
 use App\Filament\HumanResource\Resources\Banks\Pages\EditBank;
 use App\Filament\HumanResource\Resources\Banks\Pages\ListBanks;
@@ -26,7 +27,7 @@ class BankResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static \UnitEnum|string|null $navigationGroup = \App\Filament\HumanResource\Enums\HRNavigationEnum::HR_MANAGEMENT;
+    protected static \UnitEnum|string|null $navigationGroup = HRNavigationEnum::HR_MANAGEMENT;
 
     public static function form(Schema $schema): Schema
     {

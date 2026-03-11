@@ -33,11 +33,11 @@ class WorkforceStatsOverview extends StatsOverviewWidget
             ->where('status', DowntimeStatuses::Approved)
             ->sum('total_time');
 
-        $todayRevenueCents = Production::query()
-            ->whereDate('date', $today)
-            ->sum('revenue');
+        $last30DaysTotalHours = Production::query()
+            ->whereDate('date', '>=', $last30Days)
+            ->sum('total_time');
 
-        $last30DaysRevenueCents = Production::query()
+        $last30DaysRevenue = Production::query()
             ->whereDate('date', '>=', $last30Days)
             ->sum('revenue');
 
@@ -55,12 +55,12 @@ class WorkforceStatsOverview extends StatsOverviewWidget
             Stat::make('Approved today (min)', number_format($todayApprovedMinutes))
                 ->description('Approved today')
                 ->color('success'),
-            Stat::make('Production revenue today', '$'.number_format($todayRevenueCents / 100, 2))
+            Stat::make('Total Hours last 30 days', number_format($last30DaysTotalHours, 2))
                 ->description('Across all campaigns')
-                ->color($todayRevenueCents > 0 ? 'info' : 'secondary'),
-            Stat::make('Revenue last 30 days', '$'.number_format($last30DaysRevenueCents / 100, 2))
+                ->color($last30DaysTotalHours > 0 ? 'info' : 'secondary'),
+            Stat::make('Revenue last 30 days', '$'.number_format($last30DaysRevenue / 100, 2))
                 ->description('Total production revenue')
-                ->color($last30DaysRevenueCents > 0 ? 'success' : 'secondary'),
+                ->color($last30DaysRevenue > 0 ? 'success' : 'secondary'),
             Stat::make('Downtime campaigns', $activeDowntimeCampaigns)
                 ->description('Revenue type: downtime')
                 ->color('secondary'),

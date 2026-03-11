@@ -2,6 +2,7 @@
 
 namespace App\Filament\HumanResource\Resources\Suspensions;
 
+use App\Filament\HumanResource\Enums\HRNavigationEnum;
 use App\Filament\HumanResource\Resources\Suspensions\Pages\CreateSuspension;
 use App\Filament\HumanResource\Resources\Suspensions\Pages\EditSuspension;
 use App\Filament\HumanResource\Resources\Suspensions\Pages\ListSuspensions;
@@ -28,7 +29,7 @@ class SuspensionResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'starts_at';
 
-    protected static \UnitEnum|string|null $navigationGroup = \App\Filament\HumanResource\Enums\HRNavigationEnum::EMPLOYEES_MANAGEMENT;
+    protected static \UnitEnum|string|null $navigationGroup = HRNavigationEnum::EMPLOYEES_MANAGEMENT;
 
     protected static ?int $navigationSort = 2;
 

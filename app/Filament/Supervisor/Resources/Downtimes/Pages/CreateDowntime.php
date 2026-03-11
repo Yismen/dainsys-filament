@@ -4,6 +4,7 @@ namespace App\Filament\Supervisor\Resources\Downtimes\Pages;
 
 use App\Filament\Supervisor\Resources\Downtimes\DowntimeResource;
 use App\Models\Comment;
+use App\Models\Downtime;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateDowntime extends CreateRecord
@@ -19,7 +20,7 @@ class CreateDowntime extends CreateRecord
             Comment::query()->forceCreate([
                 'text' => $comment,
                 'commentable_id' => $this->record->id,
-                'commentable_type' => \App\Models\Downtime::class,
+                'commentable_type' => Downtime::class,
             ]);
         }
     }

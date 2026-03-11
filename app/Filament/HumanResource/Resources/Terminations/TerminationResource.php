@@ -2,6 +2,7 @@
 
 namespace App\Filament\HumanResource\Resources\Terminations;
 
+use App\Filament\HumanResource\Enums\HRNavigationEnum;
 use App\Filament\HumanResource\Resources\Terminations\Pages\CreateTermination;
 use App\Filament\HumanResource\Resources\Terminations\Pages\EditTermination;
 use App\Filament\HumanResource\Resources\Terminations\Pages\ListTerminations;
@@ -28,7 +29,7 @@ class TerminationResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'id';
 
-    protected static \UnitEnum|string|null $navigationGroup = \App\Filament\HumanResource\Enums\HRNavigationEnum::EMPLOYEES_MANAGEMENT;
+    protected static \UnitEnum|string|null $navigationGroup = HRNavigationEnum::EMPLOYEES_MANAGEMENT;
 
     protected static ?int $navigationSort = 3;
 

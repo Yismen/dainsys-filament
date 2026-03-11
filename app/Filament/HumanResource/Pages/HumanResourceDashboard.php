@@ -20,12 +20,13 @@ use Filament\Pages\Dashboard;
 use Filament\Pages\Dashboard\Concerns\HasFiltersForm;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Livewire\Attributes\On;
 
 class HumanResourceDashboard extends Dashboard
 {
     use HasFiltersForm;
 
-    #[\Livewire\Attributes\On('livewire:init')]
+    #[On('livewire:init')]
     public function applyDefaultFilters(): void
     {
         $defaultSites = config('app.default_sites', []);

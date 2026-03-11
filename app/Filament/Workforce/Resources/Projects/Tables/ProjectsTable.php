@@ -2,6 +2,8 @@
 
 namespace App\Filament\Workforce\Resources\Projects\Tables;
 
+use App\Models\Client;
+use App\Services\ModelListService;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -9,6 +11,7 @@ use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 
@@ -40,6 +43,11 @@ class ProjectsTable
             ])
             ->filters([
                 TrashedFilter::make(),
+                SelectFilter::make('client_id')
+                    ->label('Client')
+                    ->options(fn () => ModelListService::make(Client::class))
+                    ->searchable()
+                    ->placeholder('Select Client'),
             ])
             ->recordActions([
                 ViewAction::make(),

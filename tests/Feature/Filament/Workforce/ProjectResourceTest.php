@@ -1,9 +1,9 @@
 <?php
 
-use App\Filament\HumanResource\Resources\Projects\Pages\CreateProject;
-use App\Filament\HumanResource\Resources\Projects\Pages\EditProject;
-use App\Filament\HumanResource\Resources\Projects\Pages\ListProjects;
-use App\Filament\HumanResource\Resources\Projects\Pages\ViewProject;
+use App\Filament\Workforce\Resources\Projects\Pages\CreateProject;
+use App\Filament\Workforce\Resources\Projects\Pages\EditProject;
+use App\Filament\Workforce\Resources\Projects\Pages\ListProjects;
+use App\Filament\Workforce\Resources\Projects\Pages\ViewProject;
 use App\Models\Client;
 use App\Models\Project;
 use App\Models\User;
@@ -16,7 +16,7 @@ use function Pest\Livewire\livewire;
 beforeEach(function (): void {
     // Seed roles/permissions if applicable
     Filament::setCurrentPanel(
-        Filament::getPanel('human-resource'), // Where `app` is the ID of the panel you want to test.
+        Filament::getPanel('workforce'), // Where `app` is the ID of the panel you want to test.
     );
     $project = Project::factory()->create();
 
@@ -48,7 +48,7 @@ it('require users to be authenticated to access Project resource pages', functio
     $response = get(route($this->resource_routes[$method]['route'],
         $this->resource_routes[$method]['params']));
 
-    $response->assertRedirect(route('filament.human-resource.auth.login'));
+    $response->assertRedirect(route('filament.workforce.auth.login'));
 })->with([
     'index',
     'create',

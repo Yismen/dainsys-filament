@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\EmployeeStatuses;
+use App\Filament\Supervisor\Resources\PayrollHours\Pages\ListPayrollHours;
 use App\Models\Employee;
 use App\Models\PayrollHour;
 use App\Models\Supervisor;
@@ -22,7 +23,7 @@ test('supervisor can view payroll hours for their employees', function (): void 
         ->create();
 
     Livewire::actingAs($supervisorUser)
-        ->test(\App\Filament\Supervisor\Resources\PayrollHours\Pages\ListPayrollHours::class)
+        ->test(ListPayrollHours::class)
         ->assertSuccessful()
         ->assertCanSeeTableRecords(PayrollHour::all());
 });
@@ -52,7 +53,7 @@ test('supervisor cannot see terminated employees payroll hours', function (): vo
         ->create();
 
     Livewire::actingAs($supervisorUser)
-        ->test(\App\Filament\Supervisor\Resources\PayrollHours\Pages\ListPayrollHours::class)
+        ->test(ListPayrollHours::class)
         ->assertCanSeeTableRecords($hiredHours)
         ->assertCanNotSeeTableRecords($terminatedHours);
 });
@@ -76,7 +77,7 @@ test('supervisor cannot see other supervisors employees payroll hours', function
     $hours2 = PayrollHour::factory()->for($employee2)->create();
 
     Livewire::actingAs($supervisorUser)
-        ->test(\App\Filament\Supervisor\Resources\PayrollHours\Pages\ListPayrollHours::class)
+        ->test(ListPayrollHours::class)
         ->assertCanSeeTableRecords([$hours1])
         ->assertCanNotSeeTableRecords([$hours2]);
 });
@@ -101,7 +102,7 @@ test('supervisor can filter payroll hours by date range', function (): void {
         ->create();
 
     Livewire::actingAs($supervisorUser)
-        ->test(\App\Filament\Supervisor\Resources\PayrollHours\Pages\ListPayrollHours::class)
+        ->test(ListPayrollHours::class)
         ->filterTable('date', [
             'date_from' => now()->subWeek()->format('Y-m-d'),
             'date_until' => now()->format('Y-m-d'),
@@ -128,7 +129,7 @@ test('supervisor can filter payroll hours by employee', function (): void {
     $hours2 = PayrollHour::factory()->for($employee2)->create();
 
     Livewire::actingAs($supervisorUser)
-        ->test(\App\Filament\Supervisor\Resources\PayrollHours\Pages\ListPayrollHours::class)
+        ->test(ListPayrollHours::class)
         ->filterTable('employee_id', value: $employee1->id)
         ->assertCanSeeTableRecords([$hours1])
         ->assertCanNotSeeTableRecords([$hours2]);
@@ -148,7 +149,7 @@ test('payroll hours table displays correct columns', function (): void {
         ->create();
 
     Livewire::actingAs($supervisorUser)
-        ->test(\App\Filament\Supervisor\Resources\PayrollHours\Pages\ListPayrollHours::class)
+        ->test(ListPayrollHours::class)
         ->assertCanSeeTableColumns([
             'employee.full_name',
             'date',

@@ -10,6 +10,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
+use PHPUnit\Framework\Assert;
 
 use function Pest\Laravel\actingAs;
 
@@ -58,12 +59,12 @@ describe('MonthlyAttritionChart Widget', function (): void {
                 'supervisor' => [$supervisor->id],
             ],
         ]);
-        $reflection = new \ReflectionClass($component->instance());
+        $reflection = new ReflectionClass($component->instance());
         $method = $reflection->getMethod('getData');
         $method->setAccessible(true);
         $data = $method->invoke($component->instance());
         if (! is_array($data) || ! isset($data['labels'], $data['datasets'][0]['data'])) {
-            \PHPUnit\Framework\Assert::fail('Chart data structure unexpected: '.json_encode($data));
+            Assert::fail('Chart data structure unexpected: '.json_encode($data));
         }
         $labels = $data['labels'];
         $dataset = $data['datasets'][0]['data'];
@@ -72,7 +73,7 @@ describe('MonthlyAttritionChart Widget', function (): void {
         $idx = count($labels) - 2;
         $month = $labels[$idx] ?? null;
         if (! isset($labels[$idx]) || ! isset($dataset[$idx])) {
-            \PHPUnit\Framework\Assert::fail('Not enough labels or dataset generated. Labels: '.json_encode($labels).' Dataset: '.json_encode($dataset).' Idx: '.$idx);
+            Assert::fail('Not enough labels or dataset generated. Labels: '.json_encode($labels).' Dataset: '.json_encode($dataset).' Idx: '.$idx);
         }
         $month = $labels[$idx];
         // 2 terminations, 11 headcount (10 + 1 new hire)

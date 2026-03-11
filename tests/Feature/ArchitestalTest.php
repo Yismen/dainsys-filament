@@ -14,8 +14,14 @@ use App\Models\MailableUser;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
+use App\Traits\Models\InteractsWithActivitylog;
+use App\Traits\Models\InteractsWithModelCaching;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as AuthUser;
+use Spatie\Permission\Traits\HasRoles;
 
 it('will not use debugging functions')
     ->expect(['dd', 'dump', 'ray'])
@@ -40,11 +46,11 @@ arch('all models should extend AppModel')
 arch('AppModel should use traits HasFactory and InteractsWithModelCaching and HasUuids and SoftDeletes')
     ->expect(AppModel::class)
     ->toUseTraits([
-        \Illuminate\Database\Eloquent\Factories\HasFactory::class,
-        \App\Traits\Models\InteractsWithModelCaching::class,
-        \App\Traits\Models\InteractsWithActivitylog::class,
-        \Illuminate\Database\Eloquent\Concerns\HasUuids::class,
-        \Illuminate\Database\Eloquent\SoftDeletes::class,
+        HasFactory::class,
+        InteractsWithModelCaching::class,
+        InteractsWithActivitylog::class,
+        HasUuids::class,
+        SoftDeletes::class,
     ]);
 
 arch('user model should not extend AppModel')
@@ -54,10 +60,10 @@ arch('user model should not extend AppModel')
 arch('expect user model to use traits HasFactory and InteractsWithModelCaching and HasUuids and HasRoles')
     ->expect(User::class)
     ->toUseTraits([
-        \Illuminate\Database\Eloquent\Factories\HasFactory::class,
-        \App\Traits\Models\InteractsWithModelCaching::class,
-        \Illuminate\Database\Eloquent\Concerns\HasUuids::class,
-        \Spatie\Permission\Traits\HasRoles::class,
+        HasFactory::class,
+        InteractsWithModelCaching::class,
+        HasUuids::class,
+        HasRoles::class,
     ]);
 
 arch('mails should be queued')

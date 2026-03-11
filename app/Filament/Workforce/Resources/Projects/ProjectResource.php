@@ -26,7 +26,7 @@ class ProjectResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static \UnitEnum|string|null $navigationGroup =  'Management';
+    protected static \UnitEnum|string|null $navigationGroup = 'Management';
 
     protected static ?int $navigationSort = 10;
 

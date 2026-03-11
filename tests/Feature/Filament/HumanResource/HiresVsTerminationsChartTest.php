@@ -9,6 +9,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
+use PHPUnit\Framework\Assert;
 
 use function Pest\Laravel\actingAs;
 
@@ -55,12 +56,12 @@ it('shows correct hires and terminations per month and respects filters', functi
             'supervisor' => [$supervisor->id],
         ],
     ]);
-    $reflection = new \ReflectionClass($component->instance());
+    $reflection = new ReflectionClass($component->instance());
     $method = $reflection->getMethod('getData');
     $method->setAccessible(true);
     $data = $method->invoke($component->instance());
     if (! is_array($data) || ! isset($data['labels'], $data['datasets'][0]['data'], $data['datasets'][1]['data'])) {
-        \PHPUnit\Framework\Assert::fail('Chart data structure unexpected: '.json_encode($data));
+        Assert::fail('Chart data structure unexpected: '.json_encode($data));
     }
     $labels = $data['labels'];
     $hires = $data['datasets'][0]['data'];
@@ -70,7 +71,7 @@ it('shows correct hires and terminations per month and respects filters', functi
     $idxLast = count($labels) - 2;
     $idxThis = count($labels) - 1;
     if (! isset($labels[$idxLast], $labels[$idxThis], $hires[$idxLast], $hires[$idxThis], $terminations[$idxLast], $terminations[$idxThis])) {
-        \PHPUnit\Framework\Assert::fail('Not enough labels or dataset generated. Labels: '.json_encode($labels).' Hires: '.json_encode($hires).' Terminations: '.json_encode($terminations));
+        Assert::fail('Not enough labels or dataset generated. Labels: '.json_encode($labels).' Hires: '.json_encode($hires).' Terminations: '.json_encode($terminations));
     }
     // 3 hires + 1 (terminated) last month, 2 hires this month
     expect($hires[$idxLast])->toBe(4)

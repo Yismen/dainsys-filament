@@ -6,6 +6,7 @@ use App\Models\Hire;
 use App\Models\Supervisor;
 use App\Models\User;
 use App\Notifications\EmployeePasswordReset;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 
@@ -101,7 +102,7 @@ it('allows user to update password when force_password_change is true', function
 
     // User updates their password
     $user->update([
-        'password' => \Illuminate\Support\Facades\Hash::make('NewPassword123!'),
+        'password' => Hash::make('NewPassword123!'),
         'password_set_at' => now(),
         'force_password_change' => false,
     ]);

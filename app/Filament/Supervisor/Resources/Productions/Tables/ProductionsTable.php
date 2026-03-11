@@ -6,6 +6,7 @@ use App\Models\Campaign;
 use App\Models\Employee;
 use App\Models\Production;
 use App\Services\ModelListService;
+use Filament\Forms\Components\DatePicker;
 use Filament\Support\Enums\Width;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
@@ -80,9 +81,9 @@ class ProductionsTable
                 Filter::make('date')
                     ->columnSpanFull()
                     ->schema([
-                        \Filament\Forms\Components\DatePicker::make('date_from')
+                        DatePicker::make('date_from')
                             ->label('Date from'),
-                        \Filament\Forms\Components\DatePicker::make('date_until')
+                        DatePicker::make('date_until')
                             ->label('Date until'),
                     ])
                     ->columns(2)

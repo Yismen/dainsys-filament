@@ -6,6 +6,7 @@ use App\Enums\DowntimeStatuses;
 use App\Enums\EmployeeStatuses;
 use App\Enums\HRActivityRequestStatuses;
 use App\Enums\HRActivityTypes;
+use App\Enums\RevenueTypes;
 use App\Models\Campaign;
 use App\Models\Comment;
 use App\Models\Downtime;
@@ -101,7 +102,7 @@ class EmployeesTable
                                     DatePicker::make('date')->required(),
                                     Select::make('campaign_id')
                                         ->label('Campaign')
-                                        ->options(Campaign::query()->where('revenue_type', \App\Enums\RevenueTypes::Downtime)->pluck('name', 'id'))
+                                        ->options(Campaign::query()->where('revenue_type', RevenueTypes::Downtime)->pluck('name', 'id'))
                                         ->required(),
                                     Select::make('downtime_reason_id')
                                         ->label('Reason')
@@ -155,7 +156,7 @@ class EmployeesTable
                         DatePicker::make('date')->required(),
                         Select::make('campaign_id')
                             ->label('Campaign')
-                            ->options(Campaign::query()->where('revenue_type', \App\Enums\RevenueTypes::Downtime)->pluck('name', 'id'))
+                            ->options(Campaign::query()->where('revenue_type', RevenueTypes::Downtime)->pluck('name', 'id'))
                             ->required(),
                         Select::make('downtime_reason_id')
                             ->label('Reason')

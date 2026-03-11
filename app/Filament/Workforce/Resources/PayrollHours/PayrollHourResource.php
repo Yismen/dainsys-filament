@@ -11,6 +11,7 @@ use BackedEnum;
 use Filament\Actions\BulkActionGroup;
 use Filament\Forms\Components\DatePicker;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\Width;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\Summarizers\Sum;
@@ -110,7 +111,8 @@ class PayrollHourResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
-            ->filtersFormWidth('xl')
+            ->filtersFormColumns(2)
+            ->filtersFormWidth(Width::ThreeExtraLarge)
             ->filters([
                 Filter::make('date')
                     ->label('Date Range')

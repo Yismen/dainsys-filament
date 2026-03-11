@@ -2,6 +2,7 @@
 
 namespace App\Filament\HumanResource\Resources\Universals;
 
+use App\Filament\HumanResource\Enums\HRNavigationEnum;
 use App\Filament\HumanResource\Resources\Universals\Pages\CreateUniversal;
 use App\Filament\HumanResource\Resources\Universals\Pages\EditUniversal;
 use App\Filament\HumanResource\Resources\Universals\Pages\ListUniversals;
@@ -26,7 +27,7 @@ class UniversalResource extends Resource
 
     // protected static ?string $recordTitleAttribute = 'employee.full_name';
 
-    protected static \UnitEnum|string|null $navigationGroup = \App\Filament\HumanResource\Enums\HRNavigationEnum::EMPLOYEES_MANAGEMENT;
+    protected static \UnitEnum|string|null $navigationGroup = HRNavigationEnum::EMPLOYEES_MANAGEMENT;
 
     protected static ?int $navigationSort = 5;
 

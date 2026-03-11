@@ -4,6 +4,7 @@ namespace App\Filament\Supervisor\Resources\NightlyHours\Tables;
 
 use App\Models\Employee;
 use App\Services\ModelListService;
+use Filament\Forms\Components\DatePicker;
 use Filament\Support\Enums\Width;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
@@ -37,9 +38,9 @@ class NightlyHoursTable
                 Filter::make('date')
                     ->columnSpanFull()
                     ->schema([
-                        \Filament\Forms\Components\DatePicker::make('date_from')
+                        DatePicker::make('date_from')
                             ->label('Date from'),
-                        \Filament\Forms\Components\DatePicker::make('date_until')
+                        DatePicker::make('date_until')
                             ->label('Date until'),
                     ])
                     ->columns(2)

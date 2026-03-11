@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\EmployeeStatuses;
+use App\Filament\Supervisor\Resources\Productions\Pages\ListProductions;
 use App\Models\Campaign;
 use App\Models\Employee;
 use App\Models\Production;
@@ -27,7 +28,7 @@ test('supervisor can view production data for their employees', function (): voi
         ->create();
 
     Livewire::actingAs($supervisorUser)
-        ->test(\App\Filament\Supervisor\Resources\Productions\Pages\ListProductions::class)
+        ->test(ListProductions::class)
         ->assertSuccessful()
         ->assertCanSeeTableRecords(Production::all());
 });
@@ -63,7 +64,7 @@ test('supervisor cannot see terminated employees production data', function (): 
         ->create();
 
     Livewire::actingAs($supervisorUser)
-        ->test(\App\Filament\Supervisor\Resources\Productions\Pages\ListProductions::class)
+        ->test(ListProductions::class)
         ->assertCanSeeTableRecords($hiredProduction)
         ->assertCanNotSeeTableRecords($terminatedProduction);
 });
@@ -94,7 +95,7 @@ test('supervisor can filter production by date range', function (): void {
         ->create();
 
     Livewire::actingAs($supervisorUser)
-        ->test(\App\Filament\Supervisor\Resources\Productions\Pages\ListProductions::class)
+        ->test(ListProductions::class)
         ->filterTable('date', [
             'date_from' => now()->subWeek()->format('Y-m-d'),
             'date_until' => now()->format('Y-m-d'),
@@ -132,7 +133,7 @@ test('supervisor can filter production by employee', function (): void {
         ->create();
 
     Livewire::actingAs($supervisorUser)
-        ->test(\App\Filament\Supervisor\Resources\Productions\Pages\ListProductions::class)
+        ->test(ListProductions::class)
         ->filterTable('employee_id', value: $employee1->id)
         ->assertCanSeeTableRecords([$production1])
         ->assertCanNotSeeTableRecords([$production2]);
@@ -163,7 +164,7 @@ test('supervisor can filter production by campaign', function (): void {
         ->create();
 
     Livewire::actingAs($supervisorUser)
-        ->test(\App\Filament\Supervisor\Resources\Productions\Pages\ListProductions::class)
+        ->test(ListProductions::class)
         ->filterTable('campaign_id', value: $campaign1->id)
         ->assertCanSeeTableRecords([$production1])
         ->assertCanNotSeeTableRecords([$production2]);
@@ -187,7 +188,7 @@ test('production table displays correct columns', function (): void {
         ->create();
 
     Livewire::actingAs($supervisorUser)
-        ->test(\App\Filament\Supervisor\Resources\Productions\Pages\ListProductions::class)
+        ->test(ListProductions::class)
         ->assertCanSeeTableColumns([
             'employee.full_name',
             'date',

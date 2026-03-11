@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\EmployeeStatuses;
+use App\Filament\Supervisor\Resources\NightlyHours\Pages\ListNightlyHours;
 use App\Models\Employee;
 use App\Models\NightlyHour;
 use App\Models\Supervisor;
@@ -22,7 +23,7 @@ test('supervisor can view nightly hours for their employees', function (): void 
         ->create();
 
     Livewire::actingAs($supervisorUser)
-        ->test(\App\Filament\Supervisor\Resources\NightlyHours\Pages\ListNightlyHours::class)
+        ->test(ListNightlyHours::class)
         ->assertSuccessful()
         ->assertCanSeeTableRecords(NightlyHour::all());
 });
@@ -52,7 +53,7 @@ test('supervisor cannot see terminated employees nightly hours', function (): vo
         ->create();
 
     Livewire::actingAs($supervisorUser)
-        ->test(\App\Filament\Supervisor\Resources\NightlyHours\Pages\ListNightlyHours::class)
+        ->test(ListNightlyHours::class)
         ->assertCanSeeTableRecords($hiredHours)
         ->assertCanNotSeeTableRecords($terminatedHours);
 });
@@ -77,7 +78,7 @@ test('supervisor can filter nightly hours by date range', function (): void {
         ->create();
 
     Livewire::actingAs($supervisorUser)
-        ->test(\App\Filament\Supervisor\Resources\NightlyHours\Pages\ListNightlyHours::class)
+        ->test(ListNightlyHours::class)
         ->filterTable('date', [
             'date_from' => now()->subWeek()->format('Y-m-d'),
             'date_until' => now()->format('Y-m-d'),
@@ -104,7 +105,7 @@ test('supervisor can filter nightly hours by employee', function (): void {
     $hours2 = NightlyHour::factory()->for($employee2)->create();
 
     Livewire::actingAs($supervisorUser)
-        ->test(\App\Filament\Supervisor\Resources\NightlyHours\Pages\ListNightlyHours::class)
+        ->test(ListNightlyHours::class)
         ->filterTable('employee_id', value: $employee1->id)
         ->assertCanSeeTableRecords([$hours1])
         ->assertCanNotSeeTableRecords([$hours2]);
@@ -124,7 +125,7 @@ test('nightly hours table displays correct columns', function (): void {
         ->create();
 
     Livewire::actingAs($supervisorUser)
-        ->test(\App\Filament\Supervisor\Resources\NightlyHours\Pages\ListNightlyHours::class)
+        ->test(ListNightlyHours::class)
         ->assertCanSeeTableColumns([
             'employee.full_name',
             'date',

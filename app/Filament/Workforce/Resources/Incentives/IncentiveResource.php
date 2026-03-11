@@ -16,6 +16,7 @@ use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Colors\Color;
+use Filament\Support\Enums\Width;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
@@ -128,8 +129,10 @@ class IncentiveResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->filtersFormColumns(2)
+            ->filtersFormWidth(Width::TwoExtraLarge)
             ->filters([
-                Filter::make('payable_date')
+                Filter::make('payable_date_range')
                     ->schema([
                         DatePicker::make('payable_date_from')
                             ->label('Payable date from'),
@@ -148,6 +151,15 @@ class IncentiveResource extends Resource
                                 fn (Builder $query, $date): Builder => $query->whereDate('payable_date', '<=', $date),
                             );
                     }),
+                SelectFilter::make('payable_date')
+                    ->label('Payable date')
+                    ->options(fn (): array => Incentive::query()
+                        ->distinct()
+                        ->orderBy('payable_date', 'desc')
+                        ->pluck('payable_date', 'payable_date')
+                        ->toArray()
+                    )
+                    ->searchable(),
                 SelectFilter::make('employee_id')
                     ->label('Employee')
                     ->options(ModelListService::make(Employee::query(), value_field: 'full_name'))

@@ -25,11 +25,11 @@ class EmployeeForm
                                 ->schema(
                                     EmployeeSchema::make(),
                                 ),
-                                Section::make('Hiring information')
-                                    ->columnSpan(1)
-                                    ->visibleOn('edit')
-                                    ->schema(HireEmployeeSchema::make()),
-                            ])
+                            Section::make('Hiring information')
+                                ->columnSpan(1)
+                                ->visibleOn('edit')
+                                ->schema(HireEmployeeSchema::make()),
+                        ]),
                 ]);
     }
 }

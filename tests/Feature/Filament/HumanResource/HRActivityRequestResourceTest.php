@@ -1,6 +1,10 @@
 <?php
 
 use App\Enums\HRActivityRequestStatuses;
+use App\Events\EmployeeHiredEvent;
+use App\Events\EmployeeTerminatedEvent;
+use App\Filament\HumanResource\Resources\HRActivityRequests\Pages\ListHRActivityRequests;
+use App\Filament\HumanResource\Resources\HRActivityRequests\Pages\ViewHRActivityRequest;
 use App\Models\HRActivityRequest;
 use App\Models\Role;
 use Filament\Facades\Filament;
@@ -12,8 +16,8 @@ use function Pest\Livewire\livewire;
 beforeEach(function (): void {
     Mail::fake();
     Event::fake([
-        \App\Events\EmployeeHiredEvent::class,
-        \App\Events\EmployeeTerminatedEvent::class,
+        EmployeeHiredEvent::class,
+        EmployeeTerminatedEvent::class,
     ]);
 
     Filament::setCurrentPanel(
@@ -37,7 +41,7 @@ beforeEach(function (): void {
 test('hr can view list of activity requests', function (): void {
     $requests = HRActivityRequest::factory()->count(3)->create();
 
-    livewire(\App\Filament\HumanResource\Resources\HRActivityRequests\Pages\ListHRActivityRequests::class)
+    livewire(ListHRActivityRequests::class)
         ->assertSuccessful()
         ->assertCanSeeTableRecords($requests);
 });
@@ -53,7 +57,7 @@ test('hr can filter requests by status', function (): void {
         'completion_comment' => 'Done',
     ]);
 
-    livewire(\App\Filament\HumanResource\Resources\HRActivityRequests\Pages\ListHRActivityRequests::class)
+    livewire(ListHRActivityRequests::class)
         ->filterTable('status', HRActivityRequestStatuses::Requested->value)
         ->assertCanSeeTableRecords([$requestedRequest])
         ->assertCanNotSeeTableRecords([$completedRequest]);
@@ -63,7 +67,7 @@ test('hr can view individual request', function (): void {
     $request = HRActivityRequest::factory()->create();
     $request->load('employee', 'supervisor');
 
-    livewire(\App\Filament\HumanResource\Resources\HRActivityRequests\Pages\ViewHRActivityRequest::class, ['record' => $request->id])
+    livewire(ViewHRActivityRequest::class, ['record' => $request->id])
         ->assertSuccessful()
         ->assertSee($request->employee->full_name)
         ->assertSee($request->supervisor->name)
@@ -75,7 +79,7 @@ test('hr can complete a request with comment', function (): void {
         'status' => HRActivityRequestStatuses::Requested,
     ]);
 
-    livewire(\App\Filament\HumanResource\Resources\HRActivityRequests\Pages\ListHRActivityRequests::class)
+    livewire(ListHRActivityRequests::class)
         ->callTableAction('complete', $request, data: [
             'comment' => 'Request completed successfully',
         ])

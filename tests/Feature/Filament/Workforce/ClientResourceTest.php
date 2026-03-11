@@ -1,9 +1,9 @@
 <?php
 
-use App\Filament\HumanResource\Resources\Clients\Pages\CreateClient;
-use App\Filament\HumanResource\Resources\Clients\Pages\EditClient;
-use App\Filament\HumanResource\Resources\Clients\Pages\ListClients;
-use App\Filament\HumanResource\Resources\Clients\Pages\ViewClient;
+use App\Filament\Workforce\Resources\Clients\Pages\CreateClient;
+use App\Filament\Workforce\Resources\Clients\Pages\EditClient;
+use App\Filament\Workforce\Resources\Clients\Pages\ListClients;
+use App\Filament\Workforce\Resources\Clients\Pages\ViewClient;
 use App\Models\Client;
 use App\Models\User;
 use Filament\Facades\Filament;
@@ -15,7 +15,7 @@ use function Pest\Livewire\livewire;
 beforeEach(function (): void {
     // Seed roles/permissions if applicable
     Filament::setCurrentPanel(
-        Filament::getPanel('human-resource'), // Where `app` is the ID of the panel you want to test.
+        Filament::getPanel('workforce'), // Where `app` is the ID of the panel you want to test.
     );
     $client = Client::factory()->create();
 
@@ -56,7 +56,7 @@ it('require users to be authenticated to access Client resource pages', function
     $response = get(route($this->resource_routes[$method]['route'],
         $this->resource_routes[$method]['params']));
 
-    $response->assertRedirect(route('filament.human-resource.auth.login'));
+    $response->assertRedirect(route('filament.workforce.auth.login'));
 })->with([
     'index',
     'create',

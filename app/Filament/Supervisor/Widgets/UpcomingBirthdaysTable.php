@@ -37,12 +37,12 @@ class UpcomingBirthdaysTable extends BaseWidget
                 ->whereDay('date_of_birth', '>=', $today->day)
                 ->whereDay('date_of_birth', '<=', $until->day);
         } else {
-            $query->where(function (Builder $q) use ($today, $until) {
-                $q->where(function (Builder $q) use ($today) {
+            $query->where(function (Builder $q) use ($today, $until): void {
+                $q->where(function (Builder $q) use ($today): void {
                     $q->whereMonth('date_of_birth', $today->month)
                         ->whereDay('date_of_birth', '>=', $today->day);
                 })
-                    ->orWhere(function (Builder $q) use ($until) {
+                    ->orWhere(function (Builder $q) use ($until): void {
                         $q->whereMonth('date_of_birth', $until->month)
                             ->whereDay('date_of_birth', '<=', $until->day);
                     });

@@ -9,6 +9,7 @@ use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
+use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget;
@@ -69,7 +70,7 @@ class PendingDowntimesTable extends TableWidget
                         ->color('success')
                         ->visible(fn (Downtime $record): bool => $record->status === DowntimeStatuses::Pending)
                         ->schema([
-                            \Filament\Forms\Components\Textarea::make('comment')
+                            Textarea::make('comment')
                                 ->label('Approval comment')
                                 ->required(),
                         ])
@@ -88,7 +89,7 @@ class PendingDowntimesTable extends TableWidget
                         ->color('danger')
                         ->visible(fn (Downtime $record): bool => $record->status === DowntimeStatuses::Pending)
                         ->schema([
-                            \Filament\Forms\Components\Textarea::make('comment')
+                            Textarea::make('comment')
                                 ->label('Rejection comment')
                                 ->required(),
                         ])
@@ -117,7 +118,7 @@ class PendingDowntimesTable extends TableWidget
                         ->color('success')
                         ->accessSelectedRecords()
                         ->schema([
-                            \Filament\Forms\Components\Textarea::make('comment')
+                            Textarea::make('comment')
                                 ->label('Approval comment')
                                 ->required(),
                         ])
@@ -140,7 +141,7 @@ class PendingDowntimesTable extends TableWidget
                         ->color('danger')
                         ->accessSelectedRecords()
                         ->schema([
-                            \Filament\Forms\Components\Textarea::make('comment')
+                            Textarea::make('comment')
                                 ->label('Rejection comment')
                                 ->required(),
                         ])

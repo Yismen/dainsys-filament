@@ -2,6 +2,7 @@
 
 namespace App\Filament\HumanResource\Resources\Citizenships;
 
+use App\Filament\HumanResource\Enums\HRNavigationEnum;
 use App\Filament\HumanResource\Resources\Citizenships\Pages\CreateCitizenship;
 use App\Filament\HumanResource\Resources\Citizenships\Pages\EditCitizenship;
 use App\Filament\HumanResource\Resources\Citizenships\Pages\ListCitizenships;
@@ -26,7 +27,7 @@ class CitizenshipResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static \UnitEnum|string|null $navigationGroup = \App\Filament\HumanResource\Enums\HRNavigationEnum::HR_MANAGEMENT;
+    protected static \UnitEnum|string|null $navigationGroup = HRNavigationEnum::HR_MANAGEMENT;
 
     protected static ?int $navigationSort = 4;
 

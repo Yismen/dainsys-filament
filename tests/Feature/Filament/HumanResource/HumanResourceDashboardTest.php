@@ -2,6 +2,7 @@
 
 use App\Filament\HumanResource\Pages\HumanResourceDashboard;
 use App\Models\Employee;
+use App\Models\Hire;
 use App\Models\Project;
 use App\Models\Site;
 use App\Models\Supervisor;
@@ -73,13 +74,13 @@ test('dashboard widgets respond to site filter', function (): void {
 
     $supervisor = Supervisor::factory()->create();
 
-    \App\Models\Hire::factory()->create([
+    Hire::factory()->create([
         'employee_id' => $employee1->id,
         'site_id' => $site1->id,
         'supervisor_id' => $supervisor->id,
     ]);
 
-    \App\Models\Hire::factory()->create([
+    Hire::factory()->create([
         'employee_id' => $employee2->id,
         'site_id' => $site2->id,
         'supervisor_id' => $supervisor->id,

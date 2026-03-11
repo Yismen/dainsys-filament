@@ -11,6 +11,7 @@ use App\Models\HRActivityRequest;
 use App\Services\ModelListService;
 use BackedEnum;
 use Filament\Actions\CreateAction;
+use Filament\Actions\ViewAction;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -124,7 +125,7 @@ class HRActivityRequestResource extends Resource
             ->filtersFormColumns(2)
             ->filtersFormWidth(Width::Large)
             ->recordActions([
-                \Filament\Actions\ViewAction::make(),
+                ViewAction::make(),
             ])
             ->toolbarActions([
                 CreateAction::make()

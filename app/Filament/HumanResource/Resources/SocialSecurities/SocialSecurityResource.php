@@ -2,6 +2,7 @@
 
 namespace App\Filament\HumanResource\Resources\SocialSecurities;
 
+use App\Filament\HumanResource\Enums\HRNavigationEnum;
 use App\Filament\HumanResource\Resources\SocialSecurities\Pages\CreateSocialSecurity;
 use App\Filament\HumanResource\Resources\SocialSecurities\Pages\EditSocialSecurity;
 use App\Filament\HumanResource\Resources\SocialSecurities\Pages\ListSocialSecurities;
@@ -28,7 +29,7 @@ class SocialSecurityResource extends Resource
 
     protected static ?int $navigationSort = 10;
 
-    protected static \UnitEnum|string|null $navigationGroup = \App\Filament\HumanResource\Enums\HRNavigationEnum::EMPLOYEES_MANAGEMENT;
+    protected static \UnitEnum|string|null $navigationGroup = HRNavigationEnum::EMPLOYEES_MANAGEMENT;
 
     public static function form(Schema $schema): Schema
     {

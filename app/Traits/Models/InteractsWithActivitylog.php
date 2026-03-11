@@ -3,10 +3,11 @@
 namespace App\Traits\Models;
 
 use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 trait InteractsWithActivitylog
 {
-    use \Spatie\Activitylog\Traits\LogsActivity;
+    use LogsActivity;
 
     protected static $ignoreChangedAttributes = [
         'created_at',

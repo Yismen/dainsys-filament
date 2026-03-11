@@ -3,7 +3,6 @@
 namespace App\Filters\Filament\Support;
 
 use App\Enums\TicketStatuses;
-use App\Models\Ticket;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Support\Facades\Cache;
 

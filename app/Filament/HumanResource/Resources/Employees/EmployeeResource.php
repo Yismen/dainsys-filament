@@ -2,6 +2,7 @@
 
 namespace App\Filament\HumanResource\Resources\Employees;
 
+use App\Filament\HumanResource\Enums\HRNavigationEnum;
 use App\Filament\HumanResource\Resources\Employees\Pages\CreateEmployee;
 use App\Filament\HumanResource\Resources\Employees\Pages\EditEmployee;
 use App\Filament\HumanResource\Resources\Employees\Pages\ListEmployees;
@@ -30,7 +31,7 @@ class EmployeeResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'full_name';
 
-    protected static \UnitEnum|string|null $navigationGroup = \App\Filament\HumanResource\Enums\HRNavigationEnum::EMPLOYEES_MANAGEMENT;
+    protected static \UnitEnum|string|null $navigationGroup = HRNavigationEnum::EMPLOYEES_MANAGEMENT;
 
     protected static ?int $navigationSort = 1;
 

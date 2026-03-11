@@ -2,6 +2,7 @@
 
 namespace App\Filament\HumanResource\Resources\HRActivityRequests;
 
+use App\Filament\HumanResource\Enums\HRNavigationEnum;
 use App\Filament\HumanResource\Resources\HRActivityRequests\Pages\ListHRActivityRequests;
 use App\Filament\HumanResource\Resources\HRActivityRequests\Pages\ViewHRActivityRequest;
 use App\Filament\HumanResource\Resources\HRActivityRequests\Schemas\HRActivityRequestForm;
@@ -22,7 +23,7 @@ class HRActivityRequestResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBookOpen;
 
-    protected static \UnitEnum|string|null $navigationGroup = \App\Filament\HumanResource\Enums\HRNavigationEnum::EMPLOYEES_MANAGEMENT;
+    protected static \UnitEnum|string|null $navigationGroup = HRNavigationEnum::EMPLOYEES_MANAGEMENT;
 
     protected static ?string $navigationLabel = 'HR Activity Requests';
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\EmployeeStatuses;
+use App\Filament\Supervisor\Resources\EmployeeMetrics\Pages\ListEmployeeMetrics;
 use App\Models\Campaign;
 use App\Models\Employee;
 use App\Models\PayrollHour;
@@ -19,7 +20,7 @@ test('supervisor can view employee metrics for their employees', function (): vo
         ->create();
 
     Livewire::actingAs($supervisorUser)
-        ->test(\App\Filament\Supervisor\Resources\EmployeeMetrics\Pages\ListEmployeeMetrics::class)
+        ->test(ListEmployeeMetrics::class)
         ->assertSuccessful()
         ->assertCanSeeTableRecords([$employee]);
 });
@@ -39,7 +40,7 @@ test('supervisor cannot see terminated employees in metrics', function (): void 
         ->create();
 
     Livewire::actingAs($supervisorUser)
-        ->test(\App\Filament\Supervisor\Resources\EmployeeMetrics\Pages\ListEmployeeMetrics::class)
+        ->test(ListEmployeeMetrics::class)
         ->assertCanSeeTableRecords([$hiredEmployee])
         ->assertCanNotSeeTableRecords([$terminatedEmployee]);
 });
@@ -70,7 +71,7 @@ test('employee metrics calculates total conversions correctly', function (): voi
         ->create();
 
     $response = Livewire::actingAs($supervisorUser)
-        ->test(\App\Filament\Supervisor\Resources\EmployeeMetrics\Pages\ListEmployeeMetrics::class);
+        ->test(ListEmployeeMetrics::class);
 
     $response->assertSuccessful();
 });
@@ -95,7 +96,7 @@ test('employee metrics calculates sph correctly', function (): void {
         ->create();
 
     $response = Livewire::actingAs($supervisorUser)
-        ->test(\App\Filament\Supervisor\Resources\EmployeeMetrics\Pages\ListEmployeeMetrics::class);
+        ->test(ListEmployeeMetrics::class);
 
     $response->assertSuccessful();
 });
@@ -116,7 +117,7 @@ test('employee metrics calculates efficiency rate correctly', function (): void 
         ->create();
 
     $response = Livewire::actingAs($supervisorUser)
-        ->test(\App\Filament\Supervisor\Resources\EmployeeMetrics\Pages\ListEmployeeMetrics::class);
+        ->test(ListEmployeeMetrics::class);
 
     $response->assertSuccessful();
 });
@@ -131,7 +132,7 @@ test('employee metrics can filter by date range', function (): void {
         ->create();
 
     Livewire::actingAs($supervisorUser)
-        ->test(\App\Filament\Supervisor\Resources\EmployeeMetrics\Pages\ListEmployeeMetrics::class)
+        ->test(ListEmployeeMetrics::class)
         ->filterTable('date', [
             'date_from' => now()->subMonth()->format('Y-m-d'),
             'date_until' => now()->format('Y-m-d'),
@@ -149,7 +150,7 @@ test('metrics table displays correct columns', function (): void {
         ->create();
 
     Livewire::actingAs($supervisorUser)
-        ->test(\App\Filament\Supervisor\Resources\EmployeeMetrics\Pages\ListEmployeeMetrics::class)
+        ->test(ListEmployeeMetrics::class)
         ->assertCanSeeTableColumns([
             'profile_photo',
             'full_name',
