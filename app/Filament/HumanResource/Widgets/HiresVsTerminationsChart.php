@@ -3,6 +3,8 @@
 namespace App\Filament\HumanResource\Widgets;
 
 use App\Models\Employee;
+use App\Models\Hire;
+use App\Models\Termination;
 use Filament\Widgets\ChartWidget;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Illuminate\Support\Carbon;
@@ -35,19 +37,25 @@ class HiresVsTerminationsChart extends ChartWidget
         $hires = $months->map(function ($month) use ($query) {
             [$year, $m] = explode('-', $month);
 
-            return $query->clone()
-                ->whereYear('hired_at', $year)
-                ->whereMonth('hired_at', $m)
+            return Hire::query()
+                ->whereYear('date', $year)
+                ->whereMonth('date', $m)
+                ->when(! empty($this->filters['site']), fn ($q) => $q->whereIn('site_id', $this->filters['site']))
+                ->when(! empty($this->filters['project']), fn ($q) => $q->whereIn('project_id', $this->filters['project']))
+                ->when(! empty($this->filters['supervisor']), fn ($q) => $q->whereIn('supervisor_id', $this->filters['supervisor']))
                 ->count();
         });
 
         $terminations = $months->map(function ($month) use ($query) {
             [$year, $m] = explode('-', $month);
 
-            return $query->clone()
-                ->whereYear('terminated_at', $year)
-                ->whereMonth('terminated_at', $m)
-                ->count();
+            return Termination::query()
+                 ->whereYear('date', $year)
+                ->whereMonth('date', $m)
+                ->when(! empty($this->filters['site']), fn ($q) => $q->whereHas('employee', fn ($q2) => $q2->whereIn('site_id', $this->filters['site'])))
+                ->when(! empty($this->filters['project']), fn ($q) => $q->whereHas('employee', fn ($q2) => $q2->whereIn('project_id', $this->filters['project'])))
+                ->when(! empty($this->filters['supervisor']), fn ($q) => $q->whereHas('employee', fn ($q2) => $q2->whereIn('supervisor_id', $this->filters['supervisor'])))
+                 ->count();
         });
 
         return [
