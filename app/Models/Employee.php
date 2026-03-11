@@ -93,6 +93,7 @@ class Employee extends \App\Models\BaseModels\AppModel implements HasMedia
 
             if($status === EmployeeStatuses::Terminated) {
                 $employee->terminated_at = $employee->latestTermination()?->date;
+                $employee->saveQuietly();
             }
 
             // Only save if values have actually changed
