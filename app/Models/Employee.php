@@ -91,6 +91,10 @@ class Employee extends \App\Models\BaseModels\AppModel implements HasMedia
             $fullName = $employee->getFullName();
             $status = $employee->getStatus();
 
+            if($status === EmployeeStatuses::Terminated) {
+                $employee->terminated_at = $employee->latestTermination()?->date;
+            }
+
             // Only save if values have actually changed
             if ($employee->full_name !== $fullName || $employee->status !== $status) {
                 $employee->updateQuietly([
