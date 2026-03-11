@@ -11,12 +11,15 @@ use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Filament\Widgets\TableWidget;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 
 class UpcomingEmployeeBirthdays extends TableWidget
 {
+    use InteractsWithPageFilters;
+
     protected static ?string $heading = 'Upcoming Employee Birthdays';
 
     protected int|string|array $columnSpan = 'full';
@@ -113,42 +116,41 @@ class UpcomingEmployeeBirthdays extends TableWidget
 
     protected function getTableQuery(): Builder
     {
-        $filters = $this->filters ?? [];
-
         $today = Carbon::now()->startOfDay();
         $until = Carbon::now()->addDays(10)->endOfDay();
 
-        return Employee::query()
+        $driver = config('database.default');
+        $syntax = $this->getDateExtractionSyntax($driver);
+        [$monthExpr, $dayExpr] = $syntax;
+
+        $query = Employee::query()
             ->active()
             ->whereMonth('date_of_birth', $today->month)
             ->whereDay('date_of_birth', '>=', $today->day)
             ->whereDay('date_of_birth', '<=', $until->day)
-            ->orderByRaw("DATE_FORMAT(date_of_birth, '%m-%d') asc");
+            ->orderByRaw("{$monthExpr}, {$dayExpr} asc");
 
-        if (isset($filters['site']) && ! empty($filters['site'])) {
-            $query->whereHas('site', function ($q) use ($filters): void {
-                $q->whereIn('id', $filters['site']);
+        if (isset($this->filters['site']) && ! empty($this->filters['site'])) {
+            $query->whereHas('site', function ($q): void {
+                $q->whereIn('id', $this->filters['site']);
             });
         }
 
-        if (isset($filters['project']) && ! empty($filters['project'])) {
-            $query->whereHas('project', function ($q) use ($filters): void {
-                $q->whereIn('id', $filters['project']);
+        if (isset($this->filters['project']) && ! empty($this->filters['project'])) {
+            $query->whereHas('project', function ($q): void {
+                $q->whereIn('id', $this->filters['project']);
             });
         }
 
-        if (isset($filters['supervisor']) && ! empty($filters['supervisor'])) {
-            $query->whereHas('supervisor', function ($q) use ($filters): void {
-                $q->whereIn('id', $filters['supervisor']);
+        if (isset($this->filters['supervisor']) && ! empty($this->filters['supervisor'])) {
+            $query->whereHas('supervisor', function ($q): void {
+                $q->whereIn('id', $this->filters['supervisor']);
             });
         }
 
         return $query;
     }
 
-    /**
-     * Get database-specific syntax for extracting month and day from date.
-     */
     protected function getDateExtractionSyntax(string $driver): array
     {
         return match ($driver) {
