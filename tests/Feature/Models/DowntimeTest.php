@@ -6,8 +6,10 @@ use App\Models\Campaign;
 use App\Models\Downtime;
 use App\Models\DowntimeReason;
 use App\Models\Employee;
+use App\Models\Production;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Bus;
 
@@ -39,6 +41,15 @@ test('downtime model belongs to employee', function (): void {
 
     expect($downtime->employee)->toBeInstanceOf(Employee::class);
     expect($downtime->employee())->toBeInstanceOf(BelongsTo::class);
+});
+
+test('downtime model has one production', function (): void {
+    $downtime = Downtime::factory()
+        ->has(Production::factory(), 'production')
+        ->create();
+
+    expect($downtime->production)->toBeInstanceOf(Production::class);
+    expect($downtime->production())->toBeInstanceOf(HasOne::class);
 });
 
 test('downtime model belongs to campaign', function (): void {

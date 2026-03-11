@@ -33,6 +33,7 @@ class Production extends \App\Models\BaseModels\AppModel
         'talk_time',
         // 'billable_time',
         // 'revenue',
+        'downtime_id',
     ];
 
     protected static function boot(): void
@@ -71,8 +72,24 @@ class Production extends \App\Models\BaseModels\AppModel
             $production->revenue = $production->calculateRevenue();
             $production->conversions_goal = $production->campaign?->sph_goal * $production->production_time;
 
+            $downtime = $production->downtime;
+
+            if ($downtime) {
+                $downtime->updateQuietly([
+                    'date' => $production->date,
+                    'campaign_id' => $production->campaign_id,
+                    'employee_id' => $production->employee_id,
+                    'total_time' => $production->total_time,
+                ]);
+            }
+
             $production->saveQuietly();
         });
+    }
+
+    public function downtime(): BelongsTo
+    {
+        return $this->belongsTo(Downtime::class);
     }
 
     public function project(): HasOneThrough

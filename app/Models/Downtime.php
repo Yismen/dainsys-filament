@@ -11,6 +11,7 @@ use App\Models\Traits\BelongsToEmployee;
 use App\Models\Traits\HasManyComments;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 
@@ -70,6 +71,18 @@ class Downtime extends \App\Models\BaseModels\AppModel
             }
         });
 
+        static::updated(function (Downtime $downtime): void {
+            $production = $downtime->production;
+            if ($production) {
+                $production->updateQuietly([
+                    'date' => $downtime->date,
+                    'campaign_id' => $downtime->campaign_id,
+                    'employee_id' => $downtime->employee_id,
+                    'total_time' => $downtime->total_time,
+                ]);
+            }
+        });
+
         static::softDeleted(function (Downtime $downtime): void {
             $downtime->unAprove();
         });
@@ -77,6 +90,11 @@ class Downtime extends \App\Models\BaseModels\AppModel
         static::deleted(function (Downtime $downtime): void {
             $downtime->unAprove();
         });
+    }
+
+    public function production(): HasOne
+    {
+        return $this->hasOne(Production::class);
     }
 
     public function requester(): BelongsTo
@@ -97,16 +115,7 @@ class Downtime extends \App\Models\BaseModels\AppModel
 
             $this->saveQuietly();
 
-            Production::updateOrCreate(
-                [
-                    'date' => $this->date,
-                    'campaign_id' => $this->campaign_id,
-                    'employee_id' => $this->employee_id,
-                ],
-                [
-                    'total_time' => $this->total_time,
-                ]
-            );
+            $this->syncInProductionsTable();
         });
     }
 
@@ -120,12 +129,25 @@ class Downtime extends \App\Models\BaseModels\AppModel
         $this->removeFromProduction();
     }
 
+    protected function syncInProductionsTable()
+    {
+        Production::query()->updateOrCreate(
+            [
+                'downtime_id' => $this->id,
+            ],
+            [
+                'date' => $this->date,
+                'campaign_id' => $this->campaign_id,
+                'employee_id' => $this->employee_id,
+                'total_time' => $this->total_time,
+            ]
+        );
+    }
+
     public function removeFromProduction()
     {
         Production::query()
-            ->whereDate('date', $this->date)
-            ->where('campaign_id', $this->campaign_id)
-            ->where('employee_id', $this->employee_id)
+            ->where('downtime_id', $this->id)
             ->first()
             ?->forceDelete();
 

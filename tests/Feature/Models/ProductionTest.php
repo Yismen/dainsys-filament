@@ -3,6 +3,7 @@
 use App\Enums\RevenueTypes;
 use App\Events\EmployeeHiredEvent;
 use App\Models\Campaign;
+use App\Models\Downtime;
 use App\Models\Employee;
 use App\Models\Hire;
 use App\Models\Production;
@@ -82,6 +83,16 @@ test('production model belongs to relationship', function (string $modelClass, s
     [Campaign::class, 'campaign'],
     [Supervisor::class, 'supervisor'],
 ]);
+
+it('belongs to downtime', function (): void {
+    $production = Production::factory()
+        ->create([
+            'downtime_id' => Downtime::factory()->create()->id,
+        ]);
+
+    expect($production->downtime)->toBeInstanceOf(Downtime::class);
+    expect($production->downtime())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
+});
 
 it('belongs to project thru campaign', function (): void {
     $production = Production::factory()

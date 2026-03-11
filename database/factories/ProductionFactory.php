@@ -34,6 +34,7 @@ class ProductionFactory extends Factory
             'total_time' => 5,
             'production_time' => 4,
             'talk_time' => 0,
+            'downtime_id' => null,
             // 'billable_time' => 0,
             // 'revenue' => 0,
         ];
