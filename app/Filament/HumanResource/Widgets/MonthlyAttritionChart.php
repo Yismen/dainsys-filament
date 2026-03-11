@@ -68,7 +68,7 @@ class MonthlyAttritionChart extends ChartWidget
                 [
                     'label' => 'Attrition Rate (%)',
                     'data' => $data->pluck('rate')->toArray(),
-                    'borderColor' => 'rgba(165,0,165,0.7)', //purple
+                    'borderColor' => 'rgba(165,0,165,0.7)', // purple
                     'backgroundColor' => 'rgba(165,0,165,0.2)',
                     'borderDash' => [5, 5],
                     'fill' => false,
@@ -83,7 +83,7 @@ class MonthlyAttritionChart extends ChartWidget
                     'fill' => true,
                     'tension' => 0.3,
                     'yAxisID' => 'y',
-                ]
+                ],
             ],
             'labels' => $months->map(fn ($month) => Carbon::createFromFormat('Y-m', $month)->format('M Y'))->toArray(),
         ];

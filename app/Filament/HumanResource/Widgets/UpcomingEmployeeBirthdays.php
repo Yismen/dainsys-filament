@@ -2,9 +2,6 @@
 
 namespace App\Filament\HumanResource\Widgets;
 
-use App\Enums\EmployeeStatuses;
-use App\Filament\HumanResource\Resources\Employees\EmployeeResource;
-use App\Filament\HumanResource\Resources\Employees\Schemas\EmployeeInfolist;
 use App\Models\Employee;
 use Filament\Actions\ViewAction;
 use Filament\Infolists\Components\IconEntry;
@@ -42,7 +39,7 @@ class UpcomingEmployeeBirthdays extends TableWidget
                     ->date()
                     ->wrap()
                     ->wrapHeader()
-                    ->formatStateUsing(fn (string $state) => Carbon::parse($state)->format('F j') . ' (' . Carbon::parse($state)->age . ' years)'),
+                    ->formatStateUsing(fn (string $state) => Carbon::parse($state)->format('F j').' ('.Carbon::parse($state)->age.' years)'),
                 TextColumn::make('email')
                     ->searchable(),
                 TextColumn::make('cellphone')
@@ -98,17 +95,17 @@ class UpcomingEmployeeBirthdays extends TableWidget
                                             ->label('Position'),
                                         TextEntry::make('supervisor.name')
                                             ->label('Supervisor'),
-                                        ]),
-                                        TextEntry::make('deleted_at')
-                                            ->dateTime()
-                                            ->visible(fn (Employee $record): bool => $record->trashed()),
-                                        TextEntry::make('created_at')
-                                            ->dateTime()
-                                            ->placeholder('-'),
-                                        TextEntry::make('updated_at')
-                                            ->dateTime()
-                                            ->placeholder('-'),
-                            ])
+                                    ]),
+                                TextEntry::make('deleted_at')
+                                    ->dateTime()
+                                    ->visible(fn (Employee $record): bool => $record->trashed()),
+                                TextEntry::make('created_at')
+                                    ->dateTime()
+                                    ->placeholder('-'),
+                                TextEntry::make('updated_at')
+                                    ->dateTime()
+                                    ->placeholder('-'),
+                            ]),
                     ]),
             ])
             ->defaultSort('date_of_birth', 'asc');

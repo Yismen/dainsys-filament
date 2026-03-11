@@ -4,7 +4,6 @@ namespace App\Filament\Supervisor\Widgets;
 
 use App\Enums\EmployeeStatuses;
 use App\Models\Employee;
-use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
@@ -48,7 +47,7 @@ class UpcomingBirthdaysTable extends BaseWidget
                 TextColumn::make('date_of_birth')
                     ->date()
                     ->label('Birthday')
-                    ->formatStateUsing(fn (string $state) => Carbon::parse($state)->format('m-d') . ' (' . Carbon::parse($state)->age . ' years)')
+                    ->formatStateUsing(fn (string $state) => Carbon::parse($state)->format('m-d').' ('.Carbon::parse($state)->age.' years)')
                     ->sortable(),
                 TextColumn::make('status')
                     ->badge()

@@ -2,7 +2,6 @@
 
 namespace App\Filament\Supervisor\Resources\Employees\Schemas;
 
-use Dom\Text;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
