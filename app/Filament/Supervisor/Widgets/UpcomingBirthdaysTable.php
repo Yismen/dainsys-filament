@@ -28,13 +28,32 @@ class UpcomingBirthdaysTable extends BaseWidget
         $today = Carbon::now()->startOfDay();
         $until = Carbon::now()->addDays(10)->endOfDay();
 
-        return Employee::query()
+        $query = Employee::query()
             ->active()
-            ->where('supervisor_id', $supervisor->id)
-            ->whereMonth('date_of_birth', $today->month)
-            ->whereDay('date_of_birth', '>=', $today->day)
-            ->whereDay('date_of_birth', '<=', $until->day)
-            ->orderByRaw("DATE_FORMAT(date_of_birth, '%m-%d') asc");
+            ->where('supervisor_id', $supervisor->id);
+
+        if ($today->month === $until->month) {
+            $query->whereMonth('date_of_birth', $today->month)
+                ->whereDay('date_of_birth', '>=', $today->day)
+                ->whereDay('date_of_birth', '<=', $until->day);
+        } else {
+            $query->where(function (Builder $q) use ($today, $until) {
+                $q->where(function (Builder $q) use ($today) {
+                    $q->whereMonth('date_of_birth', $today->month)
+                        ->whereDay('date_of_birth', '>=', $today->day);
+                })
+                    ->orWhere(function (Builder $q) use ($until) {
+                        $q->whereMonth('date_of_birth', $until->month)
+                            ->whereDay('date_of_birth', '<=', $until->day);
+                    });
+            });
+        }
+
+        $driver = config('database.default');
+        $syntax = $this->getDateExtractionSyntax($driver);
+        [$monthExpr, $dayExpr] = $syntax;
+
+        return $query->orderByRaw("{$monthExpr}, {$dayExpr} asc");
     }
 
     public function table(Table $table): Table
@@ -58,5 +77,16 @@ class UpcomingBirthdaysTable extends BaseWidget
             ])
             ->emptyStateHeading('No upcoming birthdays')
             ->paginated(false);
+    }
+
+    protected function getDateExtractionSyntax(string $driver): array
+    {
+        return match ($driver) {
+            'mysql' => ['MONTH(date_of_birth)', 'DAY(date_of_birth)'],
+            'pgsql' => ['EXTRACT(MONTH FROM date_of_birth)', 'EXTRACT(DAY FROM date_of_birth)'],
+            'sqlite' => ['CAST(strftime("%m", date_of_birth) AS INTEGER)', 'CAST(strftime("%d", date_of_birth) AS INTEGER)'],
+            'sqlsrv' => ['MONTH(date_of_birth)', 'DAY(date_of_birth)'],
+            default => ['MONTH(date_of_birth)', 'DAY(date_of_birth)'],
+        };
     }
 }
