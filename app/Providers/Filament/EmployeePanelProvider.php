@@ -4,6 +4,7 @@ namespace App\Providers\Filament;
 
 use App\Filament\Employee\Pages\EmployeeDashboard;
 use App\Filament\Employee\Pages\Login;
+use App\Filament\Employee\Pages\MyAbsences;
 use App\Filament\Employee\Pages\MyIncentives;
 use App\Filament\Employee\Pages\MyPayrolls;
 use App\Services\FilamentPanelsService;
@@ -30,6 +31,7 @@ class EmployeePanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Employee/Widgets'), for: 'App\\Filament\\Employee\\Widgets')
             ->pages([
                 EmployeeDashboard::class,
+                MyAbsences::class,
                 MyIncentives::class,
                 MyPayrolls::class,
             ])

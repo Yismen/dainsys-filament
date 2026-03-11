@@ -3,6 +3,7 @@
 namespace App\Filament\Supervisor\Widgets;
 
 use App\Enums\EmployeeStatuses;
+use App\Models\Absence;
 use App\Models\Employee;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
@@ -36,6 +37,16 @@ class SupervisorStatsOverview extends StatsOverviewWidget
             ->where('status', EmployeeStatuses::Suspended)
             ->count();
 
+        $absencesThisMonth = Absence::query()
+            ->whereHas('employee', function ($query) use ($supervisor): void {
+                $query->where('supervisor_id', $supervisor?->id);
+            })
+            ->whereBetween('date', [
+                now()->startOfMonth()->format('Y-m-d'),
+                now()->endOfMonth()->format('Y-m-d'),
+            ])
+            ->count();
+
         return [
             Stat::make('Total Employees', $totalAssigned)
                 ->color('primary'),
@@ -43,6 +54,8 @@ class SupervisorStatsOverview extends StatsOverviewWidget
                 ->color('success'),
             Stat::make('Suspended Employees', $suspendedEmployees)
                 ->color('warning'),
+            Stat::make('Absences This Month', $absencesThisMonth)
+                ->color($absencesThisMonth > 0 ? 'danger' : 'gray'),
         ];
     }
 }
