@@ -129,6 +129,56 @@ class ManageSupervisors extends Page
             });
     }
 
+    public function editSupervisorUserAction(): Action
+    {
+        return Action::make('editSupervisorUser')
+            ->label('Edit User')
+            ->color('gray')
+            ->link()
+            ->icon(Heroicon::OutlinedPencilSquare)
+            ->modalHeading('Edit Supervisor User')
+            ->schema([
+                Select::make('user_id')
+                    ->label('Select User')
+                    ->options(
+                        fn($livewire) => User::query()
+                            ->where('is_active', true)
+                            ->whereDoesntHave('supervisor', function($query) {
+                                $query->withoutGlobalScopes([
+                                    IsActiveScope::class,
+                                ]);
+                            })
+                            ->orderBy('name')
+                            ->pluck('name', 'id')
+                    )
+                    ->searchable()
+                    ->required(),
+            ])
+            ->action(function (array $arguments, array $data): void {
+                $supervisor = Supervisor::query()
+                    ->withoutGlobalScopes([
+                        IsActiveScope::class,
+                    ])
+                    ->findOrFail($arguments['supervisor']);
+
+                $oldUser = $supervisor->user?->name;
+                $newUser = User::find($data['user_id'])?->name;
+
+                $supervisor->user_id = $data['user_id'];
+                $supervisor->save();
+
+                Notification::make()
+                    ->title('Supervisor User Updated')
+                    ->body("User changed from {$oldUser} to {$newUser}.")
+                    ->send();
+
+                unset($this->activeSupervisors);
+                unset($this->inactiveSupervisors);
+
+                $this->dispatch('supervisorUserUpdated');
+            });
+    }
+
     public function reasignSelectedEmployeesAction(): Action
     {
         return Action::make('reasignSelectedEmployees')
@@ -161,10 +211,6 @@ class ManageSupervisors extends Page
                     ->body('The employees '.\implode(', ', $employees->pluck('full_name')->toArray()).' have been reassigned to you.')
                     ->send();
 
-                Cache::forget('supervisors_with_active');
-                Cache::forget('supervisors_with_inactive');
-                Cache::forget('employees_without_supervisor_list');
-
                 // Unset computed properties to force re-evaluation
                 unset($this->activeSupervisors);
                 unset($this->inactiveSupervisors);
@@ -186,10 +232,10 @@ class ManageSupervisors extends Page
                 ->withoutGlobalScopes([
                     IsActiveScope::class,
                 ])
+                ->with('user')
                 ->withWhereHas('employees', function ($query): void {
                     $query
                         ->active()
-                        // ->with(['position', 'site'])
                         ->orderBy('full_name');
                 })
                 ->where('is_active', $isActive)
@@ -212,7 +258,15 @@ class ManageSupervisors extends Page
                         ->unique(ignoreRecord: true)
                         ->autofocus(),
                     Select::make('user_id')
-                        ->options(ModelListService::make(User::query()))
+                        ->options(ModelListService::make(
+                            User::query()
+                                ->where('is_active', true)
+                                ->whereDoesntHave('supervisor', function($query) {
+                                    $query->withoutGlobalScopes([
+                                        IsActiveScope::class,
+                                    ]);
+                                })
+                        ))
                         ->searchable()
                         ->required()
                         ->unique(ignoreRecord: true),

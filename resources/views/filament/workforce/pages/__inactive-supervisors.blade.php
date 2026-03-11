@@ -3,20 +3,11 @@
     <h3 class="text-red-600 dark:text-red-400 mb-2">Inactive Supervisors</h3>
     <div class="grid gap-4 mb-6 sm:grid-cols-2 lg:grid-cols-3 items-stretch ">
         @foreach ($this->inactiveSupervisors as $supervisor)
-            <div class="group flex flex-col h-80 bg-white dark:bg-gray-800 rounded-xl border border-gray-200/70 dark:border-gray-700/70 p-4 shadow-sm transition-transform duration-200 hover:-translate-y-1 hover:shadow-lg" wire:key="supervisor-{{ $supervisor->id }}">
-                <div class="flex flex-col items-start justify-between gap-3 pb-3 overflow-y-hidden">
-                    <h3 class="text-base font-semibold text-gray-900 dark:text-white  w-full flex flex-row items-center justify-between">
-                        {{ $supervisor->name }}
-
-                        <span class="text-sm font-normal text-gray-500 dark:text-gray-400">({{ $supervisor->employees->count() }} employees)</span>
-
-
-                        {{ ($this->reactivateSupervisorAction)(['supervisor' => $supervisor->id]) }}
-                    </h3>
-
-                    <livewire:selectable-employees :employees="$supervisor->employees" wire:key="selectable-employees-{{ $supervisor->id }}"/>
-                </div>
-            </div>
+            @include('filament.workforce.pages.__supervisor-card', [
+                'supervisor' => $supervisor,
+                'toggleAction' => ($this->reactivateSupervisorAction)(['supervisor' => $supervisor->id]),
+                'editUserAction' => ($this->editSupervisorUserAction)(['supervisor' => $supervisor->id]),
+            ])
         @endforeach
     </div>
 @endif
