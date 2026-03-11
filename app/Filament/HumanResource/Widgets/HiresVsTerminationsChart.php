@@ -3,8 +3,6 @@
 namespace App\Filament\HumanResource\Widgets;
 
 use App\Models\Employee;
-use App\Models\Hire;
-use App\Models\Termination;
 use Filament\Widgets\ChartWidget;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Illuminate\Support\Carbon;
@@ -49,9 +47,9 @@ class HiresVsTerminationsChart extends ChartWidget
             [$year, $m] = explode('-', $month);
 
             return $query->clone()
-                 ->whereYear('terminated_at', $year)
+                ->whereYear('terminated_at', $year)
                 ->whereMonth('terminated_at', $m)
-                 ->count();
+                ->count();
         });
 
         return [
@@ -63,6 +61,7 @@ class HiresVsTerminationsChart extends ChartWidget
                     'backgroundColor' => 'rgba(34,197,94,0.2)',
                     'fill' => false,
                     'tension' => 0.3,
+                    'yAxisID' => 'y1',
                 ],
                 [
                     'label' => 'Terminations',
@@ -72,9 +71,52 @@ class HiresVsTerminationsChart extends ChartWidget
                     'fill' => false,
                     'borderDash' => [5, 5],
                     'tension' => 0.3,
+                    'yAxisID' => 'y',
                 ],
             ],
             'labels' => $months->map(fn ($month) => Carbon::createFromFormat('Y-m', $month)->format('M Y'))->toArray(),
+        ];
+    }
+
+    protected function getOptions(): array
+    {
+        return [
+            'plugins' => [
+                'legend' => [
+                    'display' => true,
+                    'position' => 'bottom',
+                ],
+                'tooltip' => [
+                    'mode' => 'index',
+                    'intersect' => false,
+                ],
+            ],
+            'scales' => [
+                'y' => [
+                    'beginAtZero' => true,
+                    'title' => [
+                        'display' => true,
+                        'text' => 'Hires',
+                    ],
+                ],
+                'y1' => [
+                    'beginAtZero' => true,
+                    'position' => 'right',
+                    'grid' => [
+                        'drawOnChartArea' => false,
+                    ],
+                    'title' => [
+                        'display' => true,
+                        'text' => 'Terminations',
+                    ],
+                ],
+                'x' => [
+                    'title' => [
+                        'display' => true,
+                        'text' => 'Date',
+                    ],
+                ],
+            ],
         ];
     }
 
