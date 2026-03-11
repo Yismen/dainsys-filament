@@ -25,6 +25,8 @@ class DowntimeForm
                     ->columnSpanFull(),
                 DatePicker::make('date')
                     ->default(now())
+                    ->maxDate(now())
+                    ->minDate(now()->subDays(20))
                     ->required(),
                 Select::make('campaign_id')
                     ->options(ModelListService::get(model: Campaign::query()->where('revenue_type', RevenueTypes::Downtime)))
@@ -35,7 +37,13 @@ class DowntimeForm
                     ->searchable()
                     ->required(),
                 Select::make('employee_id')
-                    ->options(ModelListService::get(model: Employee::query(), value_field: 'full_name'))
+                    ->options(
+                        ModelListService::get(
+                            model: Employee::query()
+                                ->activesOrRecentlyTerminated(),
+                            value_field: 'full_name'
+                        )
+                    )
                     ->searchable()
                     ->required(),
                 TextInput::make('total_time')
