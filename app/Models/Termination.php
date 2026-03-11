@@ -45,6 +45,7 @@ class Termination extends \App\Models\BaseModels\AppModel
         });
 
         static::updated(function ($termination): void {
+            $termination->load('employee');
             $termination->employee->touch();
         });
     }

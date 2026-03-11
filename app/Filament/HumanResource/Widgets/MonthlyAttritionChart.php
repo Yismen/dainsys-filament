@@ -13,6 +13,8 @@ class MonthlyAttritionChart extends ChartWidget
 
     protected ?string $heading = 'Monthly Attrition';
 
+    protected ?string $pollingInterval = null;
+
     protected function getData(): array
     {
         $query = Employee::query();
@@ -53,21 +55,79 @@ class MonthlyAttritionChart extends ChartWidget
             // Avoid division by zero
             $rate = $headcount > 0 ? round(($terminations / $headcount) * 100, 2) : 0;
 
-            return $rate;
+            return [
+                'head_count' => $headcount,
+                'terminations' => $terminations,
+                'rate' => $rate,
+                'month' => $month,
+            ];
         });
 
         return [
             'datasets' => [
                 [
                     'label' => 'Attrition Rate (%)',
-                    'data' => $data,
-                    'borderColor' => 'rgba(239,68,68,0.7)',
-                    'backgroundColor' => 'rgba(239,68,68,0.2)',
+                    'data' => $data->pluck('rate')->toArray(),
+                    'borderColor' => 'rgba(165,0,165,0.7)', //purple
+                    'backgroundColor' => 'rgba(165,0,165,0.2)',
+                    'borderDash' => [5, 5],
+                    'fill' => false,
+                    'tension' => 0.3,
+                    'yAxisID' => 'y1',
+                ],
+                [
+                    'label' => 'Headcount',
+                    'data' => $data->pluck('head_count')->toArray(),
+                    'borderColor' => 'rgba(34,197,94,0.7)',
+                    'backgroundColor' => 'rgba(34,197,94,0.2)',
                     'fill' => true,
                     'tension' => 0.3,
-                ],
+                    'yAxisID' => 'y',
+                ]
             ],
             'labels' => $months->map(fn ($month) => Carbon::createFromFormat('Y-m', $month)->format('M Y'))->toArray(),
+        ];
+    }
+
+    protected function getOptions(): array
+    {
+        return [
+            'plugins' => [
+                'legend' => [
+                    'display' => true,
+                    'position' => 'bottom',
+                ],
+                'tooltip' => [
+                    'mode' => 'index',
+                    'intersect' => false,
+                ],
+            ],
+            'scales' => [
+                'y' => [
+                    'beginAtZero' => true,
+                    'title' => [
+                        'display' => true,
+                        'text' => 'Headcount',
+                    ],
+                ],
+                'y1' => [
+                    'beginAtZero' => true,
+                    'position' => 'right',
+                    'grid' => [
+                        'drawOnChartArea' => false,
+                    ],
+                    'title' => [
+                        'display' => true,
+                        'text' => 'Attrition Rate (%)',
+                    ],
+                ],
+                'x' => [
+                    'title' => [
+                        'display' => true,
+                        'text' => 'Date',
+                    ],
+                ],
+            ],
         ];
     }
 
