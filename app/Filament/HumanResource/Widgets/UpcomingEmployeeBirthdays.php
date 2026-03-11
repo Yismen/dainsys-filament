@@ -4,11 +4,19 @@ namespace App\Filament\HumanResource\Widgets;
 
 use App\Enums\EmployeeStatuses;
 use App\Filament\HumanResource\Resources\Employees\EmployeeResource;
+use App\Filament\HumanResource\Resources\Employees\Schemas\EmployeeInfolist;
 use App\Models\Employee;
+use Filament\Actions\ViewAction;
+use Filament\Infolists\Components\IconEntry;
+use Filament\Infolists\Components\SpatieMediaLibraryImageEntry;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Section;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Carbon;
 
 class UpcomingEmployeeBirthdays extends TableWidget
 {
@@ -25,28 +33,83 @@ class UpcomingEmployeeBirthdays extends TableWidget
             ->columns([
                 TextColumn::make('full_name')
                     ->label('Employee')
+                    ->wrap()
+                    ->wrapHeader()
                     ->searchable()
-                    ->sortable()
-                    ->url(function (Employee $record) {
-                        try {
-                            return EmployeeResource::getUrl('view', ['record' => $record]);
-                        } catch (\Exception $e) {
-                            return null;
-                        }
-                    }),
+                    ->sortable(),
                 TextColumn::make('date_of_birth')
                     ->label('Birthday')
-                    ->date('F j')
-                    ->sortable(),
-                TextColumn::make('age')
-                    ->label('Turning Age')
-                    ->state(function (Employee $record): int {
-                        return now()->diffInYears($record->date_of_birth) + 1;
-                    }),
+                    ->date()
+                    ->wrap()
+                    ->wrapHeader()
+                    ->formatStateUsing(fn (string $state) => Carbon::parse($state)->format('F j') . ' (' . Carbon::parse($state)->age . ' years)'),
                 TextColumn::make('email')
                     ->searchable(),
                 TextColumn::make('cellphone')
                     ->label('Phone'),
+            ])
+            ->recordActions([
+                ViewAction::make()
+                    ->modal()
+                    ->schema([
+                        Grid::make(2)
+                            ->schema([
+                                SpatieMediaLibraryImageEntry::make('profile_photo')
+                                    ->label('Photo')
+                                    ->collection(Employee::PROFILE_PHOTO_COLLECTION)
+                                    ->conversion(Employee::PROFILE_PHOTO_THUMBNAIL_CONVERSION)
+                                    ->defaultImageUrl(fn (Employee $record): string => $record->getProfilePhotoPlaceholderUrl())
+                                    ->circular(),
+                                TextEntry::make('status')
+                                    ->badge(),
+                                TextEntry::make('id')
+                                    ->label('ID'),
+                                TextEntry::make('first_name'),
+                                TextEntry::make('second_first_name')
+                                    ->placeholder('-'),
+                                TextEntry::make('last_name'),
+                                TextEntry::make('second_last_name')
+                                    ->placeholder('-'),
+                                TextEntry::make('full_name')
+                                    ->placeholder('-'),
+                                TextEntry::make('personal_id_type'),
+                                TextEntry::make('personal_id'),
+                                TextEntry::make('date_of_birth')
+                                    ->date(),
+                                TextEntry::make('cellphone'),
+                                TextEntry::make('gender')
+                                    ->badge(),
+                                IconEntry::make('has_kids')
+                                    ->boolean(),
+                                TextEntry::make('citizenship.name')
+                                    ->label('Citizenship'),
+                                TextEntry::make('internal_id'),
+                                Section::make('Job Information')
+                                    ->columns(5)
+                                    ->columnSpanFull()
+                                    ->components([
+                                        TextEntry::make('hired_at')
+                                            ->date(),
+                                        TextEntry::make('site.name')
+                                            ->label('Site'),
+                                        TextEntry::make('project.name')
+                                            ->label('Project'),
+                                        TextEntry::make('position.name')
+                                            ->label('Position'),
+                                        TextEntry::make('supervisor.name')
+                                            ->label('Supervisor'),
+                                        ]),
+                                        TextEntry::make('deleted_at')
+                                            ->dateTime()
+                                            ->visible(fn (Employee $record): bool => $record->trashed()),
+                                        TextEntry::make('created_at')
+                                            ->dateTime()
+                                            ->placeholder('-'),
+                                        TextEntry::make('updated_at')
+                                            ->dateTime()
+                                            ->placeholder('-'),
+                            ])
+                    ]),
             ])
             ->defaultSort('date_of_birth', 'asc');
     }
@@ -54,40 +117,16 @@ class UpcomingEmployeeBirthdays extends TableWidget
     protected function getTableQuery(): Builder
     {
         $filters = $this->filters ?? [];
-        $today = now();
-        $endDate = now()->addDays(10);
 
-        $query = Employee::query()
-            ->where('status', '!=', EmployeeStatuses::Terminated)
-            ->whereNotNull('date_of_birth')
-            ->where(function (Builder $query) use ($today, $endDate): void {
-                $startMonth = $today->month;
-                $startDay = $today->day;
-                $endMonth = $endDate->month;
-                $endDay = $endDate->day;
+        $today = Carbon::now()->startOfDay();
+        $until = Carbon::now()->addDays(10)->endOfDay();
 
-                // Get database-specific month and day extraction syntax
-                $driver = $query->getConnection()->getDriverName();
-                [$monthExpr, $dayExpr] = $this->getDateExtractionSyntax($driver);
-
-                if ($startMonth === $endMonth) {
-                    // Same month
-                    $query->whereRaw("{$monthExpr} = ?", [$startMonth])
-                        ->whereRaw("{$dayExpr} BETWEEN ? AND ?", [$startDay, $endDay]);
-                } else {
-                    // Crosses month boundary
-                    $query->where(function (Builder $q) use ($startMonth, $startDay, $endMonth, $endDay, $monthExpr, $dayExpr): void {
-                        $q->where(function (Builder $q2) use ($startMonth, $startDay, $monthExpr, $dayExpr): void {
-                            $q2->whereRaw("{$monthExpr} = ?", [$startMonth])
-                                ->whereRaw("{$dayExpr} >= ?", [$startDay]);
-                        })
-                            ->orWhere(function (Builder $q2) use ($endMonth, $endDay, $monthExpr, $dayExpr): void {
-                                $q2->whereRaw("{$monthExpr} = ?", [$endMonth])
-                                    ->whereRaw("{$dayExpr} <= ?", [$endDay]);
-                            });
-                    });
-                }
-            });
+        return Employee::query()
+            ->active()
+            ->whereMonth('date_of_birth', $today->month)
+            ->whereDay('date_of_birth', '>=', $today->day)
+            ->whereDay('date_of_birth', '<=', $until->day)
+            ->orderByRaw("DATE_FORMAT(date_of_birth, '%m-%d') asc");
 
         if (isset($filters['site']) && ! empty($filters['site'])) {
             $query->whereHas('site', function ($q) use ($filters): void {
