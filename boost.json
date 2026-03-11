@@ -1,12 +1,10 @@
 {
     "agents": [
-        "copilot"
+        "opencode"
     ],
+    "guidelines": true,
     "packages": [
-        "filament/filament"
-    ],
-    "skills": [
-        "pest-testing",
-        "tailwindcss-development"
+        "filament/filament",
+        "spatie/laravel-medialibrary"
     ]
 }
