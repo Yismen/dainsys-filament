@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Filament\Supervisor\Resources\EmployeeMetrics;
+namespace App\Filament\Employee\Resources\EmployeeMetrics;
 
 use App\Enums\EmployeeStatuses;
-use App\Filament\Supervisor\Resources\EmployeeMetrics\Pages\ListEmployeeMetrics;
-use App\Filament\Supervisor\Resources\EmployeeMetrics\Tables\EmployeeMetricsTable;
+use App\Filament\Employee\Resources\EmployeeMetrics\Pages\ListEmployeeMetrics;
+use App\Filament\Employee\Resources\EmployeeMetrics\Tables\EmployeeMetricsTable;
 use App\Models\Production;
 use BackedEnum;
 use Filament\Resources\Resource;
@@ -21,15 +21,13 @@ class EmployeeMetricsResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedChartBar;
 
-    protected static ?string $navigationLabel = 'Employee Metrics';
+    protected static ?string $navigationLabel = 'My Metrics';
 
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 7;
 
-    protected static string|UnitEnum|null $navigationGroup = 'Team Insights';
+    protected static ?string $modelLabel = 'My Metrics';
 
-    protected static ?string $modelLabel = 'Employee Metrics';
-
-    protected static ?string $slug = 'employee-metrics';
+    protected static ?string $slug = 'my-metrics';
 
     public static function table(Table $table): Table
     {
@@ -38,9 +36,9 @@ class EmployeeMetricsResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        $supervisor = Auth::user()?->supervisor;
+        $employee = Auth::user()?->employee;
 
-        if (! $supervisor) {
+        if (! $employee) {
             return parent::getEloquentQuery()->whereRaw('1 = 0');
         }
 
@@ -52,7 +50,6 @@ class EmployeeMetricsResource extends Resource
                 MIN(productions.id) as id,
                 {$weekGroupingExpression} as week_ending,
                 productions.employee_id,
-                employees.full_name,
                 SUM(productions.production_time) as total_production_time,
                 SUM(productions.conversions) as total_conversions,
                 SUM(productions.conversions_goal) as conversions_goal,
@@ -60,10 +57,10 @@ class EmployeeMetricsResource extends Resource
                 SUM(productions.total_time) as total_time
             ")
             ->join('employees', 'productions.employee_id', '=', 'employees.id')
-            ->where('productions.supervisor_id', $supervisor->id)
+            ->where('productions.employee_id', $employee->id)
             ->where('productions.date', '>=', $eightWeeksAgo)
             ->whereIn('employees.status', [EmployeeStatuses::Hired, EmployeeStatuses::Suspended])
-            ->groupByRaw("{$weekGroupingExpression}, productions.employee_id, employees.full_name");
+            ->groupByRaw("{$weekGroupingExpression}, productions.employee_id");
     }
 
     protected static function getWeekGroupingExpression(): string
