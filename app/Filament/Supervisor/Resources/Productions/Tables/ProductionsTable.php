@@ -38,10 +38,6 @@ class ProductionsTable
                     ->limit(25)
                     ->tooltip(fn (Production $record) => $record->campaign?->name)
                     ->wrap(),
-                TextColumn::make('conversions')
-                    ->label('Conversions')
-                    ->numeric(decimalPlaces: 2)
-                    ->sortable(),
                 TextColumn::make('total_time')
                     ->wrapHeader()
                     ->label('Total Time')
@@ -65,6 +61,11 @@ class ProductionsTable
                 //     ->label('Revenue Rate')
                 //     ->numeric(decimalPlaces: 2)
                 //     ->sortable(),
+
+                TextColumn::make('conversions')
+                    ->label('Conversions')
+                    ->numeric(decimalPlaces: 2)
+                    ->sortable(),
                 TextColumn::make('sph_goal')
                     ->wrapHeader()
                     ->label('SPH Goal')

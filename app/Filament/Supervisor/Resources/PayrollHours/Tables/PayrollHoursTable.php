@@ -3,6 +3,7 @@
 namespace App\Filament\Supervisor\Resources\PayrollHours\Tables;
 
 use App\Models\Employee;
+use App\Models\PayrollHour;
 use App\Services\ModelListService;
 use Filament\Forms\Components\DatePicker;
 use Filament\Support\Enums\Width;
@@ -13,6 +14,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class PayrollHoursTable
 {
@@ -67,39 +69,18 @@ class PayrollHoursTable
                     ]),
             ])
             ->filters([
-                Filter::make('date')
-                    ->columnSpanFull()
-                    ->schema([
-                        DatePicker::make('date_from')
-                            ->label('Date from')
-                            ->default(now()->startOfMonth()->startOfDay()),
-                        DatePicker::make('date_until')
-                            ->label('Date until')
-                            ->default(now()->endOfDay()),
-                    ])
-                    ->columns(2)
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['date_from'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('date', '>=', $date),
-                            )
-                            ->when(
-                                $data['date_until'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('date', '<=', $date),
-                            );
-                    }),
-                Filter::make('payroll_ending_at')
-                    ->label('Week Ending')
-                    ->schema([
-                        DatePicker::make('payroll_ending_at'),
-                    ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['payroll_ending_at'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('payroll_ending_at', '=', $date),
-                            );
+                SelectFilter::make('payroll_ending_at')
+                    ->options(function () {
+                        return Cache::rememberForever('payroll_ending_at_dates', function () {
+                            return PayrollHour::query()
+                                ->select('payroll_ending_at')
+                                ->distinct()
+                                ->orderBy('payroll_ending_at', 'desc')
+                                ->pluck('payroll_ending_at')
+                                ->mapWithKeys(fn ($date) => [
+                                    $date->toDateString() => $date->toFormattedDateString(),
+                                ]);
+                        });
                     }),
                 SelectFilter::make('employee_id')
                     ->options(ModelListService::make(
