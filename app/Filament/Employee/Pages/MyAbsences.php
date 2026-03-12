@@ -8,6 +8,7 @@ use App\Models\Absence;
 use BackedEnum;
 use Filament\Pages\Page;
 use Filament\Support\Enums\FontWeight;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
@@ -21,7 +22,7 @@ class MyAbsences extends Page implements HasTable
 {
     use InteractsWithTable;
 
-    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-calendar-days';
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCalendarDays;
 
     protected static ?string $navigationLabel = 'My Absences';
 

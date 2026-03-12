@@ -3,6 +3,7 @@
 namespace App\Filament\HumanResource\Widgets;
 
 use App\Models\Employee;
+use Filament\Support\Colors\Color;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
@@ -29,7 +30,13 @@ class MonthlyAbsenceSummary extends TableWidget
                 TextColumn::make('absences_count')
                     ->label('Absences')
                     ->counts('absences')
-                    ->sortable(),
+                    ->sortable()
+                    ->badge()
+                    ->color(fn ($state) => match (true) {
+                        $state >= 5 => Color::Red,
+                        $state >= 3 => Color::Orange,
+                        default => Color::Taupe,
+                    }),
             ])
             ->defaultSort('absences_count', 'desc')
             ->paginated(false);
@@ -40,27 +47,30 @@ class MonthlyAbsenceSummary extends TableWidget
         $query = Employee::query()
             ->withCount(['absences' => function ($query): void {
                 $query->whereBetween('date', [
-                    now()->startOfMonth()->format('Y-m-d'),
-                    now()->endOfMonth()->format('Y-m-d'),
+                    now()->startOfMonth(),
+                    now()->endOfMonth(),
                 ]);
             }])
             ->having('absences_count', '>', 0);
 
-        if (isset($this->filters['site']) && ! empty($this->filters['site'])) {
-            $query->whereHas('site', function ($q): void {
-                $q->whereIn('id', $this->filters['site']);
+        $siteFilter = $this->filters['site'] ?? null;
+        if ($siteFilter) {
+            $query->whereHas('site', function ($q) use ($siteFilter): void {
+                $q->whereIn('id', $siteFilter);
             });
         }
 
-        if (isset($this->filters['project']) && ! empty($this->filters['project'])) {
-            $query->whereHas('project', function ($q): void {
-                $q->whereIn('id', $this->filters['project']);
+        $projectFilter = $this->filters['project'] ?? null;
+        if ($projectFilter) {
+            $query->whereHas('project', function ($q) use ($projectFilter): void {
+                $q->whereIn('id', $projectFilter);
             });
         }
 
-        if (isset($this->filters['supervisor']) && ! empty($this->filters['supervisor'])) {
-            $query->whereHas('supervisor', function ($q): void {
-                $q->whereIn('id', $this->filters['supervisor']);
+        $supervisorFilter = $this->filters['supervisor'] ?? null;
+        if ($supervisorFilter) {
+            $query->whereHas('supervisor', function ($q) use ($supervisorFilter): void {
+                $q->whereIn('id', $supervisorFilter);
             });
         }
 

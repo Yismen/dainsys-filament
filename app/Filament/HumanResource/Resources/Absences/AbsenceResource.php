@@ -33,7 +33,7 @@ class AbsenceResource extends Resource
 
     protected static UnitEnum|string|null $navigationGroup = HRNavigationEnum::EMPLOYEES_MANAGEMENT;
 
-    protected static ?int $navigationSort = 8;
+    protected static ?int $navigationSort = 2;
 
     protected static ?string $recordTitleAttribute = 'id';
 

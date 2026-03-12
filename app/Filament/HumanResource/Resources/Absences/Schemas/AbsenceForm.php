@@ -19,8 +19,7 @@ class AbsenceForm
                 ->label('Employee')
                 ->options(ModelListService::make(model: Employee::query()->active(), value_field: 'full_name'))
                 ->searchable()
-                ->required()
-                ->preload(),
+                ->required(),
             DatePicker::make('date')
                 ->required()
                 ->minDate(now()->subYear())
@@ -28,6 +27,7 @@ class AbsenceForm
             Select::make('status')
                 ->label('Status')
                 ->options(AbsenceStatuses::toArray())
+                ->default(AbsenceStatuses::Created)
                 ->required(),
             Select::make('type')
                 ->label('Type')

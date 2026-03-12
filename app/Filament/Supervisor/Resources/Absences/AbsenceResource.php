@@ -3,6 +3,7 @@
 namespace App\Filament\Supervisor\Resources\Absences;
 
 use App\Enums\AbsenceStatuses;
+use App\Enums\AbsenceTypes;
 use App\Filament\Supervisor\Resources\Absences\Pages\ManageAbsences;
 use App\Models\Absence;
 use App\Models\Employee;
@@ -56,8 +57,7 @@ class AbsenceResource extends Resource
                         );
                     })
                     ->searchable()
-                    ->required()
-                    ->preload(),
+                    ->required(),
                 DatePicker::make('date')
                     ->required()
                     ->default(now())
@@ -124,6 +124,9 @@ class AbsenceResource extends Resource
             ->filters([
                 SelectFilter::make('status')
                     ->options(AbsenceStatuses::class)
+                    ->searchable(),
+                SelectFilter::make('type')
+                    ->options(AbsenceTypes::class)
                     ->searchable(),
             ])
             ->actions([
