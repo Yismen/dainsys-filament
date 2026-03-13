@@ -12,22 +12,29 @@ use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use BezhanSalleh\FilamentShield\Support\Utils;
 use BezhanSalleh\FilamentShield\Traits\HasShieldFormComponents;
 use BezhanSalleh\PluginEssentials\Concerns\Resource as Essentials;
+use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Facades\Filament;
+use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Panel;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Component;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Unique;
+use Livewire\Component as Livewire;
 
 class RoleResource extends Resource
 {
@@ -85,6 +92,71 @@ class RoleResource extends Resource
             ]);
     }
 
+    public static function getTabFormComponentForResources(): Component
+    {
+        return static::shield()->hasSimpleResourcePermissionView()
+            ? static::getTabFormComponentForSimpleResourcePermissionsView()
+            : Tab::make('resources')
+                ->label(__('filament-shield::filament-shield.resources'))
+                ->visible(fn (): bool => Utils::isResourceTabEnabled())
+                ->badge(static::getResourceTabBadgeCount())
+                ->schema([
+                    Grid::make()
+                        ->schema(static::getResourceEntitiesSchema())
+                        ->columns(static::shield()->getGridColumns()),
+                ]);
+    }
+
+
+    public static function getCheckboxListFormComponent(string $name, array $options, bool $searchable = true, array|int|string|null $columns = null, array|int|string|null $columnSpan = null): Component
+    {
+        return CheckboxList::make($name)
+            ->label(fn () => str($name)->after('App\Filament\\'))
+            ->options(fn (): array => $options)
+            ->searchable($searchable)
+            ->afterStateHydrated(function (Component $component, string $operation, ?Model $record, Set $set) use ($options): void {
+                static::setPermissionStateForRecordPermissions(
+                    component: $component,
+                    operation: $operation,
+                    permissions: $options,
+                    record: $record
+                );
+
+                static::toggleSelectAllViaEntities($component->getLivewire(), $set);
+            })
+            ->afterStateUpdated(function (Livewire $livewire, Set $set): void {
+                static::toggleSelectAllViaEntities($livewire, $set);
+            })
+            ->selectAllAction(fn (
+                Action $action,
+                Component $component,
+                Livewire $livewire,
+                Set $set
+            ) => static::bulkToggleableAction(
+                action: $action,
+                component: $component,
+                livewire: $livewire,
+                set: $set
+            ))
+            ->deselectAllAction(fn (
+                Action $action,
+                Component $component,
+                Livewire $livewire,
+                Set $set
+            ) => static::bulkToggleableAction(
+                action: $action,
+                component: $component,
+                livewire: $livewire,
+                set: $set,
+                resetState: true
+            ))
+            ->dehydrated(fn ($state): bool => ! blank($state))
+            ->bulkToggleable()
+            ->gridDirection('row')
+            ->columns($columns ?? static::shield()->getCheckboxListColumns())
+            ->columnSpan($columnSpan ?? static::shield()->getCheckboxListColumnSpan());
+    }
+
     public static function table(Table $table): Table
     {
         return $table
@@ -116,6 +188,7 @@ class RoleResource extends Resource
                     ->dateTime()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('users.name')
+                    ->wrap()
                     ->badge()
                     ->color('info'),
             ])
