@@ -12,6 +12,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class HolidaysTable
 {
@@ -47,10 +48,16 @@ class HolidaysTable
                 TrashedFilter::make(),
                 SelectFilter::make('year')
                     ->label('Year')
-                    ->options(fn () => range(date('Y') - 5, date('Y')))
+                    ->options(function () {
+                        return array_combine(range(date('Y') - 5, date('Y')), range(date('Y') - 5, date('Y')));
+                    })
                     ->searchable()
                     ->placeholder('Select Year')
-                    ->query(fn ($query, $value) => $query->whereYear('date', $value)),
+                    ->query(function (Builder $query, array $data) {
+                        $year = $data['value'] ?? null;
+                        return $query
+                            ->when($year, fn (Builder $query, $year) => $query->whereYear('date', $year));
+                    }),
             ])
             ->recordActions([
                 ViewAction::make(),
