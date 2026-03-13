@@ -8,6 +8,7 @@ use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\TernaryFilter;
@@ -35,6 +36,9 @@ class UsersTable
                     ->wrap(),
                 ToggleColumn::make('is_active')
                     ->sortable(),
+                IconColumn::make('employee_id')
+                    ->boolean()
+                    ->sortable(),
                 TextColumn::make('email_verified_at')
                     ->dateTime()
                     ->sortable()
@@ -59,6 +63,23 @@ class UsersTable
                     ->label('Active')
                     ->trueLabel('Active')
                     ->falseLabel('Inactive'),
+                TernaryFilter::make('employee_id')
+                    ->label('Employee')
+                    ->default(false)
+                    ->trueLabel('Has Employee ID')
+                    ->falseLabel('No Employee ID')
+                    ->query(function($query, $data) {
+                        $value = (bool)$data['value'] ?? null;
+                        if ($value === true) {
+                            $query->whereNotNull('employee_id');
+                        } elseif ($value === false) {
+                            $query->whereNull('employee_id');
+                        }
+                    }),
+                TernaryFilter::make('email_verified_at')
+                    ->label('Email Verified')
+                    ->trueLabel('Verified')
+                    ->falseLabel('Not Verified'),
             ])
             ->recordActions([
                 ViewAction::make(),
