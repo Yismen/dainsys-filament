@@ -2,27 +2,15 @@
 
 namespace App\Filament\Employee\Pages;
 
-use App\Models\Campaign;
-use App\Models\Employee;
 use App\Models\Production;
-use App\Models\Project;
-use App\Services\ModelListService;
 use BackedEnum;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Select;
 use Filament\Pages\Page;
-use Filament\Support\Enums\FontWeight;
 use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Columns\Summarizers\Sum;
-use Filament\Tables\Columns\Summarizers\Summarizer;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
-use Filament\Tables\Filters\Filter;
-use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Contracts\Database\Eloquent\Builder;
-use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -64,6 +52,10 @@ class MyMetrics extends Page implements HasTable
                 TextColumn::make('week_ending')
                     ->label('Week Ending')
                     ->date('M j, Y'),
+                TextColumn::make('total_time')
+                    ->wrapHeader()
+                    ->label('Total Login Time')
+                    ->numeric(decimalPlaces: 2),
                 TextColumn::make('total_production_time')
                     ->wrapHeader()
                     ->label('Total Production Time')
@@ -133,7 +125,7 @@ class MyMetrics extends Page implements HasTable
 
     protected function queryInstance(): Builder
     {
-            $employee = Auth::user()?->employee;
+        $employee = Auth::user()?->employee;
 
         if (! $employee) {
             return parent::getEloquentQuery()->whereRaw('1 = 0');
@@ -146,12 +138,12 @@ class MyMetrics extends Page implements HasTable
             ->selectRaw("
                 MIN(productions.id) as id,
                 {$weekGroupingExpression} as week_ending,
-                productions.employee_id,
+                productions.employee_id,,
+                SUM(productions.total_time) as total_time
                 SUM(productions.production_time) as total_production_time,
                 SUM(productions.conversions) as total_conversions,
                 SUM(productions.conversions_goal) as conversions_goal,
-                SUM(productions.billable_time) as total_billable_time,
-                SUM(productions.total_time) as total_time
+                SUM(productions.billable_time) as total_billable_time
             ")
             ->join('employees', 'productions.employee_id', '=', 'employees.id')
             ->where('productions.employee_id', $employee->id)

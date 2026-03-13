@@ -107,7 +107,6 @@ class RoleResource extends Resource
                 ]);
     }
 
-
     public static function getCheckboxListFormComponent(string $name, array $options, bool $searchable = true, array|int|string|null $columns = null, array|int|string|null $columnSpan = null): Component
     {
         return CheckboxList::make($name)

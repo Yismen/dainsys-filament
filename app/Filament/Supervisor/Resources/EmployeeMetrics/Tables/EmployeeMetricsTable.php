@@ -31,6 +31,10 @@ class EmployeeMetricsTable
                 TextColumn::make('week_ending')
                     ->label('Week Ending')
                     ->date('M j, Y'),
+                TextColumn::make('total_time')
+                    ->wrapHeader()
+                    ->label('Total Login Time')
+                    ->numeric(decimalPlaces: 2),
                 TextColumn::make('total_production_time')
                     ->wrapHeader()
                     ->label('Total Production Time')

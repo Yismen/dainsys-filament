@@ -73,7 +73,8 @@ class Absence extends AppModel
             ->count() >= 2;
     }
 
-    public function scopeRedFlagged($query): Builder
+    #[Scope]
+    protected function redFlagged($query): Builder
     {
         return $query->currentMonth()
             ->select('employee_id')

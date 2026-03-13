@@ -19,7 +19,7 @@ class HolidaysTable
     public static function configure(Table $table): Table
     {
         return $table
-            ->defaultSort('name')
+            ->defaultSort('date', 'desc')
             ->columns([
                 TextColumn::make('name')
                     ->sortable()
@@ -55,6 +55,7 @@ class HolidaysTable
                     ->placeholder('Select Year')
                     ->query(function (Builder $query, array $data) {
                         $year = $data['value'] ?? null;
+
                         return $query
                             ->when($year, fn (Builder $query, $year) => $query->whereYear('date', $year));
                     }),

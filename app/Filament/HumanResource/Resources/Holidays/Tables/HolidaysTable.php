@@ -17,7 +17,7 @@ class HolidaysTable
     public static function configure(Table $table): Table
     {
         return $table
-            ->defaultSort('name')
+            ->defaultSort('date', 'desc')
             ->columns([
                 TextColumn::make('name')
                     ->sortable()

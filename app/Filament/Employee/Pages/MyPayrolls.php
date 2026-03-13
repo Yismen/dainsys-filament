@@ -10,7 +10,6 @@ use Filament\Pages\Page;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Columns\Layout\Grid;
 use Filament\Tables\Columns\Layout\Panel;
-use Filament\Tables\Columns\Layout\Split;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
@@ -61,46 +60,46 @@ class MyPayrolls extends Page implements HasTable
                     'xl' => 4,
                 ])
                     ->schema([
-                    TextColumn::make('payable_date')
-                        ->weight(FontWeight::Bold)
-                        ->formatStateUsing(fn ($state) => view('filament.partials.tables.stacked-field', [
-                            'label' => 'Payable Date',
-                            'state' => Carbon::parse($state)->format('M d, Y'),
-                        ])),
+                        TextColumn::make('payable_date')
+                            ->weight(FontWeight::Bold)
+                            ->formatStateUsing(fn ($state) => view('filament.partials.tables.stacked-field', [
+                                'label' => 'Payable Date',
+                                'state' => Carbon::parse($state)->format('M d, Y'),
+                            ])),
 
-                    TextColumn::make('gross_income')
-                        ->weight(FontWeight::Bold)
-                        ->formatStateUsing(fn ($state) => view('filament.partials.tables.stacked-field', [
-                            'label' => 'Gross Income',
-                            'state' => Number::currency($state),
-                        ])),
+                        TextColumn::make('gross_income')
+                            ->weight(FontWeight::Bold)
+                            ->formatStateUsing(fn ($state) => view('filament.partials.tables.stacked-field', [
+                                'label' => 'Gross Income',
+                                'state' => Number::currency($state),
+                            ])),
 
-                    TextColumn::make('total_deductions')
-                        ->weight(FontWeight::Bold)
-                        ->extraAttributes([
-                            'class' => 'text-danger-600',
-                        ])
-                        ->formatStateUsing(fn ($state) => view('filament.partials.tables.stacked-field', [
-                            'label' => 'Total Deductions',
-                            'state' => Number::currency($state),
-                            'stateColor' => 'text-danger-600 dark:text-danger-400',
-                        ])),
+                        TextColumn::make('total_deductions')
+                            ->weight(FontWeight::Bold)
+                            ->extraAttributes([
+                                'class' => 'text-danger-600',
+                            ])
+                            ->formatStateUsing(fn ($state) => view('filament.partials.tables.stacked-field', [
+                                'label' => 'Total Deductions',
+                                'state' => Number::currency($state),
+                                'stateColor' => 'text-danger-600 dark:text-danger-400',
+                            ])),
 
-                    TextColumn::make('total_payroll')
-                        ->weight(FontWeight::Bold)
-                        ->formatStateUsing(fn ($state) => view('filament.partials.tables.stacked-field', [
-                            'label' => 'Total Payroll',
-                            'state' => Number::currency($state),
-                            'stateColor' => 'text-blue-600 dark:text-blue-400',
-                        ])),
-                ]),
+                        TextColumn::make('total_payroll')
+                            ->weight(FontWeight::Bold)
+                            ->formatStateUsing(fn ($state) => view('filament.partials.tables.stacked-field', [
+                                'label' => 'Total Payroll',
+                                'state' => Number::currency($state),
+                                'stateColor' => 'text-blue-600 dark:text-blue-400',
+                            ])),
+                    ]),
                 Panel::make([
                     Grid::make([
                         'default' => 2,
                         'xl' => 4,
                     ])
-                    ->schema([
-                        TextColumn::make('salary_rate')
+                        ->schema([
+                            TextColumn::make('salary_rate')
                                 ->label('Salary Rate')
                                 ->formatStateUsing(fn ($state) => view('filament.partials.tables.stacked-field', [
                                     'label' => 'Salary Rate',
@@ -125,41 +124,41 @@ class MyPayrolls extends Page implements HasTable
                                     'label' => 'Salary Income',
                                     'state' => Number::currency($state),
                                 ])),
-                    ]),
+                        ]),
                     Grid::make([
                         'default' => 2,
                         'xl' => 4,
                     ])
-                    ->extraAttributes([
-                        'class' => 'mt-4',
-                    ])
-                    ->schema([
+                        ->extraAttributes([
+                            'class' => 'mt-4',
+                        ])
+                        ->schema([
 
-                        TextColumn::make('nightly_incomes')
-                            ->label('Nightly Incomes')
-                            ->formatStateUsing(fn ($state) => view('filament.partials.tables.stacked-field', [
-                                'label' => 'Nightly Incomes',
-                                'state' => Number::currency($state),
-                            ])),
-                        TextColumn::make('overtime_incomes')
-                            ->label('Overtime Incomes')
-                            ->formatStateUsing(fn ($state) => view('filament.partials.tables.stacked-field', [
-                                'label' => 'Overtime Incomes',
-                                'state' => Number::currency($state),
-                            ])),
-                        TextColumn::make('holiday_incomes')
-                            ->label('Holiday Incomes')
-                            ->formatStateUsing(fn ($state) => view('filament.partials.tables.stacked-field', [
-                                'label' => 'Holiday Incomes',
-                                'state' => Number::currency($state),
-                            ])),
-                        TextColumn::make('additional_incentives_2')
-                            ->label('Additional Incentives 2')
-                            ->formatStateUsing(fn ($state) => view('filament.partials.tables.stacked-field', [
-                                'label' => 'Additional Payment',
-                                'state' => Number::currency($state),
-                            ])),
-                    ]),
+                            TextColumn::make('nightly_incomes')
+                                ->label('Nightly Incomes')
+                                ->formatStateUsing(fn ($state) => view('filament.partials.tables.stacked-field', [
+                                    'label' => 'Nightly Incomes',
+                                    'state' => Number::currency($state),
+                                ])),
+                            TextColumn::make('overtime_incomes')
+                                ->label('Overtime Incomes')
+                                ->formatStateUsing(fn ($state) => view('filament.partials.tables.stacked-field', [
+                                    'label' => 'Overtime Incomes',
+                                    'state' => Number::currency($state),
+                                ])),
+                            TextColumn::make('holiday_incomes')
+                                ->label('Holiday Incomes')
+                                ->formatStateUsing(fn ($state) => view('filament.partials.tables.stacked-field', [
+                                    'label' => 'Holiday Incomes',
+                                    'state' => Number::currency($state),
+                                ])),
+                            TextColumn::make('additional_incentives_2')
+                                ->label('Additional Incentives 2')
+                                ->formatStateUsing(fn ($state) => view('filament.partials.tables.stacked-field', [
+                                    'label' => 'Additional Payment',
+                                    'state' => Number::currency($state),
+                                ])),
+                        ]),
                     // Grid::make([
                     //     'default' => 3,
                     // ])
@@ -178,41 +177,40 @@ class MyPayrolls extends Page implements HasTable
                     //             'state' => Number::currency($state),
                     //         ])),
 
-
                     // ]),
 
                     Grid::make([
                         'default' => 3,
                     ])
-                    ->extraAttributes([
-                        'class' => 'mt-4',
-                    ])
-                    ->schema([
-                        TextColumn::make('deduction_ars')
-                            ->label('Deduction ARS')
-                            ->formatStateUsing(fn ($state) => view('filament.partials.tables.stacked-field', [
-                                'label' => 'Deduction ARS',
-                                'state' => Number::currency($state),
-                                'stateColor' => 'text-danger-600 dark:text-danger-400',
-                            ])),
-                        TextColumn::make('deduction_afp')
-                            ->label('Deduction AFP')
-                            ->formatStateUsing(fn ($state) => view('filament.partials.tables.stacked-field', [
-                                'label' => 'Deduction AFP',
-                                'state' => Number::currency($state),
-                                'stateColor' => 'text-danger-600 dark:text-danger-400',
-                            ])),
-                        TextColumn::make('deductions_other')
-                            ->label('Deductions Other')
-                            ->formatStateUsing(fn ($state) => view('filament.partials.tables.stacked-field', [
-                                'label' => 'Deductions Other',
-                                'state' => Number::currency($state),
-                                'stateColor' => 'text-danger-600 dark:text-danger-400',
-                            ])),
-                    ]),
+                        ->extraAttributes([
+                            'class' => 'mt-4',
+                        ])
+                        ->schema([
+                            TextColumn::make('deduction_ars')
+                                ->label('Deduction ARS')
+                                ->formatStateUsing(fn ($state) => view('filament.partials.tables.stacked-field', [
+                                    'label' => 'Deduction ARS',
+                                    'state' => Number::currency($state),
+                                    'stateColor' => 'text-danger-600 dark:text-danger-400',
+                                ])),
+                            TextColumn::make('deduction_afp')
+                                ->label('Deduction AFP')
+                                ->formatStateUsing(fn ($state) => view('filament.partials.tables.stacked-field', [
+                                    'label' => 'Deduction AFP',
+                                    'state' => Number::currency($state),
+                                    'stateColor' => 'text-danger-600 dark:text-danger-400',
+                                ])),
+                            TextColumn::make('deductions_other')
+                                ->label('Deductions Other')
+                                ->formatStateUsing(fn ($state) => view('filament.partials.tables.stacked-field', [
+                                    'label' => 'Deductions Other',
+                                    'state' => Number::currency($state),
+                                    'stateColor' => 'text-danger-600 dark:text-danger-400',
+                                ])),
+                        ]),
                 ])
-                ->collapsible()
-                ->collapsed(false),
+                    ->collapsible()
+                    ->collapsed(false),
             ])
             ->filters([
                 Filter::make('payable_date')
