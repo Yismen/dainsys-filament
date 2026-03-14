@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Mail;
 use Livewire\Livewire;
 
 use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
 
 beforeEach(function (): void {
     Mail::fake();
@@ -161,4 +162,36 @@ test('supervisor cannot see terminated employees in metrics', function (): void 
     expect($records)->toHaveCount(1);
     expect($records->first()->full_name)->toBe($hiredEmployee->full_name);
     expect($records->pluck('full_name')->all())->not->toContain($terminatedEmployee->full_name);
+});
+
+test('employee metrics route renders successfully for supervisor', function (): void {
+    /** @var User $supervisorUser */
+    $supervisorUser = User::factory()->create();
+    $permission = Permission::firstOrCreate(['name' => 'viewAny production']);
+    $supervisorUser->givePermissionTo($permission);
+    $supervisor = Supervisor::factory()->for($supervisorUser, 'user')->create();
+
+    $employee = Employee::factory()->create();
+    Hire::factory()->for($employee)->for($supervisor)->create();
+    $campaign = Campaign::factory()->create();
+
+    Production::factory()
+        ->for($employee)
+        ->for($campaign)
+        ->for($supervisor)
+        ->state([
+            'date' => now()->startOfWeek()->addDay(),
+            'conversions' => 10,
+            'conversions_goal' => 10,
+            'total_time' => 5,
+            'production_time' => 4,
+            'billable_time' => 3,
+        ])
+        ->create();
+
+    actingAs($supervisorUser);
+
+    get(EmployeeMetricsResource::getUrl(panel: 'supervisor'))
+        ->assertSuccessful()
+        ->assertSee('Employee Metrics');
 });
