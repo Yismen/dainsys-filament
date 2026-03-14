@@ -52,7 +52,8 @@ class PayrollHoursTable
                         Sum::make(),
                     ]),
                 TextColumn::make('seventh_day_hours')
-                    ->label('Seventh Day Hours')
+                    ->label('7th Day Hours')
+                    ->wrapHeader()
                     ->numeric(decimalPlaces: 2)
                     ->sortable()
                     ->summarize([
@@ -60,6 +61,7 @@ class PayrollHoursTable
                     ]),
                 TextColumn::make('total_hours')
                     ->label('Total Hours')
+                    ->wrapHeader()
                     ->numeric(decimalPlaces: 2)
                     ->sortable()
                     ->summarize([

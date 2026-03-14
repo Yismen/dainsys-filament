@@ -1,9 +1,11 @@
 <?php
 
-use App\Jobs\DistributePayrollHoursJob;
+use App\Jobs\RefreshPayrollHoursJob;
+use App\Models\Campaign;
 use App\Models\Employee;
 use App\Models\Holiday;
 use App\Models\PayrollHour;
+use App\Models\Production;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
@@ -137,16 +139,26 @@ it('parses is_holiday attribute correctly', function (): void {
 });
 
 it('parses holiday_hours correctly', function (): void {
-    Holiday::factory()->create(['date' => '2026-01-04']);
-    $is_holiday = PayrollHour::factory()->create([
-        'date' => Date::parse('2026-01-04'), // holiday
-        'total_hours' => 7,
-    ]);
+    $employee = Employee::factory()->create();
+    $campaign = Campaign::factory()->create();
 
-    (new DistributePayrollHoursJob($is_holiday->date->toDateString(), $is_holiday->employee_id))->handle();
+    Holiday::factory()->create(['date' => '2026-01-04']);
+
+    Production::withoutEvents(function () use ($employee, $campaign): void {
+        Production::factory()
+            ->for($employee)
+            ->for($campaign)
+            ->create([
+                'date' => '2026-01-04',
+                'total_time' => 7,
+            ]);
+    });
+
+    (new RefreshPayrollHoursJob('2026-01-04'))->handle();
 
     $this->assertDatabaseHas('payroll_hours', [
-        'id' => $is_holiday->id,
+        'employee_id' => $employee->id,
+        'date' => '2026-01-04',
         'total_hours' => 7,
         'holiday_hours' => 7,
         'regular_hours' => 0,
@@ -154,16 +166,26 @@ it('parses holiday_hours correctly', function (): void {
 });
 
 it('parses non holiday_hours correctly', function (): void {
-    Holiday::factory()->create(['date' => '2026-01-04']);
-    $non_holiday = PayrollHour::factory()->create([
-        'date' => Date::parse('2026-01-08'), // holiday
-        'total_hours' => 7,
-    ]);
+    $employee = Employee::factory()->create();
+    $campaign = Campaign::factory()->create();
 
-    (new DistributePayrollHoursJob($non_holiday->date->toDateString(), $non_holiday->employee_id))->handle();
+    Holiday::factory()->create(['date' => '2026-01-04']);
+
+    Production::withoutEvents(function () use ($employee, $campaign): void {
+        Production::factory()
+            ->for($employee)
+            ->for($campaign)
+            ->create([
+                'date' => '2026-01-08',
+                'total_time' => 7,
+            ]);
+    });
+
+    (new RefreshPayrollHoursJob('2026-01-08'))->handle();
 
     $this->assertDatabaseHas('payroll_hours', [
-        'id' => $non_holiday->id,
+        'employee_id' => $employee->id,
+        'date' => '2026-01-08',
         'total_hours' => 7,
         'holiday_hours' => 0,
         'regular_hours' => 7,

@@ -1,14 +1,10 @@
 <?php
 
-use App\Events\EmployeeHiredEvent;
-use App\Events\EmployeeSuspendedEvent;
-use App\Events\EmployeeTerminatedEvent;
 use App\Jobs\RefreshPayrollHoursJob;
 use App\Models\Employee;
 use App\Models\Production;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\Bus;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
 
 // beforeEach(function () {
@@ -54,13 +50,13 @@ it('summarize all data for downtimes and production for the week', function (): 
     (new RefreshPayrollHoursJob('2026-01-10'))->handle();
 
     $this->assertDatabaseHas('payroll_hours', [
-        'date' => '2026-01-10 00:00:00',
+        'date' => '2026-01-10',
         'employee_id' => $employee->id,
         'total_hours' => 14,
     ]);
 
     $this->assertDatabaseHas('payroll_hours', [
-        'date' => '2026-01-07 00:00:00',
+        'date' => '2026-01-07',
         'employee_id' => $employee->id,
         'total_hours' => 7,
     ]);
@@ -77,12 +73,12 @@ it('sumarize data based on dates for the same week', function (): void {
     (new RefreshPayrollHoursJob('2026-01-11'))->handle();
 
     $this->assertDatabaseHas('payroll_hours', [
-        'date' => '2026-01-09 00:00:00',
+        'date' => '2026-01-09',
         'total_hours' => 7,
     ]);
 
     $this->assertDatabaseHas('payroll_hours', [
-        'date' => '2026-01-10 00:00:00',
+        'date' => '2026-01-10',
         'total_hours' => 7,
     ]);
 });
@@ -100,13 +96,13 @@ it('summarize data based on employees for the same week', function (): void {
     (new RefreshPayrollHoursJob('2026-01-10'))->handle();
 
     $this->assertDatabaseHas('payroll_hours', [
-        'date' => '2026-01-10 00:00:00',
+        'date' => '2026-01-10',
         'employee_id' => $employee_one->id,
         'total_hours' => 10,
     ]);
 
     $this->assertDatabaseHas('payroll_hours', [
-        'date' => '2026-01-10 00:00:00',
+        'date' => '2026-01-10',
         'employee_id' => $employee_two->id,
         'total_hours' => 7,
     ]);
@@ -124,13 +120,13 @@ it('summarize data based on the week and ignores other weeks', function (): void
     (new RefreshPayrollHoursJob('2026-01-11'))->handle();
 
     $this->assertDatabaseHas('payroll_hours', [
-        'date' => '2026-01-10 00:00:00',
+        'date' => '2026-01-10',
         'employee_id' => $employee->id,
         'total_hours' => 7,
     ]);
 });
 
-it('is schedulled to run for the previous day and every hour at the 23 minute', function (): void {
+it('is not scheduled anymore', function (): void {
 
     $command = collect(
         app()->make(Schedule::class)->events()
@@ -139,6 +135,5 @@ it('is schedulled to run for the previous day and every hour at the 23 minute', 
             return str($element->command)->contains('dainsys:import-payroll-hours-from-production') && str($element->command)->contains(now()->subDay()->format('Y-m-d'));
         });
 
-    expect($command)->not()->toBeNull();
-    expect($command->expression)->toBe('23 * * * *');
+    expect($command)->toBeNull();
 });

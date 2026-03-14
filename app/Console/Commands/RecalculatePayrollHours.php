@@ -40,18 +40,20 @@ class RecalculatePayrollHours extends Command
             return self::FAILURE;
         }
 
-        $jobs = [];
+        $jobsByWeek = [];
         $currentDate = $fromDate->copy();
 
         while ($currentDate->lte($toDate)) {
-            $jobs[] = new RefreshPayrollHoursJob($currentDate->toDateString());
+            $weekKey = $currentDate->copy()->startOfWeek()->toDateString();
+
+            $jobsByWeek[$weekKey] ??= new RefreshPayrollHoursJob($currentDate->toDateString());
             $currentDate->addDay();
         }
 
-        Bus::batch($jobs)->dispatch();
+        Bus::batch(array_values($jobsByWeek))->dispatch();
 
         $this->info(sprintf(
-            'Dispatched payroll hours recalculation for %s to %s',
+            'Dispatched payroll hours recalculation by week for %s to %s',
             $fromDate->toDateString(),
             $toDate->toDateString()
         ));
