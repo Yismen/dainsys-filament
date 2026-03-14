@@ -53,11 +53,11 @@ class EmployeeMetricsResource extends Resource
                 {$weekGroupingExpression} as week_ending,
                 productions.employee_id,
                 employees.full_name,
-                SUM(productions.total_time) as total_time
+                SUM(productions.total_time) as total_time,
                 SUM(productions.production_time) as total_production_time,
                 SUM(productions.conversions) as total_conversions,
                 SUM(productions.conversions_goal) as conversions_goal,
-                SUM(productions.billable_time) as total_billable_time,
+                SUM(productions.billable_time) as total_billable_time
             ")
             ->join('employees', 'productions.employee_id', '=', 'employees.id')
             ->where('productions.supervisor_id', $supervisor->id)
