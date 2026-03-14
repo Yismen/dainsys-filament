@@ -17,7 +17,7 @@ Schedule::command(SendSuspendedEmployeesEmail::class)->dailyAt('03:05');
 Schedule::command(Birthdays::class, ['today'])->dailyAt('04:00');
 Schedule::command(Birthdays::class, ['this_month'])->monthlyOn(1, '04:01');
 
-Schedule::command(RecalculatePayrollHours::class)->dailyAt('02:00');
+Schedule::command(RecalculatePayrollHours::class)->everyThreeHours($minutes = 8);
 
 Schedule::command('telescope:prune --hours=120')->daily();
 

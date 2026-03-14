@@ -64,5 +64,5 @@ it('is is schedulled daily at 2:00 am', function (): void {
         });
 
     expect($command)->not()->toBeNull();
-    $this->assertEquals('0 2 * * *', $command->expression);
+    $this->assertEquals('8 */3 * * *', $command->expression);
 });
