@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Cache;
 
 class ProductionController extends Controller
 {
+    #[QueryParameter('date', description: 'Date filter. Use YYYY-MM-DD, YYYY-MM-DD,YYYY-MM-DD, or last_N_days')]
     #[QueryParameter('campaign', description: 'ID or Name of the campaign to filter productions')]
     #[QueryParameter('project', description: 'ID or Name of the project to filter productions')]
     #[QueryParameter('employee', description: 'ID or Name of the employee to filter productions')]

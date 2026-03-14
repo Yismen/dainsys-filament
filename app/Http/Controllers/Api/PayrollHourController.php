@@ -15,9 +15,9 @@ use Illuminate\Support\Facades\Cache;
 
 class PayrollHourController extends Controller
 {
-    #[QueryParameter('date', description: 'Date filter. Use YYYY-MM-DD or YYYY-MM-DD,YYYY-MM-DD')]
-    #[QueryParameter('week_ending_at', description: 'Week ending filter. Use YYYY-MM-DD or YYYY-MM-DD,YYYY-MM-DD')]
-    #[QueryParameter('payroll_ending_at', description: 'Payroll ending filter. Use YYYY-MM-DD or YYYY-MM-DD,YYYY-MM-DD')]
+    #[QueryParameter('date', description: 'Date filter. Use YYYY-MM-DD, YYYY-MM-DD,YYYY-MM-DD, or last_N_days')]
+    #[QueryParameter('week_ending_at', description: 'Week ending filter. Use YYYY-MM-DD, YYYY-MM-DD,YYYY-MM-DD, or last_N_days')]
+    #[QueryParameter('payroll_ending_at', description: 'Payroll ending filter. Use YYYY-MM-DD, YYYY-MM-DD,YYYY-MM-DD, or last_N_days')]
     public function __invoke(PayrollHourApiRequest $request)
     {
         $queryFilters = $request->uri()->query()->all();

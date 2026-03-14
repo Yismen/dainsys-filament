@@ -2,28 +2,20 @@
 
 namespace App\Filters;
 
+use App\Services\DateFilterRangeService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 
 class ByDate
 {
-    public function __construct(protected Request $request)
-    {
-        //
-    }
+    public function __construct(protected Request $request, protected DateFilterRangeService $dateFilterRangeService) {}
 
     public function handle(Builder $builder, \Closure $next)
     {
         if ($this->request->has('date')) {
-            $dates_range = \explode(
-                separator: ',',
-                string: $this->request->input('date'),
-                limit: 2
+            [$date_from, $date_to] = $this->dateFilterRangeService->resolve(
+                value: (string) $this->request->input('date')
             );
-
-            $date_from = Carbon::parse(trim($dates_range[0]))->format('Y-m-d');
-            $date_to = Carbon::parse(trim($dates_range[1] ?? $dates_range[0]))->format('Y-m-d');
 
             $builder->whereDate(
                 column: 'date',

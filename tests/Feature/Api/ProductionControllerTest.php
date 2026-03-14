@@ -95,6 +95,23 @@ it('filters by date range if date is separated by comma', function (): void {
     expect(count($reponse->json()['data']))
         ->tobe(1);
 });
+
+it('filters by fixed date range value using last n days format', function (): void {
+    Production::factory()->create(['date' => now()->subDays(30)]);
+    Production::factory()->create(['date' => now()->subDays(61)]);
+    Sanctum::actingAs(user: User::factory()->create(), abilities: ['use-dainsys']);
+
+    $response = $this->getJson('/api/productions?date=last_45_days');
+
+    expect(count($response->json()['data']))->toBe(1);
+});
+
+it('returns validation error for invalid fixed date range value', function (): void {
+    Sanctum::actingAs(user: User::factory()->create(), abilities: ['use-dainsys']);
+
+    $this->getJson('/api/productions?date=last_0_days')
+        ->assertJsonValidationErrorFor('date');
+});
 // filters data by campaign
 it('filters by campaign', function (): void {
     $campaign_1 = Campaign::factory()->create();
