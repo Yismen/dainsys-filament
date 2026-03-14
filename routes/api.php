@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\CampaignController;
 use App\Http\Controllers\Api\DispositionController;
 use App\Http\Controllers\Api\EmployeeController;
 use App\Http\Controllers\Api\LoginNameController;
+use App\Http\Controllers\Api\PayrollHourController;
 use App\Http\Controllers\Api\ProductionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -28,6 +29,7 @@ Route::middleware(['auth:sanctum', 'ability:use-dainsys'])
         Route::get('campaigns', CampaignController::class);
         Route::get('login_names', LoginNameController::class);
         Route::get('productions', ProductionController::class);
+        Route::get('payroll_hours', PayrollHourController::class);
         Route::get('employees', EmployeeController::class);
         Route::get('dispositions', DispositionController::class);
     });
