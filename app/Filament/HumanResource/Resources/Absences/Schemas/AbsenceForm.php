@@ -5,6 +5,7 @@ namespace App\Filament\HumanResource\Resources\Absences\Schemas;
 use App\Enums\AbsenceStatuses;
 use App\Enums\AbsenceTypes;
 use App\Models\Employee;
+use App\Rules\UniqueCombination;
 use App\Services\ModelListService;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
@@ -19,7 +20,14 @@ class AbsenceForm
                 ->label('Employee')
                 ->options(ModelListService::make(model: Employee::query()->active(), value_field: 'full_name'))
                 ->searchable()
-                ->required(),
+                ->required()
+                ->rules(fn (?\App\Models\Absence $record): array => [
+                    new UniqueCombination(
+                        model: \App\Models\Absence::class,
+                        fields: ['employee_id', 'date'],
+                        exceptId: $record?->id,
+                    ),
+                ]),
             DatePicker::make('date')
                 ->required()
                 ->minDate(now()->subYear())

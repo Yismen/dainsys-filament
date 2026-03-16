@@ -58,11 +58,13 @@ class AbsenceResource extends Resource
                     })
                     ->searchable()
                     ->required()
-                    ->rule(new \App\Rules\UniqueCombination(
-                        model: Absence::class,
-                        fields: ['employee_id', 'date'],
-                        exceptId: request()->route('record')?->id,
-                    )),
+                    ->rules(fn (?Absence $record): array => [
+                        new \App\Rules\UniqueCombination(
+                            model: Absence::class,
+                            fields: ['employee_id', 'date'],
+                            exceptId: $record?->id,
+                        ),
+                    ]),
                 DatePicker::make('date')
                     ->required()
                     ->default(now())

@@ -6,12 +6,11 @@ use App\Enums\AbsenceStatuses;
 use App\Enums\AbsenceTypes;
 use App\Models\BaseModels\AppModel;
 use App\Models\Traits\BelongsToEmployee;
-use Carbon\CarbonInterface;
+use App\Rules\UniqueCombination;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-
-use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Validator;
 
 class Absence extends AppModel
 {
@@ -29,24 +28,21 @@ class Absence extends AppModel
     protected static function booted(): void
     {
         static::creating(function (Absence $absence): void {
-            if ($absence->employeeHasAbsenceOnDate($absence->employee_id, $absence->date)) {
-                throw ValidationException::withMessages([
-                    'employee_id' => 'Employee already has an absence recorded for this date.',
-                ]);
-            }
+            Validator::make($absence->getAttributes(), [
+                'employee_id' => [
+                    new UniqueCombination(
+                        model: static::class,
+                        fields: ['employee_id', 'date'],
+                        data: $absence->getAttributes(),
+                    ),
+                ],
+            ])->validate();
         });
     }
 
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
-    }
-
-    public static function employeeHasAbsenceOnDate(int|string $employeeId, string|CarbonInterface $date): bool
-    {
-        return static::where('employee_id', $employeeId)
-            ->whereDate('date', $date)
-            ->exists();
     }
 
     #[Scope]

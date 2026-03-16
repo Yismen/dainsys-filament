@@ -6,13 +6,15 @@ use App\Models\Absence;
 use App\Models\Employee;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Validation\ValidationException;
+use function Pest\Laravel\assertDatabaseHas;
 
 test('absences model interacts with db table', function (): void {
     $data = Absence::factory()->make();
 
     Absence::create($data->toArray());
 
-    $this->assertDatabaseHas(Absence::class, $data->only([
+    assertDatabaseHas('absences', $data->only([
         'employee_id', 'status', 'comment',
     ]));
 });
@@ -67,4 +69,28 @@ test('absences model checks red flagged status', function (): void {
     ]);
 
     expect($absence2->isRedFlagged())->toBeTrue();
+});
+
+test('absences model prevents duplicate employee absences on the same date', function (): void {
+    $employee = Employee::factory()->create();
+    $date = now()->format('Y-m-d');
+
+    Absence::factory()
+        ->for($employee)
+        ->create([
+            'date' => $date,
+        ]);
+
+    try {
+        Absence::factory()
+            ->for($employee)
+            ->create([
+                'date' => $date,
+            ]);
+
+        $this->fail('Expected a validation exception for duplicate absences.');
+    } catch (ValidationException $exception) {
+        expect($exception->errors())
+            ->toHaveKey('employee_id');
+    }
 });
