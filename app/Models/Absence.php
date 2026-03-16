@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+use Illuminate\Validation\ValidationException;
+
 class Absence extends AppModel
 {
     use BelongsToEmployee;
@@ -28,7 +30,9 @@ class Absence extends AppModel
     {
         static::creating(function (Absence $absence): void {
             if ($absence->employeeHasAbsenceOnDate($absence->employee_id, $absence->date)) {
-                throw new \InvalidArgumentException('Employee already has an absence recorded for this date.');
+                throw ValidationException::withMessages([
+                    'employee_id' => 'Employee already has an absence recorded for this date.',
+                ]);
             }
         });
     }
