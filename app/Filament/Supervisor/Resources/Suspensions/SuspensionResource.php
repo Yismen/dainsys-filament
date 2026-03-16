@@ -173,7 +173,9 @@ class SuspensionResource extends Resource
     {
         return parent::getEloquentQuery()
             ->withWhereHas('employee', function ($query): void {
-                $query->where('supervisor_id', auth()->id());
+                $query
+                    ->where('supervisor_id', auth()->id())
+                    ->active();
             });
     }
 }

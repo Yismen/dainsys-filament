@@ -49,7 +49,7 @@ class EmployeeResource extends Resource
             ->whereHas('supervisor', function ($query) use ($supervisor): void {
                 $query->where('id', $supervisor->id);
             })
-            ->whereNotIn('status', [EmployeeStatuses::Terminated]);
+            ->active();
     }
 
     public static function getPages(): array

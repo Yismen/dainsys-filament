@@ -51,6 +51,7 @@ class DowntimeForm
                 Select::make('employee_id')
                     ->options(ModelListService::make(
                         model: Employee::query()
+                            ->activesOrRecentlyTerminated()
                             ->whereHas('supervisor', function ($query): void {
                                 $query->where('id', auth()->user()->supervisor?->id);
                             }),
