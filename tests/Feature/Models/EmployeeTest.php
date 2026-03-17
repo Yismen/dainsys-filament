@@ -7,6 +7,7 @@ use App\Events\EmployeeTerminatedEvent;
 use App\Models\Afp;
 use App\Models\Ars;
 use App\Models\Citizenship;
+use App\Models\Deduction;
 use App\Models\Downtime;
 use App\Models\Employee;
 use App\Models\Hire;
@@ -110,6 +111,7 @@ it('has many', function (string $modelClass, string $relationMethod): void {
     [PayrollHour::class, 'payrollHours'],
     [Incentive::class, 'incentives'],
     [Payroll::class, 'payrolls'],
+    [Deduction::class, 'deductions'],
 ]);
 
 test('employees model has direct belongs to relationships', function (string $modelClass, string $relationMethod): void {

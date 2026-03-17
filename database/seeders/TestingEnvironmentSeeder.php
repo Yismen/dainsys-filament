@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Enums\RevenueTypes;
 use App\Models\Campaign;
 use App\Models\Client;
+use App\Models\Deduction;
 use App\Models\Downtime;
 use App\Models\Employee;
 use App\Models\Hire;
@@ -60,6 +61,7 @@ class TestingEnvironmentSeeder extends Seeder
         foreach (Employee::take(5)->get() as $employee) {
             Production::factory()->for($employee)->create();
             Downtime::factory()->for($employee)->for($downtimeCampaign)->create();
+            Deduction::factory()->count(3)->create(['employee_id' => $employee->id]);
         }
 
         // Holiday::factory()->create(['date' => now()->subDay()]);

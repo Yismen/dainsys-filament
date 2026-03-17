@@ -8,6 +8,7 @@ use App\Enums\PersonalIdTypes;
 use App\Models\BaseModels\AppModel;
 use App\Models\Traits\BelongsToCitizenship;
 use App\Models\Traits\HasManyAbsences;
+use App\Models\Traits\HasManyDeductions;
 use App\Models\Traits\HasManyDowntimes;
 use App\Models\Traits\HasManyHires;
 use App\Models\Traits\HasManyIncentives;
@@ -31,6 +32,7 @@ class Employee extends AppModel implements HasMedia
 {
     use BelongsToCitizenship;
     use HasManyAbsences;
+    use HasManyDeductions;
     use HasManyDowntimes;
     use HasManyHires;
     use HasManyIncentives;
