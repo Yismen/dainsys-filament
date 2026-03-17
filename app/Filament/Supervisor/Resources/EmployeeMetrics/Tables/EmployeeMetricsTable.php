@@ -39,6 +39,11 @@ class EmployeeMetricsTable
                     ->wrapHeader()
                     ->label('Total Production Time')
                     ->numeric(decimalPlaces: 2),
+                TextColumn::make('total_billable_time')
+                    ->wrapHeader()
+                    ->label('Total Billable Time')
+                    ->numeric(decimalPlaces: 2)
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('total_conversions')
                     ->label('Total Conversions')
                     ->wrapHeader()

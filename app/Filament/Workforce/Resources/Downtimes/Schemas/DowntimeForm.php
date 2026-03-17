@@ -4,6 +4,7 @@ namespace App\Filament\Workforce\Resources\Downtimes\Schemas;
 
 use App\Enums\RevenueTypes;
 use App\Models\Campaign;
+use App\Models\Downtime;
 use App\Models\DowntimeReason;
 use App\Models\Employee;
 use App\Services\ModelListService;
@@ -45,7 +46,14 @@ class DowntimeForm
                         )
                     )
                     ->searchable()
-                    ->required(),
+                    ->required()
+                    ->rules(fn (?Downtime $record): array => [
+                        new \App\Rules\UniqueCombination(
+                            model: Downtime::class,
+                             fields: ['employee_id', 'date'],
+                             exceptId: $record?->id,
+                        ),
+                    ]),
                 TextInput::make('total_time')
                     ->required()
                     ->numeric(),

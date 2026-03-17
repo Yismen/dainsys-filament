@@ -4,6 +4,7 @@ namespace App\Filament\Supervisor\Resources\Downtimes\Schemas;
 
 use App\Enums\RevenueTypes;
 use App\Models\Campaign;
+use App\Models\Downtime;
 use App\Models\DowntimeReason;
 use App\Models\Employee;
 use App\Services\ModelListService;
@@ -42,12 +43,14 @@ class DowntimeForm
                     ->required()
                     ->minValue(0)
                     ->maxValue(13)
-                    ->numeric(),
-                // Textarea::make('request_comment')
-                //     ->label('Request comment')
-                //     ->nullable()
-                //     ->columnSpanFull(),
-
+                    ->numeric()
+                    ->rules(fn (?Downtime $record): array => [
+                        new \App\Rules\UniqueCombination(
+                            model: Downtime::class,
+                            fields: ['employee_id', 'date'],
+                            exceptId: $record?->id,
+                        ),
+                    ]),
                 Select::make('employee_id')
                     ->options(ModelListService::make(
                         model: Employee::query()
@@ -58,7 +61,14 @@ class DowntimeForm
                         value_field: 'full_name')
                     )
                     ->searchable()
-                    ->required(),
+                    ->required()
+                    ->rules(fn (?Downtime $record): array => [
+                        new \App\Rules\UniqueCombination(
+                            model: Downtime::class,
+                             fields: ['employee_id', 'date'],
+                             exceptId: $record?->id,
+                        ),
+                    ]),
             ]);
     }
 }

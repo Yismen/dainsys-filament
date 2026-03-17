@@ -60,7 +60,7 @@ class EmployeeMetricsResource extends Resource
                 SUM(productions.billable_time) as total_billable_time
             ")
             ->join('employees', 'productions.employee_id', '=', 'employees.id')
-            ->where('productions.supervisor_id', $supervisor->id)
+            ->where('employees.supervisor_id', $supervisor->id)
             ->where('productions.date', '>=', $eightWeeksAgo)
             ->whereIn('employees.status', [EmployeeStatuses::Hired, EmployeeStatuses::Suspended])
             ->groupByRaw("{$weekGroupingExpression}, productions.employee_id, employees.full_name");
