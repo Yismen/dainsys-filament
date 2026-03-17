@@ -16,15 +16,15 @@ use Filament\Tables\Table;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 
-class MyDiscounts extends Page implements HasTable
+class MyDeductions extends Page implements HasTable
 {
     use InteractsWithTable;
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-minus-circle';
 
-    protected static ?string $navigationLabel = 'My Discounts';
+    protected static ?string $navigationLabel = 'My Deductions';
 
-    protected static ?string $title = 'My Discounts';
+    protected static ?string $title = 'My Deductions';
 
     protected static ?int $navigationSort = 6;
 

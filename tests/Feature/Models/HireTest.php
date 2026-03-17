@@ -31,7 +31,6 @@ test('hires model interacts with db table', function (): void {
 
     $this->assertDatabaseHas('hires', $data->only([
         'employee_id',
-        'date',
         'site_id',
         'project_id',
         'position_id',

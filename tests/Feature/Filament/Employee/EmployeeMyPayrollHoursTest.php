@@ -53,7 +53,7 @@ it('displays payroll hours for authenticated employee', function (): void {
     $response = $this->get(MyPayrollHours::getUrl(panel: 'employee'));
 
     $response->assertSuccessful()
-        ->assertSee('My Hours');
+        ->assertSee('My Payroll Hours');
 });
 
 it('prevents access for users without employee_id', function (): void {
