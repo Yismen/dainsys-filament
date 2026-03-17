@@ -79,7 +79,7 @@ class MyIncentives extends Page implements HasTable
                     ->summarize(Sum::make()->label('Total')),
             ])
             ->filters([
-                Filter::make('payable_date')
+                Filter::make('payable_dates')
                     ->label('Payable Date')
                     ->columnSpanFull()
                     ->indicateUsing(function (array $state): ?string {
@@ -121,6 +121,16 @@ class MyIncentives extends Page implements HasTable
                                 fn (Builder $query, $date): Builder => $query->whereDate('payable_date', '<=', $date),
                             );
                     }),
+
+                SelectFilter::make('payable_date')
+                    ->label('Payable Date')
+                    ->options(fn () => Incentive::query()
+                        ->where('employee_id', Auth::user()->employee_id)
+                        ->orderBy('payable_date', 'desc')
+                        ->distinct()
+                        ->pluck('payable_date', 'payable_date')
+                        ->toArray())
+                    ->placeholder('All Dates'),
 
                 SelectFilter::make('project_id')
                     ->label('Project')

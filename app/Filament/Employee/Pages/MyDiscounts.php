@@ -26,7 +26,7 @@ class MyDiscounts extends Page implements HasTable
 
     protected static ?string $title = 'My Discounts';
 
-    protected static ?int $navigationSort = 5;
+    protected static ?int $navigationSort = 6;
 
     public function mount(): void
     {
@@ -64,6 +64,7 @@ class MyDiscounts extends Page implements HasTable
             ->filters([
                 SelectFilter::make('payable_date')
                     ->label('Payable Date')
+                    ->columnSpanFull()
                     ->options(fn () => Deduction::query()
                         ->where('employee_id', Auth::user()->employee_id)
                         ->orderBy('payable_date', 'desc')

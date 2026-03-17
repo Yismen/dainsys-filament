@@ -28,7 +28,7 @@ class MyAbsences extends Page implements HasTable
 
     protected static ?string $title = 'My Absences';
 
-    protected static ?int $navigationSort = 6;
+    protected static ?int $navigationSort = 7;
 
     public function mount(): void
     {
@@ -47,6 +47,7 @@ class MyAbsences extends Page implements HasTable
     public function table(Table $table): Table
     {
         return $table
+            ->poll(null)
             ->query(Absence::query()
                 ->with(['employee'])
                 ->where('employee_id', Auth::user()->employee_id))
