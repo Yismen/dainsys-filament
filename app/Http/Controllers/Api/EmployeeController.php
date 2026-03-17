@@ -39,6 +39,7 @@ class EmployeeController extends Controller
                             'supervisor:id,name',
                             'site:id,name',
                         ])
+                        ->activesOrRecentlyTerminated()
                 )
                 ->through([
                     ByStatus::class,
