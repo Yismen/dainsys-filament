@@ -23,15 +23,18 @@ class RecentUsersWidget extends BaseWidget
             ->query($this->getQuery())
             ->columns([
                 TextColumn::make('name')
+                    ->wrap()
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('email')
+                    ->wrap()
                     ->searchable()
                     ->sortable(),
-                BadgeColumn::make('role')
+                TextColumn::make('role')
                     ->getStateUsing(function (User $record) {
                         return $record->getRoleNames()->first() ?? 'No Role';
                     })
+                    ->badge()
                     ->colors([
                         'danger' => 'admin',
                         'info' => 'user',
@@ -44,15 +47,13 @@ class RecentUsersWidget extends BaseWidget
                     ->sortable(),
             ])
             ->defaultSort('created_at', 'desc')
-            ->paginated(false)
-            ->striped()
-            ->recordAction('edit');
+            ->paginated(true)
+            ->defaultPaginationPageOption(5)
+            ->striped();
     }
 
     private function getQuery(): Builder
     {
-        return User::query()
-            ->where('created_at', '>=', now()->subDays(7))
-            ->limit(10);
+        return User::query();
     }
 }

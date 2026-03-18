@@ -24,6 +24,7 @@ class ActivityLogWidget extends BaseWidget
             ->columns([
                 TextColumn::make('causer.name')
                     ->label('User')
+                    ->wrap()
                     ->sortable()
                     ->searchable()
                     ->default('—'),
@@ -54,6 +55,7 @@ class ActivityLogWidget extends BaseWidget
                         'created' => 'Created',
                         'updated' => 'Updated',
                         'deleted' => 'Deleted',
+                        'User logged in' => 'User logged in',
                     ]),
                 SelectFilter::make('subject_type')
                     ->label('Subject')
@@ -66,6 +68,7 @@ class ActivityLogWidget extends BaseWidget
                     ->searchable(),
             ])
             ->defaultSort('created_at', 'desc')
+            ->paginated(true)
             ->defaultPaginationPageOption(5)
             ->striped();
     }

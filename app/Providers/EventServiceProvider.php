@@ -26,6 +26,8 @@ use App\Listeners\SendTicketCreatedMail;
 use App\Listeners\SendTicketDeletedMail;
 use App\Listeners\SendTicketReopenedMail;
 use App\Listeners\SendTicketReplyCreatedMail;
+use App\Listeners\TrackUserLogin;
+use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -40,6 +42,9 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+        Login::class => [
+            TrackUserLogin::class,
         ],
         EmployeeHiredEvent::class => [
             SendEmployeeHiredEmail::class,

@@ -5,9 +5,6 @@ namespace App\Filament\Admin\Resources\ActivityLogs;
 use App\Filament\Admin\Resources\ActivityLogs\Pages\ManageActivityLogs;
 use BackedEnum;
 use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\TextInput;
 use Filament\Infolists\Components\TextEntry;
@@ -15,6 +12,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Spatie\Activitylog\Models\Activity;
 use UnitEnum;
@@ -91,6 +89,29 @@ class ActivityLogResource extends Resource
                 TextColumn::make('causer.name')
                     ->wrap()
                     ->searchable(),
+                TextColumn::make('properties.user_id')
+                    ->label('User ID')
+                    ->state(fn (Activity $record): ?string => $record->getExtraProperty('user_id'))
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('properties.name')
+                    ->label('Name')
+                    ->state(fn (Activity $record): ?string => $record->getExtraProperty('name'))
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('properties.email')
+                    ->label('Email')
+                    ->state(fn (Activity $record): ?string => $record->getExtraProperty('email'))
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('properties.ip_address')
+                    ->label('IP Address')
+                    ->state(fn (Activity $record): ?string => $record->getExtraProperty('ip_address'))
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('properties.browser')
+                    ->label('Browser')
+                    ->state(fn (Activity $record): ?string => $record->getExtraProperty('browser'))
+                    ->wrap()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('event')
                     ->searchable(),
                 TextColumn::make('updated_at')
@@ -99,7 +120,15 @@ class ActivityLogResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('log_name')
+                    ->label('Log')
+                    ->options([
+                        'authentication' => 'Authentication',
+                    ]),
+                SelectFilter::make('event')
+                    ->options([
+                        'login' => 'Login',
+                    ]),
             ])
             ->recordActions([
                 ViewAction::make(),
