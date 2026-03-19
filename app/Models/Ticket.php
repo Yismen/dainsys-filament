@@ -309,7 +309,8 @@ class Ticket extends AppModel
             ->first()?->reference;
 
         if ($latest_reference != null) {
-            $reference = str($latest_reference)->after($this->tickets_prefix)->toString();
+            // $reference = str($latest_reference)->after($this->tickets_prefix)->toString();
+            $reference = str($latest_reference)->substr(-6)->toString();
 
             $reference = ++$reference;
 
@@ -319,10 +320,6 @@ class Ticket extends AppModel
         return $this->tickets_prefix.'000001';
     }
 
-    // public function getReferenceAttribute()
-    // {
-    //     return $this->attributes['reference'] ?? null;
-    // }
     protected function casts(): array
     {
         return [
