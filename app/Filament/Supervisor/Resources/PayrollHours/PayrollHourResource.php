@@ -2,7 +2,6 @@
 
 namespace App\Filament\Supervisor\Resources\PayrollHours;
 
-use App\Enums\EmployeeStatuses;
 use App\Filament\Supervisor\Resources\PayrollHours\Pages\ListPayrollHours;
 use App\Filament\Supervisor\Resources\PayrollHours\Tables\PayrollHoursTable;
 use App\Models\PayrollHour;

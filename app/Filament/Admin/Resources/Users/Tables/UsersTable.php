@@ -68,8 +68,8 @@ class UsersTable
                     ->default(false)
                     ->trueLabel('Has Employee ID')
                     ->falseLabel('No Employee ID')
-                    ->query(function($query, $data) {
-                        $value = (bool)$data['value'] ?? null;
+                    ->query(function ($query, $data) {
+                        $value = (bool) $data['value'] ?? null;
                         if ($value === true) {
                             $query->whereNotNull('employee_id');
                         } elseif ($value === false) {

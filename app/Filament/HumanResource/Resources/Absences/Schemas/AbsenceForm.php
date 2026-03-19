@@ -4,6 +4,7 @@ namespace App\Filament\HumanResource\Resources\Absences\Schemas;
 
 use App\Enums\AbsenceStatuses;
 use App\Enums\AbsenceTypes;
+use App\Models\Absence;
 use App\Models\Employee;
 use App\Rules\UniqueCombination;
 use App\Services\ModelListService;
@@ -21,9 +22,9 @@ class AbsenceForm
                 ->options(ModelListService::make(model: Employee::query()->active(), value_field: 'full_name'))
                 ->searchable()
                 ->required()
-                ->rules(fn (?\App\Models\Absence $record): array => [
+                ->rules(fn (?Absence $record): array => [
                     new UniqueCombination(
-                        model: \App\Models\Absence::class,
+                        model: Absence::class,
                         fields: ['employee_id', 'date'],
                         exceptId: $record?->id,
                     ),

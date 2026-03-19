@@ -228,4 +228,3 @@ class RefreshPayrollHoursJob implements ShouldQueue
             });
     }
 }
-

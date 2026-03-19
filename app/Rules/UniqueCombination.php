@@ -3,19 +3,18 @@
 namespace App\Rules;
 
 use Closure;
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Contracts\Validation\DataAwareRule;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Database\Eloquent\Model;
 
-class UniqueCombination implements ValidationRule, DataAwareRule
+class UniqueCombination implements DataAwareRule, ValidationRule
 {
     public function __construct(
         protected Model|string $model,
         protected array $fields,
         protected int|string|null $exceptId = null,
         protected ?array $data = null,
-    ) {
-    }
+    ) {}
 
     /** @var array<string, mixed> */
     protected array $validatorData = [];
@@ -61,7 +60,7 @@ class UniqueCombination implements ValidationRule, DataAwareRule
 
         if ($query->exists()) {
             $fieldLabels = array_map(fn ($f) => str_replace('_id', '', str_replace('_', ' ', $f)), $this->fields);
-            $fail("The selected {$attribute} already has a record with the given " . implode(', ', $fieldLabels) . ".");
+            $fail("The selected {$attribute} already has a record with the given ".implode(', ', $fieldLabels).'.');
         }
     }
 

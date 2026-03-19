@@ -2,7 +2,6 @@
 
 namespace App\Filament\Supervisor\Resources\Employees;
 
-use App\Enums\EmployeeStatuses;
 use App\Filament\Supervisor\Resources\Employees\Pages\ListEmployees;
 use App\Filament\Supervisor\Resources\Employees\Pages\ViewEmployee;
 use App\Filament\Supervisor\Resources\Employees\Schemas\EmployeeInfolist;

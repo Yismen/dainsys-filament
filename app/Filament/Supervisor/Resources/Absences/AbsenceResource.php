@@ -7,6 +7,7 @@ use App\Enums\AbsenceTypes;
 use App\Filament\Supervisor\Resources\Absences\Pages\ManageAbsences;
 use App\Models\Absence;
 use App\Models\Employee;
+use App\Rules\UniqueCombination;
 use App\Services\ModelListService;
 use BackedEnum;
 use Filament\Actions\EditAction;
@@ -59,7 +60,7 @@ class AbsenceResource extends Resource
                     ->searchable()
                     ->required()
                     ->rules(fn (?Absence $record): array => [
-                        new \App\Rules\UniqueCombination(
+                        new UniqueCombination(
                             model: Absence::class,
                             fields: ['employee_id', 'date'],
                             exceptId: $record?->id,

@@ -4,11 +4,9 @@ namespace App\Actions\Filament;
 
 use App\Jobs\RefreshPayrollHoursJob;
 use Filament\Actions\Action;
-use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Support\Colors\Color;
 use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -40,7 +38,7 @@ class UpdatePayrollHoursAction
                         }
 
                         return $weeks;
-                    }))
+                    })),
             ])
             ->action(function (array $data): void {
                 // Refresh payroll hours for this employee/date when updated

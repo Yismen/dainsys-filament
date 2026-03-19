@@ -2,7 +2,6 @@
 
 namespace App\Filament\Supervisor\Resources\NightlyHours;
 
-use App\Enums\EmployeeStatuses;
 use App\Filament\Supervisor\Resources\NightlyHours\Pages\ListNightlyHours;
 use App\Filament\Supervisor\Resources\NightlyHours\Tables\NightlyHoursTable;
 use App\Models\NightlyHour;

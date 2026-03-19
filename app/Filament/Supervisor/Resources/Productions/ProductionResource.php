@@ -2,7 +2,6 @@
 
 namespace App\Filament\Supervisor\Resources\Productions;
 
-use App\Enums\EmployeeStatuses;
 use App\Filament\Supervisor\Resources\Productions\Pages\ListProductions;
 use App\Filament\Supervisor\Resources\Productions\Tables\ProductionsTable;
 use App\Models\Production;

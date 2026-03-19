@@ -7,6 +7,7 @@ use App\Models\Campaign;
 use App\Models\Downtime;
 use App\Models\DowntimeReason;
 use App\Models\Employee;
+use App\Rules\UniqueCombination;
 use App\Services\ModelListService;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
@@ -48,10 +49,10 @@ class DowntimeForm
                     ->searchable()
                     ->required()
                     ->rules(fn (?Downtime $record): array => [
-                        new \App\Rules\UniqueCombination(
+                        new UniqueCombination(
                             model: Downtime::class,
-                             fields: ['employee_id', 'date'],
-                             exceptId: $record?->id,
+                            fields: ['employee_id', 'date'],
+                            exceptId: $record?->id,
                         ),
                     ]),
                 TextInput::make('total_time')

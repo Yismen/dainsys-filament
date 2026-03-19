@@ -7,10 +7,10 @@ use App\Models\Campaign;
 use App\Models\Downtime;
 use App\Models\DowntimeReason;
 use App\Models\Employee;
+use App\Rules\UniqueCombination;
 use App\Services\ModelListService;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
@@ -45,7 +45,7 @@ class DowntimeForm
                     ->maxValue(13)
                     ->numeric()
                     ->rules(fn (?Downtime $record): array => [
-                        new \App\Rules\UniqueCombination(
+                        new UniqueCombination(
                             model: Downtime::class,
                             fields: ['employee_id', 'date'],
                             exceptId: $record?->id,
@@ -63,10 +63,10 @@ class DowntimeForm
                     ->searchable()
                     ->required()
                     ->rules(fn (?Downtime $record): array => [
-                        new \App\Rules\UniqueCombination(
+                        new UniqueCombination(
                             model: Downtime::class,
-                             fields: ['employee_id', 'date'],
-                             exceptId: $record?->id,
+                            fields: ['employee_id', 'date'],
+                            exceptId: $record?->id,
                         ),
                     ]),
             ]);
