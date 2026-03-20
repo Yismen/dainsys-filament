@@ -18,6 +18,7 @@ class ReopenTicketAction
                 ->color(Color::Blue)
                 ->button()
                 ->icon(Heroicon::OutlinedArrowPath)
+                ->closeModalByClickingAway(false)
                 ->visible(function (Ticket $record) {
                     return Auth::user()->can('reopen', $record);
                 })

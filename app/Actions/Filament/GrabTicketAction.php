@@ -23,6 +23,7 @@ class GrabTicketAction
             ->successNotificationTitle('You are now assigned to this record')
             ->action(function (Ticket $record): void {
                 $record->grab();
-            });
+            })
+            ->closeModalByClickingAway(false);
     }
 }

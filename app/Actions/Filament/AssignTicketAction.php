@@ -25,6 +25,7 @@ class AssignTicketAction
             ->size('sm')
             ->color(Color::Indigo)
             ->successNotificationTitle('Ticket has been assigned!')
+            ->closeModalByClickingAway(false)
             ->schema([
                 Select::make('user_id')
                     ->searchable()

@@ -17,6 +17,7 @@ class CloseTicketAction
             ->color(Color::Red)
             ->icon(Heroicon::OutlinedXMark)
             ->button()
+            ->closeModalByClickingAway(false)
             ->visible(function (Ticket $record) {
                 return Auth::user()->can('close', $record);
             })
