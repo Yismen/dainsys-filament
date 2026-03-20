@@ -23,6 +23,8 @@ class TicketsCompletedTable extends TableWidget
 {
     protected int|string|array $columnSpan = 'full';
 
+    protected ?string $pollingInterval = '90s';
+
     public static function canView(): bool
     {
         return Auth::user()->isSuperAdmin() || Auth::user()->isTicketsManager();

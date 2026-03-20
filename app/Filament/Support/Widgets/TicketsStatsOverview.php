@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Cache;
 
 class TicketsStatsOverview extends StatsOverviewWidget
 {
+    protected ?string $pollingInterval = '90s';
+
     public static function canView(): bool
     {
         return Auth::user()->isSuperAdmin() || Auth::user()->isTicketsManager() || Auth::user()->isTicketsAgent();

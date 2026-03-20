@@ -4,6 +4,7 @@ namespace App\Filament\Support\Widgets;
 
 use App\Actions\Filament\AssignTicketAction;
 use App\Actions\Filament\CloseTicketAction;
+use App\Actions\Filament\EditTicketAction;
 use App\Actions\Filament\GrabTicketAction;
 use App\Filament\Support\Widgets\Tables\TicketsTable;
 use App\Filters\Filament\Support\TicketAgentsFilter;
@@ -23,6 +24,8 @@ use Illuminate\Support\Facades\Auth;
 class TicketsPendingTable extends TableWidget
 {
     protected int|string|array $columnSpan = 'full';
+
+    protected ?string $pollingInterval = '90s';
 
     public static function canView(): bool
     {
@@ -53,11 +56,15 @@ class TicketsPendingTable extends TableWidget
                         Grid::make(2)
                             ->schema(TicketInfolist::make()),
                     ])
+                    ->closeModalByClickingAway(false)
                     ->modalFooterActions([
                         GrabTicketAction::make(),
                         AssignTicketAction::make(),
                         CloseTicketAction::make(),
                     ]),
+                EditTicketAction::make()
+                    ->icon('heroicon-o-pencil')
+                    ->visible(fn (Ticket $record) => Auth::user()->can('edit', $record)),
             ])
             ->toolbarActions([
             ]);
