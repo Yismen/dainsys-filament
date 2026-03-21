@@ -16,7 +16,7 @@
                 'mr-8 border-gray-200 bg-gray-50 text-gray-900 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100' => ! $isCurrentUserReply,
             ])
         >
-            <div class="mb-1 flex items-center justify-between gap-3">
+            <div class="mb-1 flex items-center justify-between">
                 <p
                     @class([
                         'text-sm font-semibold',
@@ -31,7 +31,7 @@
                 </p>
             </div>
 
-            <p class="whitespace-pre-line text-sm leading-relaxed">
+            <p class="text-sm leading-relaxed">
                 {{ $reply->content }}
             </p>
         </article>
