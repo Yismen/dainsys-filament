@@ -24,6 +24,7 @@ class MonthlyAbsenceSummary extends TableWidget
             ->query($this->getTableQuery())
             ->columns([
                 TextColumn::make('full_name')
+                    ->wrap()
                     ->label('Employee')
                     ->searchable()
                     ->sortable(),
@@ -37,6 +38,11 @@ class MonthlyAbsenceSummary extends TableWidget
                         $state >= 3 => Color::Orange,
                         default => Color::Taupe,
                     }),
+                TextColumn::make('absences.date')
+                    ->label('Absence Dates')
+                    ->badge()
+                    ->date('M d, Y')
+                    ->wrap()
             ])
             ->defaultSort('absences_count', 'desc')
             ->paginated(false);
