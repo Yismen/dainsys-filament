@@ -58,11 +58,11 @@ class BankAccountResource extends Resource
                     ->searchable()
                     ->required(),
                 Select::make('bank_id')
+                    ->relationship('bank', 'name')
                     ->options(
                         ModelListService::make(Bank::query())
                     )
                     ->searchable()
-                    ->relationship('bank', 'name')
                     ->createOptionForm([
                         Grid::make(2)
                             ->schema([

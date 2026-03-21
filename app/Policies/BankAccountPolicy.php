@@ -12,7 +12,7 @@ class BankAccountPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->checkPermissionTo('view-any BankAccount');
+        return $user->checkPermissionTo('viewAny bankAccount');
     }
 
     /**
@@ -20,7 +20,7 @@ class BankAccountPolicy
      */
     public function view(User $user, BankAccount $bankaccount): bool
     {
-        return $user->checkPermissionTo('view BankAccount');
+        return $user->checkPermissionTo('view bankAccount');
     }
 
     /**
@@ -28,7 +28,7 @@ class BankAccountPolicy
      */
     public function create(User $user): bool
     {
-        return $user->checkPermissionTo('create BankAccount');
+        return $user->checkPermissionTo('create bankAccount');
     }
 
     /**
@@ -36,7 +36,7 @@ class BankAccountPolicy
      */
     public function update(User $user, BankAccount $bankaccount): bool
     {
-        return $user->checkPermissionTo('update BankAccount');
+        return $user->checkPermissionTo('update bankAccount');
     }
 
     /**
@@ -44,7 +44,7 @@ class BankAccountPolicy
      */
     public function delete(User $user, BankAccount $bankaccount): bool
     {
-        return $user->checkPermissionTo('delete BankAccount');
+        return $user->checkPermissionTo('delete bankAccount');
     }
 
     /**
@@ -52,7 +52,7 @@ class BankAccountPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->checkPermissionTo('delete-any BankAccount');
+        return $user->checkPermissionTo('delete-any bankAccount');
     }
 
     /**
@@ -60,7 +60,7 @@ class BankAccountPolicy
      */
     public function restore(User $user, BankAccount $bankaccount): bool
     {
-        return $user->checkPermissionTo('restore BankAccount');
+        return $user->checkPermissionTo('restore bankAccount');
     }
 
     /**
@@ -68,7 +68,7 @@ class BankAccountPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->checkPermissionTo('restore-any BankAccount');
+        return $user->checkPermissionTo('restore-any bankAccount');
     }
 
     /**
@@ -76,7 +76,7 @@ class BankAccountPolicy
      */
     public function replicate(User $user, BankAccount $bankaccount): bool
     {
-        return $user->checkPermissionTo('replicate BankAccount');
+        return $user->checkPermissionTo('replicate bankAccount');
     }
 
     /**
@@ -84,7 +84,7 @@ class BankAccountPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->checkPermissionTo('reorder BankAccount');
+        return $user->checkPermissionTo('reorder bankAccount');
     }
 
     /**
@@ -92,7 +92,7 @@ class BankAccountPolicy
      */
     public function forceDelete(User $user, BankAccount $bankaccount): bool
     {
-        return $user->checkPermissionTo('force-delete BankAccount');
+        return $user->checkPermissionTo('force-delete bankAccount');
     }
 
     /**
@@ -100,6 +100,6 @@ class BankAccountPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->checkPermissionTo('force-delete-any BankAccount');
+        return $user->checkPermissionTo('force-delete-any bankAccount');
     }
 }
