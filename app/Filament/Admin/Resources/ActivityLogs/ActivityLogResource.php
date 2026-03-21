@@ -73,22 +73,24 @@ class ActivityLogResource extends Resource
                     ->date()
                     ->sortable(),
                 TextColumn::make('log_name')
-                    ->searchable(),
+                    ->searchable(isIndividual: true),
                 TextColumn::make('subject_type')
                     ->wrap()
                     ->sortable()
-                    ->searchable(),
+                    ->searchable(isIndividual: true),
                 TextColumn::make('subject_id')
                     ->wrap()
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('causer_type')
                     ->wrap()
                     ->sortable()
-                    ->searchable(),
+                    ->searchable(isIndividual: true)
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('causer.name')
                     ->wrap()
-                    ->searchable(),
+                    ->searchable(isIndividual: true),
                 TextColumn::make('properties.user_id')
                     ->label('User ID')
                     ->state(fn (Activity $record): ?string => $record->getExtraProperty('user_id'))
@@ -96,12 +98,12 @@ class ActivityLogResource extends Resource
                 TextColumn::make('properties.name')
                     ->label('Name')
                     ->state(fn (Activity $record): ?string => $record->getExtraProperty('name'))
-                    ->searchable()
+                    ->searchable(isIndividual: true)
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('properties.email')
                     ->label('Email')
                     ->state(fn (Activity $record): ?string => $record->getExtraProperty('email'))
-                    ->searchable()
+                    ->searchable(isIndividual: true)
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('properties.ip_address')
                     ->label('IP Address')
@@ -113,7 +115,7 @@ class ActivityLogResource extends Resource
                     ->wrap()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('event')
-                    ->searchable(),
+                    ->searchable(isIndividual: true),
                 TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
@@ -124,10 +126,14 @@ class ActivityLogResource extends Resource
                     ->label('Log')
                     ->options([
                         'authentication' => 'Authentication',
+                        'default' => 'Default',
                     ]),
                 SelectFilter::make('event')
                     ->options([
                         'login' => 'Login',
+                        'updated' => 'Updated',
+                        'deleted' => 'Deleted',
+                        'created' => 'Created',
                     ]),
             ])
             ->recordActions([
