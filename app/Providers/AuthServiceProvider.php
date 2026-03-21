@@ -74,21 +74,24 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('grab', function (User $user, Ticket $ticket) {
-            return
-                $user->hasAnyRole([
-                    SupportRoles::Manager->value,
-                    SupportRoles::Agent->value,
-                ]) &&
-                $user->id !== $ticket->owner_id &&
-                $ticket->assigned_to === null;
+            if($ticket->isClosed()) {
+                return false;
+            }
 
+            if ($user->isTicketsManager()) {
+                return true;
+            }
+
+            if ($ticket->assigned_to === null && $user->isTicketsAgent()) {
+                return true;
+            }
+
+            return false;
         });
 
         Gate::define('assign', function (User $user, Ticket $ticket) {
             return
-
-                    $user->isTicketsManager()
-                 &&
+                $user->isTicketsManager() &&
                 $ticket->isOpen();
 
         });

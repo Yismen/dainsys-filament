@@ -2,9 +2,6 @@
 
 namespace App\Filament\Support\Widgets;
 
-use App\Actions\Filament\AssignTicketAction;
-use App\Actions\Filament\CloseTicketAction;
-use App\Actions\Filament\GrabTicketAction;
 use App\Actions\Filament\ReopenTicketAction;
 use App\Filament\Support\Widgets\Tables\TicketsTable;
 use App\Filters\Filament\Support\TicketAgentsFilter;
@@ -34,7 +31,7 @@ class TicketsCompletedTable extends TableWidget
     {
         return $table
             ->defaultSort('completed_at', 'desc')
-            ->query(Ticket::query()->completed())
+            ->query(Ticket::query()->with(['replies.user'])->completed())
             ->columns(TicketsTable::make())
             ->queryStringIdentifier('tickets_completed')
             ->paginationMode(PaginationMode::Default)
@@ -50,10 +47,8 @@ class TicketsCompletedTable extends TableWidget
                         Grid::make(2)
                             ->schema(TicketInfolist::make()),
                     ])
+                    ->stickyModalFooter()
                     ->modalFooterActions([
-                        GrabTicketAction::make(),
-                        AssignTicketAction::make(),
-                        CloseTicketAction::make(),
                         ReopenTicketAction::make(),
                     ]),
             ])

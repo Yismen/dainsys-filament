@@ -5,6 +5,8 @@ namespace App\Infolists\Filament\Support;
 use App\Enums\TicketStatuses;
 use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Schemas\Components\Section;
+use Illuminate\Contracts\View\View;
 
 class TicketInfolist
 {
@@ -45,6 +47,16 @@ class TicketInfolist
                 ->stacked()
                 // ->limit(3)
                 ->limitedRemainingText(),
+
+            Section::make('Replies')
+                ->columnSpanFull()
+                ->schema([
+                    TextEntry::make('id')
+                        ->hiddenLabel()
+                        ->formatStateUsing(fn ($record): View => view('filament.support.tickets.reply-infolist', [
+                            'record' => $record,
+                        ])),
+                ]),
         ];
     }
 }

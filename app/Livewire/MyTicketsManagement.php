@@ -6,6 +6,7 @@ use App\Actions\Filament\AssignTicketAction;
 use App\Actions\Filament\CloseTicketAction;
 use App\Actions\Filament\EditTicketAction;
 use App\Actions\Filament\ReopenTicketAction;
+use App\Actions\Filament\ReplyToTicketAction;
 use App\Enums\TicketPriorities;
 use App\Enums\TicketStatuses;
 use App\Infolists\Filament\Support\TicketInfolist;
@@ -40,6 +41,7 @@ use Filament\Tables\Table;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\On;
 
 #[Layout('layouts.landing-page', ['navType' => 'static'])]
 class MyTicketsManagement extends Page implements HasActions, HasSchemas, HasTable
@@ -57,7 +59,7 @@ class MyTicketsManagement extends Page implements HasActions, HasSchemas, HasTab
                 Ticket::query()
                     ->where('owner_id', Auth::id())
                     // ->orwhere('assigned_to', Auth::id())
-                    ->with(['owner', 'agent'])
+                    ->with(['owner', 'agent', 'replies.user'])
             )
             ->defaultSort('created_at', 'desc')
             ->columns([
@@ -133,6 +135,7 @@ class MyTicketsManagement extends Page implements HasActions, HasSchemas, HasTab
                         CloseTicketAction::make(),
                         ReopenTicketAction::make(),
                         AssignTicketAction::make(),
+                        ReplyToTicketAction::make(),
                         EditTicketAction::make(),
 
                     ])
@@ -140,6 +143,7 @@ class MyTicketsManagement extends Page implements HasActions, HasSchemas, HasTab
                         Grid::make(2)
                             ->schema(TicketInfolist::make()),
                     ])
+                    ->stickyModalFooter()
                     ->stickyModalHeader(),
                 EditTicketAction::make(),
             ])
@@ -193,5 +197,21 @@ class MyTicketsManagement extends Page implements HasActions, HasSchemas, HasTab
     public function render(): View
     {
         return view('livewire.my-tickets-management');
+    }
+
+    #[On('ticketRepliesUpdated')]
+    public function ticketRepliesUpdated(string $ticketId): void
+    {
+        $mountedRecord = $this->getMountedAction()?->getRecord();
+
+        if (! $mountedRecord instanceof Ticket) {
+            return;
+        }
+
+        if ((string) $mountedRecord->getKey() !== $ticketId) {
+            return;
+        }
+
+        $mountedRecord->load(['owner', 'agent', 'replies.user']);
     }
 }

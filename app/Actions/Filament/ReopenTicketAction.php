@@ -18,7 +18,6 @@ class ReopenTicketAction
                 ->color(Color::Blue)
                 ->button()
                 ->icon(Heroicon::OutlinedArrowPath)
-                ->closeModalByClickingAway(false)
                 ->visible(function (Ticket $record) {
                     return Auth::user()->can('reopen', $record);
                 })
@@ -27,7 +26,7 @@ class ReopenTicketAction
                         ->minLength(5)
                         ->required(),
                 ])
-                ->successNotificationTitle(fn (Ticket $record) => "Ticket {$record->reference} has been closed!")
+                ->successNotificationTitle(fn (Ticket $record) => "Ticket {$record->reference} has been reopened!")
                 ->action(function (Ticket $record, array $data, $livewire): void {
                     $record->reOpen($data['comment']);
 

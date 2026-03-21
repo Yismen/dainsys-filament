@@ -6,6 +6,7 @@ use App\Actions\Filament\AssignTicketAction;
 use App\Actions\Filament\CloseTicketAction;
 use App\Actions\Filament\EditTicketAction;
 use App\Actions\Filament\GrabTicketAction;
+use App\Actions\Filament\ReplyToTicketAction;
 use App\Filament\Support\Widgets\Tables\TicketsTable;
 use App\Filters\Filament\Support\TicketAgentsFilter;
 use App\Filters\Filament\Support\TicketOwnersFilter;
@@ -20,6 +21,7 @@ use Filament\Tables\Table;
 use Filament\Widgets\TableWidget;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\On;
 
 class TicketsPendingTable extends TableWidget
 {
@@ -36,7 +38,7 @@ class TicketsPendingTable extends TableWidget
     {
         return $table
             ->defaultSort('expected_at', 'asc')
-            ->query(fn (): Builder => Ticket::query()->incompleted())
+            ->query(fn (): Builder => Ticket::query()->with(['replies.user'])->incompleted())
             ->columns(TicketsTable::make())
             ->queryStringIdentifier(identifier: 'tickets_incompleted')
             ->paginationMode(PaginationMode::Default)
@@ -56,10 +58,11 @@ class TicketsPendingTable extends TableWidget
                         Grid::make(2)
                             ->schema(TicketInfolist::make()),
                     ])
-                    ->closeModalByClickingAway(false)
+                    ->stickyModalFooter()
                     ->modalFooterActions([
                         GrabTicketAction::make(),
                         AssignTicketAction::make(),
+                        ReplyToTicketAction::make(),
                         CloseTicketAction::make(),
                     ]),
                 EditTicketAction::make()
@@ -68,5 +71,21 @@ class TicketsPendingTable extends TableWidget
             ])
             ->toolbarActions([
             ]);
+    }
+
+    #[On('ticketRepliesUpdated')]
+    public function ticketRepliesUpdated(string $ticketId): void
+    {
+        $mountedRecord = $this->getMountedAction()?->getRecord();
+
+        if (! $mountedRecord instanceof Ticket) {
+            return;
+        }
+
+        if ((string) $mountedRecord->getKey() !== $ticketId) {
+            return;
+        }
+
+        $mountedRecord->load(['owner', 'agent', 'replies.user']);
     }
 }

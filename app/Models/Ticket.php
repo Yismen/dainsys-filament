@@ -96,7 +96,8 @@ class Ticket extends AppModel
 
     public function replies(): HasMany
     {
-        return $this->hasMany(TicketReply::class);
+        return $this->hasMany(TicketReply::class)
+            ->latest('created_at');
     }
 
     public function assignTo(string|int|User $agent)

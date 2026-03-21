@@ -18,6 +18,8 @@ class EditTicketAction
             ->extraModalFooterActions([
                 CloseTicketAction::make(),
                 ReopenTicketAction::make(),
+                GrabTicketAction::make(),
+                ReplyToTicketAction::make(),
                 AssignTicketAction::make(),
             ])
             ->stickyModalHeader();
