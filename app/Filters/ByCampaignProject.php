@@ -2,8 +2,11 @@
 
 namespace App\Filters;
 
+use App\Models\Campaign;
+use App\Models\Project;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ByCampaignProject
 {
@@ -15,16 +18,23 @@ class ByCampaignProject
     public function handle(Builder $builder, \Closure $next)
     {
         if ($this->request->has('project')) {
-            $project = $this->request->input('project');
+            $project = (string) $this->request->input('project');
 
-            $builder->whereHas('campaign', function ($campaignQuery) use ($project): void {
-                $campaignQuery->whereHas('project', function ($projectBuilder) use ($project): void {
-                    $projectBuilder
-                        ->where('id', $project)
-                        ->orWhere('name', 'like', $project);
+            $campaignIds = Campaign::query()
+                ->when(
+                    Str::isUuid($project),
+                    fn (Builder $campaignQuery): Builder => $campaignQuery->where('project_id', $project),
+                    function (Builder $campaignQuery) use ($project): Builder {
+                        $projectIds = Project::query()
+                            ->where('name', $project)
+                            ->pluck('id');
 
-                });
-            });
+                        return $campaignQuery->whereIn('project_id', $projectIds);
+                    }
+                )
+                ->pluck('id');
+
+            $builder->whereIn('campaign_id', $campaignIds);
         }
 
         return $next($builder);

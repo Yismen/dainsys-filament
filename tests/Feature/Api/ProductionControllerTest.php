@@ -4,18 +4,19 @@ use App\Models\Campaign;
 use App\Models\Employee;
 use App\Models\Hire;
 use App\Models\Production;
-use App\Models\Site;
 use App\Models\Supervisor;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use Laravel\Sanctum\Sanctum;
+
+use function Pest\Laravel\getJson;
 
 beforeEach(fn () => Mail::fake());
 
 it('protects the route against unauthorized tokens', function (): void {
     Sanctum::actingAs(User::factory()->create());
 
-    $response = $this->getJson('/api/productions?date='.now()->format('Y-m-d'));
+    $response = getJson('/api/productions?date='.now()->format('Y-m-d'));
 
     $response->assertForbidden();
 });
@@ -25,7 +26,7 @@ it('returns correct structure', function (): void {
     Production::factory()->create();
     Sanctum::actingAs(user: User::factory()->create(), abilities: ['use-dainsys']);
 
-    $response = $this->getJson('/api/productions?date='.now()->format('Y-m-d'));
+    $response = getJson('/api/productions?date='.now()->format('Y-m-d'));
 
     $response->assertOk()
         ->assertJsonStructure([
@@ -66,7 +67,7 @@ it('date filter is required', function (): void {
     Production::factory()->create();
     Sanctum::actingAs(user: User::factory()->create(), abilities: ['use-dainsys']);
 
-    $this->getJson('/api/productions')
+    getJson('/api/productions')
         ->assertJsonValidationErrorFor('date');
 
 });
@@ -77,7 +78,7 @@ it('filters by date', function (): void {
     Production::factory()->create(['date' => now()->subDays(5)]);
     Sanctum::actingAs(user: User::factory()->create(), abilities: ['use-dainsys']);
 
-    $reponse = $this->getJson('/api/productions?date='.now())
+    $reponse = getJson('/api/productions?date='.now())
         ->assertJsonCount(1);
 
     expect(count($reponse->json()['data']))
@@ -90,7 +91,7 @@ it('filters by date range if date is separated by comma', function (): void {
     Production::factory()->create(['date' => now()->subMonth()]);
     Sanctum::actingAs(user: User::factory()->create(), abilities: ['use-dainsys']);
 
-    $reponse = $this->getJson('/api/productions?date='.now()->subDay().','.now());
+    $reponse = getJson('/api/productions?date='.now()->subDay().','.now());
 
     expect(count($reponse->json()['data']))
         ->tobe(1);
@@ -101,7 +102,7 @@ it('filters by fixed date range value using last n days format', function (): vo
     Production::factory()->create(['date' => now()->subDays(61)]);
     Sanctum::actingAs(user: User::factory()->create(), abilities: ['use-dainsys']);
 
-    $response = $this->getJson('/api/productions?date=last_45_days');
+    $response = getJson('/api/productions?date=last_45_days');
 
     expect(count($response->json()['data']))->toBe(1);
 });
@@ -109,7 +110,7 @@ it('filters by fixed date range value using last n days format', function (): vo
 it('returns validation error for invalid fixed date range value', function (): void {
     Sanctum::actingAs(user: User::factory()->create(), abilities: ['use-dainsys']);
 
-    $this->getJson('/api/productions?date=last_0_days')
+    getJson('/api/productions?date=last_0_days')
         ->assertJsonValidationErrorFor('date');
 });
 // filters data by campaign
@@ -121,12 +122,12 @@ it('filters by campaign', function (): void {
     Production::factory()->for($campaign_2)->create();
     Sanctum::actingAs(user: User::factory()->create(), abilities: ['use-dainsys']);
 
-    $reponse = $this->getJson('/api/productions?date='.now().'&campaign='.$campaign_1->id);
+    $reponse = getJson('/api/productions?date='.now().'&campaign='.$campaign_1->id);
 
     expect(count($reponse->json()['data']))
         ->tobe(1);
 
-    $reponse = $this->getJson('/api/productions?date='.now().'&campaign='.$campaign_1->name);
+    $reponse = getJson('/api/productions?date='.now().'&campaign='.$campaign_1->name);
 
     expect(count($reponse->json()['data']))
         ->tobe(1);
@@ -141,17 +142,18 @@ it('filters by project', function (): void {
 
     Sanctum::actingAs(user: User::factory()->create(), abilities: ['use-dainsys']);
 
-    $reponse = $this->getJson('/api/productions?date='.now().'&project='.$campaign_1->project->id);
+    $reponse = getJson('/api/productions?date='.now().'&project='.$campaign_1->project->id);
 
     expect(count($reponse->json()['data']))
         ->tobe(1);
 
-    $reponse = $this->getJson('/api/productions?date='.now().'&project='.$campaign_1->project->name)
+    $reponse = getJson('/api/productions?date='.now().'&project='.$campaign_1->project->name)
         ->assertJsonCount(1);
 
     expect(count($reponse->json()['data']))
         ->tobe(1);
 });
+
 // filters data by employee
 it('filters by employee', function (): void {
     $employee_1 = Employee::factory()->create();
@@ -161,12 +163,12 @@ it('filters by employee', function (): void {
     Production::factory()->create();
     Sanctum::actingAs(user: User::factory()->create(), abilities: ['use-dainsys']);
 
-    $reponse = $this->getJson('/api/productions?date='.now().'&employee='.$employee_1->id);
+    $reponse = getJson('/api/productions?date='.now().'&employee='.$employee_1->id);
 
     expect(count($reponse->json()['data']))
         ->tobe(1);
 
-    $reponse = $this->getJson('/api/productions?date='.now().'&employee='.$employee_1->full_name);
+    $reponse = getJson('/api/productions?date='.now().'&employee='.$employee_1->full_name);
 
     expect(count($reponse->json()['data']))
         ->tobe(1);
@@ -184,12 +186,12 @@ it('filters by supervisor', function (): void {
     Production::factory(2)->create();
     Sanctum::actingAs(user: User::factory()->create(), abilities: ['use-dainsys']);
 
-    $reponse = $this->getJson('/api/productions?date='.now().'&supervisor='.$supervisor->id);
+    $reponse = getJson('/api/productions?date='.now().'&supervisor='.$supervisor->id);
 
     expect(count($reponse->json()['data']))
         ->tobe(1);
 
-    $reponse = $this->getJson('/api/productions?date='.now().'&supervisor='.$supervisor->name);
+    $reponse = getJson('/api/productions?date='.now().'&supervisor='.$supervisor->name);
 
     expect(count($reponse->json()['data']))
         ->tobe(1);
