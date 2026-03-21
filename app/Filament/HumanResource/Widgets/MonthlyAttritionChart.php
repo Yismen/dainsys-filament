@@ -69,7 +69,7 @@ class MonthlyAttritionChart extends ChartWidget
                     'label' => 'Attrition Rate (%)',
                     'data' => $data->pluck('rate')->toArray(),
                     'borderColor' => 'rgba(165,0,165,0.7)', // purple
-                    'backgroundColor' => 'rgba(165,0,165,0.2)',
+                    'backgroundColor' => 'rgba(165,0,165,0.03)',
                     'borderDash' => [5, 5],
                     'fill' => false,
                     'tension' => 0.3,
@@ -79,7 +79,7 @@ class MonthlyAttritionChart extends ChartWidget
                     'label' => 'Headcount',
                     'data' => $data->pluck('head_count')->toArray(),
                     'borderColor' => 'rgba(34,197,94,0.7)',
-                    'backgroundColor' => 'rgba(34,197,94,0.2)',
+                    'backgroundColor' => 'rgba(34,197,94,0.03)',
                     'fill' => true,
                     'tension' => 0.3,
                     'yAxisID' => 'y',
