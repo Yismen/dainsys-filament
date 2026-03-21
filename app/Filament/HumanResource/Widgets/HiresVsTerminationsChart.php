@@ -61,7 +61,6 @@ class HiresVsTerminationsChart extends ChartWidget
                     'backgroundColor' => 'rgba(34,197,94,0.2)',
                     'fill' => false,
                     'tension' => 0.3,
-                    'yAxisID' => 'y1',
                 ],
                 [
                     'label' => 'Terminations',
@@ -71,7 +70,6 @@ class HiresVsTerminationsChart extends ChartWidget
                     'fill' => false,
                     'borderDash' => [5, 5],
                     'tension' => 0.3,
-                    'yAxisID' => 'y',
                 ],
             ],
             'labels' => $months->map(fn ($month) => Carbon::createFromFormat('Y-m', $month)->format('M Y'))->toArray(),
@@ -89,32 +87,6 @@ class HiresVsTerminationsChart extends ChartWidget
                 'tooltip' => [
                     'mode' => 'index',
                     'intersect' => false,
-                ],
-            ],
-            'scales' => [
-                'y' => [
-                    'beginAtZero' => true,
-                    'title' => [
-                        'display' => true,
-                        'text' => 'Hires',
-                    ],
-                ],
-                'y1' => [
-                    'beginAtZero' => true,
-                    'position' => 'right',
-                    'grid' => [
-                        'drawOnChartArea' => false,
-                    ],
-                    'title' => [
-                        'display' => true,
-                        'text' => 'Terminations',
-                    ],
-                ],
-                'x' => [
-                    'title' => [
-                        'display' => true,
-                        'text' => 'Date',
-                    ],
                 ],
             ],
         ];
