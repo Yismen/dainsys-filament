@@ -23,7 +23,7 @@ class SocialSecurityResource extends Resource
 {
     protected static ?string $model = SocialSecurity::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedShieldCheck;
 
     protected static ?string $recordTitleAttribute = 'id';
 
