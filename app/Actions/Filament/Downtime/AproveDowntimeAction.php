@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions\Filament;
+namespace App\Actions\Filament\Downtime;
 
 use App\Models\Downtime;
 use Filament\Actions\Action;

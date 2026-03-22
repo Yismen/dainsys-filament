@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions\Filament;
+namespace App\Actions\Filament\PayrollHour;
 
 use App\Jobs\RefreshPayrollHoursJob;
 use Filament\Actions\Action;

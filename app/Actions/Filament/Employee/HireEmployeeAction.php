@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions\Filament;
+namespace App\Actions\Filament\Employee;
 
 use App\Models\Employee;
 use App\Models\Position;
@@ -55,6 +55,8 @@ class HireEmployeeAction
                         ]),
                 ])->action(function (Employee $record, $data): void {
                     $record->hires()->create($data);
+
+                    $record->refresh();
 
                     Notification::make()
                         ->success()

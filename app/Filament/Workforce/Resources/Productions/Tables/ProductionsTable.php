@@ -2,7 +2,7 @@
 
 namespace App\Filament\Workforce\Resources\Productions\Tables;
 
-use App\Actions\Filament\UpdatePayrollHoursAction;
+use App\Actions\Filament\PayrollHour\UpdatePayrollHoursAction;
 use App\Enums\RevenueTypes;
 use App\Imports\Filament\ProductionImporter;
 use App\Models\Campaign;

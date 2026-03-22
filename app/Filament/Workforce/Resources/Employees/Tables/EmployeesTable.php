@@ -2,7 +2,7 @@
 
 namespace App\Filament\Workforce\Resources\Employees\Tables;
 
-use App\Actions\Filament\ResetEmployeePasswordAction;
+use App\Actions\Filament\Employee\ResetEmployeePasswordAction;
 use App\Filament\Admin\Resources\Employees\Tables\EmployeeTableFilters;
 use App\Models\Employee;
 use Filament\Actions\BulkActionGroup;
@@ -23,6 +23,7 @@ class EmployeesTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->defaultSort('full_name')
             ->columns([
                 SpatieMediaLibraryImageColumn::make('profile_photo')
                     ->label('Photo')
@@ -100,7 +101,8 @@ class EmployeesTable
                 ViewAction::make(),
                 EditAction::make()
                     ->modalWidth(Width::SevenExtraLarge),
-                ResetEmployeePasswordAction::make(),
+                ResetEmployeePasswordAction::make()
+                    ->iconButton(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

@@ -2,6 +2,9 @@
 
 namespace App\Filament\HumanResource\Resources\Employees\Tables;
 
+use App\Actions\Filament\Employee\HireEmployeeAction;
+use App\Actions\Filament\Employee\SuspendEmployeeAction;
+use App\Actions\Filament\Employee\TerminateEmployeeAction;
 use App\Enums\EmployeeStatuses;
 use App\Exports\Filament\EmployeeExporter;
 use App\Filament\Admin\Resources\Employees\Tables\EmployeeTableFilters;
@@ -116,8 +119,20 @@ class EmployeesTable
             ->filtersFormColumns(2)
             ->filtersFormWidth(Width::Large)
             ->recordActions([
-                ViewAction::make(),
-                EditAction::make(),
+                ViewAction::make()
+                    ->stickyModalFooter()
+                    ->modalFooterActions([
+                        HireEmployeeAction::make(),
+                        TerminateEmployeeAction::make(),
+                        SuspendEmployeeAction::make(),
+                    ]),
+                EditAction::make()
+                    ->stickyModalFooter()
+                    ->modalFooterActions([
+                        HireEmployeeAction::make(),
+                        TerminateEmployeeAction::make(),
+                        SuspendEmployeeAction::make(),
+                    ]),
             ])
             ->toolbarActions([
                 BulkAction::make('hire_employees')

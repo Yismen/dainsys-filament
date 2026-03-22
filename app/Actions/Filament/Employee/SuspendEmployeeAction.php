@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions\Filament;
+namespace App\Actions\Filament\Employee;
 
 use App\Models\Employee;
 use App\Models\SuspensionType;
@@ -58,6 +58,8 @@ class SuspendEmployeeAction
                         ]),
                 ])->action(function (Employee $record, $data): void {
                     $record->suspensions()->create($data);
+
+                    $record->refresh();
 
                     Notification::make()
                         ->warning()

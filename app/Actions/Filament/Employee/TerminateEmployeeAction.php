@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions\Filament;
+namespace App\Actions\Filament\Employee;
 
 use App\Enums\TerminationTypes;
 use App\Models\Employee;
@@ -47,6 +47,8 @@ class TerminateEmployeeAction
 
                 ])->action(function (Employee $record, $data): void {
                     $record->terminations()->create($data);
+
+                    $record->refresh();
 
                     Notification::make()
                         ->danger()

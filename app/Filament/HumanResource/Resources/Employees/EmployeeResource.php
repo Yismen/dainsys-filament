@@ -22,6 +22,7 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Livewire\Attributes\On;
 
 class EmployeeResource extends Resource
 {
@@ -68,9 +69,9 @@ class EmployeeResource extends Resource
     {
         return [
             'index' => ListEmployees::route('/'),
-            'create' => CreateEmployee::route('/create'),
-            'view' => ViewEmployee::route('/{record}'),
-            'edit' => EditEmployee::route('/{record}/edit'),
+            // 'create' => CreateEmployee::route('/create'),
+            // 'view' => ViewEmployee::route('/{record}'),
+            // 'edit' => EditEmployee::route('/{record}/edit'),
         ];
     }
 

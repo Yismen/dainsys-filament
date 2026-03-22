@@ -2,7 +2,7 @@
 
 namespace App\Filament\Workforce\Resources\PayrollHours;
 
-use App\Actions\Filament\UpdatePayrollHoursAction;
+use App\Actions\Filament\PayrollHour\UpdatePayrollHoursAction;
 use App\Filament\Workforce\Resources\PayrollHours\Pages\ManagePayrollHours;
 use App\Models\Employee;
 use App\Models\PayrollHour;

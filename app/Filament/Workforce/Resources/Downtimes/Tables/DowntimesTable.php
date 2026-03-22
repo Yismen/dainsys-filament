@@ -2,7 +2,7 @@
 
 namespace App\Filament\Workforce\Resources\Downtimes\Tables;
 
-use App\Actions\Filament\AproveDowntimeAction;
+use App\Actions\Filament\Downtime\AproveDowntimeAction;
 use App\Enums\DowntimeStatuses;
 use App\Models\Campaign;
 use App\Models\Comment;
