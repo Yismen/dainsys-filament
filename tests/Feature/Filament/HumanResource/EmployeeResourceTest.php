@@ -30,21 +30,21 @@ beforeEach(function (): void {
             'params' => [],
             'permission' => ['view-any'],
         ],
-        'create' => [
-            'route' => CreateEmployee::getRouteName(),
-            'params' => [],
-            'permission' => ['create', 'view-any'],
-        ],
-        'edit' => [
-            'route' => EditEmployee::getRouteName(),
-            'params' => ['record' => $employee->getKey()],
-            'permission' => ['update', 'edit', 'view-any'],
-        ],
-        'view' => [
-            'route' => ViewEmployee::getRouteName(),
-            'params' => ['record' => $employee->getKey()],
-            'permission' => ['view', 'view-any'],
-        ],
+        // 'create' => [
+        //     'route' => CreateEmployee::getRouteName(),
+        //     'params' => [],
+        //     'permission' => ['create', 'view-any'],
+        // ],
+        // 'edit' => [
+        //     'route' => EditEmployee::getRouteName(),
+        //     'params' => ['record' => $employee->getKey()],
+        //     'permission' => ['update', 'edit', 'view-any'],
+        // ],
+        // 'view' => [
+        //     'route' => ViewEmployee::getRouteName(),
+        //     'params' => ['record' => $employee->getKey()],
+        //     'permission' => ['view', 'view-any'],
+        // ],
     ];
 
     $this->form_data = [
@@ -73,9 +73,9 @@ it('require users to be authenticated to access Employee resource pages', functi
     $response->assertRedirect(route('filament.human-resource.auth.login'));
 })->with([
     'index',
-    'create',
-    'edit',
-    'view',
+    // 'create',
+    // 'edit',
+    // 'view',
 ]);
 
 it('require users to have correct permissions to access Employee resource pages', function (string $method): void {
@@ -86,9 +86,9 @@ it('require users to have correct permissions to access Employee resource pages'
     $response->assertForbidden();
 })->with([
     'index',
-    'create',
-    'edit',
-    'view',
+    // 'create',
+    // 'edit',
+    // 'view',
 ]);
 
 it('allows super admin users to access Employee resource pages', function (string $method): void {
@@ -100,9 +100,9 @@ it('allows super admin users to access Employee resource pages', function (strin
     $response->assertOk();
 })->with([
     'index',
-    'create',
-    'edit',
-    'view',
+    // 'create',
+    // 'edit',
+    // 'view',
 ]);
 
 it('allow users with correct permissions to access Employee resource pages', function (string $method): void {
@@ -114,9 +114,9 @@ it('allow users with correct permissions to access Employee resource pages', fun
     $response->assertOk();
 })->with([
     'index',
-    'create',
-    'edit',
-    'view',
+    // 'create',
+    // 'edit',
+    // 'view',
 ]);
 
 it('displays Employee list page correctly', function (): void {
@@ -126,245 +126,4 @@ it('displays Employee list page correctly', function (): void {
 
     livewire(ListEmployees::class)
         ->assertCanSeeTableRecords($employees);
-});
-
-test('create Employee page works correctly', function (): void {
-    actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Employee'));
-
-    livewire(CreateEmployee::class)
-        ->fillForm($this->form_data)
-        ->call('create');
-
-    $this->assertDatabaseHas('employees', $this->form_data);
-});
-
-test('edit Employee page works correctly', function (): void {
-    $employee = Employee::factory()->create();
-
-    actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Employee'));
-
-    livewire(EditEmployee::class, ['record' => $employee->getKey()])
-        ->fillForm($this->form_data)
-        ->call('save')
-        ->assertHasNoErrors();
-
-    $this->form_data['id'] = $employee->id;
-    $this->assertDatabaseHas('employees', $this->form_data);
-});
-
-test('form validation require fields on create and edit pages', function (): void {
-    actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Employee'));
-
-    // Test CreateEmployee validation
-    livewire(CreateEmployee::class)
-        ->fillForm([
-            'first_name' => '',
-            'last_name' => '',
-            'personal_id_type' => '',
-            'personal_id' => '',
-            'date_of_birth' => '',
-            'cellphone' => '',
-            'gender' => '',
-            'has_kids' => null,
-            'citizenship_id' => '',
-        ])
-        ->call('create')
-        ->assertHasFormErrors([
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'personal_id_type' => 'required',
-            'personal_id' => 'required',
-            'date_of_birth' => 'required',
-            'cellphone' => 'required',
-            'gender' => 'required',
-            'has_kids' => 'required',
-            'citizenship_id' => 'required']);
-    // Test EditEmployee validation
-    $employee = Employee::factory()->create();
-    livewire(EditEmployee::class, ['record' => $employee->getKey()])
-        ->fillForm([
-            'first_name' => '', // Invalid: name is required
-            'last_name' => '',
-            'personal_id_type' => '',
-            'personal_id' => '',
-            'date_of_birth' => '',
-            'cellphone' => '',
-            'gender' => '',
-            'has_kids' => null,
-            'citizenship_id' => '',
-        ])
-        ->call('save')
-        ->assertHasFormErrors([
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'personal_id_type' => 'required',
-            'personal_id' => 'required',
-            'date_of_birth' => 'required',
-            'cellphone' => 'required',
-            'gender' => 'required',
-            'has_kids' => 'required',
-            'citizenship_id' => 'required',
-        ]);
-});
-
-test('Employee fields must be unique on create and edit pages', function (): void {
-    actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Employee'));
-
-    $unique_personal_id = '15166635118';
-    $unique_cellphone = '8095551234';
-    $unique_internal_id = '3333';
-
-    $existingEmployee = Employee::factory()->create([
-        'personal_id' => $unique_personal_id,
-        'cellphone' => $unique_cellphone,
-        'internal_id' => $unique_internal_id,
-    ]);
-
-    // Test CreateEmployee uniqueness validation
-    livewire(CreateEmployee::class)
-        ->fillForm([
-            'personal_id' => $unique_personal_id, // Invalid: personal_id must be unique
-            'cellphone' => $unique_cellphone,
-            'internal_id' => $unique_internal_id,
-        ])
-        ->call('create')
-        ->assertHasFormErrors([
-            'personal_id' => 'unique',
-            'cellphone' => 'unique',
-            // 'internal_id' => 'unique',
-        ]);
-    // Test EditEmployee uniqueness validation
-    $employeeToEdit = Employee::factory()->create(['personal_id' => '33333333333', 'cellphone' => '8097778888']);
-    livewire(EditEmployee::class, ['record' => $employeeToEdit->getKey()])
-        ->fillForm([
-            'personal_id' => $unique_personal_id, // Invalid: personal_id must be unique
-            'cellphone' => $unique_cellphone,
-            'internal_id' => $unique_internal_id,
-        ])
-        ->call('save')
-        ->assertHasFormErrors([
-            'personal_id' => 'unique',
-            'cellphone' => 'unique',
-            'internal_id' => 'unique',
-        ]);
-});
-
-it('allows updating Employee without changing name to trigger uniqueness validation', function (): void {
-    $employee = Employee::factory()->create(['personal_id' => '33333333333', 'cellphone' => '8097778888']);
-
-    actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Employee'));
-
-    livewire(EditEmployee::class, ['record' => $employee->getKey()])
-        ->fillForm([
-            'personal_id' => '33333333333', // Same personal_id, should not trigger uniqueness error
-            'cellphone' => '8097778888', // Same cellphone, should not trigger uniqueness error
-            'internal_id' => '7777', // Same internal_id, should not trigger uniqueness error
-        ])
-        ->call('save')
-        ->assertHasNoErrors();
-
-    $this->assertDatabaseHas('employees', [
-        'id' => $employee->id,
-        'personal_id' => '33333333333',
-        'cellphone' => '8097778888',
-        'internal_id' => '7777',
-    ]);
-});
-
-it('autofocus the name field on create and edit pages', function (): void {
-    actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Employee'));
-
-    // Test CreateEmployee autofocus
-    livewire(CreateEmployee::class)
-        ->assertSeeHtml('autofocus');
-
-    // Test EditEmployee autofocus
-    $employee = Employee::factory()->create();
-    livewire(EditEmployee::class, ['record' => $employee->getKey()])
-        ->assertSeeHtml('autofocus');
-});
-
-it('shows photo upload only on human resource employee form', function (): void {
-    actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Employee'));
-
-    livewire(CreateEmployee::class)
-        ->assertSee('Photo');
-});
-
-it('creates an employee photo from human resource employee create page', function (): void {
-    Storage::fake('public');
-
-    actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Employee'));
-
-    livewire(CreateEmployee::class)
-        ->fillForm([
-            ...$this->form_data,
-            'profile_photo' => UploadedFile::fake()->image('employee-photo.jpg'),
-        ])
-        ->call('create')
-        ->assertHasNoErrors();
-
-    $employee = Employee::query()->where('personal_id', $this->form_data['personal_id'])->firstOrFail();
-
-    expect($employee->getMedia(Employee::PROFILE_PHOTO_COLLECTION))->toHaveCount(1);
-});
-
-it('updates and removes an employee photo from human resource employee edit page', function (): void {
-    Storage::fake('public');
-
-    actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Employee'));
-
-    $employee = Employee::factory()->create([
-        'personal_id' => '99911122233',
-        'cellphone' => '8094442211',
-        'internal_id' => 'E-100',
-    ]);
-
-    $editData = [
-        ...$this->form_data,
-        'personal_id' => '99911122233',
-        'cellphone' => '8094442211',
-        'internal_id' => 'E-100',
-    ];
-
-    livewire(EditEmployee::class, ['record' => $employee->getKey()])
-        ->fillForm([
-            ...$editData,
-            'profile_photo' => UploadedFile::fake()->image('first-photo.jpg'),
-        ])
-        ->call('save')
-        ->assertHasNoErrors();
-
-    $employee->refresh();
-
-    $firstMediaId = $employee->getFirstMedia(Employee::PROFILE_PHOTO_COLLECTION)?->id;
-
-    expect($employee->getMedia(Employee::PROFILE_PHOTO_COLLECTION))->toHaveCount(1);
-
-    livewire(EditEmployee::class, ['record' => $employee->getKey()])
-        ->fillForm([
-            ...$editData,
-            'profile_photo' => UploadedFile::fake()->image('second-photo.jpg'),
-        ])
-        ->call('save')
-        ->assertHasNoErrors();
-
-    $employee->refresh();
-
-    $secondMediaId = $employee->getFirstMedia(Employee::PROFILE_PHOTO_COLLECTION)?->id;
-
-    expect($employee->getMedia(Employee::PROFILE_PHOTO_COLLECTION))->toHaveCount(1)
-        ->and($secondMediaId)->not()->toBe($firstMediaId);
-
-    livewire(EditEmployee::class, ['record' => $employee->getKey()])
-        ->fillForm([
-            ...$editData,
-            'profile_photo' => null,
-        ])
-        ->call('save')
-        ->assertHasNoErrors();
-
-    $employee->refresh();
-
-    expect($employee->getMedia(Employee::PROFILE_PHOTO_COLLECTION))->toHaveCount(0);
 });

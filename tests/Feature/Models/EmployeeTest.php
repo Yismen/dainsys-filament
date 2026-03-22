@@ -6,6 +6,7 @@ use App\Events\EmployeeSuspendedEvent;
 use App\Events\EmployeeTerminatedEvent;
 use App\Models\Afp;
 use App\Models\Ars;
+use App\Models\BankAccount;
 use App\Models\Citizenship;
 use App\Models\Deduction;
 use App\Models\Downtime;
@@ -91,6 +92,16 @@ it('has socialSecurity', function (): void {
 
     expect($employee->socialSecurity->first())->toBeInstanceOf(SocialSecurity::class);
     expect($employee->socialSecurity())->toBeInstanceOf(HasOne::class);
+
+});
+
+it('has bankaccount', function (): void {
+    $employee = Employee::factory()->createQuietly();
+
+    BankAccount::factory()->for($employee)->createQuietly();
+
+    expect($employee->bankaccount->first())->toBeInstanceOf(BankAccount::class);
+    expect($employee->bankaccount())->toBeInstanceOf(HasOne::class);
 
 });
 

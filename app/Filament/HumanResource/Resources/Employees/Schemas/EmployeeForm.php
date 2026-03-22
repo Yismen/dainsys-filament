@@ -4,19 +4,29 @@ namespace App\Filament\HumanResource\Resources\Employees\Schemas;
 
 use App\Enums\Genders;
 use App\Enums\PersonalIdTypes;
+use App\Models\Afp;
+use App\Models\Ars;
+use App\Models\Bank;
+use App\Models\BankAccount;
 use App\Models\Citizenship;
 use App\Models\Employee;
+use App\Models\SocialSecurity;
+use App\Schemas\Filament\HumanResource\BankAccountSchema;
 use App\Schemas\Filament\HumanResource\HireEmployeeSchema;
 use App\Services\ModelListService;
+use Dom\Text;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Schemas\Components\Fieldset;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Illuminate\Database\Eloquent\Model;
 
 class EmployeeForm
 {
@@ -37,16 +47,6 @@ class EmployeeForm
                                     ->badge()
                                     ->hiddenLabel()
                                     ->visibleOn('edit'),
-                                SpatieMediaLibraryFileUpload::make('profile_photo')
-                                    ->label('Photo')
-                                    ->collection(Employee::PROFILE_PHOTO_COLLECTION)
-                                    ->conversion(Employee::PROFILE_PHOTO_THUMBNAIL_CONVERSION)
-                                    ->disk('public')
-                                    ->image()
-                                    ->imageEditor()
-                                    ->circleCropper()
-                                    ->maxSize(2048)
-                                    ->columnSpanFull(),
                                 TextInput::make('first_name')
                                     ->autofocus()
                                     ->maxLength(255)
@@ -96,12 +96,69 @@ class EmployeeForm
                                     ->options(ModelListService::get(Citizenship::class))
                                     ->searchable()
                                     ->required(),
+                                SpatieMediaLibraryFileUpload::make('profile_photo')
+                                    ->label('Photo')
+                                    ->collection(Employee::PROFILE_PHOTO_COLLECTION)
+                                    ->conversion(Employee::PROFILE_PHOTO_THUMBNAIL_CONVERSION)
+                                    ->disk('public')
+                                    ->image()
+                                    ->avatar()
+                                    ->imageEditor()
+                                    ->circleCropper()
+                                    ->maxSize(2048)
+                                    ->columnSpanFull(),
 
                             ]),
                         Section::make('Hiring information')
                             ->columnSpan(1)
                             ->visibleOn('edit')
                             ->schema(HireEmployeeSchema::make()),
+                    ]),
+                Grid::make()
+                    ->columns(2)
+                    ->columnSpanFull()
+                    ->schema([
+                        Fieldset::make('Bank Account Information')
+                            ->columns(2)
+                            ->relationship('bankAccount')
+                            ->visibleOn('edit')
+                            ->schema([
+                                Select::make('bank_id')
+                                    ->options(
+                                        ModelListService::make(Bank::query())
+                                    )
+                                    ->searchable()
+                                    ->required(),
+                                TextInput::make('account')
+                                    ->required()
+                                    ->minLength(5)
+                                    ->maxLength(50)
+                                    ->trim()
+                                    ->unique(ignoreRecord: true, table: (new BankAccount)->getTable()),
+                            ]),
+                        Fieldset::make('Social Security Information')
+                            ->columns(3)
+                            ->relationship('socialSecurity')
+                            ->visibleOn('edit')
+                            ->schema([
+                                Select::make('afp_id')
+                                    ->label('AFP')
+                                    ->options(ModelListService::make(Afp::query()))
+                                    ->searchable()
+                                    ->required(),
+                                Select::make('ars_id')
+                                    ->label('ARS')
+                                    ->options(ModelListService::make(Ars::query()))
+                                    ->searchable()
+                                    ->required(),
+                                TextInput::make('number')
+                                    ->label('TSS Number')
+                                    ->required()
+                                    ->minLength(3)
+                                    ->maxLength(50)
+                                    ->trim()
+                                    ->unique(ignoreRecord: true, table: (new SocialSecurity)->getTable(), column: 'number'),
+                            ]),
                     ]),
             ]);
     }

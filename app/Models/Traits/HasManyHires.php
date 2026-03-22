@@ -9,6 +9,12 @@ trait HasManyHires
 {
     public function hires(): HasMany
     {
-        return $this->hasMany(Hire::class);
+        return $this->hasMany(Hire::class)
+            ->with([
+                'site',
+                'supervisor',
+                'project',
+                'position',
+            ]);
     }
 }

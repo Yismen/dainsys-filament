@@ -2,6 +2,8 @@
 
 namespace App\Filament\Supervisor\Resources\Employees\Schemas;
 
+use App\Models\Employee;
+use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
@@ -13,8 +15,13 @@ class EmployeeInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('id')
-                    ->label('ID'),
+                ImageEntry::make('profile_photo')
+                 ->label('Photo')
+                 ->collection(Employee::PROFILE_PHOTO_COLLECTION)
+                 ->conversion(Employee::PROFILE_PHOTO_THUMBNAIL_CONVERSION)
+                 ->defaultImageUrl(fn (Employee $record): string => $record->getProfilePhotoPlaceholderUrl())
+                 ->circular()
+                 ->columnSpanFull(),
                 TextEntry::make('full_name')
                     ->label('Full Name'),
                 TextEntry::make('personal_id')

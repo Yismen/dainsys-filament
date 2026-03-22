@@ -58,7 +58,9 @@ class Suspension extends AppModel
     protected function duration(): Attribute
     {
         return Attribute::make(get: function () {
-            return $this->starts_at ? $this->starts_at->diffInDays($this->ends_at) + 1 .' days' : null;
+            return $this->starts_at ?
+                \round($this->starts_at->diffInDays($this->ends_at), 0) .' days' :
+                null;
         });
     }
 

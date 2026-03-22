@@ -120,15 +120,33 @@ class EmployeesTable
             ->filtersFormWidth(Width::Large)
             ->recordActions([
                 ViewAction::make()
+                    ->record(fn () => Employee::withTrashed()->find(request()->route('record'))->load([
+                        'hires' => [
+                            'site',
+                            'supervisor',
+                            'project',
+                            'position',
+                        ],
+                        'site',
+                        'project',
+                        'supervisor',
+                        'position',
+                    ]))
                     ->stickyModalFooter()
-                    ->modalFooterActions([
+                    ->stickyModalHeader()
+                    ->closeModalByClickingAway(false)
+                    ->modalWidth(Width::SevenExtraLarge)
+                    ->extraModalFooterActions([
                         HireEmployeeAction::make(),
                         TerminateEmployeeAction::make(),
                         SuspendEmployeeAction::make(),
                     ]),
                 EditAction::make()
                     ->stickyModalFooter()
-                    ->modalFooterActions([
+                    ->stickyModalHeader()
+                    ->closeModalByClickingAway(false)
+                    ->modalWidth(Width::SevenExtraLarge)
+                    ->extraModalFooterActions([
                         HireEmployeeAction::make(),
                         TerminateEmployeeAction::make(),
                         SuspendEmployeeAction::make(),

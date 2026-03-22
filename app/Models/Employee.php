@@ -18,6 +18,7 @@ use App\Models\Traits\HasManyPayrolls;
 use App\Models\Traits\HasManyProductions;
 use App\Models\Traits\HasManySuspensions;
 use App\Models\Traits\HasManyTerminations;
+use App\Models\Traits\HasOneBankAccount;
 use App\Models\Traits\HasOneSocialSocialSecurity;
 use App\Models\Traits\HasRelationsThruSocialSecurity;
 use Illuminate\Database\Eloquent\Attributes\Scope;
@@ -43,6 +44,7 @@ class Employee extends AppModel implements HasMedia
     use HasManySuspensions;
     use HasManyTerminations;
     use HasOneSocialSocialSecurity;
+    use HasOneBankAccount;
     use HasRelationsThruSocialSecurity;
     use InteractsWithMedia;
 
@@ -366,8 +368,8 @@ class Employee extends AppModel implements HasMedia
             'hired_at' => 'datetime',
             'status' => EmployeeStatuses::class,
             'gender' => Genders::class,
-            'has_kids' => 'boolean',
             'personal_id_type' => PersonalIdTypes::class,
+            'has_kids' => 'boolean',
         ];
     }
 }

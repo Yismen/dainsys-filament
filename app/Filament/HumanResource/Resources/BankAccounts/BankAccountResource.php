@@ -8,6 +8,7 @@ use App\Filament\HumanResource\Resources\Banks\Schemas\BankForm;
 use App\Models\Bank;
 use App\Models\BankAccount;
 use App\Models\Employee;
+use App\Schemas\Filament\HumanResource\BankAccountSchema;
 use App\Services\ModelListService;
 use BackedEnum;
 use Filament\Actions\BulkActionGroup;
@@ -47,47 +48,7 @@ class BankAccountResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema
-            ->components([
-                Select::make('employee_id')
-                    ->options(
-                        ModelListService::make(
-                            model: Employee::query(),
-                            value_field: 'full_name',
-                        )
-                    )
-                    ->searchable()
-                    ->required(),
-                Select::make('bank_id')
-                    ->relationship('bank', 'name')
-                    ->options(
-                        ModelListService::make(Bank::query())
-                    )
-                    ->searchable()
-                    ->createOptionForm([
-                        Grid::make(2)
-                            ->schema([
-                                TextInput::make('name')
-                                    ->required()
-                                    ->maxLength(255)
-                                    ->unique(ignoreRecord: true, table: (new Bank)->getTable())
-                                    ->autofocus(),
-                                TextInput::make('person_of_contact'),
-                                TextInput::make('phone')
-                                    ->tel(),
-                                TextInput::make('email')
-                                    ->email(),
-                                Textarea::make('description')
-                                    ->columnSpanFull(),
-                            ]),
-                    ])
-                    ->required(),
-                TextInput::make('account')
-                    ->required()
-                    ->minLength(5)
-                    ->maxLength(50)
-                    ->trim()
-                    ->unique(ignoreRecord: true, table: (new BankAccount)->getTable()),
-            ]);
+            ->components(BankAccountSchema::make());
     }
 
     public static function table(Table $table): Table
