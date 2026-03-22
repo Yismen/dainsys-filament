@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions\Filament;
+namespace App\Actions\Filament\Ticket;
 
 use App\Schemas\Filament\Support\TicketSchema;
 use Filament\Actions\EditAction;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions\Filament;
+namespace App\Actions\Filament\Ticket;
 
 use App\Models\Ticket;
 use Filament\Actions\Action;
@@ -23,6 +23,8 @@ class GrabTicketAction
             ->successNotificationTitle('You are now assigned to this record')
             ->action(function (Ticket $record): void {
                 $record->grab();
+
+                $record->load('owner', 'agent', 'replies.user');
             });
     }
 }

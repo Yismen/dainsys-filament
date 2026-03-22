@@ -2,7 +2,7 @@
 
 namespace App\Filament\Support\Widgets;
 
-use App\Actions\Filament\ReopenTicketAction;
+use App\Actions\Filament\Ticket\ReopenTicketAction;
 use App\Filament\Support\Widgets\Tables\TicketsTable;
 use App\Filters\Filament\Support\TicketAgentsFilter;
 use App\Filters\Filament\Support\TicketOwnersFilter;
@@ -21,6 +21,8 @@ class TicketsCompletedTable extends TableWidget
     protected int|string|array $columnSpan = 'full';
 
     protected ?string $pollingInterval = '90s';
+
+    protected $listeners = ['ticketUpdated' => '$refresh'];
 
     public static function canView(): bool
     {

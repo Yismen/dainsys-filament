@@ -2,11 +2,12 @@
 
 namespace App\Filament\Support\Widgets;
 
-use App\Actions\Filament\AssignTicketAction;
-use App\Actions\Filament\CloseTicketAction;
-use App\Actions\Filament\EditTicketAction;
-use App\Actions\Filament\GrabTicketAction;
-use App\Actions\Filament\ReplyToTicketAction;
+use App\Actions\Filament\Ticket\AssignTicketAction;
+use App\Actions\Filament\Ticket\CloseTicketAction;
+use App\Actions\Filament\Ticket\EditTicketAction;
+use App\Actions\Filament\Ticket\GrabTicketAction;
+use App\Actions\Filament\Ticket\ReopenTicketAction;
+use App\Actions\Filament\Ticket\ReplyToTicketAction;
 use App\Filament\Support\Widgets\Tables\TicketsTable;
 use App\Filters\Filament\Support\TicketAgentsFilter;
 use App\Filters\Filament\Support\TicketOwnersFilter;
@@ -28,6 +29,8 @@ class TicketsPendingTable extends TableWidget
     protected int|string|array $columnSpan = 'full';
 
     protected ?string $pollingInterval = '90s';
+
+    protected $listeners = ['ticketUpdated' => '$refresh'];
 
     public static function canView(): bool
     {
@@ -64,6 +67,7 @@ class TicketsPendingTable extends TableWidget
                         AssignTicketAction::make(),
                         ReplyToTicketAction::make(),
                         CloseTicketAction::make(),
+                        ReopenTicketAction::make(),
                     ]),
                 EditTicketAction::make()
                     ->icon('heroicon-o-pencil')
@@ -71,21 +75,5 @@ class TicketsPendingTable extends TableWidget
             ])
             ->toolbarActions([
             ]);
-    }
-
-    #[On('ticketRepliesUpdated')]
-    public function ticketRepliesUpdated(string $ticketId): void
-    {
-        $mountedRecord = $this->getMountedAction()?->getRecord();
-
-        if (! $mountedRecord instanceof Ticket) {
-            return;
-        }
-
-        if ((string) $mountedRecord->getKey() !== $ticketId) {
-            return;
-        }
-
-        $mountedRecord->load(['owner', 'agent', 'replies.user']);
     }
 }

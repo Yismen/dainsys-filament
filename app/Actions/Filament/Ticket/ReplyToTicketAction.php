@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions\Filament;
+namespace App\Actions\Filament\Ticket;
 
 use App\Models\Ticket;
 use Filament\Actions\Action;
@@ -32,7 +32,7 @@ class ReplyToTicketAction
                     'content' => $data['content'],
                 ]);
 
-                $livewire->dispatch('ticketRepliesUpdated', ticketId: (string) $record->getKey());
+                $record->refresh()->load(['owner', 'agent', 'replies.user']);
             });
     }
 }

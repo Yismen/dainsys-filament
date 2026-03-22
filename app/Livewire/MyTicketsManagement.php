@@ -2,11 +2,11 @@
 
 namespace App\Livewire;
 
-use App\Actions\Filament\AssignTicketAction;
-use App\Actions\Filament\CloseTicketAction;
-use App\Actions\Filament\EditTicketAction;
-use App\Actions\Filament\ReopenTicketAction;
-use App\Actions\Filament\ReplyToTicketAction;
+use App\Actions\Filament\Ticket\AssignTicketAction;
+use App\Actions\Filament\Ticket\CloseTicketAction;
+use App\Actions\Filament\Ticket\EditTicketAction;
+use App\Actions\Filament\Ticket\ReopenTicketAction;
+use App\Actions\Filament\Ticket\ReplyToTicketAction;
 use App\Enums\TicketPriorities;
 use App\Enums\TicketStatuses;
 use App\Infolists\Filament\Support\TicketInfolist;
@@ -197,21 +197,5 @@ class MyTicketsManagement extends Page implements HasActions, HasSchemas, HasTab
     public function render(): View
     {
         return view('livewire.my-tickets-management');
-    }
-
-    #[On('ticketRepliesUpdated')]
-    public function ticketRepliesUpdated(string $ticketId): void
-    {
-        $mountedRecord = $this->getMountedAction()?->getRecord();
-
-        if (! $mountedRecord instanceof Ticket) {
-            return;
-        }
-
-        if ((string) $mountedRecord->getKey() !== $ticketId) {
-            return;
-        }
-
-        $mountedRecord->load(['owner', 'agent', 'replies.user']);
     }
 }

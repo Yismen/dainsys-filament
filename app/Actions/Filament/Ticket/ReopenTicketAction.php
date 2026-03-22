@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions\Filament;
+namespace App\Actions\Filament\Ticket;
 
 use App\Models\Ticket;
 use Filament\Actions\Action;
@@ -30,7 +30,9 @@ class ReopenTicketAction
                 ->action(function (Ticket $record, array $data, $livewire): void {
                     $record->reOpen($data['comment']);
 
-                    $livewire->dispatch('refreshRelationManagers');
+                    $record->refresh()->load(['owner', 'agent', 'replies.user']);
+
+                    $livewire->dispatch('ticketUpdated');
                 });
     }
 }

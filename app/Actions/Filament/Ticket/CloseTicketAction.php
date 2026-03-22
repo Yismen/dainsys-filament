@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions\Filament;
+namespace App\Actions\Filament\Ticket;
 
 use App\Models\Ticket;
 use Filament\Actions\Action;
@@ -29,7 +29,7 @@ class CloseTicketAction
             ->action(function (Ticket $record, array $data, $livewire): void {
                 $record->close($data['comment']);
 
-                $livewire->dispatch('refreshRelationManagers');
+                $livewire->dispatch('ticketUpdated');
             });
     }
 }
