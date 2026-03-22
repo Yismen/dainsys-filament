@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -305,20 +306,11 @@ class Ticket extends AppModel
 
     protected function getReference(): string
     {
-        $latest_reference = self::query()
-            ->orderBy('reference', 'desc')
-            ->first()?->reference;
+        $tickets_count = self::query()
+            ->withoutGlobalScope(SoftDeletingScope::class)
+            ->count();
 
-        if ($latest_reference != null) {
-            // $reference = str($latest_reference)->after($this->tickets_prefix)->toString();
-            $reference = str($latest_reference)->substr(-6)->toString();
-
-            $reference = ++$reference;
-
-            return $this->tickets_prefix.str($reference)->padLeft(6, '0');
-        }
-
-        return $this->tickets_prefix.'000001';
+        return $this->tickets_prefix . str($tickets_count)->padLeft(6, '0');
     }
 
     protected function casts(): array
