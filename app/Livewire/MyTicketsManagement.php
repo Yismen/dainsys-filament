@@ -41,7 +41,6 @@ use Filament\Tables\Table;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
-use Livewire\Attributes\On;
 
 #[Layout('layouts.landing-page', ['navType' => 'static'])]
 class MyTicketsManagement extends Page implements HasActions, HasSchemas, HasTable

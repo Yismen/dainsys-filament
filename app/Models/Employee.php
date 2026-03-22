@@ -43,8 +43,8 @@ class Employee extends AppModel implements HasMedia
     use HasManyProductions;
     use HasManySuspensions;
     use HasManyTerminations;
-    use HasOneSocialSocialSecurity;
     use HasOneBankAccount;
+    use HasOneSocialSocialSecurity;
     use HasRelationsThruSocialSecurity;
     use InteractsWithMedia;
 

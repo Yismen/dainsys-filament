@@ -74,7 +74,7 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('grab', function (User $user, Ticket $ticket) {
-            if($ticket->isClosed()) {
+            if ($ticket->isClosed()) {
                 return false;
             }
 

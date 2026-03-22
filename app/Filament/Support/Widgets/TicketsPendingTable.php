@@ -22,7 +22,6 @@ use Filament\Tables\Table;
 use Filament\Widgets\TableWidget;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
-use Livewire\Attributes\On;
 
 class TicketsPendingTable extends TableWidget
 {

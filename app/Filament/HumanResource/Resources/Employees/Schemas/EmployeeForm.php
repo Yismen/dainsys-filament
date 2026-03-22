@@ -11,14 +11,11 @@ use App\Models\BankAccount;
 use App\Models\Citizenship;
 use App\Models\Employee;
 use App\Models\SocialSecurity;
-use App\Schemas\Filament\HumanResource\BankAccountSchema;
 use App\Schemas\Filament\HumanResource\HireEmployeeSchema;
 use App\Services\ModelListService;
-use Dom\Text;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Infolists\Components\TextEntry;
@@ -26,7 +23,6 @@ use Filament\Schemas\Components\Fieldset;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
-use Illuminate\Database\Eloquent\Model;
 
 class EmployeeForm
 {
@@ -144,16 +140,13 @@ class EmployeeForm
                                 Select::make('afp_id')
                                     ->label('AFP')
                                     ->options(ModelListService::make(Afp::query()))
-                                    ->searchable()
-                                    ->required(),
+                                    ->searchable(),
                                 Select::make('ars_id')
                                     ->label('ARS')
                                     ->options(ModelListService::make(Ars::query()))
-                                    ->searchable()
-                                    ->required(),
+                                    ->searchable(),
                                 TextInput::make('number')
                                     ->label('TSS Number')
-                                    ->required()
                                     ->minLength(3)
                                     ->maxLength(50)
                                     ->trim()

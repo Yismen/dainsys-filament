@@ -4,9 +4,6 @@ namespace App\Filament\HumanResource\Resources\Employees;
 
 use App\Filament\HumanResource\Enums\HRNavigationEnum;
 use App\Filament\HumanResource\Resources\Employees\Pages\ListEmployees;
-use App\Filament\HumanResource\Resources\Employees\RelationManagers\HiresRelationManager;
-use App\Filament\HumanResource\Resources\Employees\RelationManagers\SuspensionsRelationManager;
-use App\Filament\HumanResource\Resources\Employees\RelationManagers\TerminationsRelationManager;
 use App\Filament\HumanResource\Resources\Employees\Schemas\EmployeeForm;
 use App\Filament\HumanResource\Resources\Employees\Schemas\EmployeeInfolist;
 use App\Filament\HumanResource\Resources\Employees\Tables\EmployeesTable;
@@ -18,7 +15,6 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Livewire\Attributes\On;
 
 class EmployeeResource extends Resource
 {

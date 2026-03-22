@@ -3,7 +3,7 @@
 namespace App\Filament\HumanResource\Resources\Employees\Schemas;
 
 use App\Models\Employee;
-use Dom\Text;
+use Carbon\Carbon;
 use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\RepeatableEntry\TableColumn;
@@ -36,6 +36,8 @@ class EmployeeInfolist
                     ->columnSpanFull()
                     ->schema([
                         self::pastSuspensionsSection(),
+
+                        self::last30DaysAbsencesSection(),
 
                         self::pastHiresSection(),
 
@@ -142,14 +144,14 @@ class EmployeeInfolist
             ->components([
                 TextEntry::make('hired_at')
                     ->date(),
-                    TextEntry::make('site.name')
-                        ->label('Site'),
-                    TextEntry::make('project.name')
-                        ->label('Project'),
-                    TextEntry::make('position.name')
-                        ->label('Position'),
-                    TextEntry::make('supervisor.name')
-                        ->label('Supervisor'),
+                TextEntry::make('site.name')
+                    ->label('Site'),
+                TextEntry::make('project.name')
+                    ->label('Project'),
+                TextEntry::make('position.name')
+                    ->label('Position'),
+                TextEntry::make('supervisor.name')
+                    ->label('Supervisor'),
             ]);
     }
 
@@ -274,6 +276,48 @@ class EmployeeInfolist
                         IconEntry::make('is_rehirable')
                             ->boolean()
                             ->label('Is Rehirable'),
+                        TextEntry::make('comment')
+                            ->label('Comment')
+                            ->wrap()
+                            ->limit(50)
+                            ->tooltip(fn ($record) => $record->comment),
+                    ]),
+            ]);
+    }
+
+    protected static function last30DaysAbsencesSection(): Section
+    {
+        return Section::make('Last 30 Days Absences')
+            ->columns(1)
+            ->collapsible()
+            ->columnSpanFull()
+            ->components([
+                RepeatableEntry::make('absences')
+                    ->state(function ($record) {
+                        return $record->absences()
+                            ->latest('date', 'desc')
+                            ->whereDate('date', '>=', Carbon::now()->subDays(30))
+                            ->get();
+                    })
+                    ->columns([
+                        'default' => 1,
+                        'sm' => 2,
+                        'md' => 4,
+                    ])
+                    ->table([
+                        TableColumn::make('Date'),
+                        TableColumn::make('Absence Type'),
+                        TableColumn::make('Status'),
+                        TableColumn::make('Comment'),
+                    ])
+                    ->schema([
+                        TextEntry::make('date')
+                            ->date(),
+                        TextEntry::make('absenceType.name')
+                            ->label('Absence Type'),
+                        TextEntry::make('status')
+                            ->badge()
+                            ->color(fn ($record) => $record->status->getColor()),
                         TextEntry::make('comment')
                             ->label('Comment')
                             ->wrap()

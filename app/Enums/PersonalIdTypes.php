@@ -6,7 +6,6 @@ use App\Enums\Contracts\EnumContract;
 use App\Enums\Traits\EnumNames;
 use App\Enums\Traits\EnumToArray;
 use App\Enums\Traits\EnumValues;
-use Filament\Support\Colors\Color;
 
 enum PersonalIdTypes: string implements EnumContract
 {
@@ -17,7 +16,7 @@ enum PersonalIdTypes: string implements EnumContract
 
     public function getColor(): string
     {
-        return match($this) {
+        return match ($this) {
             self::DominicanId => 'primary',
             self::Passport => 'info',
         };

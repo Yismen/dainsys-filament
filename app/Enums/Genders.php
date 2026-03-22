@@ -15,14 +15,12 @@ enum Genders: string implements EnumContract, HasIcon
 
     case Male = 'Male';
     case Female = 'Female';
-    // case Undefined = 'undefined';
 
     public function getIcon(): string
     {
         return match ($this) {
             self::Male => 'heroicon-o-user-plus',
             self::Female => 'heroicon-o-user-minus',
-        // self::Undefined => 'heroicon-o-question-mark-circle',
         };
     }
 

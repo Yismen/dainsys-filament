@@ -42,7 +42,7 @@ class MonthlyAbsenceSummary extends TableWidget
                     ->label('Absence Dates')
                     ->badge()
                     ->date('M d, Y')
-                    ->wrap()
+                    ->wrap(),
             ])
             ->defaultSort('absences_count', 'desc')
             ->paginated(false);

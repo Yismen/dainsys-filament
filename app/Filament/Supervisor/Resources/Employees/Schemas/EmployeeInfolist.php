@@ -16,12 +16,12 @@ class EmployeeInfolist
         return $schema
             ->components([
                 ImageEntry::make('profile_photo')
-                 ->label('Photo')
-                 ->collection(Employee::PROFILE_PHOTO_COLLECTION)
-                 ->conversion(Employee::PROFILE_PHOTO_THUMBNAIL_CONVERSION)
-                 ->defaultImageUrl(fn (Employee $record): string => $record->getProfilePhotoPlaceholderUrl())
-                 ->circular()
-                 ->columnSpanFull(),
+                    ->label('Photo')
+                    ->collection(Employee::PROFILE_PHOTO_COLLECTION)
+                    ->conversion(Employee::PROFILE_PHOTO_THUMBNAIL_CONVERSION)
+                    ->defaultImageUrl(fn (Employee $record): string => $record->getProfilePhotoPlaceholderUrl())
+                    ->circular()
+                    ->columnSpanFull(),
                 TextEntry::make('full_name')
                     ->label('Full Name'),
                 TextEntry::make('personal_id')

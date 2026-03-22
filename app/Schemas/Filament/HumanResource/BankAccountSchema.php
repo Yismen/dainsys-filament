@@ -2,16 +2,10 @@
 
 namespace App\Schemas\Filament\HumanResource;
 
-use App\Enums\EmployeeStatuses;
 use App\Models\Bank;
 use App\Models\BankAccount;
 use App\Models\Employee;
-use App\Models\Position;
-use App\Models\Project;
-use App\Models\Site;
-use App\Models\Supervisor;
 use App\Services\ModelListService;
-use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;

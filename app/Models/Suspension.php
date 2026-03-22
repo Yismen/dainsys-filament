@@ -59,7 +59,7 @@ class Suspension extends AppModel
     {
         return Attribute::make(get: function () {
             return $this->starts_at ?
-                \round($this->starts_at->diffInDays($this->ends_at), 0) .' days' :
+                \round($this->starts_at->diffInDays($this->ends_at), 0).' days' :
                 null;
         });
     }

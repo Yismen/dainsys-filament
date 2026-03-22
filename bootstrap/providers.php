@@ -2,7 +2,6 @@
 
 use App\Providers\AppServiceProvider;
 use App\Providers\AuthServiceProvider;
-use App\Providers\EventServiceProvider;
 use App\Providers\Filament\AdminPanelProvider;
 use App\Providers\Filament\BlogPanelProvider;
 use App\Providers\Filament\EmployeePanelProvider;
@@ -17,7 +16,6 @@ return [
     AppServiceProvider::class,
     AuthServiceProvider::class,
     // App\Providers\BroadcastServiceProvider::class,
-    EventServiceProvider::class,
     RouteServiceProvider::class,
     TelescopeServiceProvider::class,
     AdminPanelProvider::class,
