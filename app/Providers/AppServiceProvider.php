@@ -7,6 +7,7 @@ use BezhanSalleh\PanelSwitch\PanelSwitch;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Jeffgreco13\FilamentBreezy\Livewire\SanctumTokens;
 use League\Flysystem\Filesystem;
@@ -29,6 +30,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        URL::forceScheme(scheme: 'https');
+
         Model::preventAccessingMissingAttributes(! app()->isProduction());
         Model::preventSilentlyDiscardingAttributes(! app()->isProduction());
         Model::preventLazyLoading(! app()->isProduction());
