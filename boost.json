@@ -1,10 +1,22 @@
 {
     "agents": [
-        "opencode"
+        "opencode",
+        "copilot",
+        "claude_code"
     ],
     "guidelines": true,
+    "herd_mcp": false,
+    "mcp": true,
+    "nightwatch_mcp": false,
     "packages": [
         "filament/filament",
         "spatie/laravel-medialibrary"
+    ],
+    "sail": false,
+    "skills": [
+        "pulse-development",
+        "pest-testing",
+        "tailwindcss-development",
+        "medialibrary-development"
     ]
 }
