@@ -44,7 +44,7 @@ class ProductionsTable
             ->columns([
                 TextColumn::make('id')
                     ->label('ID')
-                    ->searchable()
+                    ->searchable(isIndividual: true)
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('date')
                     ->date()
@@ -52,18 +52,18 @@ class ProductionsTable
                 TextColumn::make('employee.full_name')
                     ->wrap()
                     ->sortable()
-                    ->searchable(),
+                    ->searchable(isIndividual: true),
                 TextColumn::make('campaign.name')
                     ->wrap()
                     ->sortable()
-                    ->searchable()
+                    ->searchable(isIndividual: true)
                     ->limit(25)
                     ->tooltip(fn ($state, $record) => $record->campaign?->name),
                 TextColumn::make('campaign.project.name')
                     ->label('Project')
                     ->wrap()
                     ->sortable()
-                    ->searchable(),
+                    ->searchable(isIndividual: true),
                 TextColumn::make('revenue_type')
                     ->wrap()
                     ->sortable()
