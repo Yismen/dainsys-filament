@@ -21,6 +21,7 @@ use App\Models\Traits\HasManyTerminations;
 use App\Models\Traits\HasOneBankAccount;
 use App\Models\Traits\HasOneSocialSocialSecurity;
 use App\Models\Traits\HasRelationsThruSocialSecurity;
+use App\Models\Universal;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -77,6 +78,10 @@ class Employee extends AppModel implements HasMedia
         'status',
     ];
 
+    protected $appends = [
+        'is_universal'
+    ];
+
     protected $dispatchesEvents = [
         // 'saved' => EmployeeSaved::class,
         // 'created' => EmployeeHired::class
@@ -114,6 +119,11 @@ class Employee extends AppModel implements HasMedia
         });
     }
 
+    public function universal(): HasOne
+    {
+        return $this->hasOne(Universal::class);
+    }
+
     public function supervisor(): BelongsTo
     {
         return $this->belongsTo(Supervisor::class);
@@ -137,6 +147,11 @@ class Employee extends AppModel implements HasMedia
     public function user(): HasOne
     {
         return $this->hasOne(User::class);
+    }
+
+    public function getIsUniversalAttribute(): bool
+    {
+        return $this->universal()->exists();
     }
 
     // public function getTenureAttribute()
@@ -371,5 +386,15 @@ class Employee extends AppModel implements HasMedia
             'personal_id_type' => PersonalIdTypes::class,
             'has_kids' => 'boolean',
         ];
+    }
+
+    public static function generateNextInternalId(): string
+    {
+        $latestInternalId = self::query()
+            ->orderBy('internal_id', 'desc')
+            ->whereRaw('length(internal_id) = ?', 4)
+            ->first();
+
+        return $latestInternalId ? str(++$latestInternalId->internal_id)->padLeft(4, '0') : '0001';
     }
 }

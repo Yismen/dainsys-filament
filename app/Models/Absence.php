@@ -10,6 +10,7 @@ use App\Rules\UniqueCombination;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class Absence extends AppModel
@@ -37,6 +38,10 @@ class Absence extends AppModel
                     ),
                 ],
             ])->validate();
+
+            if(Auth::check()) {
+                $absence->created_by = auth()->id();
+            }
         });
     }
 

@@ -12,4 +12,15 @@ class Universal extends AppModel
     use SoftDeletes;
 
     protected $fillable = ['employee_id', 'date_since'];
+
+    protected static function booted()
+    {
+        parent::booted();
+
+        static::creating(function (Universal $universal): void {
+            if ($universal->date_since === null) {
+                $universal->date_since = now();
+            }
+        });
+    }
 }

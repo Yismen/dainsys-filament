@@ -56,9 +56,9 @@ class AbsenceResource extends Resource
     {
         return [
             'index' => ListAbsences::route('/'),
-            'create' => CreateAbsence::route('/create'),
-            'edit' => EditAbsence::route('/{record}/edit'),
-            'view' => ViewAbsence::route('/{record}'),
+            // 'create' => CreateAbsence::route('/create'),
+            // 'edit' => EditAbsence::route('/{record}/edit'),
+            // 'view' => ViewAbsence::route('/{record}'),
         ];
     }
 

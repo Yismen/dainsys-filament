@@ -19,10 +19,12 @@ use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Notifications\Notification;
 use Filament\Schemas\Components\Fieldset;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Predis\Command\Argument\Server\To;
 
 class EmployeeForm
 {
@@ -108,7 +110,39 @@ class EmployeeForm
                         Section::make('Hiring information')
                             ->columnSpan(1)
                             ->visibleOn('edit')
-                            ->schema(HireEmployeeSchema::make()),
+                            ->schema(
+                                array_merge(
+                                    HireEmployeeSchema::make(),
+                                    [
+                                        Toggle::make('is_universal')
+                                            ->dehydrated(false)
+                                            ->label('Is Universal Employee')
+                                            ->live()
+                                            ->default(fn (?Employee $record) => $record?->isUniversal() ?? false)
+                                            ->afterStateUpdated(function ($state, ?Employee $record) {
+                                                if ($state === false) {
+                                                    $record?->universal()->forceDelete();
+
+                                                    Notification::make()
+                                                        ->title('Universal employee record deleted')
+                                                        ->danger()
+                                                        ->send();
+
+                                                    return null;
+                                                }
+
+                                                $record?->universal()->firstOrCreate([
+                                                    'date_since' => now(),
+                                                ]);
+
+                                                Notification::make()
+                                                    ->title('Universal employee record created')
+                                                    ->warning()
+                                                    ->send();
+                                            }),
+                                    ]
+                                )
+                            ),
                     ]),
                 Grid::make()
                     ->columns(2)
@@ -116,35 +150,45 @@ class EmployeeForm
                     ->schema([
                         Fieldset::make('Bank Account Information')
                             ->columns(2)
-                            ->relationship('bankAccount')
+                            ->relationship(
+                                'bankAccount',
+                                condition: fn (?array $state) => isset($state['bank_id']) || isset($state['account'])
+                            )
                             ->visibleOn('edit')
                             ->schema([
                                 Select::make('bank_id')
+                                    ->label('Bank')
                                     ->options(
                                         ModelListService::make(Bank::query())
                                     )
                                     ->searchable()
-                                    ->required(),
+                                    ->requiredWith('account'),
                                 TextInput::make('account')
-                                    ->required()
                                     ->minLength(5)
                                     ->maxLength(50)
                                     ->trim()
-                                    ->unique(ignoreRecord: true, table: (new BankAccount)->getTable()),
+                                    ->unique(ignoreRecord: true, table: (new BankAccount)->getTable())
+                                    ->requiredWith('bank_id'),
                             ]),
+
                         Fieldset::make('Social Security Information')
                             ->columns(3)
-                            ->relationship('socialSecurity')
+                            ->relationship(
+                                'socialSecurity',
+                                condition: fn (?array $state) => isset($state['afp_id']) || isset($state['ars_id']) || isset($state['number'])
+                            )
                             ->visibleOn('edit')
                             ->schema([
                                 Select::make('afp_id')
                                     ->label('AFP')
                                     ->options(ModelListService::make(Afp::query()))
-                                    ->searchable(),
+                                    ->searchable()
+                                    ->requiredWith('ars_id'),
                                 Select::make('ars_id')
                                     ->label('ARS')
                                     ->options(ModelListService::make(Ars::query()))
-                                    ->searchable(),
+                                    ->searchable()
+                                    ->requiredWith('afp_id'),
                                 TextInput::make('number')
                                     ->label('TSS Number')
                                     ->minLength(3)

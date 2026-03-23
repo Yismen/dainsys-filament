@@ -3,6 +3,7 @@
 namespace App\Schemas\Filament\HumanResource;
 
 use App\Enums\EmployeeStatuses;
+use App\Models\Employee;
 use App\Models\Position;
 use App\Models\Project;
 use App\Models\Site;
@@ -44,8 +45,16 @@ class HireEmployeeSchema
                 ->disabled(fn ($record) => $record->status === EmployeeStatuses::Created)
                 ->required(fn ($record) => $record->status !== EmployeeStatuses::Created),
             TextInput::make('internal_id')
-                ->nullable()
                 ->unique(ignoreRecord: true)
+                ->afterStateHydrated(function (TextInput $component, ?string $state) {
+                    if ($state) {
+                        return;
+                    }
+
+                    $nextInternalId = Employee::generateNextInternalId();
+
+                    $component->state($nextInternalId);
+                })
                 ->minLength(4)
                 ->maxLength(20)
                 ->required(fn ($record) => $record->status !== EmployeeStatuses::Created),

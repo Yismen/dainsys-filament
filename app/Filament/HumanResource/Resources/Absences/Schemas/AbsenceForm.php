@@ -22,6 +22,7 @@ class AbsenceForm
                 ->options(ModelListService::make(model: Employee::query()->active(), value_field: 'full_name'))
                 ->searchable()
                 ->required()
+                ->autofocus()
                 ->rules(fn (?Absence $record): array => [
                     new UniqueCombination(
                         model: Absence::class,
@@ -31,6 +32,7 @@ class AbsenceForm
                 ]),
             DatePicker::make('date')
                 ->required()
+                ->default(now()->subDay())
                 ->minDate(now()->subYear())
                 ->maxDate(now()),
             Select::make('status')
@@ -40,8 +42,8 @@ class AbsenceForm
                 ->required(),
             Select::make('type')
                 ->label('Type')
-                ->options(AbsenceTypes::toArray())
-                ->placeholder('Pending'),
+                ->required()
+                ->options(AbsenceTypes::toArray()),
             Textarea::make('comment')
                 ->label('Comment')
                 ->nullable()
