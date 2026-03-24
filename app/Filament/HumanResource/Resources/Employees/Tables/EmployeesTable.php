@@ -23,6 +23,7 @@ use Filament\Forms\Components\Select;
 use Filament\Schemas\Components\Grid;
 use Filament\Support\Colors\Color;
 use Filament\Support\Enums\Width;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -153,52 +154,54 @@ class EmployeesTable
                     ]),
             ])
             ->toolbarActions([
-                BulkAction::make('hire_employees')
-                    ->label('Hire Employees')
-                    ->color(Color::Indigo)
-                    ->schema([
-                        Grid::make(2)
-                            ->schema([
-                                Select::make('site_id')
-                                    ->required()
-                                    ->searchable()
-                                    ->options(ModelListService::make(Site::query())),
-                                Select::make('project_id')
-                                    ->searchable()
-                                    ->required()
-                                    ->options(ModelListService::make(Project::query())),
-                                Select::make('position_id')
-                                    ->searchable()
-                                    ->required()
-                                    ->options(ModelListService::make(Position::query())),
-                                Select::make('supervisor_id')
-                                    ->required()
-                                    ->options(ModelListService::make(Supervisor::query()))
-                                    ->searchable(),
-                                DateTimePicker::make('hired_at')
-                                    ->required()
-                                    ->default(now()),
-                            ]),
-                    ])
-                    ->successNotificationTitle('Employees hired')
-                    ->deselectRecordsAfterCompletion()
-                    ->action(function (BulkAction $bulkAction, array $data, Collection $records): void {
-                        $records = $records->filter(fn ($record) => $record->status === EmployeeStatuses::Created);
+                // BulkAction::make('hire_employees')
+                //     ->label('Hire Employees')
+                //     ->color(Color::Indigo)
+                //     ->schema([
+                //         Grid::make(2)
+                //             ->schema([
+                //                 Select::make('site_id')
+                //                     ->required()
+                //                     ->searchable()
+                //                     ->options(ModelListService::make(Site::query())),
+                //                 Select::make('project_id')
+                //                     ->searchable()
+                //                     ->required()
+                //                     ->options(ModelListService::make(Project::query())),
+                //                 Select::make('position_id')
+                //                     ->searchable()
+                //                     ->required()
+                //                     ->options(ModelListService::make(Position::query())),
+                //                 Select::make('supervisor_id')
+                //                     ->required()
+                //                     ->options(ModelListService::make(Supervisor::query()))
+                //                     ->searchable(),
+                //                 DateTimePicker::make('hired_at')
+                //                     ->required()
+                //                     ->default(now()),
+                //             ]),
+                //     ])
+                //     ->successNotificationTitle('Employees hired')
+                //     ->deselectRecordsAfterCompletion()
+                //     ->action(function (BulkAction $bulkAction, array $data, Collection $records): void {
+                //         $records = $records->filter(fn ($record) => $record->status === EmployeeStatuses::Created);
 
-                        foreach ($records as $record) {
-                            $record->hires()
-                                ->create([
-                                    'site_id' => $data['site_id'] ?? null,
-                                    'project_id' => $data['project_id'] ?? null,
-                                    'position_id' => $data['position_id'] ?? null,
-                                    'supervisor_id' => $data['supervisor_id'] ?? null,
-                                    'date' => $data['hired_at'] ?? now(),
-                                ]);
-                        }
-                    }),
+                //         foreach ($records as $record) {
+                //             $record->hires()
+                //                 ->create([
+                //                     'site_id' => $data['site_id'] ?? null,
+                //                     'project_id' => $data['project_id'] ?? null,
+                //                     'position_id' => $data['position_id'] ?? null,
+                //                     'supervisor_id' => $data['supervisor_id'] ?? null,
+                //                     'date' => $data['hired_at'] ?? now(),
+                //                 ]);
+                //         }
+                //     }),
                 ExportBulkAction::make()
                     ->color(Color::Teal)
-                    ->exporter(EmployeeExporter::class),
+                    ->exporter(EmployeeExporter::class)
+                    ->deselectRecordsAfterCompletion()
+                    ->icon(Heroicon::OutlinedDocumentArrowDown),
             ]);
     }
 }
