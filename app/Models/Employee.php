@@ -23,6 +23,7 @@ use App\Models\Traits\HasOneSocialSocialSecurity;
 use App\Models\Traits\HasRelationsThruSocialSecurity;
 use App\Models\Universal;
 use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Spatie\Image\Enums\Fit;
@@ -79,7 +80,7 @@ class Employee extends AppModel implements HasMedia
     ];
 
     protected $appends = [
-        'is_universal'
+        'is_universal',
     ];
 
     protected $dispatchesEvents = [
@@ -149,9 +150,11 @@ class Employee extends AppModel implements HasMedia
         return $this->hasOne(User::class);
     }
 
-    public function getIsUniversalAttribute(): bool
+    protected function isUniversal(): Attribute
     {
-        return $this->universal()->exists();
+        return Attribute::make(
+            get: fn () => $this->universal()->exists()
+        );
     }
 
     // public function getTenureAttribute()

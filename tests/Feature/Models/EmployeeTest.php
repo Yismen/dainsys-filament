@@ -44,7 +44,7 @@ beforeEach(function (): void {
 test('employee model interacts with employees table', function (): void {
     $data = Employee::factory()->make();
 
-    Employee::create($data->toArray());
+    Employee::create($data->except('is_universal'));
 
     $this->assertDatabaseHas('employees', $data->only([
         'first_name',
