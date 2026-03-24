@@ -38,18 +38,6 @@ return [
             'report' => false,
         ],
 
-        'dropbox' => [
-            'driver' => 'dropbox',
-            'accessToken' => env('DROPBOX_ACCESS_TOKEN'),
-            'appSecret' => env('DROPBOX_APP_SECRET'),
-            'app' => 'dainsys-filament',
-            // 'prefix'     => 'your-prefix',
-            // 'visibility' => 'public',
-            // 'pirate'     => false,
-            // 'eventable'  => true,
-            // 'cache'      => 'foo'
-        ],
-
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
@@ -70,6 +58,18 @@ return [
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => false,
             'report' => false,
+        ],
+
+        'dropbox' => [
+            'driver' => 'dropbox',
+            'accessToken' => env('DROPBOX_ACCESS_TOKEN'),
+            'appSecret' => env('DROPBOX_APP_SECRET'),
+            'app' => 'dainsys-filament',
+            // 'prefix'     => 'your-prefix',
+            // 'visibility' => 'public',
+            // 'pirate'     => false,
+            // 'eventable'  => true,
+            // 'cache'      => 'foo'
         ],
 
     ],
