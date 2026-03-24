@@ -30,7 +30,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        URL::forceScheme(scheme: 'https');
+        if (app()->isProduction()) {
+            URL::forceScheme(scheme: 'https');
+            URL::useOrigin(config('app.url'));
+        }
 
         Model::preventAccessingMissingAttributes(! app()->isProduction());
         Model::preventSilentlyDiscardingAttributes(! app()->isProduction());
