@@ -44,4 +44,9 @@ class EmployeeExporter extends Exporter
 
         return $body;
     }
+
+    public function getFileDisk(): string
+    {
+        return 'public';
+    }
 }
