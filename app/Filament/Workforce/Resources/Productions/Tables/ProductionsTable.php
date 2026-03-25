@@ -48,6 +48,7 @@ class ProductionsTable
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('date')
                     ->date()
+                    ->wrap()
                     ->sortable(),
                 TextColumn::make('employee.full_name')
                     ->wrap()
@@ -93,6 +94,7 @@ class ProductionsTable
                     ->wrapHeader()
                     ->sortable(),
                 TextColumn::make('conversions')
+                    ->label('Sales')
                     ->numeric()
                     ->wrapHeader()
                     ->sortable(),
