@@ -59,7 +59,6 @@ class Production extends AppModel
             if (\in_array('campaign_id', $changed_keys)) {
                 $production->revenue_rate = $production->campaign?->revenue_rate;
                 $production->sph_goal = $production->campaign?->sph_goal;
-                $production->revenue_type = $production->campaign?->revenue_type;
             }
 
             $production->unique_id = implode('_', [
@@ -69,6 +68,7 @@ class Production extends AppModel
             ]);
 
             $production->converted_to_payroll_at = null;
+            $production->revenue_type = $production->campaign?->revenue_type->value;
             $production->billable_time = $production->calculateBillableHours();
             $production->revenue = $production->calculateRevenue();
             $production->conversions_goal = $production->campaign?->sph_goal * $production->production_time;

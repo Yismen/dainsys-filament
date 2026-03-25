@@ -65,7 +65,7 @@ class DowntimeForm
                     ->rules(fn (?Downtime $record): array => [
                         new UniqueCombination(
                             model: Downtime::class,
-                            fields: ['employee_id', 'date'],
+                            fields: ['employee_id', 'date', 'campaign_id'],
                             exceptId: $record?->id,
                         ),
                     ]),
