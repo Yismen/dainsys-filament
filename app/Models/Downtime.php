@@ -11,6 +11,7 @@ use App\Models\Traits\BelongsToDowntimeReason;
 use App\Models\Traits\BelongsToEmployee;
 use App\Models\Traits\HasManyComments;
 use Database\Factories\DowntimeFactory;
+use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -46,6 +47,17 @@ class Downtime extends AppModel
 
         static::creating(function (Downtime $downtime): void {
             $downtime->requester_id = auth()->user()?->id;
+        });
+
+        static::created(function (Downtime $downtime): void {
+            $users = User::withWhereHas('roles', fn($query) => $query->where('name', 'Workforce Manager'))->get();
+
+            if ($users->isNotEmpty()) {
+                Notification::make()
+                    ->title('New Downtime Request')
+                    ->body("A new downtime request has been created for employee {$downtime->employee?->full_name} on {$downtime->date->format('Y-m-d')}.")
+                    ->sendToDatabase($users);
+            }
         });
 
         static::saving(function (Downtime $downtime): void {

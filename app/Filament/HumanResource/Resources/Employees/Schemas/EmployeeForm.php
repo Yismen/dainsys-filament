@@ -135,6 +135,8 @@ class EmployeeForm
                                                     'date_since' => now(),
                                                 ]);
 
+                                                $record->refresh();
+
                                                 Notification::make()
                                                     ->title('Universal employee record created')
                                                     ->warning()
