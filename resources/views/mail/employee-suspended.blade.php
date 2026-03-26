@@ -9,8 +9,8 @@ the employee is considered suspended, therefore they should not be working. Also
 
 This employee works for project {{ $employee->project->name }} in site {{ $employee->site->name }} as a {{ $employee->position->name }}, and reports to {{ $employee->supervisor->name }}.
 
-<x-mail::button :url="url('human-resource/employees-management/employees', ['record' => $employee->getKey()])">
-    View Employee
+<x-mail::button :url="url('human-resource/employees')">
+    View Employees
 </x-mail::button>
 
 Thanks,<br>
