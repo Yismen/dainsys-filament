@@ -11,8 +11,8 @@ This ticket {{ $ticket->expected_at->isPast() ? 'was' : 'is' }} expected {{ $tic
 *Content:*
 > {!! $ticket->description !!}
 
-<x-mail::button :url="url('support/tickets', ['record' => $ticket->getKey()])">
-    View Ticket
+<x-mail::button :url="url('support')">
+    View Tickets
 </x-mail::button>
 
 

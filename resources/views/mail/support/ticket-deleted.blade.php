@@ -9,6 +9,10 @@ been deleted by {{ $user?->name }}.
 *Content:*
 > {!! $ticket->description !!}
 
+<x-mail::button :url="url('support')">
+    View Tickets
+</x-mail::button>
+
 Thanks,<br>
 {{ config('app.name') }}
 </x-mail::message>

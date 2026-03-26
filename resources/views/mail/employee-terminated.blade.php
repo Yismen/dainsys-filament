@@ -4,7 +4,7 @@
 @endphp
 # Employee {{ $employee->full_name }} Terminated
 
-Employee <b>{{ $employee->full_name }}</b> has been terminated, efectivily {{ $termination->date->format('M-d, Y') }}! They worked at {{ $employee->site->name }}, in project {{ $employee->project->name }} as {{ $employee->position }}, for supervisor {{ $employee->supervisor->name }}.
+Employee <b>{{ $employee->full_name }}</b> has been terminated, efectivily {{ $termination->date->format('M-d, Y') }}! They worked at {{ $employee->site?->name }}, in project {{ $employee->project?->name }} as {{ $employee->position?->name }}, for supervisor {{ $employee->supervisor?->name }}.
 
 <x-mail::button :url="url('human-resource/employees')">
     View Employees
