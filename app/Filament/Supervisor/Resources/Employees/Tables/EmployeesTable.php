@@ -99,7 +99,11 @@ class EmployeesTable
                         ->schema([
                             Grid::make(2)
                                 ->schema([
-                                    DatePicker::make('date')->required(),
+                                    DatePicker::make('date')
+                                        ->required()
+                                        ->minDate(now()->subDays(20))
+                                        ->maxDate(now())
+                                        ->default(now()),
                                     Select::make('campaign_id')
                                         ->label('Campaign')
                                         ->options(Campaign::query()->where('revenue_type', RevenueTypes::Downtime)->pluck('name', 'id'))
@@ -111,8 +115,7 @@ class EmployeesTable
                                     TextInput::make('total_time')
                                         ->label('Total time (hours)')
                                         ->numeric()
-                                        ->minValue(0.25)
-                                        ->step(0.25)
+                                        ->minValue(0.01)
                                         ->required(),
                                     Textarea::make('comment')
                                         ->label('Comment')
