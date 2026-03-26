@@ -145,14 +145,14 @@ it('keeps revenue type and revenue rate and sph_goal if any other field that is 
 
     $campaign->update(['revenue_type' => RevenueTypes::TalkTime, 'revenue_rate' => 10, 'sph_goal' => 10]);
 
-    $production->update(['employee_id' => Employee::factory()->create()->id]);
+    $production->touch();
 
-    expect($production->revenue_type)->toBe(RevenueTypes::LoginTime);
+    expect($production->revenue_type)->toBe(RevenueTypes::TalkTime);
     expect((float) $production->revenue_rate)->toBe((float) 5);
     expect((float) $production->sph_goal)->toBe((float) 5);
     $this->assertDatabaseHas('productions', [
         'id' => $production->id,
-        'revenue_type' => RevenueTypes::LoginTime->value,
+        'revenue_type' => RevenueTypes::TalkTime->value,
         'revenue_rate' => 5,
         'sph_goal' => 5,
     ]);
