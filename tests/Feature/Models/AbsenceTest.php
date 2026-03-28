@@ -6,7 +6,6 @@ use App\Models\Absence;
 use App\Models\Employee;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Validation\ValidationException;
 
 use function Pest\Laravel\assertDatabaseHas;
 

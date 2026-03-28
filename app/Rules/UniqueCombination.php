@@ -29,7 +29,7 @@ class UniqueCombination implements DataAwareRule, ValidationRule
     {
         $model = is_string($this->model) ? new $this->model : $this->model;
         $query = $model->newQuery();
-        $values = \join(', ', \array_values($this->fields));
+        $values = \implode(', ', \array_values($this->fields));
         $fieldLabels = \implode(', ', \array_keys($this->fields));
 
         foreach ($this->fields as $field => $fieldValue) {

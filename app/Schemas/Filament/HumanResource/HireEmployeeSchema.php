@@ -45,7 +45,7 @@ class HireEmployeeSchema
                 ->required(fn ($record) => $record->status !== EmployeeStatuses::Created),
             TextInput::make('internal_id')
                 ->unique(ignoreRecord: true)
-                ->afterStateHydrated(function (?Employee $record, TextInput $component) {
+                ->afterStateHydrated(function (?Employee $record, TextInput $component): void {
                     if ($record->internal_id ?? null) {
                         $component->state($record->internal_id);
 

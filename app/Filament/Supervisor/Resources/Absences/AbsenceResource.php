@@ -65,7 +65,7 @@ class AbsenceResource extends Resource
                             model: Absence::class,
                             fields: [
                                 'employee_id' => $get('employee_id'),
-                                'date' => $get('date')
+                                'date' => $get('date'),
                             ],
                             exceptId: $record?->id,
                         ),
