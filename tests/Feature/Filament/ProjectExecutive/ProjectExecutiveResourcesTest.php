@@ -6,6 +6,7 @@ use App\Filament\ProjectExecutive\Resources\Deductions\Pages\ListDeductions;
 use App\Filament\ProjectExecutive\Resources\Downtimes\Pages\ListDowntimes;
 use App\Filament\ProjectExecutive\Resources\EmployeeMetrics\Pages\ListEmployeeMetrics;
 use App\Filament\ProjectExecutive\Resources\Employees\Pages\ListEmployees;
+use App\Filament\ProjectExecutive\Resources\Incentives\Pages\ListIncentives;
 use App\Filament\ProjectExecutive\Resources\Payrolls\Pages\ListPayrolls;
 use App\Filament\ProjectExecutive\Resources\Productions\Pages\ListProductions;
 use App\Filament\ProjectExecutive\Resources\Projects\Pages\ListProjects;
@@ -16,6 +17,7 @@ use App\Models\Downtime;
 use App\Models\DowntimeReason;
 use App\Models\Employee;
 use App\Models\Hire;
+use App\Models\Incentive;
 use App\Models\Payroll;
 use App\Models\Production;
 use App\Models\Project;
@@ -186,6 +188,24 @@ it('shows deductions scoped to the executive projects', function (): void {
     ]);
 
     livewire(ListDeductions::class)
+        ->assertSee($this->insideEmployee->full_name)
+        ->assertDontSee($this->outsideEmployee->full_name);
+});
+
+it('shows incentives scoped to the executive projects', function (): void {
+    $insideIncentive = Incentive::factory()->create([
+        'employee_id' => $this->insideEmployee->id,
+        'project_id' => $this->insideProject->id,
+        'payable_date' => now()->toDateString(),
+    ]);
+
+    $outsideIncentive = Incentive::factory()->create([
+        'employee_id' => $this->outsideEmployee->id,
+        'project_id' => $this->outsideProject->id,
+        'payable_date' => now()->toDateString(),
+    ]);
+
+    livewire(ListIncentives::class)
         ->assertSee($this->insideEmployee->full_name)
         ->assertDontSee($this->outsideEmployee->full_name);
 });

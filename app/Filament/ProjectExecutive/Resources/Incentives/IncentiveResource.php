@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Filament\ProjectExecutive\Resources\Payrolls;
+namespace App\Filament\ProjectExecutive\Resources\Incentives;
 
-use App\Filament\ProjectExecutive\Resources\Payrolls\Pages\ListPayrolls;
-use App\Filament\ProjectExecutive\Resources\Payrolls\Schemas\PayrollInfolist;
-use App\Filament\ProjectExecutive\Resources\Payrolls\Tables\PayrollsTable;
-use App\Models\Payroll;
+use App\Filament\ProjectExecutive\Resources\Incentives\Pages\ListIncentives;
+use App\Filament\ProjectExecutive\Resources\Incentives\Schemas\IncentiveInfolist;
+use App\Filament\ProjectExecutive\Resources\Incentives\Tables\IncentivesTable;
+use App\Models\Incentive;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
@@ -15,24 +15,26 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use UnitEnum;
 
-class PayrollResource extends Resource
+class IncentiveResource extends Resource
 {
-    protected static ?string $model = Payroll::class;
+    protected static ?string $model = Incentive::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCreditCard;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCurrencyDollar;
 
-    protected static ?int $navigationSort = 4;
+    protected static ?string $recordTitleAttribute = 'payable_date';
+
+    protected static ?int $navigationSort = 10;
 
     protected static string|UnitEnum|null $navigationGroup = 'Payroll Information';
 
     public static function infolist(Schema $schema): Schema
     {
-        return PayrollInfolist::configure($schema);
+        return IncentiveInfolist::configure($schema);
     }
 
     public static function table(Table $table): Table
     {
-        return PayrollsTable::configure($table);
+        return IncentivesTable::configure($table);
     }
 
     public static function getEloquentQuery(): Builder
@@ -52,7 +54,7 @@ class PayrollResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListPayrolls::route('/'),
+            'index' => ListIncentives::route('/'),
         ];
     }
 }

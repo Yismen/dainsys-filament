@@ -13,6 +13,7 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use UnitEnum;
 
 class DeductionResource extends Resource
 {
@@ -21,6 +22,8 @@ class DeductionResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedMinusCircle;
 
     protected static ?int $navigationSort = 7;
+
+    protected static string|UnitEnum|null $navigationGroup = 'Payroll Information';
 
     public static function infolist(Schema $schema): Schema
     {
