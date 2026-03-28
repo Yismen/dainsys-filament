@@ -4,10 +4,8 @@ namespace App\Filament\Workforce\Resources\Downtimes\Schemas;
 
 use App\Enums\RevenueTypes;
 use App\Models\Campaign;
-use App\Models\Downtime;
 use App\Models\DowntimeReason;
 use App\Models\Employee;
-use App\Rules\UniqueCombination;
 use App\Services\ModelListService;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
@@ -47,18 +45,10 @@ class DowntimeForm
                         )
                     )
                     ->searchable()
-                    ->required()
-                    ->rules(fn (?Downtime $record): array => [
-                        new UniqueCombination(
-                            model: Downtime::class,
-                            fields: ['employee_id', 'date', 'campaign_id'],
-                            exceptId: $record?->id,
-                        ),
-                    ]),
+                    ->required(),
                 TextInput::make('total_time')
                     ->required()
                     ->numeric(),
             ]);
     }
 }
-

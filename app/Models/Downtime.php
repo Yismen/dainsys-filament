@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Enums\DowntimeStatuses;
 use App\Enums\RevenueTypes;
-use App\Exceptions\InvalidDowntimeCampaign;
 use App\Models\BaseModels\AppModel;
 use App\Models\Traits\BelongsToCampaign;
 use App\Models\Traits\BelongsToDowntimeReason;
@@ -50,7 +49,7 @@ class Downtime extends AppModel
         });
 
         static::created(function (Downtime $downtime): void {
-            $users = User::withWhereHas('roles', fn($query) => $query->where('name', 'Workforce Manager'))->get();
+            $users = User::withWhereHas('roles', fn ($query) => $query->where('name', 'Workforce Manager'))->get();
 
             if ($users->isNotEmpty()) {
                 Notification::make()
@@ -60,21 +59,38 @@ class Downtime extends AppModel
             }
         });
 
-        static::saving(function (Downtime $downtime): void {
+        static::saving(function (Downtime $downtime) {
             if ($downtime->campaign->revenue_type !== RevenueTypes::Downtime) {
-                throw new InvalidDowntimeCampaign;
-            }
-        });
+                Notification::make()
+                    ->title('New Downtime Request')
+                    ->danger()
+                    ->body('Only campaigns with revenue type of downtime are allowed.')
+                    ->send();
 
-        static::saved(function (Downtime $downtime): void {
-            $downtime->unique_id = implode('_', [
+                return false;
+            }
+
+            $uniqueId = implode('_', [
                 $downtime->date->format('Y-m-d'),
                 $downtime->campaign_id,
+                $downtime->downtime_reason_id,
                 $downtime->employee_id,
             ]);
 
-            $downtime->saveQuietly();
+            if (static::where('unique_id', $uniqueId)->where('id', '!=', $downtime->id)->exists()) {
+                Notification::make()
+                    ->title('New Downtime Request')
+                    ->danger()
+                    ->body('A downtime entry with the same date, campaign, reason, and employee already exists.')
+                    ->send();
 
+                return false;
+            }
+
+            $downtime->unique_id = $uniqueId;
+        });
+
+        static::saved(function (Downtime $downtime): void {
             // Track initial request as a comment only if none exists
             if ($downtime->wasRecentlyCreated && ! $downtime->comments()->exists()) {
                 Comment::query()->forceCreate([
@@ -92,6 +108,7 @@ class Downtime extends AppModel
                     'date' => $downtime->date,
                     'campaign_id' => $downtime->campaign_id,
                     'employee_id' => $downtime->employee_id,
+                    'downtime_reason_id' => $downtime->downtime_reason_id,
                     'total_time' => $downtime->total_time,
                 ]);
             }

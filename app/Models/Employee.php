@@ -21,7 +21,6 @@ use App\Models\Traits\HasManyTerminations;
 use App\Models\Traits\HasOneBankAccount;
 use App\Models\Traits\HasOneSocialSocialSecurity;
 use App\Models\Traits\HasRelationsThruSocialSecurity;
-use App\Models\Universal;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

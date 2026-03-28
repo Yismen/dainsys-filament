@@ -16,6 +16,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
@@ -59,10 +60,13 @@ class AbsenceResource extends Resource
                     })
                     ->searchable()
                     ->required()
-                    ->rules(fn (?Absence $record): array => [
+                    ->rules(fn (?Absence $record, Get $get): array => [
                         new UniqueCombination(
                             model: Absence::class,
-                            fields: ['employee_id', 'date'],
+                            fields: [
+                                'employee_id' => $get('employee_id'),
+                                'date' => $get('date')
+                            ],
                             exceptId: $record?->id,
                         ),
                     ]),

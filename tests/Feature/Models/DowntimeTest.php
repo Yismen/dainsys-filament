@@ -1,7 +1,6 @@
 <?php
 
 use App\Enums\RevenueTypes;
-use App\Exceptions\InvalidDowntimeCampaign;
 use App\Models\Campaign;
 use App\Models\Downtime;
 use App\Models\DowntimeReason;
@@ -114,6 +113,7 @@ it('calculates unique_id field', function (): void {
         ->toBe(implode('_', [
             $date->format('Y-m-d'),
             $campaign->id,
+            $downtime->downtime_reason_id,
             $employee->id,
         ]));
 });
@@ -122,7 +122,9 @@ it('throws exception if campaign revenue type is not downtime', function (): voi
     Downtime::factory()
         ->for(Campaign::factory(state: ['revenue_type' => RevenueTypes::LoginTime]))
         ->create();
-})->throws(InvalidDowntimeCampaign::class);
+
+    expect(Downtime::count())->toBe(0);
+});
 
 test('unaproved downtimes dont go to productions', function (): void {
     $downtime = Downtime::factory()

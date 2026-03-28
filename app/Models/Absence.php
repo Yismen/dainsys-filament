@@ -28,18 +28,25 @@ class Absence extends AppModel
 
     protected static function booted(): void
     {
-        static::creating(function (Absence $absence): void {
-            Validator::make($absence->getAttributes(), [
+        static::saving(function (Absence $absence) {
+            $validator = Validator::make($absence->getAttributes(), [
                 'employee_id' => [
                     new UniqueCombination(
                         model: static::class,
-                        fields: ['employee_id', 'date'],
-                        data: $absence->getAttributes(),
+                        fields: [
+                            'employee_id' => $absence->employee_id,
+                            'date' => $absence->date->format('Y-m-d'),
+                        ],
+                        exceptId: $absence->id,
                     ),
                 ],
-            ])->validate();
+            ]);
 
-            if(Auth::check()) {
+            if ($validator->fails()) {
+                return false;
+            }
+
+            if (Auth::check()) {
                 $absence->created_by = auth()->id();
             }
         });

@@ -2,20 +2,18 @@
 
 namespace App\Filament\Supervisor\Resources\Employees\Tables;
 
-use App\Enums\DowntimeStatuses;
 use App\Enums\EmployeeStatuses;
 use App\Enums\HRActivityRequestStatuses;
 use App\Enums\HRActivityTypes;
 use App\Enums\RevenueTypes;
 use App\Models\Campaign;
-use App\Models\Comment;
-use App\Models\Downtime;
 use App\Models\DowntimeReason;
 use App\Models\Employee;
 use App\Models\HRActivityRequest;
+use App\Services\DowntimeService;
+use App\Services\ModelListService;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
-use Filament\Actions\BulkAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
@@ -25,7 +23,6 @@ use Filament\Schemas\Components\Grid;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 
 class EmployeesTable
@@ -100,23 +97,23 @@ class EmployeesTable
                             Grid::make(2)
                                 ->schema([
                                     DatePicker::make('date')
-                                        ->required()
+                                        ->default(now())
                                         ->minDate(now()->subDays(20))
-                                        ->maxDate(now())
-                                        ->default(now()),
+                                        ->maxDate(now()->endOfDay())
+                                        ->required(),
                                     Select::make('campaign_id')
-                                        ->label('Campaign')
-                                        ->options(Campaign::query()->where('revenue_type', RevenueTypes::Downtime)->pluck('name', 'id'))
+                                        ->options(ModelListService::get(model: Campaign::query()->where('revenue_type', RevenueTypes::Downtime)))
+                                        ->searchable()
                                         ->required(),
                                     Select::make('downtime_reason_id')
-                                        ->label('Reason')
-                                        ->options(DowntimeReason::query()->pluck('name', 'id'))
+                                        ->options(ModelListService::get(model: DowntimeReason::query()))
+                                        ->searchable()
                                         ->required(),
                                     TextInput::make('total_time')
-                                        ->label('Total time (hours)')
-                                        ->numeric()
-                                        ->minValue(0.01)
-                                        ->required(),
+                                        ->required()
+                                        ->minValue(0)
+                                        ->maxValue(13)
+                                        ->numeric(),
                                     Textarea::make('comment')
                                         ->label('Comment')
                                         ->nullable()
@@ -130,79 +127,16 @@ class EmployeesTable
                                 return;
                             }
 
-                            $downtime = Downtime::create([
-                                'employee_id' => $record->id,
-                                'campaign_id' => $data['campaign_id'],
-                                'downtime_reason_id' => $data['downtime_reason_id'],
-                                'date' => $data['date'],
-                                'total_time' => $data['total_time'],
-                                'status' => DowntimeStatuses::Pending,
-                            ]);
-
-                            if (! empty($data['comment'])) {
-                                Comment::query()->forceCreate([
-                                    'text' => $data['comment'],
-                                    'commentable_id' => $downtime->id,
-                                    'commentable_type' => Downtime::class,
-                                ]);
-                            }
-                        })
-                        ->successNotificationTitle('Downtime requested successfully'),
+                            DowntimeService::create(
+                                employeeId: $record->id,
+                                date: $data['date'],
+                                campaignId: $data['campaign_id'],
+                                downtimeReasonId: $data['downtime_reason_id'],
+                                totalTime: $data['total_time'],
+                                comment: $data['comment'] ?? null,
+                            );
+                        }),
                 ]),
-            ])
-            ->toolbarActions([
-                BulkAction::make('requestDowntimes')
-                    ->label('Request Downtimes')
-                    ->icon('heroicon-o-clock')
-                    ->modalHeading('Request downtimes for selected')
-                    ->schema([
-                        DatePicker::make('date')->required(),
-                        Select::make('campaign_id')
-                            ->label('Campaign')
-                            ->options(Campaign::query()->where('revenue_type', RevenueTypes::Downtime)->pluck('name', 'id'))
-                            ->required(),
-                        Select::make('downtime_reason_id')
-                            ->label('Reason')
-                            ->options(DowntimeReason::query()->pluck('name', 'id'))
-                            ->required(),
-                        TextInput::make('total_time')
-                            ->label('Total time (hours)')
-                            ->numeric()
-                            ->minValue(0.25)
-                            ->step(0.25)
-                            ->required(),
-                        Textarea::make('comment')
-                            ->label('Comment')
-                            ->nullable()
-                            ->rows(3),
-                    ])
-                    ->action(function (Collection $records, array $data): void {
-                        $supervisor = Auth::user()?->supervisor;
-
-                        if (! $supervisor) {
-                            return;
-                        }
-
-                        $records->each(function ($employee) use ($data): void {
-                            $downtime = Downtime::create([
-                                'employee_id' => $employee->id,
-                                'campaign_id' => $data['campaign_id'],
-                                'downtime_reason_id' => $data['downtime_reason_id'],
-                                'date' => $data['date'],
-                                'total_time' => $data['total_time'],
-                                'status' => DowntimeStatuses::Pending,
-                            ]);
-
-                            if (! empty($data['comment'])) {
-                                Comment::query()->forceCreate([
-                                    'text' => $data['comment'],
-                                    'commentable_id' => $downtime->id,
-                                    'commentable_type' => Downtime::class,
-                                ]);
-                            }
-                        });
-                    })
-                    ->successNotificationTitle('Downtimes requested successfully'),
             ]);
     }
 }

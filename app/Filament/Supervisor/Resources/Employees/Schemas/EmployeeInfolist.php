@@ -3,7 +3,6 @@
 namespace App\Filament\Supervisor\Resources\Employees\Schemas;
 
 use App\Models\Employee;
-use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\SpatieMediaLibraryImageEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Grid;

@@ -29,36 +29,36 @@ class HireEmployeeAction
                     Grid::make()
                         ->columns(2)
                         ->schema(HireEmployeeSchema::make(isBeingHired: true)),
-                // ->schema([
-                //     Grid::make()
-                //         ->columns(2)
-                //         ->schema([
-                //             DateTimePicker::make('date')
-                //                 ->label(label: __('Date'))
-                //                 ->required()
-                //                 ->default(now()),
-                //             Select::make('site_id')
-                //                 ->label(__('Site'))
-                //                 ->options(ModelListService::get(Site::class))
-                //                 ->searchable()
-                //                 ->required(),
-                //             Select::make('project_id')
-                //                 ->label(label: __('Project'))
-                //                 ->options(ModelListService::get(Project::class))
-                //                 ->searchable()
-                //                 ->required(),
-                //             Select::make(name: 'position_id')
-                //                 ->label(__('Position'))
-                //                 ->options(ModelListService::get(Position::class))
-                //                 ->searchable()
-                //                 ->required(),
-                //             Select::make('supervisor_id')
-                //                 ->label(__('Supervisor'))
-                //                 ->options(ModelListService::get(Supervisor::class))
-                //                 ->searchable()
-                //                 ->required(),
+                    // ->schema([
+                    //     Grid::make()
+                    //         ->columns(2)
+                    //         ->schema([
+                    //             DateTimePicker::make('date')
+                    //                 ->label(label: __('Date'))
+                    //                 ->required()
+                    //                 ->default(now()),
+                    //             Select::make('site_id')
+                    //                 ->label(__('Site'))
+                    //                 ->options(ModelListService::get(Site::class))
+                    //                 ->searchable()
+                    //                 ->required(),
+                    //             Select::make('project_id')
+                    //                 ->label(label: __('Project'))
+                    //                 ->options(ModelListService::get(Project::class))
+                    //                 ->searchable()
+                    //                 ->required(),
+                    //             Select::make(name: 'position_id')
+                    //                 ->label(__('Position'))
+                    //                 ->options(ModelListService::get(Position::class))
+                    //                 ->searchable()
+                    //                 ->required(),
+                    //             Select::make('supervisor_id')
+                    //                 ->label(__('Supervisor'))
+                    //                 ->options(ModelListService::get(Supervisor::class))
+                    //                 ->searchable()
+                    //                 ->required(),
 
-                //         ]),
+                    //         ]),
                 ])->action(function (Employee $record, $data): void {
                     $data['date'] = $data['date'] ?? $data['hired_at']; // On the form, we have 'hired_at' field, but for the hires relationship, we need to save it as 'date'
                     $data = Arr::except($data, ['internal_id', 'hired_at']); // We don't want to save 'internal_id' and 'hired_at' in the hires table, as they are saved in the employees table

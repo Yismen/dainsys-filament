@@ -310,7 +310,7 @@ class Ticket extends AppModel
             ->withoutGlobalScope(SoftDeletingScope::class)
             ->count();
 
-        return $this->tickets_prefix . str($tickets_count)->padLeft(6, '0');
+        return $this->tickets_prefix.str($tickets_count)->padLeft(6, '0');
     }
 
     protected function casts(): array

@@ -11,6 +11,7 @@ use App\Services\ModelListService;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
+use Filament\Schemas\Components\Utilities\Get;
 
 class AbsenceForm
 {
@@ -23,12 +24,17 @@ class AbsenceForm
                 ->searchable()
                 ->required()
                 ->autofocus()
-                ->rules(fn (?Absence $record): array => [
-                    new UniqueCombination(
-                        model: Absence::class,
-                        fields: ['employee_id', 'date'],
-                        exceptId: $record?->id,
-                    ),
+                ->rules([
+                    fn (?Absence $record, Get $get): array => [
+                        new UniqueCombination(
+                            model: Absence::class,
+                            fields: [
+                                'employee_id' => $get('employee_id'),
+                                'date' => $get('date')
+                                ],
+                            exceptId: $record?->id,
+                        ),
+                    ]
                 ]),
             DatePicker::make('date')
                 ->required()

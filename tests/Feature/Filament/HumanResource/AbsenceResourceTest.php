@@ -3,10 +3,7 @@
 use App\Enums\AbsenceStatuses;
 use App\Enums\AbsenceTypes;
 use App\Events\EmployeeHiredEvent;
-use App\Filament\HumanResource\Resources\Absences\Pages\CreateAbsence;
-use App\Filament\HumanResource\Resources\Absences\Pages\EditAbsence;
 use App\Filament\HumanResource\Resources\Absences\Pages\ListAbsences;
-use App\Filament\HumanResource\Resources\Absences\Pages\ViewAbsence;
 use App\Models\Absence;
 use App\Models\Employee;
 use App\Models\Hire;
@@ -99,5 +96,3 @@ it('displays Absence list page correctly', function (): void {
     livewire(ListAbsences::class)
         ->assertCanSeeTableRecords($absences);
 });
-
-

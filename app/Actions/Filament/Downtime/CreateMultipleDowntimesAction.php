@@ -4,16 +4,15 @@ namespace App\Actions\Filament\Downtime;
 
 use App\Enums\RevenueTypes;
 use App\Models\Campaign;
-use App\Models\Downtime;
 use App\Models\DowntimeReason;
 use App\Models\Employee;
+use App\Services\DowntimeService;
 use App\Services\ModelListService;
 use Filament\Actions\Action;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Notifications\Notification;
 use Filament\Schemas\Components\Grid;
 use Filament\Support\Colors\Color;
 
@@ -63,31 +62,15 @@ class CreateMultipleDowntimesAction
                     ]),
             ])
             ->action(function (array $data): void {
-                $newData = [
-                    'date' => $data['date'],
-                    'campaign_id' => $data['campaign_id'],
-                    'downtime_reason_id' => $data['downtime_reason_id'],
-                    'total_time' => $data['total_time'],
-                ];
-
                 foreach ($data['employees'] as $employeeId) {
-                    if (
-                        Downtime::query()
-                            ->whereDate('date', $newData['date'])
-                            ->where('employee_id', $employeeId)
-                            ->where('campaign_id', $newData['campaign_id'])
-                            ->exists() === false
-                    ) {
-                        $employee = Employee::findOrFail($employeeId);
-                        $employee->downtimes()->create($newData);
-
-                        Notification::make()
-                            ->title("{$newData['total_time']} hours of downtimes created for {$employee->full_name} on date {$newData['date']}.")
-                            ->success()
-                            ->send();
-                    }
+                    DowntimeService::create(
+                        employeeId: $employeeId,
+                        date: $data['date'],
+                        campaignId: $data['campaign_id'],
+                        downtimeReasonId: $data['downtime_reason_id'],
+                        totalTime: $data['total_time'],
+                    );
                 }
-
             });
     }
 }

@@ -4,10 +4,8 @@ namespace App\Filament\Supervisor\Resources\Downtimes\Schemas;
 
 use App\Enums\RevenueTypes;
 use App\Models\Campaign;
-use App\Models\Downtime;
 use App\Models\DowntimeReason;
 use App\Models\Employee;
-use App\Rules\UniqueCombination;
 use App\Services\ModelListService;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
@@ -26,6 +24,17 @@ class DowntimeForm
                     ->badge()
                     ->columnSpanFull()
                     ->visibleOn('edit'),
+                Select::make('employee_id')
+                    ->options(ModelListService::make(
+                        model: Employee::query()
+                            ->activesOrRecentlyTerminated()
+                            ->whereHas('supervisor', function ($query): void {
+                                $query->where('id', auth()->user()->supervisor?->id);
+                            }),
+                        value_field: 'full_name')
+                    )
+                    ->searchable()
+                    ->required(),
                 DatePicker::make('date')
                     ->default(now())
                     ->minDate(now()->subDays(20))
@@ -43,32 +52,7 @@ class DowntimeForm
                     ->required()
                     ->minValue(0)
                     ->maxValue(13)
-                    ->numeric()
-                    ->rules(fn (?Downtime $record): array => [
-                        new UniqueCombination(
-                            model: Downtime::class,
-                            fields: ['employee_id', 'date'],
-                            exceptId: $record?->id,
-                        ),
-                    ]),
-                Select::make('employee_id')
-                    ->options(ModelListService::make(
-                        model: Employee::query()
-                            ->activesOrRecentlyTerminated()
-                            ->whereHas('supervisor', function ($query): void {
-                                $query->where('id', auth()->user()->supervisor?->id);
-                            }),
-                        value_field: 'full_name')
-                    )
-                    ->searchable()
-                    ->required()
-                    ->rules(fn (?Downtime $record): array => [
-                        new UniqueCombination(
-                            model: Downtime::class,
-                            fields: ['employee_id', 'date', 'campaign_id'],
-                            exceptId: $record?->id,
-                        ),
-                    ]),
+                    ->numeric(),
             ]);
     }
 }
