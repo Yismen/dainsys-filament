@@ -7,6 +7,7 @@ use App\Filament\OperationsDirector\Widgets\DailyEfficiencyByProjectChart;
 use App\Filament\OperationsDirector\Widgets\DailyRevenueByProjectChart;
 use App\Filament\OperationsDirector\Widgets\DailySphPercentageByProjectChart;
 use App\Filament\OperationsDirector\Widgets\EmployeesByProjectChart;
+use App\Filament\OperationsDirector\Widgets\OperationsDirectorQAStatsWidget;
 use App\Filament\OperationsDirector\Widgets\OperationsDirectorStatsOverview;
 use App\Filament\OperationsDirector\Widgets\UpcomingBirthdaysTable;
 use Filament\Pages\Dashboard as BaseDashboard;
@@ -23,6 +24,7 @@ class OperationsDirectorDashboard extends BaseDashboard
     {
         return [
             OperationsDirectorStatsOverview::class,
+            OperationsDirectorQAStatsWidget::class,
             EmployeesByProjectChart::class,
             DailyRevenueByProjectChart::class,
             DailyEfficiencyByProjectChart::class,

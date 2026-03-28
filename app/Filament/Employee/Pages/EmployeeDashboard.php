@@ -4,6 +4,7 @@ namespace App\Filament\Employee\Pages;
 
 use App\Filament\Employee\Widgets\DowntimeBreakdownWidget;
 use App\Filament\Employee\Widgets\EfficiencyTrendWidget;
+use App\Filament\Employee\Widgets\EmployeeQAStatsWidget;
 use App\Filament\Employee\Widgets\EmployeeStatsWidget;
 use App\Filament\Employee\Widgets\HoursTrendWidget;
 use App\Filament\Employee\Widgets\ProductionSalesWidget;
@@ -20,6 +21,7 @@ class EmployeeDashboard extends BaseDashboard
     {
         return [
             EmployeeStatsWidget::class,
+            EmployeeQAStatsWidget::class,
             SPHTrendWidget::class,
             ProductionSalesWidget::class,
             EfficiencyTrendWidget::class,

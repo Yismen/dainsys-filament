@@ -8,7 +8,7 @@ use App\Providers\Filament\EmployeePanelProvider;
 use App\Providers\Filament\HumanResourcePanelProvider;
 use App\Providers\Filament\OperationsDirectorPanelProvider;
 use App\Providers\Filament\ProjectExecutivePanelProvider;
-use App\Providers\Filament\QAPanelProvider;
+use App\Providers\Filament\QualityAssurancePanelProvider;
 use App\Providers\Filament\SupervisorPanelProvider;
 use App\Providers\Filament\SupportPanelProvider;
 use App\Providers\Filament\WorkforcePanelProvider;
@@ -24,7 +24,7 @@ return [
     HumanResourcePanelProvider::class,
     OperationsDirectorPanelProvider::class,
     ProjectExecutivePanelProvider::class,
-    QAPanelProvider::class,
+    QualityAssurancePanelProvider::class,
     SupervisorPanelProvider::class,
     SupportPanelProvider::class,
     WorkforcePanelProvider::class,

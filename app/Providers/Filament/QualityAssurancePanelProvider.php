@@ -9,12 +9,12 @@ use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
 use Jeffgreco13\FilamentBreezy\BreezyCore;
 
-class QAPanelProvider extends PanelProvider
+class QualityAssurancePanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return FilamentPanelsService::make($panel)
-            ->id('qa')
+            ->id('quality-assurance')
             ->path('qa')
             ->colors([
                 'primary' => Color::Red,
