@@ -1,0 +1,107 @@
+<?php
+
+namespace App\Filament\OperationsDirector\Widgets;
+
+use App\Models\Production;
+use App\Models\Project;
+use Filament\Widgets\ChartWidget;
+use Illuminate\Support\Carbon;
+
+class DailyEfficiencyByProjectChart extends ChartWidget
+{
+    protected ?string $heading = 'Daily efficiency by project (last 10 days)';
+
+    protected int|string|array $columnSpan = 1;
+
+    protected ?string $pollingInterval = null;
+
+    protected function getType(): string
+    {
+        return 'line';
+    }
+
+    public function getData(): array
+    {
+        $projects = Project::query()
+            ->orderBy('name')
+            ->get(['id', 'name']);
+
+        if ($projects->isEmpty()) {
+            return [
+                'datasets' => [],
+                'labels' => [],
+            ];
+        }
+
+        $startDate = Carbon::today()->subDays(9)->startOfDay();
+        $endDate = Carbon::today()->endOfDay();
+
+        $dates = collect(range(0, 9))
+            ->map(fn (int $dayOffset): Carbon => $startDate->copy()->addDays($dayOffset));
+
+        $labels = $dates->map(fn (Carbon $date): string => $date->format('M d'))->toArray();
+        $dateKeys = $dates->map(fn (Carbon $date): string => $date->toDateString())->toArray();
+
+        $productions = Production::query()
+            ->whereBetween('date', [$startDate, $endDate])
+            ->with('employee:id,project_id')
+            ->get(['date', 'employee_id', 'production_time', 'total_time']);
+
+        $totalsByProjectAndDate = [];
+
+        foreach ($productions as $production) {
+            $projectId = $production->employee?->project_id;
+            $dateKey = filled($production->date)
+                ? Carbon::parse($production->date)->toDateString()
+                : null;
+
+            if (! $projectId || ! $dateKey) {
+                continue;
+            }
+
+            $totalsByProjectAndDate[$projectId][$dateKey]['production_time'] =
+                ($totalsByProjectAndDate[$projectId][$dateKey]['production_time'] ?? 0) + (float) $production->production_time;
+
+            $totalsByProjectAndDate[$projectId][$dateKey]['total_time'] =
+                ($totalsByProjectAndDate[$projectId][$dateKey]['total_time'] ?? 0) + (float) $production->total_time;
+        }
+
+        $palette = [
+            '#22c55e',
+            '#0ea5e9',
+            '#f97316',
+            '#8b5cf6',
+            '#ef4444',
+            '#14b8a6',
+        ];
+
+        $datasets = $projects
+            ->values()
+            ->map(function (Project $project, int $index) use ($totalsByProjectAndDate, $dateKeys, $palette): array {
+                $color = $palette[$index % count($palette)];
+
+                return [
+                    'label' => $project->name,
+                    'data' => collect($dateKeys)->map(function (string $dateKey) use ($totalsByProjectAndDate, $project): float {
+                        $productionTime = (float) ($totalsByProjectAndDate[$project->id][$dateKey]['production_time'] ?? 0);
+                        $totalTime = (float) ($totalsByProjectAndDate[$project->id][$dateKey]['total_time'] ?? 0);
+
+                        if ($totalTime <= 0) {
+                            return 0;
+                        }
+
+                        return round(($productionTime / $totalTime) * 100, 2);
+                    })->toArray(),
+                    'borderColor' => $color,
+                    'backgroundColor' => $color,
+                    'tension' => 0.3,
+                ];
+            })
+            ->toArray();
+
+        return [
+            'datasets' => $datasets,
+            'labels' => $labels,
+        ];
+    }
+}

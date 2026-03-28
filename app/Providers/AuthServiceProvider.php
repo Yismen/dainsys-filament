@@ -65,6 +65,13 @@ class AuthServiceProvider extends ServiceProvider
             ]);
         });
 
+        Gate::define('interactsWithOperationsDirector', function (User $user) {
+            return $user->hasAnyRole([
+                'Operations Director Manager',
+                'Operations Director Agent',
+            ]);
+        });
+
         Gate::define('isActiveSupervisor', function (User $user): bool {
             return $user->supervisor()->where('is_active', true)->exists();
         });
