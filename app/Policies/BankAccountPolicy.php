@@ -1,105 +1,69 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Models\BankAccount;
-use App\Models\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Foundation\Auth\User as AuthUser;
 
 class BankAccountPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
+    use HandlesAuthorization;
+
+    public function viewAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('viewAny bankAccount');
+        return $authUser->can('viewAny bankAccount');
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, BankAccount $bankaccount): bool
+    public function view(AuthUser $authUser, BankAccount $bankAccount): bool
     {
-        return $user->checkPermissionTo('view bankAccount');
+        return $authUser->can('view bankAccount');
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
+    public function create(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('create bankAccount');
+        return $authUser->can('create bankAccount');
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, BankAccount $bankaccount): bool
+    public function update(AuthUser $authUser, BankAccount $bankAccount): bool
     {
-        return $user->checkPermissionTo('update bankAccount');
+        return $authUser->can('update bankAccount');
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, BankAccount $bankaccount): bool
+    public function delete(AuthUser $authUser, BankAccount $bankAccount): bool
     {
-        return $user->checkPermissionTo('delete bankAccount');
+        return $authUser->can('delete bankAccount');
     }
 
-    /**
-     * Determine whether the user can delete any models.
-     */
-    public function deleteAny(User $user): bool
+    public function restore(AuthUser $authUser, BankAccount $bankAccount): bool
     {
-        return $user->checkPermissionTo('delete-any bankAccount');
+        return $authUser->can('restore bankAccount');
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, BankAccount $bankaccount): bool
+    public function forceDelete(AuthUser $authUser, BankAccount $bankAccount): bool
     {
-        return $user->checkPermissionTo('restore bankAccount');
+        return $authUser->can('forceDelete bankAccount');
     }
 
-    /**
-     * Determine whether the user can restore any models.
-     */
-    public function restoreAny(User $user): bool
+    public function forceDeleteAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('restore-any bankAccount');
+        return $authUser->can('forceDeleteAny bankAccount');
     }
 
-    /**
-     * Determine whether the user can replicate the model.
-     */
-    public function replicate(User $user, BankAccount $bankaccount): bool
+    public function restoreAny(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('replicate bankAccount');
+        return $authUser->can('restoreAny bankAccount');
     }
 
-    /**
-     * Determine whether the user can reorder the models.
-     */
-    public function reorder(User $user): bool
+    public function replicate(AuthUser $authUser, BankAccount $bankAccount): bool
     {
-        return $user->checkPermissionTo('reorder bankAccount');
+        return $authUser->can('replicate bankAccount');
     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, BankAccount $bankaccount): bool
+    public function reorder(AuthUser $authUser): bool
     {
-        return $user->checkPermissionTo('force-delete bankAccount');
-    }
-
-    /**
-     * Determine whether the user can permanently delete any models.
-     */
-    public function forceDeleteAny(User $user): bool
-    {
-        return $user->checkPermissionTo('force-delete-any bankAccount');
+        return $authUser->can('reorder bankAccount');
     }
 }

@@ -109,6 +109,10 @@ class User extends Authenticatable implements FilamentUser
             return Auth::user()->can('interactsWithOperationsDirector');
         }
 
+        if ($panel_id === 'qa') {
+            return Auth::user()->can('interactsWithQualityAssurance');
+        }
+
         if ($panel_id === 'blog') {
             return Auth::user()->can('interactsWithBlog');
         }

@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
+use App\Models\Category;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Foundation\Auth\User as AuthUser;
 
@@ -11,10 +14,10 @@ class CategoryPolicy
 
     public function viewAny(AuthUser $authUser): bool
     {
-        return $authUser->can('view category');
+        return $authUser->can('viewAny category');
     }
 
-    public function view(AuthUser $authUser): bool
+    public function view(AuthUser $authUser, Category $category): bool
     {
         return $authUser->can('view category');
     }
@@ -24,28 +27,43 @@ class CategoryPolicy
         return $authUser->can('create category');
     }
 
-    public function update(AuthUser $authUser): bool
+    public function update(AuthUser $authUser, Category $category): bool
     {
         return $authUser->can('update category');
     }
 
-    public function delete(AuthUser $authUser): bool
+    public function delete(AuthUser $authUser, Category $category): bool
     {
         return $authUser->can('delete category');
     }
 
-    public function restore(AuthUser $authUser): bool
+    public function restore(AuthUser $authUser, Category $category): bool
     {
         return $authUser->can('restore category');
     }
 
-    public function forceDelete(AuthUser $authUser): bool
+    public function forceDelete(AuthUser $authUser, Category $category): bool
     {
-        return $authUser->can('force delete category');
+        return $authUser->can('forceDelete category');
     }
 
-    public function replicate(AuthUser $authUser): bool
+    public function forceDeleteAny(AuthUser $authUser): bool
+    {
+        return $authUser->can('forceDeleteAny category');
+    }
+
+    public function restoreAny(AuthUser $authUser): bool
+    {
+        return $authUser->can('restoreAny category');
+    }
+
+    public function replicate(AuthUser $authUser, Category $category): bool
     {
         return $authUser->can('replicate category');
+    }
+
+    public function reorder(AuthUser $authUser): bool
+    {
+        return $authUser->can('reorder category');
     }
 }

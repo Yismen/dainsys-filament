@@ -4,6 +4,7 @@ namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
 
+use App\Enums\QARoles;
 use App\Enums\SupportRoles;
 use App\Models\Ticket;
 use App\Models\TicketReply;
@@ -70,6 +71,33 @@ class AuthServiceProvider extends ServiceProvider
                 'Operations Director Manager',
                 'Operations Director Agent',
             ]);
+        });
+
+        Gate::define('interactsWithQualityAssurance', function (User $user) {
+            return $user->hasAnyRole([
+                QARoles::Manager->value,
+                QARoles::Agent->value,
+            ]);
+        });
+
+        Gate::define('manageQAForms', function (User $user): bool {
+            return $user->hasRole(QARoles::Manager->value);
+        });
+
+        Gate::define('manageQAQuestions', function (User $user): bool {
+            return $user->hasRole(QARoles::Manager->value);
+        });
+
+        Gate::define('createQAEvaluations', function (User $user): bool {
+            return $user->hasRole(QARoles::Agent->value);
+        });
+
+        Gate::define('publishQAEvaluations', function (User $user): bool {
+            return $user->hasRole(QARoles::Agent->value);
+        });
+
+        Gate::define('resolveQADisputes', function (User $user): bool {
+            return $user->hasRole(QARoles::Manager->value);
         });
 
         Gate::define('isActiveSupervisor', function (User $user): bool {

@@ -8,6 +8,7 @@ use App\Providers\Filament\EmployeePanelProvider;
 use App\Providers\Filament\HumanResourcePanelProvider;
 use App\Providers\Filament\OperationsDirectorPanelProvider;
 use App\Providers\Filament\ProjectExecutivePanelProvider;
+use App\Providers\Filament\QAPanelProvider;
 use App\Providers\Filament\SupervisorPanelProvider;
 use App\Providers\Filament\SupportPanelProvider;
 use App\Providers\Filament\WorkforcePanelProvider;
@@ -17,16 +18,16 @@ use App\Providers\TelescopeServiceProvider;
 return [
     AppServiceProvider::class,
     AuthServiceProvider::class,
-    // App\Providers\BroadcastServiceProvider::class,
+    AdminPanelProvider::class,
+    BlogPanelProvider::class,
+    EmployeePanelProvider::class,
+    HumanResourcePanelProvider::class,
+    OperationsDirectorPanelProvider::class,
+    ProjectExecutivePanelProvider::class,
+    QAPanelProvider::class,
+    SupervisorPanelProvider::class,
+    SupportPanelProvider::class,
+    WorkforcePanelProvider::class,
     RouteServiceProvider::class,
     TelescopeServiceProvider::class,
-    AdminPanelProvider::class,
-    SupportPanelProvider::class,
-    HumanResourcePanelProvider::class,
-    WorkforcePanelProvider::class,
-    SupervisorPanelProvider::class,
-    ProjectExecutivePanelProvider::class,
-    OperationsDirectorPanelProvider::class,
-    EmployeePanelProvider::class,
-    BlogPanelProvider::class,
 ];
