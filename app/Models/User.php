@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Models\Scopes\IsActiveScope;
 use App\Models\Traits\BelongsToManyMailables;
+use App\Models\Traits\HasManyManagedProjects;
 use App\Models\Traits\HasOneSupervisor;
 use App\Models\Traits\InteractWithSupportTickets;
 use App\Traits\Models\InteractsWithModelCaching;
@@ -31,6 +32,7 @@ class User extends Authenticatable implements FilamentUser
     use BelongsToManyMailables;
     use HasApiTokens;
     use HasFactory;
+    use HasManyManagedProjects;
     use HasOneSupervisor;
     use HasRoles;
     use HasUuids;
@@ -97,6 +99,10 @@ class User extends Authenticatable implements FilamentUser
 
         if ($panel_id === 'employee') {
             return Gate::allows('isAuthenticableEmployee');
+        }
+
+        if ($panel_id === 'project-executive') {
+            return Auth::user()->can('interactsWithProjectExecutive');
         }
 
         if ($panel_id === 'blog') {

@@ -3,6 +3,7 @@
 namespace App\Schemas\Filament\Workforce;
 
 use App\Models\Client;
+use App\Models\User;
 use App\Services\ModelListService;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -28,6 +29,18 @@ class ProjectSchema
                         ->schema(ClientSchema::make()),
                 ])
                 ->required(),
+            Select::make('manager_id')
+                ->label('Manager')
+                ->options(ModelListService::get(
+                    User::query()->whereHas('roles', function ($query): void {
+                        $query->whereIn('name', [
+                            'Project Executive Manager',
+                            'Project Executive Agent',
+                        ]);
+                    })
+                ))
+                ->searchable()
+                ->placeholder('Unassigned'),
             Textarea::make('description')
                 ->columnSpanFull(),
         ];

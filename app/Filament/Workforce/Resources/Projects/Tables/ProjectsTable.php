@@ -3,6 +3,7 @@
 namespace App\Filament\Workforce\Resources\Projects\Tables;
 
 use App\Models\Client;
+use App\Models\User;
 use App\Services\ModelListService;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -28,6 +29,11 @@ class ProjectsTable
                 TextColumn::make('client.name')
                     ->sortable()
                     ->searchable(),
+                TextColumn::make('manager.name')
+                    ->label('Manager')
+                    ->sortable()
+                    ->searchable()
+                    ->placeholder('Unassigned'),
                 TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()
@@ -48,6 +54,18 @@ class ProjectsTable
                     ->options(fn () => ModelListService::make(Client::class))
                     ->searchable()
                     ->placeholder('Select Client'),
+                SelectFilter::make('manager_id')
+                    ->label('Manager')
+                    ->options(fn () => ModelListService::make(
+                        User::query()->whereHas('roles', function ($query): void {
+                            $query->whereIn('name', [
+                                'Project Executive Manager',
+                                'Project Executive Agent',
+                            ]);
+                        })
+                    ))
+                    ->searchable()
+                    ->placeholder('Select Manager'),
             ])
             ->recordActions([
                 ViewAction::make(),

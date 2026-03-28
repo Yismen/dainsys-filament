@@ -6,12 +6,24 @@ use App\Filament\Workforce\Resources\Projects\Pages\ListProjects;
 use App\Filament\Workforce\Resources\Projects\Pages\ViewProject;
 use App\Models\Client;
 use App\Models\Project;
+use App\Models\Role;
 use App\Models\User;
 use Filament\Facades\Filament;
 
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 use function Pest\Livewire\livewire;
+
+function createProjectExecutiveUser(?string $name = null): User
+{
+    $role = Role::firstOrCreate(['name' => 'Project Executive Manager', 'guard_name' => 'web']);
+    $user = User::factory()->create(
+        $name ? ['name' => $name] : []
+    );
+    $user->assignRole($role);
+
+    return $user;
+}
 
 beforeEach(function (): void {
     // Seed roles/permissions if applicable
@@ -110,15 +122,19 @@ test('create Project page works correctly', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Project'));
 
     $name = 'new Project';
+    $manager = createProjectExecutiveUser();
+
     livewire(CreateProject::class)
         ->fillForm([
             'name' => $name,
             'client_id' => Client::factory()->create()->id,
+            'manager_id' => $manager->id,
         ])
         ->call('create');
 
     $this->assertDatabaseHas('projects', [
         'name' => $name,
+        'manager_id' => $manager->id,
     ]);
 });
 
@@ -128,9 +144,12 @@ test('edit Project page works correctly', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Project'));
 
     $newName = 'Updated Project Name';
+    $manager = createProjectExecutiveUser();
+
     livewire(EditProject::class, ['record' => $project->getKey()])
         ->fillForm([
             'name' => $newName,
+            'manager_id' => $manager->id,
         ])
         ->call('save')
         ->assertHasNoErrors();
@@ -138,7 +157,21 @@ test('edit Project page works correctly', function (): void {
     $this->assertDatabaseHas('projects', [
         'id' => $project->id,
         'name' => $newName,
+        'manager_id' => $manager->id,
     ]);
+});
+
+it('displays the assigned manager on view project page', function (): void {
+    $manager = createProjectExecutiveUser('Manager Example');
+    $project = Project::factory()->create([
+        'manager_id' => $manager->id,
+    ]);
+
+    actingAs($this->createUserWithPermissionsToActions(['view', 'view-any'], 'Project'));
+
+    livewire(ViewProject::class, ['record' => $project->getKey()])
+        ->assertSee('Manager')
+        ->assertSee('Manager Example');
 });
 
 test('form validation require fields on create and edit pages', function (): void {

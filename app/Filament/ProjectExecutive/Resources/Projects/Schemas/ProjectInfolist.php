@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Filament\Workforce\Resources\Projects\Schemas;
+namespace App\Filament\ProjectExecutive\Resources\Projects\Schemas;
 
-use App\Models\Project;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 
@@ -11,22 +10,19 @@ class ProjectInfolist
     public static function configure(Schema $schema): Schema
     {
         return $schema
+            ->columns(2)
             ->components([
-                TextEntry::make('id')
-                    ->label('ID')
-                    ->columnSpanFull(),
-                TextEntry::make('name'),
+                TextEntry::make('name')
+                    ->label('Project'),
                 TextEntry::make('client.name')
-                    ->label('Client'),
+                    ->label('Client')
+                    ->placeholder('-'),
                 TextEntry::make('manager.name')
                     ->label('Manager')
                     ->placeholder('Unassigned'),
                 TextEntry::make('description')
                     ->placeholder('-')
                     ->columnSpanFull(),
-                TextEntry::make('deleted_at')
-                    ->dateTime()
-                    ->visible(fn (Project $record): bool => $record->trashed()),
                 TextEntry::make('created_at')
                     ->dateTime()
                     ->placeholder('-'),

@@ -6,6 +6,7 @@ use App\Providers\Filament\AdminPanelProvider;
 use App\Providers\Filament\BlogPanelProvider;
 use App\Providers\Filament\EmployeePanelProvider;
 use App\Providers\Filament\HumanResourcePanelProvider;
+use App\Providers\Filament\ProjectExecutivePanelProvider;
 use App\Providers\Filament\SupervisorPanelProvider;
 use App\Providers\Filament\SupportPanelProvider;
 use App\Providers\Filament\WorkforcePanelProvider;
@@ -23,6 +24,7 @@ return [
     HumanResourcePanelProvider::class,
     WorkforcePanelProvider::class,
     SupervisorPanelProvider::class,
+    ProjectExecutivePanelProvider::class,
     EmployeePanelProvider::class,
     BlogPanelProvider::class,
 ];

@@ -58,6 +58,13 @@ class AuthServiceProvider extends ServiceProvider
             ]);
         });
 
+        Gate::define('interactsWithProjectExecutive', function (User $user) {
+            return $user->hasAnyRole([
+                'Project Executive Manager',
+                'Project Executive Agent',
+            ]);
+        });
+
         Gate::define('isActiveSupervisor', function (User $user): bool {
             return $user->supervisor()->where('is_active', true)->exists();
         });
