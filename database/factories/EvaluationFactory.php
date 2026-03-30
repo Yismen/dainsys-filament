@@ -8,6 +8,7 @@ use App\Models\Evaluation;
 use App\Models\QAForm;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends Factory<Evaluation>
@@ -22,6 +23,7 @@ class EvaluationFactory extends Factory
     public function definition(): array
     {
         return [
+            'record_number' => 'EVAL-'.strtoupper(Str::random(8)),
             'evaluation_date' => now()->toDateString(),
             'employee_id' => Employee::factory()->hired(),
             'supervisor_id' => null,

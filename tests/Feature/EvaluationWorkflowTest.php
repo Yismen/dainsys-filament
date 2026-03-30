@@ -98,14 +98,14 @@ it('publishes evaluation, recalculates totals, and notifies employee and supervi
     EvaluationQuestionScore::query()->create([
         'evaluation_id' => $evaluation->id,
         'qa_question_id' => $questionOne->id,
-        'points_awarded' => 8,
+        'points_awarded' => 80,
         'max_points_snapshot' => 10,
     ]);
 
     EvaluationQuestionScore::query()->create([
         'evaluation_id' => $evaluation->id,
         'qa_question_id' => $questionTwo->id,
-        'points_awarded' => 9,
+        'points_awarded' => 100,
         'max_points_snapshot' => 10,
     ]);
 
@@ -114,8 +114,8 @@ it('publishes evaluation, recalculates totals, and notifies employee and supervi
 
     expect($evaluation->status)->toBe(EvaluationStatuses::Published)
         ->and($evaluation->points_possible)->toBe(20)
-        ->and($evaluation->points_achieved)->toBe(17)
-        ->and((float) $evaluation->success_percentage)->toBe(85.0)
+        ->and($evaluation->points_achieved)->toBe(18)
+        ->and((float) $evaluation->success_percentage)->toBe(90.0)
         ->and($evaluation->published_at)->not->toBeNull();
 
     Notification::assertSentTo($scenario['employeeUser'], EvaluationPublishedNotification::class);
@@ -143,7 +143,7 @@ it('disputes and resolves an evaluation with manager notifications', function ()
     EvaluationQuestionScore::query()->create([
         'evaluation_id' => $evaluation->id,
         'qa_question_id' => $question->id,
-        'points_awarded' => 6,
+        'points_awarded' => 60,
         'max_points_snapshot' => 10,
     ]);
 

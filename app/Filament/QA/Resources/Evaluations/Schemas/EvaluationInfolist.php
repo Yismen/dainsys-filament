@@ -12,6 +12,9 @@ class EvaluationInfolist
     {
         return $schema
             ->components([
+                TextEntry::make('record_number')
+                    ->label('Record Number')
+                    ->copyable(),
                 TextEntry::make('id')
                     ->copyable(),
                 TextEntry::make('evaluation_date')

@@ -31,33 +31,55 @@ class EvaluationsTable
         return $table
             ->defaultSort('evaluation_date', 'desc')
             ->columns([
+                TextColumn::make('id')
+                    ->label('ID')
+                    ->searchable()
+                    ->sortable()
+                    ->copyable()
+                    ->wrap()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('record_number')
+                    ->label('Record #')
+                    ->searchable()
+                    ->sortable()
+                    ->wrap()
+                    ->copyable(),
                 TextColumn::make('evaluation_date')
                     ->date()
+                    ->wrap()
+                    ->wrapHeader()
                     ->sortable(),
                 TextColumn::make('employee.full_name')
                     ->label('Employee')
                     ->sortable()
+                    ->wrap()
                     ->searchable(),
                 TextColumn::make('evaluator.name')
                     ->label('Evaluator')
                     ->sortable()
+                    ->wrap()
                     ->searchable(),
                 TextColumn::make('qaForm.name')
                     ->label('QA Form')
                     ->sortable()
+                    ->wrap()
                     ->searchable(),
                 TextColumn::make('status')
                     ->badge()
                     ->sortable(),
                 TextColumn::make('success_percentage')
                     ->label('Success %')
+                    ->wrapHeader()
                     ->sortable(),
                 TextColumn::make('threshold_percentage')
                     ->label('Threshold %')
+                    ->wrapHeader()
                     ->sortable(),
                 TextColumn::make('points_achieved')
+                    ->wrapHeader()
                     ->sortable(),
                 TextColumn::make('points_possible')
+                    ->wrapHeader()
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()

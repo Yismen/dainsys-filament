@@ -106,7 +106,7 @@ class EvaluationResource extends Resource
         $user = Auth::user();
 
         if ($user === null) {
-            return $query->whereRaw('1 = 0');
+            return $query;
         }
 
         if ($user->hasRole(QARoles::Manager->value)) {

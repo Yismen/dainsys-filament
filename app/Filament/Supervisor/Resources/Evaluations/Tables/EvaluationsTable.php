@@ -19,6 +19,11 @@ class EvaluationsTable
         return $table
             ->defaultSort('evaluation_date', 'desc')
             ->columns([
+                TextColumn::make('record_number')
+                    ->label('Record #')
+                    ->searchable()
+                    ->sortable()
+                    ->copyable(),
                 TextColumn::make('evaluation_date')
                     ->date()
                     ->sortable(),

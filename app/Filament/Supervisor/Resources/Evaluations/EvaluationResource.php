@@ -13,6 +13,7 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use UnitEnum;
 
 class EvaluationResource extends Resource
 {
@@ -21,6 +22,8 @@ class EvaluationResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentCheck;
 
     protected static ?string $navigationLabel = 'QA Evaluations';
+
+    protected static string|UnitEnum|null $navigationGroup = 'Team Insights';
 
     protected static ?int $navigationSort = 10;
 

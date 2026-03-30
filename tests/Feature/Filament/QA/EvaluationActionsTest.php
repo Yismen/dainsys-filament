@@ -2,6 +2,7 @@
 
 use App\Enums\EvaluationStatuses;
 use App\Enums\QARoles;
+use App\Filament\QA\Resources\Evaluations\Pages\CreateEvaluation;
 use App\Filament\QA\Resources\Evaluations\Pages\ListEvaluations;
 use App\Models\Employee;
 use App\Models\Evaluation;
@@ -70,6 +71,39 @@ it('allows qa users to access qa panel', function (): void {
     expect($other->canAccessPanel($qaPanel))->toBeFalse();
 });
 
+it('preloads all questions for the selected qa form on the create page', function (): void {
+    $scenario = createQaEvaluationScenario();
+
+    $secondQuestion = QAQuestion::factory()->create([
+        'qa_form_id' => $scenario['form']->id,
+        'author_id' => $scenario['manager']->id,
+        'display_order' => 2,
+        'max_points' => 7,
+    ]);
+
+    actingAs($scenario['agent']);
+
+    livewire(CreateEvaluation::class)
+        ->fillForm([
+            'qa_form_id' => $scenario['form']->id,
+        ])
+        ->assertSet('data.threshold_percentage', (float) $scenario['form']->passing_threshold_percentage)
+        ->assertSet('data.questionScores', [
+            [
+                'qa_question_id' => $scenario['question']->id,
+                'max_points_snapshot' => 10,
+                'points_awarded' => null,
+                'evaluator_note' => null,
+            ],
+            [
+                'qa_question_id' => $secondQuestion->id,
+                'max_points_snapshot' => 7,
+                'points_awarded' => null,
+                'evaluator_note' => null,
+            ],
+        ]);
+});
+
 it('allows qa agent to publish evaluations from the table action', function (): void {
     $scenario = createQaEvaluationScenario();
 
@@ -84,7 +118,7 @@ it('allows qa agent to publish evaluations from the table action', function (): 
     EvaluationQuestionScore::query()->create([
         'evaluation_id' => $evaluation->id,
         'qa_question_id' => $scenario['question']->id,
-        'points_awarded' => 9,
+        'points_awarded' => 80,
         'max_points_snapshot' => 10,
     ]);
 
@@ -115,7 +149,7 @@ it('allows qa manager to resolve disputed evaluations from table action', functi
     EvaluationQuestionScore::query()->create([
         'evaluation_id' => $evaluation->id,
         'qa_question_id' => $scenario['question']->id,
-        'points_awarded' => 6,
+        'points_awarded' => 60,
         'max_points_snapshot' => 10,
     ]);
 

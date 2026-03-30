@@ -38,12 +38,12 @@ class QAForm extends AppModel
 
     public function questions(): HasMany
     {
-        return $this->hasMany(QAQuestion::class);
+        return $this->hasMany(QAQuestion::class, 'qa_form_id');
     }
 
     public function evaluations(): HasMany
     {
-        return $this->hasMany(Evaluation::class);
+        return $this->hasMany(Evaluation::class, 'qa_form_id');
     }
 
     protected function casts(): array

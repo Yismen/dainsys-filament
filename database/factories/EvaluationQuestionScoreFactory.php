@@ -19,13 +19,11 @@ class EvaluationQuestionScoreFactory extends Factory
      */
     public function definition(): array
     {
-        $maxPoints = $this->faker->numberBetween(3, 10);
-
         return [
             'evaluation_id' => Evaluation::factory(),
             'qa_question_id' => QAQuestion::factory(),
-            'points_awarded' => $this->faker->numberBetween(0, $maxPoints),
-            'max_points_snapshot' => $maxPoints,
+            'points_awarded' => $this->faker->randomElement([0, 20, 40, 60, 80, 100]),
+            'max_points_snapshot' => $this->faker->numberBetween(3, 10),
             'evaluator_note' => $this->faker->sentence(),
         ];
     }

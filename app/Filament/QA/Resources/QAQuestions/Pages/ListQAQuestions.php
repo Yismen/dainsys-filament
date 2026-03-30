@@ -13,7 +13,13 @@ class ListQAQuestions extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            CreateAction::make(),
+            CreateAction::make()
+                ->preserveFormDataWhenCreatingAnother([
+                    'qa_form_id',
+                    'max_points',
+                    'is_active',
+                    'display_order',
+                ]),
         ];
     }
 }

@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 class Evaluation extends AppModel
 {
@@ -25,6 +26,7 @@ class Evaluation extends AppModel
     use SoftDeletes;
 
     protected $fillable = [
+        'record_number',
         'evaluation_date',
         'employee_id',
         'supervisor_id',
@@ -47,6 +49,10 @@ class Evaluation extends AppModel
     protected static function booted(): void
     {
         static::creating(function (self $evaluation): void {
+            if (blank($evaluation->record_number)) {
+                $evaluation->record_number = 'EVAL-'.strtoupper(Str::random(8));
+            }
+
             if ($evaluation->status === null) {
                 $evaluation->status = EvaluationStatuses::Draft;
             }
@@ -104,8 +110,12 @@ class Evaluation extends AppModel
 
     public function recalculateScores(): void
     {
-        $pointsPossible = (int) $this->questionScores()->sum('max_points_snapshot');
-        $pointsAchieved = (int) $this->questionScores()->sum('points_awarded');
+        $scores = $this->questionScores()->get(['points_awarded', 'max_points_snapshot']);
+
+        $pointsPossible = (int) $scores->sum('max_points_snapshot');
+        $pointsAchieved = (int) $scores->sum(
+            fn (EvaluationQuestionScore $score): float => (($score->points_awarded ?? 0) / 100) * $score->max_points_snapshot
+        );
 
         $successPercentage = $pointsPossible === 0
             ? 0
