@@ -29,15 +29,27 @@ class EfficiencyTrendWidget extends ChartWidget
         $startDate = Carbon::now()->subDays(14);
         $endDate = Carbon::now();
 
-        $productions = Cache::remember(
-            "employee_{$employee->id}_productions_{$startDate->toDateString()}_{$endDate->toDateString()}",
+        $dailyEfficiency = Cache::remember(
+            "employee_{$employee->id}_efficiency_trend_{$startDate->toDateString()}_{$endDate->toDateString()}",
             now()->addHours(3),
-            function () use ($employee, $startDate, $endDate) {
+            function () use ($employee, $startDate, $endDate): array {
                 return $employee->productions()
                     ->whereBetween('date', [$startDate, $endDate])
                     ->orderBy('date')
                     ->get()
-                    ->groupBy(fn ($record) => $record->date->format('M d'));
+                    ->groupBy(fn ($record) => $record->date->format('M d'))
+                    ->map(function ($productionGroup, string $date): array {
+                        $totalHoursValue = (float) $productionGroup->sum('total_time');
+                        $totalProductionTime = (float) $productionGroup->sum('production_time');
+
+                        return [
+                            'date' => $date,
+                            'total_hours' => $totalHoursValue,
+                            'efficiency' => $totalHoursValue > 0 ? round(($totalProductionTime / $totalHoursValue) * 100, 2) : 0,
+                        ];
+                    })
+                    ->values()
+                    ->all();
             }
         );
 
@@ -45,18 +57,10 @@ class EfficiencyTrendWidget extends ChartWidget
         $totalHours = [];
         $efficiency = [];
 
-        foreach ($productions as $date => $productionGroup) {
-            $dates[] = $date;
-
-            // Calculate actual SPH: total conversions / total production time (in hours)
-            $totalHoursValue = $productionGroup->sum('total_time');
-            $totalProductionTime = $productionGroup->sum('production_time');
-
-            // Get goal SPH (average of all sph_goal values for the day)
-            // $goalValue = round($productionGroup->avg('sph_goal'), 2);
-            $totalHours[] = $totalHoursValue;
-
-            $efficiency[] = $totalProductionTime > 0 ? round(($totalProductionTime / $totalHoursValue) * 100, 2) : 0;
+        foreach ($dailyEfficiency as $dailyRecord) {
+            $dates[] = $dailyRecord['date'];
+            $totalHours[] = $dailyRecord['total_hours'];
+            $efficiency[] = $dailyRecord['efficiency'];
         }
 
         return [

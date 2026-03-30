@@ -29,15 +29,28 @@ class SPHTrendWidget extends ChartWidget
         $startDate = Carbon::now()->subDays(14);
         $endDate = Carbon::now();
 
-        $productions = Cache::remember(
-            "employee_{$employee->id}_productions_{$startDate->toDateString()}_{$endDate->toDateString()}",
+        $dailyMetrics = Cache::remember(
+            "employee_{$employee->id}_sph_trend_{$startDate->toDateString()}_{$endDate->toDateString()}",
             now()->addHours(3),
-            function () use ($employee, $startDate, $endDate) {
+            function () use ($employee, $startDate, $endDate): array {
                 return $employee->productions()
                     ->whereBetween('date', [$startDate, $endDate])
                     ->orderBy('date')
                     ->get()
-                    ->groupBy(fn ($record) => $record->date->format('M d'));
+                    ->groupBy(fn ($record) => $record->date->format('M d'))
+                    ->map(function ($productionGroup, string $date): array {
+                        $totalConversions = (float) $productionGroup->sum('conversions');
+                        $totalProductionTime = (float) $productionGroup->sum('production_time');
+                        $goalConversions = (float) $productionGroup->sum('conversions_goal');
+
+                        return [
+                            'date' => $date,
+                            'actual_sph' => $totalProductionTime > 0 ? round($totalConversions / $totalProductionTime, 2) : 0,
+                            'goal_sph' => $totalProductionTime > 0 ? round($goalConversions / $totalProductionTime, 2) : 0,
+                        ];
+                    })
+                    ->values()
+                    ->all();
             }
         );
 
@@ -45,22 +58,10 @@ class SPHTrendWidget extends ChartWidget
         $actualSPH = [];
         $goalSPH = [];
 
-        foreach ($productions as $date => $productionGroup) {
-            $dates[] = $date;
-
-            // Calculate actual SPH: total conversions / total production time (in hours)
-            $totalConversions = $productionGroup->sum('conversions');
-            $totalProductionTime = $productionGroup->sum('production_time');
-
-            $sph = $totalProductionTime > 0 ? round($totalConversions / ($totalProductionTime), 2) : 0;
-
-            $goalValue = $totalProductionTime > 0 ? round($productionGroup->sum('conversions_goal') / $totalProductionTime, 2) : 0;
-
-            // Get goal SPH (average of all sph_goal values for the day)
-            // $goalValue = round($productionGroup->avg('sph_goal'), 2);
-            $goalSPH[] = $goalValue;
-            $actualSPH[] = $sph;
-
+        foreach ($dailyMetrics as $metric) {
+            $dates[] = $metric['date'];
+            $goalSPH[] = $metric['goal_sph'];
+            $actualSPH[] = $metric['actual_sph'];
         }
 
         return [

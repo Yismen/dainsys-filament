@@ -2,7 +2,7 @@
 
 namespace App\Services\HC;
 
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 
 interface HCContract
 {

@@ -29,15 +29,21 @@ class DowntimeBreakdownWidget extends ChartWidget
         $startDate = Carbon::now()->subDays(30);
         $endDate = Carbon::now();
 
-        $downtimes = Cache::remember(
-            "employee_{$employee->id}_downtimes_{$startDate->toDateString()}_{$endDate->toDateString()}",
+        $downtimeBreakdown = Cache::remember(
+            "employee_{$employee->id}_downtime_breakdown_{$startDate->toDateString()}_{$endDate->toDateString()}",
             now()->addHours(3),
-            function () use ($employee, $startDate, $endDate) {
+            function () use ($employee, $startDate, $endDate): array {
                 return $employee->downtimes()
                     ->whereBetween('date', [$startDate, $endDate])
                     ->orderBy('date')
                     ->get()
-                    ->groupBy('reason');
+                    ->groupBy('reason')
+                    ->map(fn ($items, ?string $reason): array => [
+                        'reason' => $reason ?? 'Unknown',
+                        'total_time' => (float) $items->sum('total_time'),
+                    ])
+                    ->values()
+                    ->all();
             }
         );
 
@@ -46,10 +52,10 @@ class DowntimeBreakdownWidget extends ChartWidget
         $colors = ['#ef4444', '#f97316', '#eab308', '#84cc16', '#22c55e', '#10b981', '#14b8a6', '#06b6d4', '#0ea5e9', '#3b82f6'];
 
         $colorIndex = 0;
-        foreach ($downtimes as $reason => $items) {
-            $labels[] = $reason ?? 'Unknown';
+        foreach ($downtimeBreakdown as $downtime) {
+            $labels[] = $downtime['reason'];
             $data[] = [
-                'value' => $items->sum('total_time'),
+                'value' => $downtime['total_time'],
                 'color' => $colors[$colorIndex % count($colors)],
             ];
             $colorIndex++;

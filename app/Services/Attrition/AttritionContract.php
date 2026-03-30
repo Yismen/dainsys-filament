@@ -2,7 +2,7 @@
 
 namespace App\Services\Attrition;
 
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 
 interface AttritionContract
 {

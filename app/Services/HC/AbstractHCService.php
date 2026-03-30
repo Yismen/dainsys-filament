@@ -4,8 +4,8 @@ namespace App\Services\HC;
 
 use App\Services\Traits\HasFilters;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 
 abstract class AbstractHCService implements HCContract
@@ -25,30 +25,51 @@ abstract class AbstractHCService implements HCContract
 
     public function count(): Collection
     {
-        return Cache::rememberForever(
+        $items = Cache::rememberForever(
             $this->cacheKey('hc_count_by_'),
-            function () {
-                $builder = $this->parseFilters($this->filters, $this->query)
+            function (): array {
+                $records = $this->parseFilters($this->filters, $this->query)
                     ->withCount(['employees' => fn ($q) => $q->notInactive()])
                     ->get();
 
-                return $builder;
+                return $records
+                    ->map(fn ($record): array => [
+                        'id' => (int) $record->id,
+                        'name' => (string) $record->name,
+                        'employees_count' => (int) ($record->employees_count ?? 0),
+                    ])
+                    ->values()
+                    ->all();
             }
         );
+
+        return collect($items);
     }
 
     public function list(): Collection
     {
-        return Cache::rememberForever(
+        $items = Cache::rememberForever(
             $this->cacheKey('hc_list_by_'),
-            function () {
-                $builder = $this->parseFilters($this->filters, $this->query)
+            function (): array {
+                $records = $this->parseFilters($this->filters, $this->query)
                     ->with(['employees' => fn ($q) => $q->notInactive()])
                     ->get();
 
-                return $builder;
+                return $records
+                    ->map(fn ($record): array => [
+                        'id' => (int) $record->id,
+                        'name' => (string) $record->name,
+                        'employees' => $record->employees
+                            ->map(fn ($emp): array => $emp->toArray())
+                            ->values()
+                            ->all(),
+                    ])
+                    ->values()
+                    ->all();
             }
         );
+
+        return collect($items);
     }
 
     public function constrain($callback): self

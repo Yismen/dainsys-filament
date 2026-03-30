@@ -44,15 +44,18 @@ class MailingService
     {
         $mailableClass = $mailable instanceof Mailable ? get_class($mailable) : $mailable;
 
-        return Cache::rememberForever(
+        $userIds = Cache::rememberForever(
             'mailing_subscriptions_for_mailable_'.$mailableClass,
-            function () use ($mailableClass, $includeSuperAdmins): Collection {
+            function () use ($mailableClass, $includeSuperAdmins): array {
 
                 $users = User::query()
                     ->withWhereHas('mailables', function ($query) use ($mailableClass): void {
                         $query->where('name', $mailableClass);
                     })
-                    ->get();
+                    ->get()
+                    ->map(fn ($user): array => ['id' => (string) $user->id, 'name' => (string) $user->name])
+                    ->values()
+                    ->all();
 
                 if (! $includeSuperAdmins) {
                     return $users;
@@ -63,12 +66,18 @@ class MailingService
                         $query->where('name', 'like', 'super admin');
                     })
                     ->get()
-                    ->merge($users)
-                    ->unique('id')
-                    ->reject(fn ($user) => $user === null);
+                    ->map(fn ($user): array => ['id' => (string) $user->id, 'name' => (string) $user->name])
+                    ->values()
+                    ->all();
 
-                return $super_admins;
-            });
+                $merged = array_merge($super_admins, $users);
+                $unique = collect($merged)->unique('id')->all();
+
+                return array_values($unique);
+            }
+        );
+
+        return User::whereIn('id', collect($userIds)->pluck('id')->toArray())->get();
     }
 
     public static function subscribers(string|Mailable $mailable, bool $includeSuperAdmins = true): Collection

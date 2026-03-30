@@ -31,24 +31,32 @@ abstract class BaseHumanResourceWidget extends ChartWidget
             $filtersString,
         ]);
 
-        $service = Cache::rememberForever(
+        $items = Cache::rememberForever(
             $cacheKey,
-            function () {
+            function (): array {
                 return HeadCountService::make($this->getModel())
                     ->filters(filters: $this->filters ?? [])
-                    ->get();
+                    ->get()
+                    ->map(fn ($record): array => [
+                        'name' => (string) $record->name,
+                        'employees_count' => (int) $record->employees_count,
+                    ])
+                    ->values()
+                    ->all();
             }
         );
+
+        $service = collect($items);
 
         return [
             'datasets' => [
                 [
                     'label' => $this->getHeading(),
-                    'data' => $service->pluck('employees_count'),
+                    'data' => $service->pluck('employees_count')->all(),
                     'backgroundColor' => $this->getManyColors($service->pluck('name')->count()),
                 ],
             ],
-            'labels' => $service->pluck('name'),
+            'labels' => $service->pluck('name')->all(),
         ];
     }
 

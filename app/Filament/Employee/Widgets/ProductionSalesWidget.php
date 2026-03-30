@@ -29,24 +29,30 @@ class ProductionSalesWidget extends ChartWidget
         $startDate = Carbon::now()->subDays(14);
         $endDate = Carbon::now();
 
-        $productions = Cache::remember(
-            "employee_{$employee->id}_productions_{$startDate->toDateString()}_{$endDate->toDateString()}",
+        $dailySales = Cache::remember(
+            "employee_{$employee->id}_production_sales_{$startDate->toDateString()}_{$endDate->toDateString()}",
             now()->addHours(3),
-            function () use ($employee, $startDate, $endDate) {
+            function () use ($employee, $startDate, $endDate): array {
                 return $employee->productions()
                     ->whereBetween('date', [$startDate, $endDate])
                     ->orderBy('date')
                     ->get()
-                    ->groupBy(fn ($record) => $record->date->format('M d'));
+                    ->groupBy(fn ($record) => $record->date->format('M d'))
+                    ->map(fn ($production, string $date): array => [
+                        'date' => $date,
+                        'total_sales' => (float) $production->sum('conversions'),
+                    ])
+                    ->values()
+                    ->all();
             }
         );
 
         $dates = [];
         $sales = [];
 
-        foreach ($productions as $date => $production) {
-            $dates[] = $date;
-            $sales[] = $production->sum('conversions');
+        foreach ($dailySales as $dailySale) {
+            $dates[] = $dailySale['date'];
+            $sales[] = $dailySale['total_sales'];
         }
 
         return [

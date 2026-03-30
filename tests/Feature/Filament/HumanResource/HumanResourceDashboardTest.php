@@ -7,6 +7,7 @@ use App\Models\Project;
 use App\Models\Site;
 use App\Models\Supervisor;
 use Filament\Facades\Filament;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 
@@ -16,6 +17,7 @@ use function Pest\Livewire\livewire;
 beforeEach(function (): void {
     Mail::fake();
     Event::fake();
+    Cache::flush();
 
     Filament::setCurrentPanel(
         Filament::getPanel('human-resource'),
@@ -48,6 +50,14 @@ test('dashboard has filter action button', function (): void {
     livewire(HumanResourceDashboard::class)
         ->assertSuccessful()
         ->assertSee('Filter');
+});
+
+test('dashboard widgets can be rendered from cache on subsequent requests', function (): void {
+    livewire(HumanResourceDashboard::class)
+        ->assertSuccessful();
+
+    livewire(HumanResourceDashboard::class)
+        ->assertSuccessful();
 });
 
 test('dashboard applies default sites from config', function (): void {

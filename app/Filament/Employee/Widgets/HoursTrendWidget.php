@@ -29,15 +29,23 @@ class HoursTrendWidget extends ChartWidget
         $startDate = Carbon::now()->subDays(7);
         $endDate = Carbon::now();
 
-        $payrollHours = Cache::remember(
-            "employee_{$employee->id}_payroll_hours_{$startDate->toDateString()}_{$endDate->toDateString()}",
+        $dailyHours = Cache::remember(
+            "employee_{$employee->id}_hours_trend_{$startDate->toDateString()}_{$endDate->toDateString()}",
             now()->addHours(3),
-            function () use ($employee, $startDate, $endDate) {
+            function () use ($employee, $startDate, $endDate): array {
                 return $employee->payrollHours()
                     ->whereBetween('date', [$startDate, $endDate])
                     ->orderBy('date')
                     ->get()
-                    ->groupBy(fn ($record) => $record->date->format('M d'));
+                    ->groupBy(fn ($record) => $record->date->format('M d'))
+                    ->map(fn ($hours, string $date): array => [
+                        'date' => $date,
+                        'regular_hours' => (float) $hours->sum('regular_hours'),
+                        'overtime_hours' => (float) $hours->sum('overtime_hours'),
+                        'holidays_and_seventh_day_hours' => (float) ($hours->sum('holiday_hours') + $hours->sum('seventh_day_hours')),
+                    ])
+                    ->values()
+                    ->all();
             }
         );
 
@@ -46,11 +54,11 @@ class HoursTrendWidget extends ChartWidget
         $overtimeHours = [];
         $holidaysAndSeventhDay = [];
 
-        foreach ($payrollHours as $date => $hours) {
-            $dates[] = $date;
-            $regularHours[] = $hours->sum('regular_hours');
-            $overtimeHours[] = $hours->sum('overtime_hours');
-            $holidaysAndSeventhDay[] = $hours->sum('holiday_hours') + $hours->sum('seventh_day_hours');
+        foreach ($dailyHours as $dailyHour) {
+            $dates[] = $dailyHour['date'];
+            $regularHours[] = $dailyHour['regular_hours'];
+            $overtimeHours[] = $dailyHour['overtime_hours'];
+            $holidaysAndSeventhDay[] = $dailyHour['holidays_and_seventh_day_hours'];
         }
 
         return [

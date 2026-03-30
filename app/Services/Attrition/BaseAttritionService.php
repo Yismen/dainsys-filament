@@ -5,7 +5,7 @@ namespace App\Services\Attrition;
 use App\Services\Traits\HasFilters;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 
 abstract class BaseAttritionService implements AttritionContract
@@ -38,11 +38,17 @@ abstract class BaseAttritionService implements AttritionContract
 
     public function list(): Collection
     {
-        return Cache::rememberForever($this->getCacheKey(__FUNCTION__), function () {
-            $query = $this->parseFilters($this->filters, $this->query());
+        $items = Cache::rememberForever($this->getCacheKey(__FUNCTION__), function (): array {
+            $records = $this->parseFilters($this->filters, $this->query());
 
-            return $query->get();
+            return $records
+                ->get()
+                ->map(fn ($record): array => is_array($record) ? $record : $record->toArray())
+                ->values()
+                ->all();
         });
+
+        return collect($items);
     }
 
     protected function getCacheKey(string $method): string

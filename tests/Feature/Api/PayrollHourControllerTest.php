@@ -2,6 +2,7 @@
 
 use App\Models\PayrollHour;
 use App\Models\User;
+use Illuminate\Support\Facades\Cache;
 use Laravel\Sanctum\Sanctum;
 
 it('protects the route against unauthorized tokens', function (): void {
@@ -118,4 +119,22 @@ it('returns validation error for invalid fixed date range value', function (): v
 
     $this->getJson('/api/payroll_hours?date=last_0_days')
         ->assertJsonValidationErrorFor('date');
+});
+
+it('caches payroll hours response and loads from cache on subsequent requests', function (): void {
+    Cache::flush();
+    PayrollHour::factory()->create();
+    Sanctum::actingAs(user: User::factory()->create(), abilities: ['use-dainsys']);
+
+    // First request caches the response
+    $response1 = $this->getJson('/api/payroll_hours');
+    $response1->assertOk();
+    $data1 = $response1->json('data');
+
+    // Second request should load from cache and return same data
+    $response2 = $this->getJson('/api/payroll_hours');
+    $response2->assertOk();
+    $data2 = $response2->json('data');
+
+    expect($data1)->toBe($data2);
 });
