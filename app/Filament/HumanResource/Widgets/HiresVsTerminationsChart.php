@@ -30,7 +30,7 @@ class HiresVsTerminationsChart extends ChartWidget
         }
 
         $months = collect(range(0, 5))
-            ->map(fn ($i) => Carbon::now()->subMonths($i)->format('Y-m'))
+            ->map(fn ($i) => Carbon::now()->startOfMonth()->subMonths($i)->format('Y-m'))
             ->reverse()
             ->values();
 

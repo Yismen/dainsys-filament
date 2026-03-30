@@ -17,7 +17,7 @@ class ArticlePolicy
         return $authUser->can('viewAny article');
     }
 
-    public function view(AuthUser $authUser, Article $article): bool
+    public function view(AuthUser $authUser, ?Article $article = null): bool
     {
         return $authUser->can('view article');
     }

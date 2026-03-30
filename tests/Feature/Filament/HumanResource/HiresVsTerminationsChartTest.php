@@ -25,24 +25,27 @@ it('shows correct hires and terminations per month and respects filters', functi
     $project = Project::factory()->create();
     $supervisor = Supervisor::factory()->create();
 
+    $lastMonth = Carbon::now()->startOfMonth()->subMonth();
+    $thisMonth = Carbon::now()->startOfMonth();
+
     // 3 hires and 1 termination last month
     Employee::factory()->count(3)->create([
-        'hired_at' => Carbon::now()->subMonth()->startOfMonth()->addDays(1),
+        'hired_at' => $lastMonth->copy()->addDay(),
         'terminated_at' => null,
         'site_id' => $site->id,
         'project_id' => $project->id,
         'supervisor_id' => $supervisor->id,
     ]);
     Employee::factory()->create([
-        'hired_at' => Carbon::now()->subMonth()->startOfMonth()->addDays(2),
-        'terminated_at' => Carbon::now()->subMonth()->startOfMonth()->addDays(10),
+        'hired_at' => $lastMonth->copy()->addDays(2),
+        'terminated_at' => $lastMonth->copy()->addDays(10),
         'site_id' => $site->id,
         'project_id' => $project->id,
         'supervisor_id' => $supervisor->id,
     ]);
     // 2 hires this month
     Employee::factory()->count(2)->create([
-        'hired_at' => Carbon::now()->startOfMonth()->addDays(1),
+        'hired_at' => $thisMonth->copy()->addDay(),
         'terminated_at' => null,
         'site_id' => $site->id,
         'project_id' => $project->id,

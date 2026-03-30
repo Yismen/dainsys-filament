@@ -125,13 +125,16 @@ class UpcomingEmployeeBirthdays extends TableWidget
 
         $query = Employee::query()
             ->active()
-            ->where(function ($query) use ($today): void {
-                $query->whereMonth('date_of_birth', $today->month)
-                    ->whereDay('date_of_birth', '>=', $today->day);
-            })
-            ->orWhere(function ($query) use ($until): void {
-                $query->whereMonth('date_of_birth', $until->month)
-                    ->whereDay('date_of_birth', '<=', $until->day);
+            ->where(function (Builder $query) use ($today, $until): void {
+                $query
+                    ->where(function (Builder $query) use ($today): void {
+                        $query->whereMonth('date_of_birth', $today->month)
+                            ->whereDay('date_of_birth', '>=', $today->day);
+                    })
+                    ->orWhere(function (Builder $query) use ($until): void {
+                        $query->whereMonth('date_of_birth', $until->month)
+                            ->whereDay('date_of_birth', '<=', $until->day);
+                    });
             })
             ->orderByRaw("{$monthExpr}, {$dayExpr} asc");
 

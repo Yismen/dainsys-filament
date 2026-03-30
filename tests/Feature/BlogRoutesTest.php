@@ -5,15 +5,28 @@ use App\Livewire\BlogIndex;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\CategoryAccess;
+use App\Models\Permission;
 use App\Models\User;
 use Livewire\Livewire;
+
+function createAuthorizedBlogUser(): User
+{
+    $user = User::factory()->create();
+    Permission::firstOrCreate([
+        'name' => 'view article',
+        'guard_name' => 'web',
+    ]);
+    $user->givePermissionTo('view article');
+
+    return $user;
+}
 
 it('redirects guests to login when accessing the blog index', function (): void {
     $this->get('/blog')->assertRedirect('/login');
 });
 
 it('allows authenticated users to view the blog index and shows accessible articles', function (): void {
-    $user = User::factory()->create();
+    $user = createAuthorizedBlogUser();
     $category = Category::factory()->create();
 
     CategoryAccess::create([
@@ -30,7 +43,7 @@ it('allows authenticated users to view the blog index and shows accessible artic
 });
 
 it('shows an accessible article on the show route and hides drafts', function (): void {
-    $user = User::factory()->create();
+    $user = createAuthorizedBlogUser();
     $category = Category::factory()->create();
 
     CategoryAccess::create([
@@ -56,7 +69,7 @@ it('shows an accessible article on the show route and hides drafts', function ()
 });
 
 it('lists accessible categories on the index sidebar', function (): void {
-    $user = User::factory()->create();
+    $user = createAuthorizedBlogUser();
     $catA = Category::factory()->create();
     $catB = Category::factory()->create();
 
@@ -72,7 +85,7 @@ it('lists accessible categories on the index sidebar', function (): void {
 });
 
 it('filters articles by search term', function (): void {
-    $user = User::factory()->create();
+    $user = createAuthorizedBlogUser();
     $category = Category::factory()->create();
 
     CategoryAccess::create([
@@ -98,7 +111,7 @@ it('filters articles by search term', function (): void {
 });
 
 it('can clear the search term via the inline button', function (): void {
-    $user = User::factory()->create();
+    $user = createAuthorizedBlogUser();
     $category = Category::factory()->create();
 
     CategoryAccess::create([
@@ -123,7 +136,7 @@ it('can clear the search term via the inline button', function (): void {
 });
 
 it('filters articles by category parameter', function (): void {
-    $user = User::factory()->create();
+    $user = createAuthorizedBlogUser();
     $category = Category::factory()->create();
     $otherCategory = Category::factory()->create();
 
