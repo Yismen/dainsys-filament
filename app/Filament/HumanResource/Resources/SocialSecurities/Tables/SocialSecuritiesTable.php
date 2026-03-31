@@ -2,6 +2,9 @@
 
 namespace App\Filament\HumanResource\Resources\SocialSecurities\Tables;
 
+use App\Models\Afp;
+use App\Models\Ars;
+use App\Services\ModelListService;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -9,6 +12,7 @@ use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 
@@ -45,6 +49,14 @@ class SocialSecuritiesTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
+                SelectFilter::make('ars_id')
+                    ->label(__('ARS'))
+                    ->options(ModelListService::make(Ars::query()))
+                    ->searchable(),
+                SelectFilter::make('afp_id')
+                    ->label(__('AFP'))
+                    ->options(ModelListService::make(Afp::query()))
+                    ->searchable(),
                 TrashedFilter::make(),
             ])
             ->recordActions([

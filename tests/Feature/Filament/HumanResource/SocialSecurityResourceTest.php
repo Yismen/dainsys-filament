@@ -132,6 +132,48 @@ it('displays SocialSecurity list page correctly', function (): void {
         ->assertCanSeeTableRecords($social_securities);
 });
 
+test('can filter SocialSecurities by ars', function (): void {
+    $arsA = Ars::factory()->create();
+    $arsB = Ars::factory()->create();
+
+    $arsAEmployee = Employee::factory()->create();
+    Hire::factory()->for($arsAEmployee)->create();
+
+    $arsBEmployee = Employee::factory()->create();
+    Hire::factory()->for($arsBEmployee)->create();
+
+    $arsASocialSecurity = SocialSecurity::factory()->for($arsAEmployee)->for($arsA)->create();
+    $arsBSocialSecurity = SocialSecurity::factory()->for($arsBEmployee)->for($arsB)->create();
+
+    actingAs($this->createUserWithPermissionTo('view-any SocialSecurity'));
+
+    livewire(ListSocialSecurities::class)
+        ->filterTable('ars_id', (string) $arsA->id)
+        ->assertCanSeeTableRecords([$arsASocialSecurity])
+        ->assertCanNotSeeTableRecords([$arsBSocialSecurity]);
+});
+
+test('can filter SocialSecurities by afp', function (): void {
+    $afpA = Afp::factory()->create();
+    $afpB = Afp::factory()->create();
+
+    $afpAEmployee = Employee::factory()->create();
+    Hire::factory()->for($afpAEmployee)->create();
+
+    $afpBEmployee = Employee::factory()->create();
+    Hire::factory()->for($afpBEmployee)->create();
+
+    $afpASocialSecurity = SocialSecurity::factory()->for($afpAEmployee)->for($afpA)->create();
+    $afpBSocialSecurity = SocialSecurity::factory()->for($afpBEmployee)->for($afpB)->create();
+
+    actingAs($this->createUserWithPermissionTo('view-any SocialSecurity'));
+
+    livewire(ListSocialSecurities::class)
+        ->filterTable('afp_id', (string) $afpA->id)
+        ->assertCanSeeTableRecords([$afpASocialSecurity])
+        ->assertCanNotSeeTableRecords([$afpBSocialSecurity]);
+});
+
 test('create SocialSecurity page works correctly', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'SocialSecurity'));
 

@@ -2,15 +2,26 @@
 
 namespace App\Filament\HumanResource\Resources\Suspensions\Tables;
 
+use App\Enums\SuspensionStatuses;
+use App\Exports\Filament\SuspensionExporter;
+use App\Models\SuspensionType;
+use App\Services\ModelListService;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ExportBulkAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
+use Filament\Forms\Components\DatePicker;
+use Filament\Support\Colors\Color;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class SuspensionsTable
 {
@@ -54,6 +65,34 @@ class SuspensionsTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
+                Filter::make('starts_at')
+                    ->label(__('Starts At Range'))
+                    ->schema([
+                        DatePicker::make('starts_at_from')
+                            ->label(__('Starts at from')),
+                        DatePicker::make('starts_at_until')
+                            ->label(__('Starts at until')),
+                    ])
+                    ->columns(2)
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['starts_at_from'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('starts_at', '>=', $date),
+                            )
+                            ->when(
+                                $data['starts_at_until'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('starts_at', '<=', $date),
+                            );
+                    }),
+                SelectFilter::make('suspension_type_id')
+                    ->label(__('Suspension Type'))
+                    ->options(ModelListService::make(SuspensionType::query()))
+                    ->searchable(),
+                SelectFilter::make('status')
+                    ->label(__('Status'))
+                    ->options(SuspensionStatuses::class)
+                    ->searchable(),
                 TrashedFilter::make(),
             ])
             ->recordActions([
@@ -61,6 +100,11 @@ class SuspensionsTable
                 EditAction::make(),
             ])
             ->toolbarActions([
+                ExportBulkAction::make()
+                    ->color(Color::Teal)
+                    ->exporter(SuspensionExporter::class)
+                    ->deselectRecordsAfterCompletion()
+                    ->icon(Heroicon::OutlinedDocumentArrowDown),
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                     ForceDeleteBulkAction::make(),

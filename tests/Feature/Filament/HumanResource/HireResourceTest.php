@@ -131,6 +131,103 @@ it('displays Hire list page correctly', function (): void {
         ->assertCanSeeTableRecords($hires);
 });
 
+test('can filter Hires by date range', function (): void {
+    $oldEmployee = Employee::factory()->create();
+    $recentEmployee = Employee::factory()->create();
+
+    $oldHire = Hire::factory()
+        ->for($oldEmployee)
+        ->state(['date' => now()->subMonth()->toDateString()])
+        ->create();
+
+    $recentHire = Hire::factory()
+        ->for($recentEmployee)
+        ->state(['date' => now()->toDateString()])
+        ->create();
+
+    actingAs($this->createUserWithPermissionTo('view-any Hire'));
+
+    livewire(ListHires::class)
+        ->filterTable('date', [
+            'date_from' => now()->subWeek()->toDateString(),
+            'date_until' => now()->toDateString(),
+        ])
+        ->assertCanSeeTableRecords([$recentHire])
+        ->assertCanNotSeeTableRecords([$oldHire]);
+});
+
+test('can filter Hires by site', function (): void {
+    $siteA = Site::factory()->create();
+    $siteB = Site::factory()->create();
+
+    $siteAEmployee = Employee::factory()->create();
+    $siteBEmployee = Employee::factory()->create();
+
+    $siteAHire = Hire::factory()->for($siteAEmployee)->for($siteA)->create();
+    $siteBHire = Hire::factory()->for($siteBEmployee)->for($siteB)->create();
+
+    actingAs($this->createUserWithPermissionTo('view-any Hire'));
+
+    livewire(ListHires::class)
+        ->filterTable('site_id', (string) $siteA->id)
+        ->assertCanSeeTableRecords([$siteAHire])
+        ->assertCanNotSeeTableRecords([$siteBHire]);
+});
+
+test('can filter Hires by project', function (): void {
+    $projectA = Project::factory()->create();
+    $projectB = Project::factory()->create();
+
+    $projectAEmployee = Employee::factory()->create();
+    $projectBEmployee = Employee::factory()->create();
+
+    $projectAHire = Hire::factory()->for($projectAEmployee)->for($projectA)->create();
+    $projectBHire = Hire::factory()->for($projectBEmployee)->for($projectB)->create();
+
+    actingAs($this->createUserWithPermissionTo('view-any Hire'));
+
+    livewire(ListHires::class)
+        ->filterTable('project_id', (string) $projectA->id)
+        ->assertCanSeeTableRecords([$projectAHire])
+        ->assertCanNotSeeTableRecords([$projectBHire]);
+});
+
+test('can filter Hires by position', function (): void {
+    $positionA = Position::factory()->create();
+    $positionB = Position::factory()->create();
+
+    $positionAEmployee = Employee::factory()->create();
+    $positionBEmployee = Employee::factory()->create();
+
+    $positionAHire = Hire::factory()->for($positionAEmployee)->for($positionA)->create();
+    $positionBHire = Hire::factory()->for($positionBEmployee)->for($positionB)->create();
+
+    actingAs($this->createUserWithPermissionTo('view-any Hire'));
+
+    livewire(ListHires::class)
+        ->filterTable('position_id', (string) $positionA->id)
+        ->assertCanSeeTableRecords([$positionAHire])
+        ->assertCanNotSeeTableRecords([$positionBHire]);
+});
+
+test('can filter Hires by supervisor', function (): void {
+    $supervisorA = Supervisor::factory()->create();
+    $supervisorB = Supervisor::factory()->create();
+
+    $supervisorAEmployee = Employee::factory()->create();
+    $supervisorBEmployee = Employee::factory()->create();
+
+    $supervisorAHire = Hire::factory()->for($supervisorAEmployee)->for($supervisorA)->create();
+    $supervisorBHire = Hire::factory()->for($supervisorBEmployee)->for($supervisorB)->create();
+
+    actingAs($this->createUserWithPermissionTo('view-any Hire'));
+
+    livewire(ListHires::class)
+        ->filterTable('supervisor_id', (string) $supervisorA->id)
+        ->assertCanSeeTableRecords([$supervisorAHire])
+        ->assertCanNotSeeTableRecords([$supervisorBHire]);
+});
+
 test('create Hire page works correctly', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Hire'));
 

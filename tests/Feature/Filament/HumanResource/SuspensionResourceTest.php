@@ -132,6 +132,99 @@ it('displays Suspension list page correctly', function (): void {
         ->assertCanSeeTableRecords($suspensions);
 });
 
+test('can filter Suspensions by starts_at date range', function (): void {
+    $oldEmployee = Employee::factory()->create();
+    Hire::factory()->for($oldEmployee)->state(['date' => now()->subMonths(2)->toDateString()])->create();
+
+    $recentEmployee = Employee::factory()->create();
+    Hire::factory()->for($recentEmployee)->state(['date' => now()->subWeek()->toDateString()])->create();
+
+    $oldSuspension = Suspension::factory()
+        ->for($oldEmployee)
+        ->state([
+            'starts_at' => now()->subMonth()->toDateString(),
+            'ends_at' => now()->subMonth()->addDay()->toDateString(),
+        ])
+        ->create();
+
+    $recentSuspension = Suspension::factory()
+        ->for($recentEmployee)
+        ->state([
+            'starts_at' => now()->toDateString(),
+            'ends_at' => now()->addDay()->toDateString(),
+        ])
+        ->create();
+
+    actingAs($this->createUserWithPermissionTo('view-any Suspension'));
+
+    livewire(ListSuspensions::class)
+        ->filterTable('starts_at', [
+            'starts_at_from' => now()->subWeek()->toDateString(),
+            'starts_at_until' => now()->toDateString(),
+        ])
+        ->assertCanSeeTableRecords([$recentSuspension])
+        ->assertCanNotSeeTableRecords([$oldSuspension]);
+});
+
+test('can filter Suspensions by suspension type', function (): void {
+    $firstType = SuspensionType::factory()->create();
+    $secondType = SuspensionType::factory()->create();
+
+    $firstTypeEmployee = Employee::factory()->create();
+    Hire::factory()->for($firstTypeEmployee)->state(['date' => now()->subWeek()->toDateString()])->create();
+
+    $secondTypeEmployee = Employee::factory()->create();
+    Hire::factory()->for($secondTypeEmployee)->state(['date' => now()->subWeek()->toDateString()])->create();
+
+    $firstTypeSuspension = Suspension::factory()
+        ->for($firstTypeEmployee)
+        ->for($firstType)
+        ->create();
+
+    $secondTypeSuspension = Suspension::factory()
+        ->for($secondTypeEmployee)
+        ->for($secondType)
+        ->create();
+
+    actingAs($this->createUserWithPermissionTo('view-any Suspension'));
+
+    livewire(ListSuspensions::class)
+        ->filterTable('suspension_type_id', (string) $firstType->id)
+        ->assertCanSeeTableRecords([$firstTypeSuspension])
+        ->assertCanNotSeeTableRecords([$secondTypeSuspension]);
+});
+
+test('can filter Suspensions by status', function (): void {
+    $pendingEmployee = Employee::factory()->create();
+    Hire::factory()->for($pendingEmployee)->state(['date' => now()->subWeek()->toDateString()])->create();
+
+    $completedEmployee = Employee::factory()->create();
+    Hire::factory()->for($completedEmployee)->state(['date' => now()->subWeek()->toDateString()])->create();
+
+    $pendingSuspension = Suspension::factory()
+        ->for($pendingEmployee)
+        ->state([
+            'starts_at' => now()->addDay()->toDateString(),
+            'ends_at' => now()->addDays(2)->toDateString(),
+        ])
+        ->create();
+
+    $completedSuspension = Suspension::factory()
+        ->for($completedEmployee)
+        ->state([
+            'starts_at' => now()->subDays(3)->toDateString(),
+            'ends_at' => now()->subDay()->toDateString(),
+        ])
+        ->create();
+
+    actingAs($this->createUserWithPermissionTo('view-any Suspension'));
+
+    livewire(ListSuspensions::class)
+        ->filterTable('status', 'Pending')
+        ->assertCanSeeTableRecords([$pendingSuspension])
+        ->assertCanNotSeeTableRecords([$completedSuspension]);
+});
+
 test('create Suspension page works correctly', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Suspension'));
 

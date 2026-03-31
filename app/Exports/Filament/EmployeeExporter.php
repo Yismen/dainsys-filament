@@ -15,22 +15,34 @@ class EmployeeExporter extends Exporter
     public static function getColumns(): array
     {
         return [
-            ExportColumn::make('full_name'),
-            ExportColumn::make('personal_id_type'),
-            ExportColumn::make('personal_id'),
-            ExportColumn::make('date_of_birth'),
-            ExportColumn::make('cellphone'),
-            ExportColumn::make('secondary_phone'),
-            ExportColumn::make('email'),
-            ExportColumn::make('address'),
-            ExportColumn::make('status'),
-            ExportColumn::make('gender'),
-            ExportColumn::make('has_kids'),
-            ExportColumn::make('citizenship.name'),
-            ExportColumn::make('internal_id'),
-            ExportColumn::make('deleted_at'),
-            ExportColumn::make('created_at'),
-            ExportColumn::make('updated_at'),
+            ExportColumn::make('id')
+                ->label('ID'),
+            ExportColumn::make('full_name')
+                ->label('Full Name'),
+            ExportColumn::make('personal_id_type')
+                ->label('Personal ID Type'),
+            ExportColumn::make('personal_id')
+                ->label('Personal ID'),
+            ExportColumn::make('date_of_birth')
+                ->label('Date of Birth'),
+            ExportColumn::make('cellphone')
+                ->label('Cellphone'),
+            ExportColumn::make('secondary_phone')
+                ->label('Secondary Phone'),
+            ExportColumn::make('email')
+                ->label('Email'),
+            ExportColumn::make('address')
+                ->label('Address'),
+            ExportColumn::make('status')
+                ->label('Status'),
+            ExportColumn::make('gender')
+                ->label('Gender'),
+            ExportColumn::make('has_kids')
+                ->label('Has Kids'),
+            ExportColumn::make('citizenship.name')
+                ->label('Citizenship'),
+            ExportColumn::make('internal_id')
+                ->label('Internal ID'),
         ];
     }
 

@@ -2,23 +2,29 @@
 
 namespace App\Filament\HumanResource\Resources\BankAccounts;
 
+use App\Exports\Filament\BankAccountExporter;
 use App\Filament\HumanResource\Enums\HRNavigationEnum;
 use App\Filament\HumanResource\Resources\BankAccounts\Pages\ManageBankAccounts;
+use App\Models\Bank;
 use App\Models\BankAccount;
 use App\Schemas\Filament\HumanResource\BankAccountSchema;
+use App\Services\ModelListService;
 use BackedEnum;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ExportBulkAction;
 use Filament\Actions\ForceDeleteAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
+use Filament\Support\Colors\Color;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -75,6 +81,10 @@ class BankAccountResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
+                SelectFilter::make('bank_id')
+                    ->label(__('Bank'))
+                    ->options(ModelListService::make(Bank::query()))
+                    ->searchable(),
                 TrashedFilter::make(),
             ])
             ->recordActions([
@@ -84,6 +94,12 @@ class BankAccountResource extends Resource
                 RestoreAction::make(),
             ])
             ->toolbarActions([
+                ExportBulkAction::make()
+                    ->color(Color::Teal)
+                    ->exporter(BankAccountExporter::class)
+                    ->deselectRecordsAfterCompletion()
+                    ->icon(Heroicon::OutlinedDocumentArrowDown),
+
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                     ForceDeleteBulkAction::make(),

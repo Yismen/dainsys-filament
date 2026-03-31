@@ -132,6 +132,59 @@ it('displays Termination list page correctly', function (): void {
         ->assertCanSeeTableRecords($terminations);
 });
 
+test('can filter Terminations by rehireable status', function (): void {
+    $rehireableEmployee = Employee::factory()->create();
+    Hire::factory()->for($rehireableEmployee)->state(['date' => now()->subWeek()->toDateString()])->create();
+
+    $notRehireableEmployee = Employee::factory()->create();
+    Hire::factory()->for($notRehireableEmployee)->state(['date' => now()->subWeek()->toDateString()])->create();
+
+    $rehireableTermination = Termination::factory()
+        ->for($rehireableEmployee)
+        ->state(['is_rehireable' => true])
+        ->create();
+
+    $notRehireableTermination = Termination::factory()
+        ->for($notRehireableEmployee)
+        ->state(['is_rehireable' => false])
+        ->create();
+
+    actingAs($this->createUserWithPermissionTo('view-any Termination'));
+
+    livewire(ListTerminations::class)
+        ->filterTable('is_rehireable', '1')
+        ->assertCanSeeTableRecords([$rehireableTermination])
+        ->assertCanNotSeeTableRecords([$notRehireableTermination]);
+});
+
+test('can filter Terminations by date range', function (): void {
+    $oldTerminationEmployee = Employee::factory()->create();
+    Hire::factory()->for($oldTerminationEmployee)->state(['date' => now()->subMonths(2)->toDateString()])->create();
+
+    $recentTerminationEmployee = Employee::factory()->create();
+    Hire::factory()->for($recentTerminationEmployee)->state(['date' => now()->subWeek()->toDateString()])->create();
+
+    $oldTermination = Termination::factory()
+        ->for($oldTerminationEmployee)
+        ->state(['date' => now()->subMonth()->toDateString()])
+        ->create();
+
+    $recentTermination = Termination::factory()
+        ->for($recentTerminationEmployee)
+        ->state(['date' => now()->toDateString()])
+        ->create();
+
+    actingAs($this->createUserWithPermissionTo('view-any Termination'));
+
+    livewire(ListTerminations::class)
+        ->filterTable('date', [
+            'date_from' => now()->subWeek()->toDateString(),
+            'date_until' => now()->toDateString(),
+        ])
+        ->assertCanSeeTableRecords([$recentTermination])
+        ->assertCanNotSeeTableRecords([$oldTermination]);
+});
+
 test('create Termination page works correctly', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Termination'));
 
