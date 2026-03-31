@@ -114,6 +114,4 @@ return [
 
     'prefix' => env('CACHE_PREFIX', Str::slug((string) env('APP_NAME', 'laravel')).'-cache-'),
 
-    'serializable_classes' => in_array(env('APP_ENV'), ['local', 'testing'], true) ? true : false,
-
 ];

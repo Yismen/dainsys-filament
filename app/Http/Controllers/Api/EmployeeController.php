@@ -24,35 +24,28 @@ class EmployeeController extends Controller
     #[QueryParameter('supervisor', description: 'ID or Name of the supervisor to filter employees')]
     public function __invoke(Request $request)
     {
-        $query_filters = $request->uri()->query()->all();
-        $class_string = \str(self::class)->replace('\\', ' ')->snake()->toString();
-        $query_string = $request->getQueryString();
-        $cache_key = $class_string.$query_string;
-        $employees = Cache::rememberForever($cache_key, function () {
-            $employee = app(Pipeline::class)
-                ->send(
-                    Employee::query()
-                        ->orderBy('full_name')
-                        ->with([
-                            'project:id,name',
-                            'position:id,name',
-                            'supervisor:id,name',
-                            'site:id,name',
-                        ])
-                        ->activesOrRecentlyTerminated()
-                )
-                ->through([
-                    ByStatus::class,
-                    ByProject::class,
-                    ByPosition::class,
-                    BySupervisor::class,
-                    BySite::class,
-                ])
-                ->thenReturn()
-                ->get();
+        $employees = app(Pipeline::class)
+            ->send(
+                Employee::query()
+                    ->orderBy('full_name')
+                    ->with([
+                        'project:id,name',
+                        'position:id,name',
+                        'supervisor:id,name',
+                        'site:id,name',
+                    ])
+                    ->activesOrRecentlyTerminated()
+            )
+            ->through([
+                ByStatus::class,
+                ByProject::class,
+                ByPosition::class,
+                BySupervisor::class,
+                BySite::class,
+            ])
+            ->thenReturn()
+            ->get();
 
-            return $employee;
-        });
 
         return EmployeeResource::collection($employees);
     }

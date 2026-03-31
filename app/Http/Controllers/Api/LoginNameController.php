@@ -15,15 +15,11 @@ class LoginNameController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $cache_key = str(self::class)->replace('\\', ' ')->snake()->toString();
-
-        $data = Cache::rememberForever($cache_key, function () {
-            return LoginName::query()
-                ->withWhereHas('employee', function ($query): void {
-                    $query->activesOrRecentlyTerminated();
-                })
-                ->get();
-        });
+        $data = LoginName::query()
+            ->withWhereHas('employee', function ($query): void {
+                $query->activesOrRecentlyTerminated();
+            })
+            ->get();
 
         return LoginNameResource::collection($data);
     }

@@ -15,12 +15,8 @@ class DispositionController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $cache_key = str(self::class)->replace('\\', ' ')->snake()->toString();
-
-        $data = Cache::rememberForever($cache_key, function () {
-            return Disposition::query()
-                ->get();
-        });
+        $data = Disposition::query()
+            ->get();
 
         return DispositionResource::collection($data);
     }

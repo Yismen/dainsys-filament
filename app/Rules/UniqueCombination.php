@@ -41,7 +41,7 @@ class UniqueCombination implements DataAwareRule, ValidationRule
         }
 
         if ($query->exists()) {
-            $fail("The combination of values for the fields: {$fieldLabels} already exists. Please ensure that the values for the fields: {$fieldLabels} are unique.");
+            $fail("A record with these values already exists. Please ensure that the values for the fields: {$fieldLabels} are unique.");
         }
     }
 }

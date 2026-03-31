@@ -15,13 +15,9 @@ class CampaignController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $cache_key = str(self::class)->replace('\\', ' ')->snake()->toString();
-
-        $data = Cache::rememberForever($cache_key, function () {
-            return Campaign::query()
+        $data = Campaign::query()
                 ->with(['project', 'source'])
                 ->get();
-        });
 
         return CampaignResource::collection($data);
     }

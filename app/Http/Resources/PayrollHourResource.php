@@ -16,7 +16,7 @@ class PayrollHourResource extends JsonResource
             'id' => $this->id,
             'employee_id' => $this->employee_id,
             'employee_full_name' => $this->employee?->full_name,
-            'date' => $this->date,
+            'date' => $this->date->format('Y-m-d'),
             'total_hours' => $this->total_hours,
             'regular_hours' => $this->regular_hours,
             'overtime_hours' => $this->overtime_hours,
