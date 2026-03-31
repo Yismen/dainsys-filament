@@ -6,17 +6,17 @@ use App\Services\HC\BySite;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 
-beforeEach(function () {
+beforeEach(function (): void {
     Cache::flush();
 });
 
-it('HC service count method returns a Collection', function () {
+it('HC service count method returns a Collection', function (): void {
     $service = new BySite;
     $result = $service->count();
     expect($result)->toBeInstanceOf(Collection::class);
 });
 
-it('HC service count caches data as array', function () {
+it('HC service count caches data as array', function (): void {
     Site::factory()->create();
     Employee::factory()->create();
 
@@ -28,13 +28,13 @@ it('HC service count caches data as array', function () {
     expect($result1->count())->toBeGreaterThanOrEqual(0);
 });
 
-it('HC service list method returns a Collection', function () {
+it('HC service list method returns a Collection', function (): void {
     $service = new BySite;
     $result = $service->list();
     expect($result)->toBeInstanceOf(Collection::class);
 });
 
-it('HC service list caches data as array with employees', function () {
+it('HC service list caches data as array with employees', function (): void {
     $site = Site::factory()->create();
     Employee::factory()->for($site, 'site')->create();
 
@@ -44,7 +44,7 @@ it('HC service list caches data as array with employees', function () {
     expect($result)->toBeInstanceOf(Collection::class);
 });
 
-it('cached count is accessible on subsequent reads', function () {
+it('cached count is accessible on subsequent reads', function (): void {
     $service = new BySite;
 
     $result1 = $service->count();

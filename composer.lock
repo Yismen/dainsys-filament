@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "achyutn/filament-log-viewer",
-            "version": "v2.1.1",
+            "version": "v2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/achyutkneupane/filament-log-viewer.git",
-                "reference": "baf87efffe91fb0d70c537e85bede68dcc49f522"
+                "reference": "c78355d11273a579a2fb873d9a6e251fdec8a059"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/achyutkneupane/filament-log-viewer/zipball/baf87efffe91fb0d70c537e85bede68dcc49f522",
-                "reference": "baf87efffe91fb0d70c537e85bede68dcc49f522",
+                "url": "https://api.github.com/repos/achyutkneupane/filament-log-viewer/zipball/c78355d11273a579a2fb873d9a6e251fdec8a059",
+                "reference": "c78355d11273a579a2fb873d9a6e251fdec8a059",
                 "shasum": ""
             },
             "require": {
@@ -90,7 +90,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2026-01-30T17:43:23+00:00"
+            "time": "2026-03-31T13:53:58+00:00"
         },
         {
             "name": "anourvalar/eloquent-serialize",

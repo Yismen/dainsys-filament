@@ -93,9 +93,12 @@ test('birthdays service returns birthdays for next month', function (): void {
     $employee_this_month = Employee::factory()
         ->hasHires()
         ->create(['date_of_birth' => now()]);
+
+    $nextMonthDate = now()->startOfMonth()->addMonth()->addDay();
+
     $employee_next_month = Employee::factory()
         ->hasHires()
-        ->create(['date_of_birth' => now()->addMonth()]);
+        ->create(['date_of_birth' => $nextMonthDate]);
 
     $birthdays = $this->service->handle('next_month');
 
