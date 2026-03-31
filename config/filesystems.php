@@ -55,6 +55,16 @@ return [
             'visibility' => 'public',
             'throw' => false,
             'report' => false,
+            'permissions' => [
+                'file' => [
+                    'public' => 0664,
+                    'private' => 0600,
+                ],
+                'dir' => [
+                    'public' => 0775, // This forces 775 on folder creation
+                    'private' => 0700,
+                ],
+            ],
         ],
 
         's3' => [
