@@ -2,12 +2,15 @@
 
 namespace App\Filament\ProjectExecutive\Widgets;
 
+use App\Filament\ProjectExecutive\Widgets\Concerns\InteractsWithProjectFilter;
 use App\Models\Project;
 use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Facades\Auth;
 
 class EmployeesByProjectChart extends ChartWidget
 {
+    use InteractsWithProjectFilter;
+
     protected ?string $heading = 'Employees by project';
 
     protected int|string|array $columnSpan = 1;
@@ -22,9 +25,14 @@ class EmployeesByProjectChart extends ChartWidget
     public function getData(): array
     {
         $managerId = Auth::id();
+        $selectedProjectIds = $this->getSelectedProjectIdsFromPageFilters();
 
         $projects = Project::query()
             ->where('manager_id', $managerId)
+            ->when(
+                $selectedProjectIds !== [],
+                fn ($query) => $query->whereIn('id', $selectedProjectIds),
+            )
             ->withCount([
                 'employees as active_employees_count' => function ($query): void {
                     $query->active();

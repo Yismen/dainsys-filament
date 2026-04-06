@@ -3,6 +3,7 @@
 namespace App\Filament\ProjectExecutive\Widgets;
 
 use App\Enums\EmployeeStatuses;
+use App\Filament\ProjectExecutive\Widgets\Concerns\InteractsWithProjectFilter;
 use App\Models\Employee;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -13,6 +14,8 @@ use Illuminate\Support\Facades\Auth;
 
 class UpcomingBirthdaysTable extends BaseWidget
 {
+    use InteractsWithProjectFilter;
+
     protected static ?string $heading = 'Upcoming birthdays (next 10 days)';
 
     protected int|string|array $columnSpan = 'full';
@@ -22,6 +25,7 @@ class UpcomingBirthdaysTable extends BaseWidget
     protected function getTableQuery(): Builder
     {
         $managerId = Auth::id();
+        $selectedProjectIds = $this->getSelectedProjectIdsFromPageFilters();
 
         if (! $managerId) {
             return Employee::query()->whereRaw('1 = 0');
@@ -32,8 +36,12 @@ class UpcomingBirthdaysTable extends BaseWidget
 
         $query = Employee::query()
             ->active()
-            ->whereHas('project', function (Builder $builder) use ($managerId): void {
-                $builder->where('manager_id', $managerId);
+            ->whereHas('project', function (Builder $builder) use ($managerId, $selectedProjectIds): void {
+                $builder->where('manager_id', $managerId)
+                    ->when(
+                        $selectedProjectIds !== [],
+                        fn ($query) => $query->whereIn('id', $selectedProjectIds),
+                    );
             });
 
         if ($today->month === $until->month) {

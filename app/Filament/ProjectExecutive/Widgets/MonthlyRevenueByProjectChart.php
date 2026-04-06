@@ -2,6 +2,7 @@
 
 namespace App\Filament\ProjectExecutive\Widgets;
 
+use App\Filament\ProjectExecutive\Widgets\Concerns\InteractsWithProjectFilter;
 use App\Models\Production;
 use App\Models\Project;
 use Filament\Widgets\ChartWidget;
@@ -10,6 +11,8 @@ use Illuminate\Support\Facades\Auth;
 
 class MonthlyRevenueByProjectChart extends ChartWidget
 {
+    use InteractsWithProjectFilter;
+
     protected ?string $heading = 'Monthly revenue by project (last 6 months)';
 
     protected int|string|array $columnSpan = 1;
@@ -24,9 +27,14 @@ class MonthlyRevenueByProjectChart extends ChartWidget
     public function getData(): array
     {
         $managerId = Auth::id();
+        $selectedProjectIds = $this->getSelectedProjectIdsFromPageFilters();
 
         $projects = Project::query()
             ->where('manager_id', $managerId)
+            ->when(
+                $selectedProjectIds !== [],
+                fn ($query) => $query->whereIn('id', $selectedProjectIds),
+            )
             ->orderBy('name')
             ->get(['id', 'name']);
 
@@ -48,8 +56,12 @@ class MonthlyRevenueByProjectChart extends ChartWidget
 
         $productions = Production::query()
             ->whereBetween('date', [$startMonth, $endMonth])
-            ->whereHas('employee.project', function ($query) use ($managerId): void {
-                $query->where('manager_id', $managerId);
+            ->whereHas('employee.project', function ($query) use ($managerId, $selectedProjectIds): void {
+                $query->where('manager_id', $managerId)
+                    ->when(
+                        $selectedProjectIds !== [],
+                        fn ($builder) => $builder->whereIn('id', $selectedProjectIds),
+                    );
             })
             ->with('employee:id,project_id')
             ->get(['date', 'employee_id', 'revenue']);

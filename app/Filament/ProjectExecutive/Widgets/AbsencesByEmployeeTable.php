@@ -2,6 +2,7 @@
 
 namespace App\Filament\ProjectExecutive\Widgets;
 
+use App\Filament\ProjectExecutive\Widgets\Concerns\InteractsWithProjectFilter;
 use App\Models\Employee;
 use Filament\Support\Colors\Color;
 use Filament\Tables\Columns\TextColumn;
@@ -12,6 +13,8 @@ use Illuminate\Support\Facades\Auth;
 
 class AbsencesByEmployeeTable extends TableWidget
 {
+    use InteractsWithProjectFilter;
+
     protected static ?string $heading = 'Absences by employee (last 30 days)';
 
     protected int|string|array $columnSpan = 'full';
@@ -53,6 +56,7 @@ class AbsencesByEmployeeTable extends TableWidget
     protected function getTableQuery(): Builder
     {
         $managerId = Auth::id();
+        $selectedProjectIds = $this->getSelectedProjectIdsFromPageFilters();
 
         if (! $managerId) {
             return Employee::query()->whereRaw('1 = 0');
@@ -62,8 +66,12 @@ class AbsencesByEmployeeTable extends TableWidget
 
         return Employee::query()
             ->active()
-            ->whereHas('project', function (Builder $query) use ($managerId): void {
-                $query->where('manager_id', $managerId);
+            ->whereHas('project', function (Builder $query) use ($managerId, $selectedProjectIds): void {
+                $query->where('manager_id', $managerId)
+                    ->when(
+                        $selectedProjectIds !== [],
+                        fn ($builder) => $builder->whereIn('id', $selectedProjectIds),
+                    );
             })
             ->with('project:id,name')
             ->with(['absences' => function ($query) use ($from): void {

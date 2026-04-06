@@ -44,3 +44,9 @@ it('displays all project executive dashboard widgets', function (): void {
         ->assertSeeHtml('UpcomingBirthdaysTable')
         ->assertSeeHtml('AbsencesByEmployeeTable');
 });
+
+it('shows project filters on the project executive dashboard', function (): void {
+    livewire(ProjectExecutiveDashboard::class)
+        ->assertSuccessful()
+        ->assertSee('Projects');
+});

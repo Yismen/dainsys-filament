@@ -3,6 +3,7 @@
 namespace App\Filament\ProjectExecutive\Widgets;
 
 use App\Enums\EvaluationStatuses;
+use App\Filament\ProjectExecutive\Widgets\Concerns\InteractsWithProjectFilter;
 use App\Models\Evaluation;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
@@ -10,6 +11,8 @@ use Illuminate\Support\Facades\Auth;
 
 class ProjectExecutiveQAStatsWidget extends StatsOverviewWidget
 {
+    use InteractsWithProjectFilter;
+
     protected ?string $heading = 'QA Overview (Your Projects)';
 
     protected ?string $pollingInterval = null;
@@ -17,14 +20,19 @@ class ProjectExecutiveQAStatsWidget extends StatsOverviewWidget
     protected function getStats(): array
     {
         $managerId = Auth::id();
+        $selectedProjectIds = $this->getSelectedProjectIdsFromPageFilters();
 
         if (! $managerId) {
             return [];
         }
 
         $baseQuery = Evaluation::query()
-            ->whereHas('employee.project', function ($query) use ($managerId): void {
-                $query->where('manager_id', $managerId);
+            ->whereHas('employee.project', function ($query) use ($managerId, $selectedProjectIds): void {
+                $query->where('manager_id', $managerId)
+                    ->when(
+                        $selectedProjectIds !== [],
+                        fn ($builder) => $builder->whereIn('id', $selectedProjectIds),
+                    );
             });
 
         $totalPublished = (clone $baseQuery)
