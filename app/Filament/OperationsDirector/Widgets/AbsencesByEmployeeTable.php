@@ -2,6 +2,7 @@
 
 namespace App\Filament\OperationsDirector\Widgets;
 
+use App\Filament\OperationsDirector\Widgets\Concerns\InteractsWithProjectAndClientFilters;
 use App\Models\Employee;
 use Filament\Support\Colors\Color;
 use Filament\Tables\Columns\TextColumn;
@@ -11,6 +12,8 @@ use Illuminate\Database\Eloquent\Builder;
 
 class AbsencesByEmployeeTable extends TableWidget
 {
+    use InteractsWithProjectAndClientFilters;
+
     protected static ?string $heading = 'Absences by employee (last 30 days)';
 
     protected int|string|array $columnSpan = 'full';
@@ -51,10 +54,19 @@ class AbsencesByEmployeeTable extends TableWidget
 
     protected function getTableQuery(): Builder
     {
+        $projectIds = $this->getFilteredProjectIds();
         $from = now()->subDays(30)->startOfDay();
 
         return Employee::query()
             ->active()
+            ->when(
+                $projectIds !== [],
+                fn ($query) => $query->whereIn('project_id', $projectIds),
+            )
+            ->when(
+                ($projectIds === []) && $this->hasProjectOrClientFiltersApplied(),
+                fn ($query) => $query->whereRaw('1 = 0'),
+            )
             ->with('project:id,name')
             ->with(['absences' => function ($query) use ($from): void {
                 $query->whereDate('date', '>=', $from)

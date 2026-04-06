@@ -2,6 +2,7 @@
 
 namespace App\Filament\OperationsDirector\Widgets;
 
+use App\Filament\OperationsDirector\Widgets\Concerns\InteractsWithProjectAndClientFilters;
 use App\Models\Production;
 use App\Models\Project;
 use Filament\Widgets\ChartWidget;
@@ -9,6 +10,8 @@ use Illuminate\Support\Carbon;
 
 class DailyRevenueByProjectChart extends ChartWidget
 {
+    use InteractsWithProjectAndClientFilters;
+
     protected ?string $heading = 'Daily revenue by project (last 10 days)';
 
     protected int|string|array $columnSpan = 1;
@@ -22,7 +25,20 @@ class DailyRevenueByProjectChart extends ChartWidget
 
     public function getData(): array
     {
+        $projectIds = $this->getFilteredProjectIds();
+
+        if (($projectIds === []) && $this->hasProjectOrClientFiltersApplied()) {
+            return [
+                'datasets' => [],
+                'labels' => [],
+            ];
+        }
+
         $projects = Project::query()
+            ->when(
+                $projectIds !== [],
+                fn ($query) => $query->whereIn('id', $projectIds),
+            )
             ->orderBy('name')
             ->get(['id', 'name']);
 
@@ -44,6 +60,14 @@ class DailyRevenueByProjectChart extends ChartWidget
 
         $productions = Production::query()
             ->whereBetween('date', [$startDate, $endDate])
+            ->when(
+                $projectIds !== [],
+                fn ($query) => $query->whereHas('employee', fn ($employeeQuery) => $employeeQuery->whereIn('project_id', $projectIds)),
+            )
+            ->when(
+                ($projectIds === []) && $this->hasProjectOrClientFiltersApplied(),
+                fn ($query) => $query->whereRaw('1 = 0'),
+            )
             ->with('employee:id,project_id')
             ->get(['date', 'employee_id', 'revenue']);
 

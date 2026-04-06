@@ -123,6 +123,8 @@ class UpcomingEmployeeBirthdays extends TableWidget
         $syntax = $this->getDateExtractionSyntax($driver);
         [$monthExpr, $dayExpr] = $syntax;
 
+
+
         $query = Employee::query()
             ->active()
             ->where(function (Builder $query) use ($today, $until): void {
@@ -131,7 +133,7 @@ class UpcomingEmployeeBirthdays extends TableWidget
                         $query->whereMonth('date_of_birth', $today->month)
                             ->whereDay('date_of_birth', '>=', $today->day);
                     })
-                    ->orWhere(function (Builder $query) use ($until): void {
+                    ->where(function (Builder $query) use ($until): void {
                         $query->whereMonth('date_of_birth', $until->month)
                             ->whereDay('date_of_birth', '<=', $until->day);
                     });

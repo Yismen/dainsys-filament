@@ -2,11 +2,14 @@
 
 namespace App\Filament\OperationsDirector\Widgets;
 
+use App\Filament\OperationsDirector\Widgets\Concerns\InteractsWithProjectAndClientFilters;
 use App\Models\Project;
 use Filament\Widgets\ChartWidget;
 
 class EmployeesByProjectChart extends ChartWidget
 {
+    use InteractsWithProjectAndClientFilters;
+
     protected ?string $heading = 'Employees by project';
 
     protected int|string|array $columnSpan = 1;
@@ -20,7 +23,27 @@ class EmployeesByProjectChart extends ChartWidget
 
     public function getData(): array
     {
+        $projectIds = $this->getFilteredProjectIds();
+
+        if (($projectIds === []) && $this->hasProjectOrClientFiltersApplied()) {
+            return [
+                'datasets' => [
+                    [
+                        'label' => 'Employees',
+                        'data' => [],
+                        'backgroundColor' => '#0ea5e9',
+                        'borderColor' => '#0284c7',
+                    ],
+                ],
+                'labels' => [],
+            ];
+        }
+
         $projects = Project::query()
+            ->when(
+                $projectIds !== [],
+                fn ($query) => $query->whereIn('id', $projectIds),
+            )
             ->withCount([
                 'employees as active_employees_count' => function ($query): void {
                     $query->active();

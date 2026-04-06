@@ -3,6 +3,7 @@
 namespace App\Filament\OperationsDirector\Widgets;
 
 use App\Enums\EvaluationStatuses;
+use App\Filament\OperationsDirector\Widgets\Concerns\InteractsWithProjectAndClientFilters;
 use App\Models\Evaluation;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
@@ -10,6 +11,8 @@ use Illuminate\Support\Carbon;
 
 class OperationsDirectorQAStatsWidget extends StatsOverviewWidget
 {
+    use InteractsWithProjectAndClientFilters;
+
     protected ?string $heading = 'QA Overview (Organisation)';
 
     protected ?string $pollingInterval = null;
@@ -17,22 +20,33 @@ class OperationsDirectorQAStatsWidget extends StatsOverviewWidget
     protected function getStats(): array
     {
         $last30Days = Carbon::today()->subDays(30);
+        $projectIds = $this->getFilteredProjectIds();
 
-        $totalPublished = Evaluation::query()
+        $baseQuery = Evaluation::query()
+            ->when(
+                $projectIds !== [],
+                fn ($query) => $query->whereHas('employee', fn ($employeeQuery) => $employeeQuery->whereIn('project_id', $projectIds)),
+            )
+            ->when(
+                ($projectIds === []) && $this->hasProjectOrClientFiltersApplied(),
+                fn ($query) => $query->whereRaw('1 = 0'),
+            );
+
+        $totalPublished = (clone $baseQuery)
             ->whereNot('status', EvaluationStatuses::Draft)
             ->whereDate('evaluation_date', '>=', $last30Days)
             ->count();
 
-        $acceptedCount = Evaluation::query()
+        $acceptedCount = (clone $baseQuery)
             ->where('status', EvaluationStatuses::AcceptedClosed)
             ->whereDate('evaluation_date', '>=', $last30Days)
             ->count();
 
-        $disputedPending = Evaluation::query()
+        $disputedPending = (clone $baseQuery)
             ->where('status', EvaluationStatuses::Disputed)
             ->count();
 
-        $passingCount = Evaluation::query()
+        $passingCount = (clone $baseQuery)
             ->whereNot('status', EvaluationStatuses::Draft)
             ->whereDate('evaluation_date', '>=', $last30Days)
             ->whereColumn('success_percentage', '>=', 'threshold_percentage')

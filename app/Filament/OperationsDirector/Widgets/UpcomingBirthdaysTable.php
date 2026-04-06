@@ -3,6 +3,7 @@
 namespace App\Filament\OperationsDirector\Widgets;
 
 use App\Enums\EmployeeStatuses;
+use App\Filament\OperationsDirector\Widgets\Concerns\InteractsWithProjectAndClientFilters;
 use App\Models\Employee;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -12,6 +13,8 @@ use Illuminate\Support\Carbon;
 
 class UpcomingBirthdaysTable extends BaseWidget
 {
+    use InteractsWithProjectAndClientFilters;
+
     protected static ?string $heading = 'Upcoming birthdays (next 10 days)';
 
     protected int|string|array $columnSpan = 'full';
@@ -20,11 +23,20 @@ class UpcomingBirthdaysTable extends BaseWidget
 
     protected function getTableQuery(): Builder
     {
+        $projectIds = $this->getFilteredProjectIds();
         $today = Carbon::now()->startOfDay();
         $until = Carbon::now()->addDays(10)->endOfDay();
 
         $query = Employee::query()
-            ->active();
+            ->active()
+            ->when(
+                $projectIds !== [],
+                fn ($builder) => $builder->whereIn('project_id', $projectIds),
+            )
+            ->when(
+                ($projectIds === []) && $this->hasProjectOrClientFiltersApplied(),
+                fn ($builder) => $builder->whereRaw('1 = 0'),
+            );
 
         if ($today->month === $until->month) {
             $query->whereMonth('date_of_birth', $today->month)
