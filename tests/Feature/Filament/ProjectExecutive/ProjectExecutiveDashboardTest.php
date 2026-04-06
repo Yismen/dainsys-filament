@@ -38,6 +38,7 @@ it('displays all project executive dashboard widgets', function (): void {
         ->assertSeeHtml('ProjectExecutiveStatsOverview')
         ->assertSeeHtml('EmployeesByProjectChart')
         ->assertSeeHtml('DailyRevenueByProjectChart')
+        ->assertSeeHtml('MonthlyRevenueByProjectChart')
         ->assertSeeHtml('DailyEfficiencyByProjectChart')
         ->assertSeeHtml('DailySphPercentageByProjectChart')
         ->assertSeeHtml('UpcomingBirthdaysTable')

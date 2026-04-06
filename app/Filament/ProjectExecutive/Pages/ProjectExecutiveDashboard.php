@@ -7,6 +7,7 @@ use App\Filament\ProjectExecutive\Widgets\DailyEfficiencyByProjectChart;
 use App\Filament\ProjectExecutive\Widgets\DailyRevenueByProjectChart;
 use App\Filament\ProjectExecutive\Widgets\DailySphPercentageByProjectChart;
 use App\Filament\ProjectExecutive\Widgets\EmployeesByProjectChart;
+use App\Filament\ProjectExecutive\Widgets\MonthlyRevenueByProjectChart;
 use App\Filament\ProjectExecutive\Widgets\ProjectExecutiveQAStatsWidget;
 use App\Filament\ProjectExecutive\Widgets\ProjectExecutiveStatsOverview;
 use App\Filament\ProjectExecutive\Widgets\UpcomingBirthdaysTable;
@@ -26,6 +27,7 @@ class ProjectExecutiveDashboard extends BaseDashboard
             ProjectExecutiveStatsOverview::class,
             ProjectExecutiveQAStatsWidget::class,
             EmployeesByProjectChart::class,
+            MonthlyRevenueByProjectChart::class,
             DailyRevenueByProjectChart::class,
             DailyEfficiencyByProjectChart::class,
             DailySphPercentageByProjectChart::class,

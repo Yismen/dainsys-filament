@@ -5,6 +5,7 @@ use App\Filament\ProjectExecutive\Widgets\DailyEfficiencyByProjectChart;
 use App\Filament\ProjectExecutive\Widgets\DailyRevenueByProjectChart;
 use App\Filament\ProjectExecutive\Widgets\DailySphPercentageByProjectChart;
 use App\Filament\ProjectExecutive\Widgets\EmployeesByProjectChart;
+use App\Filament\ProjectExecutive\Widgets\MonthlyRevenueByProjectChart;
 use App\Filament\ProjectExecutive\Widgets\ProjectExecutiveStatsOverview;
 use App\Filament\ProjectExecutive\Widgets\UpcomingBirthdaysTable;
 use App\Models\Absence;
@@ -148,6 +149,46 @@ it('builds the daily revenue dataset for manager projects only', function (): vo
         ->and($todayIndex)->not->toBeFalse()
         ->and($datasets['Project A']['data'][$todayIndex])->toBe(150.0)
         ->and($datasets['Project B']['data'][$todayIndex])->toBe(70.0);
+});
+
+it('builds the monthly revenue dataset for manager projects only', function (): void {
+    $managerUser = createProjectExecutiveWidgetUser();
+    actingAs($managerUser);
+
+    $projectA = Project::factory()->create(['manager_id' => $managerUser->id, 'name' => 'Project A']);
+    $projectB = Project::factory()->create(['manager_id' => $managerUser->id, 'name' => 'Project B']);
+    $foreignManager = User::factory()->create();
+    $foreignProject = Project::factory()->create(['manager_id' => $foreignManager->id, 'name' => 'Project X']);
+
+    $employeeA = createActiveEmployee($projectA);
+    $employeeA2 = createActiveEmployee($projectA);
+    $employeeB = createActiveEmployee($projectB);
+    $foreignEmployee = createActiveEmployee($foreignProject);
+
+    $campaignA = Campaign::factory()->create(['project_id' => $projectA->id]);
+    $campaignB = Campaign::factory()->create(['project_id' => $projectB->id]);
+    $campaignX = Campaign::factory()->create(['project_id' => $foreignProject->id]);
+
+    $currentMonth = now()->startOfMonth();
+
+    createProductionRecord($employeeA, $campaignA, $currentMonth->copy()->addDays(1), ['revenue' => 100]);
+    createProductionRecord($employeeA2, $campaignA, $currentMonth->copy()->addDays(2), ['revenue' => 50]);
+    createProductionRecord($employeeB, $campaignB, $currentMonth->copy()->addDays(3), ['revenue' => 70]);
+    createProductionRecord($foreignEmployee, $campaignX, $currentMonth->copy()->addDays(4), ['revenue' => 999]);
+
+    $data = Livewire::test(MonthlyRevenueByProjectChart::class)->instance()->getData();
+
+    $datasets = collect($data['datasets'])->keyBy('label');
+    $currentMonthLabel = now()->format('M Y');
+    $currentMonthIndex = array_search($currentMonthLabel, $data['labels'], true);
+
+    expect($data['labels'])->toHaveCount(6)
+        ->and($datasets->has('Project A'))->toBeTrue()
+        ->and($datasets->has('Project B'))->toBeTrue()
+        ->and($datasets->has('Project X'))->toBeFalse()
+        ->and($currentMonthIndex)->not->toBeFalse()
+        ->and($datasets['Project A']['data'][$currentMonthIndex])->toBe(150.0)
+        ->and($datasets['Project B']['data'][$currentMonthIndex])->toBe(70.0);
 });
 
 it('builds the daily efficiency dataset for manager projects only', function (): void {
