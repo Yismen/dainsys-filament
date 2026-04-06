@@ -69,13 +69,21 @@ class UsersTable
                     ->trueLabel('Has Employee ID')
                     ->falseLabel('No Employee ID')
                     ->query(function ($query, $data): void {
-                        $value = (bool) $data['value'] ?? null;
+                        $value = $data['value'] ?? null;
+
+                        if ($value === null) {
+                            return;
+                        }
+
+                        $value = (bool) $value;
+
                         if ($value === true) {
                             $query->whereNotNull('employee_id');
                         } elseif ($value === false) {
                             $query->whereNull('employee_id');
                         }
-                    }),
+                    })
+                    ,
                 TernaryFilter::make('email_verified_at')
                     ->label('Email Verified')
                     ->trueLabel('Verified')
