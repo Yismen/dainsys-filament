@@ -117,6 +117,10 @@ class User extends Authenticatable implements FilamentUser
             return Auth::user()->can('interactsWithBlog');
         }
 
+        if ($panel_id === 'invoicing') {
+            return Gate::allows('interactsWithInvoicing');
+        }
+
         return true;
     }
 

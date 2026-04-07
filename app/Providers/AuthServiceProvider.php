@@ -202,5 +202,12 @@ class AuthServiceProvider extends ServiceProvider
             return $user->can('manageTickets');
         });
 
+        Gate::define('interactsWithInvoicing', function (User $user) {
+            return $user->hasAnyRole([
+                'Invoicing Manager',
+                'Invoicing Agent',
+            ]);
+        });
+
     }
 }
