@@ -123,8 +123,6 @@ class UpcomingEmployeeBirthdays extends TableWidget
         $syntax = $this->getDateExtractionSyntax($driver);
         [$monthExpr, $dayExpr] = $syntax;
 
-
-
         $query = Employee::query()
             ->active()
             ->where(function (Builder $query) use ($today, $until): void {

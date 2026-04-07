@@ -11,7 +11,6 @@ use App\Http\Resources\PayrollHourResource;
 use App\Models\PayrollHour;
 use Dedoc\Scramble\Attributes\QueryParameter;
 use Illuminate\Pipeline\Pipeline;
-use Illuminate\Support\Facades\Cache;
 
 class PayrollHourController extends Controller
 {

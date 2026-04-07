@@ -13,7 +13,6 @@ use App\Models\Employee;
 use Dedoc\Scramble\Attributes\QueryParameter;
 use Illuminate\Http\Request;
 use Illuminate\Pipeline\Pipeline;
-use Illuminate\Support\Facades\Cache;
 
 class EmployeeController extends Controller
 {
@@ -45,7 +44,6 @@ class EmployeeController extends Controller
             ])
             ->thenReturn()
             ->get();
-
 
         return EmployeeResource::collection($employees);
     }

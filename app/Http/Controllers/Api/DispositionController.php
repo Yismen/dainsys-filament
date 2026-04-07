@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\DispositionResource;
 use App\Models\Disposition;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 
 class DispositionController extends Controller
 {

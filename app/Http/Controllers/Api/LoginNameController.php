@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\LoginNameResource;
 use App\Models\LoginName;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 
 class LoginNameController extends Controller
 {

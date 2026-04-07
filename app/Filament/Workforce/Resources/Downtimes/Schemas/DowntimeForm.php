@@ -50,7 +50,7 @@ class DowntimeForm
                     ->searchable()
                     ->required()
                     ->rules([
-                            fn (?Downtime $record, Get $get) => new UniqueCombination(
+                        fn (?Downtime $record, Get $get) => new UniqueCombination(
                             model: Downtime::class,
                             fields: [
                                 'date' => $get('date'),
@@ -59,7 +59,7 @@ class DowntimeForm
                                 'downtime_reason_id' => $get('downtime_reason_id'),
                             ],
                             exceptId: $record?->id,
-                        )
+                        ),
                     ]),
                 TextInput::make('total_time')
                     ->required()

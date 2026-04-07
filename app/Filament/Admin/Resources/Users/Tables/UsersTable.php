@@ -82,8 +82,7 @@ class UsersTable
                         } elseif ($value === false) {
                             $query->whereNull('employee_id');
                         }
-                    })
-                    ,
+                    }),
                 TernaryFilter::make('email_verified_at')
                     ->label('Email Verified')
                     ->trueLabel('Verified')
