@@ -16,6 +16,7 @@ test('clients model interacts with db table', function (): void {
 
     $this->assertDatabaseHas('clients', $data->only([
         'name', 'person_of_contact', 'phone', 'email', 'website', 'description',
+        'invoice_template', 'date_field_name', 'project_field_name',
     ]));
 });
 

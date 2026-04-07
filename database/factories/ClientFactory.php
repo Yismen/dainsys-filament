@@ -31,6 +31,9 @@ class ClientFactory extends Factory
             'email' => $this->faker->email(),
             'website' => $this->faker->url(),
             'description' => $this->faker->text(),
+            'invoice_template' => $this->faker->word,
+            'date_field_name' => $this->faker->word,
+            'project_field_name' => $this->faker->word,
         ];
     }
 }
