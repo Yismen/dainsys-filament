@@ -10,6 +10,7 @@ use App\Models\Traits\HasManyProductions;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Campaign extends AppModel
@@ -20,6 +21,16 @@ class Campaign extends AppModel
     use SoftDeletes;
 
     protected $fillable = ['name', 'project_id', 'source_id', 'invoice_agent_id', 'revenue_type', 'sph_goal', 'revenue_rate', 'description'];
+
+    public function invoices(): HasMany
+    {
+        return $this->hasMany(Invoice::class);
+    }
+
+    public function items(): HasMany
+    {
+        return $this->hasMany(Item::class);
+    }
 
     #[Scope]
     protected function isDowntime(Builder $builder)

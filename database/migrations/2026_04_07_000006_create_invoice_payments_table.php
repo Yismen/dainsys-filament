@@ -17,6 +17,7 @@ return new class extends Migration
             $table->json('images')->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

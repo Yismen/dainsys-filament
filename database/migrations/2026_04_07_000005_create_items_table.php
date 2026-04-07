@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('sku')->nullable();
             $table->string('barcode')->nullable();
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign('campaign_id')->references('id')->on('campaigns')->onDelete('cascade');
         });
     }
