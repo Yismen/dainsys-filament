@@ -29,6 +29,8 @@ class ProjectFactory extends Factory
             'name' => $this->faker->company(),
             'client_id' => Client::factory(),
             'description' => $this->faker->text(),
+            'address' => $this->faker->address(),
+            'invoice_net_days' => $this->faker->numberBetween(1, 90),
         ];
     }
 }

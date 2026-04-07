@@ -22,7 +22,7 @@ test('projects model interacts with db table', function (): void {
     Project::create($data->toArray());
 
     $this->assertDatabaseHas('projects', $data->only([
-        'name', 'client_id', 'description',
+        'name', 'client_id', 'description', 'address', 'invoice_net_days',
     ]));
 });
 
