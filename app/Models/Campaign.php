@@ -9,6 +9,7 @@ use App\Models\Traits\BelongsToSource;
 use App\Models\Traits\HasManyProductions;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Campaign extends AppModel
@@ -18,7 +19,7 @@ class Campaign extends AppModel
     use HasManyProductions;
     use SoftDeletes;
 
-    protected $fillable = ['name', 'project_id', 'source_id', 'revenue_type', 'sph_goal', 'revenue_rate', 'description'];
+    protected $fillable = ['name', 'project_id', 'source_id', 'invoice_agent_id', 'revenue_type', 'sph_goal', 'revenue_rate', 'description'];
 
     #[Scope]
     protected function isDowntime(Builder $builder)
@@ -33,5 +34,10 @@ class Campaign extends AppModel
             // 'source' => CampaignSources::class,
             'revenue_type' => RevenueTypes::class,
         ];
+    }
+
+    public function invoiceAgent(): BelongsTo
+    {
+        return $this->belongsTo(InvoiceAgent::class);
     }
 }

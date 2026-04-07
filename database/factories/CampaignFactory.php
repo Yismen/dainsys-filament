@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Enums\RevenueTypes;
 use App\Models\Campaign;
+use App\Models\InvoiceAgent;
 use App\Models\Project;
 use App\Models\Source;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -23,6 +24,7 @@ class CampaignFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'project_id' => Project::factory(),
+            'invoice_agent_id' => InvoiceAgent::factory(),
             'source_id' => Source::factory(),
             'revenue_type' => RevenueTypes::LoginTime,
             'sph_goal' => rand(3, 40),
