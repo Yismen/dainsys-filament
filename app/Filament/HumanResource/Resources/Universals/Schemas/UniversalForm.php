@@ -16,7 +16,7 @@ class UniversalForm
             ->components([
                 Select::make('employee_id')
                     ->options(ModelListService::get(
-                        model: Employee::query()->active(),
+                        model: Employee::query(),
                         value_field: 'full_name'
                     ))
                     ->searchable()

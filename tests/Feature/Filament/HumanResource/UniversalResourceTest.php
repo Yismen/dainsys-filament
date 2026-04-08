@@ -32,21 +32,21 @@ beforeEach(function (): void {
             'params' => [],
             'permission' => ['view-any'],
         ],
-        'create' => [
-            'route' => CreateUniversal::getRouteName(),
-            'params' => [],
-            'permission' => ['create', 'view-any'],
-        ],
-        'edit' => [
-            'route' => EditUniversal::getRouteName(),
-            'params' => ['record' => $universal->getKey()],
-            'permission' => ['update', 'edit', 'view-any'],
-        ],
-        'view' => [
-            'route' => ViewUniversal::getRouteName(),
-            'params' => ['record' => $universal->getKey()],
-            'permission' => ['view', 'view-any'],
-        ],
+        // 'create' => [
+        //     'route' => CreateUniversal::getRouteName(),
+        //     'params' => [],
+        //     'permission' => ['create', 'view-any'],
+        // ],
+        // 'edit' => [
+        //     'route' => EditUniversal::getRouteName(),
+        //     'params' => ['record' => $universal->getKey()],
+        //     'permission' => ['update', 'edit', 'view-any'],
+        // ],
+        // 'view' => [
+        //     'route' => ViewUniversal::getRouteName(),
+        //     'params' => ['record' => $universal->getKey()],
+        //     'permission' => ['view', 'view-any'],
+        // ],
     ];
 });
 
@@ -57,9 +57,9 @@ it('require users to be authenticated to access Universal resource pages', funct
     $response->assertRedirect(route('filament.human-resource.auth.login'));
 })->with([
     'index',
-    'create',
-    'edit',
-    'view',
+    // 'create',
+    // 'edit',
+    // 'view',
 ]);
 
 it('require users to have correct permissions to access Universal resource pages', function (string $method): void {
@@ -70,9 +70,9 @@ it('require users to have correct permissions to access Universal resource pages
     $response->assertForbidden();
 })->with([
     'index',
-    'create',
-    'edit',
-    'view',
+    // 'create',
+    // 'edit',
+    // 'view',
 ]);
 
 it('allows super admin users to access Universal resource pages', function (string $method): void {
@@ -84,9 +84,9 @@ it('allows super admin users to access Universal resource pages', function (stri
     $response->assertOk();
 })->with([
     'index',
-    'create',
-    'edit',
-    'view',
+    // 'create',
+    // 'edit',
+    // 'view',
 ]);
 
 it('allow users with correct permissions to access Universal resource pages', function (string $method): void {
@@ -98,9 +98,9 @@ it('allow users with correct permissions to access Universal resource pages', fu
     $response->assertOk();
 })->with([
     'index',
-    'create',
-    'edit',
-    'view',
+    // 'create',
+    // 'edit',
+    // 'view',
 ]);
 
 it('displays Universal list page correctly', function (): void {
@@ -112,42 +112,7 @@ it('displays Universal list page correctly', function (): void {
         ->assertCanSeeTableRecords($universals);
 });
 
-test('create Universal page works correctly', function (): void {
-    actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Universal'));
 
-    $date_since = now()->format('Y-m-d');
-    livewire(CreateUniversal::class)
-        ->fillForm([
-            'date_since' => $date_since,
-            'employee_id' => Employee::factory()->create()->id,
-        ])
-        ->call('create');
-
-    $this->assertDatabaseHas('universals', [
-        'date_since' => $date_since,
-    ]);
-});
-
-test('edit Universal page works correctly', function (): void {
-    $employee = Employee::factory()->create();
-    Hire::factory()->for($employee)->create();
-    $universal = Universal::factory()->for($employee)->create();
-
-    actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Universal'));
-
-    $newDate = now()->subDay(3)->format('Y-m-d');
-    livewire(EditUniversal::class, ['record' => $universal->getKey()])
-        ->fillForm([
-            'date_since' => $newDate,
-        ])
-        ->call('save')
-        ->assertHasNoErrors();
-
-    $this->assertDatabaseHas('universals', [
-        'id' => $universal->id,
-        'date_since' => $newDate,
-    ]);
-});
 
 test('form validation require fields on create and edit pages', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Universal'));

@@ -57,9 +57,9 @@ class UniversalResource extends Resource
     {
         return [
             'index' => ListUniversals::route('/'),
-            'create' => CreateUniversal::route('/create'),
-            'view' => ViewUniversal::route('/{record}'),
-            'edit' => EditUniversal::route('/{record}/edit'),
+            // 'create' => CreateUniversal::route('/create'),
+            // 'view' => ViewUniversal::route('/{record}'),
+            // 'edit' => EditUniversal::route('/{record}/edit'),
         ];
     }
 

@@ -14,7 +14,7 @@ class UniversalInfolist
             ->components([
                 TextEntry::make('id')
                     ->label('ID'),
-                TextEntry::make('employee.id')
+                TextEntry::make('employee.full_name')
                     ->label('Employee'),
                 TextEntry::make('date_since')
                     ->date(),
