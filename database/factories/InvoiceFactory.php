@@ -23,7 +23,9 @@ class InvoiceFactory extends Factory
             'project_id' => Project::factory(),
             'agent_id' => InvoiceAgent::factory(),
             'campaign_id' => Campaign::factory(),
-            'items' => [],
+            'items' => [
+                ['name' => 'Test Item', 'price' => 10.0],
+            ],
             'subtotal_amount' => $this->faker->randomFloat(2, 50, 1000),
             'tax_amount' => $this->faker->randomFloat(2, 5, 200),
             'total_amount' => $this->faker->randomFloat(2, 60, 1300),
