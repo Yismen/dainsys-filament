@@ -3,11 +3,14 @@
 use App\Enums\Genders;
 use App\Enums\PersonalIdTypes;
 use App\Filament\HumanResource\Resources\Employees\Pages\CreateEmployee;
-use App\Filament\HumanResource\Resources\Employees\Pages\EditEmployee;
 use App\Filament\HumanResource\Resources\Employees\Pages\ListEmployees;
 use App\Filament\HumanResource\Resources\Employees\Pages\ViewEmployee;
 use App\Models\Citizenship;
 use App\Models\Employee;
+use App\Models\Position;
+use App\Models\Project;
+use App\Models\Site;
+use App\Models\Supervisor;
 use App\Models\User;
 use Filament\Facades\Filament;
 
@@ -124,4 +127,23 @@ it('displays Employee list page correctly', function (): void {
 
     livewire(ListEmployees::class)
         ->assertCanSeeTableRecords($employees);
+});
+
+it('loads human resource employee edit action modal when position details are null', function (): void {
+    $position = Position::factory()->create();
+    $position->forceFill(['details' => null])->saveQuietly();
+
+    $employee = Employee::factory()->create([
+        'site_id' => Site::factory(),
+        'project_id' => Project::factory(),
+        'position_id' => $position->id,
+        'supervisor_id' => Supervisor::factory(),
+        'hired_at' => now(),
+    ]);
+
+    actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Employee'));
+
+    livewire(ListEmployees::class)
+        ->mountTableAction('edit', $employee->getKey())
+        ->assertOk();
 });

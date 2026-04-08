@@ -2,6 +2,7 @@
 
 use App\Models\User;
 use App\Services\ModelListService;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Support\Facades\Cache;
 
 it('returns correct results', function (): void {
@@ -23,7 +24,7 @@ it('store the correct key in the cache system and return the correct values for 
     $result = $reflectionMethod->invoke(null, User::query());
 
     $key = \implode('_', [
-        'model_list',
+        'model_list_v2',
         str(User::query()->select('name', 'id')->orderBy('name')->toRawSql())->snake(),
     ]);
 
@@ -32,4 +33,20 @@ it('store the correct key in the cache system and return the correct values for 
 
     expect(Cache::get($key))
         ->tobe(User::query()->orderBy('name')->pluck('name', 'id')->toArray());
+});
+
+it('normalizes null and scalar labels returned by pluck', function (): void {
+    $records = new EloquentCollection([
+        (new User)->forceFill(['id' => 1, 'name' => null]),
+        (new User)->forceFill(['id' => 2, 'name' => 100]),
+        (new User)->forceFill(['id' => 3, 'name' => 'Alice']),
+    ]);
+
+    $result = ModelListService::get($records);
+
+    expect($result)->toBe([
+        1 => '1',
+        2 => '100',
+        3 => 'Alice',
+    ]);
 });

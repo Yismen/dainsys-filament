@@ -8,6 +8,10 @@ use App\Filament\Workforce\Resources\Employees\Pages\ListEmployees;
 use App\Filament\Workforce\Resources\Employees\Pages\ViewEmployee;
 use App\Models\Citizenship;
 use App\Models\Employee;
+use App\Models\Position;
+use App\Models\Project;
+use App\Models\Site;
+use App\Models\Supervisor;
 use App\Models\User;
 use Filament\Facades\Filament;
 
@@ -147,6 +151,43 @@ test('edit Employee page works correctly', function (): void {
 
     $this->form_data['id'] = $employee->id;
     $this->assertDatabaseHas('employees', $this->form_data);
+});
+
+it('loads workforce employee edit page when position details are null', function (): void {
+    $position = Position::factory()->create();
+    $position->forceFill(['details' => null])->saveQuietly();
+
+    $employee = Employee::factory()->create([
+        'site_id' => Site::factory(),
+        'project_id' => Project::factory(),
+        'position_id' => $position->id,
+        'supervisor_id' => Supervisor::factory(),
+        'hired_at' => now(),
+    ]);
+
+    actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Employee'));
+
+    livewire(EditEmployee::class, ['record' => $employee->getKey()])
+        ->assertOk();
+});
+
+it('loads workforce employee edit action modal when position details are null', function (): void {
+    $position = Position::factory()->create();
+    $position->forceFill(['details' => null])->saveQuietly();
+
+    $employee = Employee::factory()->create([
+        'site_id' => Site::factory(),
+        'project_id' => Project::factory(),
+        'position_id' => $position->id,
+        'supervisor_id' => Supervisor::factory(),
+        'hired_at' => now(),
+    ]);
+
+    actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Employee'));
+
+    livewire(ListEmployees::class)
+        ->mountTableAction('edit', $employee->getKey())
+        ->assertOk();
 });
 
 test('form validation require fields on create and edit pages', function (): void {

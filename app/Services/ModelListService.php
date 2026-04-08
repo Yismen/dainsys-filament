@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Cache;
@@ -43,8 +44,26 @@ class ModelListService
 
         return Cache::rememberForever(
             self::getCacheKey($query),
-            fn () => $query
-                ->pluck(self::$instance->value_field, self::$instance->key_field)
+            fn () => collect(
+                $query
+                    ->pluck(self::$instance->value_field, self::$instance->key_field)
+                    ->toArray()
+            )
+                ->mapWithKeys(function (mixed $label, mixed $key): array {
+                    if ($label === null || $label === '') {
+                        return [$key => (string) $key];
+                    }
+
+                    if (! ($label instanceof Htmlable) && ! is_string($label) && is_scalar($label)) {
+                        return [$key => (string) $label];
+                    }
+
+                    if (! ($label instanceof Htmlable) && ! is_string($label)) {
+                        return [$key => (string) $key];
+                    }
+
+                    return [$key => $label];
+                })
                 ->toArray()
         );
     }
@@ -77,7 +96,7 @@ class ModelListService
             $query->toQuery()->toRawSql();
 
         $key = implode('_', [
-            'model_list',
+            'model_list_v2',
             str($key)->snake(),
         ]);
 
