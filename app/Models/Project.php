@@ -20,7 +20,15 @@ class Project extends AppModel
     use HasManyHires;
     use SoftDeletes;
 
-    protected $fillable = ['name', 'client_id', 'manager_id', 'description', 'address', 'invoice_net_days'];
+    protected $fillable = [
+        'name',
+        'client_id',
+        'manager_id',
+        'description',
+        'address',
+        'invoice_net_days',
+        'invoice_notes',
+    ];
 
     public function invoiceAgents(): HasMany
     {

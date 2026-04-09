@@ -11,13 +11,14 @@ return new class extends Migration
         Schema::table('projects', function (Blueprint $table) {
             $table->string('address', 255)->nullable();
             $table->unsignedInteger('invoice_net_days')->nullable();
+            $table->text('invoice_notes')->nullable()->after('invoice_net_days');
         });
     }
 
     public function down(): void
     {
         Schema::table('projects', function (Blueprint $table) {
-            $table->dropColumn(['address', 'invoice_net_days']);
+            $table->dropColumn(['address', 'invoice_net_days', 'invoice_notes']);
         });
     }
 };
