@@ -22,6 +22,11 @@ class InvoicePayment extends AppModel
         'description',
     ];
 
+    protected $casts = [
+        'date' => 'date',
+        'images' => 'array',
+    ];
+
     public function invoice(): BelongsTo
     {
         return $this->belongsTo(Invoice::class);
@@ -42,22 +47,24 @@ class InvoicePayment extends AppModel
             if ($newAmount > $maxAllowed) {
                 throw new InvoiceOverpaymentException('Payment amount exceeds invoice balance pending.');
             }
-            $delta = $newAmount - $originalAmount;
-            $invoice->balance_pending = max(0.0, $currentBalance - $delta);
+        });
+        static::saved(function (InvoicePayment $payment) {
+            $invoice = $payment->invoice;
+            if (! $invoice) {
+                return;
+            }
 
             $invoice->save();
         });
         static::deleted(function (InvoicePayment $payment) {
             $invoice = $payment->invoice;
             if ($invoice) {
-                $invoice->balance_pending = (float) ($invoice->balance_pending ?? 0) + (float) $payment->amount;
                 $invoice->save();
             }
         });
         static::restored(function (InvoicePayment $payment) {
             $invoice = $payment->invoice;
             if ($invoice) {
-                $invoice->balance_pending = max(0.0, (float) $invoice->balance_pending - (float) $payment->amount);
                 $invoice->save();
             }
         });

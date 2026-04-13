@@ -26,11 +26,6 @@ beforeEach(function (): void {
         'campaign_id' => Campaign::factory()->create()->id,
         'price' => 49.99,
         'description' => 'Invoicing item description',
-        'image' => 'https://example.com/item.png',
-        'category' => 'Hardware',
-        'brand' => 'Acme',
-        'sku' => 'SKU-123',
-        'barcode' => '1234567890123',
     ];
 });
 

@@ -26,8 +26,19 @@ beforeEach(function (): void {
         'client_id' => Client::factory()->create()->id,
         'manager_id' => null,
         'address' => 'Santo Domingo',
+        'invoice_notes' => 'Default invoice notes',
         'invoice_net_days' => 30,
         'description' => 'Project for invoicing panel tests',
+    ];
+
+    $this->persisted_form_data = [
+        'name' => $this->form_data['name'],
+        'client_id' => $this->form_data['client_id'],
+        'manager_id' => $this->form_data['manager_id'],
+        'address' => '<p>'.$this->form_data['address'].'</p>',
+        'invoice_notes' => '<p>'.$this->form_data['invoice_notes'].'</p>',
+        'invoice_net_days' => $this->form_data['invoice_net_days'],
+        'description' => $this->form_data['description'],
     ];
 });
 
@@ -77,7 +88,7 @@ test('creates Project from modal action', function (): void {
         ->callTableAction('create', data: $this->form_data)
         ->assertHasNoTableActionErrors();
 
-    $this->assertDatabaseHas('projects', $this->form_data);
+    $this->assertDatabaseHas('projects', $this->persisted_form_data);
 });
 
 test('edits Project from modal action', function (): void {
@@ -89,7 +100,7 @@ test('edits Project from modal action', function (): void {
         ->callTableAction('edit', $project->getKey(), $this->form_data)
         ->assertHasNoTableActionErrors();
 
-    $this->assertDatabaseHas('projects', array_merge(['id' => $project->id], $this->form_data));
+    $this->assertDatabaseHas('projects', array_merge(['id' => $project->id], $this->persisted_form_data));
 });
 
 test('form validation requires fields on create and edit modal actions', function (): void {
@@ -127,6 +138,9 @@ test('Project name must be unique on create and edit modal actions', function ()
         ->callTableAction('create', data: [
             'name' => 'Unique Project',
             'client_id' => Client::factory()->create()->id,
+            'address' => 'Santo Domingo',
+            'invoice_notes' => 'Unique project invoice notes',
+            'invoice_net_days' => 30,
         ])
         ->assertHasTableActionErrors(['name' => 'unique']);
 
@@ -136,6 +150,9 @@ test('Project name must be unique on create and edit modal actions', function ()
         ->callTableAction('edit', $projectToEdit->getKey(), [
             'name' => 'Unique Project',
             'client_id' => Client::factory()->create()->id,
+            'address' => 'Santo Domingo',
+            'invoice_notes' => 'Unique project invoice notes',
+            'invoice_net_days' => 30,
         ])
         ->assertHasTableActionErrors(['name' => 'unique']);
 });

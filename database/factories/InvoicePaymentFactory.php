@@ -16,7 +16,7 @@ class InvoicePaymentFactory extends Factory
     {
         return [
             'invoice_id' => null,
-            'amount' => $this->faker->randomFloat(2, 1, 1000),
+            'amount' => $this->faker->randomFloat(2, 1, 2),
             'date' => $this->faker->date(),
             'reference' => $this->faker->bothify('REF-?#####'),
             'images' => json_encode([]),

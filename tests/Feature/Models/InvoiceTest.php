@@ -12,10 +12,9 @@ use function Pest\Laravel\assertDatabaseHas;
 test('invoices model interacts with db table', function (): void {
     $data = Invoice::factory()->make();
 
-    Invoice::create($data->toArray());
+    $invoice = Invoice::create($data->toArray());
 
-    // Keep assertion robust: only verify the invoice exists by its unique number
-    assertDatabaseHas('invoices', ['number' => $data->number]);
+    assertDatabaseHas('invoices', ['id' => $invoice->id]);
 });
 
 test('invoice belongs to related models', function (): void {

@@ -12,7 +12,7 @@ test('items model interacts with db table', function (): void {
     Item::create($data->toArray());
 
     $this->assertDatabaseHas('items', $data->only([
-        'name', 'campaign_id', 'price', 'description', 'image', 'category', 'brand', 'sku', 'barcode',
+        'name', 'campaign_id', 'price', 'description',
     ]));
 });
 

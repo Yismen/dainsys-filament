@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\InvoiceStatuses;
 use App\Models\Campaign;
 use App\Models\Invoice;
 use App\Models\InvoiceAgent;
@@ -31,7 +32,13 @@ class InvoiceFactory extends Factory
             'total_amount' => $this->faker->randomFloat(2, 60, 1300),
             'total_paid' => $this->faker->randomFloat(2, 0, 1300),
             'balance_pending' => $this->faker->randomFloat(2, 0, 800),
-            'status' => $this->faker->randomElement(['draft', 'sent', 'paid']),
+            'status' => $this->faker->randomElement([
+                InvoiceStatuses::Pending->value,
+                InvoiceStatuses::PartiallyPaid->value,
+                InvoiceStatuses::Paid->value,
+                InvoiceStatuses::Overdue->value,
+                InvoiceStatuses::Cancelled->value,
+            ]),
             'due_date' => $this->faker->date(),
         ];
     }

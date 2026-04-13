@@ -32,6 +32,9 @@ class Invoice extends AppModel
 
     protected $casts = [
         'items' => 'array',
+        'date' => 'date',
+        'due_date' => 'date',
+        'status' => InvoiceStatuses::class,
     ];
 
     public function project(): BelongsTo
@@ -68,7 +71,8 @@ class Invoice extends AppModel
             if (is_array($invoice->items)) {
                 foreach ($invoice->items as $it) {
                     if (is_array($it) && isset($it['price'])) {
-                        $subtotal += (float) $it['price'];
+                        $quantity = max((int) ($it['quantity'] ?? 1), 1);
+                        $subtotal += (float) $it['price'] * $quantity;
                     }
                 }
             }
@@ -77,9 +81,9 @@ class Invoice extends AppModel
             }
             $invoice->subtotal_amount = $subtotal;
 
-            // Tax and total
-            $tax = (float) ($invoice->tax_amount ?? 0.0);
-            $invoice->total_amount = max(0.0, $invoice->subtotal_amount + $tax);
+            // Tax is not used for now.
+            $invoice->tax_amount = 0;
+            $invoice->total_amount = max(0.0, $invoice->subtotal_amount);
 
             // Total paid (sum of payments)
             $totalPaid = 0.0;
@@ -93,11 +97,10 @@ class Invoice extends AppModel
             // Balance pending
             $invoice->balance_pending = max(0.0, $invoice->total_amount - $invoice->total_paid);
 
-            // Due date: if missing and there is a total amount, default to 30 days after invoice date
-            if (! $invoice->due_date && $invoice->total_amount > 0) {
-                $date = $invoice->date ? Carbon::parse((string) $invoice->date) : Carbon::now();
-                $invoice->due_date = (clone $date)->addDays(30);
-            }
+            // Always derive due date from invoice date + project invoice_net_days.
+            $invoiceDate = $invoice->date ? Carbon::parse((string) $invoice->date) : Carbon::now();
+            $netDays = (int) ($invoice->project?->invoice_net_days ?? 0);
+            $invoice->due_date = (clone $invoiceDate)->addDays(max($netDays, 0));
 
             // Prevent creating an invoice with zero subtotal
             if (! $invoice->exists && $invoice->subtotal_amount <= 0) {

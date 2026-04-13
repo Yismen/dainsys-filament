@@ -3,7 +3,9 @@
 use App\Filament\Invoicing\Resources\Clients\Pages\ManageClients;
 use App\Models\Client;
 use App\Models\User;
+use App\Services\InvoiceTemplatesService;
 use Filament\Facades\Filament;
+use Illuminate\Support\Facades\Cache;
 
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
@@ -11,6 +13,10 @@ use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
     Filament::setCurrentPanel(Filament::getPanel('invoicing'));
+
+    Cache::forget('invoice_template_services');
+    $invoiceTemplateOptions = InvoiceTemplatesService::make();
+    $invoiceTemplate = array_key_first($invoiceTemplateOptions);
 
     $this->resource_routes = [
         'index' => [
@@ -27,9 +33,16 @@ beforeEach(function (): void {
         'email' => 'billing@acme.test',
         'website' => 'https://acme.test',
         'description' => 'Client for invoicing panel tests.',
-        'invoice_template' => 'default',
+        'invoice_template' => $invoiceTemplate,
         'date_field_name' => 'invoice_date',
         'project_field_name' => 'project_code',
+    ];
+
+    $this->persisted_form_data = [
+        'name' => $this->form_data['name'],
+        'invoice_template' => $this->form_data['invoice_template'],
+        'date_field_name' => $this->form_data['date_field_name'],
+        'project_field_name' => $this->form_data['project_field_name'],
     ];
 });
 
@@ -87,7 +100,7 @@ test('creates Client from modal action', function (): void {
         ->callTableAction('create', data: $this->form_data)
         ->assertHasNoTableActionErrors();
 
-    $this->assertDatabaseHas('clients', $this->form_data);
+    $this->assertDatabaseHas('clients', $this->persisted_form_data);
 });
 
 test('edits Client from modal action', function (): void {
@@ -99,7 +112,7 @@ test('edits Client from modal action', function (): void {
         ->callTableAction('edit', $client->getKey(), $this->form_data)
         ->assertHasNoTableActionErrors();
 
-    $this->assertDatabaseHas('clients', array_merge(['id' => $client->id], $this->form_data));
+    $this->assertDatabaseHas('clients', array_merge(['id' => $client->id], $this->persisted_form_data));
 });
 
 test('form validation requires name on create and edit modal actions', function (): void {

@@ -4,11 +4,9 @@ namespace App\Filament\Invoicing\Resources\Items\Schemas;
 
 use App\Models\Campaign;
 use App\Services\ModelListService;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
 class ItemForm
@@ -37,28 +35,6 @@ class ItemForm
                 Textarea::make('description')
                     ->label(__('Description'))
                     ->columnSpanFull(),
-                Section::make('Additional information')
-                    ->columnSpanFull()
-                    ->columns(3)
-                    ->collapsed()
-                    ->schema([
-                        FileUpload::make('image')
-                            ->label(__('Image URL'))
-                            ->image()
-                            ->placeholder('https://example.com/image.jpg'),
-                        TextInput::make('category')
-                            ->label(__('Category'))
-                            ->placeholder(__('e.g., Electronics, Clothing, etc.')),
-                        TextInput::make('brand')
-                            ->label(__('Brand'))
-                            ->placeholder(__('e.g., Apple, Nike, etc.')),
-                        TextInput::make('sku')
-                            ->label(__('SKU'))
-                            ->placeholder(__('Stock Keeping Unit')),
-                        TextInput::make('barcode')
-                            ->label(__('Barcode'))
-                            ->placeholder(__('e.g., UPC, EAN, etc.')),
-                    ]),
             ]);
     }
 }
