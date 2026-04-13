@@ -62,6 +62,11 @@ class Invoice extends AppModel
         return $this->hasMany(Item::class);
     }
 
+    public function cancellations(): HasMany
+    {
+        return $this->hasMany(InvoiceCancellation::class);
+    }
+
     protected static function booted(): void
     {
         parent::booted();
@@ -158,7 +163,10 @@ class Invoice extends AppModel
     public function determineStatus(): InvoiceStatuses
     {
         // If explicitly cancelled via status field, respect it
-        if (isset($this->status) && $this->status === InvoiceStatuses::Cancelled->value) {
+        if (isset($this->status) && (
+            $this->status === InvoiceStatuses::Cancelled
+            || $this->status === InvoiceStatuses::Cancelled->value
+        )) {
             return InvoiceStatuses::Cancelled;
         }
 
