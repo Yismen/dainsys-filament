@@ -74,66 +74,6 @@ class InvoiceForm
                     })
                     ->disabled(fn (Get $get): bool => blank($get('agent_id')))
                     ->placeholder(__('Unassigned')),
-                Grid::make(4)
-                    ->schema([
-                        TextEntry::make('general_client')
-                            ->label(__('Client'))
-                            ->state(function (Get $get, ?Invoice $record): string {
-                                $projectId = $get('project_id') ?: $record?->project_id;
-
-                                if (! $projectId) {
-                                    return '-';
-                                }
-
-                                return Project::query()->find($projectId)?->client?->name ?? '-';
-                            }),
-                        TextEntry::make('general_invoice_number')
-                            ->label(__('Invoice number'))
-                            ->state(fn (?Invoice $record): string => $record?->number ?? __('Auto-generated on save')),
-                        TextEntry::make('general_subtotal')
-                            ->label(__('Subtotal'))
-                            ->state(function (Get $get, ?Invoice $record): string {
-                                $items = $get('items');
-
-                                if (! is_array($items)) {
-                                    return number_format((float) ($record?->subtotal_amount ?? 0), 2, '.', '');
-                                }
-
-                                $subtotal = 0.0;
-                                foreach ($items as $item) {
-                                    if (! is_array($item) || ! isset($item['price'])) {
-                                        continue;
-                                    }
-
-                                    $quantity = max((int) ($item['quantity'] ?? 1), 1);
-                                    $subtotal += (float) $item['price'] * $quantity;
-                                }
-
-                                return number_format($subtotal, 2, '.', '');
-                            }),
-                        TextEntry::make('general_total')
-                            ->label(__('Total'))
-                            ->state(function (Get $get, ?Invoice $record): string {
-                                $items = $get('items');
-                                $subtotal = 0.0;
-
-                                if (is_array($items)) {
-                                    foreach ($items as $item) {
-                                        if (! is_array($item) || ! isset($item['price'])) {
-                                            continue;
-                                        }
-
-                                        $quantity = max((int) ($item['quantity'] ?? 1), 1);
-                                        $subtotal += (float) $item['price'] * $quantity;
-                                    }
-                                } else {
-                                    $subtotal = (float) ($record?->subtotal_amount ?? 0);
-                                }
-
-                                return number_format($subtotal, 2, '.', '');
-                            }),
-                    ])
-                    ->columnSpanFull(),
                 Repeater::make('items')
                     ->label(__('Items'))
                     ->defaultItems(1)
@@ -212,6 +152,66 @@ class InvoiceForm
                             ->dehydrated()
                             ->required(),
                     ]),
+                Grid::make(4)
+                    ->schema([
+                        TextEntry::make('general_client')
+                            ->label(__('Client'))
+                            ->state(function (Get $get, ?Invoice $record): string {
+                                $projectId = $get('project_id') ?: $record?->project_id;
+
+                                if (! $projectId) {
+                                    return '-';
+                                }
+
+                                return Project::query()->find($projectId)?->client?->name ?? '-';
+                            }),
+                        TextEntry::make('general_invoice_number')
+                            ->label(__('Invoice number'))
+                            ->state(fn (?Invoice $record): string => $record?->number ?? __('Auto-generated on save')),
+                        TextEntry::make('general_subtotal')
+                            ->label(__('Subtotal'))
+                            ->state(function (Get $get, ?Invoice $record): string {
+                                $items = $get('items');
+
+                                if (! is_array($items)) {
+                                    return number_format((float) ($record?->subtotal_amount ?? 0), 2, '.', '');
+                                }
+
+                                $subtotal = 0.0;
+                                foreach ($items as $item) {
+                                    if (! is_array($item) || ! isset($item['price'])) {
+                                        continue;
+                                    }
+
+                                    $quantity = max((int) ($item['quantity'] ?? 1), 1);
+                                    $subtotal += (float) $item['price'] * $quantity;
+                                }
+
+                                return number_format($subtotal, 2, '.', '');
+                            }),
+                        TextEntry::make('general_total')
+                            ->label(__('Total'))
+                            ->state(function (Get $get, ?Invoice $record): string {
+                                $items = $get('items');
+                                $subtotal = 0.0;
+
+                                if (is_array($items)) {
+                                    foreach ($items as $item) {
+                                        if (! is_array($item) || ! isset($item['price'])) {
+                                            continue;
+                                        }
+
+                                        $quantity = max((int) ($item['quantity'] ?? 1), 1);
+                                        $subtotal += (float) $item['price'] * $quantity;
+                                    }
+                                } else {
+                                    $subtotal = (float) ($record?->subtotal_amount ?? 0);
+                                }
+
+                                return number_format($subtotal, 2, '.', '');
+                            }),
+                    ])
+                    ->columnSpanFull(),
             ]);
     }
 }

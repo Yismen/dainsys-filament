@@ -23,10 +23,13 @@ class InvoiceCancellationForm
                     ->label(__('Invoice'))
                     ->options(ModelListService::make(Invoice::query()->where('total_paid', 0), 'id', 'number'))
                     ->required()
-                    ->searchable(),
+                    ->searchable()
+                    ->live(),
                 DatePicker::make('date')
                     ->label(__('Cancellation date'))
+                    ->default(now())
                     ->minDate(static fn (Get $get): ?string => Invoice::query()->whereKey($get('invoice_id'))->value('date'))
+                    ->maxDate(now())
                     ->rule(static function (Get $get): Closure {
                         return static function (string $attribute, mixed $value, Closure $fail) use ($get): void {
                             if (blank($value)) {

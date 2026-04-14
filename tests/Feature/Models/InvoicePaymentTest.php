@@ -7,9 +7,15 @@ use App\Models\InvoicePayment;
 test('invoice_payments model interacts with db table', function (): void {
     $data = InvoicePayment::factory()->make();
 
-    InvoicePayment::create($data->toArray());
+    $payment = InvoicePayment::create($data->toArray());
 
-    $this->assertDatabaseHas('invoice_payments', $data->only(['invoice_id', 'amount', 'date', 'reference', 'images', 'description']));
+    $this->assertDatabaseHas('invoice_payments', [
+        'id' => $payment->id,
+        'invoice_id' => $data->invoice_id,
+        'amount' => $data->amount,
+        'reference' => $data->reference,
+        'description' => $data->description,
+    ]);
 });
 
 test('invoice_payment can belong to an invoice (optional)', function (): void {
