@@ -122,15 +122,15 @@ class Invoice extends AppModel
             $projectPrefix = self::nameToPrefix($projectName);
             $prefix = 'ECC-'.$clientPrefix.'-'.$projectPrefix;
 
-            $latest = self::where('number', 'like', $prefix.'-%')->orderByDesc('number')->first();
-            if ($latest) {
-                $parts = explode('-', $latest->number);
-                $suffix = end($parts);
-                $seq = is_numeric($suffix) ? ((int) $suffix + 1) : 1;
-            } else {
-                $seq = 1;
+            $seq = self::where('project_id', $invoice->project_id)->count() + 1;
+            $candidate = $prefix.'-'.str_pad((string) $seq, 4, '0', STR_PAD_LEFT);
+
+            while (self::where('number', $candidate)->exists()) {
+                $seq++;
+                $candidate = $prefix.'-'.str_pad((string) $seq, 4, '0', STR_PAD_LEFT);
             }
-            $invoice->number = $prefix.'-'.str_pad((string) $seq, 4, '0', STR_PAD_LEFT);
+
+            $invoice->number = $candidate;
         });
     }
 

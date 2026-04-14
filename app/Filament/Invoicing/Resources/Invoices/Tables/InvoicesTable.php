@@ -198,6 +198,7 @@ class InvoicesTable
                 // PayBulkInvoicesAction::make(),
                 // DownloadBulInvoicesAction::make(),
             ])
+            ->filtersFormColumns(2)
             ->filters([
                 SelectFilter::make('status')
                     ->label(__('Status'))
