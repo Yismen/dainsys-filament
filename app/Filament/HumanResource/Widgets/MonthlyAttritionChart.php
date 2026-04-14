@@ -3,12 +3,14 @@
 namespace App\Filament\HumanResource\Widgets;
 
 use App\Models\Employee;
+use App\Traits\Filament\HasColors;
 use Filament\Widgets\ChartWidget;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Illuminate\Support\Carbon;
 
 class MonthlyAttritionChart extends ChartWidget
 {
+    use HasColors;
     use InteractsWithPageFilters;
 
     protected ?string $heading = 'Monthly Attrition';
@@ -65,25 +67,19 @@ class MonthlyAttritionChart extends ChartWidget
 
         return [
             'datasets' => [
-                [
-                    'label' => 'Attrition Rate (%)',
-                    'data' => $data->pluck('rate')->toArray(),
-                    'borderColor' => 'rgba(165,0,165,0.7)', // purple
+                $this->makeLineChartDataset('Attrition Rate (%)', $data->pluck('rate')->toArray(), 'rgba(165,0,165,0.7)', [
                     'backgroundColor' => 'rgba(165,0,165,0.03)',
                     'borderDash' => [5, 5],
                     'fill' => false,
                     'tension' => 0.3,
                     'yAxisID' => 'y1',
-                ],
-                [
-                    'label' => 'Headcount',
-                    'data' => $data->pluck('head_count')->toArray(),
-                    'borderColor' => 'rgba(34,197,94,0.7)',
+                ]),
+                $this->makeLineChartDataset('Headcount', $data->pluck('head_count')->toArray(), 'rgba(34,197,94,0.7)', [
                     'backgroundColor' => 'rgba(34,197,94,0.03)',
                     'fill' => true,
                     'tension' => 0.3,
                     'yAxisID' => 'y',
-                ],
+                ]),
             ],
             'labels' => $months->map(fn ($month) => Carbon::createFromFormat('Y-m', $month)->format('M Y'))->toArray(),
         ];

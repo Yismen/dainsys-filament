@@ -5,6 +5,7 @@ namespace App\Filament\ProjectExecutive\Widgets;
 use App\Filament\ProjectExecutive\Widgets\Concerns\InteractsWithProjectFilter;
 use App\Models\Production;
 use App\Models\Project;
+use App\Traits\Filament\HasColors;
 use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 class MonthlyRevenueByProjectChart extends ChartWidget
 {
     use InteractsWithProjectFilter;
+    use HasColors;
 
     protected ?string $heading = 'Monthly revenue by project (last 6 months)';
 
@@ -95,15 +97,16 @@ class MonthlyRevenueByProjectChart extends ChartWidget
             ->map(function (Project $project, int $index) use ($aggregatedRevenue, $monthKeys, $palette): array {
                 $color = $palette[$index % count($palette)];
 
-                return [
-                    'label' => $project->name,
-                    'data' => collect($monthKeys)
+                return $this->makeLineChartDataset(
+                    $project->name,
+                    collect($monthKeys)
                         ->map(fn (string $monthKey): float => round((float) ($aggregatedRevenue[$project->id][$monthKey] ?? 0), 2))
                         ->toArray(),
-                    'borderColor' => $color,
-                    'backgroundColor' => $color,
-                    'tension' => 0.3,
-                ];
+                    $color,
+                    [
+                        'tension' => 0.3,
+                    ],
+                );
             })
             ->toArray();
 

@@ -3,12 +3,15 @@
 namespace App\Filament\Workforce\Widgets;
 
 use App\Models\Production;
+use App\Traits\Filament\HasColors;
 use Filament\Support\RawJs;
 use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Carbon;
 
 class ProductionRevenueTrendChart extends ChartWidget
 {
+    use HasColors;
+
     protected ?string $heading = 'Production revenue trend (last 14 days)';
 
     protected int|string|array $columnSpan = 1;
@@ -36,20 +39,14 @@ class ProductionRevenueTrendChart extends ChartWidget
 
         return [
             'datasets' => [
-                [
-                    'label' => 'Revenue',
-                    'data' => $byDate->map(fn ($row) => round(($row->sum('revenue') ?? 0), 2))->values(),
-                    'borderColor' => '#ef4444',
+                $this->makeLineChartDataset('Revenue', $byDate->map(fn ($row) => round(($row->sum('revenue') ?? 0), 2))->values()->all(), '#ef4444', [
                     'backgroundColor' => 'rgba(239, 68, 68, 0.15)',
                     'tension' => 0.3,
-                ],
-                [
-                    'label' => 'Billable time',
-                    'data' => $byDate->map(fn ($row) => $row->sum('billable_time') ?? 0)->values(),
-                    'borderColor' => '#0ea5e9',
+                ]),
+                $this->makeLineChartDataset('Billable time', $byDate->map(fn ($row) => $row->sum('billable_time') ?? 0)->values()->all(), '#0ea5e9', [
                     'backgroundColor' => 'rgba(14, 165, 233, 0.15)',
                     'tension' => 0.3,
-                ],
+                ]),
             ],
             'labels' => $labels,
         ];

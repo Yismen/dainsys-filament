@@ -2,6 +2,7 @@
 
 namespace App\Filament\Employee\Widgets;
 
+use App\Traits\Filament\HasColors;
 use Carbon\Carbon;
 use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Facades\Auth;
@@ -9,6 +10,8 @@ use Illuminate\Support\Facades\Cache;
 
 class ProductionSalesWidget extends ChartWidget
 {
+    use HasColors;
+
     protected ?string $heading = 'Production Sales (Last 14 Days)';
 
     protected int|string|array $columnSpan = 1;
@@ -57,14 +60,13 @@ class ProductionSalesWidget extends ChartWidget
 
         return [
             'datasets' => [
-                [
-                    'label' => 'Daily Sales',
-                    'data' => $sales,
+                $this->makeLineChartDataset('Daily Sales', $sales, '#059669', [
                     'backgroundColor' => '#10b981',
-                    'borderColor' => '#059669',
+                    'pointColor' => '#059669',
+                    'pointHoverColor' => '#059669',
                     'borderWidth' => 1,
                     'tension' => 0.3,
-                ],
+                ]),
             ],
             'labels' => $dates,
         ];

@@ -5,12 +5,14 @@ namespace App\Filament\OperationsDirector\Widgets;
 use App\Filament\OperationsDirector\Widgets\Concerns\InteractsWithProjectAndClientFilters;
 use App\Models\Production;
 use App\Models\Project;
+use App\Traits\Filament\HasColors;
 use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Carbon;
 
 class DailyRevenueByProjectChart extends ChartWidget
 {
     use InteractsWithProjectAndClientFilters;
+    use HasColors;
 
     protected ?string $heading = 'Daily revenue by project (last 10 days)';
 
@@ -100,15 +102,16 @@ class DailyRevenueByProjectChart extends ChartWidget
             ->map(function (Project $project, int $index) use ($aggregatedRevenue, $dateKeys, $palette): array {
                 $color = $palette[$index % count($palette)];
 
-                return [
-                    'label' => $project->name,
-                    'data' => collect($dateKeys)
+                return $this->makeLineChartDataset(
+                    $project->name,
+                    collect($dateKeys)
                         ->map(fn (string $dateKey): float => round((float) ($aggregatedRevenue[$project->id][$dateKey] ?? 0), 2))
                         ->toArray(),
-                    'borderColor' => $color,
-                    'backgroundColor' => $color,
-                    'tension' => 0.3,
-                ];
+                    $color,
+                    [
+                        'tension' => 0.3,
+                    ],
+                );
             })
             ->toArray();
 

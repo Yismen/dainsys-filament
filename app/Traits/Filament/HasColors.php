@@ -35,12 +35,12 @@ trait HasColors
         '#745A28',
     ];
 
-    public function getColorByIndex(int $index)
+    public function getColorByIndex(int $index): string
     {
         return array_key_exists($index, $this->colors) ? $this->colors[$index] : Arr::random($this->colors);
     }
 
-    public function getRandomColor()
+    public function getRandomColor(): string
     {
         return Arr::random($this->colors);
     }
@@ -48,5 +48,27 @@ trait HasColors
     public function getManyColors(int $count): array
     {
         return array_slice($this->colors, 0, $count);
+    }
+
+    protected function makeLineChartDataset(string $label, array $data, string $lineColor, array $options = []): array
+    {
+        $backgroundColor = $options['backgroundColor'] ?? $lineColor;
+        $pointColor = $options['pointColor'] ?? $lineColor;
+        $pointHoverColor = $options['pointHoverColor'] ?? $pointColor;
+
+        return array_merge([
+            'label' => $label,
+            'data' => $data,
+            'borderColor' => $lineColor,
+            'backgroundColor' => $backgroundColor,
+            'pointBackgroundColor' => $pointColor,
+            'pointBorderColor' => $pointColor,
+            'pointHoverBackgroundColor' => $pointHoverColor,
+            'pointHoverBorderColor' => $pointHoverColor,
+        ], Arr::except($options, [
+            'backgroundColor',
+            'pointColor',
+            'pointHoverColor',
+        ]));
     }
 }

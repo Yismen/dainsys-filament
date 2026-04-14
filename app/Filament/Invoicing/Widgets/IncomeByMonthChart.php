@@ -4,12 +4,14 @@ namespace App\Filament\Invoicing\Widgets;
 
 use App\Filament\Invoicing\Widgets\Concerns\InteractsWithInvoiceDashboardFilters;
 use App\Models\Invoice;
+use App\Traits\Filament\HasColors;
 use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Carbon;
 
 class IncomeByMonthChart extends ChartWidget
 {
     use InteractsWithInvoiceDashboardFilters;
+    use HasColors;
 
     protected ?string $heading = 'Income by month';
 
@@ -60,30 +62,28 @@ class IncomeByMonthChart extends ChartWidget
         return [
             'labels' => $months->map(fn (Carbon $month): string => $month->format('M Y'))->toArray(),
             'datasets' => [
-                [
-                    'label' => __('Invoiced'),
-                    'data' => $monthKeys
+                $this->makeLineChartDataset(
+                    __('Invoiced'),
+                    $monthKeys
                         ->map(fn (string $monthKey): float => round((float) ($aggregated[$monthKey]['invoiced'] ?? 0), 2))
                         ->toArray(),
-                    'borderColor' => '#f59e0b',
-                    'backgroundColor' => '#f59e0b',
-                    'pointBackgroundColor' => '#f59e0b',
-                    'pointBorderColor' => '#f59e0b',
-                    'fill' => false,
-                    'tension' => 0.3,
-                ],
-                [
-                    'label' => __('Paid'),
-                    'data' => $monthKeys
+                    '#f59e0b',
+                    [
+                        'fill' => false,
+                        'tension' => 0.3,
+                    ],
+                ),
+                $this->makeLineChartDataset(
+                    __('Paid'),
+                    $monthKeys
                         ->map(fn (string $monthKey): float => round((float) ($aggregated[$monthKey]['paid'] ?? 0), 2))
                         ->toArray(),
-                    'borderColor' => '#22c55e',
-                    'backgroundColor' => '#22c55e',
-                    'pointBackgroundColor' => '#22c55e',
-                    'pointBorderColor' => '#22c55e',
-                    'fill' => false,
-                    'tension' => 0.3,
-                ],
+                    '#22c55e',
+                    [
+                        'fill' => false,
+                        'tension' => 0.3,
+                    ],
+                ),
             ],
         ];
     }

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Employee\Widgets;
 
+use App\Traits\Filament\HasColors;
 use Carbon\Carbon;
 use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Facades\Auth;
@@ -9,6 +10,8 @@ use Illuminate\Support\Facades\Cache;
 
 class SPHTrendWidget extends ChartWidget
 {
+    use HasColors;
+
     protected ?string $heading = 'Sales Per Hour (SPH) vs Goal (Last 14 Days)';
 
     protected int|string|array $columnSpan = 1;
@@ -66,23 +69,17 @@ class SPHTrendWidget extends ChartWidget
 
         return [
             'datasets' => [
-                [
-                    'label' => 'Actual SPH',
-                    'data' => $actualSPH,
-                    'borderColor' => '#06b6d4',
+                $this->makeLineChartDataset('Actual SPH', $actualSPH, '#06b6d4', [
                     'backgroundColor' => 'rgba(6, 182, 212, 0.1)',
                     'tension' => 0.3,
                     'borderWidth' => 2,
-                ],
-                [
-                    'label' => 'SPH Goal',
-                    'data' => $goalSPH,
-                    'borderColor' => '#8b5cf6',
+                ]),
+                $this->makeLineChartDataset('SPH Goal', $goalSPH, '#8b5cf6', [
                     'backgroundColor' => 'rgba(139, 92, 246, 0.1)',
                     'tension' => 0.3,
                     'borderWidth' => 2,
                     'borderDash' => [5, 5],
-                ],
+                ]),
             ],
             'labels' => $dates,
         ];

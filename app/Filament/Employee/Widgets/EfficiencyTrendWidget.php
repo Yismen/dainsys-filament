@@ -2,6 +2,7 @@
 
 namespace App\Filament\Employee\Widgets;
 
+use App\Traits\Filament\HasColors;
 use Carbon\Carbon;
 use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Facades\Auth;
@@ -9,6 +10,8 @@ use Illuminate\Support\Facades\Cache;
 
 class EfficiencyTrendWidget extends ChartWidget
 {
+    use HasColors;
+
     protected ?string $heading = 'Total Hours vs Efficiency (%) (Last 14 Days)';
 
     protected int|string|array $columnSpan = 1;
@@ -65,25 +68,19 @@ class EfficiencyTrendWidget extends ChartWidget
 
         return [
             'datasets' => [
-                [
-                    'label' => 'Total Hours',
-                    'data' => $totalHours,
-                    'borderColor' => '#22c55e',
+                $this->makeLineChartDataset('Total Hours', $totalHours, '#22c55e', [
                     'backgroundColor' => 'rgba(34, 197, 94, 0.1)',
                     'tension' => 0.3,
                     'borderWidth' => 2,
                     'yAxisID' => 'y',
-                ],
-                [
-                    'label' => 'Efficiency (%)',
-                    'data' => $efficiency,
-                    'borderColor' => '#8b5cf6',
+                ]),
+                $this->makeLineChartDataset('Efficiency (%)', $efficiency, '#8b5cf6', [
                     'backgroundColor' => 'rgba(139, 92, 246, 0.1)',
                     'borderDash' => [5, 5],
                     'tension' => 0.3,
                     'borderWidth' => 2,
                     'yAxisID' => 'y1',
-                ],
+                ]),
             ],
             'labels' => $dates,
         ];
