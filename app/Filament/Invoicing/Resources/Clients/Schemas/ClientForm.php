@@ -4,7 +4,6 @@ namespace App\Filament\Invoicing\Resources\Clients\Schemas;
 
 use App\Services\InvoiceTemplatesService;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 

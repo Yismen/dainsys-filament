@@ -8,16 +8,16 @@ use App\Models\BaseModels\AppModel;
 use App\Models\Traits\BelongsToDepartment;
 use App\Models\Traits\HasManyEmployees;
 use App\Models\Traits\HasManyHires;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+#[Fillable(['name', 'department_id', 'salary_type', 'salary', 'description'])]
 class Position extends AppModel
 {
     use BelongsToDepartment;
     use HasManyEmployees;
     use HasManyHires;
     use SoftDeletes;
-
-    protected $fillable = ['name', 'department_id', 'salary_type', 'salary', 'description'];
 
     public $casts = [
         'salary' => AsMoney::class,

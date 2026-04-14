@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
-test('invoice number format generation for client and project', function () {
+test('invoice number format generation for client and project', function (): void {
     // Controlled client and project names
     $client = Client::factory()->create(['name' => 'Acme Global Co']);
     $project = Project::factory()->for($client, 'client')->create(['name' => 'Nova Project One']);

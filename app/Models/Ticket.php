@@ -12,6 +12,7 @@ use App\Events\TicketReopenedEvent;
 use App\Models\BaseModels\AppModel;
 use App\Traits\EnsureDateNotWeekend;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -23,24 +24,23 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
+#[Fillable([
+    'owner_id',
+    'subject',
+    'description',
+    // 'reference',
+    'images',
+    'status',
+    'priority',
+    'expected_at',
+    'assigned_to',
+    'assigned_at',
+    'completed_at',
+])]
 class Ticket extends AppModel
 {
     use EnsureDateNotWeekend;
     use SoftDeletes;
-
-    protected $fillable = [
-        'owner_id',
-        'subject',
-        'description',
-        // 'reference',
-        'images',
-        'status',
-        'priority',
-        'expected_at',
-        'assigned_to',
-        'assigned_at',
-        'completed_at',
-    ];
 
     // protected $appends = [
     //     'reference',

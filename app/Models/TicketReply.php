@@ -4,14 +4,14 @@ namespace App\Models;
 
 use App\Events\TicketReplyCreatedEvent;
 use App\Models\BaseModels\AppModel;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+#[Fillable(['user_id', 'ticket_id', 'content'])]
 class TicketReply extends AppModel
 {
     use SoftDeletes;
-
-    protected $fillable = ['user_id', 'ticket_id', 'content'];
 
     protected $dispatchesEvents = [
         'created' => TicketReplyCreatedEvent::class,

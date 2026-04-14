@@ -5,27 +5,23 @@ namespace App\Models;
 use App\Enums\InvoiceStatuses;
 use App\Exceptions\InvoiceCannotBeCancelledException;
 use App\Models\BaseModels\AppModel;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 
+#[Fillable([
+    'invoice_id',
+    'cancelled_by',
+    'date',
+    'reason',
+    'notes',
+])]
 class InvoiceCancellation extends AppModel
 {
     use HasFactory;
     use SoftDeletes;
-
-    protected $fillable = [
-        'invoice_id',
-        'cancelled_by',
-        'date',
-        'reason',
-        'notes',
-    ];
-
-    protected $casts = [
-        'date' => 'date',
-    ];
 
     public function invoice(): BelongsTo
     {
@@ -73,5 +69,12 @@ class InvoiceCancellation extends AppModel
             $invoice->status = InvoiceStatuses::Cancelled;
             $invoice->save();
         });
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'date' => 'date',
+        ];
     }
 }

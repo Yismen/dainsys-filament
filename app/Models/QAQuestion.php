@@ -4,29 +4,29 @@ namespace App\Models;
 
 use App\Models\BaseModels\AppModel;
 use Database\Factories\QAQuestionFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+#[Fillable([
+    'text',
+    'qa_form_id',
+    'author_id',
+    'description',
+    'max_points',
+    'display_order',
+    'is_active',
+])]
+#[Table(name: 'qa_questions')]
 class QAQuestion extends AppModel
 {
     /** @use HasFactory<QAQuestionFactory> */
     use HasFactory;
 
     use SoftDeletes;
-
-    protected $table = 'qa_questions';
-
-    protected $fillable = [
-        'text',
-        'qa_form_id',
-        'author_id',
-        'description',
-        'max_points',
-        'display_order',
-        'is_active',
-    ];
 
     public function form(): BelongsTo
     {

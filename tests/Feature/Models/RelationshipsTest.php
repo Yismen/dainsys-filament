@@ -14,7 +14,8 @@ test('invoice_agent belongs to a project', function (): void {
     $project = Project::factory()->create();
     $agent = InvoiceAgent::factory()->create(['project_id' => $project->id]);
     $this->assertInstanceOf(Project::class, $agent->project);
-    $this->assertInstanceOf(BelongsTo::class, $agent->project());});
+    $this->assertInstanceOf(BelongsTo::class, $agent->project());
+});
 
 test('project has many invoice_agents', function (): void {
     $project = Project::factory()->create();

@@ -4,28 +4,23 @@ namespace App\Models;
 
 use App\Exceptions\InvoiceOverpaymentException;
 use App\Models\BaseModels\AppModel;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+#[Fillable([
+    'invoice_id',
+    'amount',
+    'date',
+    'reference',
+    'images',
+    'description',
+])]
 class InvoicePayment extends AppModel
 {
     use HasFactory;
     use SoftDeletes;
-
-    protected $fillable = [
-        'invoice_id',
-        'amount',
-        'date',
-        'reference',
-        'images',
-        'description',
-    ];
-
-    protected $casts = [
-        'date' => 'date',
-        'images' => 'array',
-    ];
 
     public function invoice(): BelongsTo
     {
@@ -35,7 +30,7 @@ class InvoicePayment extends AppModel
     protected static function booted(): void
     {
         parent::booted();
-        static::saving(function (InvoicePayment $payment) {
+        static::saving(function (InvoicePayment $payment): void {
             $invoice = $payment->invoice;
             if (! $invoice) {
                 return;
@@ -48,7 +43,7 @@ class InvoicePayment extends AppModel
                 throw new InvoiceOverpaymentException('Payment amount exceeds invoice balance pending.');
             }
         });
-        static::saved(function (InvoicePayment $payment) {
+        static::saved(function (InvoicePayment $payment): void {
             $invoice = $payment->invoice;
             if (! $invoice) {
                 return;
@@ -56,17 +51,25 @@ class InvoicePayment extends AppModel
 
             $invoice->save();
         });
-        static::deleted(function (InvoicePayment $payment) {
+        static::deleted(function (InvoicePayment $payment): void {
             $invoice = $payment->invoice;
             if ($invoice) {
                 $invoice->save();
             }
         });
-        static::restored(function (InvoicePayment $payment) {
+        static::restored(function (InvoicePayment $payment): void {
             $invoice = $payment->invoice;
             if ($invoice) {
                 $invoice->save();
             }
         });
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'date' => 'date',
+            'images' => 'array',
+        ];
     }
 }

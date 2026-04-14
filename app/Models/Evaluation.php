@@ -11,6 +11,7 @@ use App\Notifications\EvaluationPublishedNotification;
 use App\Notifications\EvaluationResolvedNotification;
 use Database\Factories\EvaluationFactory;
 use DomainException;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -18,33 +19,32 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
+#[Fillable([
+    'record_number',
+    'evaluation_date',
+    'employee_id',
+    'supervisor_id',
+    'evaluator_id',
+    'qa_form_id',
+    'threshold_percentage',
+    'points_possible',
+    'points_achieved',
+    'success_percentage',
+    'comments',
+    'status',
+    'employee_decision_comment',
+    'manager_resolution_comment',
+    'published_at',
+    'accepted_at',
+    'disputed_at',
+    'resolved_at',
+])]
 class Evaluation extends AppModel
 {
     /** @use HasFactory<EvaluationFactory> */
     use HasFactory;
 
     use SoftDeletes;
-
-    protected $fillable = [
-        'record_number',
-        'evaluation_date',
-        'employee_id',
-        'supervisor_id',
-        'evaluator_id',
-        'qa_form_id',
-        'threshold_percentage',
-        'points_possible',
-        'points_achieved',
-        'success_percentage',
-        'comments',
-        'status',
-        'employee_decision_comment',
-        'manager_resolution_comment',
-        'published_at',
-        'accepted_at',
-        'disputed_at',
-        'resolved_at',
-    ];
 
     protected static function booted(): void
     {

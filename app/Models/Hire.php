@@ -12,8 +12,17 @@ use App\Models\Traits\BelongsToProject;
 use App\Models\Traits\BelongsToSite;
 use App\Models\Traits\BelongsToSupervisor;
 use App\Models\Traits\HasManyComments;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+#[Fillable([
+    'date',
+    'employee_id',
+    'site_id',
+    'project_id',
+    'position_id',
+    'supervisor_id',
+])]
 class Hire extends AppModel
 {
     use BelongsToCitizenship;
@@ -24,15 +33,6 @@ class Hire extends AppModel
     use BelongsToSupervisor;
     use HasManyComments;
     use SoftDeletes;
-
-    protected $fillable = [
-        'date',
-        'employee_id',
-        'site_id',
-        'project_id',
-        'position_id',
-        'supervisor_id',
-    ];
 
     protected $dispatchesEvents = [
         'created' => EmployeeHiredEvent::class,

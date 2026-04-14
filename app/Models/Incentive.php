@@ -6,10 +6,20 @@ use App\Models\BaseModels\AppModel;
 use App\Models\Traits\BelongsToEmployee;
 use App\Models\Traits\BelongsToProject;
 use Database\Factories\IncentiveFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Carbon;
 
+#[Fillable([
+    'payable_date',
+    'employee_id',
+    'project_id',
+    'total_production_hours',
+    'total_sales',
+    'amount',
+    'notes',
+])]
 class Incentive extends AppModel
 {
     use BelongsToEmployee;
@@ -17,16 +27,6 @@ class Incentive extends AppModel
 
     /** @use HasFactory<IncentiveFactory> */
     use HasFactory;
-
-    protected $fillable = [
-        'payable_date',
-        'employee_id',
-        'project_id',
-        'total_production_hours',
-        'total_sales',
-        'amount',
-        'notes',
-    ];
 
     protected function payableDate(): Attribute
     {

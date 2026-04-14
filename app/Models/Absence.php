@@ -7,24 +7,24 @@ use App\Enums\AbsenceTypes;
 use App\Models\BaseModels\AppModel;
 use App\Models\Traits\BelongsToEmployee;
 use App\Rules\UniqueCombination;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
+#[Fillable([
+    'employee_id',
+    'date',
+    'status',
+    'type',
+    'comment',
+    'created_by',
+])]
 class Absence extends AppModel
 {
     use BelongsToEmployee;
-
-    protected $fillable = [
-        'employee_id',
-        'date',
-        'status',
-        'type',
-        'comment',
-        'created_by',
-    ];
 
     protected static function booted(): void
     {

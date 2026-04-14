@@ -7,23 +7,23 @@ use App\Enums\HRActivityTypes;
 use App\Events\HRActivityRequestCompleted;
 use App\Events\HRActivityRequestCreated;
 use App\Models\BaseModels\AppModel;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+#[Fillable([
+    'employee_id',
+    'supervisor_id',
+    'activity_type',
+    'status',
+    'description',
+    'completion_comment',
+    'requested_at',
+    'completed_at',
+])]
 class HRActivityRequest extends AppModel
 {
     use SoftDeletes;
-
-    protected $fillable = [
-        'employee_id',
-        'supervisor_id',
-        'activity_type',
-        'status',
-        'description',
-        'completion_comment',
-        'requested_at',
-        'completed_at',
-    ];
 
     protected $dispatchesEvents = [
         'created' => HRActivityRequestCreated::class,

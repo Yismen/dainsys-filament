@@ -8,34 +8,34 @@ use App\Models\BaseModels\AppModel;
 use App\Models\Traits\BelongsToCampaign;
 use App\Models\Traits\BelongsToEmployee;
 use App\Models\Traits\BelongsToSupervisor;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+#[Fillable([
+    'date',
+    // 'unique_id',
+    'employee_id',
+    // 'supervisor_id',
+    'campaign_id',
+    // 'sph_goal',
+    // 'revenue_type',
+    // 'revenue_rate',
+    'conversions',
+    'total_time',
+    'production_time',
+    'talk_time',
+    // 'billable_time',
+    // 'revenue',
+    'downtime_id',
+])]
 class Production extends AppModel
 {
     use BelongsToCampaign;
     use BelongsToEmployee;
     use BelongsToSupervisor;
     use SoftDeletes;
-
-    protected $fillable = [
-        'date',
-        // 'unique_id',
-        'employee_id',
-        // 'supervisor_id',
-        'campaign_id',
-        // 'sph_goal',
-        // 'revenue_type',
-        // 'revenue_rate',
-        'conversions',
-        'total_time',
-        'production_time',
-        'talk_time',
-        // 'billable_time',
-        // 'revenue',
-        'downtime_id',
-    ];
 
     protected static function boot(): void
     {

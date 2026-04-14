@@ -14,7 +14,7 @@ trait InteractsWithProjectAndClientFilters
      */
     protected function getSelectedProjectIdsFromPageFilters(): array
     {
-        return  $this->pageFilters['project'] ?? $this->filters['project'] ?? [];
+        return $this->pageFilters['project'] ?? $this->filters['project'] ?? [];
     }
 
     /**

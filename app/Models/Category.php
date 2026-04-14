@@ -3,22 +3,22 @@
 namespace App\Models;
 
 use App\Models\BaseModels\AppModel;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
 // Models
 
+#[Fillable([
+    'name',
+    'slug',
+    'description',
+    'parent_id',
+    'display_order',
+])]
 class Category extends AppModel
 {
-    protected $fillable = [
-        'name',
-        'slug',
-        'description',
-        'parent_id',
-        'display_order',
-    ];
-
     // Flat categories: no parent/children relationships
 
     public function articles(): BelongsToMany

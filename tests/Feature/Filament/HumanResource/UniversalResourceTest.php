@@ -112,8 +112,6 @@ it('displays Universal list page correctly', function (): void {
         ->assertCanSeeTableRecords($universals);
 });
 
-
-
 test('form validation require fields on create and edit pages', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Universal'));
 

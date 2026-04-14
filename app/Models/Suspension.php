@@ -10,16 +10,16 @@ use App\Models\BaseModels\AppModel;
 use App\Models\Traits\BelongsToEmployee;
 use App\Models\Traits\BelongsToSuspensionType;
 use App\Models\Traits\HasManyComments;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 
+#[Fillable(['employee_id', 'suspension_type_id', 'starts_at', 'ends_at', 'comment'])]
 class Suspension extends AppModel
 {
     use BelongsToEmployee;
     use BelongsToSuspensionType;
     use HasManyComments;
-
-    protected $fillable = ['employee_id', 'suspension_type_id', 'starts_at', 'ends_at', 'comment'];
 
     protected $dispatchesEvents = [
         'created' => EmployeeSuspendedEvent::class,

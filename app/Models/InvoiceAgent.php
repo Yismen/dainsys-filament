@@ -3,20 +3,20 @@
 namespace App\Models;
 
 use App\Models\BaseModels\AppModel;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+#[Fillable([
+    'name',
+    'project_id',
+    'phone',
+    'email',
+])]
 class InvoiceAgent extends AppModel
 {
     use HasFactory;
-
-    protected $fillable = [
-        'name',
-        'project_id',
-        'phone',
-        'email',
-    ];
 
     public function project(): BelongsTo
     {

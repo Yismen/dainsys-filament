@@ -21,6 +21,8 @@ use App\Models\Traits\HasManyTerminations;
 use App\Models\Traits\HasOneBankAccount;
 use App\Models\Traits\HasOneSocialSocialSecurity;
 use App\Models\Traits\HasRelationsThruSocialSecurity;
+use Illuminate\Database\Eloquent\Attributes\Appends;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -30,6 +32,33 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
+#[Appends([
+    'is_universal',
+])]
+#[Fillable([
+    'first_name',
+    'second_first_name',
+    'last_name',
+    'second_last_name',
+    'full_name',
+    'personal_id_type',
+    'personal_id',
+    'date_of_birth',
+    'cellphone',
+    'secondary_phone',
+    'email',
+    'address',
+    'gender',
+    'has_kids',
+    'citizenship_id',
+    'site_id',
+    'project_id',
+    'position_id',
+    'supervisor_id',
+    'hired_at',
+    'internal_id',
+    'status',
+])]
 class Employee extends AppModel implements HasMedia
 {
     use BelongsToCitizenship;
@@ -52,35 +81,6 @@ class Employee extends AppModel implements HasMedia
     public const PROFILE_PHOTO_COLLECTION = 'profile_photo';
 
     public const PROFILE_PHOTO_THUMBNAIL_CONVERSION = 'thumbnail';
-
-    protected $fillable = [
-        'first_name',
-        'second_first_name',
-        'last_name',
-        'second_last_name',
-        'full_name',
-        'personal_id_type',
-        'personal_id',
-        'date_of_birth',
-        'cellphone',
-        'secondary_phone',
-        'email',
-        'address',
-        'gender',
-        'has_kids',
-        'citizenship_id',
-        'site_id',
-        'project_id',
-        'position_id',
-        'supervisor_id',
-        'hired_at',
-        'internal_id',
-        'status',
-    ];
-
-    protected $appends = [
-        'is_universal',
-    ];
 
     protected $dispatchesEvents = [
         // 'saved' => EmployeeSaved::class,

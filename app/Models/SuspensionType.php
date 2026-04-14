@@ -4,15 +4,15 @@ namespace App\Models;
 
 use App\Models\BaseModels\AppModel;
 use App\Models\Traits\HasManySuspensions;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+#[Fillable(['name', 'description'])]
 class SuspensionType extends AppModel
 {
     use HasManySuspensions;
     use SoftDeletes;
-
-    protected $fillable = ['name', 'description'];
 
     public function employees(): HasManyThrough
     {

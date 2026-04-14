@@ -4,26 +4,26 @@ namespace App\Models;
 
 use App\Enums\ArticleStatus;
 use App\Models\BaseModels\AppModel;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 
+#[Fillable([
+    'title',
+    'slug',
+    'excerpt',
+    'content',
+    'featured_image_path',
+    'meta_description',
+    'meta_keywords',
+    'author_id',
+    'status',
+    // 'published_at',
+])]
 class Article extends AppModel
 {
-    protected $fillable = [
-        'title',
-        'slug',
-        'excerpt',
-        'content',
-        'featured_image_path',
-        'meta_description',
-        'meta_keywords',
-        'author_id',
-        'status',
-        // 'published_at',
-    ];
-
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class);

@@ -5,37 +5,37 @@ namespace App\Models;
 use App\Models\BaseModels\AppModel;
 use App\Models\Traits\BelongsToEmployee;
 use Database\Factories\PayrollFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Carbon;
 
+#[Fillable([
+    'payable_date',
+    'employee_id',
+    'salary_rate',
+    'total_hours',
+    'salary_income',
+    'medical_licence',
+    'gross_income',
+    'deduction_ars',
+    'deduction_afp',
+    'deductions_other',
+    'total_deductions',
+    'nightly_incomes',
+    'overtime_incomes',
+    'holiday_incomes',
+    'additional_incentives_2',
+    'additional_incentives_1',
+    'net_payroll',
+    'total_payroll',
+])]
 class Payroll extends AppModel
 {
     use BelongsToEmployee;
 
     /** @use HasFactory<PayrollFactory> */
     use HasFactory;
-
-    protected $fillable = [
-        'payable_date',
-        'employee_id',
-        'salary_rate',
-        'total_hours',
-        'salary_income',
-        'medical_licence',
-        'gross_income',
-        'deduction_ars',
-        'deduction_afp',
-        'deductions_other',
-        'total_deductions',
-        'nightly_incomes',
-        'overtime_incomes',
-        'holiday_incomes',
-        'additional_incentives_2',
-        'additional_incentives_1',
-        'net_payroll',
-        'total_payroll',
-    ];
 
     protected function payableDate(): Attribute
     {

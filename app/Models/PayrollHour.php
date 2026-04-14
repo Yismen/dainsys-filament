@@ -4,30 +4,30 @@ namespace App\Models;
 
 use App\Models\BaseModels\AppModel;
 use App\Models\Traits\BelongsToEmployee;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 
+#[Fillable([
+    'employee_id',
+    'date',
+    'total_hours',
+    'regular_hours',
+    'overtime_hours',
+    'holiday_hours',
+    'seventh_day_hours',
+    'payroll_ending_at',
+    'week_ending_at',
+    'is_sunday',
+    'is_holiday',
+])]
 class PayrollHour extends AppModel
 {
     use BelongsToEmployee;
     use HasFactory;
     use SoftDeletes;
-
-    protected $fillable = [
-        'employee_id',
-        'date',
-        'total_hours',
-        'regular_hours',
-        'overtime_hours',
-        'holiday_hours',
-        'seventh_day_hours',
-        'payroll_ending_at',
-        'week_ending_at',
-        'is_sunday',
-        'is_holiday',
-    ];
 
     protected static function boot()
     {

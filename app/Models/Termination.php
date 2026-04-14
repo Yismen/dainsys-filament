@@ -9,15 +9,15 @@ use App\Exceptions\TerminationDateCantBeLowerThanHireDate;
 use App\Models\BaseModels\AppModel;
 use App\Models\Traits\BelongsToEmployee;
 use App\Models\Traits\HasManyComments;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+#[Fillable(['employee_id', 'date', 'termination_type', 'is_rehireable', 'comment'])]
 class Termination extends AppModel
 {
     use BelongsToEmployee;
     use HasManyComments;
     use SoftDeletes;
-
-    protected $fillable = ['employee_id', 'date', 'termination_type', 'is_rehireable', 'comment'];
 
     protected $dispatchesEvents = [
         'created' => EmployeeTerminatedEvent::class,

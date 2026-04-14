@@ -3,16 +3,16 @@
 namespace App\Models;
 
 use App\Models\BaseModels\AppModel;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+#[Fillable([
+    'category_id',
+    'user_id',
+    'role_id',
+])]
 class CategoryAccess extends AppModel
 {
-    protected $fillable = [
-        'category_id',
-        'user_id',
-        'role_id',
-    ];
-
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);

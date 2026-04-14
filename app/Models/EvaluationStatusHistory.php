@@ -4,25 +4,25 @@ namespace App\Models;
 
 use App\Models\BaseModels\AppModel;
 use Database\Factories\EvaluationStatusHistoryFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+#[Fillable([
+    'evaluation_id',
+    'from_status',
+    'to_status',
+    'changed_by',
+    'change_comment',
+    'metadata',
+])]
 class EvaluationStatusHistory extends AppModel
 {
     /** @use HasFactory<EvaluationStatusHistoryFactory> */
     use HasFactory;
 
     use SoftDeletes;
-
-    protected $fillable = [
-        'evaluation_id',
-        'from_status',
-        'to_status',
-        'changed_by',
-        'change_comment',
-        'metadata',
-    ];
 
     public function evaluation(): BelongsTo
     {

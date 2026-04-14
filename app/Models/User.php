@@ -12,6 +12,8 @@ use App\Models\Traits\InteractWithSupportTickets;
 use App\Traits\Models\InteractsWithModelCaching;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -27,6 +29,19 @@ use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
 #[ScopedBy([IsActiveScope::class])]
+#[Fillable([
+    'name',
+    'email',
+    'password',
+    'is_active',
+    'employee_id',
+    'password_set_at',
+    'force_password_change',
+])]
+#[Hidden([
+    'password',
+    'remember_token',
+])]
 class User extends Authenticatable implements FilamentUser
 {
     use BelongsToManyMailables;
@@ -41,31 +56,6 @@ class User extends Authenticatable implements FilamentUser
     use Notifiable;
     use SoftDeletes;
     use TwoFactorAuthenticatable;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'is_active',
-        'employee_id',
-        'password_set_at',
-        'force_password_change',
-    ];
-
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
 
     public function canAccessPanel(Panel $panel): bool
     {

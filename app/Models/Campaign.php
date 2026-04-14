@@ -7,20 +7,20 @@ use App\Models\BaseModels\AppModel;
 use App\Models\Traits\BelongsToProject;
 use App\Models\Traits\BelongsToSource;
 use App\Models\Traits\HasManyProductions;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+#[Fillable(['name', 'project_id', 'source_id', 'invoice_agent_id', 'revenue_type', 'sph_goal', 'revenue_rate', 'description'])]
 class Campaign extends AppModel
 {
     use BelongsToProject;
     use BelongsToSource;
     use HasManyProductions;
     use SoftDeletes;
-
-    protected $fillable = ['name', 'project_id', 'source_id', 'invoice_agent_id', 'revenue_type', 'sph_goal', 'revenue_rate', 'description'];
 
     public function invoices(): HasMany
     {

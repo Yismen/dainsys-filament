@@ -11,12 +11,24 @@ use App\Models\Traits\BelongsToEmployee;
 use App\Models\Traits\HasManyComments;
 use Database\Factories\DowntimeFactory;
 use Filament\Notifications\Notification;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 
+#[Fillable([
+    'date',
+    'employee_id',
+    'campaign_id',
+    'downtime_reason_id',
+    'total_time',
+    'status',
+    // 'requester_id',
+    // 'aprover_id',
+    'converted_to_payroll_at',
+])]
 class Downtime extends AppModel
 {
     use BelongsToCampaign;
@@ -27,18 +39,6 @@ class Downtime extends AppModel
     use HasManyComments;
 
     use SoftDeletes;
-
-    protected $fillable = [
-        'date',
-        'employee_id',
-        'campaign_id',
-        'downtime_reason_id',
-        'total_time',
-        'status',
-        // 'requester_id',
-        // 'aprover_id',
-        'converted_to_payroll_at',
-    ];
 
     protected static function booted()
     {

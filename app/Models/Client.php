@@ -4,23 +4,23 @@ namespace App\Models;
 
 use App\Models\BaseModels\AppModel;
 use App\Models\Traits\HasManyProjects;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
+#[Fillable([
+    'name',
+    'person_of_contact',
+    'phone',
+    'email',
+    'website',
+    'description',
+    'invoice_template',
+    'date_field_name',
+    'project_field_name',
+])]
 class Client extends AppModel
 {
     use HasManyProjects;
-
-    protected $fillable = [
-        'name',
-        'person_of_contact',
-        'phone',
-        'email',
-        'website',
-        'description',
-        'invoice_template',
-        'date_field_name',
-        'project_field_name',
-    ];
 
     public function campaigns(): HasManyThrough
     {
