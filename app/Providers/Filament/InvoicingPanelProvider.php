@@ -2,7 +2,7 @@
 
 namespace App\Providers\Filament;
 
-use App\Filament\Invoicing\Pages\InvoicingDashboard;
+use App\Filament\Invoicing\Pages\InvoicingDashboardPage;
 use App\Services\FilamentPanelsService;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -29,7 +29,7 @@ class InvoicingPanelProvider extends PanelProvider
                 FilamentInfoWidget::class,
             ])
             ->pages([
-                InvoicingDashboard::class,
+                InvoicingDashboardPage::class,
             ])
             ->plugins([
                 BreezyCore::make()

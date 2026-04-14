@@ -13,6 +13,7 @@ class InvoiceInfolist
     public static function configure(Schema $schema): Schema
     {
         return $schema
+            ->columns(2)
             ->components([
                 TextEntry::make('id')
                     ->label(__('ID'))
