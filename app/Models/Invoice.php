@@ -120,37 +120,38 @@ class Invoice extends AppModel
             }
             $clientPrefix = self::nameToPrefix($clientName);
             $projectPrefix = self::nameToPrefix($projectName);
-            $prefix = 'ECC_'.$clientPrefix.'_'.$projectPrefix;
+            $prefix = 'ECC-'.$clientPrefix.'-'.$projectPrefix;
 
-            $latest = self::where('number', 'like', $prefix.'_%')->orderByDesc('number')->first();
+            $latest = self::where('number', 'like', $prefix.'-%')->orderByDesc('number')->first();
             if ($latest) {
-                $parts = explode('_', $latest->number);
+                $parts = explode('-', $latest->number);
                 $suffix = end($parts);
                 $seq = is_numeric($suffix) ? ((int) $suffix + 1) : 1;
             } else {
                 $seq = 1;
             }
-            $invoice->number = $prefix.'_'.str_pad((string) $seq, 4, '0', STR_PAD_LEFT);
+            $invoice->number = $prefix.'-'.str_pad((string) $seq, 4, '0', STR_PAD_LEFT);
         });
     }
 
     private static function nameToPrefix(string $name): string
     {
         $name = trim($name);
-        // normalize separators to spaces
-        $name = preg_replace('/[-_]+/', ' ', $name);
-        // split into max 3 parts
-        $parts = preg_split('/\s+/', $name, 3, PREG_SPLIT_NO_EMPTY);
-        $count = count($parts);
-        if ($count >= 3) {
-            return strtoupper(substr($parts[0], 0, 1).substr($parts[1], 0, 1).substr($parts[2], 0, 1));
-        } elseif ($count == 2) {
-            return strtoupper(substr($parts[0], 0, 1).substr($parts[1], 0, 2));
-        } elseif ($count == 1) {
-            return strtoupper($parts[0]);
+        // normalize separators and punctuation to spaces
+        $name = (string) preg_replace('/[^\pL\pN]+/u', ' ', $name);
+
+        $parts = preg_split('/\s+/', $name, -1, PREG_SPLIT_NO_EMPTY);
+        if (! is_array($parts) || $parts === []) {
+            return '';
         }
 
-        return '';
+        $firstWord = (string) array_shift($parts);
+        $initials = collect($parts)
+            ->take(2)
+            ->map(static fn (string $part): string => substr($part, 0, 1))
+            ->implode('');
+
+        return strtoupper($firstWord.$initials);
     }
 
     public function determineStatus(): InvoiceStatuses
