@@ -16,7 +16,7 @@ use Illuminate\Pipeline\Pipeline;
 
 class EmployeeController extends Controller
 {
-    #[QueryParameter('status', description: 'Status of the employee to filter')]
+    #[QueryParameter('status', description: 'Status of the employee to filter. Options are: active (only active employees), inactive (only inactive employees), recents (active employees or terminated in the last 45 days)')]
     #[QueryParameter('site', description: 'ID or Name of the site to filter employees')]
     #[QueryParameter('project', description: 'ID or Name of the project to filter employees')]
     #[QueryParameter('position', description: 'ID or Name of the position to filter employees')]
@@ -29,11 +29,13 @@ class EmployeeController extends Controller
                     ->orderBy('full_name')
                     ->with([
                         'project:id,name',
-                        'position:id,name',
+                        'position:id,name,salary_type,salary',
                         'supervisor:id,name',
                         'site:id,name',
+                        'bankAccount:id,account,bank_id,employee_id' => [
+                            'bank:id,name',
+                        ],
                     ])
-                    ->activesOrRecentlyTerminated()
             )
             ->through([
                 ByStatus::class,

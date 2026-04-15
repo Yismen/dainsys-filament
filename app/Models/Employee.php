@@ -223,7 +223,7 @@ class Employee extends AppModel implements HasMedia
             ->active()
             ->orWhere('status', EmployeeStatuses::Created)
             ->orWhereHas('terminations', function ($query): void {
-                $query->whereDate('date', '>=', now()->subDays(30));
+                $query->whereDate('date', '>=', now()->subDays(45));
             });
     }
 

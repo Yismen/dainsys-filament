@@ -222,7 +222,7 @@ it('sets status as Terminated when employee is terminated', function (): void {
 it('applies scope for activesOrRecentlyTerminated', function (): void {
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create(['date' => now()->subYear()]);
-    Termination::factory()->for($employee)->create(['date' => now()->subDays(40)]);
+    Termination::factory()->for($employee)->create(['date' => now()->subDays(90)]);
 
     $this->assertEquals(Employee::count(), 1);
     $this->assertEquals(Employee::activesOrRecentlyTerminated()->count(), 0);

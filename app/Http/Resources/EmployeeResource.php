@@ -20,6 +20,7 @@ class EmployeeResource extends JsonResource
             'personal_id_type' => $this->personal_id_type,
             'personal_id' => $this->personal_id,
             'internal_id' => $this->internal_id,
+            'hired_at' => $this->hired_at?->format('Y-m-d'),
             'site_id' => $this->site_id,
             'site' => $this->site?->name,
             'project_id' => $this->project_id,
@@ -28,7 +29,10 @@ class EmployeeResource extends JsonResource
             'supervisor' => $this->supervisor?->name,
             'position_id' => $this->position_id,
             'position' => $this->position?->name,
+            'hourly_rate' => $this->position?->hourly_rate,
             'status' => $this->status,
+            'bank_name' => $this->bankAccount?->bank?->name,
+            'bank_account_number' => $this->bankAccount?->account,
         ];
     }
 }
