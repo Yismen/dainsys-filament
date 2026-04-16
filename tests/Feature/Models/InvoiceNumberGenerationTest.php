@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
-it('generate the full text for the client or project names when they are composed of just one word', function () {
+it('generate the full text for the client or project names when they are composed of just one word', function (): void {
     // Controlled client and project names
     $client = Client::factory()->create(['name' => 'Acme']);
     $project = Project::factory()->for($client, 'client')->create(['name' => 'Nova']);
@@ -20,7 +20,7 @@ it('generate the full text for the client or project names when they are compose
 });
 
 // Controlled client and project names
-it('generate the full first word and the other words initials when the client name is composed of two words', function () {
+it('generate the full first word and the other words initials when the client name is composed of two words', function (): void {
     $client = Client::factory()->create(['name' => 'Acme Global']);
     $project = Project::factory()->for($client, 'client')->create(['name' => 'Nova Project']);
 
@@ -32,7 +32,7 @@ it('generate the full first word and the other words initials when the client na
 });
 
 // Controlled client and project names
-it('generate the full first word and the other words initials when the client name is composed of multiple words', function () {
+it('generate the full first word and the other words initials when the client name is composed of multiple words', function (): void {
     $client = Client::factory()->create(['name' => 'Acme Global Co']);
     $project = Project::factory()->for($client, 'client')->create(['name' => 'Nova Project One']);
 
@@ -44,7 +44,7 @@ it('generate the full first word and the other words initials when the client na
 });
 
 // Controlled client and project names
-it('generate the full first word and the initials of the next two words when the client name is composed of more than 3 parts', function () {
+it('generate the full first word and the initials of the next two words when the client name is composed of more than 3 parts', function (): void {
     $client = Client::factory()->create(['name' => 'Acme Global Co, Inc']);
     $project = Project::factory()->for($client, 'client')->create(['name' => 'Nova Project One Phase 1']);
 

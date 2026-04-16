@@ -17,18 +17,18 @@ class ByStatus
         if ($this->request->has('status')) {
             $status = strtolower($this->request->input('status'));
 
-            if($status === 'active') {
+            if ($status === 'active') {
                 $status = 'hired';
             }
 
-            if($status === 'inactive') {
+            if ($status === 'inactive') {
                 $status = 'terminated';
             }
 
             $builder->when(
                 $status === 'recents',
-                fn(Builder $query) => $query->activesOrRecentlyTerminated(),
-                fn(Builder $query) => $query->where('status', 'like', $status)
+                fn (Builder $query) => $query->activesOrRecentlyTerminated(),
+                fn (Builder $query) => $query->where('status', 'like', $status)
             );
         }
 

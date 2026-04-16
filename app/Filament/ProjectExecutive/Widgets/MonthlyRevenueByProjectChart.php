@@ -12,8 +12,8 @@ use Illuminate\Support\Facades\Auth;
 
 class MonthlyRevenueByProjectChart extends ChartWidget
 {
-    use InteractsWithProjectFilter;
     use HasColors;
+    use InteractsWithProjectFilter;
 
     protected ?string $heading = 'Monthly revenue by project (last 6 months)';
 

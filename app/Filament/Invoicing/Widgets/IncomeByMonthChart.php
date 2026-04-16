@@ -10,8 +10,8 @@ use Illuminate\Support\Carbon;
 
 class IncomeByMonthChart extends ChartWidget
 {
-    use InteractsWithInvoiceDashboardFilters;
     use HasColors;
+    use InteractsWithInvoiceDashboardFilters;
 
     protected ?string $heading = 'Income by month';
 

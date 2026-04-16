@@ -11,8 +11,8 @@ use Illuminate\Support\Carbon;
 
 class DailyRevenueByProjectChart extends ChartWidget
 {
-    use InteractsWithProjectAndClientFilters;
     use HasColors;
+    use InteractsWithProjectAndClientFilters;
 
     protected ?string $heading = 'Daily revenue by project (last 10 days)';
 

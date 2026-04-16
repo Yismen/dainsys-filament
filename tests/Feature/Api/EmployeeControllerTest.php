@@ -1,10 +1,8 @@
 <?php
 
-use App\Models\Campaign;
 use App\Models\Employee;
 use App\Models\Hire;
 use App\Models\Production;
-use App\Models\Supervisor;
 use App\Models\Termination;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
