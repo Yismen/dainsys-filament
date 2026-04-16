@@ -40,14 +40,22 @@ class DateFilterRangeService
      */
     protected function resolveFixedRange(string $value): ?array
     {
-        if (! preg_match('/^last_([1-9]\d*)_days$/', trim($value), $matches)) {
-            return null;
+        if (preg_match('/^last_([1-9]\d*)_days$/', trim($value), $matches)) {
+            $days = (int) $matches[1];
+            $dateTo = now()->startOfDay();
+            $dateFrom = now()->startOfDay()->subDays($days - 1);
+
+            return [$dateFrom->format('Y-m-d'), $dateTo->format('Y-m-d')];
         }
 
-        $days = (int) $matches[1];
-        $dateTo = now()->startOfDay();
-        $dateFrom = now()->startOfDay()->subDays($days - 1);
+        if (preg_match('/^last_([1-9]\d*)_months$/', trim($value), $matches)) {
+            $months = (int) $matches[1];
+            $dateTo = now();
+            $dateFrom = now()->startOfMonth()->subMonths($months - 1)->startOfDay();
 
-        return [$dateFrom->format('Y-m-d'), $dateTo->format('Y-m-d')];
+            return [$dateFrom->format('Y-m-d'), $dateTo->format('Y-m-d')];
+        }
+
+        return null;
     }
 }
