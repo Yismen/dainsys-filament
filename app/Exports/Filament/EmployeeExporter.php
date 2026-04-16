@@ -23,6 +23,8 @@ class EmployeeExporter extends Exporter
                 ->label('Personal ID Type'),
             ExportColumn::make('personal_id')
                 ->label('Personal ID'),
+            ExportColumn::make('internal_id')
+                ->label('Internal ID'),
             ExportColumn::make('date_of_birth')
                 ->label('Date of Birth'),
             ExportColumn::make('cellphone')
@@ -39,10 +41,28 @@ class EmployeeExporter extends Exporter
                 ->label('Gender'),
             ExportColumn::make('has_kids')
                 ->label('Has Kids'),
+            ExportColumn::make('hired_at')
+                ->label('Hired At')
+                ->state(fn ($record) => $record->hired_at?->format('Y-m-d')),
+            ExportColumn::make('site.name')
+                ->label('Site'),
+            ExportColumn::make('project.name')
+                ->label('Project'),
+            ExportColumn::make('supervisor.name')
+                ->label('Supervisor'),
+            ExportColumn::make('position.name')
+                ->label('Position'),
+            ExportColumn::make('position.salary')
+                ->label('Salary'),
+            ExportColumn::make('bankAccount.bank.name')
+                ->label('Bank Name'),
+            ExportColumn::make('bankAccount.account')
+                ->label('Bank Account Number'),
             ExportColumn::make('citizenship.name')
                 ->label('Citizenship'),
-            ExportColumn::make('internal_id')
-                ->label('Internal ID'),
+            ExportColumn::make('terminated_at')
+                ->label('Terminated At')
+                ->state(fn ($record) => $record->terminated_at?->format('Y-m-d')),
         ];
     }
 

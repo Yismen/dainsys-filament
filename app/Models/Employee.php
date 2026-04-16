@@ -387,6 +387,7 @@ class Employee extends AppModel implements HasMedia
             'gender' => Genders::class,
             'personal_id_type' => PersonalIdTypes::class,
             'has_kids' => 'boolean',
+            'terminated_at' => 'datetime',
         ];
     }
 
