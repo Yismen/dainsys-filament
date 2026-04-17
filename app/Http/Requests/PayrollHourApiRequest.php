@@ -18,7 +18,7 @@ class PayrollHourApiRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'date' => ['nullable', $this->dateFilterRule()],
+            'date' => ['required', $this->dateFilterRule()],
             'week_ending_at' => ['nullable', $this->dateFilterRule()],
             'payroll_ending_at' => ['nullable', $this->dateFilterRule()],
         ];
@@ -34,7 +34,7 @@ class PayrollHourApiRequest extends FormRequest
             try {
                 app(DateFilterRangeService::class)->resolve((string) $value);
             } catch (\Throwable) {
-                $fail("The {$attribute} must be a valid date, date range, or fixed value in the format last_N_days.");
+                $fail("The {$attribute} must be a valid date, date range, or fixed value in the format last_N_days or last_N_months.");
             }
         };
     }

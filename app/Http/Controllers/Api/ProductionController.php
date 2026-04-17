@@ -17,7 +17,7 @@ use Illuminate\Pipeline\Pipeline;
 
 class ProductionController extends Controller
 {
-    #[QueryParameter('date', description: 'Date filter. Use YYYY-MM-DD, YYYY-MM-DD,YYYY-MM-DD, or last_N_days, or last_N_months')]
+    #[QueryParameter('date', description: 'Date filter. Use YYYY-MM-DD, YYYY-MM-DD,YYYY-MM-DD, or last_N_days, or last_N_months', required: true, example: '2026-01-31')]
     #[QueryParameter('campaign', description: 'ID or Name of the campaign to filter productions')]
     #[QueryParameter('project', description: 'ID or Name of the project to filter productions')]
     #[QueryParameter('employee', description: 'ID or Name of the employee to filter productions')]

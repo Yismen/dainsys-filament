@@ -17,7 +17,7 @@ it('returns correct structure', function (): void {
     PayrollHour::factory()->create();
     Sanctum::actingAs(user: User::factory()->create(), abilities: ['use-dainsys']);
 
-    $response = $this->getJson('/api/payroll_hours');
+    $response = $this->getJson('/api/payroll_hours?date='.now()->format('Y-m-d'));
 
     $response->assertOk()
         ->assertJsonStructure([
@@ -39,6 +39,14 @@ it('returns correct structure', function (): void {
                 ],
             ],
         ]);
+});
+
+it('date filter is required', function (): void {
+    PayrollHour::factory()->create();
+    Sanctum::actingAs(user: User::factory()->create(), abilities: ['use-dainsys']);
+
+    $this->getJson('/api/payroll_hours')
+        ->assertJsonValidationErrorFor('date');
 });
 
 it('filters by date range', function (): void {
@@ -63,13 +71,24 @@ it('filters by fixed date range value using last n days format', function (): vo
     expect(count($response->json('data')))->toBe(1);
 });
 
+it('filters by fixed date range value using last n months format', function (): void {
+    PayrollHour::factory()->create(['date' => now()->subMonth()->format('Y-m-d')]);
+    PayrollHour::factory()->create(['date' => now()->subMonths(4)->format('Y-m-d')]);
+
+    Sanctum::actingAs(user: User::factory()->create(), abilities: ['use-dainsys']);
+
+    $response = $this->getJson('/api/payroll_hours?date=last_2_months');
+
+    expect(count($response->json('data')))->toBe(1);
+});
+
 it('filters by week ending at', function (): void {
     PayrollHour::factory()->create(['date' => '2026-01-13']);
     PayrollHour::factory()->create(['date' => '2026-01-20']);
 
     Sanctum::actingAs(user: User::factory()->create(), abilities: ['use-dainsys']);
 
-    $response = $this->getJson('/api/payroll_hours?week_ending_at=2026-01-18');
+    $response = $this->getJson('/api/payroll_hours?date=2026-01-01,2026-01-31&week_ending_at=2026-01-18');
 
     expect(count($response->json('data')))->toBe(1);
 });
@@ -80,7 +99,7 @@ it('filters week ending at by fixed date range value using last n days format', 
 
     Sanctum::actingAs(user: User::factory()->create(), abilities: ['use-dainsys']);
 
-    $response = $this->getJson('/api/payroll_hours?week_ending_at=last_45_days');
+    $response = $this->getJson('/api/payroll_hours?date=last_120_days&week_ending_at=last_45_days');
 
     expect(count($response->json('data')))->toBe(1);
 });
@@ -91,7 +110,7 @@ it('filters by payroll ending at', function (): void {
 
     Sanctum::actingAs(user: User::factory()->create(), abilities: ['use-dainsys']);
 
-    $response = $this->getJson('/api/payroll_hours?payroll_ending_at=2026-01-15');
+    $response = $this->getJson('/api/payroll_hours?date=2026-01-01,2026-01-31&payroll_ending_at=2026-01-15');
 
     expect(count($response->json('data')))->toBe(1);
 });
@@ -102,7 +121,7 @@ it('filters payroll ending at by fixed date range value using last n days format
 
     Sanctum::actingAs(user: User::factory()->create(), abilities: ['use-dainsys']);
 
-    $response = $this->getJson('/api/payroll_hours?payroll_ending_at=last_45_days');
+    $response = $this->getJson('/api/payroll_hours?date=last_120_days&payroll_ending_at=last_45_days');
 
     expect(count($response->json('data')))->toBe(1);
 });
@@ -127,12 +146,12 @@ it('caches payroll hours response and loads from cache on subsequent requests', 
     Sanctum::actingAs(user: User::factory()->create(), abilities: ['use-dainsys']);
 
     // First request caches the response
-    $response1 = $this->getJson('/api/payroll_hours');
+    $response1 = $this->getJson('/api/payroll_hours?date='.now()->format('Y-m-d'));
     $response1->assertOk();
     $data1 = $response1->json('data');
 
     // Second request should load from cache and return same data
-    $response2 = $this->getJson('/api/payroll_hours');
+    $response2 = $this->getJson('/api/payroll_hours?date='.now()->format('Y-m-d'));
     $response2->assertOk();
     $data2 = $response2->json('data');
 

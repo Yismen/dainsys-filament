@@ -14,9 +14,9 @@ use Illuminate\Pipeline\Pipeline;
 
 class PayrollHourController extends Controller
 {
-    #[QueryParameter('date', description: 'Date filter. Use YYYY-MM-DD, YYYY-MM-DD,YYYY-MM-DD, or last_N_days')]
-    #[QueryParameter('week_ending_at', description: 'Week ending filter. Use YYYY-MM-DD, YYYY-MM-DD,YYYY-MM-DD, or last_N_days')]
-    #[QueryParameter('payroll_ending_at', description: 'Payroll ending filter. Use YYYY-MM-DD, YYYY-MM-DD,YYYY-MM-DD, or last_N_days')]
+    #[QueryParameter('date', required: true, description: 'Date filter. Use YYYY-MM-DD, YYYY-MM-DD,YYYY-MM-DD, or last_N_days, or last_N_months')]
+    #[QueryParameter('week_ending_at', description: 'Week ending filter. Use YYYY-MM-DD', example: '2026-01-31')]
+    #[QueryParameter('payroll_ending_at', description: 'Payroll ending filter. Use YYYY-MM-DD', example: '2026-01-31')]
     public function __invoke(PayrollHourApiRequest $request)
     {
         $payrollHoursData = app(Pipeline::class)
