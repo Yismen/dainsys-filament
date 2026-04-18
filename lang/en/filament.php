@@ -113,6 +113,18 @@ return [
     'not_verified' => 'Not Verified',
     'has_employee_id' => 'Has Employee ID',
     'no_employee_id' => 'No Employee ID',
+    'log' => 'Log',
+    'subject' => 'Subject',
+    'subject_id' => 'Subject ID',
+    'causer_type' => 'Causer Type',
+    'user_id' => 'User ID',
+    'ip_address' => 'IP Address',
+    'browser' => 'Browser',
+    'event' => 'Event',
+    'role' => 'Role',
+    'joined' => 'Joined',
+    'action' => 'Action',
+    'timestamp' => 'Timestamp',
 
     /*
     |--------------------------------------------------------------------------

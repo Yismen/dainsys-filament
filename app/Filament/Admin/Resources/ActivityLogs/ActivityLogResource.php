@@ -70,65 +70,74 @@ class ActivityLogResource extends Resource
             ->defaultSort('created_at', 'desc')
             ->columns([
                 TextColumn::make('created_at')
+                    ->label(__('filament.date'))
                     ->date()
                     ->sortable(),
                 TextColumn::make('log_name')
+                    ->label(__('filament.log'))
                     ->searchable(isIndividual: true),
                 TextColumn::make('subject_type')
+                    ->label(__('filament.subject'))
                     ->wrap()
                     ->sortable()
                     ->searchable(isIndividual: true),
                 TextColumn::make('subject_id')
+                    ->label(__('filament.subject_id'))
                     ->wrap()
                     ->numeric()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('causer_type')
+                    ->label(__('filament.causer_type'))
                     ->wrap()
                     ->sortable()
                     ->searchable(isIndividual: true)
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('causer.name')
+                    ->label(__('filament.user'))
                     ->wrap()
                     ->searchable(isIndividual: true),
                 TextColumn::make('properties.user_id')
-                    ->label('User ID')
+                    ->label(__('filament.user_id'))
                     ->state(fn (Activity $record): ?string => $record->getExtraProperty('user_id'))
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('properties.name')
-                    ->label('Name')
+                    ->label(__('filament.name'))
                     ->state(fn (Activity $record): ?string => $record->getExtraProperty('name'))
                     ->searchable(isIndividual: true)
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('properties.email')
-                    ->label('Email')
+                    ->label(__('filament.email'))
                     ->state(fn (Activity $record): ?string => $record->getExtraProperty('email'))
                     ->searchable(isIndividual: true)
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('properties.ip_address')
-                    ->label('IP Address')
+                    ->label(__('filament.ip_address'))
                     ->state(fn (Activity $record): ?string => $record->getExtraProperty('ip_address'))
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('properties.browser')
-                    ->label('Browser')
+                    ->label(__('filament.browser'))
                     ->state(fn (Activity $record): ?string => $record->getExtraProperty('browser'))
                     ->wrap()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('event')
+                    ->label(__('filament.event'))
                     ->searchable(isIndividual: true),
                 TextColumn::make('updated_at')
+                    ->label(__('filament.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 SelectFilter::make('log_name')
-                    ->label('Log')
+                    ->label(__('filament.log'))
                     ->options([
                         'authentication' => 'Authentication',
                         'default' => 'Default',
                     ]),
                 SelectFilter::make('event')
+                    ->label(__('filament.event'))
                     ->options([
                         'login' => 'Login',
                         'updated' => 'Updated',

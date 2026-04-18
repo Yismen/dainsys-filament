@@ -112,6 +112,18 @@ return [
     'not_verified' => 'No Verificado',
     'has_employee_id' => 'Tiene ID de Empleado',
     'no_employee_id' => 'Sin ID de Empleado',
+    'log' => 'Registro',
+    'subject' => 'Sujeto',
+    'subject_id' => 'ID de Sujeto',
+    'causer_type' => 'Tipo de Responsable',
+    'user_id' => 'ID de Usuario',
+    'ip_address' => 'Dirección IP',
+    'browser' => 'Navegador',
+    'event' => 'Evento',
+    'role' => 'Rol',
+    'joined' => 'Se unió',
+    'action' => 'Acción',
+    'timestamp' => 'Fecha/Hora',
 
     /*
     |--------------------------------------------------------------------------

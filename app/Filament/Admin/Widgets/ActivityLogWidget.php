@@ -23,18 +23,18 @@ class ActivityLogWidget extends BaseWidget
             ->query($this->getQuery())
             ->columns([
                 TextColumn::make('causer.name')
-                    ->label('User')
+                    ->label(__('filament.user'))
                     ->wrap()
                     ->sortable()
                     ->searchable()
                     ->default('—'),
                 TextColumn::make('description')
-                    ->label('Action')
+                    ->label(__('filament.action'))
                     ->sortable()
                     ->searchable()
                     ->formatStateUsing(fn (string $state) => ucfirst($state)),
                 TextColumn::make('subject_type')
-                    ->label('Subject')
+                    ->label(__('filament.subject'))
                     ->sortable()
                     ->formatStateUsing(function (?string $state) {
                         if (! $state) {
@@ -44,13 +44,13 @@ class ActivityLogWidget extends BaseWidget
                         return class_basename($state);
                     }),
                 TextColumn::make('created_at')
-                    ->label('Timestamp')
+                    ->label(__('filament.timestamp'))
                     ->dateTime('M d, Y H:i')
                     ->sortable(),
             ])
             ->filters([
                 SelectFilter::make('description')
-                    ->label('Action')
+                    ->label(__('filament.action'))
                     ->options([
                         'created' => 'Created',
                         'updated' => 'Updated',
@@ -58,7 +58,7 @@ class ActivityLogWidget extends BaseWidget
                         'User logged in' => 'User logged in',
                     ]),
                 SelectFilter::make('subject_type')
-                    ->label('Subject')
+                    ->label(__('filament.subject'))
                     ->options(Activity::query()
                         ->select('subject_type')
                         ->distinct()

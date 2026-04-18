@@ -16,20 +16,28 @@ class RecentUsersWidget extends BaseWidget
 
     protected static ?int $sort = 4;
 
+    public static function canView(): bool
+    {
+        return true;
+    }
+
     public function table(Table $table): Table
     {
         return $table
             ->query($this->getQuery())
             ->columns([
                 TextColumn::make('name')
+                    ->label(__('filament.name'))
                     ->wrap()
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('email')
+                    ->label(__('filament.email'))
                     ->wrap()
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('role')
+                    ->label(__('filament.role'))
                     ->getStateUsing(function (User $record) {
                         return $record->getRoleNames()->first() ?? 'No Role';
                     })
@@ -41,7 +49,7 @@ class RecentUsersWidget extends BaseWidget
                         'success' => 'employee',
                     ]),
                 TextColumn::make('created_at')
-                    ->label('Joined')
+                    ->label(__('filament.joined'))
                     ->dateTime('M d, Y')
                     ->sortable(),
             ])

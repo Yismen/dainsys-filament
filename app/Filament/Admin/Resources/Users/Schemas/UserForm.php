@@ -21,24 +21,24 @@ class UserForm
                     ->columns(2)
                     ->schema([
                         TextInput::make('name')
-                            ->label(__('filament.admin.name'))
+                            ->label(__('filament.name'))
                             ->required(),
                         TextInput::make('email')
-                            ->label(__('filament.admin.email'))
+                            ->label(__('filament.email'))
                             ->unique(ignoreRecord: true)
                             ->email()
                             ->required(),
                         TextInput::make('password')
-                            ->label(__('filament.admin.password'))
+                            ->label(__('filament.password'))
                             ->password()
                             ->visibleOn('create')
                             ->required(fn (string $context): bool => $context === 'create'),
                         Toggle::make('is_active')
-                            ->label(__('filament.admin.is_active'))
+                            ->label(__('filament.is_active'))
                             ->visibleOn('edit'),
 
                         CheckboxList::make('roles')
-                            ->label(__('filament.admin.roles'))
+                            ->label(__('filament.roles'))
                             ->relationship('roles', 'name')
                             ->options(ModelListService::make(Role::query()))
                             ->columns(2)
