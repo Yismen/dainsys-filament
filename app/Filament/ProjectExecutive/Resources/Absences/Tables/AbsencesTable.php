@@ -23,31 +23,36 @@ class AbsencesTable
             ->defaultSort('date', 'desc')
             ->columns([
                 TextColumn::make('date')
+                    ->label(__('filament.date'))
                     ->date()
                     ->sortable(),
                 TextColumn::make('employee.full_name')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('status')
+                    ->label(__('filament.status'))
                     ->badge()
                     ->sortable(),
                 TextColumn::make('type')
+                    ->label(__('filament.type'))
                     ->badge()
-                    ->placeholder('Pending')
+                    ->placeholder(__('filament.pending'))
                     ->sortable(),
                 TextColumn::make('comment')
+                    ->label(__('filament.comment'))
                     ->placeholder('-')
                     ->wrap(),
             ])
             ->filters([
                 Filter::make('date')
                     ->columnSpanFull()
+                    ->label(__('filament.date'))
                     ->schema([
                         DatePicker::make('date_from')
-                            ->label('Date from'),
+                            ->label(__('filament.date_from')),
                         DatePicker::make('date_until')
-                            ->label('Date until'),
+                            ->label(__('filament.date_until')),
                     ])
                     ->columns(2)
                     ->query(function (Builder $query, array $data): Builder {
@@ -62,7 +67,7 @@ class AbsencesTable
                             );
                     }),
                 SelectFilter::make('employee_id')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->options(function (): array {
                         $managerId = Auth::id();
 
@@ -79,11 +84,11 @@ class AbsencesTable
                     })
                     ->searchable(),
                 SelectFilter::make('status')
-                    ->label('Status')
+                    ->label(__('filament.status'))
                     ->options(AbsenceStatuses::class)
                     ->searchable(),
                 SelectFilter::make('type')
-                    ->label('Type')
+                    ->label(__('filament.type'))
                     ->options(AbsenceTypes::class)
                     ->searchable(),
             ])

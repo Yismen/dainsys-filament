@@ -29,39 +29,49 @@ class DowntimesTable
             ->defaultSort('date', 'desc')
             ->columns([
                 TextColumn::make('date')
+                    ->label(__('filament.date'))
                     ->date()
                     ->sortable(),
                 TextColumn::make('employee.full_name')
+                    ->label(__('filament.employee'))
                     ->sortable()
                     ->wrap()
                     ->searchable(),
                 TextColumn::make('campaign.name')
+                    ->label(__('filament.campaign'))
                     ->sortable()
                     ->wrap()
                     ->searchable(),
                 TextColumn::make('downtimeReason.name')
+                    ->label(__('filament.downtime_reason'))
                     ->sortable()
                     ->wrap()
                     ->searchable(),
                 TextColumn::make('total_time')
+                    ->label(__('filament.total_time'))
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('status')
+                    ->label(__('filament.status'))
                     ->badge()
                     ->sortable(),
                 TextColumn::make('aprover.name')
+                    ->label(__('filament.approver'))
                     ->sortable()
                     ->wrap()
                     ->searchable(),
                 TextColumn::make('deleted_at')
+                    ->label(__('filament.deleted_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
+                    ->label(__('filament.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label(__('filament.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -73,9 +83,9 @@ class DowntimesTable
                     ->columnSpanFull()
                     ->schema([
                         DatePicker::make('date_from')
-                            ->label('Date from'),
+                            ->label(__('filament.date_from')),
                         DatePicker::make('date_until')
-                            ->label('Date until'),
+                            ->label(__('filament.date_until')),
                     ])
                     ->columns(2)
                     ->query(function (Builder $query, array $data): Builder {
@@ -90,9 +100,11 @@ class DowntimesTable
                             );
                     }),
                 SelectFilter::make('status')
+                    ->label(__('filament.status'))
                     ->options(DowntimeStatuses::toArray()),
 
                 SelectFilter::make('employee_id')
+                    ->label(__('filament.employee'))
                     ->options(ModelListService::make(
                         model: Employee::query()
                             ->active()

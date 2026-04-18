@@ -21,40 +21,41 @@ class EmployeesTable
             ->defaultSort('full_name')
             ->columns([
                 SpatieMediaLibraryImageColumn::make('profile_photo')
-                    ->label('Photo')
+                    ->label(__('filament.profile_photo'))
                     ->collection(Employee::PROFILE_PHOTO_COLLECTION)
                     ->conversion(Employee::PROFILE_PHOTO_THUMBNAIL_CONVERSION)
                     ->defaultImageUrl(fn (Employee $record) => $record->getProfilePhotoPlaceholderUrl())
                     ->circular(),
                 TextColumn::make('full_name')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->sortable()
                     ->searchable()
                     ->wrap(),
                 TextColumn::make('project.name')
-                    ->label('Project')
+                    ->label(__('filament.project'))
                     ->searchable()
                     ->sortable()
                     ->wrap(),
                 TextColumn::make('position.name')
-                    ->label('Position')
+                    ->label(__('filament.position'))
                     ->searchable()
                     ->sortable()
                     ->wrap(),
                 TextColumn::make('site.name')
-                    ->label('Site')
+                    ->label(__('filament.site'))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('status')
+                    ->label(__('filament.status'))
                     ->badge(),
                 TextColumn::make('hired_at')
-                    ->label('Hired Date')
+                    ->label(__('filament.hired_at'))
                     ->date()
                     ->sortable(),
             ])
             ->filters([
                 SelectFilter::make('project_id')
-                    ->label('Project')
+                    ->label(__('filament.project'))
                     ->options(function (): array {
                         $managerId = Auth::id();
 
@@ -68,7 +69,7 @@ class EmployeesTable
                     })
                     ->searchable(),
                 SelectFilter::make('status')
-                    ->label('Status')
+                    ->label(__('filament.status'))
                     ->options(EmployeeStatuses::class)
                     ->searchable(),
             ])

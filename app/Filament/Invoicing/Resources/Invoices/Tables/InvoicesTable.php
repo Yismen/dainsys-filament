@@ -46,7 +46,7 @@ class InvoicesTable
                                 ->searchable()
                                 ->formatStateUsing(fn (string $state): View => view(
                                     'filament.invoices.table.state', [
-                                        'label' => __('Invoice Number'),
+                                        'label' => __('filament.invoice_number'),
                                         'value' => $state,
                                     ]
                                 )),
@@ -60,7 +60,7 @@ class InvoicesTable
                                 ->sortable()
                                 ->formatStateUsing(fn (string $state): View => view(
                                     'filament.invoices.table.state', [
-                                        'label' => __('Invoice Date'),
+                                        'label' => __('filament.invoice_date'),
                                         'value' => Carbon::parse($state)->format('M d, Y'),
                                     ])),
                             TextColumn::make('due_date')
@@ -68,7 +68,7 @@ class InvoicesTable
                                 ->sortable()
                                 ->formatStateUsing(fn ($state): View => view(
                                     'filament.invoices.table.state', [
-                                        'label' => __('Due At'),
+                                        'label' => __('filament.due_at'),
                                         'value' => $state->format('M d, Y'),
                                     ])),
                             TextColumn::make('status')
@@ -76,7 +76,7 @@ class InvoicesTable
                                 ->color(fn ($state) => $state->getColor())
                                 ->formatStateUsing(fn (InvoiceStatuses $state): View => view(
                                     'filament.invoices.table.state', [
-                                        'label' => __('Invoice Status'),
+                                        'label' => __('filament.invoice_status'),
                                         'value' => $state->getLabel(),
                                     ])),
                         ]),
@@ -90,7 +90,7 @@ class InvoicesTable
                                 ->summarize(Summarizer::make()->using(fn (DabasaseQueryBuilder $query) => Number::currency($query->sum('total_amount') / 100)))
                                 ->formatStateUsing(fn ($state): View => view(
                                     'filament.invoices.table.state', [
-                                        'label' => __('Total Amount'),
+                                        'label' => __('filament.total_amount'),
                                         'value' => Number::currency($state),
                                     ])),
                             TextColumn::make('total_paid')
@@ -99,17 +99,17 @@ class InvoicesTable
                                 ->summarize(Summarizer::make()->using(fn (DabasaseQueryBuilder $query) => Number::currency($query->sum('total_paid') / 100)))
                                 ->formatStateUsing(fn ($state): View => view(
                                     'filament.invoices.table.state', [
-                                        'label' => __('Amount Paid'),
+                                        'label' => __('filament.amount_paid'),
                                         'value' => Number::currency($state),
                                     ])),
                             TextColumn::make('balance_pending')
-                                ->label('Balance')
+                                ->label(__('filament.balance'))
                                 ->numeric()
                                 ->color(fn (float $state) => $state == 0 ? Color::Green : Color::Red)
                                 ->summarize(Summarizer::make()->using(fn (DabasaseQueryBuilder $query) => Number::currency($query->sum('balance_pending') / 100)))
                                 ->formatStateUsing(fn ($state): View => view(
                                     'filament.invoices.table.state', [
-                                        'label' => __('Balance'),
+                                        'label' => __('filament.balance'),
                                         'value' => Number::currency($state),
                                     ])),
                         ]),
@@ -121,39 +121,39 @@ class InvoicesTable
                             ->columns(2)
                             ->schema([
                                 TextColumn::make('project.client.name')
-                                    ->label('Client')
+                                    ->label(__('filament.client'))
                                     ->searchable()
                                     ->sortable()
                                     ->formatStateUsing(fn ($state): View => view(
                                         'filament.invoices.table.state', [
-                                            'label' => __('Client'),
+                                            'label' => __('filament.client'),
                                             'value' => $state,
                                         ])),
                                 TextColumn::make('project.name')
-                                    ->label('Project')
+                                    ->label(__('filament.project'))
                                     ->searchable()
                                     ->sortable()
                                     ->formatStateUsing(fn ($state): View => view(
                                         'filament.invoices.table.state', [
-                                            'label' => __('Project'),
+                                            'label' => __('filament.project'),
                                             'value' => $state,
                                         ])),
                                 TextColumn::make('agent.name')
-                                    ->label('Agent')
+                                    ->label(__('filament.agent'))
                                     ->searchable()
                                     ->sortable()
                                     ->formatStateUsing(fn ($state): View => view(
                                         'filament.invoices.table.state', [
-                                            'label' => __('Agent'),
+                                            'label' => __('filament.agent'),
                                             'value' => $state,
                                         ])),
                                 TextColumn::make('campaign.name')
-                                    ->label('Campaign')
+                                    ->label(__('filament.campaign'))
                                     ->searchable()
                                     ->sortable()
                                     ->formatStateUsing(fn ($state): View => view(
                                         'filament.invoices.table.state', [
-                                            'label' => __('Campaign'),
+                                            'label' => __('filament.campaign'),
                                             'value' => $state,
                                         ])),
                             ]),
@@ -201,29 +201,29 @@ class InvoicesTable
             ->filtersFormColumns(2)
             ->filters([
                 SelectFilter::make('status')
-                    ->label(__('Status'))
+                    ->label(__('filament.status'))
                     ->options(collect(InvoiceStatuses::cases())->mapWithKeys(fn (InvoiceStatuses $status): array => [
                         $status->value => str($status->value)->replace('_', ' ')->title()->toString(),
                     ])->toArray()),
                 SelectFilter::make('project_id')
-                    ->label(__('Project'))
+                    ->label(__('filament.project'))
                     ->options(ModelListService::make(Project::query()))
                     ->searchable(),
                 SelectFilter::make('agent_id')
-                    ->label(__('Agent'))
+                    ->label(__('filament.agent'))
                     ->options(ModelListService::make(InvoiceAgent::query()))
                     ->searchable(),
                 SelectFilter::make('campaign_id')
-                    ->label(__('Campaign'))
+                    ->label(__('filament.campaign'))
                     ->options(ModelListService::make(Campaign::query()))
                     ->searchable(),
                 TrashedFilter::make()
-                    ->label(__('Trashed')),
+                    ->label(__('filament.trashed')),
             ])
             ->headerActions([
                 CreateAction::make()
-                    ->label(__('Create Invoice'))
-                    ->modalHeading(__('Create Invoice'))
+                    ->label(__('filament.create_invoice'))
+                    ->modalHeading(__('filament.create_invoice'))
                     ->modalWidth('7xl')
                     ->stickyModalHeader()
                     ->stickyModalFooter()
@@ -231,11 +231,11 @@ class InvoicesTable
             ])
             ->recordActions([
                 ViewAction::make()
-                    ->label(__('View'))
-                    ->modalHeading(__('View Invoice')),
+                    ->label(__('filament.view'))
+                    ->modalHeading(__('filament.view_invoice')),
                 EditAction::make()
-                    ->label(__('Edit'))
-                    ->modalHeading(__('Edit Invoice'))
+                    ->label(__('filament.edit'))
+                    ->modalHeading(__('filament.edit_invoice'))
                     ->modalWidth('7xl')
                     ->stickyModalHeader()
                     ->stickyModalFooter()
@@ -246,12 +246,12 @@ class InvoicesTable
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make()
-                        ->label(__('Delete')),
+                        ->label(__('filament.delete')),
                     ForceDeleteBulkAction::make()
-                        ->label(__('Force delete')),
+                        ->label(__('filament.force_delete')),
                     RestoreBulkAction::make()
-                        ->label(__('Restore')),
-                ])->label(__('Bulk actions')),
+                        ->label(__('filament.restore')),
+                ])->label(__('filament.bulk_actions')),
             ]);
     }
 }

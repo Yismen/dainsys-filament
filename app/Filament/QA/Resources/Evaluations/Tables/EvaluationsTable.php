@@ -32,69 +32,75 @@ class EvaluationsTable
             ->defaultSort('evaluation_date', 'desc')
             ->columns([
                 TextColumn::make('id')
-                    ->label('ID')
+                    ->label(__('filament.id'))
                     ->searchable()
                     ->sortable()
                     ->copyable()
                     ->wrap()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('record_number')
-                    ->label('Record #')
+                    ->label(__('filament.record_number'))
                     ->searchable()
                     ->sortable()
                     ->wrap()
                     ->copyable(),
                 TextColumn::make('evaluation_date')
+                    ->label(__('filament.evaluation_date'))
                     ->date()
                     ->wrap()
                     ->wrapHeader()
                     ->sortable(),
                 TextColumn::make('employee.full_name')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->sortable()
                     ->wrap()
                     ->searchable(),
                 TextColumn::make('evaluator.name')
-                    ->label('Evaluator')
+                    ->label(__('filament.evaluator'))
                     ->sortable()
                     ->wrap()
                     ->searchable(),
                 TextColumn::make('qaForm.name')
-                    ->label('QA Form')
+                    ->label(__('filament.qa_form'))
                     ->sortable()
                     ->wrap()
                     ->searchable(),
                 TextColumn::make('status')
+                    ->label(__('filament.status'))
                     ->badge()
                     ->sortable(),
                 TextColumn::make('success_percentage')
-                    ->label('Success %')
+                    ->label(__('filament.score'))
                     ->wrapHeader()
                     ->sortable(),
                 TextColumn::make('threshold_percentage')
-                    ->label('Threshold %')
+                    ->label(__('filament.threshold'))
                     ->wrapHeader()
                     ->sortable(),
                 TextColumn::make('points_achieved')
+                    ->label(__('filament.points_achieved'))
                     ->wrapHeader()
                     ->sortable(),
                 TextColumn::make('points_possible')
+                    ->label(__('filament.points_possible'))
                     ->wrapHeader()
                     ->sortable(),
                 TextColumn::make('created_at')
+                    ->label(__('filament.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 SelectFilter::make('status')
+                    ->label(__('filament.status'))
                     ->options(EvaluationStatuses::class),
                 SelectFilter::make('employee_id')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->options(ModelListService::make(Employee::query(), value_field: 'full_name'))
                     ->searchable(),
                 SelectFilter::make('evaluator_id')
-                    ->label('Evaluator')
+                    ->label(__('filament.evaluator'))
                     ->options(ModelListService::make(User::query()))
                     ->searchable(),
                 TrashedFilter::make(),
@@ -104,7 +110,7 @@ class EvaluationsTable
                     ViewAction::make(),
                     EditAction::make(),
                     Action::make('publish')
-                        ->label('Publish')
+                        ->label(__('filament.publish'))
                         ->icon('heroicon-o-paper-airplane')
                         ->color('success')
                         ->visible(function (Evaluation $record): bool {
@@ -120,7 +126,7 @@ class EvaluationsTable
                         })
                         ->schema([
                             Textarea::make('comment')
-                                ->label('Publish comment')
+                                ->label(__('filament.publish_comment'))
                                 ->required(),
                         ])
                         ->action(function (Evaluation $record, array $data): void {
@@ -130,7 +136,7 @@ class EvaluationsTable
                             );
                         }),
                     Action::make('resolve_dispute')
-                        ->label('Resolve dispute')
+                        ->label(__('filament.resolve_dispute'))
                         ->icon('heroicon-o-scale')
                         ->color('warning')
                         ->visible(function (Evaluation $record): bool {
@@ -142,14 +148,14 @@ class EvaluationsTable
                         })
                         ->schema([
                             Select::make('resolution_status')
-                                ->label('Resolution')
+                                ->label(__('filament.resolution'))
                                 ->options([
-                                    EvaluationStatuses::AcceptedClosed->value => 'Accepted and Closed',
-                                    EvaluationStatuses::Rejected->value => 'Rejected',
+                                    EvaluationStatuses::AcceptedClosed->value => __('filament.accepted_and_closed'),
+                                    EvaluationStatuses::Rejected->value => __('filament.rejected'),
                                 ])
                                 ->required(),
                             Textarea::make('comment')
-                                ->label('Manager comment')
+                                ->label(__('filament.manager_comment'))
                                 ->required(),
                         ])
                         ->action(function (Evaluation $record, array $data): void {

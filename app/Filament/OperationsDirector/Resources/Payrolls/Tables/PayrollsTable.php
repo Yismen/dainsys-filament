@@ -21,22 +21,27 @@ class PayrollsTable
             ->defaultSort('payable_date', 'desc')
             ->columns([
                 TextColumn::make('payable_date')
+                    ->label(__('filament.payable_date'))
                     ->date()
                     ->sortable(),
                 TextColumn::make('employee.full_name')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('total_hours')
+                    ->label(__('filament.total_hours'))
                     ->numeric(decimalPlaces: 2)
                     ->sortable(),
                 TextColumn::make('gross_income')
+                    ->label(__('filament.gross_income'))
                     ->numeric(decimalPlaces: 2)
                     ->sortable(),
                 TextColumn::make('net_payroll')
+                    ->label(__('filament.net_payroll'))
                     ->numeric(decimalPlaces: 2)
                     ->sortable(),
                 TextColumn::make('total_payroll')
+                    ->label(__('filament.total_payroll'))
                     ->numeric(decimalPlaces: 2)
                     ->sortable(),
             ])
@@ -45,9 +50,9 @@ class PayrollsTable
                     ->columnSpanFull()
                     ->schema([
                         DatePicker::make('payable_date_from')
-                            ->label('Payable date from'),
+                            ->label(__('filament.payable_date_from')),
                         DatePicker::make('payable_date_until')
-                            ->label('Payable date until'),
+                            ->label(__('filament.payable_date_until')),
                     ])
                     ->columns(2)
                     ->query(function (Builder $query, array $data): Builder {

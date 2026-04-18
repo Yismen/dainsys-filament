@@ -23,27 +23,30 @@ class ProductionsTable
             ->defaultSort('date', 'desc')
             ->columns([
                 TextColumn::make('date')
+                    ->label(__('filament.date'))
                     ->date()
                     ->sortable(),
                 TextColumn::make('employee.full_name')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->searchable()
                     ->sortable()
                     ->wrap(),
                 TextColumn::make('campaign.name')
-                    ->label('Campaign')
+                    ->label(__('filament.campaign'))
                     ->searchable()
                     ->sortable()
                     ->tooltip(fn (Production $record): ?string => $record->campaign?->name)
                     ->wrap(),
                 TextColumn::make('conversions')
+                    ->label(__('filament.conversions'))
                     ->numeric(decimalPlaces: 2)
                     ->sortable(),
                 TextColumn::make('production_time')
-                    ->label('Production Time')
+                    ->label(__('filament.production_time'))
                     ->numeric(decimalPlaces: 2)
                     ->sortable(),
                 TextColumn::make('revenue')
+                    ->label(__('filament.revenue'))
                     ->numeric(decimalPlaces: 2)
                     ->sortable(),
             ])
@@ -52,9 +55,9 @@ class ProductionsTable
                     ->columnSpanFull()
                     ->schema([
                         DatePicker::make('date_from')
-                            ->label('Date from'),
+                            ->label(__('filament.date_from')),
                         DatePicker::make('date_until')
-                            ->label('Date until'),
+                            ->label(__('filament.date_until')),
                     ])
                     ->columns(2)
                     ->query(function (Builder $query, array $data): Builder {
@@ -69,14 +72,14 @@ class ProductionsTable
                             );
                     }),
                 SelectFilter::make('employee_id')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->options(fn (): array => ModelListService::make(
                         model: Employee::query(),
                         value_field: 'full_name',
                     ))
                     ->searchable(),
                 SelectFilter::make('campaign_id')
-                    ->label('Campaign')
+                    ->label(__('filament.campaign'))
                     ->options(fn (): array => ModelListService::make(model: Campaign::query()))
                     ->searchable(),
             ])

@@ -17,30 +17,31 @@ class ProjectsTable
             ->defaultSort('name')
             ->columns([
                 TextColumn::make('name')
-                    ->label('Project')
+                    ->label(__('filament.project'))
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('client.name')
-                    ->label('Client')
+                    ->label(__('filament.client'))
                     ->sortable()
                     ->searchable()
                     ->placeholder('-'),
                 TextColumn::make('employees_count')
-                    ->label('Employees')
+                    ->label(__('filament.employees'))
                     ->counts('employees')
                     ->sortable(),
                 TextColumn::make('campaigns_count')
-                    ->label('Campaigns')
+                    ->label(__('filament.campaigns'))
                     ->counts('campaigns')
                     ->sortable(),
                 TextColumn::make('created_at')
+                    ->label(__('filament.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 SelectFilter::make('client_id')
-                    ->label('Client')
+                    ->label(__('filament.client'))
                     ->options(fn (): array => ModelListService::make(Client::query()))
                     ->searchable(),
             ])

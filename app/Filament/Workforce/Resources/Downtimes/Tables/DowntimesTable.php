@@ -40,47 +40,58 @@ class DowntimesTable
             ->filtersFormWidth(Width::FiveExtraLarge)
             ->columns([
                 TextColumn::make('id')
-                    ->label('ID')
+                    ->label(__('filament.id'))
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('date')
+                    ->label(__('filament.date'))
                     ->date()
                     ->sortable(),
                 TextColumn::make('employee.full_name')
+                    ->label(__('filament.employee'))
                     ->sortable()
                     ->wrap()
                     ->searchable(),
                 TextColumn::make('campaign.name')
+                    ->label(__('filament.campaign'))
                     ->sortable()
                     ->wrap()
                     ->searchable(),
                 TextColumn::make('downtimeReason.name')
+                    ->label(__('filament.downtime_reason'))
                     ->sortable()
                     ->wrap()
                     ->searchable(),
                 TextColumn::make('total_time')
+                    ->label(__('filament.total_time'))
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('requester.name')
+                    ->label(__('filament.requester'))
                     ->sortable()
                     ->wrap()
                     ->searchable(),
                 TextColumn::make('status')
+                    ->label(__('filament.status'))
                     ->badge()
                     ->sortable(),
                 TextColumn::make('aprover.name')
+                    ->label(__('filament.approver'))
                     ->sortable()
                     ->wrap()
                     ->searchable(),
                 TextColumn::make('deleted_at')
+                    ->label(__('filament.deleted_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
+                    ->label(__('filament.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label(__('filament.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -89,9 +100,9 @@ class DowntimesTable
                 Filter::make('date')
                     ->schema([
                         DatePicker::make('date_from')
-                            ->label('Date from'),
+                            ->label(__('filament.date_from')),
                         DatePicker::make('date_until')
-                            ->label('Date until'),
+                            ->label(__('filament.date_until')),
                     ])
                     ->columns(2)
                     ->query(function (Builder $query, array $data): Builder {
@@ -106,22 +117,23 @@ class DowntimesTable
                             );
                     }),
                 SelectFilter::make('employee_id')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->options(ModelListService::make(model: Employee::query(), value_field: 'full_name'))
                     ->searchable(),
                 SelectFilter::make('campaign_id')
-                    ->label('Campaign')
+                    ->label(__('filament.campaign'))
                     ->searchable()
                     ->options(ModelListService::make(Campaign::query())),
                 SelectFilter::make('requester_id')
-                    ->label('Requester')
+                    ->label(__('filament.requester'))
                     ->options(ModelListService::make(User::query()))
                     ->searchable(),
                 SelectFilter::make('aprover_id')
-                    ->label('Approver')
+                    ->label(__('filament.approver'))
                     ->searchable()
                     ->options(ModelListService::make(User::query())),
                 SelectFilter::make('status')
+                    ->label(__('filament.status'))
                     ->options(DowntimeStatuses::class)
                     ->default(DowntimeStatuses::Pending->value),
                 TrashedFilter::make(),
@@ -131,13 +143,13 @@ class DowntimesTable
                     ViewAction::make(),
                     EditAction::make(),
                     Action::make('approve')
-                        ->label('Approve')
+                        ->label(__('filament.approve'))
                         ->icon('heroicon-o-check-circle')
                         ->color('success')
                         ->visible(fn (Downtime $record) => $record->status->value === 'Pending')
                         ->schema([
                             Textarea::make('comment')
-                                ->label('Approval comment')
+                                ->label(__('filament.approval_comment'))
                                 ->required(),
                         ])
                         ->action(function (Downtime $record, array $data): void {
@@ -150,13 +162,13 @@ class DowntimesTable
                             ]);
                         }),
                     Action::make('reject')
-                        ->label('Reject')
+                        ->label(__('filament.reject'))
                         ->icon('heroicon-o-x-circle')
                         ->color('danger')
                         ->visible(fn (Downtime $record) => $record->status->value === 'Pending')
                         ->schema([
                             Textarea::make('comment')
-                                ->label('Rejection comment')
+                                ->label(__('filament.rejection_comment'))
                                 ->required(),
                         ])
                         ->action(function (Downtime $record, array $data): void {
@@ -186,7 +198,7 @@ class DowntimesTable
                         ->accessSelectedRecords()
                         ->schema([
                             Textarea::make('comment')
-                                ->label('Approval comment')
+                                ->label(__('filament.approval_comment'))
                                 ->required(),
                         ])
                         ->action(function (Collection $records, array $data): void {
@@ -194,7 +206,6 @@ class DowntimesTable
                                 if ($record->status === DowntimeStatuses::Pending) {
                                     $record->aprove();
 
-                                    // Track approval comment
                                     Comment::query()->forceCreate([
                                         'text' => 'Approved: '.($data['comment'] ?? ''),
                                         'commentable_id' => $record->id,
@@ -209,7 +220,7 @@ class DowntimesTable
                         ->accessSelectedRecords()
                         ->schema([
                             Textarea::make('comment')
-                                ->label('Rejection comment')
+                                ->label(__('filament.rejection_comment'))
                                 ->required(),
                         ])
                         ->action(function (Collection $records, array $data): void {
@@ -219,14 +230,10 @@ class DowntimesTable
                                     $record->aprover_id = null;
                                     $record->saveQuietly();
 
-                                    // Remove any production entries
-                                    // (uses internal method on model)
-                                    // Ensure method exists; if not, it's a no-op
                                     if (method_exists($record, 'removeFromProduction')) {
                                         $record->removeFromProduction();
                                     }
 
-                                    // Track rejection comment
                                     Comment::query()->forceCreate([
                                         'text' => 'Rejected: '.($data['comment'] ?? ''),
                                         'commentable_id' => $record->id,

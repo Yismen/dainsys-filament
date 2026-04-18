@@ -21,16 +21,16 @@ class NightlyHoursTable
             ->defaultSort('date', 'desc')
             ->columns([
                 TextColumn::make('employee.full_name')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->sortable()
                     ->searchable()
                     ->wrap(),
                 TextColumn::make('date')
-                    ->label('Date')
+                    ->label(__('filament.date'))
                     ->date()
                     ->sortable(),
                 TextColumn::make('total_hours')
-                    ->label('Nightly Hours')
+                    ->label(__('filament.nightly_hours'))
                     ->numeric(decimalPlaces: 2)
                     ->sortable(),
             ])
@@ -39,9 +39,9 @@ class NightlyHoursTable
                     ->columnSpanFull()
                     ->schema([
                         DatePicker::make('date_from')
-                            ->label('Date from'),
+                            ->label(__('filament.date_from')),
                         DatePicker::make('date_until')
-                            ->label('Date until'),
+                            ->label(__('filament.date_until')),
                     ])
                     ->columns(2)
                     ->query(function (Builder $query, array $data): Builder {
@@ -56,6 +56,7 @@ class NightlyHoursTable
                             );
                     }),
                 SelectFilter::make('employee_id')
+                    ->label(__('filament.employee'))
                     ->options(ModelListService::make(
                         model: Employee::query()
                             ->active()

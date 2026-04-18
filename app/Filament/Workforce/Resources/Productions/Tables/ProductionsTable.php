@@ -43,82 +43,97 @@ class ProductionsTable
             ])
             ->columns([
                 TextColumn::make('id')
-                    ->label('ID')
+                    ->label(__('filament.id'))
                     ->searchable(isIndividual: true)
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('date')
+                    ->label(__('filament.date'))
                     ->date()
                     ->wrap()
                     ->sortable(),
                 TextColumn::make('employee.full_name')
+                    ->label(__('filament.employee'))
                     ->wrap()
                     ->sortable()
                     ->searchable(isIndividual: true),
                 TextColumn::make('campaign.name')
+                    ->label(__('filament.campaign'))
                     ->wrap()
                     ->sortable()
                     ->searchable(isIndividual: true)
                     ->limit(25)
                     ->tooltip(fn ($state, $record) => $record->campaign?->name),
                 TextColumn::make('campaign.project.name')
-                    ->label('Project')
+                    ->label(__('filament.project'))
                     ->wrap()
                     ->sortable()
                     ->searchable(isIndividual: true),
                 TextColumn::make('revenue_type')
+                    ->label(__('filament.revenue_type'))
                     ->wrap()
                     ->sortable()
                     ->wrapHeader()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('sph_goal')
+                    ->label(__('filament.sph_goal'))
                     ->numeric()
                     ->wrapHeader()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('total_time')
+                    ->label(__('filament.total_time'))
                     ->numeric()
                     ->wrapHeader()
                     ->sortable(),
                 TextColumn::make('production_time')
+                    ->label(__('filament.production_time'))
                     ->numeric()
                     ->wrapHeader()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('talk_time')
+                    ->label(__('filament.talk_time'))
                     ->numeric()
                     ->wrapHeader()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('billable_time')
+                    ->label(__('filament.billable_time'))
                     ->numeric()
                     ->wrapHeader()
                     ->sortable(),
                 TextColumn::make('conversions')
-                    ->label('Sales')
+                    ->label(__('filament.sales'))
                     ->numeric()
                     ->wrapHeader()
                     ->sortable(),
                 TextColumn::make('revenue_rate')
+                    ->label(__('filament.revenue_rate'))
                     ->numeric()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('revenue')
+                    ->label(__('filament.revenue'))
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('converted_to_payroll_at')
+                    ->label(__('filament.converted_to_payroll'))
                     ->dateTime()
                     ->wrapHeader()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('deleted_at')
+                    ->label(__('filament.deleted_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
+                    ->label(__('filament.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label(__('filament.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -127,9 +142,9 @@ class ProductionsTable
                 Filter::make('date')
                     ->schema([
                         DatePicker::make('date_from')
-                            ->label('Date from'),
+                            ->label(__('filament.date_from')),
                         DatePicker::make('date_until')
-                            ->label('Date until'),
+                            ->label(__('filament.date_until')),
                     ])
                     ->columns(2)
                     ->query(function (Builder $query, array $data): Builder {
@@ -144,19 +159,19 @@ class ProductionsTable
                             );
                     }),
                 SelectFilter::make('employee_id')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->options(ModelListService::make(Employee::query(), value_field: 'full_name'))
                     ->searchable(),
                 SelectFilter::make('campaign_id')
-                    ->label('Campaign')
+                    ->label(__('filament.campaign'))
                     ->options(ModelListService::make(Campaign::query()))
                     ->searchable(),
                 SelectFilter::make('revenue_type')
-                    ->label('Revenue Type')
+                    ->label(__('filament.revenue_type'))
                     ->options(RevenueTypes::class)
                     ->searchable(),
                 SelectFilter::make('project_id')
-                    ->label('Project')
+                    ->label(__('filament.project'))
                     ->options(ModelListService::make(Project::query()))
                     ->searchable()
                     ->query(function ($query, $data): void {
@@ -169,7 +184,7 @@ class ProductionsTable
                         });
                     }),
                 SelectFilter::make('supervisor_id')
-                    ->label('Supervisor')
+                    ->label(__('filament.supervisor'))
                     ->options(ModelListService::make(Supervisor::query()))
                     ->searchable(),
                 TrashedFilter::make(),

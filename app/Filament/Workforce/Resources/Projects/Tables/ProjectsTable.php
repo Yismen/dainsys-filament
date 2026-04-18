@@ -24,25 +24,30 @@ class ProjectsTable
             ->defaultSort('name')
             ->columns([
                 TextColumn::make('name')
+                    ->label(__('filament.name'))
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('client.name')
+                    ->label(__('filament.client'))
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('manager.name')
-                    ->label('Manager')
+                    ->label(__('filament.manager'))
                     ->sortable()
                     ->searchable()
-                    ->placeholder('Unassigned'),
+                    ->placeholder(__('filament.unassigned')),
                 TextColumn::make('deleted_at')
+                    ->label(__('filament.deleted_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
+                    ->label(__('filament.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label(__('filament.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -50,12 +55,12 @@ class ProjectsTable
             ->filters([
                 TrashedFilter::make(),
                 SelectFilter::make('client_id')
-                    ->label('Client')
+                    ->label(__('filament.client'))
                     ->options(fn () => ModelListService::make(Client::class))
                     ->searchable()
-                    ->placeholder('Select Client'),
+                    ->placeholder(__('filament.select_client')),
                 SelectFilter::make('manager_id')
-                    ->label('Manager')
+                    ->label(__('filament.manager'))
                     ->options(fn () => ModelListService::make(
                         User::query()->whereHas('roles', function ($query): void {
                             $query->whereIn('name', [
@@ -65,7 +70,7 @@ class ProjectsTable
                         })
                     ))
                     ->searchable()
-                    ->placeholder('Select Manager'),
+                    ->placeholder(__('filament.select_manager')),
             ])
             ->recordActions([
                 ViewAction::make(),

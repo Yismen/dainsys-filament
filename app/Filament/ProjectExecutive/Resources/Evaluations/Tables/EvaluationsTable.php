@@ -16,35 +16,35 @@ class EvaluationsTable
             ->defaultSort('evaluation_date', 'desc')
             ->columns([
                 TextColumn::make('id')
-                    ->label('ID')
+                    ->label(__('filament.id'))
                     ->searchable()
                     ->sortable()
                     ->copyable()
                     ->wrap()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('record_number')
-                    ->label('Record #')
+                    ->label(__('filament.record_number'))
                     ->searchable()
                     ->sortable()
                     ->wrap()
                     ->copyable(),
                 TextColumn::make('evaluation_date')
-                    ->label('Record Date')
+                    ->label(__('filament.record_date'))
                     ->date()
                     ->wrap()
                     ->sortable(),
                 TextColumn::make('employee.full_name')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->sortable()
                     ->wrap()
                     ->searchable(),
                 TextColumn::make('evaluator.name')
-                    ->label('Evaluator')
+                    ->label(__('filament.evaluator'))
                     ->sortable()
                     ->wrap()
                     ->searchable(),
                 TextColumn::make('qaForm.name')
-                    ->label('QA Form')
+                    ->label(__('filament.qa_form'))
                     ->sortable()
                     ->wrap()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -53,11 +53,11 @@ class EvaluationsTable
                     ->wrap()
                     ->sortable(),
                 TextColumn::make('threshold_percentage')
-                    ->label('Threshold %')
+                    ->label(__('filament.threshold'))
                     ->wrap()
                     ->sortable(),
                 TextColumn::make('success_percentage')
-                    ->label('Score %')
+                    ->label(__('filament.score'))
                     ->wrap()
                     ->sortable(),
             ])

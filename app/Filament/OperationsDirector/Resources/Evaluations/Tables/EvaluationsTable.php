@@ -19,43 +19,46 @@ class EvaluationsTable
             ->defaultSort('evaluation_date', 'desc')
             ->columns([
                 TextColumn::make('record_number')
-                    ->label('Record #')
+                    ->label(__('filament.record_number'))
                     ->searchable()
                     ->sortable()
                     ->copyable(),
                 TextColumn::make('evaluation_date')
+                    ->label(__('filament.evaluation_date'))
                     ->date()
                     ->sortable(),
                 TextColumn::make('employee.full_name')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('evaluator.name')
-                    ->label('Evaluator')
+                    ->label(__('filament.evaluator'))
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('qaForm.name')
-                    ->label('QA Form')
+                    ->label(__('filament.qa_form'))
                     ->sortable(),
                 TextColumn::make('status')
+                    ->label(__('filament.status'))
                     ->badge()
                     ->sortable(),
                 TextColumn::make('success_percentage')
-                    ->label('Score %')
+                    ->label(__('filament.score'))
                     ->sortable(),
                 TextColumn::make('threshold_percentage')
-                    ->label('Threshold %')
+                    ->label(__('filament.threshold'))
                     ->sortable(),
             ])
             ->filters([
                 SelectFilter::make('status')
+                    ->label(__('filament.status'))
                     ->options(EvaluationStatuses::class),
                 SelectFilter::make('employee_id')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->options(ModelListService::make(Employee::query(), value_field: 'full_name'))
                     ->searchable(),
                 SelectFilter::make('qa_form_id')
-                    ->label('QA Form')
+                    ->label(__('filament.qa_form'))
                     ->options(ModelListService::make(QAForm::query(), value_field: 'name'))
                     ->searchable(),
             ])

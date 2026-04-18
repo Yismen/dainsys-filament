@@ -26,46 +26,55 @@ class CampaignsTable
             ->defaultSort('name')
             ->columns([
                 TextColumn::make('id')
-                    ->label('ID')
+                    ->label(__('filament.id'))
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('name')
+                    ->label(__('filament.name'))
                     ->wrap()
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('project.name')
+                    ->label(__('filament.project'))
                     ->wrap()
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('source.name')
+                    ->label(__('filament.source'))
                     ->wrap()
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('revenue_type')
+                    ->label(__('filament.revenue_type'))
                     ->badge()
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('sph_goal')
+                    ->label(__('filament.sph_goal'))
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('revenue_rate')
+                    ->label(__('filament.revenue_rate'))
                     ->numeric()
-                    ->sortable()
                     ->sortable(),
                 TextColumn::make('description')
+                    ->label(__('filament.description'))
                     ->limit(30)
                     ->tooltip(fn (string $state) => $state)
                     ->wrap()
                     ->searchable(),
                 TextColumn::make('deleted_at')
+                    ->label(__('filament.deleted_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
+                    ->label(__('filament.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label(__('filament.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -74,15 +83,15 @@ class CampaignsTable
             ->filtersFormWidth(Width::TwoExtraLarge)
             ->filters([
                 SelectFilter::make('project_id')
-                    ->label('Project')
+                    ->label(__('filament.project'))
                     ->options(ModelListService::make(Project::query()))
                     ->searchable(),
                 SelectFilter::make('source_id')
-                    ->label('Source')
+                    ->label(__('filament.source'))
                     ->options(ModelListService::make(Source::query()))
                     ->searchable(),
                 SelectFilter::make('revenue_type')
-                    ->label('Revenue Type')
+                    ->label(__('filament.revenue_type'))
                     ->options(RevenueTypes::class),
                 TrashedFilter::make(),
             ])

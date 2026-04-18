@@ -22,27 +22,30 @@ class DowntimesTable
             ->defaultSort('date', 'desc')
             ->columns([
                 TextColumn::make('date')
+                    ->label(__('filament.date'))
                     ->date()
                     ->sortable(),
                 TextColumn::make('employee.full_name')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->searchable()
                     ->sortable()
                     ->wrap(),
                 TextColumn::make('campaign.name')
-                    ->label('Campaign')
+                    ->label(__('filament.campaign'))
                     ->searchable()
                     ->sortable()
                     ->wrap(),
                 TextColumn::make('downtimeReason.name')
-                    ->label('Reason')
+                    ->label(__('filament.reason'))
                     ->searchable()
                     ->sortable()
                     ->wrap(),
                 TextColumn::make('total_time')
+                    ->label(__('filament.total_time'))
                     ->numeric(decimalPlaces: 2)
                     ->sortable(),
                 TextColumn::make('status')
+                    ->label(__('filament.status'))
                     ->badge()
                     ->sortable(),
             ])

@@ -26,52 +26,52 @@ class ProjectsTable
             ->defaultSort('name')
             ->columns([
                 TextColumn::make('name')
-                    ->label(__('Name'))
+                    ->label(__('filament.name'))
                     ->sortable()
                     ->wrap()
                     ->searchable(),
                 TextColumn::make('client.name')
-                    ->label(__('Client'))
+                    ->label(__('filament.client'))
                     ->wrap()
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('invoice_net_days')
-                    ->label(__('Invoice net days'))
+                    ->label(__('filament.invoice_net_days'))
                     ->wrapHeader()
                     ->sortable(),
                 TextColumn::make('address')
-                    ->label(__('Address'))
+                    ->label(__('filament.address'))
                     ->html()
                     ->limit(40),
                 TextColumn::make('invoice_notes')
-                    ->label(__('Invoice Notes'))
+                    ->label(__('filament.invoice_notes'))
                     ->html()
                     ->limit(40),
                 TextColumn::make('deleted_at')
-                    ->label(__('Deleted at'))
+                    ->label(__('filament.deleted_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
-                    ->label(__('Created at'))
+                    ->label(__('filament.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
-                    ->label(__('Updated at'))
+                    ->label(__('filament.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 TrashedFilter::make()
-                    ->label(__('Trashed')),
+                    ->label(__('filament.trashed')),
                 SelectFilter::make('client_id')
-                    ->label(__('Client'))
+                    ->label(__('filament.client'))
                     ->options(ModelListService::get(Client::class))
                     ->searchable(),
                 SelectFilter::make('manager_id')
-                    ->label(__('Manager'))
+                    ->label(__('filament.manager'))
                     ->options(ModelListService::make(
                         User::query()->whereHas('roles', function (Builder $query): void {
                             $query->whereIn('name', [
@@ -84,26 +84,26 @@ class ProjectsTable
             ])
             ->headerActions([
                 CreateAction::make()
-                    ->label(__('Create Project'))
-                    ->modalHeading(__('Create Project')),
+                    ->label(__('filament.create_project'))
+                    ->modalHeading(__('filament.create_project')),
             ])
             ->recordActions([
                 ViewAction::make()
-                    ->label(__('View'))
-                    ->modalHeading(__('View Project')),
+                    ->label(__('filament.view'))
+                    ->modalHeading(__('filament.view_project')),
                 EditAction::make()
-                    ->label(__('Edit'))
-                    ->modalHeading(__('Edit Project')),
+                    ->label(__('filament.edit'))
+                    ->modalHeading(__('filament.edit_project')),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make()
-                        ->label(__('Delete')),
+                        ->label(__('filament.delete')),
                     ForceDeleteBulkAction::make()
-                        ->label(__('Force delete')),
+                        ->label(__('filament.force_delete')),
                     RestoreBulkAction::make()
-                        ->label(__('Restore')),
-                ])->label(__('Bulk actions')),
+                        ->label(__('filament.restore')),
+                ])->label(__('filament.bulk_actions')),
             ]);
     }
 }

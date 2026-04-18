@@ -24,72 +24,72 @@ class AgentsTable
             ->defaultSort('name')
             ->columns([
                 TextColumn::make('name')
-                    ->label(__('Name'))
+                    ->label(__('filament.name'))
                     ->sortable()
                     ->searchable()
                     ->wrap(),
                 TextColumn::make('project.name')
-                    ->label(__('Project'))
+                    ->label(__('filament.project'))
                     ->sortable()
                     ->searchable()
                     ->wrap(),
                 TextColumn::make('phone')
-                    ->label(__('Phone'))
+                    ->label(__('filament.phone'))
                     ->sortable()
                     ->searchable()
                     ->wrap()
                     ->placeholder('-'),
                 TextColumn::make('email')
-                    ->label(__('Email'))
+                    ->label(__('filament.email'))
                     ->sortable()
                     ->searchable()
                     ->placeholder('-'),
                 TextColumn::make('deleted_at')
-                    ->label(__('Deleted at'))
+                    ->label(__('filament.deleted_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
-                    ->label(__('Created at'))
+                    ->label(__('filament.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
-                    ->label(__('Updated at'))
+                    ->label(__('filament.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 TrashedFilter::make()
-                    ->label(__('Trashed')),
+                    ->label(__('filament.trashed')),
                 SelectFilter::make('project_id')
-                    ->label(__('Project'))
+                    ->label(__('filament.project'))
                     ->options(ModelListService::get(Project::class))
                     ->searchable(),
             ])
             ->headerActions([
                 CreateAction::make()
-                    ->label(__('Create Agent'))
-                    ->modalHeading(__('Create Agent')),
+                    ->label(__('filament.create_agent'))
+                    ->modalHeading(__('filament.create_agent')),
             ])
             ->recordActions([
                 ViewAction::make()
-                    ->label(__('View'))
-                    ->modalHeading(__('View Agent')),
+                    ->label(__('filament.view'))
+                    ->modalHeading(__('filament.view_agent')),
                 EditAction::make()
-                    ->label(__('Edit'))
-                    ->modalHeading(__('Edit Agent')),
+                    ->label(__('filament.edit'))
+                    ->modalHeading(__('filament.edit_agent')),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make()
-                        ->label(__('Delete')),
+                        ->label(__('filament.delete')),
                     ForceDeleteBulkAction::make()
-                        ->label(__('Force delete')),
+                        ->label(__('filament.force_delete')),
                     RestoreBulkAction::make()
-                        ->label(__('Restore')),
-                ])->label(__('Bulk actions')),
+                        ->label(__('filament.restore')),
+                ])->label(__('filament.bulk_actions')),
             ]);
     }
 }

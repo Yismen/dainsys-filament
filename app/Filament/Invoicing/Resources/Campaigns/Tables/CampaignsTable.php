@@ -26,78 +26,78 @@ class CampaignsTable
             ->defaultSort('name')
             ->columns([
                 TextColumn::make('name')
-                    ->label(__('Name'))
+                    ->label(__('filament.name'))
                     ->searchable()
                     ->sortable()
                     ->wrap(),
                 TextColumn::make('project.name')
-                    ->label(__('Project'))
+                    ->label(__('filament.project'))
                     ->searchable()
                     ->sortable()
                     ->wrap(),
                 TextColumn::make('invoiceAgent.name')
-                    ->label(__('Agent'))
+                    ->label(__('filament.agent'))
                     ->searchable()
                     ->sortable()
                     ->wrap()
-                    ->placeholder(__('Unassigned')),
+                    ->placeholder(__('filament.unassigned')),
                 TextColumn::make('description')
-                    ->label(__('Description'))
+                    ->label(__('filament.description'))
                     ->limit(40)
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('deleted_at')
-                    ->label(__('Deleted at'))
+                    ->label(__('filament.deleted_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
-                    ->label(__('Created at'))
+                    ->label(__('filament.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
-                    ->label(__('Updated at'))
+                    ->label(__('filament.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 SelectFilter::make('project_id')
-                    ->label(__('Project'))
+                    ->label(__('filament.project'))
                     ->options(ModelListService::make(Project::query()))
                     ->searchable(),
                 SelectFilter::make('source_id')
-                    ->label(__('Source'))
+                    ->label(__('filament.source'))
                     ->options(ModelListService::make(Source::query()))
                     ->searchable(),
                 SelectFilter::make('revenue_type')
-                    ->label(__('Revenue type'))
+                    ->label(__('filament.revenue_type'))
                     ->options(RevenueTypes::class),
                 TrashedFilter::make()
-                    ->label(__('Trashed')),
+                    ->label(__('filament.trashed')),
             ])
             ->headerActions([
                 CreateAction::make()
-                    ->label(__('Create Campaign'))
-                    ->modalHeading(__('Create Campaign')),
+                    ->label(__('filament.create_campaign'))
+                    ->modalHeading(__('filament.create_campaign')),
             ])
             ->recordActions([
                 ViewAction::make()
-                    ->label(__('View'))
-                    ->modalHeading(__('View Campaign')),
+                    ->label(__('filament.view'))
+                    ->modalHeading(__('filament.view_campaign')),
                 EditAction::make()
-                    ->label(__('Edit'))
-                    ->modalHeading(__('Edit Campaign')),
+                    ->label(__('filament.edit'))
+                    ->modalHeading(__('filament.edit_campaign')),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make()
-                        ->label(__('Delete')),
+                        ->label(__('filament.delete')),
                     ForceDeleteBulkAction::make()
-                        ->label(__('Force delete')),
+                        ->label(__('filament.force_delete')),
                     RestoreBulkAction::make()
-                        ->label(__('Restore')),
-                ])->label(__('Bulk actions')),
+                        ->label(__('filament.restore')),
+                ])->label(__('filament.bulk_actions')),
             ]);
     }
 }

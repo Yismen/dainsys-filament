@@ -23,16 +23,16 @@ class ProductionsTable
             ->defaultSort('date', 'desc')
             ->columns([
                 TextColumn::make('employee.full_name')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->sortable()
                     ->searchable()
                     ->wrap(),
                 TextColumn::make('date')
-                    ->label('Date')
+                    ->label(__('filament.date'))
                     ->date()
                     ->sortable(),
                 TextColumn::make('campaign.name')
-                    ->label('Campaign')
+                    ->label(__('filament.campaign'))
                     ->sortable()
                     ->searchable()
                     ->limit(25)
@@ -40,40 +40,31 @@ class ProductionsTable
                     ->wrap(),
                 TextColumn::make('total_time')
                     ->wrapHeader()
-                    ->label('Total Time')
+                    ->label(__('filament.total_time'))
                     ->numeric(decimalPlaces: 2)
                     ->sortable(),
                 TextColumn::make('talk_time')
                     ->wrapHeader()
-                    ->label('Talk Time')
+                    ->label(__('filament.talk_time'))
                     ->numeric(decimalPlaces: 2)
                     ->sortable(),
                 TextColumn::make('billable_time')
                     ->wrapHeader()
-                    ->label('Billable Time')
+                    ->label(__('filament.billable_time'))
                     ->numeric(decimalPlaces: 2)
                     ->sortable(),
-                // TextColumn::make('revenue')
-                //     ->label('Revenue')
-                //     ->money('USD')
-                //     ->sortable(),
-                // TextColumn::make('revenue_rate')
-                //     ->label('Revenue Rate')
-                //     ->numeric(decimalPlaces: 2)
-                //     ->sortable(),
-
                 TextColumn::make('conversions')
-                    ->label('Conversions')
+                    ->label(__('filament.conversions'))
                     ->numeric(decimalPlaces: 2)
                     ->sortable(),
                 TextColumn::make('sph_goal')
                     ->wrapHeader()
-                    ->label('SPH Goal')
+                    ->label(__('filament.sph_goal'))
                     ->numeric(decimalPlaces: 2)
                     ->sortable(),
                 TextColumn::make(name: 'sph')
                     ->wrapHeader()
-                    ->label('SPH')
+                    ->label(__('filament.sph'))
                     ->numeric(decimalPlaces: 2)
                     ->state(fn (Production $record) => $record->billable_time > 0 ? round($record->conversions / $record->billable_time, 2) : 0)
                     ->sortable(),
@@ -83,9 +74,9 @@ class ProductionsTable
                     ->columnSpanFull()
                     ->schema([
                         DatePicker::make('date_from')
-                            ->label('Date from'),
+                            ->label(__('filament.date_from')),
                         DatePicker::make('date_until')
-                            ->label('Date until'),
+                            ->label(__('filament.date_until')),
                     ])
                     ->columns(2)
                     ->query(function (Builder $query, array $data): Builder {
@@ -100,6 +91,7 @@ class ProductionsTable
                             );
                     }),
                 SelectFilter::make('employee_id')
+                    ->label(__('filament.employee'))
                     ->options(ModelListService::make(
                         model: Employee::query()
                             ->active()
@@ -110,7 +102,7 @@ class ProductionsTable
                     ))
                     ->searchable(),
                 SelectFilter::make('campaign_id')
-                    ->label('Campaign')
+                    ->label(__('filament.campaign'))
                     ->options(ModelListService::make(Campaign::query()))
                     ->searchable(),
             ])

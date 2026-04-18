@@ -22,23 +22,23 @@ class DeductionsTable
             ->defaultSort('payable_date', 'desc')
             ->columns([
                 TextColumn::make('employee.full_name')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->sortable()
                     ->searchable()
                     ->wrap(),
                 TextColumn::make('payable_date')
-                    ->label('Payable Date')
+                    ->label(__('filament.payable_date'))
                     ->date()
                     ->sortable(),
                 TextColumn::make('amount')
-                    ->label('Amount')
+                    ->label(__('filament.amount'))
                     ->numeric(decimalPlaces: 2)
                     ->sortable()
                     ->summarize([
                         Sum::make(),
                     ]),
                 TextColumn::make('description')
-                    ->label('Description')
+                    ->label(__('filament.description'))
                     ->searchable()
                     ->wrap(),
             ])
@@ -47,9 +47,9 @@ class DeductionsTable
                     ->columnSpanFull()
                     ->schema([
                         DatePicker::make('payable_date_from')
-                            ->label('Payable date from'),
+                            ->label(__('filament.payable_date_from')),
                         DatePicker::make('payable_date_until')
-                            ->label('Payable date until'),
+                            ->label(__('filament.payable_date_until')),
                     ])
                     ->columns(2)
                     ->query(function (Builder $query, array $data): Builder {
@@ -64,6 +64,7 @@ class DeductionsTable
                             );
                     }),
                 SelectFilter::make('employee_id')
+                    ->label(__('filament.employee'))
                     ->options(ModelListService::make(
                         model: Employee::query()
                             ->active()

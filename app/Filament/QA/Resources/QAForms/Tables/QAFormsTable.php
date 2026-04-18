@@ -23,36 +23,39 @@ class QAFormsTable
             ->defaultSort('created_at', 'desc')
             ->columns([
                 TextColumn::make('name')
+                    ->label(__('filament.name'))
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('project.name')
-                    ->label('Project')
+                    ->label(__('filament.project'))
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('passing_threshold_percentage')
-                    ->label('Threshold %')
+                    ->label(__('filament.threshold'))
                     ->sortable()
                     ->badge(),
                 TextColumn::make('author.name')
-                    ->label('Author')
+                    ->label(__('filament.author'))
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('questions_count')
                     ->counts('questions')
-                    ->label('Questions')
+                    ->label(__('filament.questions'))
                     ->sortable(),
                 TextColumn::make('deleted_at')
+                    ->label(__('filament.deleted_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
+                    ->label(__('filament.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 SelectFilter::make('project_id')
-                    ->label('Project')
+                    ->label(__('filament.project'))
                     ->options(ModelListService::make(Project::query()))
                     ->searchable(),
                 TrashedFilter::make(),

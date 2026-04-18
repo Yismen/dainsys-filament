@@ -26,71 +26,71 @@ class InvoicePaymentsTable
             ->defaultSort('date', 'desc')
             ->columns([
                 TextColumn::make('invoice.number')
-                    ->label(__('Invoice'))
+                    ->label(__('filament.invoice'))
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('amount')
-                    ->label(__('Amount'))
+                    ->label(__('filament.amount'))
                     ->money('USD')
                     ->sortable(),
                 TextColumn::make('date')
-                    ->label(__('Date'))
+                    ->label(__('filament.date'))
                     ->date()
                     ->sortable(),
                 TextColumn::make('reference')
-                    ->label(__('Reference'))
+                    ->label(__('filament.reference'))
                     ->searchable()
                     ->placeholder('-'),
                 TextColumn::make('description')
-                    ->label(__('Description'))
+                    ->label(__('filament.description'))
                     ->limit(50)
                     ->wrap()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('deleted_at')
-                    ->label(__('Deleted at'))
+                    ->label(__('filament.deleted_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
-                    ->label(__('Created at'))
+                    ->label(__('filament.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 SelectFilter::make('invoice_id')
-                    ->label(__('Invoice'))
+                    ->label(__('filament.invoice'))
                     ->options(ModelListService::make(Invoice::query(), 'id', 'number'))
                     ->searchable(),
                 TrashedFilter::make()
-                    ->label(__('Trashed')),
+                    ->label(__('filament.trashed')),
             ])
             ->headerActions([
                 CreateAction::make()
-                    ->label(__('Create Payment'))
-                    ->modalHeading(__('Create Payment')),
+                    ->label(__('filament.create_payment'))
+                    ->modalHeading(__('filament.create_payment')),
             ])
             ->recordActions([
                 ViewAction::make()
-                    ->label(__('View'))
-                    ->modalHeading(__('View Payment')),
+                    ->label(__('filament.view'))
+                    ->modalHeading(__('filament.view_payment')),
                 EditAction::make()
-                    ->label(__('Edit'))
-                    ->modalHeading(__('Edit Payment')),
+                    ->label(__('filament.edit'))
+                    ->modalHeading(__('filament.edit_payment')),
                 DeleteAction::make()
-                    ->label(__('Delete')),
+                    ->label(__('filament.delete')),
                 RestoreAction::make()
-                    ->label(__('Restore')),
+                    ->label(__('filament.restore')),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make()
-                        ->label(__('Delete')),
+                        ->label(__('filament.delete')),
                     ForceDeleteBulkAction::make()
-                        ->label(__('Force delete')),
+                        ->label(__('filament.force_delete')),
                     RestoreBulkAction::make()
-                        ->label(__('Restore')),
-                ])->label(__('Bulk actions')),
+                        ->label(__('filament.restore')),
+                ])->label(__('filament.bulk_actions')),
             ]);
     }
 }

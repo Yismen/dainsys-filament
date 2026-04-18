@@ -21,73 +21,73 @@ class ClientsTable
             ->defaultSort('name')
             ->columns([
                 TextColumn::make('name')
-                    ->label(__('Name'))
+                    ->label(__('filament.name'))
                     ->sortable()
                     ->searchable()
                     ->wrap(),
                 TextColumn::make('invoice_template')
-                    ->label(__('Invoice template'))
+                    ->label(__('filament.invoice_template'))
                     ->wrap()
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('date_field_name')
-                    ->label(__('Date field name'))
+                    ->label(__('filament.date_field_name'))
                     ->wrap()
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('project_field_name')
-                    ->label(__('Project field name'))
+                    ->label(__('filament.project_field_name'))
                     ->wrap()
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('description')
-                    ->label(__('Description'))
+                    ->label(__('filament.description'))
                     ->searchable()
                     ->wrap()
                     ->limit(50)
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('deleted_at')
-                    ->label(__('Deleted at'))
+                    ->label(__('filament.deleted_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
-                    ->label(__('Created at'))
+                    ->label(__('filament.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
-                    ->label(__('Updated at'))
+                    ->label(__('filament.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 TrashedFilter::make()
-                    ->label(__('Trashed')),
+                    ->label(__('filament.trashed')),
             ])
             ->headerActions([
                 CreateAction::make()
-                    ->label(__('Create Client'))
-                    ->modalHeading(__('Create Client')),
+                    ->label(__('filament.create_client'))
+                    ->modalHeading(__('filament.create_client')),
             ])
             ->recordActions([
                 ViewAction::make()
-                    ->label(__('View'))
-                    ->modalHeading(__('View Client')),
+                    ->label(__('filament.view'))
+                    ->modalHeading(__('filament.view_client')),
                 EditAction::make()
-                    ->label(__('Edit'))
-                    ->modalHeading(__('Edit Client')),
+                    ->label(__('filament.edit'))
+                    ->modalHeading(__('filament.edit_client')),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make()
-                        ->label(__('Delete')),
+                        ->label(__('filament.delete')),
                     ForceDeleteBulkAction::make()
-                        ->label(__('Force delete')),
+                        ->label(__('filament.force_delete')),
                     RestoreBulkAction::make()
-                        ->label(__('Restore')),
-                ])->label(__('Bulk actions')),
+                        ->label(__('filament.restore')),
+                ])->label(__('filament.bulk_actions')),
             ]);
     }
 }

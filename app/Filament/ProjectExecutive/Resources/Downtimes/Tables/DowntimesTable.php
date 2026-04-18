@@ -23,38 +23,42 @@ class DowntimesTable
             ->defaultSort('date', 'desc')
             ->columns([
                 TextColumn::make('date')
+                    ->label(__('filament.date'))
                     ->date()
                     ->sortable(),
                 TextColumn::make('employee.full_name')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->searchable()
                     ->sortable()
                     ->wrap(),
                 TextColumn::make('campaign.name')
-                    ->label('Campaign')
+                    ->label(__('filament.campaign'))
                     ->searchable()
                     ->sortable()
                     ->wrap(),
                 TextColumn::make('downtimeReason.name')
-                    ->label('Reason')
+                    ->label(__('filament.downtime_reason'))
                     ->searchable()
                     ->sortable()
                     ->wrap(),
                 TextColumn::make('total_time')
+                    ->label(__('filament.total_time'))
                     ->numeric(decimalPlaces: 2)
                     ->sortable(),
                 TextColumn::make('status')
+                    ->label(__('filament.status'))
                     ->badge()
                     ->sortable(),
             ])
             ->filters([
                 Filter::make('date')
                     ->columnSpanFull()
+                    ->label(__('filament.date'))
                     ->schema([
                         DatePicker::make('date_from')
-                            ->label('Date from'),
+                            ->label(__('filament.date_from')),
                         DatePicker::make('date_until')
-                            ->label('Date until'),
+                            ->label(__('filament.date_until')),
                     ])
                     ->columns(2)
                     ->query(function (Builder $query, array $data): Builder {
@@ -69,7 +73,7 @@ class DowntimesTable
                             );
                     }),
                 SelectFilter::make('employee_id')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->options(function (): array {
                         $managerId = Auth::id();
 
@@ -86,7 +90,7 @@ class DowntimesTable
                     })
                     ->searchable(),
                 SelectFilter::make('campaign_id')
-                    ->label('Campaign')
+                    ->label(__('filament.campaign'))
                     ->options(function (): array {
                         $managerId = Auth::id();
 
@@ -102,7 +106,7 @@ class DowntimesTable
                     })
                     ->searchable(),
                 SelectFilter::make('status')
-                    ->label('Status')
+                    ->label(__('filament.status'))
                     ->options(DowntimeStatuses::toArray())
                     ->searchable(),
             ])

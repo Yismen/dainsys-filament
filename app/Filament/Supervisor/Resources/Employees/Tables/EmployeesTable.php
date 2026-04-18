@@ -19,23 +19,25 @@ class EmployeesTable
             ->defaultSort('full_name')
             ->columns([
                 SpatieMediaLibraryImageColumn::make('profile_photo')
-                    ->label('Photo')
+                    ->label(__('filament.profile_photo'))
                     ->collection(Employee::PROFILE_PHOTO_COLLECTION)
                     ->conversion(Employee::PROFILE_PHOTO_THUMBNAIL_CONVERSION)
                     ->defaultImageUrl(fn ($record) => $record->getProfilePhotoPlaceholderUrl())
                     ->circular(),
                 TextColumn::make('full_name')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->wrap()
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('email')
+                    ->label(__('filament.email'))
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('cellphone')
-                    ->label('Phone')
+                    ->label(__('filament.phone'))
                     ->sortable(),
                 TextColumn::make('status')
+                    ->label(__('filament.status'))
                     ->badge()
                     ->colors([
                         'success' => EmployeeStatuses::Hired,

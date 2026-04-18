@@ -24,38 +24,42 @@ class QAQuestionsTable
             ->defaultSort('display_order')
             ->columns([
                 TextColumn::make('form.name')
-                    ->label('QA Form')
+                    ->label(__('filament.qa_form'))
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('display_order')
+                    ->label(__('filament.display_order'))
                     ->sortable(),
                 TextColumn::make('text')
+                    ->label(__('filament.text'))
                     ->limit(80)
                     ->searchable(),
                 TextColumn::make('max_points')
+                    ->label(__('filament.max_points'))
                     ->sortable(),
                 IconColumn::make('is_active')
                     ->boolean()
-                    ->label('Active'),
+                    ->label(__('filament.is_active')),
                 TextColumn::make('author.name')
-                    ->label('Author')
+                    ->label(__('filament.author'))
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('created_at')
+                    ->label(__('filament.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 SelectFilter::make('qa_form_id')
-                    ->label('QA Form')
+                    ->label(__('filament.qa_form'))
                     ->options(ModelListService::make(QAForm::query()))
                     ->searchable(),
                 SelectFilter::make('is_active')
-                    ->label('Status')
+                    ->label(__('filament.status'))
                     ->options([
-                        '1' => 'Active',
-                        '0' => 'Inactive',
+                        '1' => __('filament.filters.active'),
+                        '0' => __('filament.filters.inactive'),
                     ]),
                 TrashedFilter::make(),
             ])

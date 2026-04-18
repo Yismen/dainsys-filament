@@ -22,37 +22,37 @@ class PayrollHoursTable
             ->defaultSort('date', 'desc')
             ->columns([
                 TextColumn::make('employee.full_name')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->sortable()
                     ->searchable()
                     ->wrap(),
                 TextColumn::make('date')
-                    ->label('Date')
+                    ->label(__('filament.date'))
                     ->date()
                     ->sortable(),
                 TextColumn::make('regular_hours')
-                    ->label('Regular Hours')
+                    ->label(__('filament.regular_hours'))
                     ->numeric(decimalPlaces: 2)
                     ->sortable()
                     ->summarize([
                         Sum::make(),
                     ]),
                 TextColumn::make('overtime_hours')
-                    ->label('Overtime Hours')
+                    ->label(__('filament.overtime_hours'))
                     ->numeric(decimalPlaces: 2)
                     ->sortable()
                     ->summarize([
                         Sum::make(),
                     ]),
                 TextColumn::make('holiday_hours')
-                    ->label('Holiday Hours')
+                    ->label(__('filament.holiday_hours'))
                     ->numeric(decimalPlaces: 2)
                     ->sortable()
                     ->summarize([
                         Sum::make(),
                     ]),
                 TextColumn::make('seventh_day_hours')
-                    ->label('7th Day Hours')
+                    ->label(__('filament.seventh_day_hours'))
                     ->wrapHeader()
                     ->numeric(decimalPlaces: 2)
                     ->sortable()
@@ -60,7 +60,7 @@ class PayrollHoursTable
                         Sum::make(),
                     ]),
                 TextColumn::make('total_hours')
-                    ->label('Total Hours')
+                    ->label(__('filament.total_hours'))
                     ->wrapHeader()
                     ->numeric(decimalPlaces: 2)
                     ->sortable()
@@ -70,6 +70,7 @@ class PayrollHoursTable
             ])
             ->filters([
                 SelectFilter::make('payroll_ending_at')
+                    ->label(__('filament.payroll_ending'))
                     ->options(function () {
                         return Cache::rememberForever('payroll_ending_at_dates', function () {
                             return PayrollHour::query()
@@ -83,6 +84,7 @@ class PayrollHoursTable
                         });
                     }),
                 SelectFilter::make('employee_id')
+                    ->label(__('filament.employee'))
                     ->options(ModelListService::make(
                         model: Employee::query()
                             ->active()

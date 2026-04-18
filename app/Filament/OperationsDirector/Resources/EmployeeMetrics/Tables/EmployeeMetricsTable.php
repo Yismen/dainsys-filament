@@ -24,35 +24,35 @@ class EmployeeMetricsTable
             ])
             ->columns([
                 TextColumn::make('full_name')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->searchable()
                     ->wrap(),
                 TextColumn::make('week_ending')
-                    ->label('Week Ending')
+                    ->label(__('filament.week_ending'))
                     ->date('M j, Y'),
                 TextColumn::make('total_time')
-                    ->label('Total Login Time')
+                    ->label(__('filament.total_login_time'))
                     ->wrapHeader()
                     ->numeric(decimalPlaces: 2),
                 TextColumn::make('total_production_time')
-                    ->label('Total Production Time')
+                    ->label(__('filament.total_production_time'))
                     ->wrapHeader()
                     ->numeric(decimalPlaces: 2),
                 TextColumn::make('total_billable_time')
-                    ->label('Total Billable Time')
+                    ->label(__('filament.total_billable_time'))
                     ->wrapHeader()
                     ->numeric(decimalPlaces: 2)
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('total_conversions')
-                    ->label('Total Conversions')
+                    ->label(__('filament.total_conversions'))
                     ->wrapHeader()
                     ->numeric(decimalPlaces: 2),
                 TextColumn::make('conversions_goal')
-                    ->label('Conversions Goal')
+                    ->label(__('filament.conversions_goal'))
                     ->wrapHeader()
                     ->numeric(decimalPlaces: 2),
                 TextColumn::make('sph')
-                    ->label('SPH')
+                    ->label(__('filament.sph'))
                     ->wrapHeader()
                     ->state(function ($record) {
                         $conversions = (float) $record->total_conversions;
@@ -62,7 +62,7 @@ class EmployeeMetricsTable
                     })
                     ->numeric(decimalPlaces: 2),
                 TextColumn::make('sph_percentage')
-                    ->label('SPH % to Goal')
+                    ->label(__('filament.sph_percentage'))
                     ->wrapHeader()
                     ->state(function ($record) {
                         $conversions = (float) $record->total_conversions;
@@ -84,7 +84,7 @@ class EmployeeMetricsTable
                         return 'danger';
                     }),
                 TextColumn::make('efficiency_rate')
-                    ->label('Efficiency Rate %')
+                    ->label(__('filament.efficiency_rate'))
                     ->wrapHeader()
                     ->state(function ($record) {
                         $totalHours = (float) $record->total_time;
@@ -108,10 +108,10 @@ class EmployeeMetricsTable
             ])
             ->filters([
                 Filter::make('employee')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->schema([
                         Select::make('employee_id')
-                            ->label('Employee')
+                            ->label(__('filament.employee'))
                             ->options(function () {
                                 return Employee::query()
                                     ->whereIn('status', [
@@ -122,7 +122,7 @@ class EmployeeMetricsTable
                                     ->pluck('full_name', 'id');
                             })
                             ->searchable()
-                            ->placeholder('All Employees'),
+                            ->placeholder(__('filament.all_employees')),
                     ])
                     ->indicateUsing(function ($data) {
                         if (isset($data['employee_id'])) {

@@ -26,69 +26,69 @@ class InvoiceCancellationsTable
             ->defaultSort('date', 'desc')
             ->columns([
                 TextColumn::make('invoice.number')
-                    ->label(__('Invoice'))
+                    ->label(__('filament.invoice'))
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('cancelledBy.name')
-                    ->label(__('Cancelled by'))
+                    ->label(__('filament.cancelled_by'))
                     ->sortable()
                     ->searchable()
                     ->placeholder('-'),
                 TextColumn::make('date')
-                    ->label(__('Date'))
+                    ->label(__('filament.date'))
                     ->date()
                     ->sortable(),
                 TextColumn::make('reason')
-                    ->label(__('Reason'))
+                    ->label(__('filament.reason'))
                     ->searchable()
                     ->limit(60)
                     ->wrap(),
                 TextColumn::make('notes')
-                    ->label(__('Notes'))
+                    ->label(__('filament.notes'))
                     ->limit(50)
                     ->wrap()
                     ->placeholder('-')
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
-                    ->label(__('Created at'))
+                    ->label(__('filament.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 SelectFilter::make('invoice_id')
-                    ->label(__('Invoice'))
+                    ->label(__('filament.invoice'))
                     ->options(ModelListService::make(Invoice::query(), 'id', 'number'))
                     ->searchable(),
                 TrashedFilter::make()
-                    ->label(__('Trashed')),
+                    ->label(__('filament.trashed')),
             ])
             ->headerActions([
                 CreateAction::make()
-                    ->label(__('Create Cancellation'))
-                    ->modalHeading(__('Create Cancellation')),
+                    ->label(__('filament.create_cancellation'))
+                    ->modalHeading(__('filament.create_cancellation')),
             ])
             ->recordActions([
                 ViewAction::make()
-                    ->label(__('View'))
-                    ->modalHeading(__('View Cancellation')),
+                    ->label(__('filament.view'))
+                    ->modalHeading(__('filament.view_cancellation')),
                 EditAction::make()
-                    ->label(__('Edit'))
-                    ->modalHeading(__('Edit Cancellation')),
+                    ->label(__('filament.edit'))
+                    ->modalHeading(__('filament.edit_cancellation')),
                 DeleteAction::make()
-                    ->label(__('Delete')),
+                    ->label(__('filament.delete')),
                 RestoreAction::make()
-                    ->label(__('Restore')),
+                    ->label(__('filament.restore')),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make()
-                        ->label(__('Delete')),
+                        ->label(__('filament.delete')),
                     ForceDeleteBulkAction::make()
-                        ->label(__('Force delete')),
+                        ->label(__('filament.force_delete')),
                     RestoreBulkAction::make()
-                        ->label(__('Restore')),
-                ])->label(__('Bulk actions')),
+                        ->label(__('filament.restore')),
+                ])->label(__('filament.bulk_actions')),
             ]);
     }
 }
