@@ -14,13 +14,16 @@ class HolidayForm
         return $schema
             ->components([
                 TextInput::make('name')
+                    ->label(__('filament.name'))
                     ->required()
                     ->maxLength(255)
                     ->autofocus(),
                 DatePicker::make('date')
+                    ->label(__('filament.date'))
                     ->required()
                     ->unique(ignoreRecord: true),
                 Textarea::make('description')
+                    ->label(__('filament.description'))
                     ->columnSpanFull(),
             ]);
     }

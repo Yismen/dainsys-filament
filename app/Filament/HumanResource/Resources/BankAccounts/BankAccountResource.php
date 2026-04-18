@@ -82,7 +82,7 @@ class BankAccountResource extends Resource
             ])
             ->filters([
                 SelectFilter::make('bank_id')
-                    ->label(__('Bank'))
+                    ->label(__('filament.Bank'))
                     ->options(ModelListService::make(Bank::query()))
                     ->searchable(),
                 TrashedFilter::make(),

@@ -20,24 +20,30 @@ class HolidaysTable
             ->defaultSort('date', 'desc')
             ->columns([
                 TextColumn::make('name')
+                    ->label(__('filament.name'))
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('date')
+                    ->label(__('filament.date'))
                     ->date()
                     ->sortable(),
                 TextColumn::make('description')
+                    ->label(__('filament.description'))
                     ->wrap()
                     ->limit(50)
                     ->tooltip(fn (string $state) => $state),
                 TextColumn::make('deleted_at')
+                    ->label(__('filament.deleted_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
+                    ->label(__('filament.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label(__('filament.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

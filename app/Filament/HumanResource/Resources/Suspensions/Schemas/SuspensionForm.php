@@ -24,6 +24,7 @@ class SuspensionForm
                     ->inlineLabel()
                     ->alignLeft(),
                 Select::make('employee_id')
+                    ->label(__('filament.employee'))
                     ->autofocus()
                     ->options(
                         ModelListService::get(
@@ -36,11 +37,12 @@ class SuspensionForm
                     ->required()
                     ->live(onBlur: true),
                 Select::make('suspension_type_id')
-                    ->label(__('Suspension Type'))
+                    ->label(__('filament.suspension_type'))
                     ->options(ModelListService::get(SuspensionType::class))
                     ->searchable()
                     ->required(),
                 DateTimePicker::make('starts_at')
+                    ->label(__('filament.starts_at'))
                     ->default(function (Get $get) {
                         $date = now();
                         $latestHire = Employee::query()
@@ -57,11 +59,13 @@ class SuspensionForm
                     ->required()
                     ->live(),
                 DateTimePicker::make('ends_at')
+                    ->label(__('filament.ends_at'))
                     ->default(now()->endOfDay())
                     ->minDate(fn (Get $get) => $get('starts_at') ?? now())
                     ->maxDate(fn (Get $get) => now()->parse($get('starts_at'))->endOfDay()->addDays(90) ?? now()->addDays(90))
                     ->required(),
                 Textarea::make('comment')
+                    ->label(__('filament.comment'))
                     ->required()
                     ->minLength(5)
                     ->columnSpanFull(),

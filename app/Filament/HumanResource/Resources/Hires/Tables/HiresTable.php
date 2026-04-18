@@ -33,49 +33,58 @@ class HiresTable
             ->defaultSort('date', 'desc')
             ->columns([
                 TextColumn::make('employee.full_name')
+                    ->label(__('filament.employee'))
                     ->wrap()
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('date')
+                    ->label(__('filament.date'))
                     ->dateTime()
                     ->sortable(),
                 TextColumn::make('site.name')
+                    ->label(__('filament.site'))
                     ->sortable()
                     ->wrap()
                     ->searchable(),
                 TextColumn::make('project.name')
+                    ->label(__('filament.project'))
                     ->sortable()
                     ->wrap()
                     ->searchable(),
                 TextColumn::make('position.name')
+                    ->label(__('filament.position'))
                     ->sortable()
                     ->wrap()
                     ->searchable(),
                 TextColumn::make('supervisor.name')
+                    ->label(__('filament.supervisor'))
                     ->sortable()
                     ->wrap()
                     ->searchable(),
                 TextColumn::make('deleted_at')
+                    ->label(__('filament.deleted_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
+                    ->label(__('filament.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label(__('filament.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 Filter::make('date')
-                    ->label(__('Date Range'))
+                    ->label(__('filament.date_range'))
                     ->schema([
                         DatePicker::make('date_from')
-                            ->label(__('Date from')),
+                            ->label(__('filament.date_from')),
                         DatePicker::make('date_until')
-                            ->label(__('Date until')),
+                            ->label(__('filament.date_until')),
                     ])
                     ->columns(2)
                     ->query(function (Builder $query, array $data): Builder {
@@ -90,19 +99,19 @@ class HiresTable
                             );
                     }),
                 SelectFilter::make('site_id')
-                    ->label(__('Site'))
+                    ->label(__('filament.Site'))
                     ->options(ModelListService::make(Site::query()))
                     ->searchable(),
                 SelectFilter::make('project_id')
-                    ->label(__('Project'))
+                    ->label(__('filament.Project'))
                     ->options(ModelListService::make(Project::query()))
                     ->searchable(),
                 SelectFilter::make('position_id')
-                    ->label(__('Position'))
+                    ->label(__('filament.Position'))
                     ->options(ModelListService::make(Position::query()))
                     ->searchable(),
                 SelectFilter::make('supervisor_id')
-                    ->label(__('Supervisor'))
+                    ->label(__('filament.Supervisor'))
                     ->options(ModelListService::make(Supervisor::query()))
                     ->searchable(),
                 TrashedFilter::make(),

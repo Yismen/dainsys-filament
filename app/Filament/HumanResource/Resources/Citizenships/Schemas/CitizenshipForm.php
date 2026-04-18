@@ -13,11 +13,13 @@ class CitizenshipForm
         return $schema
             ->components([
                 TextInput::make('name')
+                    ->label(__('filament.name'))
                     ->required()
                     ->maxLength(255)
                     ->unique(ignoreRecord: true)
                     ->autofocus(),
                 Textarea::make('description')
+                    ->label(__('filament.description'))
                     ->columnSpanFull(),
             ]);
     }

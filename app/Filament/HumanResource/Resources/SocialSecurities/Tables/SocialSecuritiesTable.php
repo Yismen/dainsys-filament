@@ -24,37 +24,44 @@ class SocialSecuritiesTable
             ->defaultSort('employee.full_name')
             ->columns([
                 TextColumn::make('employee.full_name')
+                    ->label(__('filament.employee'))
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('ars.name')
+                    ->label(__('filament.ars'))
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('afp.name')
+                    ->label(__('filament.afp'))
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('number')
+                    ->label(__('filament.number'))
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('deleted_at')
+                    ->label(__('filament.deleted_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
+                    ->label(__('filament.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label(__('filament.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 SelectFilter::make('ars_id')
-                    ->label(__('ARS'))
+                    ->label(__('filament.ARS'))
                     ->options(ModelListService::make(Ars::query()))
                     ->searchable(),
                 SelectFilter::make('afp_id')
-                    ->label(__('AFP'))
+                    ->label(__('filament.AFP'))
                     ->options(ModelListService::make(Afp::query()))
                     ->searchable(),
                 TrashedFilter::make(),

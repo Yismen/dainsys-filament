@@ -21,23 +21,28 @@ class SupervisorsTable
             ->defaultSort('name')
             ->columns([
                 TextColumn::make('name')
+                    ->label(__('filament.name'))
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('user.name')
-                    ->label('User')
+                    ->label(__('filament.user'))
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('deleted_at')
+                    ->label(__('filament.deleted_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 ToggleColumn::make('is_active')
+                    ->label(__('filament.is_active'))
                     ->sortable(),
                 TextColumn::make('created_at')
+                    ->label(__('filament.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label(__('filament.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

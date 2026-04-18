@@ -17,23 +17,28 @@ class PositionForm
         return $schema
             ->components([
                 TextInput::make('name')
+                    ->label(__('filament.name'))
                     ->required()
                     ->maxLength(255)
                     ->unique(ignoreRecord: true)
                     ->autofocus(),
                 Select::make('department_id')
+                    ->label(__('filament.department'))
                     ->options(ModelListService::get(model: Department::class))
                     ->searchable()
                     ->required(),
                 Select::make('salary_type')
+                    ->label(__('filament.salary_type'))
                     ->enum(SalaryTypes::class)
                     ->options(SalaryTypes::toArray())
                     ->searchable()
                     ->required(),
                 TextInput::make('salary')
+                    ->label(__('filament.salary'))
                     ->required()
                     ->numeric(),
                 Textarea::make('description')
+                    ->label(__('filament.description'))
                     ->columnSpanFull(),
             ]);
     }

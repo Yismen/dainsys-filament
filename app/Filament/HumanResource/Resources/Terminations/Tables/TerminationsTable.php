@@ -29,45 +29,52 @@ class TerminationsTable
             ->defaultSort('date', 'desc')
             ->columns([
                 TextColumn::make('employee.full_name')
+                    ->label(__('filament.employee'))
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('date')
+                    ->label(__('filament.date'))
                     ->dateTime()
                     ->sortable(),
                 TextColumn::make('comment')
+                    ->label(__('filament.comment'))
                     ->limit(45)
                     ->tooltip(fn (string $state) => $state)
                     ->sortable(),
                 IconColumn::make('is_rehireable')
+                    ->label(__('filament.is_rehirable'))
                     ->sortable()
                     ->boolean(),
                 TextColumn::make('deleted_at')
+                    ->label(__('filament.deleted_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
+                    ->label(__('filament.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label(__('filament.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 SelectFilter::make('is_rehireable')
-                    ->label(__('Is Rehireable'))
+                    ->label(__('filament.is_rehirable'))
                     ->options([
-                        '1' => __('Rehireable'),
-                        '0' => __('Not rehireable'),
+                        '1' => __('filament.rehireable'),
+                        '0' => __('filament.not_rehireable'),
                     ]),
                 Filter::make('date')
-                    ->label(__('Date Range'))
+                    ->label(__('filament.date_range'))
                     ->schema([
                         DatePicker::make('date_from')
-                            ->label(__('Date from')),
+                            ->label(__('filament.date_from')),
                         DatePicker::make('date_until')
-                            ->label(__('Date until')),
+                            ->label(__('filament.date_until')),
                     ])
                     ->columns(2)
                     ->query(function (Builder $query, array $data): Builder {

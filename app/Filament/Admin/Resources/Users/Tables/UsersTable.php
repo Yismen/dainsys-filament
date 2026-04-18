@@ -23,35 +23,43 @@ class UsersTable
             ->defaultSort('name')
             ->columns([
                 TextColumn::make('name')
+                    ->label(__('filament.name'))
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('email')
-                    ->label('Email address')
+                    ->label(__('filament.email'))
                     ->copyable()
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('roles.name')
+                    ->label(__('filament.roles'))
                     ->searchable()
                     ->badge()
                     ->wrap(),
                 ToggleColumn::make('is_active')
+                    ->label(__('filament.is_active'))
                     ->sortable(),
                 IconColumn::make('employee_id')
+                    ->label(__('filament.employee'))
                     ->boolean()
                     ->sortable(),
                 TextColumn::make('email_verified_at')
+                    ->label(__('filament.email_verified'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
+                    ->label(__('filament.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label(__('filament.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('deleted_at')
+                    ->label(__('filament.deleted_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -60,14 +68,14 @@ class UsersTable
                 TrashedFilter::make(),
                 TernaryFilter::make('is_active')
                     ->default(true)
-                    ->label('Active')
-                    ->trueLabel('Active')
-                    ->falseLabel('Inactive'),
+                    ->label(__('filament.is_active'))
+                    ->trueLabel(__('filament.active'))
+                    ->falseLabel(__('filament.inactive')),
                 TernaryFilter::make('employee_id')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->default(false)
-                    ->trueLabel('Has Employee ID')
-                    ->falseLabel('No Employee ID')
+                    ->trueLabel(__('filament.has_employee_id'))
+                    ->falseLabel(__('filament.no_employee_id'))
                     ->query(function ($query, $data): void {
                         $value = $data['value'] ?? null;
 
@@ -84,9 +92,9 @@ class UsersTable
                         }
                     }),
                 TernaryFilter::make('email_verified_at')
-                    ->label('Email Verified')
-                    ->trueLabel('Verified')
-                    ->falseLabel('Not Verified'),
+                    ->label(__('filament.email_verified'))
+                    ->trueLabel(__('filament.verified'))
+                    ->falseLabel(__('filament.not_verified')),
             ])
             ->recordActions([
                 ViewAction::make(),

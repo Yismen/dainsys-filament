@@ -39,76 +39,115 @@ class EmployeesTable
             ->defaultSort('full_name')
             ->columns([
                 SpatieMediaLibraryImageColumn::make('profile_photo')
-                    ->label('Photo')
+                    ->label(__('filament.profile_photo'))
                     ->collection(Employee::PROFILE_PHOTO_COLLECTION)
                     ->conversion(Employee::PROFILE_PHOTO_THUMBNAIL_CONVERSION)
                     ->defaultImageUrl(fn (Employee $record): string => $record->getProfilePhotoPlaceholderUrl())
                     ->circular(),
                 TextColumn::make('id')
-                    ->label('ID')
+                    ->label(__('filament.id'))
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('full_name')
+                    ->label(__('filament.full_name'))
                     ->wrap()
+                    ->wrapHeader()
                     ->sortable()
                     ->searchable()
                     ->copyable(),
                 TextColumn::make('personal_id')
+                    ->label(__('filament.personal_id'))
                     ->sortable()
                     ->searchable()
                     ->copyable(),
                 TextColumn::make('date_of_birth')
+                    ->label(__('filament.date_of_birth'))
                     ->date()
-                    ->sortable(),
+                    ->sortable()
+                    ->wrap()
+                    ->wrapHeader(),
                 TextColumn::make('cellphone')
+                    ->label(__('filament.cellphone'))
                     ->searchable(),
                 TextColumn::make('status')
+                    ->label(__('filament.status'))
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('gender')
+                    ->label(__('filament.gender'))
                     ->badge()
                     ->sortable()
                     ->searchable(),
                 IconColumn::make('has_kids')
+                    ->label(__('filament.has_kids'))
                     ->sortable()
-                    ->boolean(),
+                    ->boolean()
+                    ->wrap()
+                    ->wrapHeader(),
                 TextColumn::make('internal_id')
+                    ->label(__('filament.internal_id'))
                     ->sortable()
                     ->searchable()
                     ->copyable(),
                 TextColumn::make('citizenship.name')
+                    ->label(__('filament.citizenship'))
                     ->sortable()
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('site.name')
+                    ->label(__('filament.site'))
                     ->wrap()
+                    ->wrapHeader()
                     ->sortable()
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('project.name')
+                    ->label(__('filament.project'))
                     ->wrap()
+                    ->wrapHeader()
                     ->sortable()
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('supervisor.name')
+                    ->label(__('filament.supervisor'))
                     ->wrap()
+                    ->wrapHeader()
                     ->sortable()
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('position.name')
+                    ->label(__('filament.position'))
                     ->wrap()
                     ->sortable()
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('deleted_at')
+                    ->label(__('filament.deleted_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
+                    ->label(__('filament.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label(__('filament.updated_at'))
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('deleted_at')
+                    ->label(__('filament.deleted_at'))
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('created_at')
+                    ->label(__('filament.created_at'))
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('updated_at')
+                    ->label(__('filament.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

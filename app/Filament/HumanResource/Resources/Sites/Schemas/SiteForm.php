@@ -13,24 +13,31 @@ class SiteForm
         return $schema
             ->components([
                 TextInput::make('name')
+                    ->label(__('filament.name'))
                     ->required()
                     ->maxLength(255)
                     ->unique(ignoreRecord: true)
                     ->autofocus(),
                 TextInput::make('person_of_contact')
+                    ->label(__('filament.person_of_contact'))
                     ->nullable(),
                 TextInput::make('phone')
+                    ->label(__('filament.phone'))
                     ->tel()
                     ->nullable(),
                 TextInput::make('email')
+                    ->label(__('filament.email'))
                     ->nullable()
                     ->email(),
                 TextInput::make('geolocation')
+                    ->label(__('filament.geolocation'))
                     ->nullable(),
                 Textarea::make('address')
+                    ->label(__('filament.address'))
                     ->nullable()
                     ->columnSpanFull(),
                 Textarea::make('description')
+                    ->label(__('filament.description'))
                     ->columnSpanFull()
                     ->nullable(),
             ]);

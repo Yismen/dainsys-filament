@@ -31,47 +31,56 @@ class SuspensionsTable
             ->defaultSort('starts_at', 'desc')
             ->columns([
                 TextColumn::make('employee.full_name')
+                    ->label(__('filament.employee'))
                     ->wrap()
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('suspensionType.name')
+                    ->label(__('filament.suspension_type'))
                     ->wrap()
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('starts_at')
+                    ->label(__('filament.starts_at'))
                     ->dateTime()
                     ->sortable(),
                 TextColumn::make('ends_at')
+                    ->label(__('filament.ends_at'))
                     ->dateTime()
                     ->sortable(),
                 TextColumn::make(name: 'status')
+                    ->label(__('filament.status'))
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('comment')
+                    ->label(__('filament.comment'))
                     ->wrap()
                     ->limit(50)
                     ->tooltip(fn (string $state) => $state),
                 TextColumn::make('deleted_at')
+                    ->label(__('filament.deleted_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
+                    ->label(__('filament.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label(__('filament.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 Filter::make('starts_at')
-                    ->label(__('Starts At Range'))
+                    ->label(__('filament.starts_at_range'))
                     ->schema([
                         DatePicker::make('starts_at_from')
-                            ->label(__('Starts at from')),
+                            ->label(__('filament.starts_at_from')),
                         DatePicker::make('starts_at_until')
-                            ->label(__('Starts at until')),
+                            ->label(__('filament.starts_at_until')),
                     ])
                     ->columns(2)
                     ->query(function (Builder $query, array $data): Builder {
@@ -86,11 +95,11 @@ class SuspensionsTable
                             );
                     }),
                 SelectFilter::make('suspension_type_id')
-                    ->label(__('Suspension Type'))
+                    ->label(__('filament.Suspension Type'))
                     ->options(ModelListService::make(SuspensionType::query()))
                     ->searchable(),
                 SelectFilter::make('status')
-                    ->label(__('Status'))
+                    ->label(__('filament.Status'))
                     ->options(SuspensionStatuses::class)
                     ->searchable(),
                 TrashedFilter::make(),

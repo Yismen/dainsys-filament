@@ -51,7 +51,7 @@ class EmployeeInfolist
     {
         return [
             SpatieMediaLibraryImageEntry::make('profile_photo')
-                ->label('Photo')
+                ->label(__('filament.profile_photo'))
                 ->collection(Employee::PROFILE_PHOTO_COLLECTION)
                 ->conversion(Employee::PROFILE_PHOTO_THUMBNAIL_CONVERSION)
                 ->defaultImageUrl(fn (Employee $record): string => $record->getProfilePhotoPlaceholderUrl())
@@ -59,35 +59,47 @@ class EmployeeInfolist
                 ->openUrlInNewTab()
                 ->url(fn (Employee $record) => $record->getProfilePhotoUrl()),
             TextEntry::make('id')
-                ->label('ID'),
+                ->label(__('filament.id')),
             TextEntry::make('full_name')
+                ->label(__('filament.full_name'))
                 ->placeholder('-'),
             TextEntry::make('status')
+                ->label(__('filament.status'))
                 ->badge(),
             TextEntry::make('personal_id_type')
+                ->label(__('filament.personal_id_type'))
                 ->badge()
                 ->color(fn ($value) => $value?->getColor()),
-            TextEntry::make('personal_id'),
+            TextEntry::make('personal_id')
+                ->label(__('filament.personal_id')),
             TextEntry::make('date_of_birth')
+                ->label(__('filament.date_of_birth'))
                 ->date(),
             TextEntry::make('gender')
+                ->label(__('filament.gender'))
                 ->badge()
                 ->icon(fn ($value) => $value?->getIcon())
                 ->color(fn ($value) => $value?->getColor()),
-            TextEntry::make('cellphone'),
+            TextEntry::make('cellphone')
+                ->label(__('filament.cellphone')),
             IconEntry::make('has_kids')
+                ->label(__('filament.has_kids'))
                 ->boolean(),
             TextEntry::make('citizenship.name')
-                ->label('Citizenship')
+                ->label(__('filament.citizenship'))
                 ->icon('heroicon-o-flag'),
-            TextEntry::make('internal_id'),
+            TextEntry::make('internal_id')
+                ->label(__('filament.internal_id')),
             TextEntry::make('deleted_at')
+                ->label(__('filament.deleted_at'))
                 ->dateTime()
                 ->visible(fn (Employee $record): bool => $record->trashed()),
             TextEntry::make('created_at')
+                ->label(__('filament.created_at'))
                 ->dateTime()
                 ->placeholder('-'),
             TextEntry::make('updated_at')
+                ->label(__('filament.updated_at'))
                 ->dateTime()
                 ->placeholder('-'),
         ];
@@ -95,7 +107,7 @@ class EmployeeInfolist
 
     private static function bankAccountInformationSection(): Section
     {
-        return Section::make('Bank Account Information')
+        return Section::make(__('filament.bank_account_information'))
             ->columns([
                 'default' => 1,
                 'sm' => 2,
@@ -105,15 +117,15 @@ class EmployeeInfolist
             ->columnSpanFull()
             ->components([
                 TextEntry::make('bankAccount.bank.name')
-                    ->label('Bank Name'),
+                    ->label(__('filament.bank')),
                 TextEntry::make('bankAccount.account')
-                    ->label('Account Number'),
+                    ->label(__('filament.account')),
             ]);
     }
 
     private static function socialSecuritySection(): Section
     {
-        return Section::make('Social Security Information')
+        return Section::make(__('filament.social_security_information'))
             ->columns([
                 'default' => 1,
                 'sm' => 2,
@@ -124,17 +136,17 @@ class EmployeeInfolist
             ->columnSpanFull()
             ->components([
                 TextEntry::make('socialSecurity.afp.name')
-                    ->label('AFP'),
+                    ->label(__('filament.afp')),
                 TextEntry::make('socialSecurity.ars.name')
-                    ->label('ARS'),
+                    ->label(__('filament.ars')),
                 TextEntry::make('socialSecurity.number')
-                    ->label('TSS Number'),
+                    ->label(__('filament.tss_number')),
             ]);
     }
 
     private static function jobInformationSection(): Section
     {
-        return Section::make('Job Information')
+        return Section::make(__('filament.job_information'))
             ->columns([
                 'default' => 1,
                 'sm' => 2,
@@ -143,21 +155,22 @@ class EmployeeInfolist
             ->columnSpanFull()
             ->components([
                 TextEntry::make('hired_at')
+                    ->label(__('filament.hired_at'))
                     ->date(),
                 TextEntry::make('site.name')
-                    ->label('Site'),
+                    ->label(__('filament.site')),
                 TextEntry::make('project.name')
-                    ->label('Project'),
+                    ->label(__('filament.project')),
                 TextEntry::make('position.name')
-                    ->label('Position'),
+                    ->label(__('filament.position')),
                 TextEntry::make('supervisor.name')
-                    ->label('Supervisor'),
+                    ->label(__('filament.supervisor')),
             ]);
     }
 
     private static function pastSuspensionsSection(): Section
     {
-        return Section::make('Suspensions History')
+        return Section::make(__('filament.suspensions_history'))
             ->columns([
                 'default' => 1,
             ])
@@ -172,28 +185,30 @@ class EmployeeInfolist
                         'md' => 5,
                     ])
                     ->table([
-                        TableColumn::make('Suspension Type'),
-                        TableColumn::make('Starts At'),
-                        TableColumn::make('Ends At'),
-                        TableColumn::make('Duration (Days)'),
-                        TableColumn::make('Status'),
-                        TableColumn::make('Comment'),
+                        TableColumn::make(__('filament.suspension_type')),
+                        TableColumn::make(__('filament.starts_at')),
+                        TableColumn::make(__('filament.ends_at')),
+                        TableColumn::make(__('filament.duration_days')),
+                        TableColumn::make(__('filament.status')),
+                        TableColumn::make(__('filament.comment')),
                     ])
                     ->schema([
                         TextEntry::make('suspensionType.name')
-                            ->label('Suspension Type'),
+                            ->label(__('filament.suspension_type')),
                         TextEntry::make('starts_at')
+                            ->label(__('filament.starts_at'))
                             ->date(),
                         TextEntry::make('ends_at')
+                            ->label(__('filament.ends_at'))
                             ->date(),
                         TextEntry::make('duration')
-                            ->label('Duration (Days)'),
+                            ->label(__('filament.duration_days')),
                         TextEntry::make('status')
                             ->badge()
                             ->color(fn ($record) => $record->status->getColor()),
                         TextEntry::make('comment')
                             ->wrap()
-                            ->label('Comment')
+                            ->label(__('filament.comment'))
                             ->limit(50)
                             ->tooltip(fn ($record) => $record->comment),
                     ]),
@@ -202,13 +217,9 @@ class EmployeeInfolist
 
     private static function pastHiresSection(): Section
     {
-        return Section::make('Hires History')
+        return Section::make(__('filament.hires_history'))
             ->columns([
                 'default' => 1,
-                // 'sm' => 2,
-                // 'md' => 5,
-                // 'lg' => 4,
-                // 'xl' => 5,
             ])
             ->collapsible()
             ->collapsed(fn (Employee $record) => ! $record->hires()->exists())
@@ -221,36 +232,33 @@ class EmployeeInfolist
                         'md' => 5,
                     ])
                     ->table([
-                        TableColumn::make('Date'),
-                        TableColumn::make('Site'),
-                        TableColumn::make('Project'),
-                        TableColumn::make('Position'),
-                        TableColumn::make('Supervisor'),
+                        TableColumn::make(__('filament.date')),
+                        TableColumn::make(__('filament.site')),
+                        TableColumn::make(__('filament.project')),
+                        TableColumn::make(__('filament.position')),
+                        TableColumn::make(__('filament.supervisor')),
                     ])
                     ->schema([
                         TextEntry::make('date')
+                            ->label(__('filament.date'))
                             ->date(),
                         TextEntry::make('site.name')
-                            ->label('Site'),
+                            ->label(__('filament.site')),
                         TextEntry::make('project.name')
-                            ->label('Project'),
+                            ->label(__('filament.project')),
                         TextEntry::make('position.name')
-                            ->label('Position'),
+                            ->label(__('filament.position')),
                         TextEntry::make('supervisor.name')
-                            ->label('Supervisor'),
+                            ->label(__('filament.supervisor')),
                     ]),
             ]);
     }
 
     protected static function pastTerminationsSection(): Section
     {
-        return Section::make('Terminations History')
+        return Section::make(__('filament.terminations_history'))
             ->columns([
                 'default' => 1,
-                // 'sm' => 2,
-                // 'md' => 5,
-                // 'lg' => 4,
-                // 'xl' => 5,
             ])
             ->collapsible()
             ->collapsed(fn (Employee $record) => ! $record->terminations()->exists())
@@ -263,21 +271,22 @@ class EmployeeInfolist
                         'md' => 4,
                     ])
                     ->table([
-                        TableColumn::make('Date'),
-                        TableColumn::make('Termination Type'),
-                        TableColumn::make('Is Rehirable'),
-                        TableColumn::make('Comment'),
+                        TableColumn::make(__('filament.date')),
+                        TableColumn::make(__('filament.termination_type')),
+                        TableColumn::make(__('filament.is_rehirable')),
+                        TableColumn::make(__('filament.comment')),
                     ])
                     ->schema([
                         TextEntry::make('date')
+                            ->label(__('filament.date'))
                             ->date(),
                         TextEntry::make('termination_type')
-                            ->label('Termination Type'),
+                            ->label(__('filament.termination_type')),
                         IconEntry::make('is_rehirable')
                             ->boolean()
-                            ->label('Is Rehirable'),
+                            ->label(__('filament.is_rehirable')),
                         TextEntry::make('comment')
-                            ->label('Comment')
+                            ->label(__('filament.comment'))
                             ->wrap()
                             ->limit(50)
                             ->tooltip(fn ($record) => $record->comment),
@@ -287,7 +296,7 @@ class EmployeeInfolist
 
     protected static function last30DaysAbsencesSection(): Section
     {
-        return Section::make('Last 30 Days Absences')
+        return Section::make(__('filament.last_30_days_absences'))
             ->columns(1)
             ->collapsible()
             ->columnSpanFull()
@@ -305,21 +314,22 @@ class EmployeeInfolist
                         'md' => 4,
                     ])
                     ->table([
-                        TableColumn::make('Date'),
-                        TableColumn::make('Absence Type'),
-                        TableColumn::make('Status'),
-                        TableColumn::make('Comment'),
+                        TableColumn::make(__('filament.date')),
+                        TableColumn::make(__('filament.absence_type')),
+                        TableColumn::make(__('filament.status')),
+                        TableColumn::make(__('filament.comment')),
                     ])
                     ->schema([
                         TextEntry::make('date')
+                            ->label(__('filament.date'))
                             ->date(),
                         TextEntry::make('absenceType.name')
-                            ->label('Absence Type'),
+                            ->label(__('filament.absence_type')),
                         TextEntry::make('status')
                             ->badge()
                             ->color(fn ($record) => $record->status->getColor()),
                         TextEntry::make('comment')
-                            ->label('Comment')
+                            ->label(__('filament.comment'))
                             ->wrap()
                             ->limit(50)
                             ->tooltip(fn ($record) => $record->comment),

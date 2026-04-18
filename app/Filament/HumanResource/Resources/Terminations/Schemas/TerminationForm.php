@@ -20,6 +20,7 @@ class TerminationForm
         return $schema
             ->components([
                 Select::make('employee_id')
+                    ->label(__('filament.employee'))
                     ->options(
                         ModelListService::get(
                             model: Employee::query()
@@ -34,6 +35,7 @@ class TerminationForm
                     ->live()
                     ->required(),
                 DateTimePicker::make('date')
+                    ->label(__('filament.date'))
                     ->default(now())
                     ->minDate(function (Get $get) {
                         return Employee::query()
@@ -43,13 +45,16 @@ class TerminationForm
                     ->maxDate(now()->addMonths(2)->endOfDay())
                     ->required(),
                 Select::make('termination_type')
+                    ->label(__('filament.termination_type'))
                     ->options(TerminationTypes::class)
                     ->searchable()
                     ->required(),
                 Toggle::make('is_rehireable')
+                    ->label(__('filament.is_rehirable'))
                     ->required()
                     ->default(true),
                 Textarea::make('comment')
+                    ->label(__('filament.comment'))
                     ->required()
                     ->columnSpanFull(),
             ]);

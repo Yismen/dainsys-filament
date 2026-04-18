@@ -13,11 +13,13 @@ class SuspensionTypeForm
         return $schema
             ->components([
                 TextInput::make('name')
+                    ->label(__('filament.name'))
                     ->required()
                     ->maxLength(250)
                     ->unique(ignoreRecord: true)
                     ->autofocus(),
                 Textarea::make('description')
+                    ->label(__('filament.description'))
                     ->columnSpanFull(),
             ]);
     }

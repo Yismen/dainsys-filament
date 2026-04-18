@@ -18,6 +18,7 @@ class HRActivityRequestForm
         return $schema
             ->components([
                 Select::make('employee_id')
+                    ->label(__('filament.employee'))
                     ->options(ModelListService::make(
                         model: Employee::query()->active(),
                         value_field: 'full_name',
@@ -25,15 +26,19 @@ class HRActivityRequestForm
                     ->searchable()
                     ->required(),
                 Select::make('supervisor_id')
+                    ->label(__('filament.supervisor'))
                     ->options(ModelListService::make(Supervisor::query()))
                     ->searchable()
                     ->required(),
                 Select::make('activity_type')
+                    ->label(__('filament.activity_type'))
                     ->options(HRActivityTypes::class)
                     ->required(),
                 Textarea::make('description')
+                    ->label(__('filament.description'))
                     ->columnSpanFull(),
                 DateTimePicker::make('requested_at')
+                    ->label(__('filament.requested_at'))
                     ->required(),
             ]);
     }

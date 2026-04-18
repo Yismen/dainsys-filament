@@ -19,7 +19,7 @@ class AbsenceForm
     {
         return [
             Select::make('employee_id')
-                ->label('Employee')
+                ->label(__('filament.employee'))
                 ->options(ModelListService::make(model: Employee::query()->active(), value_field: 'full_name'))
                 ->searchable()
                 ->required()
@@ -37,21 +37,22 @@ class AbsenceForm
                     ],
                 ]),
             DatePicker::make('date')
+                ->label(__('filament.date'))
                 ->required()
                 ->default(now()->subDay())
                 ->minDate(now()->subYear())
                 ->maxDate(now()),
             Select::make('status')
-                ->label('Status')
+                ->label(__('filament.status'))
                 ->options(AbsenceStatuses::toArray())
                 ->default(AbsenceStatuses::Created)
                 ->required(),
             Select::make('type')
-                ->label('Type')
+                ->label(__('filament.type'))
                 ->required()
                 ->options(AbsenceTypes::toArray()),
             Textarea::make('comment')
-                ->label('Comment')
+                ->label(__('filament.comment'))
                 ->nullable()
                 ->columnSpanFull(),
         ];

@@ -19,32 +19,39 @@ class PositionsTable
         return $table
             ->columns([
                 TextColumn::make('name')
+                    ->label(__('filament.name'))
                     ->sortable()
                     ->wrap()
                     ->searchable(),
                 TextColumn::make('department.name')
+                    ->label(__('filament.department'))
                     ->sortable()
                     ->wrap()
                     ->searchable(),
                 TextColumn::make('salary')
+                    ->label(__('filament.salary'))
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('salary_type')
+                    ->label(__('filament.salary_type'))
                     ->sortable(),
-                // TextColumn::make('details'),
                 TextColumn::make('description')
+                    ->label(__('filament.description'))
                     ->limit(50)
                     ->tooltip(fn (string $state) => $state)
                     ->wrap(),
                 TextColumn::make('deleted_at')
+                    ->label(__('filament.deleted_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
+                    ->label(__('filament.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label(__('filament.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

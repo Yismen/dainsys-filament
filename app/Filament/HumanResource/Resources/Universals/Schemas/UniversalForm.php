@@ -15,6 +15,7 @@ class UniversalForm
         return $schema
             ->components([
                 Select::make('employee_id')
+                    ->label(__('filament.employee'))
                     ->options(ModelListService::get(
                         model: Employee::query(),
                         value_field: 'full_name'
@@ -24,6 +25,7 @@ class UniversalForm
                     ->required()
                     ->autofocus(),
                 DatePicker::make('date_since')
+                    ->label(__('filament.date_since'))
                     ->required(),
             ]);
     }

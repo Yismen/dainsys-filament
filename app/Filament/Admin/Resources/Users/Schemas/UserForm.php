@@ -5,7 +5,6 @@ namespace App\Filament\Admin\Resources\Users\Schemas;
 use App\Models\Role;
 use App\Services\ModelListService;
 use Filament\Forms\Components\CheckboxList;
-use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
@@ -22,25 +21,24 @@ class UserForm
                     ->columns(2)
                     ->schema([
                         TextInput::make('name')
+                            ->label(__('filament.admin.name'))
                             ->required(),
                         TextInput::make('email')
-                            ->label('Email address')
+                            ->label(__('filament.admin.email'))
                             ->unique(ignoreRecord: true)
                             ->email()
                             ->required(),
                         TextInput::make('password')
-                            ->label('Password')
+                            ->label(__('filament.admin.password'))
                             ->password()
                             ->visibleOn('create')
                             ->required(fn (string $context): bool => $context === 'create'),
-                        // DateTimePicker::make('email_verified_at'),
-                        // TextInput::make('password')
-                        //     ->password()
-                        //     ->required(),
                         Toggle::make('is_active')
+                            ->label(__('filament.admin.is_active'))
                             ->visibleOn('edit'),
 
                         CheckboxList::make('roles')
+                            ->label(__('filament.admin.roles'))
                             ->relationship('roles', 'name')
                             ->options(ModelListService::make(Role::query()))
                             ->columns(2)

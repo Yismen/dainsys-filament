@@ -17,19 +17,23 @@ class SupervisorForm
         return $schema
             ->components([
                 TextInput::make('name')
+                    ->label(__('filament.name'))
                     ->required()
                     ->maxLength(255)
                     ->unique(ignoreRecord: true)
                     ->autofocus(),
                 Select::make('user_id')
+                    ->label(__('filament.user'))
                     ->options(ModelListService::make(User::query()))
                     ->searchable()
                     ->required()
                     ->unique(ignoreRecord: true),
                 Toggle::make('is_active')
+                    ->label(__('filament.is_active'))
                     ->default(true)
                     ->required(),
                 Textarea::make('description')
+                    ->label(__('filament.description'))
                     ->columnSpanFull(),
             ]);
     }

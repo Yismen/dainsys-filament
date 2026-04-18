@@ -22,38 +22,44 @@ class HRActivityRequestsTable
         return $table
             ->columns([
                 TextColumn::make('id')
-                    ->label('ID')
+                    ->label(__('filament.id'))
                     ->searchable()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('employee.full_name')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('supervisor.full_name')
-                    ->label('Supervisor')
+                    ->label(__('filament.supervisor'))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('activity_type')
+                    ->label(__('filament.activity_type'))
                     ->badge()
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('status')
+                    ->label(__('filament.status'))
                     ->badge()
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('requested_at')
+                    ->label(__('filament.requested_at'))
                     ->dateTime()
                     ->sortable(),
                 TextColumn::make('completed_at')
+                    ->label(__('filament.completed_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
+                    ->label(__('filament.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label(__('filament.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
