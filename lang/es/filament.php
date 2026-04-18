@@ -124,6 +124,14 @@ return [
     'joined' => 'Se unió',
     'action' => 'Acción',
     'timestamp' => 'Fecha/Hora',
+    'title' => 'Título',
+    'slug' => 'Slug',
+    'author' => 'Autor',
+    'categories' => 'Categorías',
+    'users' => 'Usuarios',
+    'roles' => 'Roles',
+    'order' => 'Orden',
+    'articles' => 'Artículos',
 
     /*
     |--------------------------------------------------------------------------

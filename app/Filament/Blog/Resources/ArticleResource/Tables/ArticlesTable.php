@@ -25,44 +25,45 @@ class ArticlesTable
             ->defaultSort('created_at', 'desc')
             ->columns([
                 TextColumn::make('title')
+                    ->label(__('filament.title'))
                     ->wrap()
                     ->sortable()
                     ->searchable()
                     ->weight('medium'),
                 TextColumn::make('slug')
+                    ->label(__('filament.slug'))
                     ->wrap()
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('author.name')
+                    ->label(__('filament.author'))
                     ->wrap()
-                    ->label('Author')
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('status')
+                    ->label(__('filament.status'))
                     ->formatStateUsing(fn (ArticleStatus $state) => $state->name)
                     ->color(fn (ArticleStatus $state) => $state->color())
                     ->badge()
                     ->sortable(),
                 TextColumn::make('categories.name')
+                    ->label(__('filament.categories'))
                     ->wrap()
-                    ->label('Categories')
                     ->badge()
                     ->separator(',')
                     ->wrap(),
-                // TextColumn::make('published_at')
-                //     ->label('Published')
-                //     ->dateTime()
-                //     ->sortable()
-                //     ->toggleable(),
                 TextColumn::make('created_at')
+                    ->label(__('filament.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label(__('filament.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('deleted_at')
+                    ->label(__('filament.deleted_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -70,13 +71,15 @@ class ArticlesTable
             ->filters([
                 TrashedFilter::make(),
                 SelectFilter::make('status')
+                    ->label(__('filament.status'))
                     ->options(ArticleStatus::class),
                 SelectFilter::make('categories')
+                    ->label(__('filament.categories'))
                     ->relationship('categories', 'name')
                     ->options(ModelListService::make(Category::query()))
                     ->searchable(),
                 SelectFilter::make('author_id')
-                    ->label('Author')
+                    ->label(__('filament.author'))
                     ->relationship('author', 'name')
                     ->options(ModelListService::make(User::query()))
                     ->searchable(),

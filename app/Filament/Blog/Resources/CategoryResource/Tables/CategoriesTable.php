@@ -19,46 +19,52 @@ class CategoriesTable
             ->defaultSort('display_order')
             ->columns([
                 TextColumn::make('name')
+                    ->label(__('filament.name'))
                     ->wrap()
                     ->sortable()
                     ->searchable()
                     ->weight('medium'),
                 TextColumn::make('slug')
+                    ->label(__('filament.slug'))
                     ->wrap()
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('description')
+                    ->label(__('filament.description'))
                     ->wrap()
                     ->limit(50)
                     ->wrap(),
                 TextColumn::make('accesses.user.name')
+                    ->label(__('filament.users'))
                     ->wrap()
                     ->badge()
-                    ->label('Users')
                     ->color('primary')
                     ->searchable(),
                 TextColumn::make('accesses.role.name')
+                    ->label(__('filament.roles'))
                     ->wrap()
                     ->badge()
-                    ->label('Roles')
                     ->color('primary')
                     ->searchable(),
                 TextColumn::make('display_order')
-                    ->label('Order')
+                    ->label(__('filament.order'))
                     ->sortable(),
                 TextColumn::make('articles_count')
-                    ->label('Articles')
+                    ->label(__('filament.articles'))
                     ->counts('articles')
                     ->sortable(),
                 TextColumn::make('created_at')
+                    ->label(__('filament.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label(__('filament.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('deleted_at')
+                    ->label(__('filament.deleted_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

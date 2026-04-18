@@ -125,6 +125,14 @@ return [
     'joined' => 'Joined',
     'action' => 'Action',
     'timestamp' => 'Timestamp',
+    'title' => 'Title',
+    'slug' => 'Slug',
+    'author' => 'Author',
+    'categories' => 'Categories',
+    'users' => 'Users',
+    'roles' => 'Roles',
+    'order' => 'Order',
+    'articles' => 'Articles',
 
     /*
     |--------------------------------------------------------------------------
