@@ -6679,16 +6679,16 @@
         },
         {
             "name": "phpoffice/phpspreadsheet",
-            "version": "1.30.3",
+            "version": "1.30.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPOffice/PhpSpreadsheet.git",
-                "reference": "d28d4827f934469e7ca4de940ab0abd0788d1e65"
+                "reference": "02970383cc12e7bf0bc0707ea6e2e8ed23a7aec9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/d28d4827f934469e7ca4de940ab0abd0788d1e65",
-                "reference": "d28d4827f934469e7ca4de940ab0abd0788d1e65",
+                "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/02970383cc12e7bf0bc0707ea6e2e8ed23a7aec9",
+                "reference": "02970383cc12e7bf0bc0707ea6e2e8ed23a7aec9",
                 "shasum": ""
             },
             "require": {
@@ -6781,9 +6781,9 @@
             ],
             "support": {
                 "issues": "https://github.com/PHPOffice/PhpSpreadsheet/issues",
-                "source": "https://github.com/PHPOffice/PhpSpreadsheet/tree/1.30.3"
+                "source": "https://github.com/PHPOffice/PhpSpreadsheet/tree/1.30.4"
             },
-            "time": "2026-04-10T03:47:16+00:00"
+            "time": "2026-04-19T06:00:39+00:00"
         },
         {
             "name": "phpoption/phpoption",
@@ -13071,16 +13071,16 @@
     "packages-dev": [
         {
             "name": "barryvdh/laravel-debugbar",
-            "version": "v4.2.6",
+            "version": "v4.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fruitcake/laravel-debugbar.git",
-                "reference": "68c3de788feb7047bea547b51253e71a54e7936a"
+                "reference": "e9863784b8ee42f7a4393bea90a0750f632df779"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fruitcake/laravel-debugbar/zipball/68c3de788feb7047bea547b51253e71a54e7936a",
-                "reference": "68c3de788feb7047bea547b51253e71a54e7936a",
+                "url": "https://api.github.com/repos/fruitcake/laravel-debugbar/zipball/e9863784b8ee42f7a4393bea90a0750f632df779",
+                "reference": "e9863784b8ee42f7a4393bea90a0750f632df779",
                 "shasum": ""
             },
             "require": {
@@ -13154,7 +13154,7 @@
             ],
             "support": {
                 "issues": "https://github.com/fruitcake/laravel-debugbar/issues",
-                "source": "https://github.com/fruitcake/laravel-debugbar/tree/v4.2.6"
+                "source": "https://github.com/fruitcake/laravel-debugbar/tree/v4.2.7"
             },
             "funding": [
                 {
@@ -13166,7 +13166,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-04-10T07:24:18+00:00"
+            "time": "2026-04-18T17:01:20+00:00"
         },
         {
             "name": "barryvdh/laravel-ide-helper",
@@ -14530,16 +14530,16 @@
         },
         {
             "name": "pestphp/pest",
-            "version": "v4.6.1",
+            "version": "v4.6.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pestphp/pest.git",
-                "reference": "87db0b484788cfde4778b715bb1fed34133685fa"
+                "reference": "bff44562a99d30aa37573995566051b0344f9f8e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pestphp/pest/zipball/87db0b484788cfde4778b715bb1fed34133685fa",
-                "reference": "87db0b484788cfde4778b715bb1fed34133685fa",
+                "url": "https://api.github.com/repos/pestphp/pest/zipball/bff44562a99d30aa37573995566051b0344f9f8e",
+                "reference": "bff44562a99d30aa37573995566051b0344f9f8e",
                 "shasum": ""
             },
             "require": {
@@ -14551,12 +14551,12 @@
                 "pestphp/pest-plugin-mutate": "^4.0.1",
                 "pestphp/pest-plugin-profanity": "^4.2.1",
                 "php": "^8.3.0",
-                "phpunit/phpunit": "^12.5.20",
+                "phpunit/phpunit": "^12.5.23",
                 "symfony/process": "^7.4.8|^8.0.8"
             },
             "conflict": {
                 "filp/whoops": "<2.18.3",
-                "phpunit/phpunit": ">12.5.20",
+                "phpunit/phpunit": ">12.5.23",
                 "sebastian/exporter": "<7.0.0",
                 "webmozart/assert": "<1.11.0"
             },
@@ -14631,7 +14631,7 @@
             ],
             "support": {
                 "issues": "https://github.com/pestphp/pest/issues",
-                "source": "https://github.com/pestphp/pest/tree/v4.6.1"
+                "source": "https://github.com/pestphp/pest/tree/v4.6.3"
             },
             "funding": [
                 {
@@ -14643,7 +14643,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-04-15T16:03:09+00:00"
+            "time": "2026-04-18T13:51:25+00:00"
         },
         {
             "name": "pestphp/pest-plugin",
@@ -15315,16 +15315,16 @@
         },
         {
             "name": "php-debugbar/php-debugbar",
-            "version": "v3.7.4",
+            "version": "v3.7.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-debugbar/php-debugbar.git",
-                "reference": "af82a54530c56919ce3c6fba1942a247ac9f6777"
+                "reference": "dbf77f48fa6e6b57ed57ae67aa047b2535697788"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-debugbar/php-debugbar/zipball/af82a54530c56919ce3c6fba1942a247ac9f6777",
-                "reference": "af82a54530c56919ce3c6fba1942a247ac9f6777",
+                "url": "https://api.github.com/repos/php-debugbar/php-debugbar/zipball/dbf77f48fa6e6b57ed57ae67aa047b2535697788",
+                "reference": "dbf77f48fa6e6b57ed57ae67aa047b2535697788",
                 "shasum": ""
             },
             "require": {
@@ -15401,7 +15401,7 @@
             ],
             "support": {
                 "issues": "https://github.com/php-debugbar/php-debugbar/issues",
-                "source": "https://github.com/php-debugbar/php-debugbar/tree/v3.7.4"
+                "source": "https://github.com/php-debugbar/php-debugbar/tree/v3.7.5"
             },
             "funding": [
                 {
@@ -15413,7 +15413,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-04-09T11:28:41+00:00"
+            "time": "2026-04-15T11:58:43+00:00"
         },
         {
             "name": "php-debugbar/symfony-bridge",
@@ -15881,16 +15881,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "12.5.20",
+            "version": "12.5.23",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "c2364520611caa03567a8a020f2d59f3f90b115a"
+                "reference": "c54fcf3d6bcb6e96ac2f7e40097dc37b5f139969"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c2364520611caa03567a8a020f2d59f3f90b115a",
-                "reference": "c2364520611caa03567a8a020f2d59f3f90b115a",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c54fcf3d6bcb6e96ac2f7e40097dc37b5f139969",
+                "reference": "c54fcf3d6bcb6e96ac2f7e40097dc37b5f139969",
                 "shasum": ""
             },
             "require": {
@@ -15904,7 +15904,7 @@
                 "phar-io/manifest": "^2.0.4",
                 "phar-io/version": "^3.2.1",
                 "php": ">=8.3",
-                "phpunit/php-code-coverage": "^12.5.5",
+                "phpunit/php-code-coverage": "^12.5.6",
                 "phpunit/php-file-iterator": "^6.0.1",
                 "phpunit/php-invoker": "^6.0.0",
                 "phpunit/php-text-template": "^5.0.0",
@@ -15912,7 +15912,7 @@
                 "sebastian/cli-parser": "^4.2.0",
                 "sebastian/comparator": "^7.1.6",
                 "sebastian/diff": "^7.0.0",
-                "sebastian/environment": "^8.0.4",
+                "sebastian/environment": "^8.1.0",
                 "sebastian/exporter": "^7.0.2",
                 "sebastian/global-state": "^8.0.2",
                 "sebastian/object-enumerator": "^7.0.0",
@@ -15959,7 +15959,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/12.5.20"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/12.5.23"
             },
             "funding": [
                 {
@@ -15967,7 +15967,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2026-04-15T05:05:59+00:00"
+            "time": "2026-04-18T06:12:49+00:00"
         },
         {
             "name": "rector/rector",
