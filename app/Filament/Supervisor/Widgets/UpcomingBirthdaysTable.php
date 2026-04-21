@@ -28,7 +28,7 @@ class UpcomingBirthdaysTable extends BaseWidget
 
         $today = Carbon::now();
         $until = Carbon::now()->addDays(10);
-        $service = new BirthdaysService();
+        $service = new BirthdaysService;
         $employees = $service->between($today, $until);
         $ids = $employees->pluck('id')->all();
 
@@ -38,9 +38,10 @@ class UpcomingBirthdaysTable extends BaseWidget
             $monthExpr = "CAST(strftime('%m', date_of_birth) AS INTEGER)";
             $dayExpr = "CAST(strftime('%d', date_of_birth) AS INTEGER)";
         } else {
-            $monthExpr = "MONTH(date_of_birth)";
-            $dayExpr = "DAY(date_of_birth)";
+            $monthExpr = 'MONTH(date_of_birth)';
+            $dayExpr = 'DAY(date_of_birth)';
         }
+
         return $query->orderByRaw("$monthExpr, $dayExpr asc");
     }
 

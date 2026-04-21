@@ -6,10 +6,11 @@ use App\Models\Employee;
 use App\Models\Hire;
 use App\Models\Project;
 use App\Models\User;
+use Filament\Facades\Filament;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
-use Filament\Facades\Filament;
 use Livewire\Livewire;
+
 use function Pest\Laravel\actingAs;
 
 beforeEach(function (): void {

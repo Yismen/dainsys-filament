@@ -7,9 +7,10 @@ use App\Models\Employee;
 use App\Models\Suspension;
 use App\Models\Termination;
 use App\Services\BirthdaysService;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Event;
 
-beforeEach(function () {
+beforeEach(function (): void {
     Event::fake([
         EmployeeHiredEvent::class,
         EmployeeSuspendedEvent::class,
@@ -17,7 +18,8 @@ beforeEach(function () {
     ]);
 });
 
-function birthdaysService() {
+function birthdaysService()
+{
     return new BirthdaysService;
 }
 
@@ -141,7 +143,7 @@ test('birthdays service doesnt include inactive employees', function (): void {
     expect($birthdays)->toBeEmpty();
 });
 
-test('between() returns birthdays within a single month range', function () {
+test('between() returns birthdays within a single month range', function (): void {
     $today = now()->setMonth(4)->setDay(21);
     $end = now()->setMonth(4)->setDay(25);
 
@@ -153,7 +155,7 @@ test('between() returns birthdays within a single month range', function () {
     expect($results->contains('id', $out_of_range->id))->toBeFalse();
 });
 
-test('between() returns birthdays across month boundary', function () {
+test('between() returns birthdays across month boundary', function (): void {
     $start = now()->setMonth(4)->setDay(28);
     $end = now()->setMonth(5)->setDay(2);
 
@@ -167,7 +169,7 @@ test('between() returns birthdays across month boundary', function () {
     expect($results->contains('id', $april_27->id))->toBeFalse();
 });
 
-test('between() returns birthdays across year boundary', function () {
+test('between() returns birthdays across year boundary', function (): void {
     $start = now()->setMonth(12)->setDay(29);
     $end = now()->setMonth(1)->setDay(3);
 
@@ -181,21 +183,21 @@ test('between() returns birthdays across year boundary', function () {
     expect($results->contains('id', $dec_28->id))->toBeFalse();
 });
 
-test('between() respects employee status', function () {
+test('between() respects employee status', function (): void {
     $start = now()->setMonth(4)->setDay(21);
     $end = now()->setMonth(4)->setDay(25);
 
     $active = Employee::factory()->hasHires()->create(['date_of_birth' => $start->copy()->setYear(1990)]);
     $inactive = Employee::factory()->hasHires()->create(['date_of_birth' => $start->copy()->setYear(1990)]);
-    \App\Models\Termination::factory()->for($inactive)->create();
+    Termination::factory()->for($inactive)->create();
 
     $results = birthdaysService()->between($start, $end);
     expect($results->contains('id', $active->id))->toBeTrue();
     expect($results->contains('id', $inactive->id))->toBeFalse();
 });
 
-test('between() works with time travel', function () {
-    \Illuminate\Support\Facades\Date::setTestNow('2026-12-28');
+test('between() works with time travel', function (): void {
+    Date::setTestNow('2026-12-28');
     $start = now();
     $end = now()->addDays(7);
 
@@ -207,5 +209,5 @@ test('between() works with time travel', function () {
     expect($results->contains('id', $dec_29->id))->toBeTrue();
     expect($results->contains('id', $jan_2->id))->toBeTrue();
     expect($results->contains('id', $dec_27->id))->toBeFalse();
-    \Illuminate\Support\Facades\Date::setTestNow();
+    Date::setTestNow();
 });

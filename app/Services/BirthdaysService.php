@@ -54,27 +54,27 @@ class BirthdaysService
             $monthExpr = "CAST(strftime('%m', date_of_birth) AS INTEGER)";
             $dayExpr = "CAST(strftime('%d', date_of_birth) AS INTEGER)";
         } else {
-            $monthExpr = "MONTH(date_of_birth)";
-            $dayExpr = "DAY(date_of_birth)";
+            $monthExpr = 'MONTH(date_of_birth)';
+            $dayExpr = 'DAY(date_of_birth)';
         }
 
         if ($startMonth < $endMonth || ($startMonth === $endMonth && $startDay <= $endDay)) {
-            $query->where(function ($q) use ($monthExpr, $dayExpr, $startMonth, $startDay, $endMonth, $endDay) {
+            $query->where(function ($q) use ($monthExpr, $dayExpr, $startMonth, $startDay, $endMonth, $endDay): void {
                 $q->whereRaw('('
-                    . "($monthExpr > ? OR ($monthExpr = ? AND $dayExpr >= ?))"
-                    . ' AND '
-                    . "($monthExpr < ? OR ($monthExpr = ? AND $dayExpr <= ?))"
-                    . ')', [
+                    ."($monthExpr > ? OR ($monthExpr = ? AND $dayExpr >= ?))"
+                    .' AND '
+                    ."($monthExpr < ? OR ($monthExpr = ? AND $dayExpr <= ?))"
+                    .')', [
                         $startMonth, $startMonth, $startDay,
                         $endMonth, $endMonth, $endDay,
                     ]);
             });
         } else {
             // Range wraps over year boundary (e.g., Dec 28–Jan 5)
-            $query->where(function ($q) use ($monthExpr, $dayExpr, $startMonth, $startDay, $endMonth, $endDay) {
-                $q->where(function ($q) use ($monthExpr, $dayExpr, $startMonth, $startDay) {
+            $query->where(function ($q) use ($monthExpr, $dayExpr, $startMonth, $startDay, $endMonth, $endDay): void {
+                $q->where(function ($q) use ($monthExpr, $dayExpr, $startMonth, $startDay): void {
                     $q->whereRaw("($monthExpr > ? OR ($monthExpr = ? AND $dayExpr >= ?))", [$startMonth, $startMonth, $startDay]);
-                })->orWhere(function ($q) use ($monthExpr, $dayExpr, $endMonth, $endDay) {
+                })->orWhere(function ($q) use ($monthExpr, $dayExpr, $endMonth, $endDay): void {
                     $q->whereRaw("($monthExpr < ? OR ($monthExpr = ? AND $dayExpr <= ?))", [$endMonth, $endMonth, $endDay]);
                 });
             });

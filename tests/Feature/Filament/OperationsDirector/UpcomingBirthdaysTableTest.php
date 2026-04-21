@@ -6,10 +6,11 @@ use App\Models\Employee;
 use App\Models\Hire;
 use App\Models\Project;
 use App\Models\User;
+use Filament\Facades\Filament;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
-use Filament\Facades\Filament;
 use Livewire\Livewire;
+
 use function Pest\Laravel\actingAs;
 
 beforeEach(function (): void {
@@ -59,8 +60,7 @@ test('operations director birthdays widget shows employees with birthdays in nex
         ->assertSee($employee1->full_name)
         ->assertSee($employee2->full_name)
         ->assertDontSee($employee3->full_name)
-        ->assertDontSee($employee4->full_name)
-        ;
+        ->assertDontSee($employee4->full_name);
 });
 
 test('operations director birthdays widget sorts by month and day', function (): void {
