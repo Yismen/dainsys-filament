@@ -22,27 +22,27 @@ class HireEmployeeSchema
                 ->searchable()
                 ->disabled(fn ($record) => $record->status === EmployeeStatuses::Created && $isBeingHired === false)
                 ->options(ModelListService::make(Site::query()))
-                ->required(fn ($record) => $record->status !== EmployeeStatuses::Created),
+                ->required(fn ($record) => $record->status !== EmployeeStatuses::Created || $isBeingHired === true),
             Select::make('project_id')
                 ->disabled(fn ($record) => $record->status === EmployeeStatuses::Created && $isBeingHired === false)
                 ->searchable()
                 ->options(ModelListService::make(Project::query()))
-                ->required(fn ($record) => $record->status !== EmployeeStatuses::Created),
+                ->required(fn ($record) => $record->status !== EmployeeStatuses::Created || $isBeingHired === true),
             Select::make('position_id')
                 ->disabled(fn ($record) => $record->status === EmployeeStatuses::Created && $isBeingHired === false)
                 ->searchable()
                 ->options(ModelListService::make(Position::query(), value_field: 'details'))
-                ->required(fn ($record) => $record->status !== EmployeeStatuses::Created),
+                ->required(fn ($record) => $record->status !== EmployeeStatuses::Created || $isBeingHired === true),
             Select::make('supervisor_id')
                 ->disabled(fn ($record) => $record->status === EmployeeStatuses::Created && $isBeingHired === false)
                 ->options(ModelListService::make(Supervisor::query()))
                 ->searchable()
-                ->required(fn ($record) => $record->status !== EmployeeStatuses::Created),
+                ->required(fn ($record) => $record->status !== EmployeeStatuses::Created || $isBeingHired === true),
             DateTimePicker::make('hired_at')
                 ->default(now())
                 ->maxDate(now()->addDays(5))
                 ->disabled(fn ($record) => $record->status === EmployeeStatuses::Created && $isBeingHired === false)
-                ->required(fn ($record) => $record->status !== EmployeeStatuses::Created),
+                ->required(fn ($record) => $record->status !== EmployeeStatuses::Created || $isBeingHired === true),
             TextInput::make('internal_id')
                 ->unique(ignoreRecord: true)
                 ->afterStateHydrated(function (?Employee $record, TextInput $component): void {
@@ -58,7 +58,7 @@ class HireEmployeeSchema
                 })
                 ->minLength(4)
                 ->maxLength(20)
-                ->required(fn ($record) => $record->status !== EmployeeStatuses::Created),
+                ->required(fn ($record) => $record->status !== EmployeeStatuses::Created || $isBeingHired === true),
         ];
     }
 }

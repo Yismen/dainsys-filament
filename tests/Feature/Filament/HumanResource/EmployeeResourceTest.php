@@ -2,9 +2,7 @@
 
 use App\Enums\Genders;
 use App\Enums\PersonalIdTypes;
-use App\Filament\HumanResource\Resources\Employees\Pages\CreateEmployee;
 use App\Filament\HumanResource\Resources\Employees\Pages\ListEmployees;
-use App\Filament\HumanResource\Resources\Employees\Pages\ViewEmployee;
 use App\Models\Citizenship;
 use App\Models\Employee;
 use App\Models\Position;
@@ -13,6 +11,7 @@ use App\Models\Site;
 use App\Models\Supervisor;
 use App\Models\User;
 use Filament\Facades\Filament;
+use Illuminate\Support\Facades\Mail;
 
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
@@ -146,4 +145,44 @@ it('loads human resource employee edit action modal when position details are nu
     livewire(ListEmployees::class)
         ->mountTableAction('edit', $employee->getKey())
         ->assertOk();
+});
+
+it('keeps hired assignment data when saving the edit modal after hiring from footer action', function (): void {
+    Mail::fake();
+
+    $site = Site::factory()->create();
+    $project = Project::factory()->create();
+    $position = Position::factory()->create();
+    $supervisor = Supervisor::factory()->create();
+    $hiredAt = now()->subDay()->startOfMinute();
+
+    $employee = Employee::factory()->create([
+        'site_id' => null,
+        'project_id' => null,
+        'position_id' => null,
+        'supervisor_id' => null,
+        'hired_at' => null,
+        'internal_id' => null,
+    ]);
+
+    actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Employee'));
+
+    livewire(ListEmployees::class)
+        ->callTableAction(['edit', 'hire'], $employee->getKey(), [
+            'site_id' => $site->id,
+            'project_id' => $project->id,
+            'position_id' => $position->id,
+            'supervisor_id' => $supervisor->id,
+            'hired_at' => $hiredAt->toDateTimeString(),
+            'internal_id' => 'EMP9999',
+        ])
+        ->callMountedTableAction();
+
+    $employee->refresh();
+
+    expect($employee->site_id)->toBe($site->id)
+        ->and($employee->project_id)->toBe($project->id)
+        ->and($employee->position_id)->toBe($position->id)
+        ->and($employee->supervisor_id)->toBe($supervisor->id)
+        ->and($employee->hired_at?->format('Y-m-d H:i'))->toBe($hiredAt->format('Y-m-d H:i'));
 });
