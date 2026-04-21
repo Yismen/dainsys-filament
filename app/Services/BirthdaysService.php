@@ -36,6 +36,53 @@ class BirthdaysService
         $this->query = $this->baseQuery();
     }
 
+    /**
+     * Get employees with birthdays between two dates (month/day only, year-agnostic, handles wrap).
+     * $start and $end should be Carbon instances.
+     */
+    public function between(Carbon $start, Carbon $end): Collection
+    {
+        $query = $this->baseQuery();
+
+        $startMonth = $start->month;
+        $startDay = $start->day;
+        $endMonth = $end->month;
+        $endDay = $end->day;
+
+        $driver = config('database.default');
+        if ($driver === 'sqlite') {
+            $monthExpr = "CAST(strftime('%m', date_of_birth) AS INTEGER)";
+            $dayExpr = "CAST(strftime('%d', date_of_birth) AS INTEGER)";
+        } else {
+            $monthExpr = "MONTH(date_of_birth)";
+            $dayExpr = "DAY(date_of_birth)";
+        }
+
+        if ($startMonth < $endMonth || ($startMonth === $endMonth && $startDay <= $endDay)) {
+            $query->where(function ($q) use ($monthExpr, $dayExpr, $startMonth, $startDay, $endMonth, $endDay) {
+                $q->whereRaw('('
+                    . "($monthExpr > ? OR ($monthExpr = ? AND $dayExpr >= ?))"
+                    . ' AND '
+                    . "($monthExpr < ? OR ($monthExpr = ? AND $dayExpr <= ?))"
+                    . ')', [
+                        $startMonth, $startMonth, $startDay,
+                        $endMonth, $endMonth, $endDay,
+                    ]);
+            });
+        } else {
+            // Range wraps over year boundary (e.g., Dec 28–Jan 5)
+            $query->where(function ($q) use ($monthExpr, $dayExpr, $startMonth, $startDay, $endMonth, $endDay) {
+                $q->where(function ($q) use ($monthExpr, $dayExpr, $startMonth, $startDay) {
+                    $q->whereRaw("($monthExpr > ? OR ($monthExpr = ? AND $dayExpr >= ?))", [$startMonth, $startMonth, $startDay]);
+                })->orWhere(function ($q) use ($monthExpr, $dayExpr, $endMonth, $endDay) {
+                    $q->whereRaw("($monthExpr < ? OR ($monthExpr = ? AND $dayExpr <= ?))", [$endMonth, $endMonth, $endDay]);
+                });
+            });
+        }
+
+        return $query->get();
+    }
+
     public function handle(string $type = 'today'): Collection
     {
         if (! in_array($type, $this->types)) {

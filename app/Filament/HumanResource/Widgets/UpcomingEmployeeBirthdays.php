@@ -3,6 +3,7 @@
 namespace App\Filament\HumanResource\Widgets;
 
 use App\Models\Employee;
+use App\Services\BirthdaysService;
 use Filament\Actions\ViewAction;
 use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\SpatieMediaLibraryImageEntry;
@@ -116,27 +117,13 @@ class UpcomingEmployeeBirthdays extends TableWidget
 
     protected function getTableQuery(): Builder
     {
-        $today = Carbon::now()->startOfDay();
-        $until = Carbon::now()->addDays(10)->endOfDay();
+        $today = Carbon::now();
+        $until = Carbon::now()->addDays(10);
+        $service = new BirthdaysService();
+        $employees = $service->between($today, $until);
+        $ids = $employees->pluck('id')->all();
 
-        $driver = config('database.default');
-        $syntax = $this->getDateExtractionSyntax($driver);
-        [$monthExpr, $dayExpr] = $syntax;
-
-        $query = Employee::query()
-            ->active()
-            ->where(function (Builder $query) use ($today, $until): void {
-                $query
-                    ->where(function (Builder $query) use ($today): void {
-                        $query->whereMonth('date_of_birth', $today->month)
-                            ->whereDay('date_of_birth', '>=', $today->day);
-                    })
-                    ->where(function (Builder $query) use ($until): void {
-                        $query->whereMonth('date_of_birth', $until->month)
-                            ->whereDay('date_of_birth', '<=', $until->day);
-                    });
-            })
-            ->orderByRaw("{$monthExpr}, {$dayExpr} asc");
+        $query = Employee::query()->whereIn('id', $ids);
 
         if (isset($this->filters['site']) && ! empty($this->filters['site'])) {
             $query->whereHas('site', function ($q): void {
@@ -156,7 +143,15 @@ class UpcomingEmployeeBirthdays extends TableWidget
             });
         }
 
-        return $query;
+        $driver = config('database.default');
+        if ($driver === 'sqlite') {
+            $monthExpr = "CAST(strftime('%m', date_of_birth) AS INTEGER)";
+            $dayExpr = "CAST(strftime('%d', date_of_birth) AS INTEGER)";
+        } else {
+            $monthExpr = "MONTH(date_of_birth)";
+            $dayExpr = "DAY(date_of_birth)";
+        }
+        return $query->orderByRaw("$monthExpr, $dayExpr asc");
     }
 
     protected function getDateExtractionSyntax(string $driver): array

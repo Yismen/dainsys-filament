@@ -4,6 +4,7 @@ namespace App\Filament\Supervisor\Widgets;
 
 use App\Enums\EmployeeStatuses;
 use App\Models\Employee;
+use App\Services\BirthdaysService;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
@@ -25,35 +26,22 @@ class UpcomingBirthdaysTable extends BaseWidget
             return Employee::query()->whereRaw('1 = 0');
         }
 
-        $today = Carbon::now()->startOfDay();
-        $until = Carbon::now()->addDays(10)->endOfDay();
+        $today = Carbon::now();
+        $until = Carbon::now()->addDays(10);
+        $service = new BirthdaysService();
+        $employees = $service->between($today, $until);
+        $ids = $employees->pluck('id')->all();
 
-        $query = Employee::query()
-            ->active()
-            ->where('supervisor_id', $supervisor->id);
-
-        if ($today->month === $until->month) {
-            $query->whereMonth('date_of_birth', $today->month)
-                ->whereDay('date_of_birth', '>=', $today->day)
-                ->whereDay('date_of_birth', '<=', $until->day);
-        } else {
-            $query->where(function (Builder $q) use ($today, $until): void {
-                $q->where(function (Builder $q) use ($today): void {
-                    $q->whereMonth('date_of_birth', $today->month)
-                        ->whereDay('date_of_birth', '>=', $today->day);
-                })
-                    ->orWhere(function (Builder $q) use ($until): void {
-                        $q->whereMonth('date_of_birth', $until->month)
-                            ->whereDay('date_of_birth', '<=', $until->day);
-                    });
-            });
-        }
-
+        $query = Employee::query()->whereIn('id', $ids)->where('supervisor_id', $supervisor->id);
         $driver = config('database.default');
-        $syntax = $this->getDateExtractionSyntax($driver);
-        [$monthExpr, $dayExpr] = $syntax;
-
-        return $query->orderByRaw("{$monthExpr}, {$dayExpr} asc");
+        if ($driver === 'sqlite') {
+            $monthExpr = "CAST(strftime('%m', date_of_birth) AS INTEGER)";
+            $dayExpr = "CAST(strftime('%d', date_of_birth) AS INTEGER)";
+        } else {
+            $monthExpr = "MONTH(date_of_birth)";
+            $dayExpr = "DAY(date_of_birth)";
+        }
+        return $query->orderByRaw("$monthExpr, $dayExpr asc");
     }
 
     public function table(Table $table): Table

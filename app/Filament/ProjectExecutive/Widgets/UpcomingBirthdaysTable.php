@@ -5,6 +5,7 @@ namespace App\Filament\ProjectExecutive\Widgets;
 use App\Enums\EmployeeStatuses;
 use App\Filament\ProjectExecutive\Widgets\Concerns\InteractsWithProjectFilter;
 use App\Models\Employee;
+use App\Services\BirthdaysService;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
@@ -31,11 +32,13 @@ class UpcomingBirthdaysTable extends BaseWidget
             return Employee::query()->whereRaw('1 = 0');
         }
 
-        $today = Carbon::now()->startOfDay();
-        $until = Carbon::now()->addDays(10)->endOfDay();
+        $today = Carbon::now();
+        $until = Carbon::now()->addDays(10);
+        $service = new BirthdaysService();
+        $employees = $service->between($today, $until);
+        $ids = $employees->pluck('id')->all();
 
-        $query = Employee::query()
-            ->active()
+        $query = Employee::query()->whereIn('id', $ids)
             ->whereHas('project', function (Builder $builder) use ($managerId, $selectedProjectIds): void {
                 $builder->where('manager_id', $managerId)
                     ->when(
@@ -44,26 +47,15 @@ class UpcomingBirthdaysTable extends BaseWidget
                     );
             });
 
-        if ($today->month === $until->month) {
-            $query->whereMonth('date_of_birth', $today->month)
-                ->whereDay('date_of_birth', '>=', $today->day)
-                ->whereDay('date_of_birth', '<=', $until->day);
+        $driver = config('database.default');
+        if ($driver === 'sqlite') {
+            $monthExpr = "CAST(strftime('%m', date_of_birth) AS INTEGER)";
+            $dayExpr = "CAST(strftime('%d', date_of_birth) AS INTEGER)";
         } else {
-            $query->where(function (Builder $builder) use ($today, $until): void {
-                $builder->where(function (Builder $builder) use ($today): void {
-                    $builder->whereMonth('date_of_birth', $today->month)
-                        ->whereDay('date_of_birth', '>=', $today->day);
-                })
-                    ->orWhere(function (Builder $builder) use ($until): void {
-                        $builder->whereMonth('date_of_birth', $until->month)
-                            ->whereDay('date_of_birth', '<=', $until->day);
-                    });
-            });
+            $monthExpr = "MONTH(date_of_birth)";
+            $dayExpr = "DAY(date_of_birth)";
         }
-
-        [$monthExpr, $dayExpr] = $this->getDateExtractionSyntax(config('database.default'));
-
-        return $query->orderByRaw("{$monthExpr}, {$dayExpr} asc");
+        return $query->orderByRaw("$monthExpr, $dayExpr asc");
     }
 
     public function table(Table $table): Table

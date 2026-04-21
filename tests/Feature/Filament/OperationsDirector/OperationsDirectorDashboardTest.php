@@ -62,3 +62,30 @@ it('renders operations director dashboard with filters and widgets', function ()
         ->assertSeeHtml('UpcomingBirthdaysTable')
         ->assertSeeHtml('AbsencesByEmployeeTable');
 });
+
+it('shows upcoming birthdays in dashboard widget', function (): void {
+    $project = Project::factory()->create();
+    $employee1 = Employee::factory()->create([
+        'project_id' => $project->id,
+        'date_of_birth' => now()->addDays(5)->setYear(1990),
+    ]);
+    $employee2 = Employee::factory()->create([
+        'project_id' => $project->id,
+        'date_of_birth' => now()->addDay()->setYear(1985),
+    ]);
+    $employee3 = Employee::factory()->create([
+        'project_id' => $project->id,
+        'date_of_birth' => now()->subDay()->setYear(1980),
+    ]);
+    $employee4 = Employee::factory()->create([
+        'project_id' => $project->id,
+        'date_of_birth' => now()->addDays(11)->setYear(1992),
+    ]);
+
+    $response = $this->get('/operations-director');
+    $response->assertOk();
+    $response->assertSee($employee1->full_name);
+    $response->assertSee($employee2->full_name);
+    $response->assertDontSee($employee3->full_name);
+    $response->assertDontSee($employee4->full_name);
+});
