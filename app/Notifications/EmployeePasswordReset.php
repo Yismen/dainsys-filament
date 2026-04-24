@@ -22,7 +22,9 @@ class EmployeePasswordReset extends Notification implements ShouldQueue
     {
         return [
             'title' => 'Employee Password Reset',
-            'message' => "The password for {$this->employee->full_name} has been reset.",
+            'body' => "The password for {$this->employee->full_name} has been reset.",
+            'format' => 'filament',
+            'duration' => 'persistent',
             'employee_id' => $this->employee->id,
             'employee_name' => $this->employee->full_name,
         ];

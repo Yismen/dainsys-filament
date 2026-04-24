@@ -40,7 +40,9 @@ class AbsenceReportedNotification extends Notification implements ShouldQueue
     {
         return [
             'title' => 'Absence Reported',
-            'message' => "Your absence on {$this->absence->date->format('Y-m-d')} has been marked as reported by {$this->reporter->name}.",
+            'body' => "Your absence on {$this->absence->date->format('Y-m-d')} has been marked as reported by {$this->reporter->name}.",
+            'format' => 'filament',
+            'duration' => 'persistent',
             'absence_id' => $this->absence->id,
             'absence_date' => $this->absence->date->format('Y-m-d'),
             'absence_type' => $this->absence->type?->value,

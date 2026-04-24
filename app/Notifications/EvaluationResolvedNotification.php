@@ -32,7 +32,9 @@ class EvaluationResolvedNotification extends Notification
         return [
             'evaluation_id' => $this->evaluation->id,
             'status' => $this->evaluation->status->value,
-            'message' => 'A disputed QA evaluation has been resolved.',
+            'body' => 'A disputed QA evaluation has been resolved.',
+            'format' => 'filament',
+            'duration' => 'persistent',
         ];
     }
 }

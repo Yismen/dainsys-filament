@@ -32,7 +32,9 @@ class EvaluationPublishedNotification extends Notification
         return [
             'evaluation_id' => $this->evaluation->id,
             'status' => $this->evaluation->status->value,
-            'message' => 'A QA evaluation has been published.',
+            'body' => 'A QA evaluation has been published.',
+            'format' => 'filament',
+            'duration' => 'persistent',
         ];
     }
 }

@@ -32,7 +32,9 @@ class EvaluationCreatedNotification extends Notification
         return [
             'evaluation_id' => $this->evaluation->id,
             'status' => $this->evaluation->status->value,
-            'message' => 'A new QA evaluation has been created.',
+            'body' => 'A new QA evaluation has been created.',
+            'format' => 'filament',
+            'duration' => 'persistent',
         ];
     }
 }

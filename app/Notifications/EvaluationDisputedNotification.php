@@ -32,7 +32,9 @@ class EvaluationDisputedNotification extends Notification
         return [
             'evaluation_id' => $this->evaluation->id,
             'status' => $this->evaluation->status->value,
-            'message' => 'A QA evaluation has been disputed and requires review.',
+            'body' => 'A QA evaluation has been disputed and requires review.',
+            'format' => 'filament',
+            'duration' => 'persistent',
         ];
     }
 }
