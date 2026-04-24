@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use BezhanSalleh\LanguageSwitch\LanguageSwitch;
 use BezhanSalleh\PanelSwitch\PanelSwitch;
+use Filament\Notifications\Livewire\DatabaseNotifications;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Facades\Storage;
@@ -54,6 +55,9 @@ class AppServiceProvider extends ServiceProvider
                 ->circular()
                 ->renderHook('panels::global-search.before');
         });
+
+        DatabaseNotifications::trigger('components.notifications.bell-trigger');
+        DatabaseNotifications::pollingInterval('30s');
 
         Storage::extend('dropbox', function ($app, $config) {
             $client = new Client($config['accessToken']);

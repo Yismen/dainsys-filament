@@ -16,6 +16,8 @@
             <div class="flex items-center space-x-1 sm:space-x-2">
                 @auth
                     <a href="{{ $authUrl ?? '#' }}" class="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">Dashboard</a>
+
+                    <livewire:database-notifications />
                 @else
                     @if ($showBackLink ?? false)
                         <a href="/" class="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">{{ $backLinkText ?? 'Back to Home' }}</a>

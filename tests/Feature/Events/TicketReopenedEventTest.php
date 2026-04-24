@@ -4,11 +4,11 @@ use App\Events\TicketCompletedEvent;
 use App\Events\TicketCreatedEvent;
 use App\Events\TicketReopenedEvent;
 use App\Listeners\SendTicketReopenedMail;
-use App\Mail\TicketReopenedMail;
 use App\Models\Ticket;
 use App\Models\User;
+use App\Notifications\Tickets\TicketReopenedNotification;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 
 test('event is dispatched', function (): void {
     Event::fake([
@@ -30,13 +30,15 @@ test('event is dispatched', function (): void {
     );
 });
 
-test('when ticket is created an email is sent', function (): void {
-    Mail::fake();
+test('when ticket is reopened a notification is sent', function (): void {
+    Notification::fake();
 
+    $owner = User::factory()->create();
+    $ticket = Ticket::factory()->assigned()->create(['owner_id' => $owner->id]);
     $this->actingAs(User::factory()->create());
-    $ticket = Ticket::factory()->assigned()->create();
+    $owner = $ticket->owner;
     $ticket->close('Testing');
     $ticket->reOpen('Ticket');
 
-    Mail::assertQueued(TicketReopenedMail::class);
+    Notification::assertSentTo($owner, TicketReopenedNotification::class);
 });

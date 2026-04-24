@@ -7,10 +7,14 @@ use App\Events\EmployeeTerminatedEvent;
 use App\Mail\BirthdaysMail;
 use App\Models\Employee;
 use App\Models\Hire;
+use App\Models\Mailable;
+use App\Models\User;
+use App\Notifications\Reports\BirthdaysReportNotification;
 use Illuminate\Console\Scheduling\Event as SchedulingEvent;
 use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 
 beforeEach(function (): void {
     Event::fake([
@@ -18,7 +22,7 @@ beforeEach(function (): void {
         EmployeeSuspendedEvent::class,
         EmployeeTerminatedEvent::class,
     ]);
-    Mail::fake();
+    Notification::fake();
     $this->employee = Employee::factory()->create(['date_of_birth' => now()]);
 
     Hire::factory()->for($this->employee)->create();
@@ -57,13 +61,21 @@ it('runs daily at 4:00 am with type=today', function (string $type, string $expr
 ]);
 
 test('birthdays command sends email', function (): void {
+    $mailable = Mailable::query()->firstOrCreate(
+        ['name' => BirthdaysMail::class],
+        ['description' => BirthdaysMail::class]
+    );
+    $recipient = User::factory()->create();
+    $recipient->mailables()->attach($mailable);
+    Cache::forget('mailing_subscriptions_for_mailable_'.BirthdaysMail::class);
+
     Employee::factory()
         ->hasHires()
-        ->create();
+        ->create(['date_of_birth' => now()]);
 
     $this->artisan(Birthdays::class, ['type' => 'today']);
 
-    Mail::assertQueued(BirthdaysMail::class);
+    Notification::assertSentTo($recipient, BirthdaysReportNotification::class);
 });
 
 test('birthdays command doesnot send email if service is empty', function (): void {
@@ -71,5 +83,5 @@ test('birthdays command doesnot send email if service is empty', function (): vo
 
     $this->artisan(Birthdays::class, ['type' => 'today']);
 
-    Mail::assertNotQueued(BirthdaysMail::class);
+    Notification::assertNothingSent();
 });

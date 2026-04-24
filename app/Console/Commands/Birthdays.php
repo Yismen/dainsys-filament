@@ -3,9 +3,11 @@
 namespace App\Console\Commands;
 
 use App\Mail\BirthdaysMail;
+use App\Notifications\Reports\BirthdaysReportNotification;
 use App\Services\BirthdaysService;
+use App\Services\MailingService;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 
 class Birthdays extends Command
 {
@@ -64,7 +66,8 @@ class Birthdays extends Command
         $birthdays = $birthdays->handle($type);
 
         if ($birthdays->count()) {
-            Mail::send(new BirthdaysMail($birthdays, str($type)->headline()));
+            $recipients = MailingService::subscribers(BirthdaysMail::class);
+            Notification::send($recipients, new BirthdaysReportNotification($birthdays, str($type)->headline()));
 
             $this->info("Mail sent for {$birthdays->count()} employees having birthday {$type}");
         } else {

@@ -6,6 +6,7 @@ use App\Enums\SupportRoles;
 use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
 
 class TicketRecipientsService
 {
@@ -115,15 +116,19 @@ class TicketRecipientsService
         return $this;
     }
 
-    public function get(): Collection
+    public function get(bool $excludeAuthenticatedUser = true): Collection
     {
         $recipients = $this->recipients
             ->filter(function ($user) {
                 return $user?->email;
             });
 
+        if (! $excludeAuthenticatedUser) {
+            return $recipients;
+        }
+
         return $recipients->filter(function ($user) {
-            return $user->id !== auth()->user()?->id;
+            return $user->id !== Auth::id();
         });
     }
 }

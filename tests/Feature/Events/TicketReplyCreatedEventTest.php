@@ -3,10 +3,10 @@
 use App\Events\TicketCreatedEvent;
 use App\Events\TicketReplyCreatedEvent;
 use App\Listeners\SendTicketReplyCreatedMail;
-use App\Mail\TicketReplyCreatedMail;
 use App\Models\TicketReply;
+use App\Notifications\Tickets\TicketReplyCreatedNotification;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 
 test('event is dispatched', function (): void {
     Event::fake([
@@ -24,10 +24,11 @@ test('event is dispatched', function (): void {
     );
 });
 
-test('when reply is created an email is sent', function (): void {
-    Mail::fake();
+test('when reply is created a notification is sent', function (): void {
+    Notification::fake();
 
     $reply = TicketReply::factory()->create();
+    $owner = $reply->ticket->owner;
 
-    Mail::assertQueued(TicketReplyCreatedMail::class);
+    Notification::assertSentTo($owner, TicketReplyCreatedNotification::class);
 });

@@ -4,11 +4,12 @@ namespace App\Console\Commands\LiveVox;
 
 use App\Exports\LiveVox\LivevoxProductionReport;
 use App\Mail\LiveVoxProductionReportMail;
+use App\Notifications\Reports\LiveVoxProductionReportNotification;
 use App\Services\HelpersService;
 use App\Services\MailingService;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -74,11 +75,10 @@ class PublishingProductionReport extends Command
         if ($this->reportDataChanged()) {
             $recipients = MailingService::subscribers(LiveVoxProductionReportMail::class);
 
-            Mail::to($recipients)
-                ->send(new LiveVoxProductionReportMail(
-                    title: $this->subject,
-                    attachment_files: [$this->file_name]
-                ));
+            Notification::send($recipients, new LiveVoxProductionReportNotification(
+                title: $this->subject,
+                attachmentFiles: [$this->file_name],
+            ));
 
             Storage::delete($this->file_name);
 

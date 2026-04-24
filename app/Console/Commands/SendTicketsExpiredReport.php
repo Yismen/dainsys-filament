@@ -2,11 +2,11 @@
 
 namespace App\Console\Commands;
 
-use App\Mail\TicketsExpiredMail;
 use App\Models\Ticket;
+use App\Notifications\Reports\TicketsExpiredReportNotification;
 use App\Services\TicketRecipientsService;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 
 class SendTicketsExpiredReport extends Command
 {
@@ -50,13 +50,11 @@ class SendTicketsExpiredReport extends Command
             ->get();
 
         if ($tickets->count() > 0) {
-            Mail::to(
-                (new TicketRecipientsService)
-                    ->superAdmins()
-                    ->supportManagers()
-                    ->get()
-            )
-                ->send(new TicketsExpiredMail($tickets));
+            $recipients = (new TicketRecipientsService)
+                ->superAdmins()
+                ->supportManagers()
+                ->get();
+            Notification::send($recipients, new TicketsExpiredReportNotification($tickets));
 
             $this->info("Report Sent with {$tickets->count()} tickets");
         }

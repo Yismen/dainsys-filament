@@ -2,11 +2,11 @@
 
 use App\Events\TicketCreatedEvent;
 use App\Listeners\SendTicketCreatedMail;
-use App\Mail\TicketCreatedMail;
 use App\Models\Ticket;
 use App\Models\User;
+use App\Notifications\Tickets\TicketCreatedNotification;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 
 test('event is dispatched', function (): void {
     Event::fake([
@@ -22,12 +22,13 @@ test('event is dispatched', function (): void {
     );
 });
 
-test('when ticket is created an email is sent', function (): void {
-    Mail::fake();
+test('when ticket is created a notification is sent', function (): void {
+    Notification::fake();
 
-    $ticket = Ticket::factory()->create(['owner_id' => User::factory()->create()]);
+    $owner = User::factory()->create();
+    $ticket = Ticket::factory()->create(['owner_id' => $owner]);
     $this->actingAs(User::factory()->create());
     $ticket->close('Comment');
 
-    Mail::assertQueued(TicketCreatedMail::class);
+    Notification::assertSentTo($owner, TicketCreatedNotification::class);
 });

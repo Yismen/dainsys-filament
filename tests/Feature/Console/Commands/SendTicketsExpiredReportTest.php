@@ -4,16 +4,16 @@ use App\Console\Commands\SendTicketsExpiredReport;
 use App\Console\Commands\UpdateTicketStatus;
 use App\Enums\SupportRoles;
 use App\Events\TicketCreatedEvent;
-use App\Mail\TicketsExpiredMail;
 use App\Models\Role;
 use App\Models\Ticket;
 use App\Models\User;
+use App\Notifications\Reports\TicketsExpiredReportNotification;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 
 beforeEach(function (): void {
-    Mail::fake();
+    Notification::fake();
     Event::fake([
         TicketCreatedEvent::class,
     ]);
@@ -41,9 +41,8 @@ it('send tickets in status expired', function (): void {
     $this->artisan(UpdateTicketStatus::class);
     $this->artisan(SendTicketsExpiredReport::class);
 
-    Mail::assertSent(TicketsExpiredMail::class, function ($mail) use ($ticket, $recipient) {
-        return $mail->tickets->contains('id', $ticket->id)
-            && $mail->to[0]['address'] === $recipient->email;
+    Notification::assertSentTo($recipient, TicketsExpiredReportNotification::class, function ($notification) use ($ticket) {
+        return $notification->tickets->contains('id', $ticket->id);
     });
 });
 
@@ -52,9 +51,9 @@ it('send it only if there is any ticket expired', function (): void {
     $recipient = User::factory()->create();
     $recipient->assignRole($role);
 
-    $ticket = Ticket::factory()->create();
+    Ticket::factory()->create();
 
     $this->artisan(SendTicketsExpiredReport::class);
 
-    Mail::assertNotSent(TicketsExpiredMail::class);
+    Notification::assertNothingSent();
 });

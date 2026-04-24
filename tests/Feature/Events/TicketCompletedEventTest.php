@@ -3,11 +3,11 @@
 use App\Events\TicketCompletedEvent;
 use App\Events\TicketCreatedEvent;
 use App\Listeners\SendTicketCompletedMail;
-use App\Mail\TicketCompletedMail;
 use App\Models\Ticket;
 use App\Models\User;
+use App\Notifications\Tickets\TicketCompletedNotification;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 
 test('event is dispatched when the complete method is called', function (): void {
     Event::fake([
@@ -47,12 +47,13 @@ test('event is dispatched when the close method is called', function (): void {
     );
 });
 
-test('when ticket is created an email is sent', function (): void {
-    Mail::fake();
+test('when ticket is completed a notification is sent', function (): void {
+    Notification::fake();
 
-    $ticket = Ticket::factory()->create(['owner_id' => User::factory()->create()]);
+    $owner = User::factory()->create();
+    $ticket = Ticket::factory()->create(['owner_id' => $owner]);
     $this->actingAs(User::factory()->create());
     $ticket->close('Comment');
 
-    Mail::assertQueued(TicketCompletedMail::class);
+    Notification::assertSentTo($owner, TicketCompletedNotification::class);
 });

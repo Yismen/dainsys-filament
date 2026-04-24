@@ -3,10 +3,10 @@
 use App\Events\TicketCreatedEvent;
 use App\Events\TicketDeletedEvent;
 use App\Listeners\SendTicketDeletedMail;
-use App\Mail\TicketDeletedMail;
 use App\Models\Ticket;
+use App\Notifications\Tickets\TicketDeletedNotification;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 
 test('event is dispatched', function (): void {
     Event::fake([
@@ -25,11 +25,12 @@ test('event is dispatched', function (): void {
     );
 });
 
-test('when ticket is created an email is sent', function (): void {
-    Mail::fake();
+test('when ticket is deleted a notification is sent', function (): void {
+    Notification::fake();
 
     $ticket = Ticket::factory()->create();
+    $owner = $ticket->owner;
     $ticket->delete();
 
-    Mail::assertQueued(TicketDeletedMail::class);
+    Notification::assertSentTo($owner, TicketDeletedNotification::class);
 });
