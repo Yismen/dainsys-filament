@@ -3,13 +3,23 @@
 namespace App\Listeners;
 
 use App\Events\TicketReplyCreatedEvent;
-use App\Mail\TicketReplyCreatedMail;
-use Illuminate\Support\Facades\Mail;
+use App\Notifications\Tickets\TicketReplyCreatedNotification;
+use App\Services\TicketRecipientsService;
+use Illuminate\Support\Facades\Notification;
 
 class SendTicketReplyCreatedMail
 {
-    public function handle(TicketReplyCreatedEvent $event)
+    public function handle(TicketReplyCreatedEvent $event): void
     {
-        Mail::send(new TicketReplyCreatedMail($event->reply));
+        $ticket = $event->reply->ticket;
+
+        $recipients = (new TicketRecipientsService)
+            ->ofTicket($ticket)
+            ->owner()
+            ->agent()
+            ->supportManagers()
+            ->get(false);
+
+        Notification::send($recipients, new TicketReplyCreatedNotification($event->reply));
     }
 }

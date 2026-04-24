@@ -4,12 +4,16 @@ namespace App\Listeners;
 
 use App\Events\EmployeeTerminatedEvent;
 use App\Mail\EmployeeTerminatedMail;
-use Illuminate\Support\Facades\Mail;
+use App\Notifications\Employees\EmployeeTerminatedNotification;
+use App\Services\MailingService;
+use Illuminate\Support\Facades\Notification;
 
 class SendEmployeeTerminatedEmail
 {
-    public function handle(EmployeeTerminatedEvent $event)
+    public function handle(EmployeeTerminatedEvent $event): void
     {
-        Mail::send(new EmployeeTerminatedMail($event->termination));
+        $recipients = MailingService::subscribers(EmployeeTerminatedMail::class);
+
+        Notification::send($recipients, new EmployeeTerminatedNotification($event->termination));
     }
 }

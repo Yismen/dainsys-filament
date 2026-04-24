@@ -3,13 +3,22 @@
 namespace App\Listeners;
 
 use App\Events\TicketCompletedEvent;
-use App\Mail\TicketCompletedMail;
-use Illuminate\Support\Facades\Mail;
+use App\Notifications\Tickets\TicketCompletedNotification;
+use App\Services\TicketRecipientsService;
+use Illuminate\Support\Facades\Notification;
 
 class SendTicketCompletedMail
 {
-    public function handle(TicketCompletedEvent $event)
+    public function handle(TicketCompletedEvent $event): void
     {
-        Mail::send(new TicketCompletedMail($event->ticket, $event->comment));
+        $recipients = (new TicketRecipientsService)
+            ->ofTicket($event->ticket)
+            ->superAdmins()
+            ->owner()
+            ->agent()
+            ->supportManagers()
+            ->get(false);
+
+        Notification::send($recipients, new TicketCompletedNotification($event->ticket, $event->comment));
     }
 }
