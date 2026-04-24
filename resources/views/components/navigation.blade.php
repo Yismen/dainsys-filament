@@ -5,13 +5,9 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
             <div class="flex items-center space-x-3">
-                {{-- <a href="/" class="flex items-center space-x-3 group">
-                    <img src="{{ asset('images/ecco-logo.png') }}" alt="{{ config('app.name') }}" class="h-10 w-auto transition-transform duration-200 group-hover:scale-105">
-                </a> --}}
-                <div class="w-10 h-10 rounded-xl bg-linear-to-br from-blue-600 to-blue-700 dark:from-blue-500 dark:to-blue-600 flex items-center justify-center shadow-lg px-8">
-                    <span class="text-white font-bold text-sm">ECCO</span>
-                </div>
-                <a href="/" class="text-2xl font-bold bg-linear-to-r from-blue-600 to-blue-700 dark:from-blue-400 dark:to-blue-500 bg-clip-text text-transparent hover:opacity-80 transition-opacity">{{ config('app.name') }}</a>
+                <a href="/" class="text-2xl font-bold bg-linear-to-r from-blue-600 to-blue-700 dark:from-blue-400 dark:to-blue-500 bg-clip-text text-transparent hover:opacity-80 transition-opacity ">
+                    {{ config('app.name') }}
+                </a>
             </div>
             <div class="flex items-center space-x-1 sm:space-x-2">
                 @auth
