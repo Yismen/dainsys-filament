@@ -359,8 +359,7 @@ class Employee extends AppModel implements HasMedia
     {
         return $this->status === EmployeeStatuses::Created ||
             (
-                $this->status === EmployeeStatuses::Terminated &&
-                $this->latestTermination()?->is_rehireable === true
+                $this->status === EmployeeStatuses::Terminated
             );
     }
 
