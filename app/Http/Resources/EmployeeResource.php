@@ -33,6 +33,7 @@ class EmployeeResource extends JsonResource
             'status' => $this->status,
             'bank_name' => $this->bankAccount?->bank?->name,
             'bank_account_number' => $this->bankAccount?->account,
+            'is_universal' => $this->universal ? true : false,
         ];
     }
 }

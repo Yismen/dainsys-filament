@@ -49,6 +49,7 @@ it('returns correct structure', function (): void {
                     'status',
                     'bank_name',
                     'bank_account_number',
+                    'is_universal',
                 ],
             ],
         ]);

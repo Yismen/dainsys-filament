@@ -32,6 +32,7 @@ class EmployeeController extends Controller
                         'position:id,name,salary_type,salary',
                         'supervisor:id,name',
                         'site:id,name',
+                        'universal:employee_id',
                         'bankAccount:id,account,bank_id,employee_id' => [
                             'bank:id,name',
                         ],
