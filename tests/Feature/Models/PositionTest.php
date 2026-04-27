@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\SalaryTypes;
 use App\Events\EmployeeHiredEvent;
 use App\Models\Department;
 use App\Models\Employee;
@@ -90,4 +91,32 @@ it('updates the description field', function (): void {
         $position->salary_type->name,
     ]));
 
+});
+
+it('calculates hourly rate correctly when salary type is salary', function (): void {
+    $position = Position::factory()->create([
+        'salary_type' => SalaryTypes::Salary,
+        'salary' => 190640.00, // This should result in an hourly rate of 1000
+    ]);
+
+    expect($position->hourly_rate)->toBe(1000.0000000000001) // Due to floating point precision, we get a very small error here. This is expected.
+        ->toBeFloat();
+});
+
+it('calculates hourly rate correctly when salary type is hourly', function (): void {
+    $position = Position::factory()->create([
+        'salary_type' => SalaryTypes::Hourly,
+        'salary' => 50, // This should result in an hourly rate of 50
+    ]);
+
+    expect($position->hourly_rate)->toBe(50.0);
+});
+
+it('calculates hourly rate correctly when salary type is by sales', function (): void {
+    $position = Position::factory()->create([
+        'salary_type' => SalaryTypes::BySales,
+        'salary' => 50, // This should result in an hourly rate of 50
+    ]);
+
+    expect($position->hourly_rate)->toBe(50.0);
 });
