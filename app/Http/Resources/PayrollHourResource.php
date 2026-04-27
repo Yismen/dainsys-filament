@@ -22,8 +22,8 @@ class PayrollHourResource extends JsonResource
             'overtime_hours' => $this->overtime_hours,
             'holiday_hours' => $this->holiday_hours,
             'seventh_day_hours' => $this->seventh_day_hours,
-            'week_ending_at' => $this->week_ending_at,
-            'payroll_ending_at' => $this->payroll_ending_at,
+            'week_ending_at' => $this->week_ending_at->format('Y-m-d'),
+            'payroll_ending_at' => $this->payroll_ending_at->format('Y-m-d'),
             'is_sunday' => $this->is_sunday,
             'is_holiday' => $this->is_holiday,
         ];

@@ -59,8 +59,8 @@ class PayrollHour extends AppModel
     {
         return [
             'date' => 'date:Y-m-d',
-            'week_ending_at' => 'date',
-            'payroll_ending_at' => 'date',
+            'week_ending_at' => 'date:Y-m-d',
+            'payroll_ending_at' => 'date:Y-m-d',
             'is_sunday' => 'bool',
             'is_holiday' => 'bool',
         ];
