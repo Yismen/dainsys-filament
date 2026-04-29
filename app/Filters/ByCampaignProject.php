@@ -26,7 +26,7 @@ class ByCampaignProject
                     fn (Builder $campaignQuery): Builder => $campaignQuery->where('project_id', $project),
                     function (Builder $campaignQuery) use ($project): Builder {
                         $projectIds = Project::query()
-                            ->where('name', $project)
+                            ->where('name', 'like', $project)
                             ->pluck('id');
 
                         return $campaignQuery->whereIn('project_id', $projectIds);

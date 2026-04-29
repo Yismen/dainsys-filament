@@ -23,7 +23,7 @@ class ByCampaign
                 $builder->where('campaign_id', $campaign);
             } else {
                 $campaignIds = Campaign::query()
-                    ->where('name', $campaign)
+                    ->where('name', 'like', $campaign)
                     ->pluck('id');
 
                 $builder->whereIn('campaign_id', $campaignIds);

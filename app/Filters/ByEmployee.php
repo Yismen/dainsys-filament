@@ -23,7 +23,7 @@ class ByEmployee
                 $builder->where('employee_id', $employee);
             } else {
                 $employeeIds = Employee::query()
-                    ->where('full_name', $employee)
+                    ->where('full_name', 'like', $employee)
                     ->pluck('id');
 
                 $builder->whereIn('employee_id', $employeeIds);

@@ -23,7 +23,7 @@ class BySupervisor
                 $builder->where('supervisor_id', $supervisor);
             } else {
                 $supervisorIds = Supervisor::query()
-                    ->where('name', $supervisor)
+                    ->where('name', 'like', $supervisor)
                     ->pluck('id');
 
                 $builder->whereIn('supervisor_id', $supervisorIds);
