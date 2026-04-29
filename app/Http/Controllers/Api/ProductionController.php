@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Filters\ByCampaign;
 use App\Filters\ByCampaignProject;
+use App\Filters\ByCampaignProjectClient;
 use App\Filters\ByDate;
 use App\Filters\ByEmployee;
+use App\Filters\ByEmployeeSite;
 use App\Filters\BySupervisor;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductionApiRequest;
@@ -20,7 +22,9 @@ class ProductionController extends Controller
     #[QueryParameter('date', description: 'Date filter. Use YYYY-MM-DD, YYYY-MM-DD,YYYY-MM-DD, or last_N_days, or last_N_months', required: true, example: '2026-01-31')]
     #[QueryParameter('campaign', description: 'ID or Name of the campaign to filter productions')]
     #[QueryParameter('project', description: 'ID or Name of the project to filter productions')]
+    #[QueryParameter('project', description: 'ID or Name of the project to filter productions')]
     #[QueryParameter('employee', description: 'ID or Name of the employee to filter productions')]
+    #[QueryParameter('site', description: 'ID or Name of the employee to filter productions')]
     #[QueryParameter('supervisor', description: 'ID or Name of the supervisor to filter productions')]
     public function __invoke(ProductionApiRequest $request)
     {
@@ -70,7 +74,9 @@ class ProductionController extends Controller
                 ByDate::class,
                 ByCampaign::class,
                 ByEmployee::class,
+                ByEmployeeSite::class,
                 ByCampaignProject::class,
+                ByCampaignProjectClient::class,
                 BySupervisor::class,
             ])
             ->thenReturn();

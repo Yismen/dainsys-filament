@@ -4,6 +4,7 @@ use App\Models\Campaign;
 use App\Models\Employee;
 use App\Models\Hire;
 use App\Models\Production;
+use App\Models\Site;
 use App\Models\Supervisor;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
@@ -107,6 +108,16 @@ it('filters by fixed date range value using last n days format', function (): vo
     expect(count($response->json()['data']))->toBe(1);
 });
 
+it('filters by fixed date range value using last n months format', function (): void {
+    Production::factory()->create(['date' => now()->subMonths(2)]);
+    Production::factory()->create(['date' => now()->subMonths(3)]);
+    Sanctum::actingAs(user: User::factory()->create(), abilities: ['use-dainsys']);
+
+    $response = getJson('/api/productions?date=last_2_months');
+
+    expect(count($response->json()['data']))->toBe(1);
+});
+
 it('returns validation error for invalid fixed date range value', function (): void {
     Sanctum::actingAs(user: User::factory()->create(), abilities: ['use-dainsys']);
 
@@ -143,6 +154,27 @@ it('filters by project', function (): void {
     Sanctum::actingAs(user: User::factory()->create(), abilities: ['use-dainsys']);
 
     $reponse = getJson('/api/productions?date='.now().'&project='.$campaign_1->project->id);
+
+    expect(count($reponse->json()['data']))
+        ->tobe(1);
+
+    $reponse = getJson('/api/productions?date='.now().'&project='.$campaign_1->project->name)
+        ->assertJsonCount(1);
+
+    expect(count($reponse->json()['data']))
+        ->tobe(1);
+});
+// filters data by client
+it('filters by client', function (): void {
+    $campaign_1 = Campaign::factory()->create();
+    $campaign_2 = Campaign::factory()->create();
+
+    Production::factory()->for($campaign_1)->create();
+    Production::factory()->for($campaign_2)->create();
+
+    Sanctum::actingAs(user: User::factory()->create(), abilities: ['use-dainsys']);
+
+    $reponse = getJson('/api/productions?date='.now().'&client='.$campaign_1->project->client->id);
 
     expect(count($reponse->json()['data']))
         ->tobe(1);
@@ -197,26 +229,26 @@ it('filters by supervisor', function (): void {
         ->tobe(1);
 });
 // filters data by site
-// it('filters by site', function () {
-//     $this->withoutExceptionHandling();
-//     $site = Site::factory()->create();
-//     $employee = Employee::factory()->create();
-//     Hire::factory()
-//         ->for($site)
-//         ->for($employee)
-//         ->create();
+it('filters by site', function (): void {
+    $this->withoutExceptionHandling();
+    $site = Site::factory()->create();
+    $employee = Employee::factory()->create();
+    Hire::factory()
+        ->for($site)
+        ->for($employee)
+        ->create();
 
-//     Production::factory()->for($employee)->create();
-//     Production::factory(2)->create();
-//     Sanctum::actingAs(user: User::factory()->create(), abilities: ['use-dainsys']);
+    Production::factory()->for($employee)->create();
+    Production::factory(2)->create();
+    Sanctum::actingAs(user: User::factory()->create(), abilities: ['use-dainsys']);
 
-//     $reponse = $this->getJson('/api/productions?date=' . now() . '&site=' . $site->id);
+    $reponse = $this->getJson('/api/productions?date='.now().'&site='.$site->id);
 
-//     expect(count($reponse->json()['data']))
-//         ->tobe(1);
+    expect(count($reponse->json()['data']))
+        ->tobe(1);
 
-//     $reponse = $this->getJson('/api/productions?date=' . now() . '&site=' . $site->name);
+    $reponse = $this->getJson('/api/productions?date='.now().'&site='.$site->name);
 
-//     expect(count($reponse->json()['data']))
-//         ->tobe(1);
-// });
+    expect(count($reponse->json()['data']))
+        ->tobe(1);
+});
