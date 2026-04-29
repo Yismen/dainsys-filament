@@ -101,11 +101,8 @@ return [
     'not_rehireable' => 'Not rehireable',
 
     // Additional table columns
-    'is_active' => 'Active',
     'number' => 'Number',
     'action' => 'Action',
-    'date_of_birth' => 'Date of Birth',
-    'employees' => 'Employees',
     'completed_at' => 'Completed At',
     'roles' => 'Roles',
     'email_verified' => 'Email Verified',
@@ -132,6 +129,35 @@ return [
     'order' => 'Order',
     'articles' => 'Articles',
 
+    // Recruitment Panel
+    'applicant' => 'Applicant',
+    'applicants' => 'Applicants',
+    'recruitment_stage' => 'Recruitment Stage',
+    'recruitment_stages' => 'Recruitment Stages',
+    'job_opening' => 'Job Opening',
+    'job_openings' => 'Job Openings',
+    'application' => 'Application',
+    'applications' => 'Applications',
+    'application_stage_event' => 'Stage Event',
+    'application_stage_events' => 'Stage Events',
+    'applied_at' => 'Applied At',
+    'outcome' => 'Outcome',
+    'scheduled_at' => 'Scheduled At',
+    'openings_count' => 'Number of Openings',
+    'opened_at' => 'Opened At',
+    'closed_at' => 'Closed At',
+
+    // Recruitment Enum Values
+    'applied' => 'Applied',
+    'in_review' => 'In Review',
+    'in_progress' => 'In Progress',
+    'hired' => 'Hired',
+    'withdrawn' => 'Withdrawn',
+    'on_hold' => 'On Hold',
+    'cancelled' => 'Cancelled',
+    'passed' => 'Passed',
+    'failed' => 'Failed',
+
     // Invoicing
     'invoice_number' => 'Invoice Number',
     'invoice_date' => 'Invoice Date',
@@ -141,7 +167,6 @@ return [
     'amount_paid' => 'Amount Paid',
     'balance' => 'Balance',
     'client' => 'Client',
-    'project' => 'Project',
     'agent' => 'Agent',
     'campaign' => 'Campaign',
     'invoice_net_days' => 'Invoice Net Days',
@@ -258,12 +283,9 @@ return [
     'total_payroll' => 'Total Payroll',
     'total_production_hours' => 'Total Production Hours',
     'total_sales' => 'Total Sales',
-    'reason' => 'Reason',
 
     // QA
     'max_points' => 'Max Points',
-    'is_active' => 'Active',
-    'author' => 'Author',
     'display_order' => 'Display Order',
     'text' => 'Text',
     'questions' => 'Questions',
@@ -298,6 +320,7 @@ return [
         'invoicing' => 'Invoicing',
         'support' => 'Support',
         'settings' => 'Settings',
+        'recruitment' => 'Recruitment',
     ],
 
     'resources' => [

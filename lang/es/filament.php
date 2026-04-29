@@ -101,7 +101,6 @@ return [
     'not_rehireable' => 'No Recontratable',
 
     // Additional table columns
-    'is_active' => 'Activo',
     'number' => 'Número',
     'action' => 'Acción',
     'employees' => 'Empleados',
@@ -131,6 +130,35 @@ return [
     'order' => 'Orden',
     'articles' => 'Artículos',
 
+    // Recruitment Panel
+    'applicant' => 'Candidato',
+    'applicants' => 'Candidatos',
+    'recruitment_stage' => 'Etapa de Reclutamiento',
+    'recruitment_stages' => 'Etapas de Reclutamiento',
+    'job_opening' => 'Vacante',
+    'job_openings' => 'Vacantes',
+    'application' => 'Solicitud',
+    'applications' => 'Solicitudes',
+    'application_stage_event' => 'Evento de Etapa',
+    'application_stage_events' => 'Eventos de Etapa',
+    'applied_at' => 'Fecha de Solicitud',
+    'outcome' => 'Resultado',
+    'scheduled_at' => 'Programado Para',
+    'openings_count' => 'Número de Vacantes',
+    'opened_at' => 'Abierto El',
+    'closed_at' => 'Cerrado El',
+
+    // Recruitment Enum Values
+    'applied' => 'Solicitado',
+    'in_review' => 'En Revisión',
+    'in_progress' => 'En Progreso',
+    'hired' => 'Contratado',
+    'withdrawn' => 'Retirado',
+    'on_hold' => 'En Espera',
+    'cancelled' => 'Cancelado',
+    'passed' => 'Aprobado',
+    'failed' => 'Rechazado',
+
     // Invoicing
     'invoice_number' => 'Número de Factura',
     'invoice_date' => 'Fecha de Factura',
@@ -140,7 +168,6 @@ return [
     'amount_paid' => 'Monto Pagado',
     'balance' => 'Saldo',
     'client' => 'Cliente',
-    'project' => 'Proyecto',
     'agent' => 'Agente',
     'campaign' => 'Campaña',
     'invoice_net_days' => 'Días Netos de Factura',
@@ -257,12 +284,9 @@ return [
     'total_payroll' => 'Total de Nómina',
     'total_production_hours' => 'Horas Totales de Producción',
     'total_sales' => 'Ventas Totales',
-    'reason' => 'Razón',
 
     // QA
     'max_points' => 'Puntos Máximos',
-    'is_active' => 'Activo',
-    'author' => 'Autor',
     'display_order' => 'Orden de Visualización',
     'text' => 'Texto',
     'questions' => 'Preguntas',
@@ -297,6 +321,7 @@ return [
         'invoicing' => 'Facturación',
         'support' => 'Soporte',
         'settings' => 'Configuración',
+        'recruitment' => 'Reclutamiento',
     ],
 
     'resources' => [
