@@ -3,29 +3,29 @@
 use App\Models\Applicant;
 use App\Models\Application;
 
-describe('Applicant Model', function () {
-    describe('Factory', function () {
-        it('can create an applicant with factory', function () {
+describe('Applicant Model', function (): void {
+    describe('Factory', function (): void {
+        it('can create an applicant with factory', function (): void {
             $applicant = Applicant::factory()->create();
 
             expect($applicant)->toBeInstanceOf(Applicant::class)
                 ->and($applicant->id)->not->toBeNull();
         });
 
-        it('creates unique email addresses', function () {
+        it('creates unique email addresses', function (): void {
             $applicants = Applicant::factory()->count(3)->create();
 
             expect($applicants->pluck('email')->unique()->count())->toBe(3);
         });
 
-        it('generates realistic phone numbers optionally', function () {
+        it('generates realistic phone numbers optionally', function (): void {
             $applicant = Applicant::factory()->create();
 
             $isValid = $applicant->phone === null || is_string($applicant->phone);
             expect($isValid)->toBeTrue();
         });
 
-        it('generates optional notes', function () {
+        it('generates optional notes', function (): void {
             $applicant = Applicant::factory()->create();
 
             $isValid = $applicant->notes === null || is_string($applicant->notes);
@@ -33,8 +33,8 @@ describe('Applicant Model', function () {
         });
     });
 
-    describe('Attributes', function () {
-        it('has correct fillable properties', function () {
+    describe('Attributes', function (): void {
+        it('has correct fillable properties', function (): void {
             $applicant = Applicant::factory()->make();
 
             expect($applicant->getFillable())->toContain(
@@ -46,7 +46,7 @@ describe('Applicant Model', function () {
             );
         });
 
-        it('has required applicant attributes', function () {
+        it('has required applicant attributes', function (): void {
             $applicant = Applicant::factory()->create([
                 'name' => 'John Doe',
                 'email' => 'john@example.com',
@@ -57,8 +57,8 @@ describe('Applicant Model', function () {
         });
     });
 
-    describe('Relationships', function () {
-        it('has many applications', function () {
+    describe('Relationships', function (): void {
+        it('has many applications', function (): void {
             $applicant = Applicant::factory()->create();
             $applications = Application::factory()->count(3)->create([
                 'applicant_id' => $applicant->id,
@@ -68,7 +68,7 @@ describe('Applicant Model', function () {
                 ->and($applicant->applications->first()->applicant_id)->toBe($applicant->id);
         });
 
-        it('can retrieve related applications', function () {
+        it('can retrieve related applications', function (): void {
             $applicant = Applicant::factory()->create();
             Application::factory()->create(['applicant_id' => $applicant->id]);
 
@@ -78,8 +78,8 @@ describe('Applicant Model', function () {
         });
     });
 
-    describe('Soft Deletes', function () {
-        it('soft deletes applicant', function () {
+    describe('Soft Deletes', function (): void {
+        it('soft deletes applicant', function (): void {
             $applicant = Applicant::factory()->create();
             $applicantId = $applicant->id;
 
@@ -88,7 +88,7 @@ describe('Applicant Model', function () {
             expect(Applicant::find($applicantId))->toBeNull();
         });
 
-        it('can restore soft deleted applicant', function () {
+        it('can restore soft deleted applicant', function (): void {
             $applicant = Applicant::factory()->create();
             $applicant->delete();
 

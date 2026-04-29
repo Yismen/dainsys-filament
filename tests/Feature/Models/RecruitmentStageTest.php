@@ -3,37 +3,37 @@
 use App\Models\ApplicationStageEvent;
 use App\Models\RecruitmentStage;
 
-describe('RecruitmentStage Model', function () {
-    describe('Factory', function () {
-        it('can create a recruitment stage with factory', function () {
+describe('RecruitmentStage Model', function (): void {
+    describe('Factory', function (): void {
+        it('can create a recruitment stage with factory', function (): void {
             $stage = RecruitmentStage::factory()->create();
 
             expect($stage)->toBeInstanceOf(RecruitmentStage::class)
                 ->and($stage->id)->not->toBeNull();
         });
 
-        it('generates a name for the stage', function () {
+        it('generates a name for the stage', function (): void {
             $stage = RecruitmentStage::factory()->create();
 
             expect($stage->name)->toBeString()->not->toBeEmpty();
         });
 
-        it('generates optional description', function () {
+        it('generates optional description', function (): void {
             $stage = RecruitmentStage::factory()->create();
 
             $isValid = $stage->description === null || is_string($stage->description);
             expect($isValid)->toBeTrue();
         });
 
-        it('has an order value', function () {
+        it('has an order value', function (): void {
             $stage = RecruitmentStage::factory()->create();
 
             expect($stage->order)->toBeInt()->toBeBetween(1, 10);
         });
     });
 
-    describe('Attributes', function () {
-        it('has correct fillable properties', function () {
+    describe('Attributes', function (): void {
+        it('has correct fillable properties', function (): void {
             $stage = RecruitmentStage::factory()->make();
 
             expect($stage->getFillable())->toContain(
@@ -43,7 +43,7 @@ describe('RecruitmentStage Model', function () {
             );
         });
 
-        it('can create stage with specific name and order', function () {
+        it('can create stage with specific name and order', function (): void {
             $stage = RecruitmentStage::factory()->create([
                 'name' => 'Interview',
                 'order' => 2,
@@ -54,8 +54,8 @@ describe('RecruitmentStage Model', function () {
         });
     });
 
-    describe('Relationships', function () {
-        it('has many application stage events', function () {
+    describe('Relationships', function (): void {
+        it('has many application stage events', function (): void {
             $stage = RecruitmentStage::factory()->create();
             $events = ApplicationStageEvent::factory()->count(2)->create([
                 'recruitment_stage_id' => $stage->id,
@@ -64,7 +64,7 @@ describe('RecruitmentStage Model', function () {
             expect($stage->applicationStageEvents)->toHaveCount(2);
         });
 
-        it('can retrieve related application stage events', function () {
+        it('can retrieve related application stage events', function (): void {
             $stage = RecruitmentStage::factory()->create();
             ApplicationStageEvent::factory()->create(['recruitment_stage_id' => $stage->id]);
 
@@ -74,8 +74,8 @@ describe('RecruitmentStage Model', function () {
         });
     });
 
-    describe('Soft Deletes', function () {
-        it('soft deletes recruitment stage', function () {
+    describe('Soft Deletes', function (): void {
+        it('soft deletes recruitment stage', function (): void {
             $stage = RecruitmentStage::factory()->create();
             $stageId = $stage->id;
 
@@ -84,7 +84,7 @@ describe('RecruitmentStage Model', function () {
             expect(RecruitmentStage::find($stageId))->toBeNull();
         });
 
-        it('can restore soft deleted stage', function () {
+        it('can restore soft deleted stage', function (): void {
             $stage = RecruitmentStage::factory()->create();
             $stage->delete();
 

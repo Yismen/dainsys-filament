@@ -2,7 +2,7 @@
 
 use App\Models\Applicant;
 
-test('applicant factory uses a single name field', function () {
+test('applicant factory uses a single name field', function (): void {
     $attributes = Applicant::factory()->make()->getAttributes();
 
     expect($attributes)

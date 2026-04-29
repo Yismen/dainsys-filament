@@ -6,9 +6,9 @@ use App\Filament\Recruitment\Resources\ApplicationStageEvents\ApplicationStageEv
 use App\Filament\Recruitment\Resources\JobOpenings\JobOpeningResource;
 use App\Filament\Recruitment\Resources\RecruitmentStages\RecruitmentStageResource;
 
-describe('Recruitment Resources Modal Configuration', function () {
-    describe('ApplicantResource', function () {
-        it('is modal-only with no separate pages', function () {
+describe('Recruitment Resources Modal Configuration', function (): void {
+    describe('ApplicantResource', function (): void {
+        it('is modal-only with no separate pages', function (): void {
             $pages = ApplicantResource::getPages();
 
             expect($pages)
@@ -16,14 +16,14 @@ describe('Recruitment Resources Modal Configuration', function () {
                 ->not->toHaveKeys(['view', 'create', 'edit']);
         });
 
-        it('has form method defined', function () {
+        it('has form method defined', function (): void {
             $resource = new ApplicantResource;
             $methods = get_class_methods($resource);
 
             expect($methods)->toContain('form');
         });
 
-        it('has infolist method defined', function () {
+        it('has infolist method defined', function (): void {
             $resource = new ApplicantResource;
             $methods = get_class_methods($resource);
 
@@ -31,8 +31,8 @@ describe('Recruitment Resources Modal Configuration', function () {
         });
     });
 
-    describe('RecruitmentStageResource', function () {
-        it('is modal-only with no separate pages', function () {
+    describe('RecruitmentStageResource', function (): void {
+        it('is modal-only with no separate pages', function (): void {
             $pages = RecruitmentStageResource::getPages();
 
             expect($pages)
@@ -40,14 +40,14 @@ describe('Recruitment Resources Modal Configuration', function () {
                 ->not->toHaveKeys(['view', 'create', 'edit']);
         });
 
-        it('has form method defined', function () {
+        it('has form method defined', function (): void {
             $resource = new RecruitmentStageResource;
             $methods = get_class_methods($resource);
 
             expect($methods)->toContain('form');
         });
 
-        it('has infolist method defined', function () {
+        it('has infolist method defined', function (): void {
             $resource = new RecruitmentStageResource;
             $methods = get_class_methods($resource);
 
@@ -55,8 +55,8 @@ describe('Recruitment Resources Modal Configuration', function () {
         });
     });
 
-    describe('JobOpeningResource', function () {
-        it('is modal-only with no separate pages', function () {
+    describe('JobOpeningResource', function (): void {
+        it('is modal-only with no separate pages', function (): void {
             $pages = JobOpeningResource::getPages();
 
             expect($pages)
@@ -64,14 +64,14 @@ describe('Recruitment Resources Modal Configuration', function () {
                 ->not->toHaveKeys(['view', 'create', 'edit']);
         });
 
-        it('has form method defined', function () {
+        it('has form method defined', function (): void {
             $resource = new JobOpeningResource;
             $methods = get_class_methods($resource);
 
             expect($methods)->toContain('form');
         });
 
-        it('has infolist method defined', function () {
+        it('has infolist method defined', function (): void {
             $resource = new JobOpeningResource;
             $methods = get_class_methods($resource);
 
@@ -79,8 +79,8 @@ describe('Recruitment Resources Modal Configuration', function () {
         });
     });
 
-    describe('ApplicationResource', function () {
-        it('is modal-only with no separate pages', function () {
+    describe('ApplicationResource', function (): void {
+        it('is modal-only with no separate pages', function (): void {
             $pages = ApplicationResource::getPages();
 
             expect($pages)
@@ -88,14 +88,14 @@ describe('Recruitment Resources Modal Configuration', function () {
                 ->not->toHaveKeys(['view', 'create', 'edit']);
         });
 
-        it('has form method defined', function () {
+        it('has form method defined', function (): void {
             $resource = new ApplicationResource;
             $methods = get_class_methods($resource);
 
             expect($methods)->toContain('form');
         });
 
-        it('has infolist method defined', function () {
+        it('has infolist method defined', function (): void {
             $resource = new ApplicationResource;
             $methods = get_class_methods($resource);
 
@@ -103,8 +103,8 @@ describe('Recruitment Resources Modal Configuration', function () {
         });
     });
 
-    describe('ApplicationStageEventResource', function () {
-        it('is modal-only with no separate pages', function () {
+    describe('ApplicationStageEventResource', function (): void {
+        it('is modal-only with no separate pages', function (): void {
             $pages = ApplicationStageEventResource::getPages();
 
             expect($pages)
@@ -112,14 +112,14 @@ describe('Recruitment Resources Modal Configuration', function () {
                 ->not->toHaveKeys(['view', 'create', 'edit']);
         });
 
-        it('has form method defined', function () {
+        it('has form method defined', function (): void {
             $resource = new ApplicationStageEventResource;
             $methods = get_class_methods($resource);
 
             expect($methods)->toContain('form');
         });
 
-        it('has infolist method defined', function () {
+        it('has infolist method defined', function (): void {
             $resource = new ApplicationStageEventResource;
             $methods = get_class_methods($resource);
 
