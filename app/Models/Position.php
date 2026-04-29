@@ -46,7 +46,7 @@ class Position extends AppModel
         return Attribute::make(
             get: function () {
                 return $this->attributes['salary_type'] === SalaryTypes::Salary->value ?
-                    $this->salary / 190.64: // Assuming 8 working hours in a day and 23.83 working days in a month
+                    $this->salary / 190.64 : // Assuming 8 working hours in a day and 23.83 working days in a month
                     $this->salary;
             },
         );
