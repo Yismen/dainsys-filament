@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\CampaignController;
 use App\Http\Controllers\Api\DispositionController;
 use App\Http\Controllers\Api\EmployeeController;
+use App\Http\Controllers\Api\HolidayController;
 use App\Http\Controllers\Api\LoginNameController;
 use App\Http\Controllers\Api\PayrollHourController;
 use App\Http\Controllers\Api\ProductionController;
@@ -32,4 +33,5 @@ Route::middleware(['auth:sanctum', 'ability:use-dainsys'])
         Route::get('payroll_hours', PayrollHourController::class);
         Route::get('employees', EmployeeController::class);
         Route::get('dispositions', DispositionController::class);
+        Route::get('holidays', HolidayController::class);
     });
