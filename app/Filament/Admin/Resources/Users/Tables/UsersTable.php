@@ -2,6 +2,7 @@
 
 namespace App\Filament\Admin\Resources\Users\Tables;
 
+use App\Actions\Filament\Admin\ResetUserPasswordAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -99,6 +100,8 @@ class UsersTable
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
+                ResetUserPasswordAction::make()
+                    ->iconButton(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

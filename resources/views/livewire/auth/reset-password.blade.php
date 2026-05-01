@@ -50,7 +50,8 @@
 
         <button
             type="submit"
-            class="w-full rounded-xl bg-linear-to-r from-blue-600 to-blue-700 dark:from-blue-500 dark:to-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-lg transition hover:shadow-blue-500/30"
+            class="w-full rounded-xl bg-linear-to-r from-blue-600 to-blue-700 dark:from-blue-500 dark:to-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-lg transition hover:shadow-blue-500/30
+            cursor-pointer"
         >
             Reset Password
         </button>

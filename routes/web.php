@@ -30,6 +30,10 @@ Route::get('/forgot-password', [LoginController::class, 'forgotPassword'])->name
 
 Route::get('/reset-password/{token}', [LoginController::class, 'resetPassword'])->name('password.reset');
 
+Route::get('/admin/users/{user}/reset-password', [LoginController::class, 'adminResetPassword'])
+    ->middleware('signed')
+    ->name('password.reset.admin');
+
 Route::view('/privacy', 'privacy')->name('privacy');
 Route::view('/terms', 'terms')->name('terms');
 Route::view('/cookies', 'cookies')->name('cookies');
