@@ -34,6 +34,7 @@
         <div class="space-y-2">
             <label class="text-sm font-medium text-slate-700 dark:text-slate-300" for="password">New password</label>
             <input
+                autofocus
                 id="password"
                 type="password"
                 wire:model="password"
