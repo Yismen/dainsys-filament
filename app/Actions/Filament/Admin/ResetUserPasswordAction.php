@@ -6,6 +6,7 @@ use App\Models\User;
 use Filament\Actions\Action;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
+use Livewire\Component;
 
 class ResetUserPasswordAction
 {
@@ -17,7 +18,11 @@ class ResetUserPasswordAction
             ->requiresConfirmation()
             ->visible(fn (User $record): bool => filled($record->email))
             ->authorize(fn (): bool => Auth::user()?->can('update user') ?? false)
-            ->action(fn (User $record) => redirect(self::generateSignedResetPasswordUrl($record)));
+            ->action(function (User $record, Component $livewire): void {
+                $url = self::generateSignedResetPasswordUrl($record);
+
+                $livewire->js('window.open('.json_encode($url).", '_blank')");
+            });
     }
 
     public static function generateSignedResetPasswordUrl(User $user): string

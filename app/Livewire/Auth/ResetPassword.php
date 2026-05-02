@@ -24,6 +24,8 @@ class ResetPassword extends Component
 
     public string $password_confirmation = '';
 
+    public bool $passwordWasReset = false;
+
     public function mount(string $token, ?string $email = null): void
     {
         $this->token = $token;
@@ -73,7 +75,9 @@ class ResetPassword extends Component
             ]);
         }
 
-        $this->redirectRoute('login');
+        $this->password = '';
+        $this->password_confirmation = '';
+        $this->passwordWasReset = true;
     }
 
     public function render(): View

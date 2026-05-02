@@ -4,6 +4,14 @@
         <p class="text-slate-600 dark:text-slate-400">Choose a strong password to secure your account.</p>
     </div>
 
+    @if ($passwordWasReset)
+        <div class="rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800 dark:border-green-800 dark:bg-green-950/30 dark:text-green-200">
+            <p class="font-semibold">Password was reset successfully.</p>
+            <p class="mt-1">This page can now be closed.</p>
+        </div>
+    @endif
+
+    @if (! $passwordWasReset)
     <form class="space-y-5" wire:submit.prevent="resetPassword">
         <div class="space-y-2">
             <label class="text-sm font-medium text-slate-700 dark:text-slate-300" for="email">Email</label>
@@ -56,4 +64,5 @@
             Reset Password
         </button>
     </form>
+    @endif
 </div>

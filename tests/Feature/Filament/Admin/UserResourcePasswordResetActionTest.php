@@ -34,5 +34,5 @@ it('generates reset link only when action is executed', function (): void {
 
     livewire(ListUsers::class)
         ->callTableAction('reset_user_password', $targetUser->getKey())
-        ->assertRedirect();
+        ->assertOk();
 });

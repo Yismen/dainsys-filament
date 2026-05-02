@@ -51,7 +51,8 @@ it('resets the password with a valid token', function (): void {
         ->set('password', 'new-password')
         ->set('password_confirmation', 'new-password')
         ->call('resetPassword')
-        ->assertRedirect(route('login'));
+        ->assertSet('passwordWasReset', true)
+        ->assertHasNoErrors();
 });
 
 it('renders admin signed reset password page for authenticated users', function (): void {
