@@ -109,7 +109,7 @@ it('filters by fixed date range value using last n days format', function (): vo
 });
 
 it('filters by fixed date range value using last n months format', function (): void {
-    Production::factory()->create(['date' => now()->subMonths(2)]);
+    Production::factory()->create(['date' => now()->subMonths(1)]);
     Production::factory()->create(['date' => now()->subMonths(3)]);
     Sanctum::actingAs(user: User::factory()->create(), abilities: ['use-dainsys']);
 
