@@ -17,283 +17,261 @@
         $authUrl = $panel ? $panel->getUrl() : '/login';
     @endphp
 
-    <!-- HERO -->
-    <section class="relative min-h-screen flex flex-col justify-center overflow-hidden px-4 sm:px-6 lg:px-8">
-        <!-- Ambient glows -->
-        <div class="pointer-events-none absolute inset-0 overflow-hidden">
-            <div class="absolute -top-40 left-1/4 h-[520px] w-[520px] rounded-full bg-violet-700/25 blur-[120px]"></div>
-            <div class="absolute bottom-0 right-1/4 h-[400px] w-[400px] rounded-full bg-pink-700/20 blur-[100px]"></div>
-            <div class="absolute top-1/2 left-0 h-[300px] w-[300px] -translate-y-1/2 rounded-full bg-lime-600/10 blur-[80px]"></div>
-        </div>
+    {{-- ═══════════════════════════════════════
+         HERO — two-column with KPI cards
+    ═══════════════════════════════════════ --}}
+    <section class="relative overflow-hidden" style="min-height:100dvh;display:flex;flex-direction:column;justify-content:center">
 
-        <!-- Decorative floating shapes -->
-        <div class="pointer-events-none absolute right-8 top-24 h-16 w-16 rounded-2xl bg-violet-500/20 rotate-12 float-slow hidden lg:block"></div>
-        <div class="pointer-events-none absolute left-12 bottom-32 h-10 w-10 rounded-full bg-lime-400/30 float-slow hidden lg:block" style="animation-delay:.8s"></div>
-        <div class="pointer-events-none absolute right-24 bottom-48 h-8 w-8 rounded-full bg-pink-400/25 wiggle hidden lg:block"></div>
+        {{-- mesh gradient bg --}}
+        <div class="pointer-events-none absolute inset-0 hero-mesh"></div>
 
-        <div class="relative max-w-7xl mx-auto w-full py-28 sm:py-36">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        {{-- floating decorative blobs --}}
+        <div class="hero-blob" style="width:80px;height:80px;background:#7c3aed22;top:80px;right:120px;border-radius:18px;transform:rotate(12deg)"></div>
+        <div class="hero-blob" style="width:18px;height:18px;background:#84cc1666;bottom:120px;left:60px;border-radius:50%"></div>
+        <div class="hero-blob" style="width:14px;height:14px;background:#ec489966;bottom:100px;right:80px;border-radius:50%"></div>
 
-                <!-- Left: copy -->
-                <div class="space-y-8">
-                    <div class="inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-4 py-1.5 text-sm font-semibold text-violet-300">
-                        <span class="relative flex h-2 w-2">
-                            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-violet-400 opacity-75"></span>
-                            <span class="relative inline-flex h-2 w-2 rounded-full bg-violet-500"></span>
-                        </span>
-                        Your intranet is live 🎉
-                    </div>
+        {{-- content --}}
+        <div class="relative w-full max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 pt-28 pb-20 flex flex-col lg:grid lg:grid-cols-[1fr_360px] xl:grid-cols-[1fr_400px] lg:gap-20 lg:items-center">
 
-                    <div class="space-y-2">
-                        <h1 class="text-6xl sm:text-7xl lg:text-8xl font-black leading-[0.9] tracking-tighter">
-                            <span class="block text-white">Your pay.</span>
-                            <span class="block text-gradient-violet">Your hours.</span>
-                            <span class="block text-white">Your wins.</span>
-                        </h1>
-                    </div>
+            {{-- LEFT: copy --}}
+            <div class="flex flex-col">
 
-                    <p class="text-lg text-white/55 max-w-lg leading-relaxed">
-                        {{ config('app.name') }} is built for the team — see your payroll breakdown, track hours in real-time, and understand every incentive before payday. No guessing.
-                    </p>
-
-                    <div class="flex flex-wrap gap-4">
-                        @auth
-                            <a href="{{ url($authUrl) }}" class="btn-primary inline-flex items-center gap-2.5 px-8 py-3.5 text-base font-bold">
-                                Go to Dashboard
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
-                            </a>
-                        @else
-                            <a href="{{ route('login') }}" class="btn-primary inline-flex items-center gap-2.5 px-8 py-3.5 text-base font-bold">
-                                Get Started ✨
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
-                            </a>
-                            <a href="/#features" class="inline-flex items-center gap-2 px-8 py-3.5 text-base font-semibold text-white/60 hover:text-white transition-colors rounded-full border border-white/15 hover:border-white/30">
-                                See features
-                            </a>
-                        @endauth
-                    </div>
-
-                    <div class="flex flex-wrap gap-3 pt-2">
-                        <span class="text-xs font-semibold text-white/40">✅ Real-time hours</span>
-                        <span class="text-xs font-semibold text-white/40">💸 Pay clarity</span>
-                        <span class="text-xs font-semibold text-white/40">🛡️ Role-based privacy</span>
-                    </div>
+                {{-- eyebrow --}}
+                <div class="lp-eyebrow mb-8">
+                    <span class="lp-dot"></span>
+                    Your intranet is live &nbsp;🎉
                 </div>
 
-                <!-- Right: stat cards -->
-                <div class="relative hidden lg:flex items-center justify-center h-[480px]">
-                    <div class="card-glass absolute top-0 left-6 right-16 rounded-2xl p-5 float-slow shadow-2xl shadow-violet-900/30">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-xs font-semibold text-white/40 uppercase tracking-wider">This period</p>
-                                <p class="mt-1 text-3xl font-black text-white">124.5 <span class="text-sm font-semibold text-white/40">hrs</span></p>
-                            </div>
-                            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-violet-500/20 text-2xl">⏱️</div>
-                        </div>
-                        <div class="mt-4 h-1.5 w-full rounded-full bg-white/10">
-                            <div class="h-full w-2/3 rounded-full bg-gradient-to-r from-violet-500 to-pink-500"></div>
-                        </div>
-                        <p class="mt-1 text-xs text-white/30">67% of target reached</p>
-                    </div>
+                {{-- headline --}}
+                <h1 class="lp-hero-h1 mb-7">
+                    <span class="block lp-word-base">Your pay</span>
+                    <span class="block text-gradient-violet">You first</span>
+                    {{-- <span class="block lp-word-base">Your wins.</span> --}}
+                </h1>
 
-                    <div class="card-glass absolute top-24 left-16 right-0 rounded-2xl p-5 float-slow shadow-2xl shadow-pink-900/20" style="animation-delay:.6s">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-xs font-semibold text-white/40 uppercase tracking-wider">Payroll run</p>
-                                <p class="mt-1 text-3xl font-black text-white">$86,420</p>
-                            </div>
-                            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-lime-500/20 text-2xl">💰</div>
-                        </div>
-                        <div class="mt-4 flex items-center gap-1.5 text-xs font-semibold text-lime-400">
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
-                            Processing · 64% complete
-                        </div>
-                    </div>
+                {{-- body --}}
+                <p class="lp-hero-body mb-10 max-w-md">
+                    {{ config('app.name') }} is built for the team &mdash; see your payroll breakdown, track hours in real-time, and understand every incentive before payday. No guessing.
+                </p>
 
-                    <div class="card-glass absolute top-48 left-10 right-10 rounded-2xl p-5 float-slow shadow-2xl" style="animation-delay:1.1s">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-xs font-semibold text-white/40 uppercase tracking-wider">Team wins this month</p>
-                                <p class="mt-1 text-3xl font-black text-gradient-lime">+18%</p>
-                            </div>
-                            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-pink-500/20 text-2xl">🏆</div>
-                        </div>
-                        <div class="mt-4 grid grid-cols-3 gap-2">
-                            <div class="rounded-lg bg-white/5 py-1.5 text-center text-xs font-semibold text-white/50">Visibility</div>
-                            <div class="rounded-lg bg-white/5 py-1.5 text-center text-xs font-semibold text-white/50">Trust</div>
-                            <div class="rounded-lg bg-violet-500/20 py-1.5 text-center text-xs font-bold text-violet-300">Momentum</div>
-                        </div>
-                    </div>
+                {{-- CTA --}}
+                <div class="flex flex-wrap items-center gap-4 mb-10">
+                    @auth
+                        <a href="{{ url($authUrl) }}" class="btn-primary inline-flex items-center gap-3 px-8 py-3.5 text-base font-bold">
+                            Go to Dashboard <span class="btn-arrow">&rarr;</span>
+                        </a>
+                    @else
+                        <a href="{{ route('login') }}" class="btn-primary inline-flex items-center gap-3 px-8 py-3.5 text-base font-bold">
+                            Sign in <span class="btn-arrow">&rarr;</span>
+                        </a>
+                        <a href="#features" class="lp-ghost-btn inline-flex items-center gap-2 px-6 py-3.5 text-base font-semibold">
+                            Explore features
+                        </a>
+                    @endauth
                 </div>
+
+                {{-- inline feature tags --}}
+                <div class="flex flex-wrap items-center gap-x-5 gap-y-2">
+                    @foreach([
+                        ['✅', 'Real-time hours'],
+                        ['💸', 'Pay clarity'],
+                        ['🔒', 'Role-based privacy'],
+                    ] as [$icon, $label])
+                        <span class="hero-inline-tag">{{ $icon }} {{ $label }}</span>
+                    @endforeach
+                </div>
+
             </div>
+
+            {{-- RIGHT: KPI dashboard cards — desktop only --}}
+            <div class="hidden lg:flex flex-col gap-3">
+
+                {{-- Card 1: Hours --}}
+                <div class="hero-kpi-card">
+                    <div class="flex items-start justify-between mb-3">
+                        <div>
+                            <p class="hero-kpi-label">This period</p>
+                            <p class="hero-kpi-value">124.5 <span class="hero-kpi-unit">hrs</span></p>
+                        </div>
+                        <div class="hero-kpi-icon" style="background:rgba(124,58,237,.12)">⏱</div>
+                    </div>
+                    <div class="hero-kpi-progress-track">
+                        <div class="hero-kpi-progress-bar" style="width:78%;background:linear-gradient(to right,#7c3aed,#ec4899)"></div>
+                    </div>
+                    <p class="text-[10px] font-semibold lp-text-subtle mt-2">679 remaining this quarter</p>
+                </div>
+
+                {{-- Card 2: Payroll --}}
+                <div class="hero-kpi-card" style="margin-left:1.5rem">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <p class="hero-kpi-label">Payroll run</p>
+                            <p class="hero-kpi-value">$86,420</p>
+                        </div>
+                        <div class="hero-kpi-icon" style="background:rgba(132,204,22,.15)">💰</div>
+                    </div>
+                </div>
+
+                {{-- Card 3: Team wins --}}
+                <div class="hero-kpi-card">
+                    <div class="flex items-start justify-between mb-4">
+                        <div>
+                            <p class="hero-kpi-label">Team wins this month</p>
+                            <p class="hero-kpi-value" style="color:#84cc16">+18%</p>
+                        </div>
+                        <div class="hero-kpi-icon" style="background:rgba(236,72,153,.12)">🏆</div>
+                    </div>
+                    <div class="flex gap-2">
+                        <span class="hero-kpi-tab">Visibility</span>
+                        <span class="hero-kpi-tab">Trust</span>
+                        <span class="hero-kpi-tab hero-kpi-tab-active">Momentum</span>
+                    </div>
+                </div>
+
+            </div>
+
         </div>
 
-        <!-- Scroll hint -->
-        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
-            <span class="text-xs text-white/20 font-medium tracking-widest uppercase">Scroll</span>
-            <div class="h-8 w-0.5 rounded-full bg-gradient-to-b from-violet-500/60 to-transparent"></div>
+        {{-- scroll cue --}}
+        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40 pointer-events-none">
+            <div class="lp-scroll-line"></div>
+            <span class="text-[10px] tracking-[0.25em] uppercase font-semibold lp-text-subtle">scroll</span>
         </div>
+
     </section>
 
-    <!-- MARQUEE STRIP -->
-    <div class="overflow-hidden border-y marquee-strip py-4" style="background:var(--strip-bg);border-color:var(--strip-border)">
-        <div class="marquee-track flex gap-12 whitespace-nowrap text-sm font-bold text-white/25 uppercase tracking-widest">
+    {{-- ═══════════════════════════════════════
+         TICKER
+    ═══════════════════════════════════════ --}}
+    <div class="overflow-hidden border-y lp-ticker-wrap py-3.5">
+        <div class="marquee-track flex gap-10 whitespace-nowrap text-xs font-black uppercase tracking-[0.18em] lp-ticker-text">
             @foreach(range(1,2) as $_)
-                <span>⚡ Hours Tracking</span>
-                <span>•</span>
-                <span>💸 Pay Transparency</span>
-                <span>•</span>
-                <span>🎯 Real-time KPIs</span>
-                <span>•</span>
-                <span>🔒 Privacy First</span>
-                <span>•</span>
-                <span>💬 Team Communication</span>
-                <span>•</span>
-                <span>🛠️ IT Support</span>
-                <span>•</span>
-                <span>🏆 Recognition</span>
-                <span>•</span>
-                <span>📊 Approvals</span>
-                <span>•</span>
+                @foreach(['⚡ Hours tracking', '·', '💸 Pay transparency', '·', '🎯 Real-time KPIs', '·', '🔒 Privacy first', '·', '💬 Communication', '·', '🛠️ IT support', '·', '🏆 Recognition', '·', '📊 Approvals', '·'] as $item)
+                    <span>{{ $item }}</span>
+                @endforeach
             @endforeach
         </div>
     </div>
 
-    <!-- TRUST STRIP -->
-    <section class="py-20 sm:py-24 px-4 sm:px-6 lg:px-8">
+    {{-- ═══════════════════════════════════════
+         BENTO GRID — features
+    ═══════════════════════════════════════ --}}
+    <section class="py-28 sm:py-36 px-4 sm:px-6 lg:px-8" id="features">
         <div class="max-w-7xl mx-auto">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-                <div class="card-glass rounded-2xl p-7 hover:border-violet-500/30 transition-all duration-300">
-                    <div class="mb-4 text-3xl">📋</div>
-                    <h3 class="text-lg font-bold text-white mb-2">Payroll clarity</h3>
-                    <p class="text-sm text-white/45 leading-relaxed">See exactly how every hour, rate, and incentive feeds into your paycheck. Zero surprises.</p>
+
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-14">
+                <div>
+                    <p class="lp-section-label mb-2">What's inside</p>
+                    <h2 class="lp-section-h2">Built for <span class="text-gradient-violet">your shift</span></h2>
                 </div>
-                <div class="card-glass rounded-2xl p-7 hover:border-lime-500/30 transition-all duration-300">
-                    <div class="mb-4 text-3xl">👀</div>
-                    <h3 class="text-lg font-bold text-white mb-2">Wide visibility</h3>
-                    <p class="text-sm text-white/45 leading-relaxed">Approvals and edits are visible across the team — keeping trust intact and drama out.</p>
+                <p class="lp-section-sub max-w-xs">Every tool a BPO agent actually needs — and nothing they don't.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-4">
+
+                {{-- Large card: Hours --}}
+                <div class="bento-card lg:col-span-5 lg:row-span-2 group flex flex-col justify-between p-8 min-h-80">
+                    <div>
+                        <div class="bento-icon-wrap bg-violet-500/15 mb-6">⏱️</div>
+                        <h3 class="bento-title mb-3">Hours tracking</h3>
+                        <p class="bento-body">Real-time time logs with full edit history. Your hours, your records — always accurate and auditable.</p>
+                    </div>
+                    <div class="mt-8">
+                        <div class="flex items-end gap-1.5 h-10">
+                            @foreach([40,70,55,90,65,80,45,95,60,75] as $h)
+                                <div class="flex-1 rounded-sm" style="height:{{ $h }}%;background:linear-gradient(to top,#7c3aed,#a78bfa)"></div>
+                            @endforeach
+                        </div>
+                        <p class="text-xs lp-text-subtle mt-2 font-semibold">This period · 124.5 hrs logged</p>
+                    </div>
                 </div>
-                <div class="card-glass rounded-2xl p-7 hover:border-pink-500/30 transition-all duration-300">
-                    <div class="mb-4 text-3xl">🛡️</div>
-                    <h3 class="text-lg font-bold text-white mb-2">Privacy first</h3>
-                    <p class="text-sm text-white/45 leading-relaxed">Role-based access and audit trails mean your data is only seen by those who need to.</p>
+
+                {{-- Pay --}}
+                <div class="bento-card lg:col-span-4 group p-8">
+                    <div class="bento-icon-wrap bg-lime-500/15 mb-6">💸</div>
+                    <h3 class="bento-title mb-3">Pay transparency</h3>
+                    <p class="bento-body">See every component of your paycheck — base, incentives, deductions — before payday hits.</p>
                 </div>
+
+                {{-- Recognition --}}
+                <div class="bento-card lg:col-span-3 group p-8">
+                    <div class="bento-icon-wrap bg-pink-500/15 mb-6">🏆</div>
+                    <h3 class="bento-title mb-3">Fair recognition</h3>
+                    <p class="bento-body">Bonuses earned transparently. No black boxes, no surprises.</p>
+                </div>
+
+                {{-- Approvals --}}
+                <div class="bento-card lg:col-span-4 group p-8">
+                    <div class="bento-icon-wrap bg-orange-500/15 mb-6">📋</div>
+                    <h3 class="bento-title mb-3">Approval flow</h3>
+                    <p class="bento-body">Request edits, corrections, and time-off. Track every approval with full notes.</p>
+                </div>
+
+                {{-- Comms --}}
+                <div class="bento-card lg:col-span-3 group p-8">
+                    <div class="bento-icon-wrap bg-sky-500/15 mb-6">💬</div>
+                    <h3 class="bento-title mb-3">Team comms</h3>
+                    <p class="bento-body">Open channels that build culture and keep everyone aligned.</p>
+                </div>
+
+                {{-- Privacy wide --}}
+                <div class="bento-card lg:col-span-7 group p-8 flex flex-col sm:flex-row items-start gap-8">
+                    <div class="flex-1">
+                        <div class="bento-icon-wrap bg-teal-500/15 mb-6">🛡️</div>
+                        <h3 class="bento-title mb-3">Privacy &amp; security</h3>
+                        <p class="bento-body">Role-based access means only the right people see the right data. Full audit trails, always.</p>
+                    </div>
+                    <div class="flex flex-col gap-2.5 text-sm font-semibold lp-text-subtle min-w-max">
+                        @foreach(['Role-based access', 'Audit trail', 'Encrypted at rest', 'Minimal data exposure', 'Your data, yours'] as $item)
+                            <div class="lp-check-item"><span class="text-teal-400 mr-2">✓</span>{{ $item }}</div>
+                        @endforeach
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
 
-    <!-- FEATURES -->
-    <section class="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 relative" id="features">
-        <div class="pointer-events-none absolute top-1/2 left-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-violet-700/10 blur-[120px]"></div>
-        <div class="relative max-w-7xl mx-auto">
-            <div class="mb-16 text-center">
-                <p class="text-xs font-bold uppercase tracking-widest text-violet-400 mb-3">Everything you need</p>
-                <h2 class="text-5xl sm:text-6xl font-black text-white">Features for <span class="text-gradient-violet">you</span></h2>
-                <p class="mt-4 text-base text-white/40 max-w-xl mx-auto">Complete visibility and transparency that brings our team together.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                <div class="card-glass group rounded-2xl p-7 hover:border-violet-500/40 transition-all duration-300 hover:-translate-y-1">
-                    <div class="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-violet-500/15 text-2xl group-hover:scale-110 transition-transform duration-300">⏱️</div>
-                    <h3 class="text-lg font-bold text-white mb-2">Hours tracking</h3>
-                    <p class="text-sm text-white/45 leading-relaxed">Real-time time tracking with full transparency. Your hours, your records, always accurate.</p>
-                    <div class="mt-5 h-0.5 w-0 bg-gradient-to-r from-violet-500 to-pink-500 group-hover:w-full transition-all duration-500 rounded-full"></div>
-                </div>
-
-                <div class="card-glass group rounded-2xl p-7 hover:border-lime-500/40 transition-all duration-300 hover:-translate-y-1" style="transition-delay:.05s">
-                    <div class="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-lime-500/15 text-2xl group-hover:scale-110 transition-transform duration-300">💸</div>
-                    <h3 class="text-lg font-bold text-white mb-2">Pay transparency</h3>
-                    <p class="text-sm text-white/45 leading-relaxed">Crystal-clear payroll calculations. Know your payment, deductions, and earnings ahead of time.</p>
-                    <div class="mt-5 h-0.5 w-0 bg-gradient-to-r from-lime-500 to-teal-500 group-hover:w-full transition-all duration-500 rounded-full"></div>
-                </div>
-
-                <div class="card-glass group rounded-2xl p-7 hover:border-pink-500/40 transition-all duration-300 hover:-translate-y-1" style="transition-delay:.1s">
-                    <div class="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-pink-500/15 text-2xl group-hover:scale-110 transition-transform duration-300">🏆</div>
-                    <h3 class="text-lg font-bold text-white mb-2">Recognition that's fair</h3>
-                    <p class="text-sm text-white/45 leading-relaxed">Bonuses and incentives tracked transparently. Understand exactly why you won.</p>
-                    <div class="mt-5 h-0.5 w-0 bg-gradient-to-r from-pink-500 to-red-500 group-hover:w-full transition-all duration-500 rounded-full"></div>
-                </div>
-
-                <div class="card-glass group rounded-2xl p-7 hover:border-orange-500/40 transition-all duration-300 hover:-translate-y-1" style="transition-delay:.15s">
-                    <div class="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-orange-500/15 text-2xl group-hover:scale-110 transition-transform duration-300">📈</div>
-                    <h3 class="text-lg font-bold text-white mb-2">Progress you can see</h3>
-                    <p class="text-sm text-white/45 leading-relaxed">Clear goals and KPIs so you always know where you stand. No more flying blind.</p>
-                    <div class="mt-5 h-0.5 w-0 bg-gradient-to-r from-orange-500 to-yellow-500 group-hover:w-full transition-all duration-500 rounded-full"></div>
-                </div>
-
-                <div class="card-glass group rounded-2xl p-7 hover:border-sky-500/40 transition-all duration-300 hover:-translate-y-1" style="transition-delay:.2s">
-                    <div class="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-sky-500/15 text-2xl group-hover:scale-110 transition-transform duration-300">💬</div>
-                    <h3 class="text-lg font-bold text-white mb-2">Team communication</h3>
-                    <p class="text-sm text-white/45 leading-relaxed">Open channels that bring everyone together. Celebrate wins, share updates, build culture.</p>
-                    <div class="mt-5 h-0.5 w-0 bg-gradient-to-r from-sky-500 to-blue-500 group-hover:w-full transition-all duration-500 rounded-full"></div>
-                </div>
-
-                <div class="card-glass group rounded-2xl p-7 hover:border-teal-500/40 transition-all duration-300 hover:-translate-y-1" style="transition-delay:.25s">
-                    <div class="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-teal-500/15 text-2xl group-hover:scale-110 transition-transform duration-300">🛠️</div>
-                    <h3 class="text-lg font-bold text-white mb-2">Help when you need it</h3>
-                    <p class="text-sm text-white/45 leading-relaxed">Dedicated IT support to keep you running. Submit a ticket, get a fix, move on.</p>
-                    <div class="mt-5 h-0.5 w-0 bg-gradient-to-r from-teal-500 to-green-500 group-hover:w-full transition-all duration-500 rounded-full"></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- STATS -->
-    <section class="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 relative overflow-hidden" id="security" style="background:var(--bg-surface)">
-        <div class="absolute inset-0 bg-gradient-to-br from-violet-900/30 via-transparent to-pink-900/20"></div>
-        <div class="absolute inset-0 border-y border-white/10"></div>
-        <div class="relative max-w-7xl mx-auto">
-            <div class="text-center mb-16">
-                <h2 class="text-5xl sm:text-6xl font-black text-white">Numbers <span class="text-gradient-lime">that hit</span></h2>
-            </div>
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="card-glass rounded-2xl p-8 text-center hover:border-violet-500/40 transition-all duration-300">
-                    <div class="text-5xl font-black text-gradient-violet mb-2">99.9%</div>
-                    <p class="text-sm font-semibold text-white/40">Payroll accuracy</p>
-                </div>
-                <div class="card-glass rounded-2xl p-8 text-center hover:border-lime-500/40 transition-all duration-300">
-                    <div class="text-5xl font-black text-gradient-lime mb-2">2 min</div>
-                    <p class="text-sm font-semibold text-white/40">Approval turnaround</p>
-                </div>
-                <div class="card-glass rounded-2xl p-8 text-center hover:border-pink-500/40 transition-all duration-300">
-                    <div class="text-5xl font-black mb-2" style="background:linear-gradient(135deg,#f97316,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">24/7</div>
-                    <p class="text-sm font-semibold text-white/40">Employee support</p>
-                </div>
-                <div class="card-glass rounded-2xl p-8 text-center hover:border-sky-500/40 transition-all duration-300">
-                    <div class="text-5xl font-black mb-2">🔒</div>
-                    <p class="text-sm font-semibold text-white/40">Data privacy</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- TESTIMONIALS -->
-    <section class="py-24 sm:py-32 px-4 sm:px-6 lg:px-8">
+    {{-- ═══════════════════════════════════════
+         TESTIMONIALS — offset masonry
+    ═══════════════════════════════════════ --}}
+    <section class="py-28 sm:py-36 px-4 sm:px-6 lg:px-8 lp-alt-section">
         <div class="max-w-6xl mx-auto">
-            <div class="text-center mb-16">
-                <p class="text-xs font-bold uppercase tracking-widest text-pink-400 mb-3">Real teammates</p>
-                <h2 class="text-5xl sm:text-6xl font-black text-white">Feel the <span class="text-gradient-violet">difference</span></h2>
+            <div class="mb-14">
+                <p class="lp-section-label mb-2">Real teammates</p>
+                <h2 class="lp-section-h2">People who <span class="text-gradient-violet">get it now</span></h2>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="card-glass rounded-2xl p-8 hover:border-violet-500/30 transition-all duration-300">
-                    <div class="text-3xl mb-5">💬</div>
-                    <p class="text-base text-white/70 leading-relaxed italic">"I can see my hours, incentives and payments right away. If something's off, it gets fixed before payroll runs. Love it."</p>
-                    <div class="mt-6 flex items-center gap-3">
-                        <div class="h-10 w-10 rounded-full bg-gradient-to-br from-violet-500 to-pink-500 flex items-center justify-center text-sm font-bold">AM</div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="quote-card p-8 md:translate-y-8">
+                    <p class="quote-text">"I can see my hours, incentives and payments right away. If something's off, it gets fixed before payroll runs. Love it."</p>
+                    <div class="quote-author mt-6">
+                        <div class="quote-avatar" style="background:linear-gradient(135deg,#7c3aed,#ec4899)">AM</div>
                         <div>
-                            <p class="font-bold text-white text-sm">Alex M.</p>
-                            <p class="text-xs text-white/35">Outbound Agent</p>
+                            <p class="quote-name">Alex M.</p>
+                            <p class="quote-role">Outbound Agent</p>
                         </div>
                     </div>
                 </div>
-                <div class="card-glass rounded-2xl p-8 hover:border-lime-500/30 transition-all duration-300">
-                    <div class="text-3xl mb-5">🙌</div>
-                    <p class="text-base text-white/70 leading-relaxed italic">"The payment breakdown finally makes sense. I know exactly how incentives are calculated — no more guessing."</p>
-                    <div class="mt-6 flex items-center gap-3">
-                        <div class="h-10 w-10 rounded-full bg-gradient-to-br from-lime-500 to-teal-500 flex items-center justify-center text-sm font-bold">JR</div>
+
+                <div class="quote-card p-8">
+                    <p class="quote-text">"Finally understand how my incentives are calculated. No more guessing, no more frustration at payday."</p>
+                    <div class="quote-author mt-6">
+                        <div class="quote-avatar" style="background:linear-gradient(135deg,#84cc16,#06b6d4)">JR</div>
                         <div>
-                            <p class="font-bold text-white text-sm">Jordan R.</p>
-                            <p class="text-xs text-white/35">Team Lead</p>
+                            <p class="quote-name">Jordan R.</p>
+                            <p class="quote-role">Team Lead</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quote-card p-8 md:translate-y-8">
+                    <p class="quote-text">"Approvals used to be a black hole. Now I get notified the second anything changes. Actually transparent."</p>
+                    <div class="quote-author mt-6">
+                        <div class="quote-avatar" style="background:linear-gradient(135deg,#ec4899,#f97316)">CL</div>
+                        <div>
+                            <p class="quote-name">Camille L.</p>
+                            <p class="quote-role">QA Analyst</p>
                         </div>
                     </div>
                 </div>
@@ -301,71 +279,61 @@
         </div>
     </section>
 
-    <!-- FAQ -->
-    <section class="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 relative">
-        <div class="pointer-events-none absolute left-0 top-1/2 h-96 w-96 -translate-y-1/2 rounded-full bg-violet-700/10 blur-[80px]"></div>
-        <div class="relative max-w-3xl mx-auto">
-            <div class="text-center mb-14">
-                <p class="text-xs font-bold uppercase tracking-widest text-violet-400 mb-3">Quick answers</p>
-                <h2 class="text-5xl sm:text-6xl font-black text-white">Got <span class="text-gradient-violet">questions?</span></h2>
+    {{-- ═══════════════════════════════════════
+         FAQ — borderless accordion
+    ═══════════════════════════════════════ --}}
+    <section class="py-28 sm:py-36 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-2xl mx-auto">
+            <div class="mb-14 text-center">
+                <p class="lp-section-label mb-2">FAQ</p>
+                <h2 class="lp-section-h2">Quick <span class="text-gradient-violet">answers</span></h2>
             </div>
-            <div class="space-y-3">
-                <details class="group card-glass rounded-2xl overflow-hidden">
-                    <summary class="flex cursor-pointer list-none items-center justify-between px-6 py-5 text-base font-bold text-white hover:text-violet-300 transition-colors">
-                        Can I see edits to my downtimes?
-                        <span class="text-white/30 group-open:rotate-45 transition-transform duration-200 text-xl font-light">+</span>
+            <div class="divide-y lp-faq-divider">
+                @foreach([
+                    ['Can I see edits to my downtimes?',          'Yes — all edits and approvals show clear notes so nothing is a mystery. Full history, always.'],
+                    ['Who can see my information?',               'Only you and authorized roles. Role-based access keeps your data locked down tight.'],
+                    ['What if something is wrong with my pay?',   'Submit a support request right away and get clear next steps. We fix it before payday.'],
+                    ['Is my data encrypted?',                     'Absolutely. Data is encrypted at rest and in transit. Privacy is a core design principle.'],
+                ] as [$q, $a])
+                <details class="group py-6">
+                    <summary class="lp-faq-q flex cursor-pointer list-none items-center justify-between">
+                        {{ $q }}
+                        <span class="lp-faq-plus group-open:rotate-45 transition-transform duration-200">+</span>
                     </summary>
-                    <div class="px-6 pb-5 text-sm text-white/45 leading-relaxed border-t border-white/10 pt-4">
-                        Yes! All edits and approvals are visible with clear notes so nothing is a mystery.
-                    </div>
+                    <div class="lp-faq-a pt-4">{{ $a }}</div>
                 </details>
-                <details class="group card-glass rounded-2xl overflow-hidden">
-                    <summary class="flex cursor-pointer list-none items-center justify-between px-6 py-5 text-base font-bold text-white hover:text-violet-300 transition-colors">
-                        Who can see my information?
-                        <span class="text-white/30 group-open:rotate-45 transition-transform duration-200 text-xl font-light">+</span>
-                    </summary>
-                    <div class="px-6 pb-5 text-sm text-white/45 leading-relaxed border-t border-white/10 pt-4">
-                        Only you and authorized roles can access your personal details. Role-based access keeps everything locked down.
-                    </div>
-                </details>
-                <details class="group card-glass rounded-2xl overflow-hidden">
-                    <summary class="flex cursor-pointer list-none items-center justify-between px-6 py-5 text-base font-bold text-white hover:text-violet-300 transition-colors">
-                        What if something is wrong with my pay?
-                        <span class="text-white/30 group-open:rotate-45 transition-transform duration-200 text-xl font-light">+</span>
-                    </summary>
-                    <div class="px-6 pb-5 text-sm text-white/45 leading-relaxed border-t border-white/10 pt-4">
-                        Submit a support request ASAP and you'll get clear next steps. We fix it before payday — that's the goal.
-                    </div>
-                </details>
+                @endforeach
             </div>
         </div>
     </section>
 
-    <!-- CTA -->
-    <section class="py-24 sm:py-32 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-4xl mx-auto">
-            <div class="relative rounded-3xl overflow-hidden p-[1px] bg-gradient-to-br from-violet-500 via-pink-500 to-orange-400 glow-violet">
-                <div class="rounded-3xl cta-inner px-10 py-16 sm:px-16 text-center relative">
-                    <div class="pointer-events-none absolute inset-0 bg-gradient-to-br from-violet-600/15 via-transparent to-pink-600/10"></div>
-                    <div class="relative">
-                        <div class="mb-6 text-5xl wiggle inline-block">🚀</div>
-                        <h2 class="text-4xl sm:text-6xl font-black text-white mb-4">Ready for your next shift?</h2>
-                        <p class="text-base text-white/45 max-w-xl mx-auto mb-10 leading-relaxed">
-                            Sign in to review your hours, approvals, and full pay details — all in one place.
-                        </p>
-                        @auth
-                            <a href="{{ url($authUrl) }}" class="btn-primary inline-flex items-center gap-2.5 px-10 py-4 text-base font-bold">
-                                Access Dashboard 🎉
-                            </a>
-                        @else
-                            <a href="{{ route('login') }}" class="btn-primary inline-flex items-center gap-2.5 px-10 py-4 text-base font-bold">
-                                Sign In Now ✨
-                            </a>
-                        @endauth
-                    </div>
-                </div>
-            </div>
+    {{-- ═══════════════════════════════════════
+         CTA — full-bleed with giant bg word
+    ═══════════════════════════════════════ --}}
+    <section class="relative overflow-hidden lp-cta-section py-36 px-4 sm:px-6 lg:px-8">
+        <div class="pointer-events-none absolute inset-0 flex items-center justify-center lp-cta-bg-word select-none">
+            <span>NOW</span>
+        </div>
+        <div class="relative max-w-4xl mx-auto text-center">
+            <p class="lp-section-label mb-4">Ready?</p>
+            <h2 class="lp-cta-h2 mb-6">
+                Your next shift<br>
+                <span class="text-gradient-violet">starts here.</span>
+            </h2>
+            <p class="lp-cta-body mx-auto mb-12 max-w-lg">
+                Sign in to review your hours, approvals, and full pay details. Everything you need, nothing you don't.
+            </p>
+            @auth
+                <a href="{{ url($authUrl) }}" class="btn-primary inline-flex items-center gap-3 px-10 py-4 text-lg font-bold">
+                    Go to Dashboard <span class="btn-arrow">&rarr;</span>
+                </a>
+            @else
+                <a href="{{ route('login') }}" class="btn-primary inline-flex items-center gap-3 px-10 py-4 text-lg font-bold">
+                    Sign in now <span class="btn-arrow">&rarr;</span>
+                </a>
+            @endauth
         </div>
     </section>
+
 
 @endsection
