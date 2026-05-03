@@ -26,9 +26,9 @@
         <div class="pointer-events-none absolute inset-0 hero-mesh"></div>
 
         {{-- floating decorative blobs --}}
-        <div class="hero-blob" style="width:80px;height:80px;background:#7c3aed22;top:80px;right:120px;border-radius:18px;transform:rotate(12deg)"></div>
-        <div class="hero-blob" style="width:18px;height:18px;background:#84cc1666;bottom:120px;left:60px;border-radius:50%"></div>
-        <div class="hero-blob" style="width:14px;height:14px;background:#ec489966;bottom:100px;right:80px;border-radius:50%"></div>
+        <div class="hero-blob hero-blob-lg" style="width:80px;height:80px;background:#7c3aed22;top:80px;right:120px;border-radius:18px"></div>
+        <div class="hero-blob hero-blob-sm1" style="width:18px;height:18px;background:#84cc1666;bottom:120px;left:60px;border-radius:50%"></div>
+        <div class="hero-blob hero-blob-sm2" style="width:14px;height:14px;background:#ec489966;bottom:100px;right:80px;border-radius:50%"></div>
 
         {{-- content --}}
         <div class="relative w-full max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 pt-28 pb-20 flex flex-col lg:grid lg:grid-cols-[1fr_360px] xl:grid-cols-[1fr_400px] lg:gap-20 lg:items-center">
@@ -37,25 +37,25 @@
             <div class="flex flex-col">
 
                 {{-- eyebrow --}}
-                <div class="lp-eyebrow mb-8">
+                <div class="lp-eyebrow mb-8 anim-fade-up" style="animation-delay:0s">
                     <span class="lp-dot"></span>
                     Your intranet is live &nbsp;🎉
                 </div>
 
                 {{-- headline --}}
-                <h1 class="lp-hero-h1 mb-7">
+                <h1 class="lp-hero-h1 mb-7 anim-fade-up" style="animation-delay:.15s">
                     <span class="block lp-word-base">Your pay</span>
                     <span class="block text-gradient-violet">You first</span>
                     {{-- <span class="block lp-word-base">Your wins.</span> --}}
                 </h1>
 
                 {{-- body --}}
-                <p class="lp-hero-body mb-10 max-w-md">
+                <p class="lp-hero-body mb-10 max-w-md anim-fade-up" style="animation-delay:.28s">
                     {{ config('app.name') }} is built for the team &mdash; see your payroll breakdown, track hours in real-time, and understand every incentive before payday. No guessing.
                 </p>
 
                 {{-- CTA --}}
-                <div class="flex flex-wrap items-center gap-4 mb-10">
+                <div class="flex flex-wrap items-center gap-4 mb-10 anim-fade-up" style="animation-delay:.4s">
                     @auth
                         <a href="{{ url($authUrl) }}" class="btn-primary inline-flex items-center gap-3 px-8 py-3.5 text-base font-bold">
                             Go to Dashboard <span class="btn-arrow">&rarr;</span>
@@ -71,7 +71,7 @@
                 </div>
 
                 {{-- inline feature tags --}}
-                <div class="flex flex-wrap items-center gap-x-5 gap-y-2">
+                <div class="flex flex-wrap items-center gap-x-5 gap-y-2 anim-fade-up" style="animation-delay:.52s">
                     @foreach([
                         ['✅', 'Real-time hours'],
                         ['💸', 'Pay clarity'],
@@ -84,10 +84,10 @@
             </div>
 
             {{-- RIGHT: KPI dashboard cards — desktop only --}}
-            <div class="hidden lg:flex flex-col gap-3">
+            <div class="hidden lg:flex flex-col gap-3 hero-kpi-panel">
 
                 {{-- Card 1: Hours --}}
-                <div class="hero-kpi-card">
+                <div class="hero-kpi-card anim-slide-right" style="animation-delay:.55s">
                     <div class="flex items-start justify-between mb-3">
                         <div>
                             <p class="hero-kpi-label">This period</p>
@@ -102,7 +102,7 @@
                 </div>
 
                 {{-- Card 2: Payroll --}}
-                <div class="hero-kpi-card" style="margin-left:1.5rem">
+                <div class="hero-kpi-card anim-slide-right" style="margin-left:1.5rem;animation-delay:.7s">
                     <div class="flex items-start justify-between">
                         <div>
                             <p class="hero-kpi-label">Payroll run</p>
@@ -113,7 +113,7 @@
                 </div>
 
                 {{-- Card 3: Team wins --}}
-                <div class="hero-kpi-card">
+                <div class="hero-kpi-card anim-slide-right" style="animation-delay:.85s">
                     <div class="flex items-start justify-between mb-4">
                         <div>
                             <p class="hero-kpi-label">Team wins this month</p>
@@ -159,71 +159,117 @@
     <section class="py-28 sm:py-36 px-4 sm:px-6 lg:px-8" id="features">
         <div class="max-w-7xl mx-auto">
 
+            {{-- Section header --}}
             <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-14">
                 <div>
-                    <p class="lp-section-label mb-2">What's inside</p>
+                    <p class="lp-section-label mb-3">What’s inside</p>
                     <h2 class="lp-section-h2">Built for <span class="text-gradient-violet">your shift</span></h2>
                 </div>
-                <p class="lp-section-sub max-w-xs">Every tool a BPO agent actually needs — and nothing they don't.</p>
+                <div class="flex flex-col items-start sm:items-end gap-2">
+                    <p class="lp-section-sub max-w-xs text-right hidden sm:block">Every tool a BPO agent actually needs — and nothing they don’t.</p>
+                    <div class="bento-feature-count">06 features</div>
+                </div>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
 
-                {{-- Large card: Hours --}}
-                <div class="bento-card lg:col-span-5 lg:row-span-2 group flex flex-col justify-between p-8 min-h-80">
-                    <div>
-                        <div class="bento-icon-wrap bg-violet-500/15 mb-6">⏱️</div>
-                        <h3 class="bento-title mb-3">Hours tracking</h3>
-                        <p class="bento-body">Real-time time logs with full edit history. Your hours, your records — always accurate and auditable.</p>
+                {{-- Card 1: Hours --}}
+                <div class="bento-card group flex flex-col p-8" style="--accent:#7c3aed">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="bento-icon-wrap bg-violet-500/15">⏱️</div>
+                        <span class="bento-live-badge"><span class="bento-live-dot"></span> Live</span>
                     </div>
-                    <div class="mt-8">
-                        <div class="flex items-end gap-1.5 h-10">
-                            @foreach([40,70,55,90,65,80,45,95,60,75] as $h)
-                                <div class="flex-1 rounded-sm" style="height:{{ $h }}%;background:linear-gradient(to top,#7c3aed,#a78bfa)"></div>
+                    <h3 class="bento-title mb-2">Hours tracking</h3>
+                    <p class="bento-body mb-8">Real-time logs with full edit history. Your hours, your records — always accurate and auditable.</p>
+                    <div class="mt-auto">
+                        <div class="flex items-end gap-1.5 h-10 mb-2">
+                            @foreach([[40,'M'],[70,'T'],[55,'W'],[90,'T'],[65,'F'],[80,'S'],[45,'S'],[95,'M'],[60,'T'],[75,'W']] as [$h, $day])
+                                <div class="flex-1 flex flex-col items-center gap-1">
+                                    <div class="w-full rounded-sm" style="height:{{ $h }}%;background:linear-gradient(to top,#7c3aed,#a78bfa)"></div>
+                                    <span class="bento-bar-day">{{ $day }}</span>
+                                </div>
                             @endforeach
                         </div>
-                        <p class="text-xs lp-text-subtle mt-2 font-semibold">This period · 124.5 hrs logged</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs lp-text-subtle font-semibold">124.5 hrs this period</span>
+                            <span class="bento-progress-pill" style="color:#7c3aed;background:rgba(124,58,237,.1)">+3.2%</span>
+                        </div>
                     </div>
                 </div>
 
-                {{-- Pay --}}
-                <div class="bento-card lg:col-span-4 group p-8">
+                {{-- Card 2: Pay transparency --}}
+                <div class="bento-card group flex flex-col p-8" style="--accent:#84cc16">
                     <div class="bento-icon-wrap bg-lime-500/15 mb-6">💸</div>
-                    <h3 class="bento-title mb-3">Pay transparency</h3>
-                    <p class="bento-body">See every component of your paycheck — base, incentives, deductions — before payday hits.</p>
-                </div>
-
-                {{-- Recognition --}}
-                <div class="bento-card lg:col-span-3 group p-8">
-                    <div class="bento-icon-wrap bg-pink-500/15 mb-6">🏆</div>
-                    <h3 class="bento-title mb-3">Fair recognition</h3>
-                    <p class="bento-body">Bonuses earned transparently. No black boxes, no surprises.</p>
-                </div>
-
-                {{-- Approvals --}}
-                <div class="bento-card lg:col-span-4 group p-8">
-                    <div class="bento-icon-wrap bg-orange-500/15 mb-6">📋</div>
-                    <h3 class="bento-title mb-3">Approval flow</h3>
-                    <p class="bento-body">Request edits, corrections, and time-off. Track every approval with full notes.</p>
-                </div>
-
-                {{-- Comms --}}
-                <div class="bento-card lg:col-span-3 group p-8">
-                    <div class="bento-icon-wrap bg-sky-500/15 mb-6">💬</div>
-                    <h3 class="bento-title mb-3">Team comms</h3>
-                    <p class="bento-body">Open channels that build culture and keep everyone aligned.</p>
-                </div>
-
-                {{-- Privacy wide --}}
-                <div class="bento-card lg:col-span-7 group p-8 flex flex-col sm:flex-row items-start gap-8">
-                    <div class="flex-1">
-                        <div class="bento-icon-wrap bg-teal-500/15 mb-6">🛡️</div>
-                        <h3 class="bento-title mb-3">Privacy &amp; security</h3>
-                        <p class="bento-body">Role-based access means only the right people see the right data. Full audit trails, always.</p>
+                    <h3 class="bento-title mb-2">Pay transparency</h3>
+                    <p class="bento-body mb-8">See every component of your paycheck — base, incentives, deductions — before payday hits.</p>
+                    <div class="mt-auto flex flex-col gap-3">
+                        @foreach([
+                            ['Base salary', 78, '#7c3aed'],
+                            ['Incentives',  45, '#84cc16'],
+                            ['Deductions',  18, '#ec4899'],
+                        ] as [$name, $w, $color])
+                            <div class="flex items-center gap-3">
+                                <span class="bento-pay-label">{{ $name }}</span>
+                                <div class="flex-1 h-1.5 rounded-full" style="background:var(--card-border)">
+                                    <div class="h-full rounded-full" style="width:{{ $w }}%;background:{{ $color }}"></div>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
-                    <div class="flex flex-col gap-2.5 text-sm font-semibold lp-text-subtle min-w-max">
-                        @foreach(['Role-based access', 'Audit trail', 'Encrypted at rest', 'Minimal data exposure', 'Your data, yours'] as $item)
-                            <div class="lp-check-item"><span class="text-teal-400 mr-2">✓</span>{{ $item }}</div>
+                </div>
+
+                {{-- Card 3: Recognition --}}
+                <div class="bento-card group flex flex-col p-8" style="--accent:#ec4899">
+                    <div class="bento-icon-wrap bg-pink-500/15 mb-6">🏆</div>
+                    <h3 class="bento-title mb-2">Fair recognition</h3>
+                    <p class="bento-body mb-8">Bonuses earned transparently. No black boxes, no surprises. Know exactly how you earned it.</p>
+                    <div class="mt-auto bento-award-row">
+                        <div class="bento-award-avatar">JR</div>
+                        <div>
+                            <p class="text-xs font-bold" style="color:var(--text-base)">Jordan R.</p>
+                            <p class="bento-pay-label">Top agent · Apr</p>
+                        </div>
+                        <span class="ml-auto bento-progress-pill" style="color:#f97316;background:rgba(249,115,22,.1)">★ 4.9</span>
+                    </div>
+                </div>
+
+                {{-- Card 4: Approvals --}}
+                <div class="bento-card group flex flex-col p-8" style="--accent:#f97316">
+                    <div class="bento-icon-wrap bg-orange-500/15 mb-6">📋</div>
+                    <h3 class="bento-title mb-2">Approval flow</h3>
+                    <p class="bento-body mb-8">Request edits, corrections, and time-off. Track every approval with clear notes from start to finish.</p>
+                    <div class="mt-auto flex flex-wrap items-center gap-1.5">
+                        <span class="bento-flow-step bento-flow-done">Submitted</span>
+                        <span class="bento-flow-arrow">→</span>
+                        <span class="bento-flow-step bento-flow-done">Reviewed</span>
+                        <span class="bento-flow-arrow">→</span>
+                        <span class="bento-flow-step bento-flow-active">✓ Approved</span>
+                    </div>
+                </div>
+
+                {{-- Card 5: Comms --}}
+                <div class="bento-card group flex flex-col p-8" style="--accent:#0ea5e9">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="bento-icon-wrap bg-sky-500/15">💬</div>
+                        <span class="bento-notif-badge">3 new</span>
+                    </div>
+                    <h3 class="bento-title mb-2">Team comms</h3>
+                    <p class="bento-body">Open channels that build culture and keep everyone aligned. No lost messages, no silos.</p>
+                </div>
+
+                {{-- Card 6: Privacy --}}
+                <div class="bento-card group flex flex-col p-8" style="--accent:#14b8a6">
+                    <div class="bento-icon-wrap bg-teal-500/15 mb-6">🛡️</div>
+                    <h3 class="bento-title mb-2">Privacy &amp; security</h3>
+                    <p class="bento-body mb-8">Role-based access ensures only the right people see the right data. Full audit trails, always.</p>
+                    <div class="mt-auto flex flex-wrap gap-2">
+                        @foreach([
+                            ['Role-based access', '#14b8a6'],
+                            ['Audit trail',       '#7c3aed'],
+                            ['Encrypted at rest', '#84cc16'],
+                            ['Min. exposure',     '#ec4899'],
+                        ] as [$item, $color])
+                            <span class="bento-privacy-pill" style="border-color:{{ $color }}33;color:{{ $color }};background:{{ $color }}12">{{ $item }}</span>
                         @endforeach
                     </div>
                 </div>
@@ -270,7 +316,7 @@
                     <div class="quote-author mt-6">
                         <div class="quote-avatar" style="background:linear-gradient(135deg,#ec4899,#f97316)">CL</div>
                         <div>
-                            <p class="quote-name">Camille L.</p>
+                            <p class="quote-name">Kamil L.</p>
                             <p class="quote-role">QA Analyst</p>
                         </div>
                     </div>

@@ -128,6 +128,58 @@
             }
             .glow-violet { animation: pulse-glow 3s ease-in-out infinite; }
 
+            /* ── Hero entrance ── */
+            @keyframes hero-fade-up {
+                from { opacity: 0; transform: translateY(28px); }
+                to   { opacity: 1; transform: translateY(0); }
+            }
+            @keyframes hero-slide-right {
+                from { opacity: 0; transform: translateX(40px); }
+                to   { opacity: 1; transform: translateX(0); }
+            }
+            /* ── Mesh entrance ── */
+            @keyframes mesh-enter {
+                from { opacity: 0; transform: scale(1.06); }
+                to   { opacity: 1; transform: scale(1); }
+            }
+            /* ── Blob drifts ── */
+            @keyframes blob-drift-lg {
+                0%,100% { transform: rotate(12deg) translate(0,0); }
+                30%     { transform: rotate(20deg) translate(8px,-12px); }
+                65%     { transform: rotate(5deg)  translate(-5px,9px); }
+            }
+            @keyframes blob-drift-sm {
+                0%,100% { transform: translate(0,0) scale(1); }
+                50%     { transform: translate(-6px,10px) scale(1.18); }
+            }
+            @keyframes blob-drift-sm2 {
+                0%,100% { transform: translate(0,0) scale(1); }
+                50%     { transform: translate(7px,-8px) scale(1.12); }
+            }
+            /* ── KPI panel depth float ── */
+            @keyframes panel-float {
+                0%,100% { transform: perspective(900px) rotateY(-1.5deg) translateY(0px); }
+                50%     { transform: perspective(900px) rotateY(-0.5deg) translateY(-8px); }
+            }
+            /* ── Progress bar grow ── */
+            @keyframes hero-bar-grow {
+                from { width: 0%; }
+            }
+            /* ── Scroll line pulse ── */
+            @keyframes scroll-pulse {
+                0%,100% { transform: scaleY(0.3); opacity: 0; }
+                50%     { transform: scaleY(1); opacity: 1; }
+            }
+            /* ── Entrance utilities ── */
+            .anim-fade-up     { animation: hero-fade-up    0.75s cubic-bezier(0.25,1,0.5,1) both; }
+            .anim-slide-right { animation: hero-slide-right 0.75s cubic-bezier(0.25,1,0.5,1) both; }
+            /* ── Blob animation classes ── */
+            .hero-blob-lg  { animation: blob-drift-lg   9s   ease-in-out infinite; }
+            .hero-blob-sm1 { animation: blob-drift-sm   6s   ease-in-out infinite; }
+            .hero-blob-sm2 { animation: blob-drift-sm2  7.5s ease-in-out 1s infinite; }
+            /* ── KPI panel continuous float ── */
+            .hero-kpi-panel { animation: panel-float 6s ease-in-out 0.5s infinite; will-change: transform; }
+
             /* ══════════════════════════════════════════════
                GRADIENTS
             ══════════════════════════════════════════════ */
@@ -189,6 +241,7 @@
                     radial-gradient(ellipse 70% 60% at 20% 40%, rgba(124,58,237,.18) 0%, transparent 70%),
                     radial-gradient(ellipse 50% 50% at 80% 70%, rgba(236,72,153,.12) 0%, transparent 65%),
                     radial-gradient(ellipse 40% 40% at 60% 10%, rgba(132,204,22,.08) 0%, transparent 60%);
+                animation: mesh-enter 1.8s cubic-bezier(0.25,1,0.5,1) both;
             }
             .dark .hero-mesh {
                 background:
@@ -415,6 +468,8 @@
                 width: 1px; height: 32px;
                 background: linear-gradient(to bottom, rgba(124,58,237,.6), transparent);
                 border-radius: 9999px;
+                animation: scroll-pulse 2.2s ease-in-out infinite;
+                transform-origin: top;
             }
 
             /* ══════════════════════════════════════════════
@@ -423,6 +478,7 @@
             .lp-ticker-wrap {
                 background: var(--strip-bg);
                 border-color: var(--strip-border);
+                animation: hero-bar-grow 1.4s cubic-bezier(0.25,1,0.5,1) 1s both;
             }
             .lp-ticker-text { color: var(--ticker-text); }
 
@@ -458,18 +514,33 @@
                 border: 1px solid var(--card-border);
                 border-radius: 20px;
                 backdrop-filter: blur(12px);
+                position: relative;
+                overflow: hidden;
                 transition: border-color .25s, transform .25s, box-shadow .25s;
             }
+            .bento-card::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                border-radius: 20px;
+                border-top: 2px solid transparent;
+                transition: border-color .25s;
+                pointer-events: none;
+            }
             .bento-card:hover {
-                border-color: rgba(124,58,237,.35);
+                border-color: color-mix(in srgb, var(--accent, #7c3aed) 35%, transparent);
                 transform: translateY(-3px);
-                box-shadow: 0 16px 40px rgba(124,58,237,.12);
+                box-shadow: 0 16px 48px color-mix(in srgb, var(--accent, #7c3aed) 12%, transparent);
+            }
+            .bento-card:hover::before {
+                border-top-color: color-mix(in srgb, var(--accent, #7c3aed) 60%, transparent);
             }
             .bento-icon-wrap {
                 width: 48px; height: 48px;
                 border-radius: 14px;
                 display: flex; align-items: center; justify-content: center;
                 font-size: 1.5rem;
+                flex-shrink: 0;
             }
             .bento-title {
                 font-family: 'Syne', sans-serif;
@@ -481,6 +552,125 @@
                 font-size: 0.85rem;
                 line-height: 1.65;
                 color: var(--text-muted);
+            }
+            /* Section header count badge */
+            .bento-feature-count {
+                font-size: 0.62rem;
+                font-weight: 800;
+                letter-spacing: 0.14em;
+                text-transform: uppercase;
+                color: var(--text-subtle);
+                border: 1px solid var(--card-border);
+                border-radius: 9999px;
+                padding: 5px 12px;
+                background: var(--card-bg);
+            }
+            /* LIVE badge inside hours card */
+            .bento-live-badge {
+                display: inline-flex;
+                align-items: center;
+                gap: 5px;
+                font-size: 0.62rem;
+                font-weight: 800;
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+                color: #16a34a;
+                background: rgba(22,163,74,.1);
+                border: 1px solid rgba(22,163,74,.2);
+                border-radius: 9999px;
+                padding: 4px 8px;
+            }
+            .bento-live-dot {
+                width: 6px; height: 6px;
+                border-radius: 50%;
+                background: #16a34a;
+                box-shadow: 0 0 5px #16a34a;
+                animation: pulse-glow 2s ease-in-out infinite;
+                display: inline-block;
+            }
+            /* Day labels below bar chart */
+            .bento-bar-day {
+                font-size: 0.5rem;
+                font-weight: 700;
+                letter-spacing: 0.04em;
+                color: var(--text-subtle);
+                text-transform: uppercase;
+            }
+            /* Small progress pill */
+            .bento-progress-pill {
+                font-size: 0.62rem;
+                font-weight: 700;
+                padding: 3px 8px;
+                border-radius: 9999px;
+            }
+            /* Pay breakdown label */
+            .bento-pay-label {
+                font-size: 0.65rem;
+                font-weight: 600;
+                color: var(--text-subtle);
+                white-space: nowrap;
+                min-width: 80px;
+            }
+            /* Recognition award row */
+            .bento-award-row {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                padding: 10px 12px;
+                border-radius: 12px;
+                border: 1px solid var(--card-border);
+                background: var(--bg-surface);
+            }
+            .bento-award-avatar {
+                width: 30px; height: 30px;
+                border-radius: 50%;
+                background: linear-gradient(135deg,#7c3aed,#ec4899);
+                display: flex; align-items: center; justify-content: center;
+                font-size: 0.6rem; font-weight: 800; color: white;
+                flex-shrink: 0;
+            }
+            /* Approval flow steps */
+            .bento-flow-step {
+                font-size: 0.62rem;
+                font-weight: 700;
+                padding: 4px 8px;
+                border-radius: 9999px;
+                border: 1px solid var(--card-border);
+                color: var(--text-subtle);
+                background: transparent;
+                white-space: nowrap;
+            }
+            .bento-flow-done {
+                color: #7c3aed;
+                border-color: rgba(124,58,237,.25);
+                background: rgba(124,58,237,.08);
+            }
+            .bento-flow-active {
+                color: #16a34a;
+                border-color: rgba(22,163,74,.3);
+                background: rgba(22,163,74,.1);
+            }
+            .bento-flow-arrow {
+                font-size: 0.6rem;
+                color: var(--text-subtle);
+            }
+            /* Comms notification badge */
+            .bento-notif-badge {
+                font-size: 0.62rem;
+                font-weight: 800;
+                padding: 4px 9px;
+                border-radius: 9999px;
+                color: #0ea5e9;
+                background: rgba(14,165,233,.12);
+                border: 1px solid rgba(14,165,233,.2);
+            }
+            /* Privacy pill badges */
+            .bento-privacy-pill {
+                font-size: 0.65rem;
+                font-weight: 700;
+                padding: 5px 10px;
+                border-radius: 9999px;
+                border: 1px solid;
             }
 
             /* ══════════════════════════════════════════════
