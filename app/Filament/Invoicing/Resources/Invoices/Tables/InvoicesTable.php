@@ -5,9 +5,13 @@ namespace App\Filament\Invoicing\Resources\Invoices\Tables;
 use App\Actions\Filament\Invoice\PayInvoiceAction;
 use App\Enums\InvoiceStatuses;
 use App\Models\Campaign;
+use App\Models\Invoice;
 use App\Models\InvoiceAgent;
 use App\Models\Project;
+use App\Services\GenerateInvoicePdfService;
 use App\Services\ModelListService;
+use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteBulkAction;
@@ -240,6 +244,23 @@ class InvoicesTable
                     ->stickyModalHeader()
                     ->stickyModalFooter()
                     ->closeModalByClickingAway(false),
+                ActionGroup::make([
+                    Action::make('downloadPdf')
+                        ->label(__('Download PDF'))
+                        ->icon('heroicon-o-arrow-down-tray')
+                        ->color(Color::Gray)
+                        ->action(fn (Invoice $record, GenerateInvoicePdfService $service) => $service->download($record)),
+                    Action::make('previewPdf')
+                        ->label(__('Preview PDF'))
+                        ->icon('heroicon-o-eye')
+                        ->color(Color::Blue)
+                        ->url(fn (Invoice $record): string => route('invoices.preview-pdf', $record))
+                        ->openUrlInNewTab(),
+                ])
+                    ->label('PDF')
+                    ->button()
+                    ->color(Color::Gray)
+                    ->size('sm'),
                 PayInvoiceAction::make(),
             ])
             ->recordActionsAlignment(Alignment::End->value)

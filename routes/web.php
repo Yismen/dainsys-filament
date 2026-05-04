@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\InvoicePdfPreviewController;
 use App\Livewire\ArticleShow;
 use App\Livewire\BlogIndex;
 use App\Livewire\MyMailingSubscriptions;
@@ -47,6 +48,9 @@ Route::livewire('/my-tickets-management', MyTicketsManagement::class)
     ->name('my-tickets-management');
 
 Route::middleware('auth')->group(function (): void {
+    Route::get('/invoices/{invoice}/preview-pdf', InvoicePdfPreviewController::class)
+        ->name('invoices.preview-pdf');
+
     Route::livewire('/blog', BlogIndex::class)->name('blog.index');
     Route::livewire('/blog/{article:slug}', ArticleShow::class)->name('blog.show');
 });

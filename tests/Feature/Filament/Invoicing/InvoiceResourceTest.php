@@ -7,6 +7,7 @@ use App\Models\InvoiceAgent;
 use App\Models\Item;
 use App\Models\Project;
 use App\Models\User;
+use App\Services\GenerateInvoicePdfService;
 use Carbon\Carbon;
 use Filament\Facades\Filament;
 use Filament\Forms\Components\Repeater;
@@ -177,4 +178,41 @@ it('opens create, view and edit invoice modals from list page', function (): voi
         ->assertOk()
         ->mountTableAction('edit', $invoice->getKey())
         ->assertOk();
+});
+
+it('downloads invoice pdf from table action', function (): void {
+    $invoice = Invoice::factory()->create([
+        'items' => [
+            [
+                'name' => 'Design Service',
+                'quantity' => 2,
+                'price' => 250.5,
+            ],
+        ],
+        'status' => 'pending',
+    ]);
+
+    actingAs($this->createUserWithPermissionTo('view-any Invoice'));
+
+    livewire(ManageInvoices::class)
+        ->callTableAction('downloadPdf', $invoice->getKey())
+        ->assertFileDownloaded("invoice-{$invoice->number}.pdf");
+});
+
+it('streams invoice pdf for preview from service', function (): void {
+    $invoice = Invoice::factory()->create([
+        'items' => [
+            [
+                'name' => 'Consulting',
+                'quantity' => 1,
+                'price' => 125.75,
+            ],
+        ],
+        'status' => 'pending',
+    ]);
+
+    $response = app(GenerateInvoicePdfService::class)->preview($invoice);
+
+    expect($response->headers->get('content-type'))->toContain('application/pdf')
+        ->and($response->headers->get('content-disposition'))->toContain('inline');
 });
