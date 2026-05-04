@@ -161,7 +161,7 @@ class EmployeeInfolist
                     ->label(__('filament.site')),
                 TextEntry::make('project.name')
                     ->label(__('filament.project')),
-                TextEntry::make('position.name')
+                TextEntry::make('position.details')
                     ->label(__('filament.position')),
                 TextEntry::make('supervisor.name')
                     ->label(__('filament.supervisor')),
@@ -246,7 +246,7 @@ class EmployeeInfolist
                             ->label(__('filament.site')),
                         TextEntry::make('project.name')
                             ->label(__('filament.project')),
-                        TextEntry::make('position.name')
+                        TextEntry::make('position.details')
                             ->label(__('filament.position')),
                         TextEntry::make('supervisor.name')
                             ->label(__('filament.supervisor')),

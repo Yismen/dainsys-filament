@@ -51,7 +51,7 @@ class EmployeeInfolist
                             ->label('Site'),
                         TextEntry::make('project.name')
                             ->label('Project'),
-                        TextEntry::make('position.name')
+                        TextEntry::make('position.details')
                             ->label('Position'),
                         TextEntry::make('supervisor.name')
                             ->label('Supervisor'),

@@ -38,7 +38,7 @@ class JobOpeningsTable
                     ->wrap()
                     ->badge()
                     ->sortable(),
-                TextColumn::make('position.name')
+                TextColumn::make('position.details')
                     ->label(__('filament.position'))
                     ->wrap()
                     ->placeholder('-')

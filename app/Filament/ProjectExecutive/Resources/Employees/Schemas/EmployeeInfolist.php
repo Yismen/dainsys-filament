@@ -33,7 +33,7 @@ class EmployeeInfolist
                 TextEntry::make('project.name')
                     ->label('Project')
                     ->placeholder('-'),
-                TextEntry::make('position.name')
+                TextEntry::make('position.details')
                     ->label('Position')
                     ->placeholder('-'),
                 TextEntry::make('site.name')

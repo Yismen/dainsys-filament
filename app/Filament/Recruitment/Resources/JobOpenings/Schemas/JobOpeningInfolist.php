@@ -14,7 +14,7 @@ class JobOpeningInfolist
             TextEntry::make('status')
                 ->label(__('filament.status'))
                 ->badge(),
-            TextEntry::make('position.name')
+            TextEntry::make('position.details')
                 ->label(__('filament.position'))
                 ->placeholder('-'),
             TextEntry::make('department.name')

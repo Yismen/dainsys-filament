@@ -36,7 +36,7 @@ class EmployeesTable
                     ->searchable()
                     ->sortable()
                     ->wrap(),
-                TextColumn::make('position.name')
+                TextColumn::make('position.details')
                     ->label(__('filament.position'))
                     ->searchable()
                     ->sortable()

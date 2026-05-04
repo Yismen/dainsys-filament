@@ -51,7 +51,7 @@ class HiresTable
                     ->sortable()
                     ->wrap()
                     ->searchable(),
-                TextColumn::make('position.name')
+                TextColumn::make('position.details')
                     ->label(__('filament.position'))
                     ->sortable()
                     ->wrap()
