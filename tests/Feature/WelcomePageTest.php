@@ -7,14 +7,14 @@ it('displays welcome page for unauthenticated users', function (): void {
 
     $response->assertSuccessful();
     $response->assertSee(''.config('app.name'));
-    $response->assertSee('Get Started');
+    $response->assertSee('Sign in');
 });
 
 it('displays login and register links for unauthenticated users', function (): void {
     $response = $this->get('/');
 
     $response->assertSuccessful();
-    $response->assertSee('Login');
+    $response->assertSee('Sign in');
     $response->assertViewHas('__env');
 });
 
