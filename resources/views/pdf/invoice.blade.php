@@ -6,7 +6,7 @@
     <style>
         @page {
             size: A4 portrait;
-            margin: 20mm;
+            margin: 14mm;
         }
 
         * {
@@ -63,13 +63,13 @@
         }
 
         .brand-logo {
-            width: 56px;
-            padding-right: 8px;
+            width: 80px;
+            padding-right: 10px;
             vertical-align: top;
         }
 
         .brand-logo img {
-            width: 50px;
+            width: 70px;
             height: auto;
             display: block;
             margin-top: 2px;
@@ -77,32 +77,32 @@
 
         .company-name {
             margin: 0;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 700;
             color: #3f3f3f;
             line-height: 1.1;
         }
 
         .company-address {
-            margin-top: 2px;
+            margin-top: 3px;
             white-space: pre-line;
             color: #3f3f3f;
-            font-size: 12px;
-            line-height: 1.15;
+            font-size: 11px;
+            line-height: 1.3;
         }
 
         .title {
             margin: 0;
-            font-size: 26px;
+            font-size: 38px;
             font-weight: 700;
-            letter-spacing: 0.2px;
+            letter-spacing: 0.5px;
             line-height: 1;
             color: #35373a;
         }
 
         .status-text {
-            margin-top: 4px;
-            font-size: 16px;
+            margin-top: 6px;
+            font-size: 20px;
             font-weight: 700;
             color: #c97e00;
             text-transform: uppercase;
@@ -112,7 +112,7 @@
         }
 
         .section-gap {
-            height: 8px;
+            height: 16px;
         }
 
         .bill-meta td {
@@ -129,8 +129,8 @@
             display: inline-block;
             background: #c47d00;
             color: #fff;
-            padding: 5px 8px;
-            min-width: 140px;
+            padding: 6px 12px;
+            min-width: 120px;
             font-size: 12px;
             font-weight: 700;
             line-height: 1;
@@ -138,10 +138,10 @@
         }
 
         .bill-to-content {
-            margin-top: 7px;
+            margin-top: 10px;
             color: #3f3f3f;
             font-size: 12px;
-            line-height: 1.28;
+            line-height: 1.4;
             white-space: pre-line;
             overflow-wrap: anywhere;
         }
@@ -158,7 +158,7 @@
         .meta-line {
             font-size: 12px;
             color: #3f3f3f;
-            line-height: 1.22;
+            line-height: 1.5;
             overflow-wrap: anywhere;
             word-break: break-word;
         }
@@ -168,16 +168,16 @@
         }
 
         .items {
-            margin-top: 8px;
+            margin-top: 16px;
         }
 
         .items th,
         .items td {
             border: 1px solid #d0d0d0;
-            padding: 6px 7px;
+            padding: 9px 10px;
             font-size: 11px;
             color: #3f3f3f;
-            line-height: 1.2;
+            line-height: 1.3;
         }
 
         .items th {
@@ -214,7 +214,7 @@
         }
 
         .total-row td {
-            background: #e0e0e0;
+            background: #ebebeb;
             font-weight: 700;
             font-size: 12px;
         }
@@ -229,29 +229,30 @@
         }
 
         .footer {
-            margin-top: 11px;
+            margin-top: 20px;
         }
 
         .thank-you {
-            font-size: 10px;
-            color: #777;
+            font-size: 11px;
+            color: #888;
         }
 
         .terms {
-            margin-top: 8px;
-            font-size: 10px;
-            color: #777;
+            margin-top: 10px;
+            font-size: 11px;
+            color: #555;
         }
 
         .terms .label,
         .wire .label {
             font-weight: 700;
+            color: #3f3f3f;
         }
 
         .wire {
-            margin-top: 6px;
-            font-size: 10px;
-            color: #777;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #555;
             white-space: pre-line;
             overflow-wrap: anywhere;
         }
@@ -418,7 +419,7 @@
 
                     <div class="wire"><span class="label">Wire Payment Info:</span>
 {{ $bankName }}
-Routing: {{ $bankRouting }} - Account: {{ $bankAccount }} - Wire: {{ $bankWire }}</div>
+Routing: {{ $bankRouting }} &ndash; Account: {{ $bankAccount }} &ndash; Wire: {{ $bankWire }}</div>
                 </td>
             </tr>
         </table>
