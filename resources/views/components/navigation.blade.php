@@ -67,8 +67,8 @@
                             type="submit"
                             class="p-2 rounded-full transition-all duration-200 hover:text-red-500 hover:bg-red-500/8"
                             style="color:var(--text-subtle)"
-                            aria-label="Sign out"
-                            title="Sign out"
+                            aria-label="Log out"
+                            title="Log out"
                         >
                             <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h6a2 2 0 012 2v1"/>
