@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
     'person_of_contact',
     'phone',
     'email',
+    'address',
     'website',
     'description',
     'invoice_template',

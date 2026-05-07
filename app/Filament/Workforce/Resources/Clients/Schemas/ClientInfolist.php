@@ -22,6 +22,9 @@ class ClientInfolist
                     ->placeholder('-'),
                 TextEntry::make('email')
                     ->placeholder('-'),
+                TextEntry::make('address')
+                    ->placeholder('-')
+                    ->columnSpanFull(),
                 TextEntry::make('website')
                     ->placeholder('-'),
                 TextEntry::make('description')

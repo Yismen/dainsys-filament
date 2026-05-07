@@ -20,6 +20,8 @@ class ClientSchema
                 ->tel(),
             TextInput::make('email')
                 ->email(),
+            TextInput::make('address')
+                ->columnSpanFull(),
             TextInput::make('website')
                 ->url(),
             Textarea::make('description')

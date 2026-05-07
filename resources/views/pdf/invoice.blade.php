@@ -6,7 +6,7 @@
     <style>
         @page {
             size: A4 portrait;
-            margin: 14mm;
+            margin: 0;
         }
 
         * {
@@ -15,10 +15,9 @@
 
         body {
             margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            font-size: 11px;
-            color: #3f3f3f;
-            line-height: 1.22;
+            padding: 90px;
+            font-family: Arial, sans-serif;
+            color: #333;
             background: #ffffff;
         }
 
@@ -31,69 +30,79 @@
             width: 100%;
         }
 
-        .header,
-        .bill-meta,
-        .items,
-        .footer {
-            width: 100%;
-            border-collapse: collapse;
-            table-layout: fixed;
+        .invoice-header {
+            margin-bottom: 20px;
         }
 
-        .header td {
-            vertical-align: top;
-            padding: 0;
+        .invoice-meta {
+            margin-top: 12px;
+            margin-left: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .invoice-meta-content {
+            padding: 8px;
+            display: inline-block;
+            text-align: left;
         }
 
         .brand {
-            width: 54%;
-            padding-top: 4px;
+            flex: 1 1 0;
+            display: flex;
+            align-items: start;
         }
 
         .title-block {
-            width: 46%;
+            /* width: 30%; */
             text-align: right;
-            padding-top: 2px;
         }
 
         .brand-inner {
-            width: 100%;
-            border-collapse: collapse;
-            table-layout: fixed;
+            display: flex;
+            align-items: flex-start;
         }
 
         .brand-logo {
             width: 80px;
-            padding-right: 10px;
-            vertical-align: top;
+            flex-shrink: 0;
         }
 
         .brand-logo img {
-            width: 70px;
+            width: 80px;
             height: auto;
             display: block;
-            margin-top: 2px;
+            margin: 0;
+            padding: 0;
+            margin-bottom: 10px;
+        }
+
+        .brand-company {
+            flex: 1 1 0;
+            vertical-align: top;
+            margin-top: 0;
         }
 
         .company-name {
             margin: 0;
-            font-size: 14px;
+            font-size: 1.25rem;
             font-weight: 700;
-            color: #3f3f3f;
+            color: #333;
             line-height: 1.1;
         }
 
         .company-address {
-            margin-top: 3px;
+            margin-top: 4px;
             white-space: pre-line;
             color: #3f3f3f;
-            font-size: 11px;
+            font-size: 0.9rem;
             line-height: 1.3;
         }
 
         .title {
             margin: 0;
-            font-size: 38px;
+            font-size: 2rem;
             font-weight: 700;
             letter-spacing: 0.5px;
             line-height: 1;
@@ -102,11 +111,11 @@
 
         .status-text {
             margin-top: 6px;
-            font-size: 20px;
+            font-size: 1.2em;
             font-weight: 700;
-            color: #c97e00;
+            color: {{ $invoice->status?->getTextColor() }};
             text-transform: uppercase;
-            line-height: 1.08;
+            line-height: 1.2;
             overflow-wrap: anywhere;
             word-break: break-word;
         }
@@ -115,9 +124,22 @@
             height: 16px;
         }
 
-        .bill-meta td {
+        .billing {
+            width: 100%;
+            margin-bottom: 20px;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        .billing td {
             vertical-align: top;
             padding: 0;
+        }
+
+        .billing p,
+        .info p,
+        .dates p {
+            margin: 4px 0;
         }
 
         .bill-to {
@@ -125,29 +147,31 @@
             padding-right: 8px;
         }
 
-        .bill-to-label {
+        .bill-to-label,
+        .box-header {
             display: inline-block;
-            background: #c47d00;
+            background-color: rgb(191, 115, 0);
             color: #fff;
-            padding: 6px 12px;
-            min-width: 120px;
-            font-size: 12px;
+            padding: 8px;
+            font-size: 0.9rem;
             font-weight: 700;
             line-height: 1;
             text-transform: uppercase;
+            margin: 0;
+            width: 60%;
         }
 
         .bill-to-content {
-            margin-top: 10px;
             color: #3f3f3f;
-            font-size: 12px;
-            line-height: 1.4;
-            white-space: pre-line;
-            overflow-wrap: anywhere;
+            font-size: 0.95rem;
+            margin: 0;
+            padding: 10px 0;
         }
 
         .bill-to-client {
             font-weight: 700;
+            margin: 0;
+            padding: 0;
         }
 
         .meta {
@@ -156,11 +180,12 @@
         }
 
         .meta-line {
-            font-size: 12px;
+            font-size: 0.95rem;
             color: #3f3f3f;
-            line-height: 1.5;
+            /* line-height: 1.5; */
             overflow-wrap: anywhere;
             word-break: break-word;
+            /* margin-bottom: 4px; */
         }
 
         .meta-label {
@@ -168,97 +193,103 @@
         }
 
         .items {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
             margin-top: 16px;
         }
 
-        .items th,
-        .items td {
-            border: 1px solid #d0d0d0;
-            padding: 9px 10px;
-            font-size: 11px;
-            color: #3f3f3f;
-            line-height: 1.3;
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
         }
 
-        .items th {
-            background: #c47d00;
-            color: #fff;
+        table.products th,
+        table.products td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        table.products td {
+            text-align: right;
+            font-size: 0.9rem;
+        }
+
+        table th {
+            background-color: #f2f2f2;
+        }
+
+        table.products tr.table-header > th {
+            font-weight: bold;
             text-transform: uppercase;
-            font-weight: 700;
-            text-align: center;
-            letter-spacing: 0;
-            white-space: nowrap;
+            background-color: rgb(191, 115, 0);
+            color: white;
+            margin: 0;
         }
 
-        .items .description {
-            width: 36%;
+        table td.description {
             text-align: left;
         }
 
-        .items .qty {
-            width: 12%;
+        .total {
             text-align: right;
-            white-space: nowrap;
+            font-weight: bold;
         }
 
-        .items .unit {
-            width: 26%;
-            text-align: right;
-            white-space: nowrap;
+        .items .description {
+            text-align: left;
         }
 
+        .items .qty,
+        .items .unit,
         .items .amount {
-            width: 26%;
-            text-align: right;
             white-space: nowrap;
         }
 
         .total-row td {
-            background: #ebebeb;
-            font-weight: 700;
-            font-size: 12px;
+            background: #f2f2f2;
+            font-weight: bold;
+            font-size: 0.95rem;
         }
 
-        .total-label {
-            text-align: right;
-        }
-
+        .total-label,
         .total-value {
             text-align: right;
-            white-space: nowrap;
         }
 
         .footer {
-            margin-top: 20px;
-        }
-
-        .thank-you {
-            font-size: 11px;
-            color: #888;
+            font-size: 0.9em;
+            color: #777;
+            margin-top: 30px;
         }
 
         .terms {
             margin-top: 10px;
-            font-size: 11px;
-            color: #555;
         }
 
-        .terms .label,
-        .wire .label {
-            font-weight: 700;
-            color: #3f3f3f;
+        .text-right {
+            text-align: right;
         }
 
-        .wire {
-            margin-top: 8px;
-            font-size: 11px;
-            color: #555;
-            white-space: pre-line;
-            overflow-wrap: anywhere;
+        .text-center {
+            text-align: center;
+        }
+
+        .text-blue {
+            color: #007bff;
+        }
+
+        .text-red {
+            color: #dc3545;
+        }
+
+        .cool-gray {
+            color: #6c757d;
         }
 
         .muted {
-            color: #8a8a8a;
+            color: #6c757d;
         }
     </style>
 </head>
@@ -321,60 +352,63 @@
 
 <div class="page">
     <div class="invoice">
-        <table class="header">
-            <tr>
+        <table>
+            <tr class="invoice-header">
                 <td class="brand">
-                    <table class="brand-inner">
-                        <tr>
-                            <td class="brand-logo">
-                                @if ($logoPath)
-                                    <img src="{{ $logoPath }}" alt="Ecco logo">
-                                @endif
-                            </td>
-                            <td>
-                                <div class="company-name">Ecco Outsourcing Group</div>
-                                <div class="company-address">{{ $companyAddress }}</div>
-                            </td>
-                        </tr>
-                    </table>
+                    <div class="brand-inner">
+                        <div class="brand-logo">
+                            @if ($logoPath)
+                                <img src="{{ $logoPath }}" alt="Ecco logo">
+                            @endif
+                        </div>
+                        <div class="brand-company">
+                            <div class="company-name">Ecco Outsourcing Group</div>
+                            <div class="company-address">{{ $companyAddress }}</div>
+                        </div>
+                    </div>
                 </td>
-                <td class="title-block">
-                    <div class="title">INVOICE</div>
-                    <div class="status-text">{{ $statusText }}</div>
+                <td>
+                    <div class="title-block">
+                        <div class="title">INVOICE</div>
+                        <div class="status-text">{{ $statusText }}</div>
+                        <div class="invoice-meta">
+                            <div class="invoice-meta-content">
+                                <div class="meta-line"><span class="meta-label">Invoice #:</span> {{ $invoice->number ?? '-' }}</div>
+                                <div class="meta-line"><span class="meta-label">Invoice Date:</span> {{ $invoiceDate }}</div>
+                                <div class="meta-line"><span class="meta-label">File Sent At:</span> {{ $fileSentAt }}</div>
+                                <div class="meta-line"><span class="meta-label">Publication:</span> {{ $publication }}</div>
+                            </div>
+                        </div>
+                    </div>
                 </td>
             </tr>
         </table>
 
         <div class="section-gap"></div>
 
-        <table class="bill-meta">
+        <table class="billing">
             <tr>
                 <td class="bill-to">
-                    <div class="bill-to-label">BILL TO:</div>
+                    <div class="bill-to-label box-header">BILL TO:</div>
                     <div class="bill-to-content">
                         @if (filled($billContact))
                             {{ $billContact }}
                             <br>
                         @endif
                         <span class="bill-to-client">{{ $billClient }}</span>
+
                         @if ($billAddress !== '')
                             <br>
-                            {{ $billAddress }}
+                            {!! nl2br(e($billAddress)) !!}
                         @endif
                     </div>
-                </td>
-                <td class="meta">
-                    <div class="meta-line"><span class="meta-label">Invoice #:</span> {{ $invoice->number ?? '-' }}</div>
-                    <div class="meta-line"><span class="meta-label">Invoice Date:</span> {{ $invoiceDate }}</div>
-                    <div class="meta-line"><span class="meta-label">File Sent At:</span> {{ $fileSentAt }}</div>
-                    <div class="meta-line"><span class="meta-label">Publication:</span> {{ $publication }}</div>
                 </td>
             </tr>
         </table>
 
-        <table class="items">
+        <table class="items products">
             <thead>
-                <tr>
+                <tr class="table-header">
                     <th class="description">DESCRIPTION</th>
                     <th class="qty">QTY</th>
                     <th class="unit">UNIT PRICE</th>

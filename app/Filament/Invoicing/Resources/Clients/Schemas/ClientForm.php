@@ -4,6 +4,7 @@ namespace App\Filament\Invoicing\Resources\Clients\Schemas;
 
 use App\Services\InvoiceTemplatesService;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 
@@ -32,6 +33,19 @@ class ClientForm
                     ->label(__('Project field name'))
                     ->required()
                     ->maxLength(255),
+                TextInput::make('person_of_contact')
+                    ->label(__('Person of contact'))
+                    ->maxLength(500),
+                TextInput::make('phone')
+                    ->label(__('Phone'))
+                    ->tel(),
+                TextInput::make('email')
+                    ->label(__('Email'))
+                    ->email(),
+                Textarea::make('address')
+                    ->label(__('Address'))
+                    ->rows(4)
+                    ->columnSpanFull(),
             ]);
     }
 }
