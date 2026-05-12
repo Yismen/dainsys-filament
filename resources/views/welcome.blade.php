@@ -87,7 +87,7 @@
             <div class="hidden lg:flex flex-col gap-3 hero-kpi-panel">
 
                 {{-- Card 1: Hours --}}
-                <div class="hero-kpi-card anim-slide-right" style="animation-delay:.55s">
+                <div class="hero-kpi-card " style="animation-delay:.55s">
                     <div class="flex items-start justify-between mb-3">
                         <div>
                             <p class="hero-kpi-label">This period</p>
@@ -102,7 +102,7 @@
                 </div>
 
                 {{-- Card 2: Payroll --}}
-                <div class="hero-kpi-card anim-slide-right" style="margin-left:1.5rem;animation-delay:.7s">
+                <div class="hero-kpi-card " style="margin-left:1.5rem;animation-delay:.7s">
                     <div class="flex items-start justify-between">
                         <div>
                             <p class="hero-kpi-label">Payroll run</p>
@@ -113,7 +113,7 @@
                 </div>
 
                 {{-- Card 3: Team wins --}}
-                <div class="hero-kpi-card anim-slide-right" style="animation-delay:.85s">
+                <div class="hero-kpi-card " style="animation-delay:.85s">
                     <div class="flex items-start justify-between mb-4">
                         <div>
                             <p class="hero-kpi-label">Team wins this month</p>
@@ -383,3 +383,28 @@
 
 
 @endsection
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const cards = document.querySelectorAll('.hero-kpi-card');
+
+    cards.forEach(card => {
+        card.addEventListener('mousemove', function(e) {
+            const rect = card.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            const mouseX = e.clientX - centerX;
+            const mouseY = e.clientY - centerY;
+
+            const rotateX = (mouseY / (rect.height / 2)) * -10; // Adjust sensitivity
+            const rotateY = (mouseX / (rect.width / 2)) * 10;
+
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+
+        card.addEventListener('mouseleave', function() {
+            card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+        });
+    });
+});
+</script>
