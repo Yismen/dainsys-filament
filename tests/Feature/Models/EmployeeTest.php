@@ -209,14 +209,15 @@ it('sets status to Suspended when employee is suspended', function (): void {
 });
 
 it('sets status as Terminated when employee is terminated', function (): void {
+    $date = now();
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create(['date' => now()->subDays(10)]);
-    Termination::factory()->for($employee)->create(['date' => now()]);
+    Termination::factory()->for($employee)->create(['date' => $date]);
 
     $employee->refresh();
 
     $this->assertEquals($employee->status, EmployeeStatuses::Terminated);
-    $this->assertEquals($employee->terminated_at->toDateTimeString(), now()->toDateTimeString());
+    $this->assertEquals($employee->terminated_at->toDateTimeString(), $date->toDateTimeString());
 });
 
 it('applies scope for activesOrRecentlyTerminated', function (): void {
