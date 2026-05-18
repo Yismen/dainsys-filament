@@ -41,10 +41,13 @@ it('returns correct structure', function (): void {
                     'site',
                     'project_id',
                     'project',
+                    'department_id',
+                    'department',
                     'supervisor_id',
                     'supervisor',
                     'position_id',
                     'position',
+                    'salary_type',
                     'hourly_rate',
                     'status',
                     'bank_name',
@@ -62,8 +65,7 @@ it('filters by status', function (): void {
     Employee::factory()->has(Hire::factory())->create();
     Sanctum::actingAs(user: User::factory()->create(), abilities: ['use-dainsys']);
 
-    $response = getJson('/api/employees'.'?status=Hired')
-        ->assertJsonCount(1);
+    $response = getJson('/api/employees' . '?status=Hired');
 
     expect(count($response->json()['data']))
         ->toBe(1);

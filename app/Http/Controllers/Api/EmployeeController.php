@@ -29,7 +29,9 @@ class EmployeeController extends Controller
                     ->orderBy('full_name')
                     ->with([
                         'project:id,name',
-                        'position:id,name,salary_type,salary',
+                        'position:id,name,salary_type,salary,department_id' => [
+                            'department:id,name',
+                        ],
                         'supervisor:id,name',
                         'site:id,name',
                         'universal:employee_id',
