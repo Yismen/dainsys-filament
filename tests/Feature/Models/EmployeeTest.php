@@ -216,7 +216,7 @@ it('sets status as Terminated when employee is terminated', function (): void {
     $employee->refresh();
 
     $this->assertEquals($employee->status, EmployeeStatuses::Terminated);
-    $this->assertEquals($employee->terminated_at, now()->toDateTimeString());
+    $this->assertEquals($employee->terminated_at->toDateTimeString(), now()->toDateTimeString());
 });
 
 it('applies scope for activesOrRecentlyTerminated', function (): void {
@@ -226,6 +226,5 @@ it('applies scope for activesOrRecentlyTerminated', function (): void {
 
     $this->assertEquals(Employee::count(), 1);
     $this->assertEquals(Employee::activesOrRecentlyTerminated()->count(), 0);
-    // $this->assertEquals($employee->terminated_at, now());
 
 });
