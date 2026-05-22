@@ -84,7 +84,7 @@ class User extends Authenticatable implements FilamentUser
         }
 
         if ($panel_id === 'supervisor') {
-            return Gate::allows('isActiveSupervisor');
+            return Gate::allows('isActiveSupervisor') || Auth::user()->can('interactsWithSupervisor');
         }
 
         if ($panel_id === 'employee') {
@@ -109,6 +109,10 @@ class User extends Authenticatable implements FilamentUser
 
         if ($panel_id === 'invoicing') {
             return Gate::allows('interactsWithInvoicing');
+        }
+
+        if ($panel_id === 'recruitment') {
+            return Gate::allows('interactsWithRecruitment');
         }
 
         return true;

@@ -104,10 +104,24 @@ class AuthServiceProvider extends ServiceProvider
             return $user->supervisor()->where('is_active', true)->exists();
         });
 
+        Gate::define('interactsWithSupervisor', function (User $user) {
+            return $user->hasAnyRole([
+                'Supervisor Manager',
+                'Supervisor Agent',
+            ]);
+        });
+
         Gate::define('interactsWithBlog', function (User $user) {
             return $user->hasAnyRole([
                 'Blog Manager',
                 'Blog Editor',
+            ]);
+        });
+
+        Gate::define('interactsWithRecruitment', function (User $user) {
+            return $user->hasAnyRole([
+                'Recruitment Manager',
+                'Recruitment Agent',
             ]);
         });
 
