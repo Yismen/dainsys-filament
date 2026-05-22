@@ -8,6 +8,7 @@ use App\Filament\Admin\Resources\Roles\Pages\CreateRole;
 use App\Filament\Admin\Resources\Roles\Pages\EditRole;
 use App\Filament\Admin\Resources\Roles\Pages\ListRoles;
 use App\Filament\Admin\Resources\Roles\Pages\ViewRole;
+use BezhanSalleh\FilamentShield\Facades\FilamentShield;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use BezhanSalleh\FilamentShield\Support\Utils;
 use BezhanSalleh\FilamentShield\Traits\HasShieldFormComponents;
@@ -26,11 +27,13 @@ use Filament\Schemas\Components\Component;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Filament\Widgets\WidgetConfiguration;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Unique;
@@ -52,6 +55,7 @@ class RoleResource extends Resource
         return $schema
             ->components([
                 Grid::make()
+                    ->visible(fn (Get $get): bool => ! filled($get('permission_panel')) && $get('permission_assignment') === 'all')
                     ->schema([
                         Section::make()
                             ->schema([
@@ -88,6 +92,34 @@ class RoleResource extends Resource
                             ->columnSpanFull(),
                     ])
                     ->columnSpanFull(),
+                Grid::make()
+                    ->schema([
+                        Select::make('permission_panel')
+                            ->label(__('Panel'))
+                            ->options(static::getPermissionPanelOptions())
+                            ->searchable()
+                            ->placeholder(__('All panels'))
+                            ->live()
+                            ->reactive()
+                            ->dehydrated(false),
+
+                        Select::make('permission_assignment')
+                            ->label(__('Permission assignment'))
+                            ->options([
+                                'all' => __('All permissions'),
+                                'assigned' => __('Assigned'),
+                                'unassigned' => __('Unassigned'),
+                            ])
+                            ->default('all')
+                            ->live()
+                            ->reactive()
+                            ->dehydrated(false),
+                    ])
+                    ->columns([
+                        'sm' => 2,
+                        'lg' => 2,
+                    ])
+                    ->columnSpanFull(),
                 static::getShieldFormComponents(),
             ]);
     }
@@ -111,7 +143,12 @@ class RoleResource extends Resource
     {
         return CheckboxList::make($name)
             ->label(fn () => str($name)->after('App\Filament\\'))
-            ->options(fn (): array => $options)
+            ->options(fn (Get $get): array => static::filterCheckboxListOptions(
+                $options,
+                $get('permission_panel'),
+                $get('permission_assignment'),
+                $get($name)
+            ))
             ->searchable($searchable)
             ->afterStateHydrated(function (Component $component, string $operation, ?Model $record, Set $set) use ($options): void {
                 static::setPermissionStateForRecordPermissions(
@@ -154,6 +191,92 @@ class RoleResource extends Resource
             ->gridDirection('row')
             ->columns($columns ?? static::shield()->getCheckboxListColumns())
             ->columnSpan($columnSpan ?? static::shield()->getCheckboxListColumnSpan());
+    }
+
+    protected static function filterCheckboxListOptions(array $options, ?string $panel, ?string $assignment, string|array|null $state): array
+    {
+        $panel = filled($panel) ? $panel : null;
+        $assignment = filled($assignment) ? $assignment : 'all';
+
+        $options = $panel ? static::filterPermissionOptionsByPanel($options, $panel) : $options;
+
+        if ($assignment === 'assigned') {
+            return static::filterPermissionOptionsByAssignment($options, static::normalizeCheckboxState($state), true);
+        }
+
+        if ($assignment === 'unassigned') {
+            return static::filterPermissionOptionsByAssignment($options, static::normalizeCheckboxState($state), false);
+        }
+
+        return $options;
+    }
+
+    protected static function normalizeCheckboxState(string|array|null $state): array
+    {
+        if (is_string($state)) {
+            return [$state];
+        }
+
+        return array_filter((array) $state);
+    }
+
+    protected static function filterPermissionOptionsByAssignment(array $options, array $selectedPermissionKeys, bool $assigned): array
+    {
+        if ($selectedPermissionKeys === []) {
+            return $assigned ? [] : $options;
+        }
+
+        return array_filter($options, function (mixed $label, string $permissionKey) use ($selectedPermissionKeys, $assigned): bool {
+            return in_array($permissionKey, $selectedPermissionKeys, true) === $assigned;
+        }, ARRAY_FILTER_USE_BOTH);
+    }
+
+    protected static function filterPermissionOptionsByPanel(array $options, string $panel): array
+    {
+        if (blank($panel)) {
+            return $options;
+        }
+
+        $permissionKeys = static::getPermissionKeysForPanel($panel);
+
+        return array_filter($options, function (mixed $label, string $permissionKey) use ($permissionKeys): bool {
+            return in_array($permissionKey, $permissionKeys, true);
+        }, ARRAY_FILTER_USE_BOTH);
+    }
+
+    protected static function getPermissionKeysForPanel(string $panel): array
+    {
+        $panel = Filament::getPanel($panel, false);
+
+        if (! $panel) {
+            return [];
+        }
+
+        $resourcePermissionKeys = collect($panel->getResources())
+            ->flatMap(fn (string $resource): array => array_keys(FilamentShield::getResourcePermissionsWithLabels($resource) ?? []))
+            ->toArray();
+
+        $pagePermissionKeys = collect($panel->getPages())
+            ->flatMap(fn (string $page): array => array_keys(FilamentShield::getDefaultPermissionKeys($page, Utils::getConfig()->pages->prefix)))
+            ->toArray();
+
+        $widgetPermissionKeys = collect($panel->getWidgets())
+            ->flatMap(fn (string|WidgetConfiguration $widget): array => array_keys(FilamentShield::getDefaultPermissionKeys($widget, Utils::getConfig()->widgets->prefix)))
+            ->toArray();
+
+        return collect($resourcePermissionKeys)
+            ->merge($pagePermissionKeys)
+            ->merge($widgetPermissionKeys)
+            ->unique()
+            ->values()
+            ->toArray();
+    }
+
+    public static function getPermissionPanelOptions(): array
+    {
+        return collect(Filament::getPanels())
+            ->mapWithKeys(fn (Panel $panel): array => [$panel->getId() => str($panel->getId())->headline()])
+            ->toArray();
     }
 
     public static function table(Table $table): Table
