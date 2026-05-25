@@ -6,6 +6,7 @@ use App\Services\FilamentPanelsService;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Jeffgreco13\FilamentBreezy\BreezyCore;
 
 class BlogPanelProvider extends PanelProvider
 {
@@ -13,12 +14,16 @@ class BlogPanelProvider extends PanelProvider
     {
         return FilamentPanelsService::make($panel)
             ->id('blog')
-            ->path('blog-admin')
+            ->path('blog')
             ->colors([
                 'primary' => Color::Amber,
             ])
             ->discoverResources(in: app_path('Filament/Blog/Resources'), for: 'App\\Filament\\Blog\\Resources')
             ->discoverPages(in: app_path('Filament/Blog/Pages'), for: 'App\\Filament\\Blog\\Pages')
-            ->discoverWidgets(in: app_path('Filament/Blog/Widgets'), for: 'App\\Filament\\Blog\\Widgets');
+            ->discoverWidgets(in: app_path('Filament/Blog/Widgets'), for: 'App\\Filament\\Blog\\Widgets')
+            ->plugins([
+                BreezyCore::make()
+                    ->myProfile(),
+            ]);
     }
 }

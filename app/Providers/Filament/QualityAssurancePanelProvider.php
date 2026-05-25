@@ -15,7 +15,7 @@ class QualityAssurancePanelProvider extends PanelProvider
     {
         return FilamentPanelsService::make($panel)
             ->id('quality-assurance')
-            ->path('qa')
+            ->path('quality-assurance')
             ->colors([
                 'primary' => Color::Red,
             ])
