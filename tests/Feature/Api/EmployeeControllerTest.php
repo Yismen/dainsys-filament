@@ -65,7 +65,7 @@ it('filters by status', function (): void {
     Employee::factory()->has(Hire::factory())->create();
     Sanctum::actingAs(user: User::factory()->create(), abilities: ['use-dainsys']);
 
-    $response = getJson('/api/employees' . '?status=Hired');
+    $response = getJson('/api/employees'.'?status=Hired');
 
     expect(count($response->json()['data']))
         ->toBe(1);

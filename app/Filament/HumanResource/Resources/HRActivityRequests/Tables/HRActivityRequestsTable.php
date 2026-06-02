@@ -3,6 +3,7 @@
 namespace App\Filament\HumanResource\Resources\HRActivityRequests\Tables;
 
 use App\Enums\HRActivityRequestStatuses;
+use App\Models\HRActivityRequest;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -82,11 +83,10 @@ class HRActivityRequestsTable
                             ->placeholder('Add a comment about this completion...')
                             ->rows(3),
                     ])
-                    ->action(function ($record, array $data): void {
+                    ->action(function (HRActivityRequest $record, array $data): void {
                         $record->markAsCompleted($data['comment']);
                     })
-                    ->successNotificationTitle('Request marked as completed')
-                    ->after(fn () => redirect()->back()),
+                    ->successNotificationTitle('Request marked as completed'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

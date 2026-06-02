@@ -1,12 +1,13 @@
 <?php
 
 use App\Models\Role;
+use App\Models\User;
 use Filament\Facades\Filament;
 
 it('requires authentication to access panels', function () {
     foreach (Filament::getPanels() as $panel) {
-        if ( in_array($panel->getId(), [
-            'blog'
+        if (in_array($panel->getId(), [
+            'blog',
         ])) {
             continue; // Ignore panels that have custom access logic
         }
@@ -16,13 +17,13 @@ it('requires authentication to access panels', function () {
 });
 
 it('prevents regular users without appropriate roles from accessing panels', function () {
-    $user = \App\Models\User::factory()->create();
+    $user = User::factory()->create();
 
     $this->actingAs($user);
 
     foreach (Filament::getPanels() as $panel) {
-        if ( in_array($panel->getId(), [
-            'blog'
+        if (in_array($panel->getId(), [
+            'blog',
         ])) {
             continue; // Ignore panels that have custom access logic
         }
@@ -32,18 +33,18 @@ it('prevents regular users without appropriate roles from accessing panels', fun
 });
 
 it('allows users with manager roles to access panels', function () {
-    $user = \App\Models\User::factory()->create();// Assign a role that should have access
+    $user = User::factory()->create(); // Assign a role that should have access
 
     $this->actingAs($user);
 
     foreach (Filament::getPanels() as $panel) {
-        $role = str($panel->getId())->kebab()->headline()->toString() . ' Manager';
+        $role = str($panel->getId())->kebab()->headline()->toString().' Manager';
         Role::create(['name' => $role]); // Assuming role names follow this pattern
         $user->assignRole($role);
 
         $this->actingAs($user);
 
-        if ( in_array($panel->getId(), [
+        if (in_array($panel->getId(), [
             'blog',
             'admin',
             'employee',
@@ -56,18 +57,18 @@ it('allows users with manager roles to access panels', function () {
 });
 
 it('allows users with agent roles to access panels', function () {
-    $user = \App\Models\User::factory()->create();// Assign a role that should have access
+    $user = User::factory()->create(); // Assign a role that should have access
 
     $this->actingAs($user);
 
     foreach (Filament::getPanels() as $panel) {
-        $role = str($panel->getId())->kebab()->headline()->toString() . ' Agent';
+        $role = str($panel->getId())->kebab()->headline()->toString().' Agent';
         Role::create(['name' => $role]); // Assuming role names follow this pattern
         $user->assignRole($role);
 
         $this->actingAs($user);
 
-        if ( in_array($panel->getId(), [
+        if (in_array($panel->getId(), [
             'blog',
             'admin',
             'employee',
