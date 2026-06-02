@@ -20,6 +20,7 @@ abstract class TestCase extends BaseTestCase
         $permissionName = str($permissionName[0])->camel().' '.str($permissionName[1])->camel();
 
         Permission::firstOrCreate(['name' => $permissionName]);
+
         $user->givePermissionTo($permissionName);
 
         return $user;

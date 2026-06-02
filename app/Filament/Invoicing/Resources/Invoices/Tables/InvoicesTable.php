@@ -8,7 +8,6 @@ use App\Models\Campaign;
 use App\Models\Invoice;
 use App\Models\InvoiceAgent;
 use App\Models\Project;
-use App\Services\GenerateInvoicePdfService;
 use App\Services\ModelListService;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
@@ -249,7 +248,8 @@ class InvoicesTable
                         ->label(__('Download PDF'))
                         ->icon('heroicon-o-arrow-down-tray')
                         ->color(Color::Gray)
-                        ->action(fn (Invoice $record, GenerateInvoicePdfService $service) => $service->download($record)),
+                        ->url(fn (Invoice $record): string => route('invoices.download-pdf', $record))
+                        ->openUrlInNewTab(),
                     Action::make('previewPdf')
                         ->label(__('Preview PDF'))
                         ->icon('heroicon-o-eye')

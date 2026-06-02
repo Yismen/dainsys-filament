@@ -180,7 +180,7 @@ it('opens create, view and edit invoice modals from list page', function (): voi
         ->assertOk();
 });
 
-it('downloads invoice pdf from table action', function (): void {
+it('downloads invoice pdf from route action', function (): void {
     $invoice = Invoice::factory()->create([
         'items' => [
             [
@@ -192,11 +192,12 @@ it('downloads invoice pdf from table action', function (): void {
         'status' => 'pending',
     ]);
 
-    actingAs($this->createUserWithPermissionTo('view-any Invoice'));
+    actingAs($this->createUserWithPermissionTo('viewAny invoice'));
 
-    livewire(ManageInvoices::class)
-        ->callTableAction('downloadPdf', $invoice->getKey())
-        ->assertFileDownloaded("invoice-{$invoice->number}.pdf");
+    $response = get(route('invoices.download-pdf', $invoice));
+
+    $response->assertSuccessful()
+        ->assertHeader('content-type', 'application/pdf');
 });
 
 it('streams invoice pdf for preview from service', function (): void {

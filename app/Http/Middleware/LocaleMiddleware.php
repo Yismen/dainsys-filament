@@ -6,9 +6,13 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class LocaleMiddleware
 {
+    /**
+     * @param  Closure(Request): (Response|StreamedResponse)  $next
+     */
     public function handle(Request $request, Closure $next): Response
     {
         $locale = $this->resolveLocale($request);

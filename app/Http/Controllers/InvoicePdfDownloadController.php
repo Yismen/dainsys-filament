@@ -5,11 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Invoice;
 use App\Services\GenerateInvoicePdfService;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
-class InvoicePdfPreviewController extends Controller
+class InvoicePdfDownloadController extends Controller
 {
-    public function __invoke(Request $request, Invoice $invoice, GenerateInvoicePdfService $service): Response
+    public function __invoke(Request $request, Invoice $invoice, GenerateInvoicePdfService $service): StreamedResponse
     {
         $user = $request->user();
 
@@ -22,6 +22,6 @@ class InvoicePdfPreviewController extends Controller
            403,
         );
 
-        return $service->preview($invoice);
+        return $service->download($invoice);
     }
 }
