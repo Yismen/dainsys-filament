@@ -5,6 +5,7 @@ namespace App\Filament\HumanResource\Resources\Employees\Schemas;
 use App\Models\Employee;
 use Carbon\Carbon;
 use Filament\Infolists\Components\IconEntry;
+use Filament\Infolists\Components\KeyValueEntry;
 use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\RepeatableEntry\TableColumn;
 use Filament\Infolists\Components\SpatieMediaLibraryImageEntry;
@@ -30,6 +31,8 @@ class EmployeeInfolist
                         self::bankAccountInformationSection(),
 
                         self::socialSecuritySection(),
+
+                        self::extraAttributesSection(),
                     ]),
 
                 Grid::make(1)
@@ -141,6 +144,19 @@ class EmployeeInfolist
                     ->label(__('filament.ars')),
                 TextEntry::make('socialSecurity.number')
                     ->label(__('filament.tss_number')),
+            ]);
+    }
+
+    private static function extraAttributesSection(): Section
+    {
+        return Section::make(__('filament.extra_attributes'))
+            ->collapsible()
+            ->collapsed()
+            ->columnSpanFull()
+            ->visible(fn (Employee $record): bool => filled($record->extra_attributes))
+            ->schema([
+                KeyValueEntry::make('extra_attributes')
+                    ->label(__('filament.extra_attributes')),
             ]);
     }
 

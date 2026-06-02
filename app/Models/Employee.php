@@ -58,6 +58,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
     'hired_at',
     'internal_id',
     'status',
+    'extra_attributes',
 ])]
 class Employee extends AppModel implements HasMedia
 {
@@ -382,6 +383,7 @@ class Employee extends AppModel implements HasMedia
             'personal_id_type' => PersonalIdTypes::class,
             'has_kids' => 'boolean',
             'terminated_at' => 'datetime',
+            'extra_attributes' => 'array',
         ];
     }
 

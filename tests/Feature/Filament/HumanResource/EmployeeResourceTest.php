@@ -63,6 +63,10 @@ beforeEach(function (): void {
         'has_kids' => true,
         'citizenship_id' => Citizenship::factory()->create()->id,
         'internal_id' => null,
+        'extra_attributes' => [
+            'department_code' => 'IT-001',
+            'shift' => 'Night',
+        ],
     ];
 });
 

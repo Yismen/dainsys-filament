@@ -302,6 +302,12 @@ return [
     'points_achieved' => 'Puntos Obtenidos',
     'points_possible' => 'Puntos Posibles',
 
+    // Extra Attributes
+    'extra_attributes' => 'Atributos Extra',
+    'key' => 'Clave',
+    'value' => 'Valor',
+    'add_attribute' => 'Agregar Atributo',
+
     /*
     |--------------------------------------------------------------------------
     | App Configuration

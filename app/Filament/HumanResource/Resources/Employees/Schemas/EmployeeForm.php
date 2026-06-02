@@ -14,6 +14,7 @@ use App\Models\SocialSecurity;
 use App\Schemas\Filament\HumanResource\HireEmployeeSchema;
 use App\Services\ModelListService;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
@@ -212,6 +213,18 @@ class EmployeeForm
                                     ->trim()
                                     ->unique(ignoreRecord: true, table: (new SocialSecurity)->getTable(), column: 'number'),
                             ]),
+                    ]),
+                Section::make(__('filament.extra_attributes'))
+                    ->columnSpanFull()
+                    ->collapsible()
+                    ->collapsed(false)
+                    ->visibleOn('edit')
+                    ->schema([
+                        KeyValue::make('extra_attributes')
+                            ->label(__('filament.extra_attributes'))
+                            ->keyLabel(__('filament.key'))
+                            ->valueLabel(__('filament.value'))
+                            ->addActionLabel(__('filament.add_attribute')),
                     ]),
             ]);
     }
