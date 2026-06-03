@@ -1,24 +1,28 @@
-<div class="w-full max-w-md space-y-6 rounded-3xl bg-white/90 dark:bg-slate-800/90 p-8 shadow-2xl backdrop-blur">
-    <div class="space-y-2 text-center">
-        <h1 class="text-3xl font-bold text-slate-900 dark:text-slate-100">Reset your password</h1>
-        <p class="text-slate-600 dark:text-slate-400">We will email you a secure reset link.</p>
+<div
+    class="w-full rounded-2xl p-8 md:p-10 shadow-sm backdrop-blur"
+    style="background:var(--card-bg);border:1px solid var(--card-border);box-shadow:0 4px 24px rgba(0,0,0,.06)"
+>
+    <div class="mb-8 space-y-1.5 text-center">
+        <h1 class="text-gradient-violet text-3xl font-black tracking-tight" style="font-family:'Syne',sans-serif">Reset your password</h1>
+        <p style="color:var(--text-muted);font-family:'Plus Jakarta Sans',sans-serif" class="text-sm">We'll email you a secure reset link.</p>
     </div>
 
     @if ($statusMessage)
-        <div class="rounded-xl bg-emerald-50 dark:bg-emerald-900/20 px-4 py-3 text-sm text-emerald-700 dark:text-emerald-400">
+        <div class="mb-5 rounded-xl px-4 py-3 text-sm font-medium" style="background:rgba(16,185,129,.1);color:#059669;border:1px solid rgba(16,185,129,.2)">
             {{ $statusMessage }}
         </div>
     @endif
 
     <form class="space-y-5" wire:submit.prevent="sendResetLink">
-        <div class="space-y-2">
-            <label class="text-sm font-medium text-slate-700 dark:text-slate-300" for="email">Email</label>
+        <div class="space-y-1.5">
+            <label class="text-sm font-semibold" style="color:var(--text-muted)" for="email">Email</label>
             <input
                 id="email"
                 type="email"
                 wire:model="email"
                 autocomplete="email"
-                class="w-full rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 px-4 py-3 text-slate-900 dark:text-slate-100 shadow-sm outline-none transition focus:border-blue-500 dark:focus:border-blue-400 focus:ring-2 focus:ring-blue-200 dark:focus:ring-blue-900"
+                class="w-full rounded-xl border px-4 py-3 text-sm shadow-sm outline-none transition focus:ring-2"
+                style="background:var(--card-bg);border-color:var(--card-border);color:var(--text-base);caret-color:#7c3aed;--tw-ring-color:rgba(124,58,237,.30)"
             />
             @error('email')
                 <p class="text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -27,13 +31,13 @@
 
         <button
             type="submit"
-            class="w-full rounded-xl bg-linear-to-r from-blue-600 to-blue-700 dark:from-blue-500 dark:to-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-lg transition hover:shadow-blue-500/30"
+            class="btn-gradient w-full px-4 py-3.5 text-sm font-bold shadow-lg"
         >
             Email Reset Link
         </button>
     </form>
 
-    <div class="text-center">
-        <a class="text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300" href="{{ route('login') }}">Back to sign in</a>
+    <div class="mt-6 text-center">
+        <a class="text-sm font-medium transition hover:opacity-70" style="color:#7c3aed" href="{{ route('login') }}">&larr; Back to sign in</a>
     </div>
 </div>
