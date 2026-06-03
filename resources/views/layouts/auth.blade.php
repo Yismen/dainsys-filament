@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>@yield('title', 'DainSys')</title>
+        <title>@yield('title', 'Dainsys')</title>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -117,10 +117,7 @@
         <div class="relative z-10 w-full max-w-md mx-auto anim-fade-up" style="animation-delay:.2s">
             {{-- Brand --}}
             <a href="/" class="mb-10 flex items-center justify-center gap-3 no-underline">
-                <div class="flex h-12 w-12 items-center justify-center rounded-2xl" style="background:linear-gradient(135deg,#7c3aed,#ec4899);box-shadow:0 4px 16px rgba(124,58,237,.35)">
-                    <span class="text-sm font-black text-white" style="font-family:'Syne',sans-serif">DS</span>
-                </div>
-                <span class="text-2xl font-black" style="font-family:'Syne',sans-serif;color:var(--text-base)">DainSys</span>
+                <span class="text-2xl font-black" style="font-family:'Syne',sans-serif;color:var(--text-base)">Dainsys</span>
             </a>
 
             @yield('content')

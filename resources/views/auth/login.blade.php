@@ -1,6 +1,6 @@
 @extends('layouts.auth')
 
-@section('title', 'Sign In - DainSys')
+@section('title', 'Sign In - Dainsys')
 
 @section('content')
     @livewire('auth.login')

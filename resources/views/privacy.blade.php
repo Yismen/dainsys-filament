@@ -10,7 +10,7 @@
             <div class="space-y-8 text-slate-600 dark:text-slate-400">
                 <div>
                     <h2 class="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-4">Introduction</h2>
-                    <p class="mb-4">{{ config('app.name') }} ("we", "our", or "us") operates the DainSys application. This page informs you of our policies regarding the collection, use, and disclosure of personal data when you use our Service and the choices you have associated with that data.</p>
+                    <p class="mb-4">{{ config('app.name') }} ("we", "our", or "us") operates the Dainsys application. This page informs you of our policies regarding the collection, use, and disclosure of personal data when you use our Service and the choices you have associated with that data.</p>
                 </div>
 
                 <div>
