@@ -3,26 +3,16 @@
 namespace App\Console\Commands;
 
 use App\Jobs\RefreshPayrollHoursJob;
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Bus;
 
+#[Description('Recalculate payroll hours within a date range')]
+#[Signature('dainsys:recalculate-payroll-hours {--from=} {--to=}')]
 class RecalculatePayrollHours extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'dainsys:recalculate-payroll-hours {--from=} {--to=}';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Recalculate payroll hours within a date range';
-
     /**
      * Execute the console command.
      */

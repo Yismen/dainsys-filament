@@ -4,24 +4,14 @@ namespace App\Console\Commands;
 
 use App\Models\Role;
 use Filament\Facades\Filament;
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 
+#[Description('Create roles corresponding to each panel')]
+#[Signature('dainsys:sync-roles-for-panels {guard_name=web}')]
 class SyncRolesForPanels extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'dainsys:sync-roles-for-panels {guard_name=web}';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Create roles corresponding to each panel';
-
     private array $types = ['manager', 'agent'];
 
     private array $defaultRoles = [

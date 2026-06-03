@@ -5,25 +5,15 @@ namespace App\Console\Commands;
 use App\Models\Ticket;
 use App\Notifications\Reports\TicketsExpiredReportNotification;
 use App\Services\TicketRecipientsService;
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Notification;
 
+#[Description('Send a report with the tickets that are expired!')]
+#[Signature('dainsys:send-tickets-expired-report')]
 class SendTicketsExpiredReport extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'dainsys:send-tickets-expired-report';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Send a report with the tickets that are expired!';
-
     /**
      * Create a new command instance.
      *

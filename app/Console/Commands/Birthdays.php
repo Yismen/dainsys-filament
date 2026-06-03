@@ -6,26 +6,16 @@ use App\Mail\BirthdaysMail;
 use App\Notifications\Reports\BirthdaysReportNotification;
 use App\Services\BirthdaysService;
 use App\Services\MailingService;
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Notification;
 
+#[Description('Sends a list of employees having birthdays in the given period')]
+#[Signature('dainsys:birthdays
+                            {type? : The type of report. Valid options are today, yesterday, tomorrow, this_month, next_month, last_month}')]
 class Birthdays extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'dainsys:birthdays
-                            {type? : The type of report. Valid options are today, yesterday, tomorrow, this_month, next_month, last_month}';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Sends a list of employees having birthdays in the given period';
-
     protected ?array $reportTypes = [
         'today' => 'Today',
         'yesterday' => 'Yesterday',

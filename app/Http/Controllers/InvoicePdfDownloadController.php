@@ -19,7 +19,7 @@ class InvoicePdfDownloadController extends Controller
                 $user->can('view invoice') ||
                 $user->can('viewAny invoice')
             ),
-           403,
+            403,
         );
 
         return $service->download($invoice);

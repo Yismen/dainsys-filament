@@ -8,27 +8,22 @@ use App\Notifications\Reports\LiveVoxProductionReportNotification;
 use App\Services\HelpersService;
 use App\Services\MailingService;
 use Carbon\Carbon;
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
-class PublishingProductionReport extends Command
-{
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'dainsys:livevox-publishing-production-report
+#[Description('Send production report to subscribers')]
+#[Signature('dainsys:livevox-publishing-production-report
     {--D|date= : string:Date or range of dates. Default is now()}
     {--S|subject= : string:Subject of the email to be sent}
     {--F|force : activate to send the report even if data is the same}
-    ';
-
-    protected $description = 'Send production report to subscribers';
-
+    ')]
+class PublishingProductionReport extends Command
+{
     protected $file_name = 'livevox_publishing_production_report.xlsx';
 
     protected Carbon $date_from;

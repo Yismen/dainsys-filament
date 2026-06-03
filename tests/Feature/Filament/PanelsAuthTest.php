@@ -4,7 +4,7 @@ use App\Models\Role;
 use App\Models\User;
 use Filament\Facades\Filament;
 
-it('requires authentication to access panels', function () {
+it('requires authentication to access panels', function (): void {
     foreach (Filament::getPanels() as $panel) {
         if (in_array($panel->getId(), [
             'blog',
@@ -16,7 +16,7 @@ it('requires authentication to access panels', function () {
     }
 });
 
-it('prevents regular users without appropriate roles from accessing panels', function () {
+it('prevents regular users without appropriate roles from accessing panels', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user);
@@ -32,7 +32,7 @@ it('prevents regular users without appropriate roles from accessing panels', fun
     }
 });
 
-it('allows users with manager roles to access panels', function () {
+it('allows users with manager roles to access panels', function (): void {
     $user = User::factory()->create(); // Assign a role that should have access
 
     $this->actingAs($user);
@@ -56,7 +56,7 @@ it('allows users with manager roles to access panels', function () {
     }
 });
 
-it('allows users with agent roles to access panels', function () {
+it('allows users with agent roles to access panels', function (): void {
     $user = User::factory()->create(); // Assign a role that should have access
 
     $this->actingAs($user);

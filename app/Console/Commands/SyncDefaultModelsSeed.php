@@ -3,24 +3,14 @@
 namespace App\Console\Commands;
 
 use App\Jobs\SyncDefaultModelsJob;
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 
+#[Description('Command description')]
+#[Signature('dainsys:sync-default-models-seed')]
 class SyncDefaultModelsSeed extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'dainsys:sync-default-models-seed';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Command description';
-
     /**
      * Execute the console command.
      */

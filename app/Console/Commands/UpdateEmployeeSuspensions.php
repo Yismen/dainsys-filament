@@ -5,24 +5,14 @@ namespace App\Console\Commands;
 use App\Models\Employee;
 use App\Services\EmployeesNeedingRemoveSuspension;
 use App\Services\EmployeesNeedingSuspension;
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 
+#[Description('Check if employees\'s status needs to be updated based on suspensions.')]
+#[Signature('dainsys:update-employee-suspensions')]
 class UpdateEmployeeSuspensions extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'dainsys:update-employee-suspensions';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Check if employees\'s status needs to be updated based on suspensions.';
-
     /**
      * Create a new command instance.
      *

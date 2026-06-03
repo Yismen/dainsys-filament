@@ -19,7 +19,7 @@ class InvoicePdfPreviewController extends Controller
                 $user->can('view invoice') ||
                 $user->can('viewAny invoice')
             ),
-           403,
+            403,
         );
 
         return $service->preview($invoice);

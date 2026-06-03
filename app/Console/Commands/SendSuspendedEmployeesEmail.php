@@ -7,25 +7,15 @@ use App\Mail\SuspendedEmployeesMail;
 use App\Models\Employee;
 use App\Notifications\Reports\SuspendedEmployeesReportNotification;
 use App\Services\MailingService;
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Notification;
 
+#[Description('Send a daily report with the employees in status suspended, with the start and end date.')]
+#[Signature('dainsys:send-suspended-employees-email')]
 class SendSuspendedEmployeesEmail extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'dainsys:send-suspended-employees-email';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Send a daily report with the employees in status suspended, with the start and end date.';
-
     /**
      * Create a new command instance.
      *

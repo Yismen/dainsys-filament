@@ -4,25 +4,15 @@ namespace App\Console\Commands;
 
 use App\Models\Mailable;
 use App\Services\MailingService;
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 
+#[Description('Sync mailables table with the mailing service definitions')]
+#[Signature('dainsys:sync-mailables-table
+    ')]
 class SyncMailables extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'dainsys:sync-mailables-table
-    ';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Sync mailables table with the mailing service definitions';
-
     /**
      * Execute the console command.
      */
