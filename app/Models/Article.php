@@ -20,6 +20,7 @@ use Illuminate\Support\Str;
     'meta_keywords',
     'author_id',
     'status',
+    'is_public',
     // 'published_at',
 ])]
 class Article extends AppModel
@@ -67,12 +68,14 @@ class Article extends AppModel
             ->unique()
             ->toArray();
 
-        if (empty($accessibleCategoryIds)) {
-            return $query->whereRaw('1 = 0'); // Return empty result
-        }
+        return $query->where(function ($q) use ($accessibleCategoryIds): void {
+            $q->where('is_public', true);
 
-        return $query->whereHas('categories', function ($q) use ($accessibleCategoryIds): void {
-            $q->whereIn('categories.id', $accessibleCategoryIds);
+            if (! empty($accessibleCategoryIds)) {
+                $q->orWhereHas('categories', function ($q) use ($accessibleCategoryIds): void {
+                    $q->whereIn('categories.id', $accessibleCategoryIds);
+                });
+            }
         });
     }
 
@@ -118,6 +121,7 @@ class Article extends AppModel
     {
         return [
             'status' => ArticleStatus::class,
+            'is_public' => 'boolean',
             'published_at' => 'datetime',
         ];
     }

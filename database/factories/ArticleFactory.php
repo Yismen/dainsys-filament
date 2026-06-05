@@ -32,6 +32,7 @@ class ArticleFactory extends Factory
             'meta_keywords' => fake()->word().', '.fake()->word(),
             'author_id' => User::factory(),
             'status' => ArticleStatus::Draft,
+            'is_public' => false,
             'published_at' => null,
         ];
     }
@@ -45,6 +46,15 @@ class ArticleFactory extends Factory
             return [
                 'status' => ArticleStatus::Published,
                 'published_at' => now(),
+            ];
+        });
+    }
+
+    public function publicArticle(): static
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'is_public' => true,
             ];
         });
     }

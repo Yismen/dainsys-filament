@@ -8,12 +8,12 @@ use App\Models\Category;
 use App\Models\User;
 use App\Services\ModelListService;
 use Filament\Forms\Components\CheckboxList;
-use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Auth;
@@ -65,8 +65,10 @@ class ArticleForm
                             ->options(ArticleStatus::class)
                             ->required()
                             ->default(ArticleStatus::Draft),
-                        // DateTimePicker::make('published_at')
-                        //     ->visible(fn ($get) => $get('status') === ArticleStatus::Published),
+                        Toggle::make('is_public')
+                            ->label(__('Public'))
+                            ->helperText('Public articles are visible to all users without category restrictions.')
+                            ->default(false),
                     ]),
 
                 Section::make('Categories')

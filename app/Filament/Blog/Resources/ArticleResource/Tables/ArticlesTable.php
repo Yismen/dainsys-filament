@@ -12,6 +12,7 @@ use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Support\Enums\Width;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TrashedFilter;
@@ -46,6 +47,10 @@ class ArticlesTable
                     ->color(fn (ArticleStatus $state) => $state->color())
                     ->badge()
                     ->sortable(),
+                IconColumn::make('is_public')
+                    ->label(__('Public'))
+                    ->boolean()
+                    ->sortable(),
                 TextColumn::make('categories.name')
                     ->label(__('filament.categories'))
                     ->wrap()
@@ -73,6 +78,12 @@ class ArticlesTable
                 SelectFilter::make('status')
                     ->label(__('filament.status'))
                     ->options(ArticleStatus::class),
+                SelectFilter::make('is_public')
+                    ->label(__('Public'))
+                    ->options([
+                        true => 'Yes',
+                        false => 'No',
+                    ]),
                 SelectFilter::make('categories')
                     ->label(__('filament.categories'))
                     ->relationship('categories', 'name')
