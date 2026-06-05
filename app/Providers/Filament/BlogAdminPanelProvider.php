@@ -8,13 +8,13 @@ use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
 use Jeffgreco13\FilamentBreezy\BreezyCore;
 
-class BlogPanelProvider extends PanelProvider
+class BlogAdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return FilamentPanelsService::make($panel)
-            ->id('blog')
-            ->path('blog')
+            ->id('blog-admin')
+            ->path('blog-admin')
             ->colors([
                 'primary' => Color::Amber,
             ])

@@ -3,7 +3,7 @@
 use App\Providers\AppServiceProvider;
 use App\Providers\AuthServiceProvider;
 use App\Providers\Filament\AdminPanelProvider;
-use App\Providers\Filament\BlogPanelProvider;
+use App\Providers\Filament\BlogAdminPanelProvider;
 use App\Providers\Filament\EmployeePanelProvider;
 use App\Providers\Filament\HumanResourcePanelProvider;
 use App\Providers\Filament\InvoicingPanelProvider;
@@ -21,7 +21,7 @@ return [
     AppServiceProvider::class,
     AuthServiceProvider::class,
     AdminPanelProvider::class,
-    BlogPanelProvider::class,
+    BlogAdminPanelProvider::class,
     EmployeePanelProvider::class,
     HumanResourcePanelProvider::class,
     InvoicingPanelProvider::class,
