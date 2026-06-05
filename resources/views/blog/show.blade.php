@@ -65,8 +65,8 @@
 
             <!-- Back to Blog -->
             <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
-                <a href="{{ route('blog.index') }}" class="inline-flex items-center text-amber-600 dark:text-amber-500 hover:text-amber-700 dark:hover:text-amber-400">
-                    ← Back to Blog
+                <a href="{{ route('articles.index') }}" class="inline-flex items-center text-amber-600 dark:text-amber-500 hover:text-amber-700 dark:hover:text-amber-400">
+                    ← Back to Articles
                 </a>
             </div>
         </section>

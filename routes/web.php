@@ -3,8 +3,8 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\InvoicePdfDownloadController;
 use App\Http\Controllers\InvoicePdfPreviewController;
-use App\Livewire\ArticleShow;
-use App\Livewire\BlogIndex;
+use App\Livewire\Articles\ArticleIndex;
+use App\Livewire\Articles\ArticleShow;
 use App\Livewire\MyMailingSubscriptions;
 use App\Livewire\MyTicketsManagement;
 use Illuminate\Support\Facades\Route;
@@ -55,6 +55,6 @@ Route::middleware('auth')->group(function (): void {
     Route::get('/invoices/{invoice}/download-pdf', InvoicePdfDownloadController::class)
         ->name('invoices.download-pdf');
 
-    Route::livewire('/blog', BlogIndex::class)->name('blog.index');
-    Route::livewire('/blog/{article:slug}', ArticleShow::class)->name('blog.show');
+    Route::livewire('/articles', ArticleIndex::class)->name('articles.index');
+    Route::livewire('/articles/{article:slug}', ArticleShow::class)->name('articles.show');
 });

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Articles;
 
 use App\Models\Article;
 use App\Services\ArticleAccessService;
@@ -13,7 +13,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 
 #[Layout('layouts.landing-page')]
-class BlogIndex extends Component
+class ArticleIndex extends Component
 {
     use WithPagination;
 
@@ -88,6 +88,6 @@ class BlogIndex extends Component
 
     public function render()
     {
-        return view('livewire.blog-index');
+        return view('livewire.pages.articles.article-index');
     }
 }

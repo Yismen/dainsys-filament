@@ -868,7 +868,7 @@
                         <div>
                             <h3 class="footer-heading text-xs font-bold uppercase tracking-widest mb-4">Resources</h3>
                             <ul class="space-y-2.5">
-                                <li><a href="/blog" class="footer-link text-sm transition-colors duration-200">Articles</a></li>
+                                <li><a href="/articles" class="footer-link text-sm transition-colors duration-200">Articles</a></li>
                                 <li><a href="/docs/api" target="docs-api" class="footer-link text-sm transition-colors duration-200">API Docs</a></li>
                                 <li><a href="/my-tickets-management" class="footer-link text-sm transition-colors duration-200">IT Support</a></li>
                             </ul>

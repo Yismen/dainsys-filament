@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Articles;
 
 use App\Models\Article;
 use App\Services\ArticleAccessService;
@@ -30,7 +30,7 @@ class ArticleShow extends Component
 
     public function render(): View
     {
-        return view('livewire.article-show', [
+        return view('livewire.pages.articles.article-show', [
             'article' => $this->article,
         ]);
     }

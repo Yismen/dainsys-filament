@@ -35,7 +35,7 @@
             </time>
         </div>
 
-        <a href="{{ route('blog.show', $article) }}" class="inline-flex items-center text-blue-600 dark:text-blue-500 hover:text-blue-700 dark:hover:text-blue-400 font-medium mt-auto">
+        <a href="{{ route('articles.show', $article) }}" class="inline-flex items-center text-blue-600 dark:text-blue-500 hover:text-blue-700 dark:hover:text-blue-400 font-medium mt-auto">
             Read Article →
         </a>
     </div>
