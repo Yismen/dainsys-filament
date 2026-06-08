@@ -6,6 +6,7 @@ use App\Models\CategoryAccess;
 use App\Models\Role;
 use App\Models\User;
 use App\Services\ArticleAccessService;
+use App\Services\CategoryService;
 
 it('can grant user access to category', function (): void {
     $user = User::factory()->create();
@@ -133,4 +134,39 @@ it('canUserAccessArticle returns true for public articles', function (): void {
     $publicArticle = Article::factory()->published()->publicArticle()->create();
 
     expect(ArticleAccessService::canUserAccessArticle($user, $publicArticle))->toBeTrue();
+});
+
+it('gives superadmin access to all published articles regardless of category', function (): void {
+    $superAdmin = User::factory()->create();
+    $role = Role::firstOrCreate(['name' => 'Super Admin', 'guard_name' => 'web']);
+    $superAdmin->assignRole($role);
+    $restrictedCategory = Category::factory()->create();
+    $article = Article::factory()->published()->create();
+    $article->categories()->attach($restrictedCategory);
+
+    $articles = Article::onlyAccessibleTo($superAdmin)->pluck('id')->toArray();
+
+    expect($articles)->toContain($article->id);
+});
+
+it('gives superadmin access to all categories', function (): void {
+    $superAdmin = User::factory()->create();
+    $role = Role::firstOrCreate(['name' => 'Super Admin', 'guard_name' => 'web']);
+    $superAdmin->assignRole($role);
+    $categories = Category::factory(3)->create();
+
+    $accessible = app(CategoryService::class)::accessibleFor($superAdmin);
+
+    expect($accessible->count())->toBe(3);
+});
+
+it('canUserAccessArticle returns true for any article when user is superadmin', function (): void {
+    $superAdmin = User::factory()->create();
+    $role = Role::firstOrCreate(['name' => 'Super Admin', 'guard_name' => 'web']);
+    $superAdmin->assignRole($role);
+    $category = Category::factory()->create();
+    $article = Article::factory()->published()->create();
+    $article->categories()->attach($category);
+
+    expect(ArticleAccessService::canUserAccessArticle($superAdmin, $article))->toBeTrue();
 });

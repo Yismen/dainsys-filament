@@ -47,6 +47,10 @@ class CategoryService
             return collect();
         }
 
+        if ($user->isSuperAdmin()) {
+            return Category::all();
+        }
+
         // Sources 1 + 2: category-access records (user + role based)
         $accessibleCategoryIds = CategoryAccess::query()
             ->where(function (Builder $q) use ($user): void {

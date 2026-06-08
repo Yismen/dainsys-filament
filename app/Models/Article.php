@@ -59,6 +59,10 @@ class Article extends AppModel
     #[Scope]
     protected function onlyAccessibleTo($query, User $user)
     {
+        if ($user->isSuperAdmin()) {
+            return $query;
+        }
+
         $accessibleCategoryIds = CategoryAccess::query()
             ->where(function ($q) use ($user): void {
                 $q->where('user_id', $user->id)
