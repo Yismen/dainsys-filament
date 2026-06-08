@@ -7,7 +7,7 @@ use Filament\Facades\Filament;
 it('requires authentication to access panels', function (): void {
     foreach (Filament::getPanels() as $panel) {
         if (in_array($panel->getId(), [
-            'blog',
+            'blog-admin',
         ])) {
             continue; // Ignore panels that have custom access logic
         }
@@ -23,7 +23,7 @@ it('prevents regular users without appropriate roles from accessing panels', fun
 
     foreach (Filament::getPanels() as $panel) {
         if (in_array($panel->getId(), [
-            'blog',
+            'blog-admin',
         ])) {
             continue; // Ignore panels that have custom access logic
         }
@@ -45,7 +45,7 @@ it('allows users with manager roles to access panels', function (): void {
         $this->actingAs($user);
 
         if (in_array($panel->getId(), [
-            'blog',
+            'blog-admin',
             'admin',
             'employee',
         ])) {
@@ -69,7 +69,7 @@ it('allows users with agent roles to access panels', function (): void {
         $this->actingAs($user);
 
         if (in_array($panel->getId(), [
-            'blog',
+            'blog-admin',
             'admin',
             'employee',
         ])) {

@@ -103,7 +103,7 @@ class User extends Authenticatable implements FilamentUser
             return Auth::user()->can('interactsWithQualityAssurance');
         }
 
-        if ($panel_id === 'blog') {
+        if ($panel_id === 'blog-admin') {
             return Auth::user()->can('interactsWithBlog');
         }
 
