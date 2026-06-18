@@ -2,10 +2,14 @@
 
 namespace App\Filament\HumanResource\Resources\Sites\Tables;
 
+use App\Enums\EmployeeStatuses;
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ForceDeleteAction;
 use Filament\Actions\ForceDeleteBulkAction;
+use Filament\Actions\RestoreAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
@@ -34,21 +38,28 @@ class SitesTable
                     ->wrap()
                     ->sortable()
                     ->searchable(),
+                TextColumn::make('employees_count')
+                    ->label(__('Hired Employees'))
+                    ->counts(['employees' => fn ($query) => $query->where('status', EmployeeStatuses::Hired->value)])
+                    ->badge(),
                 TextColumn::make('email')
                     ->label(__('filament.email'))
                     ->wrap()
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('address')
                     ->label(__('filament.address'))
                     ->wrap()
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('geolocation')
                     ->label(__('filament.geolocation'))
                     ->wrap()
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('deleted_at')
                     ->label(__('filament.deleted_at'))
                     ->dateTime()
@@ -71,6 +82,9 @@ class SitesTable
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
+                DeleteAction::make(),
+                ForceDeleteAction::make(),
+                RestoreAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

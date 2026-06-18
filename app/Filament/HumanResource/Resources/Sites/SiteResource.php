@@ -3,10 +3,7 @@
 namespace App\Filament\HumanResource\Resources\Sites;
 
 use App\Filament\HumanResource\Enums\HRNavigationEnum;
-use App\Filament\HumanResource\Resources\Sites\Pages\CreateSite;
-use App\Filament\HumanResource\Resources\Sites\Pages\EditSite;
-use App\Filament\HumanResource\Resources\Sites\Pages\ListSites;
-use App\Filament\HumanResource\Resources\Sites\Pages\ViewSite;
+use App\Filament\HumanResource\Resources\Sites\Pages\ManageSites;
 use App\Filament\HumanResource\Resources\Sites\Schemas\SiteForm;
 use App\Filament\HumanResource\Resources\Sites\Schemas\SiteInfolist;
 use App\Filament\HumanResource\Resources\Sites\Tables\SitesTable;
@@ -54,10 +51,7 @@ class SiteResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListSites::route('/'),
-            'create' => CreateSite::route('/create'),
-            'view' => ViewSite::route('/{record}'),
-            'edit' => EditSite::route('/{record}/edit'),
+            'index' => ManageSites::route('/'),
         ];
     }
 

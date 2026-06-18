@@ -4,6 +4,8 @@ namespace App\Filament\HumanResource\Resources\Sites\Schemas;
 
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Infolists\Components\RepeatableEntry;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 
 class SiteForm
@@ -40,6 +42,14 @@ class SiteForm
                     ->label(__('filament.description'))
                     ->columnSpanFull()
                     ->nullable(),
+                RepeatableEntry::make('hiredEmployees')
+                    ->label(__('Hired Employees'))
+                    ->grid(2)
+                    ->columnSpanFull()
+                    ->visibleOn('edit')
+                    ->schema([
+                        TextEntry::make('full_name'),
+                    ]),
             ]);
     }
 }
