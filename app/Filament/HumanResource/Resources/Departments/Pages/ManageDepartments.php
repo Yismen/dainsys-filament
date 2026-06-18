@@ -3,17 +3,17 @@
 namespace App\Filament\HumanResource\Resources\Departments\Pages;
 
 use App\Filament\HumanResource\Resources\Departments\DepartmentResource;
-use Filament\Actions\EditAction;
-use Filament\Resources\Pages\ViewRecord;
+use Filament\Actions\CreateAction;
+use Filament\Resources\Pages\ManageRecords;
 
-class ViewDepartment extends ViewRecord
+class ManageDepartments extends ManageRecords
 {
     protected static string $resource = DepartmentResource::class;
 
     protected function getHeaderActions(): array
     {
         return [
-            EditAction::make(),
+            CreateAction::make(),
         ];
     }
 }

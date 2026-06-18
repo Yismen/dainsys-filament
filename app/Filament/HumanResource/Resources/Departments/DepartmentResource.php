@@ -3,10 +3,7 @@
 namespace App\Filament\HumanResource\Resources\Departments;
 
 use App\Filament\HumanResource\Enums\HRNavigationEnum;
-use App\Filament\HumanResource\Resources\Departments\Pages\CreateDepartment;
-use App\Filament\HumanResource\Resources\Departments\Pages\EditDepartment;
-use App\Filament\HumanResource\Resources\Departments\Pages\ListDepartments;
-use App\Filament\HumanResource\Resources\Departments\Pages\ViewDepartment;
+use App\Filament\HumanResource\Resources\Departments\Pages\ManageDepartments;
 use App\Filament\HumanResource\Resources\Departments\Schemas\DepartmentForm;
 use App\Filament\HumanResource\Resources\Departments\Schemas\DepartmentInfolist;
 use App\Filament\HumanResource\Resources\Departments\Tables\DepartmentsTable;
@@ -54,10 +51,7 @@ class DepartmentResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListDepartments::route('/'),
-            'create' => CreateDepartment::route('/create'),
-            'view' => ViewDepartment::route('/{record}'),
-            'edit' => EditDepartment::route('/{record}/edit'),
+            'index' => ManageDepartments::route('/'),
         ];
     }
 

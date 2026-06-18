@@ -3,6 +3,7 @@
 namespace App\Filament\HumanResource\Resources\Departments\Schemas;
 
 use App\Models\Department;
+use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 
@@ -18,6 +19,13 @@ class DepartmentInfolist
                 TextEntry::make('description')
                     ->placeholder('-')
                     ->columnSpanFull(),
+                RepeatableEntry::make('hiredEmployees')
+                    ->label(__('Hired Employees'))
+                    ->grid(2)
+                    ->columnSpanFull()
+                    ->schema([
+                        TextEntry::make('full_name'),
+                    ]),
                 TextEntry::make('deleted_at')
                     ->dateTime()
                     ->visible(fn (Department $record): bool => $record->trashed()),

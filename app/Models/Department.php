@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\EmployeeStatuses;
 use App\Models\BaseModels\AppModel;
 use App\Models\Traits\HasManyEmployeesThruPositions;
 use App\Models\Traits\HasManyPositions;
@@ -16,16 +17,10 @@ class Department extends AppModel
     use HasManyPositions;
     use SoftDeletes;
 
-    // public function employees(): HasManyThrough
-    // {
-    //     return $this->hasManyThrough(
-    //         \App\Models\Employee::class,
-    //         \App\Models\Hire::class,
-    //         'position_id', // Foreign key on hires table to positions
-    //         'id',          // Employee id referenced by hires
-    //         'id',          // Department id
-    //         'employee_id'  // Foreign key on hires table to employees
-    //     );
-    // }
-
+    public function hiredEmployees(): HasManyThrough
+    {
+        return $this->employees()
+            ->where('employees.status', EmployeeStatuses::Hired)
+            ->orderBy('employees.full_name');
+    }
 }
