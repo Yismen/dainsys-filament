@@ -3,10 +3,7 @@
 namespace App\Filament\HumanResource\Resources\Afps;
 
 use App\Filament\HumanResource\Enums\HRNavigationEnum;
-use App\Filament\HumanResource\Resources\Afps\Pages\CreateAfp;
-use App\Filament\HumanResource\Resources\Afps\Pages\EditAfp;
-use App\Filament\HumanResource\Resources\Afps\Pages\ListAfps;
-use App\Filament\HumanResource\Resources\Afps\Pages\ViewAfp;
+use App\Filament\HumanResource\Resources\Afps\Pages\ManageAfps;
 use App\Filament\HumanResource\Resources\Afps\Schemas\AfpForm;
 use App\Filament\HumanResource\Resources\Afps\Schemas\AfpInfolist;
 use App\Filament\HumanResource\Resources\Afps\Tables\AfpsTable;
@@ -54,10 +51,7 @@ class AfpResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListAfps::route('/'),
-            'create' => CreateAfp::route('/create'),
-            'view' => ViewAfp::route('/{record}'),
-            'edit' => EditAfp::route('/{record}/edit'),
+            'index' => ManageAfps::route('/'),
         ];
     }
 

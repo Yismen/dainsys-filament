@@ -3,6 +3,7 @@
 namespace App\Filament\HumanResource\Resources\Afps\Schemas;
 
 use App\Models\Afp;
+use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 
@@ -20,6 +21,13 @@ class AfpInfolist
                 TextEntry::make('description')
                     ->placeholder('-')
                     ->columnSpanFull(),
+                RepeatableEntry::make('hiredEmployees')
+                    ->label(__('Hired Employees'))
+                    ->grid(2)
+                    ->columnSpanFull()
+                    ->schema([
+                        TextEntry::make('full_name'),
+                    ]),
                 TextEntry::make('deleted_at')
                     ->dateTime()
                     ->visible(fn (Afp $record): bool => $record->trashed()),

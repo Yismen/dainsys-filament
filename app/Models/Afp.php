@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\EmployeeStatuses;
 use App\Models\BaseModels\AppModel;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -20,10 +21,17 @@ class Afp extends AppModel
         return $this->hasManyThrough(
             Employee::class,
             SocialSecurity::class,
-            'afp_id', // Foreign key on SocialSecurities table...
-            'id', // Foreign key on Employees table...
-            'id', // Local key on Afps table...
-            'employee_id' // Local key on SocialSecurities table...
+            'afp_id',
+            'id',
+            'id',
+            'employee_id'
         );
+    }
+
+    public function hiredEmployees(): HasManyThrough
+    {
+        return $this->employees()
+            ->where('employees.status', EmployeeStatuses::Hired)
+            ->orderBy('employees.full_name');
     }
 }

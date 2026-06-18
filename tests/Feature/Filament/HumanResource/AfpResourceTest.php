@@ -1,9 +1,6 @@
 <?php
 
-use App\Filament\HumanResource\Resources\Afps\Pages\CreateAfp;
-use App\Filament\HumanResource\Resources\Afps\Pages\EditAfp;
-use App\Filament\HumanResource\Resources\Afps\Pages\ListAfps;
-use App\Filament\HumanResource\Resources\Afps\Pages\ViewAfp;
+use App\Filament\HumanResource\Resources\Afps\Pages\ManageAfps;
 use App\Models\Afp;
 use App\Models\User;
 use Filament\Facades\Filament;
@@ -13,173 +10,121 @@ use function Pest\Laravel\get;
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    // Seed roles/permissions if applicable
     Filament::setCurrentPanel(
-        Filament::getPanel('human-resource'), // Where `app` is the ID of the panel you want to test.
+        Filament::getPanel('human-resource'),
     );
-    $afp = Afp::factory()->create();
 
-    $this->resource_routes = [
-        'index' => [
-            'route' => ListAfps::getRouteName(),
-            'params' => [],
-            'permission' => ['view-any'],
-        ],
-        'create' => [
-            'route' => CreateAfp::getRouteName(),
-            'params' => [],
-            'permission' => ['create', 'view-any'],
-        ],
-        'edit' => [
-            'route' => EditAfp::getRouteName(),
-            'params' => ['record' => $afp->getKey()],
-            'permission' => ['update', 'edit', 'view-any'],
-        ],
-        'view' => [
-            'route' => ViewAfp::getRouteName(),
-            'params' => ['record' => $afp->getKey()],
-            'permission' => ['view', 'view-any'],
-        ],
-    ];
+    $this->indexRoute = ManageAfps::getRouteName();
 
     $this->form_data = [
         'name' => 'New Name',
         'person_of_contact' => 'Person of Contact',
         'phone' => '8625543345',
         'description' => 'this is the afp',
-
     ];
 });
 
-it('require users to be authenticated to access Afp resource pages', function (string $method): void {
-    $response = get(route($this->resource_routes[$method]['route'],
-        $this->resource_routes[$method]['params']));
+it('requires users to be authenticated to access the Afp resource', function (): void {
+    $response = get(route($this->indexRoute));
 
     $response->assertRedirect(route('filament.human-resource.auth.login'));
-})->with([
-    'index',
-    'create',
-    'edit',
-    'view',
-]);
+});
 
-it('require users to have correct permissions to access Afp resource pages', function (string $method): void {
+it('requires users to have correct permissions to access the Afp resource', function (): void {
     actingAs(User::factory()->create());
 
-    $response = get(route($this->resource_routes[$method]['route'],
-        $this->resource_routes[$method]['params']));
+    $response = get(route($this->indexRoute));
     $response->assertForbidden();
-})->with([
-    'index',
-    'create',
-    'edit',
-    'view',
-]);
+});
 
-it('allows super admin users to access Afp resource pages', function (string $method): void {
+it('allows super admin users to access the Afp resource', function (): void {
     actingAs($this->createSuperAdminUser());
 
-    $response = get(route($this->resource_routes[$method]['route'],
-        $this->resource_routes[$method]['params']));
+    $response = get(route($this->indexRoute));
 
     $response->assertOk();
-})->with([
-    'index',
-    'create',
-    'edit',
-    'view',
-]);
+});
 
-it('allow users with correct permissions to access Afp resource pages', function (string $method): void {
-    actingAs($this->createUserWithPermissionsToActions($this->resource_routes[$method]['permission'], 'Afp'));
+it('allows users with correct permissions to access the Afp resource', function (): void {
+    actingAs($this->createUserWithPermissionsToActions(['view-any'], 'Afp'));
 
-    $response = get(route($this->resource_routes[$method]['route'],
-        $this->resource_routes[$method]['params']));
+    $response = get(route($this->indexRoute));
 
     $response->assertOk();
-})->with([
-    'index',
-    'create',
-    'edit',
-    'view',
-]);
+});
 
 it('displays Afp list page correctly', function (): void {
     $afps = Afp::factory()->count(5)->create();
 
-    actingAs($this->createUserWithPermissionTo('view-any Afp'));
+    actingAs($this->createUserWithPermissionsToActions(['view-any'], 'Afp'));
 
-    livewire(ListAfps::class)
+    livewire(ManageAfps::class)
         ->assertCanSeeTableRecords($afps);
 });
 
-test('create Afp page works correctly', function (): void {
+test('create Afp via modal works correctly', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Afp'));
 
-    livewire(CreateAfp::class)
-        ->fillForm($this->form_data)
-        ->call('create');
+    livewire(ManageAfps::class)
+        ->callAction('create', $this->form_data);
 
     $this->assertDatabaseHas('afps', $this->form_data);
 });
 
-test('edit Afp page works correctly', function (): void {
+test('edit Afp via modal works correctly', function (): void {
     $afp = Afp::factory()->create();
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Afp'));
 
-    $this->form_data['id'] = $afp->id;
-    $this->form_data['name'] = 'Updated name';
-    $this->form_data['person_of_contact'] = 'new person';
-    $this->form_data['phone'] = '6245887755';
+    $update_data = [
+        'name' => 'Updated name',
+        'person_of_contact' => 'new person',
+        'phone' => '6245887755',
+    ];
 
-    livewire(EditAfp::class, ['record' => $afp->getKey()])
-        ->fillForm($this->form_data)
-        ->call('save')
+    livewire(ManageAfps::class)
+        ->callTableAction('edit', $afp, $update_data)
         ->assertHasNoErrors();
 
-    $this->assertDatabaseHas('afps', $this->form_data);
+    $this->assertDatabaseHas('afps', [
+        'id' => $afp->id,
+        ...$update_data,
+    ]);
 });
 
-test('form validation require fields on create and edit pages', function (): void {
+test('form validation requires fields on create and edit modals', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Afp'));
 
-    // Test CreateAfp validation
-    livewire(CreateAfp::class)
-        ->fillForm([
-            'name' => '', // Invalid: name is required
+    livewire(ManageAfps::class)
+        ->callAction('create', [
+            'name' => '',
         ])
-        ->call('create')
         ->assertHasFormErrors(['name' => 'required']);
-    // Test EditAfp validation
+
     $afp = Afp::factory()->create();
-    livewire(EditAfp::class, ['record' => $afp->getKey()])
-        ->fillForm([
-            'name' => '', // Invalid: name is required
+    livewire(ManageAfps::class)
+        ->callTableAction('edit', $afp, [
+            'name' => '',
         ])
-        ->call('save')
         ->assertHasFormErrors(['name' => 'required']);
 });
 
-test('Afp name must be unique on create and edit pages', function (): void {
+test('Afp name must be unique on create and edit modals', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Afp'));
 
     $existingAfp = Afp::factory()->create(['name' => 'Unique AFP']);
 
-    // Test CreateAfp uniqueness validation
-    livewire(CreateAfp::class)
-        ->fillForm([
-            'name' => 'Unique AFP', // Invalid: name must be unique
+    livewire(ManageAfps::class)
+        ->callAction('create', [
+            'name' => 'Unique AFP',
         ])
-        ->call('create')
         ->assertHasFormErrors(['name' => 'unique']);
-    // Test EditAfp uniqueness validation
+
     $afpToEdit = Afp::factory()->create(['name' => 'Another AFP']);
-    livewire(EditAfp::class, ['record' => $afpToEdit->getKey()])
-        ->fillForm([
-            'name' => 'Unique AFP', // Invalid: name must be unique
+    livewire(ManageAfps::class)
+        ->callTableAction('edit', $afpToEdit, [
+            'name' => 'Unique AFP',
         ])
-        ->call('save')
         ->assertHasFormErrors(['name' => 'unique']);
 });
 
@@ -188,28 +133,14 @@ it('allows updating Afp without changing name to trigger uniqueness validation',
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Afp'));
 
-    livewire(EditAfp::class, ['record' => $afp->getKey()])
-        ->fillForm([
-            'name' => 'Existing AFP', // Same name, should not trigger uniqueness error
+    livewire(ManageAfps::class)
+        ->callTableAction('edit', $afp, [
+            'name' => 'Existing AFP',
         ])
-        ->call('save')
         ->assertHasNoErrors();
 
     $this->assertDatabaseHas('afps', [
         'id' => $afp->id,
         'name' => 'Existing AFP',
     ]);
-});
-
-it('autofocus the name field on create and edit pages', function (): void {
-    actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Afp'));
-
-    // Test CreateAfp autofocus
-    livewire(CreateAfp::class)
-        ->assertSeeHtml('autofocus');
-
-    // Test EditAfp autofocus
-    $afp = Afp::factory()->create();
-    livewire(EditAfp::class, ['record' => $afp->getKey()])
-        ->assertSeeHtml('autofocus');
 });

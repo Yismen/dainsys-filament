@@ -3,17 +3,17 @@
 namespace App\Filament\HumanResource\Resources\Afps\Pages;
 
 use App\Filament\HumanResource\Resources\Afps\AfpResource;
-use Filament\Actions\EditAction;
-use Filament\Resources\Pages\ViewRecord;
+use Filament\Actions\CreateAction;
+use Filament\Resources\Pages\ManageRecords;
 
-class ViewAfp extends ViewRecord
+class ManageAfps extends ManageRecords
 {
     protected static string $resource = AfpResource::class;
 
     protected function getHeaderActions(): array
     {
         return [
-            EditAction::make(),
+            CreateAction::make(),
         ];
     }
 }
