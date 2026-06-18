@@ -3,6 +3,7 @@
 namespace App\Filament\HumanResource\Resources\Ars\Schemas;
 
 use App\Models\Ars;
+use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 
@@ -20,6 +21,13 @@ class ArsInfolist
                 TextEntry::make('description')
                     ->placeholder('-')
                     ->columnSpanFull(),
+                RepeatableEntry::make('hiredEmployees')
+                    ->label(__('Hired Employees'))
+                    ->grid(2)
+                    ->columnSpanFull()
+                    ->schema([
+                        TextEntry::make('full_name'),
+                    ]),
                 TextEntry::make('deleted_at')
                     ->dateTime()
                     ->visible(fn (Ars $record): bool => $record->trashed()),

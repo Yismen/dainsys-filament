@@ -1,9 +1,6 @@
 <?php
 
-use App\Filament\HumanResource\Resources\Ars\Pages\CreateArs;
-use App\Filament\HumanResource\Resources\Ars\Pages\EditArs;
-use App\Filament\HumanResource\Resources\Ars\Pages\ListArs;
-use App\Filament\HumanResource\Resources\Ars\Pages\ViewArs;
+use App\Filament\HumanResource\Resources\Ars\Pages\ManageArs;
 use App\Models\Ars;
 use App\Models\User;
 use Filament\Facades\Filament;
@@ -13,34 +10,11 @@ use function Pest\Laravel\get;
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    // Seed roles/permissions if applicable
     Filament::setCurrentPanel(
-        Filament::getPanel('human-resource'), // Where `app` is the ID of the panel you want to test.
+        Filament::getPanel('human-resource'),
     );
-    $ars = Ars::factory()->create();
 
-    $this->resource_routes = [
-        'index' => [
-            'route' => ListArs::getRouteName(),
-            'params' => [],
-            'permission' => ['view-any'],
-        ],
-        'create' => [
-            'route' => CreateArs::getRouteName(),
-            'params' => [],
-            'permission' => ['create', 'view-any'],
-        ],
-        'edit' => [
-            'route' => EditArs::getRouteName(),
-            'params' => ['record' => $ars->getKey()],
-            'permission' => ['update', 'edit', 'view-any'],
-        ],
-        'view' => [
-            'route' => ViewArs::getRouteName(),
-            'params' => ['record' => $ars->getKey()],
-            'permission' => ['view', 'view-any'],
-        ],
-    ];
+    $this->indexRoute = ManageArs::getRouteName();
 
     $this->form_data = [
         'name' => 'Ars name',
@@ -50,130 +24,107 @@ beforeEach(function (): void {
     ];
 });
 
-it('require users to be authenticated to access Ars resource pages', function (string $method): void {
-    $response = get(route($this->resource_routes[$method]['route'],
-        $this->resource_routes[$method]['params']));
+it('requires users to be authenticated to access the Ars resource', function (): void {
+    $response = get(route($this->indexRoute));
 
     $response->assertRedirect(route('filament.human-resource.auth.login'));
-})->with([
-    'index',
-    'create',
-    'edit',
-    'view',
-]);
+});
 
-it('require users to have correct permissions to access Ars resource pages', function (string $method): void {
+it('requires users to have correct permissions to access the Ars resource', function (): void {
     actingAs(User::factory()->create());
 
-    $response = get(route($this->resource_routes[$method]['route'],
-        $this->resource_routes[$method]['params']));
+    $response = get(route($this->indexRoute));
     $response->assertForbidden();
-})->with([
-    'index',
-    'create',
-    'edit',
-    'view',
-]);
+});
 
-it('allows super admin users to access Ars resource pages', function (string $method): void {
+it('allows super admin users to access the Ars resource', function (): void {
     actingAs($this->createSuperAdminUser());
 
-    $response = get(route($this->resource_routes[$method]['route'],
-        $this->resource_routes[$method]['params']));
+    $response = get(route($this->indexRoute));
 
     $response->assertOk();
-})->with([
-    'index',
-    'create',
-    'edit',
-    'view',
-]);
+});
 
-it('allow users with correct permissions to access Ars resource pages', function (string $method): void {
-    actingAs($this->createUserWithPermissionsToActions($this->resource_routes[$method]['permission'], 'Ars'));
+it('allows users with correct permissions to access the Ars resource', function (): void {
+    actingAs($this->createUserWithPermissionsToActions(['view-any'], 'Ars'));
 
-    $response = get(route($this->resource_routes[$method]['route'],
-        $this->resource_routes[$method]['params']));
+    $response = get(route($this->indexRoute));
 
     $response->assertOk();
-})->with([
-    'index',
-    'create',
-    'edit',
-    'view',
-]);
+});
 
 it('displays Ars list page correctly', function (): void {
     $ars = Ars::factory()->count(5)->create();
 
-    actingAs($this->createUserWithPermissionTo('view-any Ars'));
+    actingAs($this->createUserWithPermissionsToActions(['view-any'], 'Ars'));
 
-    livewire(ListArs::class)
+    livewire(ManageArs::class)
         ->assertCanSeeTableRecords($ars);
 });
 
-test('create Ars page works correctly', function (): void {
+test('create Ars via modal works correctly', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Ars'));
 
-    livewire(CreateArs::class)
-        ->fillForm($this->form_data)
-        ->call('create');
+    livewire(ManageArs::class)
+        ->callAction('create', $this->form_data);
 
     $this->assertDatabaseHas('arss', $this->form_data);
 });
 
-test('edit Ars page works correctly', function (): void {
+test('edit Ars via modal works correctly', function (): void {
     $ars = Ars::factory()->create();
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Ars'));
 
-    livewire(EditArs::class, ['record' => $ars->getKey()])
-        ->fillForm($this->form_data)
-        ->call('save')
+    $update_data = [
+        'name' => 'Updated name',
+        'person_of_contact' => 'new person',
+        'phone' => '5221555666',
+    ];
+
+    livewire(ManageArs::class)
+        ->callTableAction('edit', $ars, $update_data)
         ->assertHasNoErrors();
 
-    $this->assertDatabaseHas('arss', array_merge(['id' => $ars->id], $this->form_data));
+    $this->assertDatabaseHas('arss', [
+        'id' => $ars->id,
+        ...$update_data,
+    ]);
 });
 
-test('form validation require fields on create and edit pages', function (): void {
+test('form validation requires fields on create and edit modals', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Ars'));
 
-    // Test CreateArs validation
-    livewire(CreateArs::class)
-        ->fillForm([
-            'name' => '', // Invalid: name is required
+    livewire(ManageArs::class)
+        ->callAction('create', [
+            'name' => '',
         ])
-        ->call('create')
         ->assertHasFormErrors(['name' => 'required']);
-    // Test EditArs validation
+
     $ars = Ars::factory()->create();
-    livewire(EditArs::class, ['record' => $ars->getKey()])
-        ->fillForm([
-            'name' => '', // Invalid: name is required
+    livewire(ManageArs::class)
+        ->callTableAction('edit', $ars, [
+            'name' => '',
         ])
-        ->call('save')
         ->assertHasFormErrors(['name' => 'required']);
 });
 
-test('Ars name must be unique on create and edit pages', function (): void {
+test('Ars name must be unique on create and edit modals', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Ars'));
 
     $existingArs = Ars::factory()->create(['name' => 'Unique ARS']);
 
-    // Test CreateArs uniqueness validation
-    livewire(CreateArs::class)
-        ->fillForm([
-            'name' => 'Unique ARS', // Invalid: name must be unique
+    livewire(ManageArs::class)
+        ->callAction('create', [
+            'name' => 'Unique ARS',
         ])
-        ->call('create')
         ->assertHasFormErrors(['name' => 'unique']);
-    // Test EditArs uniqueness validation
+
     $arsToEdit = Ars::factory()->create(['name' => 'Another ARS']);
-    livewire(EditArs::class, ['record' => $arsToEdit->getKey()])
-        ->fillForm([
-            'name' => 'Unique ARS', // Invalid: name must be unique
+    livewire(ManageArs::class)
+        ->callTableAction('edit', $arsToEdit, [
+            'name' => 'Unique ARS',
         ])
-        ->call('save')
         ->assertHasFormErrors(['name' => 'unique']);
 });
 
@@ -182,28 +133,14 @@ it('allows updating Ars without changing name to trigger uniqueness validation',
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Ars'));
 
-    livewire(EditArs::class, ['record' => $ars->getKey()])
-        ->fillForm([
-            'name' => 'Existing ARS', // Same name, should not trigger uniqueness error
+    livewire(ManageArs::class)
+        ->callTableAction('edit', $ars, [
+            'name' => 'Existing ARS',
         ])
-        ->call('save')
         ->assertHasNoErrors();
 
     $this->assertDatabaseHas('arss', [
         'id' => $ars->id,
         'name' => 'Existing ARS',
     ]);
-});
-
-it('autofocus the name field on create and edit pages', function (): void {
-    actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Ars'));
-
-    // Test CreateArs autofocus
-    livewire(CreateArs::class)
-        ->assertSeeHtml('autofocus');
-
-    // Test EditArs autofocus
-    $ars = Ars::factory()->create();
-    livewire(EditArs::class, ['record' => $ars->getKey()])
-        ->assertSeeHtml('autofocus');
 });

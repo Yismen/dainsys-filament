@@ -3,10 +3,7 @@
 namespace App\Filament\HumanResource\Resources\Ars;
 
 use App\Filament\HumanResource\Enums\HRNavigationEnum;
-use App\Filament\HumanResource\Resources\Ars\Pages\CreateArs;
-use App\Filament\HumanResource\Resources\Ars\Pages\EditArs;
-use App\Filament\HumanResource\Resources\Ars\Pages\ListArs;
-use App\Filament\HumanResource\Resources\Ars\Pages\ViewArs;
+use App\Filament\HumanResource\Resources\Ars\Pages\ManageArs;
 use App\Filament\HumanResource\Resources\Ars\Schemas\ArsForm;
 use App\Filament\HumanResource\Resources\Ars\Schemas\ArsInfolist;
 use App\Filament\HumanResource\Resources\Ars\Tables\ArsTable;
@@ -54,10 +51,7 @@ class ArsResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListArs::route('/'),
-            'create' => CreateArs::route('/create'),
-            'view' => ViewArs::route('/{record}'),
-            'edit' => EditArs::route('/{record}/edit'),
+            'index' => ManageArs::route('/'),
         ];
     }
 

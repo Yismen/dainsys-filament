@@ -2,10 +2,14 @@
 
 namespace App\Filament\HumanResource\Resources\Ars\Tables;
 
+use App\Enums\EmployeeStatuses;
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ForceDeleteAction;
 use Filament\Actions\ForceDeleteBulkAction;
+use Filament\Actions\RestoreAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
@@ -26,6 +30,10 @@ class ArsTable
                 TextColumn::make('person_of_contact')
                     ->label(__('filament.person_of_contact'))
                     ->searchable(),
+                TextColumn::make('employees_count')
+                    ->label(__('Hired Employees'))
+                    ->counts(['employees' => fn ($query) => $query->where('status', EmployeeStatuses::Hired->value)])
+                    ->badge(),
                 TextColumn::make('description')
                     ->label(__('filament.description'))
                     ->limit(50)
@@ -52,6 +60,9 @@ class ArsTable
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
+                DeleteAction::make(),
+                ForceDeleteAction::make(),
+                RestoreAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
