@@ -1,9 +1,6 @@
 <?php
 
-use App\Filament\HumanResource\Resources\Holidays\Pages\CreateHoliday;
-use App\Filament\HumanResource\Resources\Holidays\Pages\EditHoliday;
-use App\Filament\HumanResource\Resources\Holidays\Pages\ListHolidays;
-use App\Filament\HumanResource\Resources\Holidays\Pages\ViewHoliday;
+use App\Filament\HumanResource\Resources\Holidays\Pages\ManageHolidays;
 use App\Models\Holiday;
 use App\Models\User;
 use Filament\Facades\Filament;
@@ -13,208 +10,136 @@ use function Pest\Laravel\get;
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    // Seed roles/permissions if applicable
     Filament::setCurrentPanel(
-        Filament::getPanel('human-resource'), // Where `app` is the ID of the panel you want to test.
+        Filament::getPanel('human-resource'),
     );
-    $holiday = Holiday::factory()->create();
 
-    $this->resource_routes = [
-        'index' => [
-            'route' => ListHolidays::getRouteName(),
-            'params' => [],
-            'permission' => ['view-any'],
-        ],
-        'create' => [
-            'route' => CreateHoliday::getRouteName(),
-            'params' => [],
-            'permission' => ['create', 'view-any'],
-        ],
-        'edit' => [
-            'route' => EditHoliday::getRouteName(),
-            'params' => ['record' => $holiday->getKey()],
-            'permission' => ['update', 'edit', 'view-any'],
-        ],
-        'view' => [
-            'route' => ViewHoliday::getRouteName(),
-            'params' => ['record' => $holiday->getKey()],
-            'permission' => ['view', 'view-any'],
-        ],
-    ];
+    $this->indexRoute = ManageHolidays::getRouteName();
 });
 
-it('require users to be authenticated to access Holiday resource pages', function (string $method): void {
-    $response = get(route($this->resource_routes[$method]['route'],
-        $this->resource_routes[$method]['params']));
+it('requires users to be authenticated to access the Holiday resource', function (): void {
+    $response = get(route($this->indexRoute));
 
     $response->assertRedirect(route('filament.human-resource.auth.login'));
-})->with([
-    'index',
-    'create',
-    'edit',
-    'view',
-]);
+});
 
-it('require users to have correct permissions to access Holiday resource pages', function (string $method): void {
+it('requires users to have correct permissions to access the Holiday resource', function (): void {
     actingAs(User::factory()->create());
 
-    $response = get(route($this->resource_routes[$method]['route'],
-        $this->resource_routes[$method]['params']));
+    $response = get(route($this->indexRoute));
     $response->assertForbidden();
-})->with([
-    'index',
-    'create',
-    'edit',
-    'view',
-]);
+});
 
-it('allows super admin users to access Holiday resource pages', function (string $method): void {
+it('allows super admin users to access the Holiday resource', function (): void {
     actingAs($this->createSuperAdminUser());
 
-    $response = get(route($this->resource_routes[$method]['route'],
-        $this->resource_routes[$method]['params']));
+    $response = get(route($this->indexRoute));
 
     $response->assertOk();
-})->with([
-    'index',
-    'create',
-    'edit',
-    'view',
-]);
+});
 
-it('allow users with correct permissions to access Holiday resource pages', function (string $method): void {
-    actingAs($this->createUserWithPermissionsToActions($this->resource_routes[$method]['permission'], 'Holiday'));
+it('allows users with correct permissions to access the Holiday resource', function (): void {
+    actingAs($this->createUserWithPermissionsToActions(['view-any'], 'Holiday'));
 
-    $response = get(route($this->resource_routes[$method]['route'],
-        $this->resource_routes[$method]['params']));
+    $response = get(route($this->indexRoute));
 
     $response->assertOk();
-})->with([
-    'index',
-    'create',
-    'edit',
-    'view',
-]);
+});
 
 it('displays Holiday list page correctly', function (): void {
     $holidays = Holiday::factory()->count(5)->create();
 
-    actingAs($this->createUserWithPermissionTo('view-any Holiday'));
+    actingAs($this->createUserWithPermissionsToActions(['view-any'], 'Holiday'));
 
-    livewire(ListHolidays::class)
+    livewire(ManageHolidays::class)
         ->assertCanSeeTableRecords($holidays);
 });
 
-test('create Holiday page works correctly', function (): void {
+test('create Holiday via modal works correctly', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Holiday'));
 
-    $name = 'new Holiday';
-    livewire(CreateHoliday::class)
-        ->fillForm([
-            'name' => $name,
+    livewire(ManageHolidays::class)
+        ->callAction('create', [
+            'name' => 'New Holiday',
             'date' => now()->addDays(10)->format('Y-m-d'),
             'description' => 'Holiday description',
-        ])
-        ->call('create');
+        ]);
 
     $this->assertDatabaseHas('holidays', [
-        'name' => $name,
+        'name' => 'New Holiday',
     ]);
 });
 
-test('edit Holiday page works correctly', function (): void {
+test('edit Holiday via modal works correctly', function (): void {
     $holiday = Holiday::factory()->create();
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Holiday'));
 
-    $newName = 'Updated Holiday Name';
-    livewire(EditHoliday::class, ['record' => $holiday->getKey()])
-        ->fillForm([
-            'name' => $newName,
+    livewire(ManageHolidays::class)
+        ->callTableAction('edit', $holiday, [
+            'name' => 'Updated Holiday Name',
             'date' => $holiday->date,
-            'description' => $holiday->description,
         ])
-        ->call('save')
         ->assertHasNoErrors();
 
     $this->assertDatabaseHas('holidays', [
         'id' => $holiday->id,
-        'name' => $newName,
+        'name' => 'Updated Holiday Name',
     ]);
 });
 
-test('form validation require fields on create and edit pages', function (): void {
+test('form validation requires fields on create and edit modals', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Holiday'));
 
-    // Test CreateHoliday validation
-    livewire(CreateHoliday::class)
-        ->fillForm([
-            'name' => '', // Invalid: name is required
-            'date' => '', // Invalid: date is required
+    livewire(ManageHolidays::class)
+        ->callAction('create', [
+            'name' => '',
+            'date' => '',
         ])
-        ->call('create')
         ->assertHasFormErrors(['name' => 'required', 'date' => 'required']);
-    // Test EditHoliday validation
+
     $holiday = Holiday::factory()->create();
-    livewire(EditHoliday::class, ['record' => $holiday->getKey()])
-        ->fillForm([
-            'name' => '', // Invalid: name is required
-            'date' => '', // Invalid: date is required
+    livewire(ManageHolidays::class)
+        ->callTableAction('edit', $holiday, [
+            'name' => '',
+            'date' => '',
         ])
-        ->call('save')
-        ->assertHasFormErrors(keys: ['name' => 'required', 'date' => 'required']);
+        ->assertHasFormErrors(['name' => 'required', 'date' => 'required']);
 });
 
-test('Holiday date must be unique on create and edit pages', function (): void {
+test('Holiday date must be unique on create and edit modals', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Holiday'));
 
     $existingHoliday = Holiday::factory()->create(['date' => now()->format('Y-m-d')]);
 
-    // Test CreateHoliday uniqueness validation
-    livewire(CreateHoliday::class)
-        ->fillForm([
-            'name' => 'Unique Holiday', // Invalid: name must be unique
-            'date' => now()->format('Y-m-d'), // Invalid: date must be unique
+    livewire(ManageHolidays::class)
+        ->callAction('create', [
+            'name' => 'Unique Holiday',
+            'date' => now()->format('Y-m-d'),
         ])
-        ->call('create')
         ->assertHasFormErrors(['date' => 'unique']);
-    // Test EditHoliday uniqueness validation
-    $holidayToEdit = Holiday::factory()->create(['name' => 'Another Holiday']);
-    livewire(EditHoliday::class, params: ['record' => $holidayToEdit->getKey()])
-        ->fillForm([
-            'date' => now()->format('Y-m-d'), // Invalid: date must be unique
+
+    $holidayToEdit = Holiday::factory()->create();
+    livewire(ManageHolidays::class)
+        ->callTableAction('edit', $holidayToEdit, [
+            'date' => now()->format('Y-m-d'),
         ])
-        ->call('save')
         ->assertHasFormErrors(['date' => 'unique']);
 });
 
-it('allows updating Holiday without changing name to trigger uniqueness validation', function (): void {
-    $holiday = Holiday::factory()->create(['name' => 'Existing Holiday']);
+it('allows updating Holiday without changing date to trigger uniqueness validation', function (): void {
+    $holiday = Holiday::factory()->create();
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Holiday'));
 
-    livewire(EditHoliday::class, ['record' => $holiday->getKey()])
-        ->fillForm([
-            'date' => $holiday->date, // Same date, should not trigger uniqueness error
+    livewire(ManageHolidays::class)
+        ->callTableAction('edit', $holiday, [
+            'date' => $holiday->date,
         ])
-        ->call('save')
         ->assertHasNoErrors();
 
     $this->assertDatabaseHas('holidays', [
         'id' => $holiday->id,
         'date' => $holiday->date,
     ]);
-});
-
-it('autofocus the name field on create and edit pages', function (): void {
-    actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Holiday'));
-
-    // Test CreateHoliday autofocus
-    livewire(CreateHoliday::class)
-        ->assertSeeHtml('autofocus');
-
-    // Test EditHoliday autofocus
-    $holiday = Holiday::factory()->create();
-    livewire(EditHoliday::class, ['record' => $holiday->getKey()])
-        ->assertSeeHtml('autofocus');
 });

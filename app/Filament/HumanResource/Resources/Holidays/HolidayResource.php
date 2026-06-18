@@ -3,10 +3,7 @@
 namespace App\Filament\HumanResource\Resources\Holidays;
 
 use App\Filament\HumanResource\Enums\HRNavigationEnum;
-use App\Filament\HumanResource\Resources\Holidays\Pages\CreateHoliday;
-use App\Filament\HumanResource\Resources\Holidays\Pages\EditHoliday;
-use App\Filament\HumanResource\Resources\Holidays\Pages\ListHolidays;
-use App\Filament\HumanResource\Resources\Holidays\Pages\ViewHoliday;
+use App\Filament\HumanResource\Resources\Holidays\Pages\ManageHolidays;
 use App\Filament\HumanResource\Resources\Holidays\Schemas\HolidayForm;
 use App\Filament\HumanResource\Resources\Holidays\Schemas\HolidayInfolist;
 use App\Filament\HumanResource\Resources\Holidays\Tables\HolidaysTable;
@@ -56,10 +53,7 @@ class HolidayResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListHolidays::route('/'),
-            'create' => CreateHoliday::route('/create'),
-            'view' => ViewHoliday::route('/{record}'),
-            'edit' => EditHoliday::route('/{record}/edit'),
+            'index' => ManageHolidays::route('/'),
         ];
     }
 

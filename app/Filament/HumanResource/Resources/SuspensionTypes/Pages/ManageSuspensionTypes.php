@@ -4,9 +4,9 @@ namespace App\Filament\HumanResource\Resources\SuspensionTypes\Pages;
 
 use App\Filament\HumanResource\Resources\SuspensionTypes\SuspensionTypeResource;
 use Filament\Actions\CreateAction;
-use Filament\Resources\Pages\ListRecords;
+use Filament\Resources\Pages\ManageRecords;
 
-class ListSuspensionTypes extends ListRecords
+class ManageSuspensionTypes extends ManageRecords
 {
     protected static string $resource = SuspensionTypeResource::class;
 

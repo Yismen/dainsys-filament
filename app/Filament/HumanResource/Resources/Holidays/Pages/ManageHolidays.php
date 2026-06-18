@@ -3,17 +3,17 @@
 namespace App\Filament\HumanResource\Resources\Holidays\Pages;
 
 use App\Filament\HumanResource\Resources\Holidays\HolidayResource;
-use Filament\Actions\EditAction;
-use Filament\Resources\Pages\ViewRecord;
+use Filament\Actions\CreateAction;
+use Filament\Resources\Pages\ManageRecords;
 
-class ViewHoliday extends ViewRecord
+class ManageHolidays extends ManageRecords
 {
     protected static string $resource = HolidayResource::class;
 
     protected function getHeaderActions(): array
     {
         return [
-            EditAction::make(),
+            CreateAction::make(),
         ];
     }
 }

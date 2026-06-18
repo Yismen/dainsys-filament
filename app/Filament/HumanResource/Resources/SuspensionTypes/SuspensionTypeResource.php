@@ -3,10 +3,7 @@
 namespace App\Filament\HumanResource\Resources\SuspensionTypes;
 
 use App\Filament\HumanResource\Enums\HRNavigationEnum;
-use App\Filament\HumanResource\Resources\SuspensionTypes\Pages\CreateSuspensionType;
-use App\Filament\HumanResource\Resources\SuspensionTypes\Pages\EditSuspensionType;
-use App\Filament\HumanResource\Resources\SuspensionTypes\Pages\ListSuspensionTypes;
-use App\Filament\HumanResource\Resources\SuspensionTypes\Pages\ViewSuspensionType;
+use App\Filament\HumanResource\Resources\SuspensionTypes\Pages\ManageSuspensionTypes;
 use App\Filament\HumanResource\Resources\SuspensionTypes\Schemas\SuspensionTypeForm;
 use App\Filament\HumanResource\Resources\SuspensionTypes\Schemas\SuspensionTypeInfolist;
 use App\Filament\HumanResource\Resources\SuspensionTypes\Tables\SuspensionTypesTable;
@@ -54,10 +51,7 @@ class SuspensionTypeResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListSuspensionTypes::route('/'),
-            'create' => CreateSuspensionType::route('/create'),
-            'view' => ViewSuspensionType::route('/{record}'),
-            'edit' => EditSuspensionType::route('/{record}/edit'),
+            'index' => ManageSuspensionTypes::route('/'),
         ];
     }
 
