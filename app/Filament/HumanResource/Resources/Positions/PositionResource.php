@@ -3,10 +3,7 @@
 namespace App\Filament\HumanResource\Resources\Positions;
 
 use App\Filament\HumanResource\Enums\HRNavigationEnum;
-use App\Filament\HumanResource\Resources\Positions\Pages\CreatePosition;
-use App\Filament\HumanResource\Resources\Positions\Pages\EditPosition;
-use App\Filament\HumanResource\Resources\Positions\Pages\ListPositions;
-use App\Filament\HumanResource\Resources\Positions\Pages\ViewPosition;
+use App\Filament\HumanResource\Resources\Positions\Pages\ManagePositions;
 use App\Filament\HumanResource\Resources\Positions\Schemas\PositionForm;
 use App\Filament\HumanResource\Resources\Positions\Schemas\PositionInfolist;
 use App\Filament\HumanResource\Resources\Positions\Tables\PositionsTable;
@@ -54,10 +51,7 @@ class PositionResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListPositions::route('/'),
-            'create' => CreatePosition::route('/create'),
-            'view' => ViewPosition::route('/{record}'),
-            'edit' => EditPosition::route('/{record}/edit'),
+            'index' => ManagePositions::route('/'),
         ];
     }
 

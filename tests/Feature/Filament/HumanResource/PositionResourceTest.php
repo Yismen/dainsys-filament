@@ -1,10 +1,7 @@
 <?php
 
 use App\Enums\SalaryTypes;
-use App\Filament\HumanResource\Resources\Positions\Pages\CreatePosition;
-use App\Filament\HumanResource\Resources\Positions\Pages\EditPosition;
-use App\Filament\HumanResource\Resources\Positions\Pages\ListPositions;
-use App\Filament\HumanResource\Resources\Positions\Pages\ViewPosition;
+use App\Filament\HumanResource\Resources\Positions\Pages\ManagePositions;
 use App\Models\Department;
 use App\Models\Position;
 use App\Models\User;
@@ -15,127 +12,78 @@ use function Pest\Laravel\get;
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    // Seed roles/permissions if applicable
     Filament::setCurrentPanel(
-        Filament::getPanel('human-resource'), // Where `app` is the ID of the panel you want to test.
+        Filament::getPanel('human-resource'),
     );
-    $position = Position::factory()->create();
 
-    $this->resource_routes = [
-        'index' => [
-            'route' => ListPositions::getRouteName(),
-            'params' => [],
-            'permission' => ['view-any'],
-        ],
-        'create' => [
-            'route' => CreatePosition::getRouteName(),
-            'params' => [],
-            'permission' => ['create', 'view-any'],
-        ],
-        'edit' => [
-            'route' => EditPosition::getRouteName(),
-            'params' => ['record' => $position->getKey()],
-            'permission' => ['update', 'edit', 'view-any'],
-        ],
-        'view' => [
-            'route' => ViewPosition::getRouteName(),
-            'params' => ['record' => $position->getKey()],
-            'permission' => ['view', 'view-any'],
-        ],
-    ];
+    $this->indexRoute = ManagePositions::getRouteName();
 });
 
-it('require users to be authenticated to access Position resource pages', function (string $method): void {
-    $response = get(route($this->resource_routes[$method]['route'],
-        $this->resource_routes[$method]['params']));
+it('requires users to be authenticated to access the Position resource', function (): void {
+    $response = get(route($this->indexRoute));
 
     $response->assertRedirect(route('filament.human-resource.auth.login'));
-})->with([
-    'index',
-    'create',
-    'edit',
-    'view',
-]);
+});
 
-it('require users to have correct permissions to access Position resource pages', function (string $method): void {
+it('requires users to have correct permissions to access the Position resource', function (): void {
     actingAs(User::factory()->create());
 
-    $response = get(route($this->resource_routes[$method]['route'],
-        $this->resource_routes[$method]['params']));
+    $response = get(route($this->indexRoute));
     $response->assertForbidden();
-})->with([
-    'index',
-    'create',
-    'edit',
-    'view',
-]);
+});
 
-it('allows super admin users to access Position resource pages', function (string $method): void {
+it('allows super admin users to access the Position resource', function (): void {
     actingAs($this->createSuperAdminUser());
 
-    $response = get(route($this->resource_routes[$method]['route'],
-        $this->resource_routes[$method]['params']));
+    $response = get(route($this->indexRoute));
 
     $response->assertOk();
-})->with([
-    'index',
-    'create',
-    'edit',
-    'view',
-]);
+});
 
-it('allow users with correct permissions to access Position resource pages', function (string $method): void {
-    actingAs($this->createUserWithPermissionsToActions($this->resource_routes[$method]['permission'], 'Position'));
+it('allows users with correct permissions to access the Position resource', function (): void {
+    actingAs($this->createUserWithPermissionsToActions(['view-any'], 'Position'));
 
-    $response = get(route($this->resource_routes[$method]['route'],
-        $this->resource_routes[$method]['params']));
+    $response = get(route($this->indexRoute));
 
     $response->assertOk();
-})->with([
-    'index',
-    'create',
-    'edit',
-    'view',
-]);
+});
 
 it('displays Position list page correctly', function (): void {
     $positions = Position::factory()->count(5)->create();
 
-    actingAs($this->createUserWithPermissionTo('view-any Position'));
+    actingAs($this->createUserWithPermissionsToActions(['view-any'], 'Position'));
 
-    livewire(ListPositions::class)
+    livewire(ManagePositions::class)
         ->assertCanSeeTableRecords($positions);
 });
 
-test('create Position page works correctly', function (): void {
+test('create Position via modal works correctly', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Position'));
 
     $name = 'new Position';
-    livewire(CreatePosition::class)
-        ->fillForm([
+    livewire(ManagePositions::class)
+        ->callAction('create', [
             'name' => $name,
             'department_id' => Department::factory()->create()->id,
             'salary_type' => SalaryTypes::Salary->value,
             'salary' => 50000,
-        ])
-        ->call('create');
+        ]);
 
     $this->assertDatabaseHas('positions', [
         'name' => $name,
     ]);
 });
 
-test('edit Position page works correctly', function (): void {
+test('edit Position via modal works correctly', function (): void {
     $position = Position::factory()->create();
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Position'));
 
     $newName = 'Updated Position Name';
-    livewire(EditPosition::class, ['record' => $position->getKey()])
-        ->fillForm([
+    livewire(ManagePositions::class)
+        ->callTableAction('edit', $position, [
             'name' => $newName,
         ])
-        ->call('save')
         ->assertHasNoErrors();
 
     $this->assertDatabaseHas('positions', [
@@ -144,56 +92,47 @@ test('edit Position page works correctly', function (): void {
     ]);
 });
 
-test('form validation require fields on create and edit pages', function (): void {
+test('form validation requires fields on create and edit modals', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Position'));
 
-    // Test CreatePosition validation
-    livewire(CreatePosition::class)
-        ->fillForm([
-            'name' => '', // Invalid: name is required
-            'department_id' => '', // Invalid: department_id is required
-            'salary_type' => '', // Invalid: salary_type is required
-            'salary' => '', // Invalid: salary is required
+    livewire(ManagePositions::class)
+        ->callAction('create', [
+            'name' => '',
+            'department_id' => '',
+            'salary_type' => '',
+            'salary' => '',
         ])
-        ->call('create')
         ->assertHasFormErrors([
             'name' => 'required',
             'department_id' => 'required',
             'salary_type' => 'required',
             'salary' => 'required',
         ]);
-    // Test EditPosition validation
+
     $position = Position::factory()->create();
-    livewire(EditPosition::class, ['record' => $position->getKey()])
-        ->fillForm([
-            'name' => '', // Invalid: name is required
-            'department_id' => '', // Invalid: department_id is required
-            'salary_type' => '', // Invalid: salary_type is required
-            'salary' => '', // Invalid: salary is required
+    livewire(ManagePositions::class)
+        ->callTableAction('edit', $position, [
+            'name' => '',
         ])
-        ->call('save')
         ->assertHasFormErrors(['name' => 'required']);
 });
 
-test('Position name must be unique on create and edit pages', function (): void {
+test('Position name must be unique on create and edit modals', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Position'));
 
     $existingPosition = Position::factory()->create(['name' => 'Unique Position']);
 
-    // Test CreatePosition uniqueness validation
-    livewire(CreatePosition::class)
-        ->fillForm([
-            'name' => 'Unique Position', // Invalid: name must be unique
+    livewire(ManagePositions::class)
+        ->callAction('create', [
+            'name' => 'Unique Position',
         ])
-        ->call('create')
         ->assertHasFormErrors(['name' => 'unique']);
-    // Test EditPosition uniqueness validation
+
     $positionToEdit = Position::factory()->create(['name' => 'Another Position']);
-    livewire(EditPosition::class, ['record' => $positionToEdit->getKey()])
-        ->fillForm([
-            'name' => 'Unique Position', // Invalid: name must be unique
+    livewire(ManagePositions::class)
+        ->callTableAction('edit', $positionToEdit, [
+            'name' => 'Unique Position',
         ])
-        ->call('save')
         ->assertHasFormErrors(['name' => 'unique']);
 });
 
@@ -202,28 +141,14 @@ it('allows updating Position without changing name to trigger uniqueness validat
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Position'));
 
-    livewire(EditPosition::class, ['record' => $position->getKey()])
-        ->fillForm([
-            'name' => 'Existing Position', // Same name, should not trigger uniqueness error
+    livewire(ManagePositions::class)
+        ->callTableAction('edit', $position, [
+            'name' => 'Existing Position',
         ])
-        ->call('save')
         ->assertHasNoErrors();
 
     $this->assertDatabaseHas('positions', [
         'id' => $position->id,
         'name' => 'Existing Position',
     ]);
-});
-
-it('autofocus the name field on create and edit pages', function (): void {
-    actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Position'));
-
-    // Test CreatePosition autofocus
-    livewire(CreatePosition::class)
-        ->assertSeeHtml('autofocus');
-
-    // Test EditPosition autofocus
-    $position = Position::factory()->create();
-    livewire(EditPosition::class, ['record' => $position->getKey()])
-        ->assertSeeHtml('autofocus');
 });

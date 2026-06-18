@@ -3,6 +3,7 @@
 namespace App\Filament\HumanResource\Resources\Positions\Schemas;
 
 use App\Models\Position;
+use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 
@@ -35,6 +36,13 @@ class PositionInfolist
                 TextEntry::make('updated_at')
                     ->dateTime()
                     ->placeholder('-'),
+                RepeatableEntry::make('hiredEmployees')
+                    ->label(__('Hired Employees'))
+                    ->grid(2)
+                    ->columnSpanFull()
+                    ->schema([
+                        TextEntry::make('full_name'),
+                    ]),
             ]);
     }
 }

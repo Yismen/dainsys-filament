@@ -4,9 +4,9 @@ namespace App\Filament\HumanResource\Resources\Positions\Pages;
 
 use App\Filament\HumanResource\Resources\Positions\PositionResource;
 use Filament\Actions\CreateAction;
-use Filament\Resources\Pages\ListRecords;
+use Filament\Resources\Pages\ManageRecords;
 
-class ListPositions extends ListRecords
+class ManagePositions extends ManageRecords
 {
     protected static string $resource = PositionResource::class;
 

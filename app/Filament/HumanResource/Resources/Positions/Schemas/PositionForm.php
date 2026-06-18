@@ -8,6 +8,8 @@ use App\Services\ModelListService;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Infolists\Components\RepeatableEntry;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 
 class PositionForm
@@ -40,6 +42,14 @@ class PositionForm
                 Textarea::make('description')
                     ->label(__('filament.description'))
                     ->columnSpanFull(),
+                RepeatableEntry::make('hiredEmployees')
+                    ->label(__('Hired Employees'))
+                    ->grid(2)
+                    ->columnSpanFull()
+                    ->visibleOn('edit')
+                    ->schema([
+                        TextEntry::make('full_name'),
+                    ]),
             ]);
     }
 }
