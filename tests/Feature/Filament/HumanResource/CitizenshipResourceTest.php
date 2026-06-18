@@ -1,9 +1,6 @@
 <?php
 
-use App\Filament\HumanResource\Resources\Citizenships\Pages\CreateCitizenship;
-use App\Filament\HumanResource\Resources\Citizenships\Pages\EditCitizenship;
-use App\Filament\HumanResource\Resources\Citizenships\Pages\ListCitizenships;
-use App\Filament\HumanResource\Resources\Citizenships\Pages\ViewCitizenship;
+use App\Filament\HumanResource\Resources\Citizenships\Pages\ManageCitizenships;
 use App\Models\Citizenship;
 use App\Models\User;
 use Filament\Facades\Filament;
@@ -13,171 +10,114 @@ use function Pest\Laravel\get;
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    // Seed roles/permissions if applicable
     Filament::setCurrentPanel(
-        Filament::getPanel('human-resource'), // Where `app` is the ID of the panel you want to test.
+        Filament::getPanel('human-resource'),
     );
-    $citizenship = Citizenship::factory()->create();
 
-    $this->resource_routes = [
-        'index' => [
-            'route' => ListCitizenships::getRouteName(),
-            'params' => [],
-            'permission' => ['view-any'],
-        ],
-        'create' => [
-            'route' => CreateCitizenship::getRouteName(),
-            'params' => [],
-            'permission' => ['create', 'view-any'],
-        ],
-        'edit' => [
-            'route' => EditCitizenship::getRouteName(),
-            'params' => ['record' => $citizenship->getKey()],
-            'permission' => ['update', 'edit', 'view-any'],
-        ],
-        'view' => [
-            'route' => ViewCitizenship::getRouteName(),
-            'params' => ['record' => $citizenship->getKey()],
-            'permission' => ['view', 'view-any'],
-        ],
-    ];
+    $this->indexRoute = ManageCitizenships::getRouteName();
 });
 
-it('require users to be authenticated to access Citizenship resource pages', function (string $method): void {
-    $response = get(route($this->resource_routes[$method]['route'],
-        $this->resource_routes[$method]['params']));
+it('requires users to be authenticated to access the Citizenship resource', function (): void {
+    $response = get(route($this->indexRoute));
 
     $response->assertRedirect(route('filament.human-resource.auth.login'));
-})->with([
-    'index',
-    'create',
-    'edit',
-    'view',
-]);
+});
 
-it('require users to have correct permissions to access Citizenship resource pages', function (string $method): void {
+it('requires users to have correct permissions to access the Citizenship resource', function (): void {
     actingAs(User::factory()->create());
 
-    $response = get(route($this->resource_routes[$method]['route'],
-        $this->resource_routes[$method]['params']));
+    $response = get(route($this->indexRoute));
     $response->assertForbidden();
-})->with([
-    'index',
-    'create',
-    'edit',
-    'view',
-]);
+});
 
-it('allows super admin users to access Citizenship resource pages', function (string $method): void {
+it('allows super admin users to access the Citizenship resource', function (): void {
     actingAs($this->createSuperAdminUser());
 
-    $response = get(route($this->resource_routes[$method]['route'],
-        $this->resource_routes[$method]['params']));
+    $response = get(route($this->indexRoute));
 
     $response->assertOk();
-})->with([
-    'index',
-    'create',
-    'edit',
-    'view',
-]);
+});
 
-it('allow users with correct permissions to access Citizenship resource pages', function (string $method): void {
-    actingAs($this->createUserWithPermissionsToActions($this->resource_routes[$method]['permission'], 'Citizenship'));
+it('allows users with correct permissions to access the Citizenship resource', function (): void {
+    actingAs($this->createUserWithPermissionsToActions(['view-any'], 'Citizenship'));
 
-    $response = get(route($this->resource_routes[$method]['route'],
-        $this->resource_routes[$method]['params']));
+    $response = get(route($this->indexRoute));
 
     $response->assertOk();
-})->with([
-    'index',
-    'create',
-    'edit',
-    'view',
-]);
+});
 
 it('displays Citizenship list page correctly', function (): void {
     $citizenships = Citizenship::factory()->count(5)->create();
 
-    actingAs($this->createUserWithPermissionTo('view-any Citizenship'));
+    actingAs($this->createUserWithPermissionsToActions(['view-any'], 'Citizenship'));
 
-    livewire(ListCitizenships::class)
+    livewire(ManageCitizenships::class)
         ->assertCanSeeTableRecords($citizenships);
 });
 
-test('create Citizenship page works correctly', function (): void {
+test('create Citizenship via modal works correctly', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Citizenship'));
 
-    $name = 'new Citizenship';
-    livewire(CreateCitizenship::class)
-        ->fillForm([
-            'name' => $name,
-        ])
-        ->call('create');
+    livewire(ManageCitizenships::class)
+        ->callAction('create', [
+            'name' => 'New Citizenship',
+        ]);
 
     $this->assertDatabaseHas('citizenships', [
-        'name' => $name,
+        'name' => 'New Citizenship',
     ]);
 });
 
-test('edit Citizenship page works correctly', function (): void {
+test('edit Citizenship via modal works correctly', function (): void {
     $citizenship = Citizenship::factory()->create();
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Citizenship'));
 
-    $newName = 'Updated Citizenship Name';
-    livewire(EditCitizenship::class, ['record' => $citizenship->getKey()])
-        ->fillForm([
-            'name' => $newName,
+    livewire(ManageCitizenships::class)
+        ->callTableAction('edit', $citizenship, [
+            'name' => 'Updated Citizenship Name',
         ])
-        ->call('save')
         ->assertHasNoErrors();
 
     $this->assertDatabaseHas('citizenships', [
         'id' => $citizenship->id,
-        'name' => $newName,
+        'name' => 'Updated Citizenship Name',
     ]);
 });
 
-test('form validation require fields on create and edit pages', function (): void {
+test('form validation requires fields on create and edit modals', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Citizenship'));
 
-    // Test CreateCitizenship validation
-    livewire(CreateCitizenship::class)
-        ->fillForm([
-            'name' => '', // Invalid: name is required
+    livewire(ManageCitizenships::class)
+        ->callAction('create', [
+            'name' => '',
         ])
-        ->call('create')
         ->assertHasFormErrors(['name' => 'required']);
-    // Test EditCitizenship validation
+
     $citizenship = Citizenship::factory()->create();
-    livewire(EditCitizenship::class, ['record' => $citizenship->getKey()])
-        ->fillForm([
-            'name' => '', // Invalid: name is required
+    livewire(ManageCitizenships::class)
+        ->callTableAction('edit', $citizenship, [
+            'name' => '',
         ])
-        ->call('save')
         ->assertHasFormErrors(['name' => 'required']);
 });
 
-test('Citizenship name must be unique on create and edit pages', function (): void {
+test('Citizenship name must be unique on create and edit modals', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Citizenship'));
 
     $existingCitizenship = Citizenship::factory()->create(['name' => 'Unique Citizenship']);
 
-    // Test CreateCitizenship uniqueness validation
-    livewire(CreateCitizenship::class)
-        ->fillForm([
-            'name' => 'Unique Citizenship', // Invalid: name must be unique
+    livewire(ManageCitizenships::class)
+        ->callAction('create', [
+            'name' => 'Unique Citizenship',
         ])
-        ->call('create')
         ->assertHasFormErrors(['name' => 'unique']);
-    // Test EditCitizenship uniqueness validation
+
     $citizenshipToEdit = Citizenship::factory()->create(['name' => 'Another Citizenship']);
-    livewire(EditCitizenship::class, ['record' => $citizenshipToEdit->getKey()])
-        ->fillForm([
-            'name' => 'Unique Citizenship', // Invalid: name must be unique
+    livewire(ManageCitizenships::class)
+        ->callTableAction('edit', $citizenshipToEdit, [
+            'name' => 'Unique Citizenship',
         ])
-        ->call('save')
         ->assertHasFormErrors(['name' => 'unique']);
 });
 
@@ -186,28 +126,14 @@ it('allows updating Citizenship without changing name to trigger uniqueness vali
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Citizenship'));
 
-    livewire(EditCitizenship::class, ['record' => $citizenship->getKey()])
-        ->fillForm([
-            'name' => 'Existing Citizenship', // Same name, should not trigger uniqueness error
+    livewire(ManageCitizenships::class)
+        ->callTableAction('edit', $citizenship, [
+            'name' => 'Existing Citizenship',
         ])
-        ->call('save')
         ->assertHasNoErrors();
 
     $this->assertDatabaseHas('citizenships', [
         'id' => $citizenship->id,
         'name' => 'Existing Citizenship',
     ]);
-});
-
-it('autofocus the name field on create and edit pages', function (): void {
-    actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Citizenship'));
-
-    // Test CreateCitizenship autofocus
-    livewire(CreateCitizenship::class)
-        ->assertSeeHtml('autofocus');
-
-    // Test EditCitizenship autofocus
-    $citizenship = Citizenship::factory()->create();
-    livewire(EditCitizenship::class, ['record' => $citizenship->getKey()])
-        ->assertSeeHtml('autofocus');
 });

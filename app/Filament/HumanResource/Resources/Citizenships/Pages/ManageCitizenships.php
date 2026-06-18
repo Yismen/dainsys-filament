@@ -4,9 +4,9 @@ namespace App\Filament\HumanResource\Resources\Citizenships\Pages;
 
 use App\Filament\HumanResource\Resources\Citizenships\CitizenshipResource;
 use Filament\Actions\CreateAction;
-use Filament\Resources\Pages\ListRecords;
+use Filament\Resources\Pages\ManageRecords;
 
-class ListCitizenships extends ListRecords
+class ManageCitizenships extends ManageRecords
 {
     protected static string $resource = CitizenshipResource::class;
 

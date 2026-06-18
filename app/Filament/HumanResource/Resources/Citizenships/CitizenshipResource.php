@@ -3,10 +3,7 @@
 namespace App\Filament\HumanResource\Resources\Citizenships;
 
 use App\Filament\HumanResource\Enums\HRNavigationEnum;
-use App\Filament\HumanResource\Resources\Citizenships\Pages\CreateCitizenship;
-use App\Filament\HumanResource\Resources\Citizenships\Pages\EditCitizenship;
-use App\Filament\HumanResource\Resources\Citizenships\Pages\ListCitizenships;
-use App\Filament\HumanResource\Resources\Citizenships\Pages\ViewCitizenship;
+use App\Filament\HumanResource\Resources\Citizenships\Pages\ManageCitizenships;
 use App\Filament\HumanResource\Resources\Citizenships\Schemas\CitizenshipForm;
 use App\Filament\HumanResource\Resources\Citizenships\Schemas\CitizenshipInfolist;
 use App\Filament\HumanResource\Resources\Citizenships\Tables\CitizenshipsTable;
@@ -56,10 +53,7 @@ class CitizenshipResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListCitizenships::route('/'),
-            'create' => CreateCitizenship::route('/create'),
-            'view' => ViewCitizenship::route('/{record}'),
-            'edit' => EditCitizenship::route('/{record}/edit'),
+            'index' => ManageCitizenships::route('/'),
         ];
     }
 
