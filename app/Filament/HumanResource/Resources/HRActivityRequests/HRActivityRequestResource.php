@@ -3,8 +3,7 @@
 namespace App\Filament\HumanResource\Resources\HRActivityRequests;
 
 use App\Filament\HumanResource\Enums\HRNavigationEnum;
-use App\Filament\HumanResource\Resources\HRActivityRequests\Pages\ListHRActivityRequests;
-use App\Filament\HumanResource\Resources\HRActivityRequests\Pages\ViewHRActivityRequest;
+use App\Filament\HumanResource\Resources\HRActivityRequests\Pages\ManageHRActivityRequests;
 use App\Filament\HumanResource\Resources\HRActivityRequests\Schemas\HRActivityRequestForm;
 use App\Filament\HumanResource\Resources\HRActivityRequests\Schemas\HRActivityRequestInfolist;
 use App\Filament\HumanResource\Resources\HRActivityRequests\Tables\HRActivityRequestsTable;
@@ -56,8 +55,7 @@ class HRActivityRequestResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListHRActivityRequests::route('/'),
-            'view' => ViewHRActivityRequest::route('/{record}'),
+            'index' => ManageHRActivityRequests::route('/'),
         ];
     }
 

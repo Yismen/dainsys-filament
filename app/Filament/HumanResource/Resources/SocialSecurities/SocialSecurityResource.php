@@ -3,10 +3,7 @@
 namespace App\Filament\HumanResource\Resources\SocialSecurities;
 
 use App\Filament\HumanResource\Enums\HRNavigationEnum;
-use App\Filament\HumanResource\Resources\SocialSecurities\Pages\CreateSocialSecurity;
-use App\Filament\HumanResource\Resources\SocialSecurities\Pages\EditSocialSecurity;
-use App\Filament\HumanResource\Resources\SocialSecurities\Pages\ListSocialSecurities;
-use App\Filament\HumanResource\Resources\SocialSecurities\Pages\ViewSocialSecurity;
+use App\Filament\HumanResource\Resources\SocialSecurities\Pages\ManageSocialSecurities;
 use App\Filament\HumanResource\Resources\SocialSecurities\Schemas\SocialSecurityForm;
 use App\Filament\HumanResource\Resources\SocialSecurities\Schemas\SocialSecurityInfolist;
 use App\Filament\HumanResource\Resources\SocialSecurities\Tables\SocialSecuritiesTable;
@@ -56,10 +53,7 @@ class SocialSecurityResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListSocialSecurities::route('/'),
-            'create' => CreateSocialSecurity::route('/create'),
-            'view' => ViewSocialSecurity::route('/{record}'),
-            'edit' => EditSocialSecurity::route('/{record}/edit'),
+            'index' => ManageSocialSecurities::route('/'),
         ];
     }
 

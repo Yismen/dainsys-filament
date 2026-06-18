@@ -3,10 +3,7 @@
 namespace App\Filament\HumanResource\Resources\Terminations;
 
 use App\Filament\HumanResource\Enums\HRNavigationEnum;
-use App\Filament\HumanResource\Resources\Terminations\Pages\CreateTermination;
-use App\Filament\HumanResource\Resources\Terminations\Pages\EditTermination;
-use App\Filament\HumanResource\Resources\Terminations\Pages\ListTerminations;
-use App\Filament\HumanResource\Resources\Terminations\Pages\ViewTermination;
+use App\Filament\HumanResource\Resources\Terminations\Pages\ManageTerminations;
 use App\Filament\HumanResource\Resources\Terminations\Schemas\TerminationForm;
 use App\Filament\HumanResource\Resources\Terminations\Schemas\TerminationInfolist;
 use App\Filament\HumanResource\Resources\Terminations\Tables\TerminationsTable;
@@ -63,10 +60,7 @@ class TerminationResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListTerminations::route('/'),
-            'create' => CreateTermination::route('/create'),
-            'view' => ViewTermination::route('/{record}'),
-            'edit' => EditTermination::route('/{record}/edit'),
+            'index' => ManageTerminations::route('/'),
         ];
     }
 

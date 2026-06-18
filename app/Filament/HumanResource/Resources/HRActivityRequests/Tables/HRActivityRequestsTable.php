@@ -6,8 +6,12 @@ use App\Enums\HRActivityRequestStatuses;
 use App\Models\HRActivityRequest;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\ForceDeleteAction;
 use Filament\Actions\ForceDeleteBulkAction;
+use Filament\Actions\RestoreAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\Textarea;
@@ -72,6 +76,10 @@ class HRActivityRequestsTable
             ])
             ->recordActions([
                 ViewAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
+                ForceDeleteAction::make(),
+                RestoreAction::make(),
                 Action::make('complete')
                     ->icon('heroicon-o-check-circle')
                     ->color('success')

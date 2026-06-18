@@ -4,9 +4,9 @@ namespace App\Filament\HumanResource\Resources\SocialSecurities\Pages;
 
 use App\Filament\HumanResource\Resources\SocialSecurities\SocialSecurityResource;
 use Filament\Actions\CreateAction;
-use Filament\Resources\Pages\ListRecords;
+use Filament\Resources\Pages\ManageRecords;
 
-class ListSocialSecurities extends ListRecords
+class ManageSocialSecurities extends ManageRecords
 {
     protected static string $resource = SocialSecurityResource::class;
 

@@ -3,10 +3,7 @@
 namespace App\Filament\HumanResource\Resources\Suspensions;
 
 use App\Filament\HumanResource\Enums\HRNavigationEnum;
-use App\Filament\HumanResource\Resources\Suspensions\Pages\CreateSuspension;
-use App\Filament\HumanResource\Resources\Suspensions\Pages\EditSuspension;
-use App\Filament\HumanResource\Resources\Suspensions\Pages\ListSuspensions;
-use App\Filament\HumanResource\Resources\Suspensions\Pages\ViewSuspension;
+use App\Filament\HumanResource\Resources\Suspensions\Pages\ManageSuspensions;
 use App\Filament\HumanResource\Resources\Suspensions\Schemas\SuspensionForm;
 use App\Filament\HumanResource\Resources\Suspensions\Schemas\SuspensionInfolist;
 use App\Filament\HumanResource\Resources\Suspensions\Tables\SuspensionsTable;
@@ -63,10 +60,7 @@ class SuspensionResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListSuspensions::route('/'),
-            'create' => CreateSuspension::route('/create'),
-            'view' => ViewSuspension::route('/{record}'),
-            'edit' => EditSuspension::route('/{record}/edit'),
+            'index' => ManageSuspensions::route('/'),
         ];
     }
 

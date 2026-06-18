@@ -3,17 +3,17 @@
 namespace App\Filament\HumanResource\Resources\Terminations\Pages;
 
 use App\Filament\HumanResource\Resources\Terminations\TerminationResource;
-use Filament\Actions\EditAction;
-use Filament\Resources\Pages\ViewRecord;
+use Filament\Actions\CreateAction;
+use Filament\Resources\Pages\ManageRecords;
 
-class ViewTermination extends ViewRecord
+class ManageTerminations extends ManageRecords
 {
     protected static string $resource = TerminationResource::class;
 
     protected function getHeaderActions(): array
     {
         return [
-            EditAction::make(),
+            CreateAction::make(),
         ];
     }
 }

@@ -2,10 +2,7 @@
 
 use App\Events\EmployeeHiredEvent;
 use App\Events\EmployeeSuspendedEvent;
-use App\Filament\HumanResource\Resources\Suspensions\Pages\CreateSuspension;
-use App\Filament\HumanResource\Resources\Suspensions\Pages\EditSuspension;
-use App\Filament\HumanResource\Resources\Suspensions\Pages\ListSuspensions;
-use App\Filament\HumanResource\Resources\Suspensions\Pages\ViewSuspension;
+use App\Filament\HumanResource\Resources\Suspensions\Pages\ManageSuspensions;
 use App\Models\Employee;
 use App\Models\Hire;
 use App\Models\Suspension;
@@ -19,47 +16,22 @@ use function Pest\Laravel\get;
 use function Pest\Livewire\livewire;
 
 beforeEach(function (): void {
-    // Seed roles/permissions if applicable
     Filament::setCurrentPanel(
-        Filament::getPanel('human-resource'), // Where `app` is the ID of the panel you want to test.
+        Filament::getPanel('human-resource'),
     );
+
+    $this->indexRoute = ManageSuspensions::getRouteName();
+
     Event::fake([
         EmployeeHiredEvent::class,
         EmployeeSuspendedEvent::class,
     ]);
 
-    $employee = Employee::factory()->create();
-    Hire::factory()->for($employee)->create();
-    $suspension = Suspension::factory()->for($employee)->create();
-
-    $this->resource_routes = [
-        'index' => [
-            'route' => ListSuspensions::getRouteName(),
-            'params' => [],
-            'permission' => ['view-any'],
-        ],
-        'create' => [
-            'route' => CreateSuspension::getRouteName(),
-            'params' => [],
-            'permission' => ['create', 'view-any'],
-        ],
-        'edit' => [
-            'route' => EditSuspension::getRouteName(),
-            'params' => ['record' => $suspension->getKey()],
-            'permission' => ['update', 'edit', 'view-any'],
-        ],
-        'view' => [
-            'route' => ViewSuspension::getRouteName(),
-            'params' => ['record' => $suspension->getKey()],
-            'permission' => ['view', 'view-any'],
-        ],
-    ];
-
-    $other_employee = Employee::factory()->create();
-    Hire::factory()->for($other_employee)->create();
+    $otherEmployee = Employee::factory()->create();
+    Hire::factory()->for($otherEmployee)->create();
 
     $this->form_data = [
-        'employee_id' => $other_employee->id,
+        'employee_id' => $otherEmployee->id,
         'suspension_type_id' => SuspensionType::factory()->create()->id,
         'starts_at' => now(),
         'ends_at' => now()->addDay(),
@@ -67,58 +39,28 @@ beforeEach(function (): void {
     ];
 });
 
-it('require users to be authenticated to access Suspension resource pages', function (string $method): void {
-    $response = get(route($this->resource_routes[$method]['route'],
-        $this->resource_routes[$method]['params']));
-
+it('requires users to be authenticated to access the Suspension resource', function (): void {
+    $response = get(route($this->indexRoute));
     $response->assertRedirect(route('filament.human-resource.auth.login'));
-})->with([
-    'index',
-    'create',
-    'edit',
-    'view',
-]);
+});
 
-it('require users to have correct permissions to access Suspension resource pages', function (string $method): void {
+it('requires users to have correct permissions to access the Suspension resource', function (): void {
     actingAs(User::factory()->create());
-
-    $response = get(route($this->resource_routes[$method]['route'],
-        $this->resource_routes[$method]['params']));
+    $response = get(route($this->indexRoute));
     $response->assertForbidden();
-})->with([
-    'index',
-    'create',
-    'edit',
-    'view',
-]);
+});
 
-it('allows super admin users to access Suspension resource pages', function (string $method): void {
+it('allows super admin users to access the Suspension resource', function (): void {
     actingAs($this->createSuperAdminUser());
-
-    $response = get(route($this->resource_routes[$method]['route'],
-        $this->resource_routes[$method]['params']));
-
+    $response = get(route($this->indexRoute));
     $response->assertOk();
-})->with([
-    'index',
-    'create',
-    'edit',
-    'view',
-]);
+});
 
-it('allow users with correct permissions to access Suspension resource pages', function (string $method): void {
-    actingAs($this->createUserWithPermissionsToActions($this->resource_routes[$method]['permission'], 'Suspension'));
-
-    $response = get(route($this->resource_routes[$method]['route'],
-        $this->resource_routes[$method]['params']));
-
+it('allows users with correct permissions to access the Suspension resource', function (): void {
+    actingAs($this->createUserWithPermissionsToActions(['view-any'], 'Suspension'));
+    $response = get(route($this->indexRoute));
     $response->assertOk();
-})->with([
-    'index',
-    'create',
-    'edit',
-    'view',
-]);
+});
 
 it('displays Suspension list page correctly', function (): void {
     $employee = Employee::factory()->create();
@@ -128,7 +70,7 @@ it('displays Suspension list page correctly', function (): void {
 
     actingAs($this->createUserWithPermissionTo('view-any Suspension'));
 
-    livewire(ListSuspensions::class)
+    livewire(ManageSuspensions::class)
         ->assertCanSeeTableRecords($suspensions);
 });
 
@@ -157,7 +99,7 @@ test('can filter Suspensions by starts_at date range', function (): void {
 
     actingAs($this->createUserWithPermissionTo('view-any Suspension'));
 
-    livewire(ListSuspensions::class)
+    livewire(ManageSuspensions::class)
         ->filterTable('starts_at', [
             'starts_at_from' => now()->subWeek()->toDateString(),
             'starts_at_until' => now()->toDateString(),
@@ -188,7 +130,7 @@ test('can filter Suspensions by suspension type', function (): void {
 
     actingAs($this->createUserWithPermissionTo('view-any Suspension'));
 
-    livewire(ListSuspensions::class)
+    livewire(ManageSuspensions::class)
         ->filterTable('suspension_type_id', (string) $firstType->id)
         ->assertCanSeeTableRecords([$firstTypeSuspension])
         ->assertCanNotSeeTableRecords([$secondTypeSuspension]);
@@ -219,52 +161,48 @@ test('can filter Suspensions by status', function (): void {
 
     actingAs($this->createUserWithPermissionTo('view-any Suspension'));
 
-    livewire(ListSuspensions::class)
+    livewire(ManageSuspensions::class)
         ->filterTable('status', 'Pending')
         ->assertCanSeeTableRecords([$pendingSuspension])
         ->assertCanNotSeeTableRecords([$completedSuspension]);
 });
 
-test('create Suspension page works correctly', function (): void {
+test('create Suspension via modal works correctly', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Suspension'));
 
-    livewire(CreateSuspension::class)
-        ->fillForm($this->form_data)
-        ->call('create');
+    livewire(ManageSuspensions::class)
+        ->callAction('create', $this->form_data);
 
     $this->assertDatabaseHas('suspensions', $this->form_data);
 });
 
-test('edit Suspension page works correctly', function (): void {
+test('edit Suspension via modal works correctly', function (): void {
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create();
     $suspension = Suspension::factory()->for($employee)->create();
 
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Suspension'));
 
-    livewire(EditSuspension::class, ['record' => $suspension->getKey()])
-        ->fillForm($this->form_data)
-        ->call('save')
+    livewire(ManageSuspensions::class)
+        ->callTableAction('edit', $suspension, $this->form_data)
         ->assertHasNoErrors();
 
     $this->assertDatabaseHas('suspensions', array_merge(['id' => $suspension->id], $this->form_data));
 });
 
-test('form validation require fields on create and edit pages', function (string $field): void {
+test('form validation requires fields on create and edit modals', function (string $field): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Suspension'));
 
-    // Test CreateSuspension validation
-    livewire(CreateSuspension::class)
-        ->fillForm([$field => ''])
-        ->call('create')
+    livewire(ManageSuspensions::class)
+        ->callAction('create', [$field => ''])
         ->assertHasFormErrors([$field => 'required']);
-    // Test EditSuspension validation
+
     $employee = Employee::factory()->create();
     Hire::factory()->for($employee)->create();
     $suspension = Suspension::factory()->for($employee)->create();
-    livewire(EditSuspension::class, ['record' => $suspension->getKey()])
-        ->fillForm([$field => ''])
-        ->call('save')
+
+    livewire(ManageSuspensions::class)
+        ->callTableAction('edit', $suspension, [$field => ''])
         ->assertHasFormErrors([$field => 'required']);
 })->with([
     'employee_id',
@@ -272,16 +210,3 @@ test('form validation require fields on create and edit pages', function (string
     'ends_at',
     'suspension_type_id',
 ]);
-
-// it('autofocus the employee_id field on create and edit pages', function () {
-//     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Suspension'));
-
-//     // Test CreateSuspension autofocus
-//     livewire(CreateSuspension::class)
-//         ->assertSeeHtml('autofocus');
-
-//     // Test EditSuspension autofocus
-//     $suspension = Suspension::factory()->create();
-//     livewire(EditSuspension::class, ['record' => $suspension->getKey()])
-//         ->assertSeeHtml('autofocus');
-// });

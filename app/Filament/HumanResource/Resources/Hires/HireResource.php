@@ -3,10 +3,7 @@
 namespace App\Filament\HumanResource\Resources\Hires;
 
 use App\Filament\HumanResource\Enums\HRNavigationEnum;
-use App\Filament\HumanResource\Resources\Hires\Pages\CreateHire;
-use App\Filament\HumanResource\Resources\Hires\Pages\EditHire;
-use App\Filament\HumanResource\Resources\Hires\Pages\ListHires;
-use App\Filament\HumanResource\Resources\Hires\Pages\ViewHire;
+use App\Filament\HumanResource\Resources\Hires\Pages\ManageHires;
 use App\Filament\HumanResource\Resources\Hires\Schemas\HireForm;
 use App\Filament\HumanResource\Resources\Hires\Schemas\HireInfolist;
 use App\Filament\HumanResource\Resources\Hires\Tables\HiresTable;
@@ -63,10 +60,7 @@ class HireResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListHires::route('/'),
-            'create' => CreateHire::route('/create'),
-            'view' => ViewHire::route('/{record}'),
-            'edit' => EditHire::route('/{record}/edit'),
+            'index' => ManageHires::route('/'),
         ];
     }
 
