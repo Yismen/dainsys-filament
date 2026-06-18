@@ -3,10 +3,7 @@
 namespace App\Filament\HumanResource\Resources\Supervisors;
 
 use App\Filament\HumanResource\Enums\HRNavigationEnum;
-use App\Filament\HumanResource\Resources\Supervisors\Pages\CreateSupervisor;
-use App\Filament\HumanResource\Resources\Supervisors\Pages\EditSupervisor;
-use App\Filament\HumanResource\Resources\Supervisors\Pages\ListSupervisors;
-use App\Filament\HumanResource\Resources\Supervisors\Pages\ViewSupervisor;
+use App\Filament\HumanResource\Resources\Supervisors\Pages\ManageSupervisors;
 use App\Filament\HumanResource\Resources\Supervisors\Schemas\SupervisorForm;
 use App\Filament\HumanResource\Resources\Supervisors\Schemas\SupervisorInfolist;
 use App\Filament\HumanResource\Resources\Supervisors\Tables\SupervisorsTable;
@@ -57,10 +54,7 @@ class SupervisorResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListSupervisors::route('/'),
-            'create' => CreateSupervisor::route('/create'),
-            'view' => ViewSupervisor::route('/{record}'),
-            'edit' => EditSupervisor::route('/{record}/edit'),
+            'index' => ManageSupervisors::route('/'),
         ];
     }
 

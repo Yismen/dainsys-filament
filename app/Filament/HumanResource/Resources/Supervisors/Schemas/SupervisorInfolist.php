@@ -4,6 +4,7 @@ namespace App\Filament\HumanResource\Resources\Supervisors\Schemas;
 
 use App\Models\Supervisor;
 use Filament\Infolists\Components\IconEntry;
+use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 
@@ -23,6 +24,13 @@ class SupervisorInfolist
                     ->columnSpanFull(),
                 IconEntry::make('is_active')
                     ->boolean(),
+                RepeatableEntry::make('hiredEmployees')
+                    ->label(__('Hired Employees'))
+                    ->grid(2)
+                    ->columnSpanFull()
+                    ->schema([
+                        TextEntry::make('full_name'),
+                    ]),
                 TextEntry::make('deleted_at')
                     ->dateTime()
                     ->visible(fn (Supervisor $record): bool => $record->trashed()),
