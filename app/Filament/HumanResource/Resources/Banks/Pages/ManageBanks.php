@@ -4,9 +4,9 @@ namespace App\Filament\HumanResource\Resources\Banks\Pages;
 
 use App\Filament\HumanResource\Resources\Banks\BankResource;
 use Filament\Actions\CreateAction;
-use Filament\Resources\Pages\ListRecords;
+use Filament\Resources\Pages\ManageRecords;
 
-class ListBanks extends ListRecords
+class ManageBanks extends ManageRecords
 {
     protected static string $resource = BankResource::class;
 

@@ -3,10 +3,7 @@
 namespace App\Filament\HumanResource\Resources\Banks;
 
 use App\Filament\HumanResource\Enums\HRNavigationEnum;
-use App\Filament\HumanResource\Resources\Banks\Pages\CreateBank;
-use App\Filament\HumanResource\Resources\Banks\Pages\EditBank;
-use App\Filament\HumanResource\Resources\Banks\Pages\ListBanks;
-use App\Filament\HumanResource\Resources\Banks\Pages\ViewBank;
+use App\Filament\HumanResource\Resources\Banks\Pages\ManageBanks;
 use App\Filament\HumanResource\Resources\Banks\Schemas\BankForm;
 use App\Filament\HumanResource\Resources\Banks\Schemas\BankInfolist;
 use App\Filament\HumanResource\Resources\Banks\Tables\BanksTable;
@@ -54,10 +51,7 @@ class BankResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListBanks::route('/'),
-            'create' => CreateBank::route('/create'),
-            'view' => ViewBank::route('/{record}'),
-            'edit' => EditBank::route('/{record}/edit'),
+            'index' => ManageBanks::route('/'),
         ];
     }
 

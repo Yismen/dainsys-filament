@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\EmployeeStatuses;
 use App\Models\BaseModels\AppModel;
 use App\Models\Traits\HasManyBankAccounts;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
@@ -19,10 +20,17 @@ class Bank extends AppModel
         return $this->hasManyThrough(
             Employee::class,
             BankAccount::class,
-            'bank_id', // Foreign key on BankAccounts table...
-            'id', // Foreign key on Employees table...
-            'id', // Local key on Banks table...
-            'employee_id' // Local key on BankAccounts table...
+            'bank_id',
+            'id',
+            'id',
+            'employee_id'
         );
+    }
+
+    public function hiredEmployees(): HasManyThrough
+    {
+        return $this->employees()
+            ->where('employees.status', EmployeeStatuses::Hired)
+            ->orderBy('employees.full_name');
     }
 }
