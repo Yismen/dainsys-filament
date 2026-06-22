@@ -4,22 +4,22 @@ namespace App\Http\Controllers\Api;
 
 use App\Filters\ByPayableDateRange;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\PayrollApiRequest;
-use App\Http\Resources\PayrollResource;
-use App\Models\Payroll;
+use App\Http\Requests\IncentiveApiRequest;
+use App\Http\Resources\IncentiveResource;
+use App\Models\Incentive;
 use Dedoc\Scramble\Attributes\QueryParameter;
 use Illuminate\Pipeline\Pipeline;
 
-class PayrollController extends Controller
+class IncentiveController extends Controller
 {
     #[QueryParameter('date', required: true, description: 'Date filter. Use YYYY-MM-DD, YYYY-MM-DD,YYYY-MM-DD, or last_N_days, or last_N_months')]
     #[QueryParameter('payable_date', required: true, description: 'Payable date filter. Use YYYY-MM-DD, YYYY-MM-DD,YYYY-MM-DD, or last_N_days, or last_N_months')]
-    public function __invoke(PayrollApiRequest $request)
+    public function __invoke(IncentiveApiRequest $request)
     {
-        $payrollsData = app(Pipeline::class)
+        $incentivesData = app(Pipeline::class)
             ->send(
-                Payroll::query()
-                    ->with(['employee:id,full_name'])
+                Incentive::query()
+                    ->with(['employee:id,full_name', 'project:id,name'])
             )
             ->through([
                 ByPayableDateRange::class,
@@ -27,6 +27,6 @@ class PayrollController extends Controller
             ->thenReturn()
             ->get();
 
-        return PayrollResource::collection($payrollsData);
+        return IncentiveResource::collection($incentivesData);
     }
 }
