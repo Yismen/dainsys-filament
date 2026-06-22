@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\EmployeeStatuses;
 use App\Models\Afp;
 use App\Models\Employee;
 use App\Models\SocialSecurity;
@@ -23,6 +24,18 @@ test('afps model has many social securities', function (): void {
 
     expect($afp->socialSecurities->first())->toBeInstanceOf(SocialSecurity::class);
     expect($afp->socialSecurities())->toBeInstanceOf(HasMany::class);
+});
+
+test('afps model has hired employees', function (): void {
+    $employee = Employee::factory()->create();
+    $employee->status = EmployeeStatuses::Hired;
+    $employee->saveQuietly();
+    $afp = Afp::factory()
+        ->hasSocialSecurities(1, ['employee_id' => $employee->id])
+        ->create();
+
+    expect($afp->hiredEmployees->first())->toBeInstanceOf(Employee::class);
+    expect($afp->hiredEmployees())->toBeInstanceOf(HasManyThrough::class);
 });
 
 test('afps model has many employees', function (): void {

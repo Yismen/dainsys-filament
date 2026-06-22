@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\EmployeeStatuses;
 use App\Enums\SalaryTypes;
 use App\Events\EmployeeHiredEvent;
 use App\Models\Department;
@@ -56,6 +57,18 @@ test('position model has many hires', function (): void {
 
     expect($position->hires->first())->toBeInstanceOf(Hire::class);
     expect($position->hires())->toBeInstanceOf(HasMany::class);
+});
+
+test('position model has hired employees', function (): void {
+    $employee = Employee::factory()->create();
+    $position = Position::factory()
+        ->hasHires(1, ['employee_id' => $employee->id])
+        ->create();
+    $employee->status = EmployeeStatuses::Hired;
+    $employee->saveQuietly();
+
+    expect($position->hiredEmployees->first())->toBeInstanceOf(Employee::class);
+    expect($position->hiredEmployees())->toBeInstanceOf(HasMany::class);
 });
 
 test('position model has many employees', function (): void {

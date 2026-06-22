@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\EmployeeStatuses;
 use App\Enums\HRActivityRequestStatuses;
 use App\Enums\HRActivityTypes;
 use App\Events\EmployeeHiredEvent;
@@ -8,10 +9,10 @@ use App\Filament\HumanResource\Resources\HRActivityRequests\Pages\ManageHRActivi
 use App\Models\Employee;
 use App\Models\HRActivityRequest;
 use App\Models\Role;
-use Illuminate\Support\Facades\Cache;
 use App\Models\Supervisor;
 use App\Models\User;
 use Filament\Facades\Filament;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 
@@ -131,7 +132,7 @@ test('create HRActivityRequest via modal works correctly', function (): void {
     actingAs($hrUser);
 
     $employee = Employee::factory()->create();
-    $employee->status = \App\Enums\EmployeeStatuses::Hired;
+    $employee->status = EmployeeStatuses::Hired;
     $employee->saveQuietly();
     $supervisor = Supervisor::factory()->create();
 

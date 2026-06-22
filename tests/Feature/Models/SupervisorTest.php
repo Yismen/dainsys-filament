@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\EmployeeStatuses;
 use App\Events\EmployeeHiredEvent;
 use App\Models\Employee;
 use App\Models\Hire;
@@ -51,6 +52,18 @@ test('supervisor model belongs to user', function (): void {
 
     expect($supervisor->user)->toBeInstanceOf(User::class);
     expect($supervisor->user())->toBeInstanceOf(BelongsTo::class);
+});
+
+test('supervisor model has hired employees', function (): void {
+    $employee = Employee::factory()->create();
+    $supervisor = Supervisor::factory()
+        ->hasHires(1, ['employee_id' => $employee->id])
+        ->create();
+    $employee->status = EmployeeStatuses::Hired;
+    $employee->saveQuietly();
+
+    expect($supervisor->hiredEmployees->first())->toBeInstanceOf(Employee::class);
+    expect($supervisor->hiredEmployees())->toBeInstanceOf(HasMany::class);
 });
 
 it('apply global scope active supervisors', function (): void {

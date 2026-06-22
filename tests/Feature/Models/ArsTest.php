@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\EmployeeStatuses;
 use App\Models\Ars;
 use App\Models\Employee;
 use App\Models\SocialSecurity;
@@ -23,6 +24,18 @@ test('arss model has many social securities', function (): void {
 
     expect($ars->socialSecurities->first())->toBeInstanceOf(SocialSecurity::class);
     expect($ars->socialSecurities())->toBeInstanceOf(HasMany::class);
+});
+
+test('arss model has hired employees', function (): void {
+    $employee = Employee::factory()->create();
+    $employee->status = EmployeeStatuses::Hired;
+    $employee->saveQuietly();
+    $ars = Ars::factory()
+        ->hasSocialSecurities(1, ['employee_id' => $employee->id])
+        ->create();
+
+    expect($ars->hiredEmployees->first())->toBeInstanceOf(Employee::class);
+    expect($ars->hiredEmployees())->toBeInstanceOf(HasManyThrough::class);
 });
 
 test('arss model has many employees', function (): void {

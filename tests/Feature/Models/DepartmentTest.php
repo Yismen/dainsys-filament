@@ -1,10 +1,11 @@
 <?php
 
+use App\Enums\EmployeeStatuses;
 use App\Models\Department;
 use App\Models\Employee;
-use App\Models\Hire;
 use App\Models\Position;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 test('departments model interacts with db table', function (): void {
     $data = Department::factory()->make();
@@ -14,6 +15,17 @@ test('departments model interacts with db table', function (): void {
     $this->assertDatabaseHas('departments', $data->only([
         'name', 'description',
     ]));
+});
+
+test('department model has hired employees', function (): void {
+    $department = Department::factory()->create();
+    $position = Position::factory()->create(['department_id' => $department->id]);
+    $employee = Employee::factory()->create(['position_id' => $position->id]);
+    $employee->status = EmployeeStatuses::Hired;
+    $employee->saveQuietly();
+
+    expect($department->hiredEmployees->first())->toBeInstanceOf(Employee::class);
+    expect($department->hiredEmployees())->toBeInstanceOf(HasManyThrough::class);
 });
 
 test('departments model has many positions', function (): void {

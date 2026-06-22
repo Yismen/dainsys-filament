@@ -3,21 +3,21 @@
 namespace App\Models;
 
 use App\Casts\AsMoney;
-use App\Enums\EmployeeStatuses;
 use App\Enums\SalaryTypes;
 use App\Models\BaseModels\AppModel;
 use App\Models\Traits\BelongsToDepartment;
+use App\Models\Traits\HasHiredEmployees;
 use App\Models\Traits\HasManyEmployees;
 use App\Models\Traits\HasManyHires;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 #[Fillable(['name', 'department_id', 'salary_type', 'salary', 'description'])]
 class Position extends AppModel
 {
     use BelongsToDepartment;
+    use HasHiredEmployees;
     use HasManyEmployees;
     use HasManyHires;
     use SoftDeletes;
@@ -52,11 +52,5 @@ class Position extends AppModel
                     $this->salary;
             },
         );
-    }
-
-    public function hiredEmployees(): HasMany
-    {
-        return $this->hasMany(Employee::class)->where('status', EmployeeStatuses::Hired)
-            ->orderBy('full_name', 'asc');
     }
 }
