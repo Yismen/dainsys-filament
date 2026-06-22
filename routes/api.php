@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\DispositionController;
 use App\Http\Controllers\Api\EmployeeController;
 use App\Http\Controllers\Api\HolidayController;
 use App\Http\Controllers\Api\LoginNameController;
+use App\Http\Controllers\Api\PayrollController;
 use App\Http\Controllers\Api\PayrollHourController;
 use App\Http\Controllers\Api\ProductionController;
 use Illuminate\Http\Request;
@@ -31,6 +32,7 @@ Route::middleware(['auth:sanctum', 'ability:use-dainsys'])
         Route::get('login_names', LoginNameController::class);
         Route::get('productions', ProductionController::class);
         Route::get('payroll_hours', PayrollHourController::class);
+        Route::get('payrolls', PayrollController::class);
         Route::get('employees', EmployeeController::class);
         Route::get('dispositions', DispositionController::class);
         Route::get('holidays', HolidayController::class);
