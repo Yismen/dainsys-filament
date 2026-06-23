@@ -5,6 +5,7 @@ namespace App\Filters;
 use App\Services\DateFilterRangeService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class ByPayableDateRange
 {
@@ -19,8 +20,8 @@ class ByPayableDateRange
                 value: (string) $dateValue
             );
 
-            $builder->whereDate('payable_date', '>=', $dateFrom)
-                ->whereDate('payable_date', '<=', $dateTo);
+            $builder->where('payable_date', '>=', $dateFrom)
+                ->where('payable_date', '<', Carbon::parse($dateTo)->addDay()->format('Y-m-d'));
         }
 
         return $next($builder);

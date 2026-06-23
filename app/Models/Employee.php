@@ -21,7 +21,6 @@ use App\Models\Traits\HasManyTerminations;
 use App\Models\Traits\HasOneBankAccount;
 use App\Models\Traits\HasOneSocialSocialSecurity;
 use App\Models\Traits\HasRelationsThruSocialSecurity;
-use Illuminate\Database\Eloquent\Attributes\Appends;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -32,9 +31,6 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-#[Appends([
-    'is_universal',
-])]
 #[Fillable([
     'first_name',
     'second_first_name',
@@ -148,7 +144,9 @@ class Employee extends AppModel implements HasMedia
     protected function isUniversal(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->universal()->exists()
+            get: fn () => $this->relationLoaded('universal')
+                ? ! is_null($this->universal)
+                : $this->universal()->exists()
         );
     }
 
@@ -216,6 +214,17 @@ class Employee extends AppModel implements HasMedia
     {
         $query
             ->with('terminations')
+            ->active()
+            ->orWhere('status', EmployeeStatuses::Created)
+            ->orWhereHas('terminations', function ($query): void {
+                $query->whereDate('date', '>=', now()->subDays(45));
+            });
+    }
+
+    #[Scope]
+    protected function activesOrRecentlyTerminatedLight($query)
+    {
+        $query
             ->active()
             ->orWhere('status', EmployeeStatuses::Created)
             ->orWhereHas('terminations', function ($query): void {

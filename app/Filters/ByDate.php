@@ -5,6 +5,7 @@ namespace App\Filters;
 use App\Services\DateFilterRangeService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class ByDate
 {
@@ -17,16 +18,8 @@ class ByDate
                 value: (string) $this->request->input('date')
             );
 
-            $builder->whereDate(
-                column: 'date',
-                operator: '>=',
-                value: $date_from
-            )
-                ->whereDate(
-                    column: 'date',
-                    operator: '<=',
-                    value: $date_to
-                );
+            $builder->where('date', '>=', $date_from)
+                ->where('date', '<', Carbon::parse($date_to)->addDay()->format('Y-m-d'));
         }
 
         return $next($builder);

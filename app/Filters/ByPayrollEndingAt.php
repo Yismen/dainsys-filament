@@ -5,6 +5,7 @@ namespace App\Filters;
 use App\Services\DateFilterRangeService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class ByPayrollEndingAt
 {
@@ -17,8 +18,8 @@ class ByPayrollEndingAt
                 value: (string) $this->request->input('payroll_ending_at')
             );
 
-            $builder->whereDate('payroll_ending_at', '>=', $dateFrom)
-                ->whereDate('payroll_ending_at', '<=', $dateTo);
+            $builder->where('payroll_ending_at', '>=', $dateFrom)
+                ->where('payroll_ending_at', '<', Carbon::parse($dateTo)->addDay()->format('Y-m-d'));
         }
 
         return $next($builder);

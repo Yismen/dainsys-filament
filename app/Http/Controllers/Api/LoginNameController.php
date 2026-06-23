@@ -16,7 +16,7 @@ class LoginNameController extends Controller
     {
         $data = LoginName::query()
             ->withWhereHas('employee', function ($query): void {
-                $query->activesOrRecentlyTerminated();
+                $query->activesOrRecentlyTerminatedLight();
             })
             ->get();
 
