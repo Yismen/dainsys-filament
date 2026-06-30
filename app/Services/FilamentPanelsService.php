@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Anish\ResizableModal\ResizableModalPlugin;
 use Filament\Actions\Action;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -34,6 +35,7 @@ class FilamentPanelsService
             ->subNavigationPosition(SubNavigationPosition::Top)
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->plugin(DraggableModalPlugin::make())
+            ->plugin(ResizableModalPlugin::make())
             ->userMenuItems([
                 Action::make('mailing-subscriptions')
                     ->label('Email Subscriptions')

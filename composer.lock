@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0473f68fdb78b9a21e1ce6b4ba2d82a6",
+    "content-hash": "02fd579f194bae87682105a35768f814",
     "packages": [
         {
             "name": "achyutn/filament-log-viewer",
@@ -91,6 +91,54 @@
                 }
             ],
             "time": "2026-04-28T18:02:14+00:00"
+        },
+        {
+            "name": "anish/resizable-modal",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/anishregmi17/resizable-modal.git",
+                "reference": "76393f16dbd9b3c2a3d1e68ad1cef86935190cc9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/anishregmi17/resizable-modal/zipball/76393f16dbd9b3c2a3d1e68ad1cef86935190cc9",
+                "reference": "76393f16dbd9b3c2a3d1e68ad1cef86935190cc9",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^4.0|^5.0",
+                "php": "^8.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Anish\\ResizableModal\\ResizableModalServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Anish\\ResizableModal\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "anishregmi17",
+                    "email": "anishregminaglibang@gmail.com"
+                }
+            ],
+            "description": "Filament v4/v5 plugin for resizable action modals using native Width breakpoints",
+            "support": {
+                "issues": "https://github.com/anishregmi17/resizable-modal/issues",
+                "source": "https://github.com/anishregmi17/resizable-modal/tree/v1.0.0"
+            },
+            "time": "2026-06-22T16:23:12+00:00"
         },
         {
             "name": "anourvalar/eloquent-serialize",
