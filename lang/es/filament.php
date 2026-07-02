@@ -313,29 +313,20 @@ return [
     | App Configuration
     |--------------------------------------------------------------------------
     */
-    'app' => [
-        'name' => 'Dainsys',
-        'description' => 'Sistema de Gestión de Recursos Humanos',
-    ],
+    'dashboard' => 'Tablero',
+    'admin' => 'Administración',
+    'clients' => 'Clientes',
 
-    'navigation' => [
-        'dashboard' => 'Tablero',
-        'admin' => 'Administración',
-        'clients' => 'Clientes',
-        'employees' => 'Empleados',
-        'human_resources' => 'Recursos Humanos',
-        'invoicing' => 'Facturación',
-        'support' => 'Soporte',
-        'settings' => 'Configuración',
-        'recruitment' => 'Reclutamiento',
-    ],
+    'human_resources' => 'Recursos Humanos',
+    'invoicing' => 'Facturación',
+    'support' => 'Soporte',
+    'settings' => 'Configuración',
+    'recruitment' => 'Reclutamiento',
 
-    'resources' => [
-        'User' => ['label' => 'Usuario', 'plural_label' => 'Usuarios'],
-        'Employee' => ['label' => 'Empleado', 'plural_label' => 'Empleados'],
-        'Role' => ['label' => 'Rol', 'plural_label' => 'Roles'],
-        'Permission' => ['label' => 'Permiso', 'plural_label' => 'Permisos'],
-    ],
+    'User' => ['label' => 'Usuario', 'plural_label' => 'Usuarios'],
+    'Employee' => ['label' => 'Empleado', 'plural_label' => 'Empleados'],
+    'Role' => ['label' => 'Rol', 'plural_label' => 'Roles'],
+    'Permission' => ['label' => 'Permiso', 'plural_label' => 'Permisos'],
 
     'save' => 'Guardar',
     'create' => 'Crear',
@@ -352,34 +343,21 @@ return [
     'import' => 'Importar',
     'refresh' => 'Actualizar',
 
-    'messages' => [
-        'saved' => 'Guardado exitosamente',
-        'deleted' => 'Eliminado exitosamente',
-        'created' => 'Creado exitosamente',
-        'updated' => 'Actualizado exitosamente',
-        'error' => 'Ocurrió un error',
-        'loading' => 'Cargando...',
-        'no_results' => 'No se encontraron resultados',
-        'confirm_delete' => '¿Está seguro de que desea eliminar esto?',
-        'required' => 'Este campo es obligatorio',
-    ],
+    'saved' => 'Guardado exitosamente',
+    'deleted' => 'Eliminado exitosamente',
+    'created' => 'Creado exitosamente',
+    'updated' => 'Actualizado exitosamente',
+    'error' => 'Ocurrió un error',
+    'loading' => 'Cargando...',
+    'no_results' => 'No se encontraron resultados',
+    'confirm_delete' => '¿Está seguro de que desea eliminar esto?',
+    'required' => 'Este campo es obligatorio',
 
-    'actions' => [
-        'view' => 'Ver',
-        'edit' => 'Editar',
-        'delete' => 'Eliminar',
-        'create' => 'Crear',
-        'replicate' => 'Duplicar',
-        'restore' => 'Restaurar',
-        'force_delete' => 'Eliminar permanentemente',
-    ],
+    'replicate' => 'Duplicar',
 
-    'filters' => [
-        'all' => 'Todos',
-        'active' => 'Activos',
-        'inactive' => 'Inactivos',
-        'trashed' => 'Eliminados',
-    ],
+    'all' => 'Todos',
+    'active' => 'Activos',
+    'inactive' => 'Inactivos',
 
     'statuses' => [
         'active' => 'Activo',

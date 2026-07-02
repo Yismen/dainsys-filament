@@ -306,35 +306,19 @@ return [
     'key' => 'Key',
     'value' => 'Value',
     'add_attribute' => 'Add Attribute',
-
-    /*
-    |--------------------------------------------------------------------------
-    | App Configuration
-    |--------------------------------------------------------------------------
-    */
-    'app' => [
-        'name' => 'Dainsys',
-        'description' => 'Human Resource Management System',
-    ],
-
-    'navigation' => [
-        'dashboard' => 'Dashboard',
-        'admin' => 'Admin',
-        'clients' => 'Clients',
-        'employees' => 'Employees',
-        'human_resources' => 'Human Resources',
-        'invoicing' => 'Invoicing',
-        'support' => 'Support',
-        'settings' => 'Settings',
-        'recruitment' => 'Recruitment',
-    ],
-
-    'resources' => [
-        'User' => ['label' => 'User', 'plural_label' => 'Users'],
-        'Employee' => ['label' => 'Employee', 'plural_label' => 'Employees'],
-        'Role' => ['label' => 'Role', 'plural_label' => 'Roles'],
-        'Permission' => ['label' => 'Permission', 'plural_label' => 'Permissions'],
-    ],
+    'dashboard' => 'Dashboard',
+    'admin' => 'Admin',
+    'clients' => 'Clients',
+    'employees' => 'Employees',
+    'human_resources' => 'Human Resources',
+    'invoicing' => 'Invoicing',
+    'support' => 'Support',
+    'settings' => 'Settings',
+    'recruitment' => 'Recruitment',
+    'User' => ['label' => 'User', 'plural_label' => 'Users'],
+    'Employee' => ['label' => 'Employee', 'plural_label' => 'Employees'],
+    'Role' => ['label' => 'Role', 'plural_label' => 'Roles'],
+    'Permission' => ['label' => 'Permission', 'plural_label' => 'Permissions'],
 
     'save' => 'Save',
     'create' => 'Create',
@@ -350,41 +334,19 @@ return [
     'export' => 'Export',
     'import' => 'Import',
     'refresh' => 'Refresh',
-
-    'messages' => [
-        'saved' => 'Saved successfully',
-        'deleted' => 'Deleted successfully',
-        'created' => 'Created successfully',
-        'updated' => 'Updated successfully',
-        'error' => 'An error occurred',
-        'loading' => 'Loading...',
-        'no_results' => 'No results found',
-        'confirm_delete' => 'Are you sure you want to delete this?',
-        'required' => 'This field is required',
-    ],
-
-    'actions' => [
-        'view' => 'View',
-        'edit' => 'Edit',
-        'delete' => 'Delete',
-        'create' => 'Create',
-        'replicate' => 'Replicate',
-        'restore' => 'Restore',
-        'force_delete' => 'Force Delete',
-    ],
-
-    'filters' => [
-        'all' => 'All',
-        'active' => 'Active',
-        'inactive' => 'Inactive',
-        'trashed' => 'Trashed',
-    ],
-
-    'statuses' => [
-        'active' => 'Active',
-        'inactive' => 'Inactive',
-        'pending' => 'Pending',
-        'suspended' => 'Suspended',
-        'terminated' => 'Terminated',
-    ],
+    'replicate' => 'Replicate',
+    'all' => 'All',
+    'active' => 'Active',
+    'inactive' => 'Inactive',
+    'suspended' => 'Suspended',
+    'terminated' => 'Terminated',
+    'saved' => 'Saved successfully',
+    'deleted' => 'Deleted successfully',
+    'created' => 'Created successfully',
+    'updated' => 'Updated successfully',
+    'error' => 'An error occurred',
+    'loading' => 'Loading...',
+    'no_results' => 'No results found',
+    'confirm_delete' => 'Are you sure you want to delete this?',
+    'required' => 'This field is required',
 ];
