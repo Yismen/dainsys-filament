@@ -8,11 +8,11 @@ use App\Models\Project;
 use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Carbon;
 
-class DailySphPercentageByProjectChart extends ChartWidget
+class WeeklySphPercentageByProjectChart extends ChartWidget
 {
     use InteractsWithProjectAndClientFilters;
 
-    protected ?string $heading = 'Daily SPH % by project (last 10 days)';
+    protected ?string $heading = 'Weekly SPH % by project (last 10 weeks)';
 
     protected int|string|array $columnSpan = 1;
 
@@ -49,14 +49,14 @@ class DailySphPercentageByProjectChart extends ChartWidget
             ];
         }
 
-        $startDate = Carbon::today()->subDays(9)->startOfDay();
-        $endDate = Carbon::today()->endOfDay();
+        $startDate = Carbon::today()->subWeeks(9)->startOfWeek();
+        $endDate = Carbon::today()->endOfWeek();
 
-        $dates = collect(range(0, 9))
-            ->map(fn (int $dayOffset): Carbon => $startDate->copy()->addDays($dayOffset));
+        $weeks = collect(range(0, 9))
+            ->map(fn (int $weekOffset): Carbon => $startDate->copy()->addWeeks($weekOffset));
 
-        $labels = $dates->map(fn (Carbon $date): string => $date->format('M d'))->toArray();
-        $dateKeys = $dates->map(fn (Carbon $date): string => $date->toDateString())->toArray();
+        $labels = $weeks->map(fn (Carbon $weekStart): string => $weekStart->format('M d').' - '.$weekStart->copy()->endOfWeek()->format('M d'))->toArray();
+        $weekKeys = $weeks->map(fn (Carbon $weekStart): string => $weekStart->toDateString())->toArray();
 
         $productions = Production::query()
             ->whereBetween('date', [$startDate, $endDate])
@@ -71,26 +71,26 @@ class DailySphPercentageByProjectChart extends ChartWidget
             ->with('employee:id,project_id')
             ->get(['date', 'employee_id', 'conversions', 'production_time', 'conversions_goal']);
 
-        $totalsByProjectAndDate = [];
+        $totalsByProjectAndWeek = [];
 
         foreach ($productions as $production) {
             $projectId = $production->employee?->project_id;
-            $dateKey = filled($production->date)
-                ? Carbon::parse($production->date)->toDateString()
+            $weekKey = filled($production->date)
+                ? Carbon::parse($production->date)->startOfWeek()->toDateString()
                 : null;
 
-            if (! $projectId || ! $dateKey) {
+            if (! $projectId || ! $weekKey) {
                 continue;
             }
 
-            $totalsByProjectAndDate[$projectId][$dateKey]['conversions'] =
-                ($totalsByProjectAndDate[$projectId][$dateKey]['conversions'] ?? 0) + (float) $production->conversions;
+            $totalsByProjectAndWeek[$projectId][$weekKey]['conversions'] =
+                ($totalsByProjectAndWeek[$projectId][$weekKey]['conversions'] ?? 0) + (float) $production->conversions;
 
-            $totalsByProjectAndDate[$projectId][$dateKey]['production_time'] =
-                ($totalsByProjectAndDate[$projectId][$dateKey]['production_time'] ?? 0) + (float) $production->production_time;
+            $totalsByProjectAndWeek[$projectId][$weekKey]['production_time'] =
+                ($totalsByProjectAndWeek[$projectId][$weekKey]['production_time'] ?? 0) + (float) $production->production_time;
 
-            $totalsByProjectAndDate[$projectId][$dateKey]['conversions_goal'] =
-                ($totalsByProjectAndDate[$projectId][$dateKey]['conversions_goal'] ?? 0) + (float) $production->conversions_goal;
+            $totalsByProjectAndWeek[$projectId][$weekKey]['conversions_goal'] =
+                ($totalsByProjectAndWeek[$projectId][$weekKey]['conversions_goal'] ?? 0) + (float) $production->conversions_goal;
         }
 
         $palette = [
@@ -104,15 +104,15 @@ class DailySphPercentageByProjectChart extends ChartWidget
 
         $datasets = $projects
             ->values()
-            ->map(function (Project $project, int $index) use ($totalsByProjectAndDate, $dateKeys, $palette): array {
+            ->map(function (Project $project, int $index) use ($totalsByProjectAndWeek, $weekKeys, $palette): array {
                 $color = $palette[$index % count($palette)];
 
                 return [
                     'label' => $project->name,
-                    'data' => collect($dateKeys)->map(function (string $dateKey) use ($totalsByProjectAndDate, $project): float {
-                        $conversions = (float) ($totalsByProjectAndDate[$project->id][$dateKey]['conversions'] ?? 0);
-                        $productionTime = (float) ($totalsByProjectAndDate[$project->id][$dateKey]['production_time'] ?? 0);
-                        $conversionsGoal = (float) ($totalsByProjectAndDate[$project->id][$dateKey]['conversions_goal'] ?? 0);
+                    'data' => collect($weekKeys)->map(function (string $weekKey) use ($totalsByProjectAndWeek, $project): float {
+                        $conversions = (float) ($totalsByProjectAndWeek[$project->id][$weekKey]['conversions'] ?? 0);
+                        $productionTime = (float) ($totalsByProjectAndWeek[$project->id][$weekKey]['production_time'] ?? 0);
+                        $conversionsGoal = (float) ($totalsByProjectAndWeek[$project->id][$weekKey]['conversions_goal'] ?? 0);
 
                         if ($productionTime <= 0 || $conversionsGoal <= 0) {
                             return 0;

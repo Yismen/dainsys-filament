@@ -3,14 +3,14 @@
 namespace App\Filament\ProjectExecutive\Pages;
 
 use App\Filament\ProjectExecutive\Widgets\AbsencesByEmployeeTable;
-use App\Filament\ProjectExecutive\Widgets\DailyEfficiencyByProjectChart;
-use App\Filament\ProjectExecutive\Widgets\DailyRevenueByProjectChart;
-use App\Filament\ProjectExecutive\Widgets\DailySphPercentageByProjectChart;
 use App\Filament\ProjectExecutive\Widgets\EmployeesByProjectChart;
 use App\Filament\ProjectExecutive\Widgets\MonthlyRevenueByProjectChart;
 use App\Filament\ProjectExecutive\Widgets\ProjectExecutiveQAStatsWidget;
 use App\Filament\ProjectExecutive\Widgets\ProjectExecutiveStatsOverview;
 use App\Filament\ProjectExecutive\Widgets\UpcomingBirthdaysTable;
+use App\Filament\ProjectExecutive\Widgets\WeeklyEfficiencyByProjectChart;
+use App\Filament\ProjectExecutive\Widgets\WeeklyRevenueByProjectChart;
+use App\Filament\ProjectExecutive\Widgets\WeeklySphPercentageByProjectChart;
 use App\Models\Project;
 use App\Services\ModelListService;
 use Filament\Forms\Components\Select;
@@ -37,9 +37,9 @@ class ProjectExecutiveDashboard extends BaseDashboard
             ProjectExecutiveQAStatsWidget::class,
             EmployeesByProjectChart::class,
             MonthlyRevenueByProjectChart::class,
-            DailyRevenueByProjectChart::class,
-            DailyEfficiencyByProjectChart::class,
-            DailySphPercentageByProjectChart::class,
+            WeeklyRevenueByProjectChart::class,
+            WeeklyEfficiencyByProjectChart::class,
+            WeeklySphPercentageByProjectChart::class,
             AbsencesByEmployeeTable::class,
             UpcomingBirthdaysTable::class,
         ];

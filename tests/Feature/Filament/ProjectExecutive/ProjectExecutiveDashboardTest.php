@@ -37,10 +37,10 @@ it('displays all project executive dashboard widgets', function (): void {
         ->assertSuccessful()
         ->assertSeeHtml('ProjectExecutiveStatsOverview')
         ->assertSeeHtml('EmployeesByProjectChart')
-        ->assertSeeHtml('DailyRevenueByProjectChart')
+        ->assertSeeHtml('WeeklyRevenueByProjectChart')
         ->assertSeeHtml('MonthlyRevenueByProjectChart')
-        ->assertSeeHtml('DailyEfficiencyByProjectChart')
-        ->assertSeeHtml('DailySphPercentageByProjectChart')
+        ->assertSeeHtml('WeeklyEfficiencyByProjectChart')
+        ->assertSeeHtml('WeeklySphPercentageByProjectChart')
         ->assertSeeHtml('UpcomingBirthdaysTable')
         ->assertSeeHtml('AbsencesByEmployeeTable');
 });

@@ -62,9 +62,9 @@ it('renders operations director dashboard with filters and widgets', function ()
         ->assertSeeHtml('OperationsDirectorStatsOverview')
         ->assertSeeHtml('OperationsDirectorQAStatsWidget')
         ->assertSeeHtml('EmployeesByProjectChart')
-        ->assertSeeHtml('DailyRevenueByProjectChart')
-        ->assertSeeHtml('DailyEfficiencyByProjectChart')
-        ->assertSeeHtml('DailySphPercentageByProjectChart')
+        ->assertSeeHtml('WeeklyRevenueByProjectChart')
+        ->assertSeeHtml('WeeklyEfficiencyByProjectChart')
+        ->assertSeeHtml('WeeklySphPercentageByProjectChart')
         ->assertSeeHtml('UpcomingBirthdaysTable')
         ->assertSeeHtml('AbsencesByEmployeeTable');
 });

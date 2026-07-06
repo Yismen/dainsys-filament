@@ -9,11 +9,11 @@ use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
-class DailyRevenueByProjectChart extends ChartWidget
+class WeeklyRevenueByProjectChart extends ChartWidget
 {
     use InteractsWithProjectFilter;
 
-    protected ?string $heading = 'Daily revenue by project (last 10 days)';
+    protected ?string $heading = 'Weekly revenue by project (last 10 weeks)';
 
     protected int|string|array $columnSpan = 1;
 
@@ -45,14 +45,14 @@ class DailyRevenueByProjectChart extends ChartWidget
             ];
         }
 
-        $startDate = Carbon::today()->subDays(9)->startOfDay();
-        $endDate = Carbon::today()->endOfDay();
+        $startDate = Carbon::today()->subWeeks(9)->startOfWeek();
+        $endDate = Carbon::today()->endOfWeek();
 
-        $dates = collect(range(0, 9))
-            ->map(fn (int $dayOffset): Carbon => $startDate->copy()->addDays($dayOffset));
+        $weeks = collect(range(0, 9))
+            ->map(fn (int $weekOffset): Carbon => $startDate->copy()->addWeeks($weekOffset));
 
-        $labels = $dates->map(fn (Carbon $date): string => $date->format('M d'))->toArray();
-        $dateKeys = $dates->map(fn (Carbon $date): string => $date->toDateString())->toArray();
+        $labels = $weeks->map(fn (Carbon $weekStart): string => $weekStart->format('M d').' - '.$weekStart->copy()->endOfWeek()->format('M d'))->toArray();
+        $weekKeys = $weeks->map(fn (Carbon $weekStart): string => $weekStart->toDateString())->toArray();
 
         $productions = Production::query()
             ->whereBetween('date', [$startDate, $endDate])
@@ -70,15 +70,15 @@ class DailyRevenueByProjectChart extends ChartWidget
 
         foreach ($productions as $production) {
             $projectId = $production->employee?->project_id;
-            $dateKey = filled($production->date)
-                ? Carbon::parse($production->date)->toDateString()
+            $weekKey = filled($production->date)
+                ? Carbon::parse($production->date)->startOfWeek()->toDateString()
                 : null;
 
-            if (! $projectId || ! $dateKey) {
+            if (! $projectId || ! $weekKey) {
                 continue;
             }
 
-            $aggregatedRevenue[$projectId][$dateKey] = ($aggregatedRevenue[$projectId][$dateKey] ?? 0) + (float) $production->revenue;
+            $aggregatedRevenue[$projectId][$weekKey] = ($aggregatedRevenue[$projectId][$weekKey] ?? 0) + (float) $production->revenue;
         }
 
         $palette = [
@@ -92,13 +92,13 @@ class DailyRevenueByProjectChart extends ChartWidget
 
         $datasets = $projects
             ->values()
-            ->map(function (Project $project, int $index) use ($aggregatedRevenue, $dateKeys, $palette): array {
+            ->map(function (Project $project, int $index) use ($aggregatedRevenue, $weekKeys, $palette): array {
                 $color = $palette[$index % count($palette)];
 
                 return [
                     'label' => $project->name,
-                    'data' => collect($dateKeys)
-                        ->map(fn (string $dateKey): float => round((float) ($aggregatedRevenue[$project->id][$dateKey] ?? 0), 2))
+                    'data' => collect($weekKeys)
+                        ->map(fn (string $weekKey): float => round((float) ($aggregatedRevenue[$project->id][$weekKey] ?? 0), 2))
                         ->toArray(),
                     'borderColor' => $color,
                     'backgroundColor' => $color,

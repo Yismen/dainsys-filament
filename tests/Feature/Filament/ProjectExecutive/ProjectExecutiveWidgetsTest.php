@@ -1,13 +1,13 @@
 <?php
 
 use App\Filament\ProjectExecutive\Widgets\AbsencesByEmployeeTable;
-use App\Filament\ProjectExecutive\Widgets\DailyEfficiencyByProjectChart;
-use App\Filament\ProjectExecutive\Widgets\DailyRevenueByProjectChart;
-use App\Filament\ProjectExecutive\Widgets\DailySphPercentageByProjectChart;
 use App\Filament\ProjectExecutive\Widgets\EmployeesByProjectChart;
 use App\Filament\ProjectExecutive\Widgets\MonthlyRevenueByProjectChart;
 use App\Filament\ProjectExecutive\Widgets\ProjectExecutiveStatsOverview;
 use App\Filament\ProjectExecutive\Widgets\UpcomingBirthdaysTable;
+use App\Filament\ProjectExecutive\Widgets\WeeklyEfficiencyByProjectChart;
+use App\Filament\ProjectExecutive\Widgets\WeeklyRevenueByProjectChart;
+use App\Filament\ProjectExecutive\Widgets\WeeklySphPercentageByProjectChart;
 use App\Models\Absence;
 use App\Models\Campaign;
 use App\Models\Employee;
@@ -112,7 +112,7 @@ it('renders employees by project chart scoped to current manager', function (): 
         ->and(array_sum($data['datasets'][0]['data']))->toBe(3);
 });
 
-it('builds the daily revenue dataset for manager projects only', function (): void {
+it('builds the weekly revenue dataset for manager projects only', function (): void {
     $managerUser = createProjectExecutiveWidgetUser();
     actingAs($managerUser);
 
@@ -137,18 +137,18 @@ it('builds the daily revenue dataset for manager projects only', function (): vo
     createProductionRecord($employeeB, $campaignB, $today, ['revenue' => 70]);
     createProductionRecord($foreignEmployee, $campaignX, $today, ['revenue' => 999]);
 
-    $data = Livewire::test(DailyRevenueByProjectChart::class)->instance()->getData();
+    $data = Livewire::test(WeeklyRevenueByProjectChart::class)->instance()->getData();
 
     $datasets = collect($data['datasets'])->keyBy('label');
-    $todayLabel = now()->format('M d');
-    $todayIndex = array_search($todayLabel, $data['labels'], true);
+    $weekLabel = now()->startOfWeek()->format('M d').' - '.now()->endOfWeek()->format('M d');
+    $weekIndex = array_search($weekLabel, $data['labels'], true);
 
     expect($datasets->has('Project A'))->toBeTrue()
         ->and($datasets->has('Project B'))->toBeTrue()
         ->and($datasets->has('Project X'))->toBeFalse()
-        ->and($todayIndex)->not->toBeFalse()
-        ->and($datasets['Project A']['data'][$todayIndex])->toBe(150.0)
-        ->and($datasets['Project B']['data'][$todayIndex])->toBe(70.0);
+        ->and($weekIndex)->not->toBeFalse()
+        ->and($datasets['Project A']['data'][$weekIndex])->toBe(150.0)
+        ->and($datasets['Project B']['data'][$weekIndex])->toBe(70.0);
 });
 
 it('builds the monthly revenue dataset for manager projects only', function (): void {
@@ -191,7 +191,7 @@ it('builds the monthly revenue dataset for manager projects only', function (): 
         ->and($datasets['Project B']['data'][$currentMonthIndex])->toBe(70.0);
 });
 
-it('builds the daily efficiency dataset for manager projects only', function (): void {
+it('builds the weekly efficiency dataset for manager projects only', function (): void {
     $managerUser = createProjectExecutiveWidgetUser();
     actingAs($managerUser);
 
@@ -221,18 +221,19 @@ it('builds the daily efficiency dataset for manager projects only', function ():
         'conversions_goal' => 1,
     ]);
 
-    $data = Livewire::test(DailyEfficiencyByProjectChart::class)->instance()->getData();
+    $data = Livewire::test(WeeklyEfficiencyByProjectChart::class)->instance()->getData();
     $datasets = collect($data['datasets'])->keyBy('label');
 
-    $todayIndex = array_search(now()->format('M d'), $data['labels'], true);
+    $weekLabel = now()->startOfWeek()->format('M d').' - '.now()->endOfWeek()->format('M d');
+    $weekIndex = array_search($weekLabel, $data['labels'], true);
 
     expect($datasets->has('Project Efficiency'))->toBeTrue()
         ->and($datasets->has('Project Foreign'))->toBeFalse()
-        ->and($todayIndex)->not->toBeFalse()
-        ->and($datasets['Project Efficiency']['data'][$todayIndex])->toBe(75.0);
+        ->and($weekIndex)->not->toBeFalse()
+        ->and($datasets['Project Efficiency']['data'][$weekIndex])->toBe(75.0);
 });
 
-it('builds the daily sph percentage dataset for manager projects only', function (): void {
+it('builds the weekly sph percentage dataset for manager projects only', function (): void {
     $managerUser = createProjectExecutiveWidgetUser();
     actingAs($managerUser);
 
@@ -260,15 +261,16 @@ it('builds the daily sph percentage dataset for manager projects only', function
         'conversions_goal' => 10,
     ]);
 
-    $data = Livewire::test(DailySphPercentageByProjectChart::class)->instance()->getData();
+    $data = Livewire::test(WeeklySphPercentageByProjectChart::class)->instance()->getData();
     $datasets = collect($data['datasets'])->keyBy('label');
 
-    $todayIndex = array_search(now()->format('M d'), $data['labels'], true);
+    $weekLabel = now()->startOfWeek()->format('M d').' - '.now()->endOfWeek()->format('M d');
+    $weekIndex = array_search($weekLabel, $data['labels'], true);
 
     expect($datasets->has('Project SPH'))->toBeTrue()
         ->and($datasets->has('Project Foreign'))->toBeFalse()
-        ->and($todayIndex)->not->toBeFalse()
-        ->and($datasets['Project SPH']['data'][$todayIndex])->toBe(200.0);
+        ->and($weekIndex)->not->toBeFalse()
+        ->and($datasets['Project SPH']['data'][$weekIndex])->toBe(200.0);
 });
 
 it('shows birthdays and absences for employees in manager projects only', function (): void {
