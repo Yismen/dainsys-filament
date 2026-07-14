@@ -3,9 +3,11 @@
 namespace App\Filament\Supervisor\Resources\Downtimes\Tables;
 
 use App\Enums\DowntimeStatuses;
+use App\Models\Downtime;
 use App\Models\Employee;
 use App\Services\ModelListService;
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteBulkAction;
@@ -59,7 +61,8 @@ class DowntimesTable
                     ->label(__('filament.approver'))
                     ->sortable()
                     ->wrap()
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('deleted_at')
                     ->label(__('filament.deleted_at'))
                     ->dateTime()
@@ -117,14 +120,17 @@ class DowntimesTable
             ])
             ->filtersFormColumns(2)
             ->filtersFormWidth(Width::Large)
+            ->recordActionsAlignment('left')
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make()
                     ->visible(fn ($record) => $record->status->value === 'Pending' && $record->employee->supervisor_id === Auth::user()?->supervisor?->id),
+                DeleteAction::make()
+                    ->visible(fn (Downtime $record): bool => $record->requester_id === auth()->id() && $record->status === DowntimeStatuses::Pending),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    // DeleteBulkAction::make(),
                     ForceDeleteBulkAction::make(),
                     RestoreBulkAction::make(),
                 ]),

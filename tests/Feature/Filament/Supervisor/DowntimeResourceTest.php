@@ -6,8 +6,15 @@ use App\Models\Downtime;
 use App\Models\Employee;
 use App\Models\Supervisor;
 use App\Models\User;
+use Filament\Facades\Filament;
 
 use function Pest\Laravel\actingAs;
+
+beforeEach(function (): void {
+    Filament::setCurrentPanel(
+        Filament::getPanel('supervisor'),
+    );
+});
 
 it('supervisor can only see downtimes for their employees', function (): void {
     $user = User::factory()->create();
@@ -81,4 +88,15 @@ it('downtime status changes to approved when approved', function (): void {
 
     expect($downtime->fresh()->status)->toBe(DowntimeStatuses::Approved);
     expect($downtime->fresh()->aprover_id)->toBe($user->id);
+});
+
+it('downtime supports soft deletes', function (): void {
+    $employee = Employee::factory()->hired()->create();
+    $downtime = Downtime::factory()->create(['employee_id' => $employee->id]);
+
+    expect($downtime->trashed())->toBeFalse();
+
+    $downtime->deleteOrFail();
+
+    expect($downtime->fresh()->trashed())->toBeTrue();
 });
