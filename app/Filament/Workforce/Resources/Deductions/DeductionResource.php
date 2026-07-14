@@ -2,6 +2,7 @@
 
 namespace App\Filament\Workforce\Resources\Deductions;
 
+use App\Actions\Filament\Workforce\DeleteDeductionsByPayableDateAction;
 use App\Filament\Workforce\Resources\Deductions\Pages\ManageDeductions;
 use App\Imports\Filament\DeductionImporter;
 use App\Models\Deduction;
@@ -53,6 +54,7 @@ class DeductionResource extends Resource
                     ->importer(DeductionImporter::class)
                     ->color(Color::Indigo)
                     ->icon(Heroicon::ArrowUpTray),
+                DeleteDeductionsByPayableDateAction::make(),
             ])
             ->columns([
                 TextColumn::make('payable_date')

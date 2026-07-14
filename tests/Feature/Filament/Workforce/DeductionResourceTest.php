@@ -76,3 +76,24 @@ it('displays Deduction list page correctly', function (): void {
     livewire(ManageDeductions::class)
         ->assertCanSeeTableRecords($deductions);
 });
+
+it('deletes deductions by payable date', function (): void {
+    $futureDate = now()->addYear()->format('Y-m-d');
+
+    Deduction::factory()->count(3)->create([
+        'payable_date' => $futureDate,
+    ]);
+
+    actingAs($this->createUserWithPermissionTo('view-any Deduction'));
+
+    livewire(ManageDeductions::class)
+        ->callTableAction('deleteByPayableDate', null, [
+            'payable_date' => $futureDate,
+        ])
+        ->assertNotified();
+
+    expect(Deduction::query()
+        ->whereDate('payable_date', $futureDate)
+        ->count()
+    )->toBe(0);
+});
