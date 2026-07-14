@@ -11,6 +11,8 @@ use App\Models\HRActivityRequest;
 use App\Services\ModelListService;
 use BackedEnum;
 use Filament\Actions\CreateAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
@@ -76,10 +78,6 @@ class HRActivityRequestResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->placeholder('Pending'),
-                TextColumn::make('created_at')
-                    ->label('Date')
-                    ->dateTime()
-                    ->sortable(),
             ])
             ->filters([
                 Filter::make('created_at')
@@ -126,7 +124,39 @@ class HRActivityRequestResource extends Resource
             ->filtersFormWidth(Width::Large)
             ->recordActions([
                 ViewAction::make(),
+                EditAction::make()
+                    ->visible(fn (HRActivityRequest $record): bool => $record->status === HRActivityRequestStatuses::Requested)
+                    ->successNotificationTitle('HR Activity Request updated successfully')
+                    ->schema([
+                        Select::make('employee_id')
+                            ->options(
+                                ModelListService::make(
+                                    value_field: 'full_name',
+                                    model: Employee::query()
+                                        ->active()
+                                        ->whereHas('supervisor', function (Builder $query): void {
+                                            $query->where('id', Auth::user()?->supervisor?->id);
+                                        })
+                                )
+                            )
+                            ->required()
+                            ->searchable()
+                            ->label('Employee'),
+                        Select::make('activity_type')
+                            ->options(HRActivityTypes::class)
+                            ->required()
+                            ->label('Activity Type'),
+                        Textarea::make('description')
+                            ->rows(3)
+                            ->label('Description')
+                            ->placeholder('Provide additional details about this request...')
+                            ->required()
+                            ->minLength(5),
+                    ]),
+                DeleteAction::make()
+                    ->visible(fn (HRActivityRequest $record): bool => $record->status === HRActivityRequestStatuses::Requested),
             ])
+            ->recordActionsAlignment('left')
             ->toolbarActions([
                 CreateAction::make()
                     ->schema([

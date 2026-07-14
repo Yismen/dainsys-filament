@@ -23,7 +23,7 @@ beforeEach(function (): void {
     );
 
     $this->user = $this->createUserWithPermissionsToActions(
-        actions: ['view', 'viewAny', 'create'],
+        actions: ['view', 'viewAny', 'create', 'update', 'delete'],
         model_name: 'HRActivityRequest'
     );
     $this->supervisor = Supervisor::factory()->create([
@@ -103,4 +103,63 @@ test('supervisor can create new hr activity request', function (): void {
         'status' => HRActivityRequestStatuses::Requested->value,
         'description' => 'Employee vacation request',
     ]);
+});
+
+test('supervisor can delete a requested hr activity request', function (): void {
+    $request = HRActivityRequest::factory()->create([
+        'supervisor_id' => $this->supervisor->id,
+        'status' => HRActivityRequestStatuses::Requested,
+    ]);
+
+    livewire(ListHRActivityRequests::class)
+        ->callTableAction('delete', $request)
+        ->assertNotified();
+
+    expect($request->fresh()->trashed())->toBeTrue();
+});
+
+test('supervisor cannot delete a completed hr activity request', function (): void {
+    $request = HRActivityRequest::factory()->create([
+        'supervisor_id' => $this->supervisor->id,
+        'status' => HRActivityRequestStatuses::Completed,
+        'completed_at' => now(),
+        'completion_comment' => 'Done',
+    ]);
+
+    livewire(ListHRActivityRequests::class)
+        ->assertTableActionHidden('delete', $request);
+});
+
+test('supervisor can edit a requested hr activity request description', function (): void {
+    $request = HRActivityRequest::factory()->create([
+        'supervisor_id' => $this->supervisor->id,
+        'status' => HRActivityRequestStatuses::Requested,
+        'description' => 'Original description',
+    ]);
+
+    $request->update(['description' => 'Updated description']);
+
+    expect($request->fresh()->description)->toBe('Updated description');
+});
+
+test('edit action is visible for requested status', function (): void {
+    $request = HRActivityRequest::factory()->create([
+        'supervisor_id' => $this->supervisor->id,
+        'status' => HRActivityRequestStatuses::Requested,
+    ]);
+
+    livewire(ListHRActivityRequests::class)
+        ->assertTableActionVisible('edit', $request);
+});
+
+test('edit action is hidden for completed status', function (): void {
+    $request = HRActivityRequest::factory()->create([
+        'supervisor_id' => $this->supervisor->id,
+        'status' => HRActivityRequestStatuses::Completed,
+        'completed_at' => now(),
+        'completion_comment' => 'Done',
+    ]);
+
+    livewire(ListHRActivityRequests::class)
+        ->assertTableActionHidden('edit', $request);
 });
