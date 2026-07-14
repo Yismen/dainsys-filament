@@ -10,6 +10,7 @@ use App\Models\Employee;
 use App\Rules\UniqueCombination;
 use App\Services\ModelListService;
 use BackedEnum;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
@@ -36,7 +37,7 @@ class AbsenceResource extends Resource
 
     protected static ?int $navigationSort = 8;
 
-    protected static ?string $recordTitleAttribute = 'employee.full_name';
+    // protected static ?string $recordTitleAttribute = 'employee.full_name';
 
     public static function form(Schema $schema): Schema
     {
@@ -143,6 +144,11 @@ class AbsenceResource extends Resource
             ])
             ->actions([
                 EditAction::make()
+                    ->visible(function (Absence $record): bool {
+                        return $record->created_by === auth()->id()
+                            && $record->status === AbsenceStatuses::Created;
+                    }),
+                DeleteAction::make()
                     ->visible(function (Absence $record): bool {
                         return $record->created_by === auth()->id()
                             && $record->status === AbsenceStatuses::Created;
