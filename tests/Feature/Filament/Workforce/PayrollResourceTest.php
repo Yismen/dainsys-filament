@@ -3,6 +3,7 @@
 use App\Filament\Workforce\Resources\Payrolls\Pages\ManagePayrolls;
 use App\Models\Payroll;
 use App\Models\User;
+use Filament\Actions\Testing\TestAction;
 use Filament\Facades\Filament;
 
 use function Pest\Laravel\actingAs;
@@ -87,7 +88,7 @@ it('deletes payrolls by payable date', function (): void {
     actingAs($this->createUserWithPermissionTo('view-any Payroll'));
 
     livewire(ManagePayrolls::class)
-        ->callAction('deleteByPayableDate', null, [
+        ->callAction(TestAction::make('deleteByPayableDate')->table(), [
             'payable_date' => $futureDate,
         ])
         ->assertNotified();
