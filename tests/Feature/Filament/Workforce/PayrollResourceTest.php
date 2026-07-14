@@ -76,3 +76,24 @@ it('displays Payroll list page correctly', function (): void {
     livewire(ManagePayrolls::class)
         ->assertCanSeeTableRecords($payrolls);
 });
+
+it('deletes payrolls by payable date', function (): void {
+    $futureDate = now()->addYear()->format('Y-m-d');
+
+    Payroll::factory()->count(3)->create([
+        'payable_date' => $futureDate,
+    ]);
+
+    actingAs($this->createUserWithPermissionTo('view-any Payroll'));
+
+    livewire(ManagePayrolls::class)
+        ->callTableAction('deleteByPayableDate', null, [
+            'payable_date' => $futureDate,
+        ])
+        ->assertNotified();
+
+    expect(Payroll::query()
+        ->whereDate('payable_date', $futureDate)
+        ->count()
+    )->toBe(0);
+});

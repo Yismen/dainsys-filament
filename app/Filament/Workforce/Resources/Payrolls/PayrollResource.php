@@ -2,6 +2,7 @@
 
 namespace App\Filament\Workforce\Resources\Payrolls;
 
+use App\Actions\Filament\Workforce\DeletePayrollsByPayableDateAction;
 use App\Filament\Workforce\Resources\Payrolls\Pages\ManagePayrolls;
 use App\Imports\Filament\PayrollImporter;
 use App\Models\Employee;
@@ -114,6 +115,7 @@ class PayrollResource extends Resource
                     ->importer(PayrollImporter::class)
                     ->color(Color::Indigo)
                     ->icon(Heroicon::ArrowUpTray),
+                DeletePayrollsByPayableDateAction::make(),
             ])
             ->columns([
                 TextColumn::make('payable_date')
