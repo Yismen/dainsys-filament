@@ -2,6 +2,7 @@
 
 namespace App\Filament\Workforce\Resources\Incentives;
 
+use App\Actions\Filament\Workforce\DeleteIncentivesByPayableDateAction;
 use App\Filament\Workforce\Resources\Incentives\Pages\ManageIncentives;
 use App\Imports\Filament\IncentiveImporter;
 use App\Models\Employee;
@@ -94,6 +95,7 @@ class IncentiveResource extends Resource
                     ->importer(IncentiveImporter::class)
                     ->color(Color::Indigo)
                     ->icon(Heroicon::ArrowUpTray),
+                DeleteIncentivesByPayableDateAction::make(),
             ])
             ->columns([
                 TextColumn::make('payable_date')

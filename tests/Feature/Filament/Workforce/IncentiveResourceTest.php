@@ -76,3 +76,24 @@ it('displays Incentive list page correctly', function (): void {
     livewire(ManageIncentives::class)
         ->assertCanSeeTableRecords($incentives);
 });
+
+it('deletes incentives by payable date', function (): void {
+    $futureDate = now()->addYear()->format('Y-m-d');
+
+    Incentive::factory()->count(3)->create([
+        'payable_date' => $futureDate,
+    ]);
+
+    actingAs($this->createUserWithPermissionTo('view-any Incentive'));
+
+    livewire(ManageIncentives::class)
+        ->callTableAction('deleteByPayableDate', null, [
+            'payable_date' => $futureDate,
+        ])
+        ->assertNotified();
+
+    expect(Incentive::query()
+        ->whereDate('payable_date', $futureDate)
+        ->count()
+    )->toBe(0);
+});
