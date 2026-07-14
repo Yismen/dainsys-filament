@@ -83,7 +83,7 @@ test('edit Ars via modal works correctly', function (): void {
     ];
 
     livewire(ManageArs::class)
-        ->callTableAction('edit', $ars, $update_data)
+        ->callAction('edit', $ars, $update_data)
         ->assertHasNoErrors();
 
     $this->assertDatabaseHas('arss', [
@@ -103,7 +103,7 @@ test('form validation requires fields on create and edit modals', function (): v
 
     $ars = Ars::factory()->create();
     livewire(ManageArs::class)
-        ->callTableAction('edit', $ars, [
+        ->callAction('edit', $ars, [
             'name' => '',
         ])
         ->assertHasFormErrors(['name' => 'required']);
@@ -122,7 +122,7 @@ test('Ars name must be unique on create and edit modals', function (): void {
 
     $arsToEdit = Ars::factory()->create(['name' => 'Another ARS']);
     livewire(ManageArs::class)
-        ->callTableAction('edit', $arsToEdit, [
+        ->callAction('edit', $arsToEdit, [
             'name' => 'Unique ARS',
         ])
         ->assertHasFormErrors(['name' => 'unique']);
@@ -134,7 +134,7 @@ it('allows updating Ars without changing name to trigger uniqueness validation',
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Ars'));
 
     livewire(ManageArs::class)
-        ->callTableAction('edit', $ars, [
+        ->callAction('edit', $ars, [
             'name' => 'Existing ARS',
         ])
         ->assertHasNoErrors();

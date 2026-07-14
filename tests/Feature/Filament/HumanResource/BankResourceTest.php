@@ -85,7 +85,7 @@ test('edit Bank via modal works correctly', function (): void {
     ];
 
     livewire(ManageBanks::class)
-        ->callTableAction('edit', $bank, $update_data)
+        ->callAction('edit', $bank, $update_data)
         ->assertHasNoErrors();
 
     $this->assertDatabaseHas('banks', [
@@ -105,7 +105,7 @@ test('form validation requires fields on create and edit modals', function (): v
 
     $bank = Bank::factory()->create();
     livewire(ManageBanks::class)
-        ->callTableAction('edit', $bank, [
+        ->callAction('edit', $bank, [
             'name' => '',
         ])
         ->assertHasFormErrors(['name' => 'required']);
@@ -124,7 +124,7 @@ test('Bank name must be unique on create and edit modals', function (): void {
 
     $bankToEdit = Bank::factory()->create(['name' => 'Another Bank']);
     livewire(ManageBanks::class)
-        ->callTableAction('edit', $bankToEdit, [
+        ->callAction('edit', $bankToEdit, [
             'name' => 'Unique Bank',
         ])
         ->assertHasFormErrors(['name' => 'unique']);
@@ -136,7 +136,7 @@ it('allows updating Bank without changing name to trigger uniqueness validation'
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Bank'));
 
     livewire(ManageBanks::class)
-        ->callTableAction('edit', $bank, [
+        ->callAction('edit', $bank, [
             'name' => 'Existing Bank',
         ])
         ->assertHasNoErrors();

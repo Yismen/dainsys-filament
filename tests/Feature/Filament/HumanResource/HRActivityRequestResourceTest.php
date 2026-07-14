@@ -112,7 +112,7 @@ test('hr can complete a request with comment', function (): void {
     ]);
 
     livewire(ManageHRActivityRequests::class)
-        ->callTableAction('complete', $request, [
+        ->callAction('complete', $request, [
             'comment' => 'Request completed successfully',
         ])
         ->assertNotified();

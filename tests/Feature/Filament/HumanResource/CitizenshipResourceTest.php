@@ -74,7 +74,7 @@ test('edit Citizenship via modal works correctly', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Citizenship'));
 
     livewire(ManageCitizenships::class)
-        ->callTableAction('edit', $citizenship, [
+        ->callAction('edit', $citizenship, [
             'name' => 'Updated Citizenship Name',
         ])
         ->assertHasNoErrors();
@@ -96,7 +96,7 @@ test('form validation requires fields on create and edit modals', function (): v
 
     $citizenship = Citizenship::factory()->create();
     livewire(ManageCitizenships::class)
-        ->callTableAction('edit', $citizenship, [
+        ->callAction('edit', $citizenship, [
             'name' => '',
         ])
         ->assertHasFormErrors(['name' => 'required']);
@@ -115,7 +115,7 @@ test('Citizenship name must be unique on create and edit modals', function (): v
 
     $citizenshipToEdit = Citizenship::factory()->create(['name' => 'Another Citizenship']);
     livewire(ManageCitizenships::class)
-        ->callTableAction('edit', $citizenshipToEdit, [
+        ->callAction('edit', $citizenshipToEdit, [
             'name' => 'Unique Citizenship',
         ])
         ->assertHasFormErrors(['name' => 'unique']);
@@ -127,7 +127,7 @@ it('allows updating Citizenship without changing name to trigger uniqueness vali
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Citizenship'));
 
     livewire(ManageCitizenships::class)
-        ->callTableAction('edit', $citizenship, [
+        ->callAction('edit', $citizenship, [
             'name' => 'Existing Citizenship',
         ])
         ->assertHasNoErrors();

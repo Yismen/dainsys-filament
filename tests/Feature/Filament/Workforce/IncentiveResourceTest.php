@@ -87,7 +87,7 @@ it('deletes incentives by payable date', function (): void {
     actingAs($this->createUserWithPermissionTo('view-any Incentive'));
 
     livewire(ManageIncentives::class)
-        ->callTableAction('deleteByPayableDate', null, [
+        ->callAction('deleteByPayableDate', null, [
             'payable_date' => $futureDate,
         ])
         ->assertNotified();

@@ -78,7 +78,7 @@ test('edit Supervisor via modal works correctly', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Supervisor'));
 
     livewire(ManageSupervisors::class)
-        ->callTableAction('edit', $supervisor, [
+        ->callAction('edit', $supervisor, [
             'user_id' => $supervisor->user_id,
             'name' => 'Updated Supervisor Name',
         ])
@@ -106,7 +106,7 @@ test('form validation requires fields on create and edit modals', function (): v
 
     $supervisor = Supervisor::factory()->create();
     livewire(ManageSupervisors::class)
-        ->callTableAction('edit', $supervisor, [
+        ->callAction('edit', $supervisor, [
             'user_id' => null,
             'name' => '',
         ])
@@ -130,7 +130,7 @@ test('Supervisor name must be unique on create and edit modals', function (): vo
 
     $supervisorToEdit = Supervisor::factory()->create(['name' => 'Another Supervisor']);
     livewire(ManageSupervisors::class)
-        ->callTableAction('edit', $supervisorToEdit, [
+        ->callAction('edit', $supervisorToEdit, [
             'user_id' => $supervisorToEdit->user_id,
             'name' => 'Unique Supervisor',
         ])
@@ -159,7 +159,7 @@ it('allows updating Supervisor without changing name to trigger uniqueness valid
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Supervisor'));
 
     livewire(ManageSupervisors::class)
-        ->callTableAction('edit', $supervisor, [
+        ->callAction('edit', $supervisor, [
             'user_id' => $supervisor->user_id,
             'name' => 'Existing Supervisor',
         ])

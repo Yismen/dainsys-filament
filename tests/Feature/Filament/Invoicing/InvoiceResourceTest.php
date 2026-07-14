@@ -99,7 +99,7 @@ test('creates Invoice from modal action', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Invoice'));
 
     livewire(ManageInvoices::class)
-        ->callTableAction('create', data: $this->form_data)
+        ->callAction('create', data: $this->form_data)
         ->assertHasNoTableActionErrors();
 
     $undoRepeaterFake();
@@ -124,7 +124,7 @@ test('edits Invoice from modal action', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Invoice'));
 
     livewire(ManageInvoices::class)
-        ->callTableAction('edit', $invoice->getKey(), $this->form_data)
+        ->callAction('edit', $invoice->getKey(), $this->form_data)
         ->assertHasNoTableActionErrors();
 
     $undoRepeaterFake();
@@ -140,7 +140,7 @@ test('form validation requires fields on create and edit modal actions', functio
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Invoice'));
 
     livewire(ManageInvoices::class)
-        ->callTableAction('create', data: [
+        ->callAction('create', data: [
             'date' => null,
             'project_id' => null,
             'items' => [],
@@ -154,7 +154,7 @@ test('form validation requires fields on create and edit modal actions', functio
     $invoice = Invoice::factory()->state(['status' => 'pending'])->create();
 
     livewire(ManageInvoices::class)
-        ->callTableAction('edit', $invoice->getKey(), [
+        ->callAction('edit', $invoice->getKey(), [
             'date' => null,
             'project_id' => null,
             'items' => [],

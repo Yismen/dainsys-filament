@@ -186,7 +186,7 @@ test('edit Hire via modal works correctly', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Hire'));
 
     livewire(ManageHires::class)
-        ->callTableAction('edit', $hire, $this->form_data)
+        ->callAction('edit', $hire, $this->form_data)
         ->assertHasNoErrors();
 
     $this->assertDatabaseHas('hires', array_merge(['id' => $hire->id], $this->form_data));
@@ -203,7 +203,7 @@ test('form validation requires fields on create and edit modals', function (stri
     $hire = Hire::factory()->for($employee)->create();
 
     livewire(ManageHires::class)
-        ->callTableAction('edit', $hire, [$field => ''])
+        ->callAction('edit', $hire, [$field => ''])
         ->assertHasFormErrors([$field => 'required']);
 })->with([
     'date',

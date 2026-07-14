@@ -72,7 +72,7 @@ test('creates Item from modal action', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Item'));
 
     livewire(ManageItems::class)
-        ->callTableAction('create', data: $this->form_data)
+        ->callAction('create', data: $this->form_data)
         ->assertHasNoTableActionErrors();
 
     $this->assertDatabaseHas('items', $this->form_data);
@@ -84,7 +84,7 @@ test('edits Item from modal action', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Item'));
 
     livewire(ManageItems::class)
-        ->callTableAction('edit', $item->getKey(), $this->form_data)
+        ->callAction('edit', $item->getKey(), $this->form_data)
         ->assertHasNoTableActionErrors();
 
     $this->assertDatabaseHas('items', array_merge(['id' => $item->id], $this->form_data));
@@ -94,7 +94,7 @@ test('form validation requires fields on create and edit modal actions', functio
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Item'));
 
     livewire(ManageItems::class)
-        ->callTableAction('create', data: [
+        ->callAction('create', data: [
             'name' => '',
             'campaign_id' => null,
             'price' => null,
@@ -108,7 +108,7 @@ test('form validation requires fields on create and edit modal actions', functio
     $item = Item::factory()->create();
 
     livewire(ManageItems::class)
-        ->callTableAction('edit', $item->getKey(), [
+        ->callAction('edit', $item->getKey(), [
             'name' => '',
             'campaign_id' => null,
             'price' => null,
@@ -124,7 +124,7 @@ test('accepts price with multiple decimal places on create modal action', functi
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Item'));
 
     livewire(ManageItems::class)
-        ->callTableAction('create', data: array_merge($this->form_data, [
+        ->callAction('create', data: array_merge($this->form_data, [
             'price' => 49.999999,
         ]))
         ->assertHasNoTableActionErrors();
@@ -136,7 +136,7 @@ test('accepts exact high precision price input', function (): void {
     $expectedPrice = '655.7377049180328';
 
     livewire(ManageItems::class)
-        ->callTableAction('create', data: array_merge($this->form_data, [
+        ->callAction('create', data: array_merge($this->form_data, [
             'price' => $expectedPrice,
         ]))
         ->assertHasNoTableActionErrors();

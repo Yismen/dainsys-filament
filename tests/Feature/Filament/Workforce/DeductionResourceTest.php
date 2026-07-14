@@ -87,7 +87,7 @@ it('deletes deductions by payable date', function (): void {
     actingAs($this->createUserWithPermissionTo('view-any Deduction'));
 
     livewire(ManageDeductions::class)
-        ->callTableAction('deleteByPayableDate', null, [
+        ->callAction('deleteByPayableDate', null, [
             'payable_date' => $futureDate,
         ])
         ->assertNotified();

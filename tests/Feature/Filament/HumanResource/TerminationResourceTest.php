@@ -144,7 +144,7 @@ test('edit Termination via modal works correctly', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Termination'));
 
     livewire(ManageTerminations::class)
-        ->callTableAction('edit', $termination, $this->form_data)
+        ->callAction('edit', $termination, $this->form_data)
         ->assertHasNoErrors();
 
     $this->assertDatabaseHas('terminations', array_merge(['id' => $termination->id], $this->form_data));
@@ -162,7 +162,7 @@ test('form validation requires fields on create and edit modals', function (stri
     $termination = Termination::factory()->for($employee)->create();
 
     livewire(ManageTerminations::class)
-        ->callTableAction('edit', $termination, [$field => ''])
+        ->callAction('edit', $termination, [$field => ''])
         ->assertHasFormErrors([$field => 'required']);
 })->with([
     'employee_id',

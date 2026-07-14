@@ -62,7 +62,7 @@ it('allows employee to accept own published evaluation from my evaluations page'
     actingAs($scenario['employeeUser']);
 
     livewire(MyEvaluations::class)
-        ->callTableAction('accept', $evaluation, [
+        ->callAction('accept', $evaluation, [
             'comment' => 'Employee accepts evaluation.',
         ]);
 
@@ -87,7 +87,7 @@ it('allows employee to dispute own published evaluation from my evaluations page
     actingAs($scenario['employeeUser']);
 
     livewire(MyEvaluations::class)
-        ->callTableAction('dispute', $evaluation, [
+        ->callAction('dispute', $evaluation, [
             'comment' => 'Employee disputes result.',
         ]);
 

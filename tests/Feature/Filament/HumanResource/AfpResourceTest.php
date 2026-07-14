@@ -83,7 +83,7 @@ test('edit Afp via modal works correctly', function (): void {
     ];
 
     livewire(ManageAfps::class)
-        ->callTableAction('edit', $afp, $update_data)
+        ->callAction('edit', $afp, $update_data)
         ->assertHasNoErrors();
 
     $this->assertDatabaseHas('afps', [
@@ -103,7 +103,7 @@ test('form validation requires fields on create and edit modals', function (): v
 
     $afp = Afp::factory()->create();
     livewire(ManageAfps::class)
-        ->callTableAction('edit', $afp, [
+        ->callAction('edit', $afp, [
             'name' => '',
         ])
         ->assertHasFormErrors(['name' => 'required']);
@@ -122,7 +122,7 @@ test('Afp name must be unique on create and edit modals', function (): void {
 
     $afpToEdit = Afp::factory()->create(['name' => 'Another AFP']);
     livewire(ManageAfps::class)
-        ->callTableAction('edit', $afpToEdit, [
+        ->callAction('edit', $afpToEdit, [
             'name' => 'Unique AFP',
         ])
         ->assertHasFormErrors(['name' => 'unique']);
@@ -134,7 +134,7 @@ it('allows updating Afp without changing name to trigger uniqueness validation',
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Afp'));
 
     livewire(ManageAfps::class)
-        ->callTableAction('edit', $afp, [
+        ->callAction('edit', $afp, [
             'name' => 'Existing AFP',
         ])
         ->assertHasNoErrors();

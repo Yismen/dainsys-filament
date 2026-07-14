@@ -81,7 +81,7 @@ test('creates InvoiceCancellation from modal action', function (): void {
     actingAs($user);
 
     livewire(ManageInvoiceCancellations::class)
-        ->callTableAction('create', data: $this->form_data)
+        ->callAction('create', data: $this->form_data)
         ->assertHasNoTableActionErrors();
 
     $this->assertDatabaseHas('invoice_cancellations', [
@@ -100,7 +100,7 @@ test('edits InvoiceCancellation from modal action', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'InvoiceCancellation'));
 
     livewire(ManageInvoiceCancellations::class)
-        ->callTableAction('edit', $cancellation->getKey(), [
+        ->callAction('edit', $cancellation->getKey(), [
             'invoice_id' => $this->invoice->id,
             'date' => now()->toDateString(),
             'reason' => 'Updated reason after review.',
@@ -117,7 +117,7 @@ test('form validation requires invoice_id, date and reason', function (string $f
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'InvoiceCancellation'));
 
     livewire(ManageInvoiceCancellations::class)
-        ->callTableAction('create', data: array_merge($this->form_data, [$field => '']))
+        ->callAction('create', data: array_merge($this->form_data, [$field => '']))
         ->assertHasTableActionErrors([$field => 'required']);
 })->with(['invoice_id', 'date', 'reason']);
 
@@ -130,7 +130,7 @@ test('form validation requires cancellation date to be equal or after invoice da
     ]);
 
     livewire(ManageInvoiceCancellations::class)
-        ->callTableAction('create', data: array_merge($this->form_data, [
+        ->callAction('create', data: array_merge($this->form_data, [
             'invoice_id' => $futureInvoice->id,
             'date' => now()->toDateString(),
         ]))
@@ -145,7 +145,7 @@ it('soft deletes an InvoiceCancellation', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['delete', 'view-any'], 'InvoiceCancellation'));
 
     livewire(ManageInvoiceCancellations::class)
-        ->callTableAction('delete', $cancellation->getKey())
+        ->callAction('delete', $cancellation->getKey())
         ->assertHasNoTableActionErrors();
 
     $this->assertSoftDeleted('invoice_cancellations', ['id' => $cancellation->id]);
@@ -161,7 +161,7 @@ it('restores a soft-deleted InvoiceCancellation', function (): void {
 
     livewire(ManageInvoiceCancellations::class)
         ->filterTable('trashed', 'with')
-        ->callTableAction('restore', $cancellation->getKey())
+        ->callAction('restore', $cancellation->getKey())
         ->assertHasNoTableActionErrors();
 
     $this->assertNotSoftDeleted('invoice_cancellations', ['id' => $cancellation->id]);

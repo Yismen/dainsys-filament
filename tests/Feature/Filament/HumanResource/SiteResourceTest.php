@@ -80,7 +80,7 @@ test('edit Site via modal works correctly', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Site'));
 
     livewire(ManageSites::class)
-        ->callTableAction('edit', $site, [
+        ->callAction('edit', $site, [
             'name' => 'Updated Site Name',
         ])
         ->assertHasNoErrors();
@@ -102,7 +102,7 @@ test('form validation requires fields on create and edit modals', function (): v
 
     $site = Site::factory()->create();
     livewire(ManageSites::class)
-        ->callTableAction('edit', $site, [
+        ->callAction('edit', $site, [
             'name' => '',
         ])
         ->assertHasFormErrors(['name' => 'required']);
@@ -121,7 +121,7 @@ test('Site name must be unique on create and edit modals', function (): void {
 
     $siteToEdit = Site::factory()->create(['name' => 'Another Site']);
     livewire(ManageSites::class)
-        ->callTableAction('edit', $siteToEdit, [
+        ->callAction('edit', $siteToEdit, [
             'name' => 'Unique Site',
         ])
         ->assertHasFormErrors(['name' => 'unique']);
@@ -133,7 +133,7 @@ it('allows updating Site without changing name to trigger uniqueness validation'
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Site'));
 
     livewire(ManageSites::class)
-        ->callTableAction('edit', $site, [
+        ->callAction('edit', $site, [
             'name' => 'Existing Site',
         ])
         ->assertHasNoErrors();

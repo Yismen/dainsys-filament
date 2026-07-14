@@ -97,7 +97,7 @@ test('creates Client from modal action', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Client'));
 
     livewire(ManageClients::class)
-        ->callTableAction('create', data: $this->form_data)
+        ->callAction('create', data: $this->form_data)
         ->assertHasNoTableActionErrors();
 
     $this->assertDatabaseHas('clients', $this->persisted_form_data);
@@ -109,7 +109,7 @@ test('edits Client from modal action', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Client'));
 
     livewire(ManageClients::class)
-        ->callTableAction('edit', $client->getKey(), $this->form_data)
+        ->callAction('edit', $client->getKey(), $this->form_data)
         ->assertHasNoTableActionErrors();
 
     $this->assertDatabaseHas('clients', array_merge(['id' => $client->id], $this->persisted_form_data));
@@ -119,7 +119,7 @@ test('form validation requires name on create and edit modal actions', function 
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Client'));
 
     livewire(ManageClients::class)
-        ->callTableAction('create', data: [
+        ->callAction('create', data: [
             'name' => '',
         ])
         ->assertHasTableActionErrors(['name' => 'required']);
@@ -127,7 +127,7 @@ test('form validation requires name on create and edit modal actions', function 
     $client = Client::factory()->create();
 
     livewire(ManageClients::class)
-        ->callTableAction('edit', $client->getKey(), [
+        ->callAction('edit', $client->getKey(), [
             'name' => '',
         ])
         ->assertHasTableActionErrors(['name' => 'required']);
@@ -139,7 +139,7 @@ test('Client name must be unique on create and edit modal actions', function ():
     Client::factory()->create(['name' => 'Unique Client']);
 
     livewire(ManageClients::class)
-        ->callTableAction('create', data: [
+        ->callAction('create', data: [
             'name' => 'Unique Client',
         ])
         ->assertHasTableActionErrors(['name' => 'unique']);
@@ -147,7 +147,7 @@ test('Client name must be unique on create and edit modal actions', function ():
     $clientToEdit = Client::factory()->create(['name' => 'Another Client']);
 
     livewire(ManageClients::class)
-        ->callTableAction('edit', $clientToEdit->getKey(), [
+        ->callAction('edit', $clientToEdit->getKey(), [
             'name' => 'Unique Client',
         ])
         ->assertHasTableActionErrors(['name' => 'unique']);
@@ -159,7 +159,7 @@ it('allows updating Client without changing name to trigger uniqueness validatio
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Client'));
 
     livewire(ManageClients::class)
-        ->callTableAction('edit', $client->getKey(), [
+        ->callAction('edit', $client->getKey(), [
             'name' => 'Existing Client',
         ])
         ->assertHasNoTableActionErrors();

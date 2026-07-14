@@ -72,7 +72,7 @@ test('creates Agent from modal action', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'InvoiceAgent'));
 
     livewire(ManageAgents::class)
-        ->callTableAction('create', data: $this->form_data)
+        ->callAction('create', data: $this->form_data)
         ->assertHasNoTableActionErrors();
 
     $this->assertDatabaseHas('invoice_agents', $this->form_data);
@@ -84,7 +84,7 @@ test('edits Agent from modal action', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'InvoiceAgent'));
 
     livewire(ManageAgents::class)
-        ->callTableAction('edit', $agent->getKey(), $this->form_data)
+        ->callAction('edit', $agent->getKey(), $this->form_data)
         ->assertHasNoTableActionErrors();
 
     $this->assertDatabaseHas('invoice_agents', array_merge(['id' => $agent->id], $this->form_data));
@@ -94,7 +94,7 @@ test('form validation requires fields on create and edit modal actions', functio
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'InvoiceAgent'));
 
     livewire(ManageAgents::class)
-        ->callTableAction('create', data: [
+        ->callAction('create', data: [
             'name' => '',
             'project_id' => null,
         ])
@@ -106,7 +106,7 @@ test('form validation requires fields on create and edit modal actions', functio
     $agent = InvoiceAgent::factory()->create();
 
     livewire(ManageAgents::class)
-        ->callTableAction('edit', $agent->getKey(), [
+        ->callAction('edit', $agent->getKey(), [
             'name' => '',
             'project_id' => null,
         ])

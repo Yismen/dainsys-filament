@@ -74,7 +74,7 @@ test('edit SuspensionType via modal works correctly', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'SuspensionType'));
 
     livewire(ManageSuspensionTypes::class)
-        ->callTableAction('edit', $suspension_type, [
+        ->callAction('edit', $suspension_type, [
             'name' => 'Updated SuspensionType Name',
         ])
         ->assertHasNoErrors();
@@ -96,7 +96,7 @@ test('form validation requires fields on create and edit modals', function (): v
 
     $suspension_type = SuspensionType::factory()->create();
     livewire(ManageSuspensionTypes::class)
-        ->callTableAction('edit', $suspension_type, [
+        ->callAction('edit', $suspension_type, [
             'name' => '',
         ])
         ->assertHasFormErrors(['name' => 'required']);
@@ -115,7 +115,7 @@ test('SuspensionType name must be unique on create and edit modals', function ()
 
     $suspension_typeToEdit = SuspensionType::factory()->create(['name' => 'Another SuspensionType']);
     livewire(ManageSuspensionTypes::class)
-        ->callTableAction('edit', $suspension_typeToEdit, [
+        ->callAction('edit', $suspension_typeToEdit, [
             'name' => 'Unique SuspensionType',
         ])
         ->assertHasFormErrors(['name' => 'unique']);
@@ -127,7 +127,7 @@ it('allows updating SuspensionType without changing name to trigger uniqueness v
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'SuspensionType'));
 
     livewire(ManageSuspensionTypes::class)
-        ->callTableAction('edit', $suspension_type, [
+        ->callAction('edit', $suspension_type, [
             'name' => 'Existing SuspensionType',
         ])
         ->assertHasNoErrors();
