@@ -36,7 +36,7 @@ class SuspensionResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedPause;
 
-    protected static string|UnitEnum|null $navigationGroup = 'Team Management';
+    protected static string|UnitEnum|null $navigationGroup = 'Team Insights';
 
     protected static ?int $navigationSort = 7;
 
