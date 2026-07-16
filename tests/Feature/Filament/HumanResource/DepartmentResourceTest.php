@@ -74,7 +74,7 @@ test('edit Department via modal works correctly', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Department'));
 
     livewire(ManageDepartments::class)
-        ->callAction('edit', $department, [
+        ->callTableAction('edit', $department, [
             'name' => 'Updated Department Name',
         ])
         ->assertHasNoErrors();
@@ -96,7 +96,7 @@ test('form validation requires fields on create and edit modals', function (): v
 
     $department = Department::factory()->create();
     livewire(ManageDepartments::class)
-        ->callAction('edit', $department, [
+        ->callTableAction('edit', $department, [
             'name' => '',
         ])
         ->assertHasFormErrors(['name' => 'required']);
@@ -115,7 +115,7 @@ test('Department name must be unique on create and edit modals', function (): vo
 
     $departmentToEdit = Department::factory()->create(['name' => 'Another Department']);
     livewire(ManageDepartments::class)
-        ->callAction('edit', $departmentToEdit, [
+        ->callTableAction('edit', $departmentToEdit, [
             'name' => 'Unique Department',
         ])
         ->assertHasFormErrors(['name' => 'unique']);
@@ -127,7 +127,7 @@ it('allows updating Department without changing name to trigger uniqueness valid
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Department'));
 
     livewire(ManageDepartments::class)
-        ->callAction('edit', $department, [
+        ->callTableAction('edit', $department, [
             'name' => 'Existing Department',
         ])
         ->assertHasNoErrors();

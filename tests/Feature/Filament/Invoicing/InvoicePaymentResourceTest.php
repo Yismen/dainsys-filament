@@ -77,7 +77,7 @@ test('creates InvoicePayment from modal action', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'InvoicePayment'));
 
     livewire(ManageInvoicePayments::class)
-        ->callAction('create', data: $this->form_data)
+        ->callTableAction('create', data: $this->form_data)
         ->assertHasNoTableActionErrors();
 
     $this->assertDatabaseHas('invoice_payments', [
@@ -96,7 +96,7 @@ test('edits InvoicePayment from modal action', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'InvoicePayment'));
 
     livewire(ManageInvoicePayments::class)
-        ->callAction('edit', $payment->getKey(), [
+        ->callTableAction('edit', $payment->getKey(), [
             'invoice_id' => $this->invoice->id,
             'amount' => 75.00,
             'date' => now()->toDateString(),
@@ -115,7 +115,7 @@ test('form validation requires invoice_id, amount and date', function (string $f
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'InvoicePayment'));
 
     livewire(ManageInvoicePayments::class)
-        ->callAction('create', data: array_merge($this->form_data, [$field => '']))
+        ->callTableAction('create', data: array_merge($this->form_data, [$field => '']))
         ->assertHasTableActionErrors([$field => 'required']);
 })->with(['invoice_id', 'amount', 'date']);
 
@@ -125,7 +125,7 @@ it('soft deletes an InvoicePayment', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['delete', 'view-any'], 'InvoicePayment'));
 
     livewire(ManageInvoicePayments::class)
-        ->callAction('delete', $payment->getKey())
+        ->callTableAction('delete', $payment->getKey())
         ->assertHasNoTableActionErrors();
 
     $this->assertSoftDeleted('invoice_payments', ['id' => $payment->id]);
@@ -139,7 +139,7 @@ it('restores a soft-deleted InvoicePayment', function (): void {
 
     livewire(ManageInvoicePayments::class)
         ->filterTable('trashed', 'with')
-        ->callAction('restore', $payment->getKey())
+        ->callTableAction('restore', $payment->getKey())
         ->assertHasNoTableActionErrors();
 
     $this->assertNotSoftDeleted('invoice_payments', ['id' => $payment->id]);

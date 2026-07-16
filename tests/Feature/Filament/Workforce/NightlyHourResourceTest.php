@@ -157,7 +157,7 @@ it('can edit nightly hour', function (): void {
 //     actingAs($this->createUserWithPermissionsToActions(['delete', 'view-any'], 'NightlyHour'));
 
 //     livewire(EditNightlyHour::class, ['record' => $nightlyHour->getKey()])
-//         ->callAction('delete')
+//         ->callTableAction('delete')
 //         ->assertNotified();
 
 //     $this->assertSoftDeleted($nightlyHour);

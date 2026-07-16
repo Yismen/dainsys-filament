@@ -85,7 +85,7 @@ test('creates Project from modal action', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Project'));
 
     livewire(ManageProjects::class)
-        ->callAction('create', data: $this->form_data)
+        ->callTableAction('create', data: $this->form_data)
         ->assertHasNoTableActionErrors();
 
     $this->assertDatabaseHas('projects', $this->persisted_form_data);
@@ -97,7 +97,7 @@ test('edits Project from modal action', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Project'));
 
     livewire(ManageProjects::class)
-        ->callAction('edit', $project->getKey(), $this->form_data)
+        ->callTableAction('edit', $project->getKey(), $this->form_data)
         ->assertHasNoTableActionErrors();
 
     $this->assertDatabaseHas('projects', array_merge(['id' => $project->id], $this->persisted_form_data));
@@ -107,7 +107,7 @@ test('form validation requires fields on create and edit modal actions', functio
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Project'));
 
     livewire(ManageProjects::class)
-        ->callAction('create', data: [
+        ->callTableAction('create', data: [
             'name' => '',
             'client_id' => null,
         ])
@@ -119,7 +119,7 @@ test('form validation requires fields on create and edit modal actions', functio
     $project = Project::factory()->create();
 
     livewire(ManageProjects::class)
-        ->callAction('edit', $project->getKey(), [
+        ->callTableAction('edit', $project->getKey(), [
             'name' => '',
             'client_id' => null,
         ])
@@ -135,7 +135,7 @@ test('Project name must be unique on create and edit modal actions', function ()
     Project::factory()->create(['name' => 'Unique Project']);
 
     livewire(ManageProjects::class)
-        ->callAction('create', data: [
+        ->callTableAction('create', data: [
             'name' => 'Unique Project',
             'client_id' => Client::factory()->create()->id,
             'address' => 'Santo Domingo',
@@ -147,7 +147,7 @@ test('Project name must be unique on create and edit modal actions', function ()
     $projectToEdit = Project::factory()->create(['name' => 'Another Project']);
 
     livewire(ManageProjects::class)
-        ->callAction('edit', $projectToEdit->getKey(), [
+        ->callTableAction('edit', $projectToEdit->getKey(), [
             'name' => 'Unique Project',
             'client_id' => Client::factory()->create()->id,
             'address' => 'Santo Domingo',

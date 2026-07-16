@@ -95,7 +95,7 @@ it('approves a downtime from pending table', function (): void {
     ]);
 
     Livewire::test(PendingDowntimesTable::class)
-        ->callAction('approve', $downtime, ['comment' => 'Approved by test']);
+        ->callTableAction('approve', $downtime, ['comment' => 'Approved by test']);
 
     $downtime->refresh();
 
@@ -116,7 +116,7 @@ it('rejects a downtime from pending table', function (): void {
     ]);
 
     Livewire::test(PendingDowntimesTable::class)
-        ->callAction('reject', $downtime, ['comment' => 'Rejected by test']);
+        ->callTableAction('reject', $downtime, ['comment' => 'Rejected by test']);
 
     $downtime->refresh();
 

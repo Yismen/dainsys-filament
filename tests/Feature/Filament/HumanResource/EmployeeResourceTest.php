@@ -172,7 +172,7 @@ it('keeps hired assignment data when saving the edit modal after hiring from foo
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Employee'));
 
     livewire(ListEmployees::class)
-        ->callAction(['edit', 'hire'], $employee->getKey(), [
+        ->callTableAction(['edit', 'hire'], $employee->getKey(), [
             'site_id' => $site->id,
             'project_id' => $project->id,
             'position_id' => $position->id,

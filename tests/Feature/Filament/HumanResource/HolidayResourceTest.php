@@ -76,7 +76,7 @@ test('edit Holiday via modal works correctly', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Holiday'));
 
     livewire(ManageHolidays::class)
-        ->callAction('edit', $holiday, [
+        ->callTableAction('edit', $holiday, [
             'name' => 'Updated Holiday Name',
             'date' => $holiday->date,
         ])
@@ -100,7 +100,7 @@ test('form validation requires fields on create and edit modals', function (): v
 
     $holiday = Holiday::factory()->create();
     livewire(ManageHolidays::class)
-        ->callAction('edit', $holiday, [
+        ->callTableAction('edit', $holiday, [
             'name' => '',
             'date' => '',
         ])
@@ -121,7 +121,7 @@ test('Holiday date must be unique on create and edit modals', function (): void 
 
     $holidayToEdit = Holiday::factory()->create();
     livewire(ManageHolidays::class)
-        ->callAction('edit', $holidayToEdit, [
+        ->callTableAction('edit', $holidayToEdit, [
             'date' => now()->format('Y-m-d'),
         ])
         ->assertHasFormErrors(['date' => 'unique']);
@@ -133,7 +133,7 @@ it('allows updating Holiday without changing date to trigger uniqueness validati
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Holiday'));
 
     livewire(ManageHolidays::class)
-        ->callAction('edit', $holiday, [
+        ->callTableAction('edit', $holiday, [
             'date' => $holiday->date,
         ])
         ->assertHasNoErrors();

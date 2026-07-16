@@ -125,7 +125,7 @@ it('allows qa agent to publish evaluations from the table action', function (): 
     actingAs($scenario['agent']);
 
     livewire(ListEvaluations::class)
-        ->callAction('publish', $evaluation, [
+        ->callTableAction('publish', $evaluation, [
             'comment' => 'Publishing QA result.',
         ]);
 
@@ -159,7 +159,7 @@ it('allows qa manager to resolve disputed evaluations from table action', functi
     actingAs($scenario['manager']);
 
     livewire(ListEvaluations::class)
-        ->callAction('resolve_dispute', $evaluation, [
+        ->callTableAction('resolve_dispute', $evaluation, [
             'resolution_status' => EvaluationStatuses::Rejected->value,
             'comment' => 'Manager confirmed rejection.',
         ]);

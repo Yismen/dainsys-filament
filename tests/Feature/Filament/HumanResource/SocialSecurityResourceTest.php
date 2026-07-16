@@ -133,7 +133,7 @@ test('edit SocialSecurity via modal works correctly', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'SocialSecurity'));
 
     livewire(ManageSocialSecurities::class)
-        ->callAction('edit', $social_security, $this->form_data)
+        ->callTableAction('edit', $social_security, $this->form_data)
         ->assertHasNoErrors();
 
     $this->assertDatabaseHas('social_securities', array_merge(['id' => $social_security->id], $this->form_data));
@@ -151,7 +151,7 @@ test('form validation requires fields on create and edit modals', function (stri
     $social_security = SocialSecurity::factory()->for($employee)->create();
 
     livewire(ManageSocialSecurities::class)
-        ->callAction('edit', $social_security, [$field => ''])
+        ->callTableAction('edit', $social_security, [$field => ''])
         ->assertHasFormErrors([$field => 'required']);
 })->with([
     'employee_id',

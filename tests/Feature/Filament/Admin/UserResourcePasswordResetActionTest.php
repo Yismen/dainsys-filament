@@ -33,6 +33,6 @@ it('generates reset link only when action is executed', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['view-any', 'update'], 'User'));
 
     livewire(ListUsers::class)
-        ->callAction('reset_user_password', $targetUser->getKey())
+        ->callTableAction('reset_user_password', $targetUser->getKey())
         ->assertOk();
 });

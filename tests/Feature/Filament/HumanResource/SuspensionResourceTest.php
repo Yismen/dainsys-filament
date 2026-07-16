@@ -184,7 +184,7 @@ test('edit Suspension via modal works correctly', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Suspension'));
 
     livewire(ManageSuspensions::class)
-        ->callAction('edit', $suspension, $this->form_data)
+        ->callTableAction('edit', $suspension, $this->form_data)
         ->assertHasNoErrors();
 
     $this->assertDatabaseHas('suspensions', array_merge(['id' => $suspension->id], $this->form_data));
@@ -202,7 +202,7 @@ test('form validation requires fields on create and edit modals', function (stri
     $suspension = Suspension::factory()->for($employee)->create();
 
     livewire(ManageSuspensions::class)
-        ->callAction('edit', $suspension, [$field => ''])
+        ->callTableAction('edit', $suspension, [$field => ''])
         ->assertHasFormErrors([$field => 'required']);
 })->with([
     'employee_id',

@@ -81,7 +81,7 @@ test('creates Campaign from modal action', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['create', 'view-any'], 'Campaign'));
 
     livewire(ManageCampaigns::class)
-        ->callAction('create', data: $this->form_data)
+        ->callTableAction('create', data: $this->form_data)
         ->assertHasNoTableActionErrors();
 
     $this->assertDatabaseHas('campaigns', $this->form_data);
@@ -93,7 +93,7 @@ test('edits Campaign from modal action', function (): void {
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Campaign'));
 
     livewire(ManageCampaigns::class)
-        ->callAction('edit', $campaign->getKey(), $this->form_data)
+        ->callTableAction('edit', $campaign->getKey(), $this->form_data)
         ->assertHasNoTableActionErrors();
 
     $this->assertDatabaseHas('campaigns', array_merge(['id' => $campaign->id], $this->form_data));
@@ -103,7 +103,7 @@ test('form validation requires fields on create and edit modal actions', functio
     actingAs($this->createUserWithPermissionsToActions(['create', 'update', 'view-any'], 'Campaign'));
 
     livewire(ManageCampaigns::class)
-        ->callAction('create', data: [
+        ->callTableAction('create', data: [
             'name' => '',
             'project_id' => null,
             'source_id' => null,
@@ -123,7 +123,7 @@ test('form validation requires fields on create and edit modal actions', functio
     $campaign = Campaign::factory()->create();
 
     livewire(ManageCampaigns::class)
-        ->callAction('edit', $campaign->getKey(), [
+        ->callTableAction('edit', $campaign->getKey(), [
             'name' => '',
             'project_id' => null,
             'source_id' => null,
@@ -147,7 +147,7 @@ test('Campaign name must be unique on create and edit modal actions', function (
     Campaign::factory()->create(['name' => 'Unique Campaign']);
 
     livewire(ManageCampaigns::class)
-        ->callAction('create', data: [
+        ->callTableAction('create', data: [
             'name' => 'Unique Campaign',
             'project_id' => Project::factory()->create()->id,
             'source_id' => Source::factory()->create()->id,
@@ -160,7 +160,7 @@ test('Campaign name must be unique on create and edit modal actions', function (
     $campaignToEdit = Campaign::factory()->create(['name' => 'Another Campaign']);
 
     livewire(ManageCampaigns::class)
-        ->callAction('edit', $campaignToEdit->getKey(), [
+        ->callTableAction('edit', $campaignToEdit->getKey(), [
             'name' => 'Unique Campaign',
             'project_id' => Project::factory()->create()->id,
             'source_id' => Source::factory()->create()->id,

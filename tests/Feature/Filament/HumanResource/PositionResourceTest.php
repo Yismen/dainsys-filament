@@ -81,7 +81,7 @@ test('edit Position via modal works correctly', function (): void {
 
     $newName = 'Updated Position Name';
     livewire(ManagePositions::class)
-        ->callAction('edit', $position, [
+        ->callTableAction('edit', $position, [
             'name' => $newName,
         ])
         ->assertHasNoErrors();
@@ -111,7 +111,7 @@ test('form validation requires fields on create and edit modals', function (): v
 
     $position = Position::factory()->create();
     livewire(ManagePositions::class)
-        ->callAction('edit', $position, [
+        ->callTableAction('edit', $position, [
             'name' => '',
         ])
         ->assertHasFormErrors(['name' => 'required']);
@@ -130,7 +130,7 @@ test('Position name must be unique on create and edit modals', function (): void
 
     $positionToEdit = Position::factory()->create(['name' => 'Another Position']);
     livewire(ManagePositions::class)
-        ->callAction('edit', $positionToEdit, [
+        ->callTableAction('edit', $positionToEdit, [
             'name' => 'Unique Position',
         ])
         ->assertHasFormErrors(['name' => 'unique']);
@@ -142,7 +142,7 @@ it('allows updating Position without changing name to trigger uniqueness validat
     actingAs($this->createUserWithPermissionsToActions(['update', 'view-any'], 'Position'));
 
     livewire(ManagePositions::class)
-        ->callAction('edit', $position, [
+        ->callTableAction('edit', $position, [
             'name' => 'Existing Position',
         ])
         ->assertHasNoErrors();
