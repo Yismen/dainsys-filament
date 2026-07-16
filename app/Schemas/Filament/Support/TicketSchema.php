@@ -25,6 +25,7 @@ class TicketSchema
             RichEditor::make('description')
                 ->required()
                 ->columnSpanFull()
+                ->extraInputAttributes(['class' => 'min-h-[200px]'])
                 ->toolbarButtons([
                     'bold',
                     'italic',
