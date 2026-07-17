@@ -53,7 +53,7 @@ class Login extends SimplePage
                     ->footer([
                         Actions::make([
                             Action::make('authenticate')
-                                ->label($this->showPasswordForm ? 'Set Password' : 'Sign in')
+                                ->label($this->showPasswordForm ? __('filament.set_password') : __('filament.sign_in'))
                                 ->submit('authenticate'),
                         ])
                             ->fullWidth(),
@@ -84,12 +84,12 @@ class Login extends SimplePage
         return Section::make()
             ->schema([
                 TextInput::make('personalId')
-                    ->label('Personal ID')
+                    ->label(__('filament.personal_id'))
                     ->required()
                     ->autofocus()
                     ->autocomplete(false),
                 TextInput::make('password')
-                    ->label('Password')
+                    ->label(__('filament.password'))
                     ->password()
                     ->autocomplete('current-password')
                     ->visible(fn (): bool => ! $this->showPasswordForm),
@@ -99,18 +99,18 @@ class Login extends SimplePage
 
     private function getPasswordFormComponent(): Component
     {
-        return Section::make('Set Your Password')
+        return Section::make(__('filament.set_your_password'))
             ->description('Please create a password for your account.')
             ->schema([
                 TextInput::make('password')
-                    ->label('Password')
+                    ->label(__('filament.password'))
                     ->password()
                     ->required()
                     ->autofocus()
                     ->minLength(8)
                     ->same('password_confirmation'),
                 TextInput::make('password_confirmation')
-                    ->label('Confirm Password')
+                    ->label(__('filament.confirm_password'))
                     ->password()
                     ->required(),
             ])

@@ -13,31 +13,31 @@ class EvaluationInfolist
         return $schema
             ->components([
                 TextEntry::make('record_number')
-                    ->label('Record Number')
+                    ->label(__('filament.record_number'))
                     ->copyable(),
                 TextEntry::make('id')
                     ->copyable(),
                 TextEntry::make('evaluation_date')
                     ->date(),
                 TextEntry::make('employee.full_name')
-                    ->label('Employee'),
+                    ->label(__('filament.employee')),
                 TextEntry::make('supervisor.name')
-                    ->label('Supervisor')
+                    ->label(__('filament.supervisor'))
                     ->placeholder('-'),
                 TextEntry::make('evaluator.name')
-                    ->label('Evaluator')
+                    ->label(__('filament.evaluator'))
                     ->placeholder('-'),
                 TextEntry::make('qaForm.name')
-                    ->label('QA Form')
+                    ->label(__('filament.qa_form'))
                     ->placeholder('-'),
                 TextEntry::make('status')
                     ->badge(),
                 TextEntry::make('threshold_percentage')
-                    ->label('Threshold %'),
+                    ->label(__('filament.threshold')),
                 TextEntry::make('points_possible'),
                 TextEntry::make('points_achieved'),
                 TextEntry::make('success_percentage')
-                    ->label('Success %'),
+                    ->label(__('filament.success_percentage')),
                 TextEntry::make('comments')
                     ->placeholder('-')
                     ->columnSpanFull(),

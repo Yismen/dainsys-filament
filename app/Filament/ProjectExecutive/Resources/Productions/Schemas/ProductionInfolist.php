@@ -13,18 +13,18 @@ class ProductionInfolist
         return $schema
             ->components([
                 TextEntry::make('id')
-                    ->label('ID')
+                    ->label(__('filament.id'))
                     ->columnSpanFull(),
                 TextEntry::make('employee.full_name')
-                    ->label('Employee'),
+                    ->label(__('filament.employee')),
                 TextEntry::make('date')
                     ->date(),
                 TextEntry::make('campaign.name')
-                    ->label('Campaign'),
+                    ->label(__('filament.campaign')),
                 TextEntry::make('revenue_type')
                     ->placeholder('-'),
                 TextEntry::make('supervisor.name')
-                    ->label('Supervisor')
+                    ->label(__('filament.supervisor'))
                     ->placeholder('-'),
                 TextEntry::make('revenue_rate')
                     ->numeric(),

@@ -22,7 +22,7 @@ class CreateMultipleDowntimesAction
     {
         return Action::make($name)
             ->button()
-            ->label('Create Multiple')
+            ->label(__('filament.create_multiple'))
             ->color(Color::Indigo)
             ->schema([
                 Grid::make()
@@ -47,7 +47,7 @@ class CreateMultipleDowntimesAction
                             ->maxValue(13)
                             ->numeric(),
                         CheckboxList::make('employees')
-                            ->label('Select Employees')
+                            ->label(__('filament.select_employees'))
                             ->bulkToggleable()
                             ->columns(2)
                             ->columnSpanFull()

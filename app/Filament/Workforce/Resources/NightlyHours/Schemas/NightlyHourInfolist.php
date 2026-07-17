@@ -12,17 +12,17 @@ class NightlyHourInfolist
         return $schema
             ->components([
                 TextEntry::make('employee.full_name')
-                    ->label('Employee'),
+                    ->label(__('filament.employee')),
                 TextEntry::make('date')
                     ->date(),
                 TextEntry::make('total_hours')
-                    ->label('Total Hours')
+                    ->label(__('filament.total_hours'))
                     ->numeric(decimalPlaces: 2),
                 TextEntry::make('created_at')
-                    ->label('Created At')
+                    ->label(__('filament.created_at'))
                     ->dateTime(),
                 TextEntry::make('updated_at')
-                    ->label('Updated At')
+                    ->label(__('filament.updated_at'))
                     ->dateTime(),
             ]);
     }

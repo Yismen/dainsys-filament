@@ -54,9 +54,9 @@ class DowntimesTable
                     ->columnSpanFull()
                     ->schema([
                         DatePicker::make('date_from')
-                            ->label('Date from'),
+                            ->label(__('filament.date_from')),
                         DatePicker::make('date_until')
-                            ->label('Date until'),
+                            ->label(__('filament.date_until')),
                     ])
                     ->columns(2)
                     ->query(function (Builder $query, array $data): Builder {
@@ -71,18 +71,18 @@ class DowntimesTable
                             );
                     }),
                 SelectFilter::make('employee_id')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->options(fn (): array => ModelListService::make(
                         model: Employee::query(),
                         value_field: 'full_name',
                     ))
                     ->searchable(),
                 SelectFilter::make('campaign_id')
-                    ->label('Campaign')
+                    ->label(__('filament.campaign'))
                     ->options(fn (): array => ModelListService::make(model: Campaign::query()))
                     ->searchable(),
                 SelectFilter::make('status')
-                    ->label('Status')
+                    ->label(__('filament.status'))
                     ->options(DowntimeStatuses::toArray())
                     ->searchable(),
             ])

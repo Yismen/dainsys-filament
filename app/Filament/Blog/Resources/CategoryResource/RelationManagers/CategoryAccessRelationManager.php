@@ -25,13 +25,13 @@ class CategoryAccessRelationManager extends RelationManager
         return $schema
             ->schema([
                 CheckboxList::make('user_id')
-                    ->label('User')
+                    ->label(__('filament.user'))
                     ->options(ModelListService::make(User::query()))
                     ->searchable()
                     ->bulkToggleable(true)
                     ->nullable(),
                 CheckboxList::make('role_id')
-                    ->label('Role')
+                    ->label(__('filament.role'))
                     ->options(ModelListService::make(Role::query()))
                     ->searchable()
                     ->bulkToggleable(true)
@@ -45,15 +45,15 @@ class CategoryAccessRelationManager extends RelationManager
             ->recordTitleAttribute('id')
             ->columns([
                 TextColumn::make('user.name')
-                    ->label('User')
+                    ->label(__('filament.user'))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('role.name')
-                    ->label('Role')
+                    ->label(__('filament.role'))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('created_at')
-                    ->label('Granted At')
+                    ->label(__('filament.granted_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

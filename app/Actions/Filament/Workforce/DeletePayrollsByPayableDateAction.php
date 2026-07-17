@@ -14,12 +14,12 @@ class DeletePayrollsByPayableDateAction
     public static function make(string $name = 'deleteByPayableDate'): Action
     {
         return Action::make($name)
-            ->label('Delete by payable date')
+            ->label(__('filament.delete_by_payable_date'))
             ->icon(Heroicon::Trash)
             ->color(Color::Red)
             ->form([
                 Select::make('payable_date')
-                    ->label('Payable date')
+                    ->label(__('filament.payable_date'))
                     ->required()
                     ->options(fn (): array => Payroll::query()
                         ->whereDate('payable_date', '>=', now())
@@ -42,8 +42,8 @@ class DeletePayrollsByPayableDateAction
 
                 Notification::make()
                     ->success()
-                    ->title('Payrolls deleted')
-                    ->body("{$count} payroll(s) with payable date {$payableDate} have been deleted.")
+                    ->title(__('filament.payrolls_deleted'))
+                    ->body(__('filament.payrolls_deleted_body', ['count' => $count, 'payableDate' => $payableDate]))
                     ->send();
             });
     }

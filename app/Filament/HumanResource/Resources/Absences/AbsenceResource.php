@@ -80,13 +80,13 @@ class AbsenceResource extends Resource
     public static function markAsReportedAction(): Action
     {
         return Action::make('markAsReported')
-            ->label('Mark as Reported')
+            ->label(__('filament.mark_as_reported'))
             ->icon(Heroicon::OutlinedCheckCircle)
             ->color('success')
             ->visible(fn (Absence $record): bool => $record->status === AbsenceStatuses::Created)
             ->schema([
                 Select::make('type')
-                    ->label('Absence Type')
+                    ->label(__('filament.absence_type'))
                     ->options(AbsenceTypes::toArray())
                     ->required()
                     ->placeholder('Select type'),

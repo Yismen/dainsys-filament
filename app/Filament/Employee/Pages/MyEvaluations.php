@@ -53,18 +53,18 @@ class MyEvaluations extends Page implements HasTable
                     ->date()
                     ->sortable(),
                 TextColumn::make('qaForm.name')
-                    ->label('QA Form')
+                    ->label(__('filament.qa_form'))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('evaluator.name')
-                    ->label('Evaluator')
+                    ->label(__('filament.evaluator'))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('success_percentage')
-                    ->label('Success %')
+                    ->label(__('filament.success_percentage'))
                     ->sortable(),
                 TextColumn::make('threshold_percentage')
-                    ->label('Threshold %')
+                    ->label(__('filament.threshold'))
                     ->sortable(),
                 TextColumn::make('status')
                     ->badge()
@@ -76,7 +76,7 @@ class MyEvaluations extends Page implements HasTable
             ])
             ->recordActions([
                 Action::make('accept')
-                    ->label('Accept')
+                    ->label(__('filament.accept'))
                     ->icon('heroicon-o-check-circle')
                     ->color('success')
                     ->visible(fn (Evaluation $record): bool => in_array($record->status, [
@@ -85,7 +85,7 @@ class MyEvaluations extends Page implements HasTable
                     ], true))
                     ->schema([
                         Textarea::make('comment')
-                            ->label('Acceptance comment'),
+                            ->label(__('filament.acceptance_comment')),
                     ])
                     ->action(function (Evaluation $record, array $data): void {
                         $record->acceptByEmployee(
@@ -94,13 +94,13 @@ class MyEvaluations extends Page implements HasTable
                         );
                     }),
                 Action::make('dispute')
-                    ->label('Dispute')
+                    ->label(__('filament.dispute'))
                     ->icon('heroicon-o-exclamation-triangle')
                     ->color('warning')
                     ->visible(fn (Evaluation $record): bool => $record->status === EvaluationStatuses::Published)
                     ->schema([
                         Textarea::make('comment')
-                            ->label('Dispute reason')
+                            ->label(__('filament.dispute_reason'))
                             ->required(),
                     ])
                     ->action(function (Evaluation $record, array $data): void {

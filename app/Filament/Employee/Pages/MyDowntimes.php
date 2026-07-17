@@ -60,25 +60,25 @@ class MyDowntimes extends Page implements HasTable
                     ->weight(FontWeight::Bold),
 
                 TextColumn::make('campaign.project.name')
-                    ->label('Project')
+                    ->label(__('filament.project'))
                     ->sortable()
                     ->searchable(),
 
                 TextColumn::make('campaign.name')
-                    ->label('Campaign')
+                    ->label(__('filament.campaign'))
                     ->sortable()
                     ->searchable(),
 
                 TextColumn::make('downtime_reason.name')
-                    ->label('Reason')
+                    ->label(__('filament.reason'))
                     ->sortable()
                     ->searchable(),
 
                 TextColumn::make('total_time')
-                    ->label('Total Time')
+                    ->label(__('filament.total_time'))
                     ->numeric(decimalPlaces: 2)
                     ->sortable()
-                    ->summarize(Sum::make()->label('Total')),
+                    ->summarize(Sum::make()->label(__('filament.total'))),
 
                 TextColumn::make('status')
                     ->badge()
@@ -104,12 +104,12 @@ class MyDowntimes extends Page implements HasTable
                     })
                     ->schema([
                         DatePicker::make('date_from')
-                            ->label('Date from')
+                            ->label(__('filament.date_from'))
                             ->placeholder('Start date')
                             ->minDate(now()->subYear())
                             ->maxDate(now()),
                         DatePicker::make('date_until')
-                            ->label('Date until')
+                            ->label(__('filament.date_until'))
                             ->placeholder('End date')
                             ->minDate(now()->subYear())
                             ->maxDate(now()),
@@ -128,7 +128,7 @@ class MyDowntimes extends Page implements HasTable
                     }),
 
                 SelectFilter::make('project_id')
-                    ->label('Project')
+                    ->label(__('filament.project'))
                     ->options(ModelListService::make(Project::query()))
                     ->searchable()
                     ->query(function (Builder $query, $value): Builder {
@@ -140,7 +140,7 @@ class MyDowntimes extends Page implements HasTable
                     }),
 
                 SelectFilter::make('campaign_id')
-                    ->label('Campaign')
+                    ->label(__('filament.campaign'))
                     ->options(ModelListService::make(Campaign::query()))
                     ->searchable(),
             ])

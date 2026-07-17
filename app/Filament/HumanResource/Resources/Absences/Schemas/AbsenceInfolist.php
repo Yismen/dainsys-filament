@@ -11,19 +11,19 @@ class AbsenceInfolist
     {
         return [
             TextEntry::make('employee.full_name')
-                ->label('Employee'),
+                ->label(__('filament.employee')),
             TextEntry::make('date')
                 ->date(),
             TextEntry::make('status')
                 ->badge(),
             TextEntry::make('type')
                 ->badge()
-                ->placeholder('Pending'),
+                ->placeholder('-'),
             TextEntry::make('comment')
                 ->placeholder('-')
                 ->columnSpanFull(),
             TextEntry::make('creator.name')
-                ->label('Reported By'),
+                ->label(__('filament.reported_by')),
             TextEntry::make('created_at')
                 ->dateTime()
                 ->placeholder('-'),

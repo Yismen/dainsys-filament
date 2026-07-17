@@ -72,12 +72,12 @@ class MyAbsences extends Page implements HasTable
                     ->placeholder('-'),
 
                 TextColumn::make('creator.name')
-                    ->label('Reported By')
+                    ->label(__('filament.reported_by'))
                     ->searchable(),
             ])
             ->filters([
                 Filter::make('current_month')
-                    ->label('Current Month')
+                    ->label(__('filament.current_month'))
                     ->query(fn (Builder $query): Builder => $query->whereBetween('date', [
                         now()->startOfMonth()->format('Y-m-d'),
                         now()->endOfMonth()->format('Y-m-d'),
@@ -87,12 +87,12 @@ class MyAbsences extends Page implements HasTable
                     }),
 
                 SelectFilter::make('status')
-                    ->label('Status')
+                    ->label(__('filament.status'))
                     ->options(AbsenceStatuses::toArray())
                     ->searchable(),
 
                 SelectFilter::make('type')
-                    ->label('Type')
+                    ->label(__('filament.type'))
                     ->options(AbsenceTypes::toArray())
                     ->searchable(),
             ])

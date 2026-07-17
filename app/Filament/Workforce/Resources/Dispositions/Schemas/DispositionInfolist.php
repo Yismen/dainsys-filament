@@ -13,7 +13,7 @@ class DispositionInfolist
         return $schema
             ->components([
                 TextEntry::make('id')
-                    ->label('ID'),
+                    ->label(__('filament.id')),
                 TextEntry::make('name'),
                 TextEntry::make('sales')
                     ->numeric(10),

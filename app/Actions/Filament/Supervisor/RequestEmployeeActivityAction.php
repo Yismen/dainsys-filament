@@ -15,16 +15,16 @@ class RequestEmployeeActivityAction
     public static function make(string $name = 'requestActivity'): Action
     {
         return Action::make($name)
-            ->label('HR Activity')
+            ->label(__('filament.hr_activity'))
             ->icon('heroicon-o-paper-clip')
             ->color('info')
             ->schema([
                 Select::make('activity_type')
-                    ->label('Activity Type')
+                    ->label(__('filament.activity_type'))
                     ->options(HRActivityTypes::class)
                     ->required(),
                 Textarea::make('description')
-                    ->label('Description')
+                    ->label(__('filament.description'))
                     ->rows(3),
             ])
             ->action(function ($record, array $data): void {

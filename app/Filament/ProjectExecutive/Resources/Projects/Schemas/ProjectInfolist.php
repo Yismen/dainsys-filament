@@ -13,12 +13,12 @@ class ProjectInfolist
             ->columns(2)
             ->components([
                 TextEntry::make('name')
-                    ->label('Project'),
+                    ->label(__('filament.project')),
                 TextEntry::make('client.name')
-                    ->label('Client')
+                    ->label(__('filament.client'))
                     ->placeholder('-'),
                 TextEntry::make('manager.name')
-                    ->label('Manager')
+                    ->label(__('filament.manager'))
                     ->placeholder('Unassigned'),
                 TextEntry::make('description')
                     ->placeholder('-')

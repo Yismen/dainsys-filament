@@ -38,11 +38,11 @@ class FilamentPanelsService
             ->plugin(ResizableModalPlugin::make())
             ->userMenuItems([
                 Action::make('mailing-subscriptions')
-                    ->label('Email Subscriptions')
+                    ->label(__('filament.email_subscriptions'))
                     ->icon(Heroicon::OutlinedEnvelopeOpen)
                     ->url(fn (): string => route('my-subscriptions')),
                 Action::make('it_support')
-                    ->label('IT Support')
+                    ->label(__('filament.it_support'))
                     ->icon(Heroicon::OutlinedTicket)
                     ->url(fn (): string => route('my-tickets-management')),
             ])

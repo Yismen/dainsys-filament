@@ -14,10 +14,10 @@ class TerminationInfolist
         return $schema
             ->components([
                 TextEntry::make('id')
-                    ->label('ID')
+                    ->label(__('filament.id'))
                     ->columnSpanFull(),
                 TextEntry::make('employee.full_name')
-                    ->label('Employee'),
+                    ->label(__('filament.employee')),
                 TextEntry::make('date')
                     ->dateTime(),
                 TextEntry::make('termination_type'),

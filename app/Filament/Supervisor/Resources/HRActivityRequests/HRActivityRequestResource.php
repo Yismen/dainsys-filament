@@ -58,7 +58,7 @@ class HRActivityRequestResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('employee.full_name')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('activity_type')
@@ -70,11 +70,11 @@ class HRActivityRequestResource extends Resource
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('requested_at')
-                    ->label('Requested')
+                    ->label(__('filament.requested'))
                     ->dateTime()
                     ->sortable(),
                 TextColumn::make('completed_at')
-                    ->label('Completed')
+                    ->label(__('filament.completed'))
                     ->dateTime()
                     ->sortable()
                     ->placeholder('Pending'),
@@ -84,9 +84,9 @@ class HRActivityRequestResource extends Resource
                     ->columnSpanFull()
                     ->schema([
                         DatePicker::make('date_from')
-                            ->label('Date from'),
+                            ->label(__('filament.date_from')),
                         DatePicker::make('date_until')
-                            ->label('Date until'),
+                            ->label(__('filament.date_until')),
                     ])
                     ->columns(2)
                     ->query(function (Builder $query, array $data): Builder {
@@ -101,7 +101,7 @@ class HRActivityRequestResource extends Resource
                             );
                     }),
                 SelectFilter::make('employee_id')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->options(
                         ModelListService::make(
                             value_field: 'full_name',
@@ -114,7 +114,7 @@ class HRActivityRequestResource extends Resource
                     )
                     ->searchable(),
                 SelectFilter::make('activity_type')
-                    ->label('Activity Type')
+                    ->label(__('filament.activity_type'))
                     ->options(HRActivityTypes::class),
                 SelectFilter::make('status')
                     ->options(HRActivityRequestStatuses::class)
@@ -126,7 +126,7 @@ class HRActivityRequestResource extends Resource
                 ViewAction::make(),
                 EditAction::make()
                     ->visible(fn (HRActivityRequest $record): bool => $record->status === HRActivityRequestStatuses::Requested)
-                    ->successNotificationTitle('HR Activity Request updated successfully')
+                    ->successNotificationTitle(__('filament.hr_activity_request_updated'))
                     ->schema([
                         Select::make('employee_id')
                             ->options(
@@ -141,14 +141,14 @@ class HRActivityRequestResource extends Resource
                             )
                             ->required()
                             ->searchable()
-                            ->label('Employee'),
+                            ->label(__('filament.employee')),
                         Select::make('activity_type')
                             ->options(HRActivityTypes::class)
                             ->required()
-                            ->label('Activity Type'),
+                            ->label(__('filament.activity_type')),
                         Textarea::make('description')
                             ->rows(3)
-                            ->label('Description')
+                            ->label(__('filament.description'))
                             ->placeholder('Provide additional details about this request...')
                             ->required()
                             ->minLength(5),
@@ -173,14 +173,14 @@ class HRActivityRequestResource extends Resource
                             )
                             ->required()
                             ->searchable()
-                            ->label('Employee'),
+                            ->label(__('filament.employee')),
                         Select::make('activity_type')
                             ->options(HRActivityTypes::class)
                             ->required()
-                            ->label('Activity Type'),
+                            ->label(__('filament.activity_type')),
                         Textarea::make('description')
                             ->rows(3)
-                            ->label('Description')
+                            ->label(__('filament.description'))
                             ->placeholder('Provide additional details about this request...')
                             ->required()
                             ->minLength(5),
@@ -192,7 +192,7 @@ class HRActivityRequestResource extends Resource
 
                         return $data;
                     })
-                    ->successNotificationTitle('HR Activity Request created successfully'),
+                    ->successNotificationTitle(__('filament.hr_activity_request_created')),
             ])
             ->defaultSort('requested_at', 'desc');
     }
@@ -201,12 +201,12 @@ class HRActivityRequestResource extends Resource
     {
         return $schema
             ->components([
-                Section::make('Request Information')
+                Section::make(__('filament.request_information'))
                     ->schema([
                         TextEntry::make('id')
-                            ->label('ID'),
+                            ->label(__('filament.id')),
                         TextEntry::make('employee.full_name')
-                            ->label('Employee'),
+                            ->label(__('filament.employee')),
                         TextEntry::make('activity_type')
                             ->badge(),
                         TextEntry::make('status')
@@ -218,7 +218,7 @@ class HRActivityRequestResource extends Resource
                             ->placeholder('Not completed yet'),
                     ])
                     ->columns(2),
-                Section::make('Details')
+                Section::make(__('filament.details'))
                     ->schema([
                         TextEntry::make('description')
                             ->placeholder('No description provided')

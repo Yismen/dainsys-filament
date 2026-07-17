@@ -36,18 +36,18 @@ class UpdatePassword extends Page implements HasForms
     {
         return [
             TextInput::make('currentPassword')
-                ->label('Current Password')
+                ->label(__('filament.current_password'))
                 ->password()
                 ->required()
                 ->currentPassword(),
             TextInput::make('password')
-                ->label('New Password')
+                ->label(__('filament.new_password'))
                 ->password()
                 ->required()
                 ->rule(Password::default())
                 ->confirmed(),
             TextInput::make('passwordConfirmation')
-                ->label('Confirm Password')
+                ->label(__('filament.confirm_password'))
                 ->password()
                 ->required(),
         ];
@@ -57,7 +57,7 @@ class UpdatePassword extends Page implements HasForms
     {
         return [
             Action::make('save')
-                ->label('Update Password')
+                ->label(__('filament.update_password'))
                 ->submit('save'),
         ];
     }
@@ -79,8 +79,8 @@ class UpdatePassword extends Page implements HasForms
 
         Notification::make()
             ->success()
-            ->title('Password Updated')
-            ->body('Your password has been successfully updated.')
+            ->title(__('filament.password_updated'))
+            ->body(__('filament.password_updated_body'))
             ->send();
 
         redirect()->to('/employee');

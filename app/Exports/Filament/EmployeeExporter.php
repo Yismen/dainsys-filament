@@ -16,52 +16,52 @@ class EmployeeExporter extends Exporter
     {
         return [
             ExportColumn::make('id')
-                ->label('ID'),
+                ->label(__('filament.id')),
             ExportColumn::make('full_name')
-                ->label('Full Name'),
+                ->label(__('filament.full_name')),
             ExportColumn::make('personal_id_type')
-                ->label('Personal ID Type'),
+                ->label(__('filament.personal_id_type')),
             ExportColumn::make('personal_id')
-                ->label('Personal ID'),
+                ->label(__('filament.personal_id')),
             ExportColumn::make('internal_id')
-                ->label('Internal ID'),
+                ->label(__('filament.internal_id')),
             ExportColumn::make('date_of_birth')
-                ->label('Date of Birth'),
+                ->label(__('filament.date_of_birth')),
             ExportColumn::make('cellphone')
-                ->label('Cellphone'),
+                ->label(__('filament.cellphone')),
             ExportColumn::make('secondary_phone')
-                ->label('Secondary Phone'),
+                ->label(__('filament.secondary_phone')),
             ExportColumn::make('email')
-                ->label('Email'),
+                ->label(__('filament.email')),
             ExportColumn::make('address')
-                ->label('Address'),
+                ->label(__('filament.address')),
             ExportColumn::make('status')
-                ->label('Status'),
+                ->label(__('filament.status')),
             ExportColumn::make('gender')
-                ->label('Gender'),
+                ->label(__('filament.gender')),
             ExportColumn::make('has_kids')
-                ->label('Has Kids'),
+                ->label(__('filament.has_kids')),
             ExportColumn::make('hired_at')
-                ->label('Hired At')
+                ->label(__('filament.hired_at'))
                 ->state(fn ($record) => $record->hired_at?->format('Y-m-d')),
             ExportColumn::make('site.name')
-                ->label('Site'),
+                ->label(__('filament.site')),
             ExportColumn::make('project.name')
-                ->label('Project'),
+                ->label(__('filament.project')),
             ExportColumn::make('supervisor.name')
-                ->label('Supervisor'),
+                ->label(__('filament.supervisor')),
             ExportColumn::make('position.name')
-                ->label('Position'),
+                ->label(__('filament.position')),
             ExportColumn::make('position.salary')
-                ->label('Salary'),
+                ->label(__('filament.salary')),
             ExportColumn::make('bankAccount.bank.name')
-                ->label('Bank Name'),
+                ->label(__('filament.bank_name')),
             ExportColumn::make('bankAccount.account')
-                ->label('Bank Account Number'),
+                ->label(__('filament.bank_account_number')),
             ExportColumn::make('citizenship.name')
-                ->label('Citizenship'),
+                ->label(__('filament.citizenship')),
             ExportColumn::make('terminated_at')
-                ->label('Terminated At')
+                ->label(__('filament.terminated_at'))
                 ->state(fn ($record) => $record->terminated_at?->format('Y-m-d')),
         ];
     }

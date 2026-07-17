@@ -33,13 +33,13 @@ class UpcomingEmployeeBirthdays extends TableWidget
             ->query($this->getTableQuery())
             ->columns([
                 TextColumn::make('full_name')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->wrap()
                     ->wrapHeader()
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('date_of_birth')
-                    ->label('Birthday')
+                    ->label(__('filament.birthday'))
                     ->date()
                     ->wrap()
                     ->wrapHeader()
@@ -47,7 +47,7 @@ class UpcomingEmployeeBirthdays extends TableWidget
                 TextColumn::make('email')
                     ->searchable(),
                 TextColumn::make('cellphone')
-                    ->label('Phone'),
+                    ->label(__('filament.phone')),
             ])
             ->recordActions([
                 ViewAction::make()
@@ -56,7 +56,7 @@ class UpcomingEmployeeBirthdays extends TableWidget
                         Grid::make(2)
                             ->schema([
                                 SpatieMediaLibraryImageEntry::make('profile_photo')
-                                    ->label('Photo')
+                                    ->label(__('filament.profile_photo'))
                                     ->collection(Employee::PROFILE_PHOTO_COLLECTION)
                                     ->conversion(Employee::PROFILE_PHOTO_THUMBNAIL_CONVERSION)
                                     ->defaultImageUrl(fn (Employee $record): string => $record->getProfilePhotoPlaceholderUrl())
@@ -64,7 +64,7 @@ class UpcomingEmployeeBirthdays extends TableWidget
                                 TextEntry::make('status')
                                     ->badge(),
                                 TextEntry::make('id')
-                                    ->label('ID'),
+                                    ->label(__('filament.id')),
                                 TextEntry::make('first_name'),
                                 TextEntry::make('second_first_name')
                                     ->placeholder('-'),
@@ -83,22 +83,22 @@ class UpcomingEmployeeBirthdays extends TableWidget
                                 IconEntry::make('has_kids')
                                     ->boolean(),
                                 TextEntry::make('citizenship.name')
-                                    ->label('Citizenship'),
+                                    ->label(__('filament.citizenship')),
                                 TextEntry::make('internal_id'),
-                                Section::make('Job Information')
+                                Section::make(__('filament.job_information'))
                                     ->columns(5)
                                     ->columnSpanFull()
                                     ->components([
                                         TextEntry::make('hired_at')
                                             ->date(),
                                         TextEntry::make('site.name')
-                                            ->label('Site'),
+                                            ->label(__('filament.site')),
                                         TextEntry::make('project.name')
-                                            ->label('Project'),
+                                            ->label(__('filament.project')),
                                         TextEntry::make('position.name')
-                                            ->label('Position'),
+                                            ->label(__('filament.position')),
                                         TextEntry::make('supervisor.name')
-                                            ->label('Supervisor'),
+                                            ->label(__('filament.supervisor')),
                                     ]),
                                 TextEntry::make('deleted_at')
                                     ->dateTime()

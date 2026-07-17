@@ -21,12 +21,12 @@ class QAFormForm
                     ->unique(ignoreRecord: true)
                     ->autofocus(),
                 Select::make('project_id')
-                    ->label('Project')
+                    ->label(__('filament.project'))
                     ->options(ModelListService::make(Project::query()))
                     ->searchable()
                     ->required(),
                 TextInput::make('passing_threshold_percentage')
-                    ->label('Passing Threshold %')
+                    ->label(__('filament.passing_threshold_percentage'))
                     ->numeric()
                     ->minValue(0)
                     ->maxValue(100)

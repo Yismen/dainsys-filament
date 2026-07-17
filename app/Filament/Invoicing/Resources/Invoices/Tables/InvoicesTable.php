@@ -192,7 +192,7 @@ class InvoicesTable
 
                 ]),
                 // ExportBulkAction::make()
-                //     ->label('Export Selected')
+                //     ->label(__('filament.export_selected'))
                 //     ->size('xs')
                 //     ->icon('heroicon-s-arrow-down-tray')
                 //     ->color(Color::Amber)
@@ -245,19 +245,19 @@ class InvoicesTable
                     ->closeModalByClickingAway(false),
                 ActionGroup::make([
                     Action::make('downloadPdf')
-                        ->label(__('Download PDF'))
+                        ->label(__('filament.download_pdf'))
                         ->icon('heroicon-o-arrow-down-tray')
                         ->color(Color::Gray)
                         ->url(fn (Invoice $record): string => route('invoices.download-pdf', $record))
                         ->openUrlInNewTab(),
                     Action::make('previewPdf')
-                        ->label(__('Preview PDF'))
+                        ->label(__('filament.preview_pdf'))
                         ->icon('heroicon-o-eye')
                         ->color(Color::Blue)
                         ->url(fn (Invoice $record): string => route('invoices.preview-pdf', $record))
                         ->openUrlInNewTab(),
                 ])
-                    ->label('PDF')
+                    ->label(__('filament.pdf'))
                     ->button()
                     ->color(Color::Gray)
                     ->size('sm'),

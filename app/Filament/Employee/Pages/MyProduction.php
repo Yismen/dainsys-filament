@@ -61,55 +61,60 @@ class MyProduction extends Page implements HasTable
                     ->weight(FontWeight::Bold),
 
                 TextColumn::make('campaign.project.name')
-                    ->label('Project')
+                    ->label(__('filament.project'))
                     ->wrap()
                     ->sortable()
                     ->searchable(),
 
                 TextColumn::make('campaign.name')
-                    ->label('Campaign')
+                    ->label(__('filament.campaign'))
                     ->wrap()
                     ->sortable()
                     ->searchable(),
 
                 TextColumn::make('conversions')
+                    ->label(__('filament.conversions'))
                     ->numeric(decimalPlaces: 2)
                     ->sortable()
                     ->wrapHeader()
-                    ->summarize(Sum::make()->label('Total')),
+                    ->summarize(Sum::make()->label(__('filament.total'))),
 
                 TextColumn::make('total_time')
+                    ->label(__('filament.total_time'))
                     ->numeric(decimalPlaces: 2)
                     ->wrapHeader()
                     ->sortable()
-                    ->summarize(Sum::make()->label('Total')),
+                    ->summarize(Sum::make()->label(__('filament.total'))),
 
                 TextColumn::make('production_time')
+                    ->label(__('filament.production_time'))
                     ->numeric(decimalPlaces: 2)
                     ->wrapHeader()
                     ->sortable()
-                    ->summarize(Sum::make()->label('Total')),
+                    ->summarize(Sum::make()->label(__('filament.total'))),
 
                 TextColumn::make('talk_time')
+                    ->label(__('filament.talk_time'))
                     ->numeric(decimalPlaces: 2)
                     ->wrapHeader()
                     ->sortable()
-                    ->summarize(Sum::make()->label('Total')),
+                    ->summarize(Sum::make()->label(__('filament.total'))),
 
                 TextColumn::make('billable_time')
+                    ->label(__('filament.billable_time'))
                     ->numeric(decimalPlaces: 2)
                     ->wrapHeader()
                     ->sortable()
-                    ->summarize(Sum::make()->label('Total')),
+                    ->summarize(Sum::make()->label(__('filament.total'))),
 
                 TextColumn::make('sph_goal')
-                    ->label('SPH Goal')
+                    ->label(__('filament.sph_goal'))
                     ->wrapHeader()
                     ->numeric(decimalPlaces: 2)
                     ->sortable()
                     ->summarize(
                         Summarizer::make()
-                            ->label('Weighted Avg')
+                            ->label(__('filament.weighted_avg'))
                             ->using(function (QueryBuilder $query): ?string {
                                 // Calculate weighted average: (sum of conversions) / (sum of billable_time) compared to average goal
                                 $totals = $query->selectRaw('
@@ -127,7 +132,7 @@ class MyProduction extends Page implements HasTable
                     ),
 
                 TextColumn::make('actual_sph')
-                    ->label('% to Goal')
+                    ->label(__('filament.percentage_to_goal'))
                     ->state(function (Production $record): ?string {
                         if ($record->billable_time == 0 || $record->sph_goal == 0) {
                             return null;
@@ -146,7 +151,7 @@ class MyProduction extends Page implements HasTable
                     ->weight(FontWeight::Bold)
                     ->summarize(
                         Summarizer::make()
-                            ->label('Overall')
+                            ->label(__('filament.overall'))
                             ->using(function (QueryBuilder $query): ?string {
                                 // Calculate overall performance: total conversions / total billable time vs average goal
                                 $totals = $query->selectRaw('
@@ -184,12 +189,12 @@ class MyProduction extends Page implements HasTable
                     })
                     ->schema([
                         DatePicker::make('date_from')
-                            ->label('Date from')
+                            ->label(__('filament.date_from'))
                             ->placeholder('Start date')
                             ->minDate(now()->subYear())
                             ->maxDate(now()),
                         DatePicker::make('date_until')
-                            ->label('Date until')
+                            ->label(__('filament.date_until'))
                             ->placeholder('End date')
                             ->minDate(now()->subYear())
                             ->maxDate(now()),
@@ -208,7 +213,7 @@ class MyProduction extends Page implements HasTable
                     }),
 
                 SelectFilter::make('project_id')
-                    ->label('Project')
+                    ->label(__('filament.project'))
                     ->options(ModelListService::make(Project::query()))
                     ->searchable()
                     ->query(function (Builder $query, $value): Builder {
@@ -220,7 +225,7 @@ class MyProduction extends Page implements HasTable
                     }),
 
                 SelectFilter::make('campaign_id')
-                    ->label('Campaign')
+                    ->label(__('filament.campaign'))
                     ->options(ModelListService::make(Campaign::query()))
                     ->searchable(),
             ])

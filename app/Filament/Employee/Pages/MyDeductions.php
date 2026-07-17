@@ -60,7 +60,7 @@ class MyDeductions extends Page implements HasTable
             ])
             ->filters([
                 SelectFilter::make('payable_date')
-                    ->label('Payable Date')
+                    ->label(__('filament.payable_date'))
                     ->columnSpanFull()
                     ->options(fn () => Deduction::query()
                         ->where('employee_id', Auth::user()->employee_id)

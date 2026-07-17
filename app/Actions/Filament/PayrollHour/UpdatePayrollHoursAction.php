@@ -20,12 +20,12 @@ class UpdatePayrollHoursAction
             ->icon(Heroicon::OutlinedCircleStack)
             ->size('sm')
             ->color(Color::Cyan)
-            ->modalHeading('Update Payroll Hours')
-            ->modalDescription('This will recalculate payroll hours for whole week based on production records. You can select a specific date to update hours for that week, or leave it as today\'s date to update the current week.')
-            ->successNotificationTitle('Payroll hours have been queued and will be updated in the background! You will receive a notification when the process is complete.')
+            ->modalHeading(__('filament.update_payroll_hours'))
+            ->modalDescription(__('filament.update_payroll_hours_description'))
+            ->successNotificationTitle(__('filament.payroll_hours_queued'))
             ->schema([
                 Select::make('week_ending_at')
-                    ->label('Week Ending At')
+                    ->label(__('filament.week_ending_at'))
                     ->required()
                     ->options(Cache::rememberForever('payroll_hours_week_ending_dates', function (): array {
                         $weeks = [];

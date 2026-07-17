@@ -29,18 +29,18 @@ class NightlyHoursTable
             ])
             ->columns([
                 TextColumn::make('id')
-                    ->label('ID')
+                    ->label(__('filament.id'))
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('employee.full_name')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('date')
                     ->date()
                     ->sortable(),
                 TextColumn::make('total_hours')
-                    ->label('Total Hours')
+                    ->label(__('filament.total_hours'))
                     ->numeric(decimalPlaces: 2)
                     ->sortable(),
                 TextColumn::make('created_at')

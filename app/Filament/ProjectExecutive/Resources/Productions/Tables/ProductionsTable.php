@@ -90,7 +90,7 @@ class ProductionsTable
                     })
                     ->searchable(),
                 SelectFilter::make('campaign_id')
-                    ->label('Campaign')
+                    ->label(__('filament.campaign'))
                     ->options(function (): array {
                         $managerId = Auth::id();
 

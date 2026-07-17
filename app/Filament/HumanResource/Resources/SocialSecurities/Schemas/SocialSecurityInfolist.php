@@ -13,13 +13,13 @@ class SocialSecurityInfolist
         return $schema
             ->components([
                 TextEntry::make('id')
-                    ->label('ID'),
+                    ->label(__('filament.id')),
                 TextEntry::make('employee.id')
-                    ->label('Employee'),
+                    ->label(__('filament.employee')),
                 TextEntry::make('ars.name')
-                    ->label('Ars'),
+                    ->label(__('filament.ars')),
                 TextEntry::make('afp.name')
-                    ->label('Afp'),
+                    ->label(__('filament.afp')),
                 TextEntry::make('number'),
                 TextEntry::make('deleted_at')
                     ->dateTime()

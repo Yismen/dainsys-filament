@@ -25,7 +25,7 @@ class NightlyHourForm
                     ->maxDate(now())
                     ->required(),
                 TextInput::make('total_hours')
-                    ->label('Total Hours')
+                    ->label(__('filament.total_hours'))
                     ->numeric()
                     ->required(),
             ]);

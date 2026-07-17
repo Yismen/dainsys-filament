@@ -57,30 +57,32 @@ class MyIncentives extends Page implements HasTable
                     ->weight(FontWeight::Bold),
 
                 TextColumn::make('project.name')
-                    ->label('Project')
+                    ->label(__('filament.project'))
                     ->sortable()
                     ->searchable()
                     ->placeholder('-'),
 
                 TextColumn::make('total_production_hours')
-                    ->label('Production Hours')
+                    ->label(__('filament.total_production_hours'))
                     ->numeric(decimalPlaces: 2)
                     ->sortable()
-                    ->summarize(Sum::make()->label('Total')),
+                    ->summarize(Sum::make()->label(__('filament.total'))),
 
                 TextColumn::make('total_sales')
+                    ->label(__('filament.total_sales'))
                     ->numeric(decimalPlaces: 2)
                     ->sortable()
-                    ->summarize(Sum::make()->label('Total')),
+                    ->summarize(Sum::make()->label(__('filament.total'))),
 
                 TextColumn::make('amount')
+                    ->label(__('filament.amount'))
                     ->numeric(decimalPlaces: 2)
                     ->sortable()
-                    ->summarize(Sum::make()->label('Total')),
+                    ->summarize(Sum::make()->label(__('filament.total'))),
             ])
             ->filters([
                 Filter::make('payable_dates')
-                    ->label('Payable Date')
+                    ->label(__('filament.payable_date'))
                     ->columnSpanFull()
                     ->indicateUsing(function (array $state): ?string {
                         if ($state['payable_date_from'] && $state['payable_date_until']) {
@@ -99,12 +101,12 @@ class MyIncentives extends Page implements HasTable
                     })
                     ->schema([
                         DatePicker::make('payable_date_from')
-                            ->label('Payable date from')
+                            ->label(__('filament.payable_date_from'))
                             ->placeholder('Start date')
                             ->minDate(now()->subYear())
                             ->maxDate(now()),
                         DatePicker::make('payable_date_until')
-                            ->label('Payable date until')
+                            ->label(__('filament.payable_date_until'))
                             ->placeholder('End date')
                             ->minDate(now()->subYear())
                             ->maxDate(now()),
@@ -123,7 +125,7 @@ class MyIncentives extends Page implements HasTable
                     }),
 
                 SelectFilter::make('payable_date')
-                    ->label('Payable Date')
+                    ->label(__('filament.payable_date'))
                     ->options(fn () => Incentive::query()
                         ->where('employee_id', Auth::user()->employee_id)
                         ->orderBy('payable_date', 'desc')
@@ -133,7 +135,7 @@ class MyIncentives extends Page implements HasTable
                     ->placeholder('All Dates'),
 
                 SelectFilter::make('project_id')
-                    ->label('Project')
+                    ->label(__('filament.project'))
                     ->options(ModelListService::make(Project::query()))
                     ->searchable(),
             ])

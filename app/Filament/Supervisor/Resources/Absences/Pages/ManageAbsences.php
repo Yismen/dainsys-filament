@@ -14,7 +14,7 @@ class ManageAbsences extends ListRecords
     {
         return [
             CreateAction::make()
-                ->label('Report Absence')
+                ->label(__('filament.report_absence'))
                 ->mutateFormDataUsing(function (array $data): array {
                     $data['created_by'] = auth()->id();
 

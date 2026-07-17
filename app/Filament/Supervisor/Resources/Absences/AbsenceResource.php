@@ -44,7 +44,7 @@ class AbsenceResource extends Resource
         return $schema
             ->components([
                 Select::make('employee_id')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->options(function (): array {
                         $supervisor = Auth::user()?->supervisor;
 
@@ -77,7 +77,7 @@ class AbsenceResource extends Resource
                     ->minDate(now()->subMonth())
                     ->maxDate(now()),
                 Textarea::make('comment')
-                    ->label('Comment')
+                    ->label(__('filament.comment'))
                     ->nullable()
                     ->columnSpanFull(),
             ]);
@@ -88,7 +88,7 @@ class AbsenceResource extends Resource
         return $schema
             ->components([
                 TextEntry::make('employee.full_name')
-                    ->label('Employee'),
+                    ->label(__('filament.employee')),
                 TextEntry::make('date')
                     ->date(),
                 TextEntry::make('status')
@@ -99,7 +99,7 @@ class AbsenceResource extends Resource
                 TextEntry::make('comment')
                     ->placeholder('-'),
                 TextEntry::make('creator.name')
-                    ->label('Reported By'),
+                    ->label(__('filament.reported_by')),
                 TextEntry::make('created_at')
                     ->dateTime()
                     ->placeholder('-'),
@@ -113,7 +113,7 @@ class AbsenceResource extends Resource
             ->defaultSort('date', 'desc')
             ->columns([
                 TextColumn::make('employee.full_name')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('date')

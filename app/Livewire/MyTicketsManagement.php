@@ -7,7 +7,6 @@ use App\Actions\Filament\Ticket\CloseTicketAction;
 use App\Actions\Filament\Ticket\EditTicketAction;
 use App\Actions\Filament\Ticket\ReopenTicketAction;
 use App\Actions\Filament\Ticket\ReplyToTicketAction;
-use App\Enums\TicketPriorities;
 use App\Enums\TicketStatuses;
 use App\Infolists\Filament\Support\TicketInfolist;
 use App\Models\Ticket;
@@ -21,16 +20,10 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
-use Filament\Infolists\Components\TextEntry;
 use Filament\Pages\Page;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Concerns\InteractsWithSchemas;
 use Filament\Schemas\Contracts\HasSchemas;
-use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -82,7 +75,7 @@ class MyTicketsManagement extends Page implements HasActions, HasSchemas, HasTab
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('agent.name')
-                    ->label('Assigned to')
+                    ->label(__('filament.assigned_to'))
                     ->wrap()
                     ->sortable()
                     ->searchable(),

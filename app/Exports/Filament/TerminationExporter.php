@@ -16,16 +16,16 @@ class TerminationExporter extends Exporter
     {
         return [
             ExportColumn::make('id')
-                ->label('ID'),
+                ->label(__('filament.id')),
             ExportColumn::make('date'),
             ExportColumn::make('employee.full_name')
-                ->label('Employee Name'),
+                ->label(__('filament.employee_name')),
             ExportColumn::make('termination_type')
-                ->label('Termination Type'),
+                ->label(__('filament.termination_type')),
             ExportColumn::make('is_rehireable')
-                ->label('Is Rehireable'),
+                ->label(__('filament.is_rehireable')),
             ExportColumn::make('comment')
-                ->label('Comment'),
+                ->label(__('filament.comment')),
         ];
     }
 

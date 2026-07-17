@@ -54,13 +54,13 @@ class AdminPanelProvider extends PanelProvider
             ->navigationItems([
                 NavigationItem::make()
                     ->group('System')
-                    ->label('Pulse')
+                    ->label(__('filament.pulse'))
                     ->icon('heroicon-o-bolt')
                     ->url(fn (): string => route('pulse'))
                     ->openUrlInNewTab(),
                 NavigationItem::make()
                     ->group('System')
-                    ->label('Telescope')
+                    ->label(__('filament.telescope'))
                     ->icon('heroicon-o-cursor-arrow-ripple')
                     ->url(fn (): string => route('telescope'))
                     ->openUrlInNewTab(),

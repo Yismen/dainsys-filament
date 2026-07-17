@@ -61,7 +61,7 @@ class DeductionResource extends Resource
                     ->date()
                     ->sortable(),
                 TextColumn::make('employee.full_name')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('amount')
@@ -83,7 +83,7 @@ class DeductionResource extends Resource
             ->filtersFormWidth(Width::TwoExtraLarge)
             ->filters([
                 SelectFilter::make('payable_date')
-                    ->label('Payable date')
+                    ->label(__('filament.payable_date'))
                     ->options(fn (): array => Deduction::query()
                         ->distinct()
                         ->orderBy('payable_date', 'desc')
@@ -91,7 +91,7 @@ class DeductionResource extends Resource
                         ->toArray())
                     ->searchable(),
                 SelectFilter::make('employee_id')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->options(ModelListService::make(Employee::query(), value_field: 'full_name'))
                     ->searchable(),
                 TrashedFilter::make(),

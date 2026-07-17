@@ -13,13 +13,13 @@ class CampaignInfolist
         return $schema
             ->components([
                 TextEntry::make('id')
-                    ->label('ID')
+                    ->label(__('filament.id'))
                     ->columnSpanFull(),
                 TextEntry::make('name'),
                 TextEntry::make('project.name')
-                    ->label('Project'),
+                    ->label(__('filament.project')),
                 TextEntry::make('source.name')
-                    ->label('Source'),
+                    ->label(__('filament.source')),
                 TextEntry::make('revenue_type')
                     ->badge(),
                 TextEntry::make('sph_goal')

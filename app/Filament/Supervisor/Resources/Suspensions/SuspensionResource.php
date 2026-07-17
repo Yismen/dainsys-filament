@@ -69,11 +69,11 @@ class SuspensionResource extends Resource
         return $schema
             ->components([
                 TextEntry::make('id')
-                    ->label('ID'),
+                    ->label(__('filament.id')),
                 TextEntry::make('employee.id')
-                    ->label('Employee'),
+                    ->label(__('filament.employee')),
                 TextEntry::make('suspensionType.name')
-                    ->label('Suspension type'),
+                    ->label(__('filament.suspension_type')),
                 TextEntry::make('starts_at')
                     ->dateTime(),
                 TextEntry::make('ends_at')
@@ -102,7 +102,7 @@ class SuspensionResource extends Resource
             ->defaultSort('starts_at', 'desc')
             ->columns([
                 TextColumn::make('id')
-                    ->label('ID')
+                    ->label(__('filament.id'))
                     ->searchable(),
                 TextColumn::make('employee.id')
                     ->searchable(),

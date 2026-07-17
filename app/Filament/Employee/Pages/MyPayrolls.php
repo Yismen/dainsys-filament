@@ -100,26 +100,26 @@ class MyPayrolls extends Page implements HasTable
                     ])
                         ->schema([
                             TextColumn::make('salary_rate')
-                                ->label('Salary Rate')
+                                ->label(__('filament.salary_rate'))
                                 ->formatStateUsing(fn ($state) => view('filament.partials.tables.stacked-field', [
                                     'label' => 'Salary Rate',
                                     'state' => Number::currency($state),
                                 ])),
 
                             TextColumn::make('total_hours')
-                                ->label('Total Hours')
+                                ->label(__('filament.total_hours'))
                                 ->formatStateUsing(fn ($state) => view('filament.partials.tables.stacked-field', [
                                     'label' => 'Total Hours',
                                     'state' => Number::format($state, 2),
                                 ])),
                             TextColumn::make('medical_licence')
-                                ->label('Medical Licence')
+                                ->label(__('filament.medical_licence'))
                                 ->formatStateUsing(fn ($state) => view('filament.partials.tables.stacked-field', [
                                     'label' => 'Medical Licence',
                                     'state' => Number::currency($state),
                                 ])),
                             TextColumn::make('salary_income')
-                                ->label('Salary Income')
+                                ->label(__('filament.salary_income'))
                                 ->formatStateUsing(fn ($state) => view('filament.partials.tables.stacked-field', [
                                     'label' => 'Salary Income',
                                     'state' => Number::currency($state),
@@ -135,25 +135,25 @@ class MyPayrolls extends Page implements HasTable
                         ->schema([
 
                             TextColumn::make('nightly_incomes')
-                                ->label('Nightly Incomes')
+                                ->label(__('filament.nightly_incomes'))
                                 ->formatStateUsing(fn ($state) => view('filament.partials.tables.stacked-field', [
                                     'label' => 'Nightly Incomes',
                                     'state' => Number::currency($state),
                                 ])),
                             TextColumn::make('overtime_incomes')
-                                ->label('Overtime Incomes')
+                                ->label(__('filament.overtime_incomes'))
                                 ->formatStateUsing(fn ($state) => view('filament.partials.tables.stacked-field', [
                                     'label' => 'Overtime Incomes',
                                     'state' => Number::currency($state),
                                 ])),
                             TextColumn::make('holiday_incomes')
-                                ->label('Holiday Incomes')
+                                ->label(__('filament.holiday_incomes'))
                                 ->formatStateUsing(fn ($state) => view('filament.partials.tables.stacked-field', [
                                     'label' => 'Holiday Incomes',
                                     'state' => Number::currency($state),
                                 ])),
                             TextColumn::make('additional_incentives_2')
-                                ->label('Additional Incentives 2')
+                                ->label(__('filament.additional_incentives_2'))
                                 ->formatStateUsing(fn ($state) => view('filament.partials.tables.stacked-field', [
                                     'label' => 'Additional Payment',
                                     'state' => Number::currency($state),
@@ -187,21 +187,21 @@ class MyPayrolls extends Page implements HasTable
                         ])
                         ->schema([
                             TextColumn::make('deduction_ars')
-                                ->label('Deduction ARS')
+                                ->label(__('filament.deduction_ars'))
                                 ->formatStateUsing(fn ($state) => view('filament.partials.tables.stacked-field', [
                                     'label' => 'Deduction ARS',
                                     'state' => Number::currency($state),
                                     'stateColor' => 'text-danger-600 dark:text-danger-400',
                                 ])),
                             TextColumn::make('deduction_afp')
-                                ->label('Deduction AFP')
+                                ->label(__('filament.deduction_afp'))
                                 ->formatStateUsing(fn ($state) => view('filament.partials.tables.stacked-field', [
                                     'label' => 'Deduction AFP',
                                     'state' => Number::currency($state),
                                     'stateColor' => 'text-danger-600 dark:text-danger-400',
                                 ])),
                             TextColumn::make('deductions_other')
-                                ->label('Deductions Other')
+                                ->label(__('filament.deductions_other'))
                                 ->formatStateUsing(fn ($state) => view('filament.partials.tables.stacked-field', [
                                     'label' => 'Deductions Other',
                                     'state' => Number::currency($state),
@@ -235,12 +235,12 @@ class MyPayrolls extends Page implements HasTable
                     })
                     ->schema([
                         DatePicker::make('payable_date_from')
-                            ->label('Payable date from')
+                            ->label(__('filament.payable_date_from'))
                             ->placeholder('Start date')
                             ->minDate(now()->subYear())
                             ->maxDate(now()),
                         DatePicker::make('payable_date_until')
-                            ->label('Payable date until')
+                            ->label(__('filament.payable_date_until'))
                             ->placeholder('End date')
                             ->minDate(now()->subYear())
                             ->maxDate(now()),

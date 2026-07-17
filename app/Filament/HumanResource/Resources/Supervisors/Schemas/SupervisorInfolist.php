@@ -15,9 +15,9 @@ class SupervisorInfolist
         return $schema
             ->components([
                 TextEntry::make('id')
-                    ->label('ID'),
+                    ->label(__('filament.id')),
                 TextEntry::make('user.name')
-                    ->label('User'),
+                    ->label(__('filament.user')),
                 TextEntry::make('name'),
                 TextEntry::make('description')
                     ->placeholder('-')

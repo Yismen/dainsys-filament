@@ -56,7 +56,7 @@ class BankAccountResource extends Resource
             ->defaultSort('employee.full_name', 'asc')
             ->columns([
                 TextColumn::make('id')
-                    ->label('ID')
+                    ->label(__('filament.id'))
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('employee.full_name')

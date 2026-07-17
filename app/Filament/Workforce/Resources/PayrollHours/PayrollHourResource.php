@@ -46,7 +46,7 @@ class PayrollHourResource extends Resource
             ])
             ->columns([
                 TextColumn::make('id')
-                    ->label('ID')
+                    ->label(__('filament.id'))
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('date')
@@ -115,13 +115,13 @@ class PayrollHourResource extends Resource
             ->filtersFormWidth(Width::ThreeExtraLarge)
             ->filters([
                 Filter::make('date')
-                    ->label('Date Range')
+                    ->label(__('filament.date_range'))
                     ->columns(2)
                     ->schema([
                         DatePicker::make('from')
-                            ->label('Date From'),
+                            ->label(__('filament.date_from')),
                         DatePicker::make('to')
-                            ->label('Date To'),
+                            ->label(__('filament.date_until')),
                     ])
                     ->query(function (Builder $query, array $data) {
                         return $query

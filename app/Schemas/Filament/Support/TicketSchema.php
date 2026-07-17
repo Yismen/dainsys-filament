@@ -14,15 +14,18 @@ class TicketSchema
     {
         return [
             TextInput::make('subject')
+                ->label(__('filament.subject'))
                 ->autofocus()
                 ->minLength(5)
                 ->maxLength(150)
                 ->required(),
             Select::make('priority')
+                ->label(__('filament.priority'))
                 ->options(TicketPriorities::class)
                 ->default(TicketPriorities::Normal)
                 ->required(),
             RichEditor::make('description')
+                ->label(__('filament.description'))
                 ->required()
                 ->columnSpanFull()
                 ->extraInputAttributes(['class' => 'min-h-[200px]'])
@@ -41,6 +44,7 @@ class TicketSchema
                     'redo',
                 ]),
             FileUpload::make('images')
+                ->label(__('filament.images'))
                 ->visibility('public')
                 ->disk('public')
                 ->directory('tickets')

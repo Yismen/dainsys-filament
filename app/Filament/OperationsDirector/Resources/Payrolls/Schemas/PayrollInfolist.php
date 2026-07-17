@@ -15,7 +15,7 @@ class PayrollInfolist
                 TextEntry::make('payable_date')
                     ->date(),
                 TextEntry::make('employee.full_name')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->placeholder('-'),
                 TextEntry::make('salary_rate')
                     ->numeric(),
@@ -32,7 +32,7 @@ class PayrollInfolist
                 TextEntry::make('deduction_afp')
                     ->numeric(),
                 TextEntry::make('deductions_other')
-                    ->label('Deductions Other')
+                    ->label(__('filament.deductions_other'))
                     ->numeric(),
                 TextEntry::make('total_deductions')
                     ->numeric(),

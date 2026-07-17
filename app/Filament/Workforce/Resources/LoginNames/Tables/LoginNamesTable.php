@@ -22,7 +22,7 @@ class LoginNamesTable
         return $table
             ->columns([
                 TextColumn::make('id')
-                    ->label('ID')
+                    ->label(__('filament.id'))
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('login_name')
@@ -49,7 +49,7 @@ class LoginNamesTable
             ->filters([
                 TrashedFilter::make(),
                 SelectFilter::make('employee_id')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->options(ModelListService::make(model: Employee::query(), value_field: 'full_name'))
                     ->searchable(),
             ])

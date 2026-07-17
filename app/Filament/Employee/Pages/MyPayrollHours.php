@@ -55,65 +55,65 @@ class MyPayrollHours extends Page implements HasTable
                     ->weight(FontWeight::Bold),
 
                 TextColumn::make('total_hours')
-                    ->label('Total Hours')
+                    ->label(__('filament.total_hours'))
                     ->numeric(decimalPlaces: 2)
                     ->formatStateUsing(fn (float $state): string => $state == 0 ? '-' : number_format($state, 2))
                     ->sortable()
-                    ->summarize(Sum::make()->label('Total')),
+                    ->summarize(Sum::make()->label(__('filament.total'))),
 
                 TextColumn::make('regular_hours')
-                    ->label('Regular Hours')
+                    ->label(__('filament.regular_hours'))
                     ->numeric(decimalPlaces: 2)
                     ->formatStateUsing(fn (float $state): string => $state == 0 ? '-' : number_format($state, 2))
                     ->sortable()
-                    ->summarize(Sum::make()->label('Total')),
+                    ->summarize(Sum::make()->label(__('filament.total'))),
 
                 TextColumn::make('overtime_hours')
-                    ->label('Overtime Hours')
+                    ->label(__('filament.overtime_hours'))
                     ->numeric(decimalPlaces: 2)
                     ->formatStateUsing(fn (float $state): string => $state == 0 ? '-' : number_format($state, 2))
                     ->sortable()
-                    ->summarize(Sum::make()->label('Total')),
+                    ->summarize(Sum::make()->label(__('filament.total'))),
 
                 TextColumn::make('holiday_hours')
-                    ->label('Holiday Hours')
+                    ->label(__('filament.holiday_hours'))
                     ->numeric(decimalPlaces: 2)
                     ->formatStateUsing(fn (float $state): string => $state == 0 ? '-' : number_format($state, 2))
                     ->sortable()
-                    ->summarize(Sum::make()->label('Total')),
+                    ->summarize(Sum::make()->label(__('filament.total'))),
 
                 TextColumn::make('seventh_day_hours')
-                    ->label('7th Day Hours')
+                    ->label(__('filament.seventh_day_hours'))
                     ->numeric(decimalPlaces: 2)
                     ->formatStateUsing(fn (float $state): string => $state == 0 ? '-' : number_format($state, 2))
                     ->sortable()
-                    ->summarize(Sum::make()->label('Total')),
+                    ->summarize(Sum::make()->label(__('filament.total'))),
 
                 TextColumn::make('week_ending_at')
-                    ->label('Week Ending')
+                    ->label(__('filament.week_ending'))
                     ->date()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 TextColumn::make('payroll_ending_at')
-                    ->label('Payroll Ending')
+                    ->label(__('filament.payroll_ending'))
                     ->date()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 IconColumn::make('is_sunday')
-                    ->label('Is Sunday')
+                    ->label(__('filament.is_sunday'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 IconColumn::make('is_holiday')
-                    ->label('Is Holiday')
+                    ->label(__('filament.is_holiday'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 SelectFilter::make('week_ending_at')
-                    ->label('Week Ending')
+                    ->label(__('filament.week_ending'))
                     ->options(fn (): array => Cache::remember(
                         'payroll_hours_week_endings_'.Auth::user()->employee_id,
                         now()->addHour(),
@@ -129,7 +129,7 @@ class MyPayrollHours extends Page implements HasTable
                     ->placeholder('All weeks'),
 
                 SelectFilter::make('payroll_ending_at')
-                    ->label('Payroll Ending')
+                    ->label(__('filament.payroll_ending'))
                     ->options(fn (): array => Cache::remember(
                         'payroll_hours_payroll_endings_'.Auth::user()->employee_id,
                         now()->addHour(),

@@ -25,20 +25,20 @@ class EvaluationForm
             ->columns(3)
             ->components([
                 DatePicker::make('evaluation_date')
-                    ->label('Record Date')
+                    ->label(__('filament.record_date'))
                     ->required()
                     ->default(now()),
                 TextInput::make('record_number')
-                    ->label('Record Number')
+                    ->label(__('filament.record_number'))
                     ->required()
                     ->unique(table: Evaluation::class, ignoreRecord: true),
                 Select::make('employee_id')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->options(ModelListService::make(Employee::query(), value_field: 'full_name'))
                     ->searchable()
                     ->required(),
                 Select::make('qa_form_id')
-                    ->label('QA Form')
+                    ->label(__('filament.qa_form'))
                     ->options(ModelListService::make(QAForm::query(), value_field: 'name'))
                     ->searchable()
                     ->required()
@@ -63,13 +63,13 @@ class EvaluationForm
                         $set('questionScores', self::getQuestionScoreDefaults($state));
                     }),
                 TextInput::make('threshold_percentage')
-                    ->label('Threshold %')
+                    ->label(__('filament.threshold'))
                     ->disabled(),
                 Textarea::make('comments')
                     ->columnSpanFull(),
                 Repeater::make('questionScores')
                     ->relationship('questionScores')
-                    ->label('Question Scores')
+                    ->label(__('filament.question_scores'))
                     ->addable(false)
                     ->deletable(false)
                     ->reorderable(false)
@@ -80,7 +80,7 @@ class EvaluationForm
                     ->columns(2)
                     ->schema([
                         Select::make('qa_question_id')
-                            ->label('Question')
+                            ->label(__('filament.question'))
                             ->options(function (Get $get): array {
                                 $qaFormId = $get('../../qa_form_id');
 
@@ -113,13 +113,13 @@ class EvaluationForm
                             ->columnSpanFull()
                             ->required(),
                         TextInput::make('max_points_snapshot')
-                            ->label('Max Points')
+                            ->label(__('filament.max_points'))
                             ->numeric()
                             ->disabled()
                             ->dehydrated()
                             ->required(),
                         Select::make('points_awarded')
-                            ->label('Score')
+                            ->label(__('filament.score'))
                             ->options(QuestionScorePercentage::class)
                             ->placeholder('Select a score...')
                             ->required()

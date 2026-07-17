@@ -87,7 +87,7 @@ class HRActivityRequestsTable
                     ->Schema([
                         Textarea::make('comment')
                             ->required()
-                            ->label('Completion Comment')
+                            ->label(__('filament.completion_comment'))
                             ->placeholder('Add a comment about this completion...')
                             ->rows(3),
                     ])

@@ -13,13 +13,13 @@ class ProjectInfolist
         return $schema
             ->components([
                 TextEntry::make('id')
-                    ->label('ID')
+                    ->label(__('filament.id'))
                     ->columnSpanFull(),
                 TextEntry::make('name'),
                 TextEntry::make('client.name')
-                    ->label('Client'),
+                    ->label(__('filament.client')),
                 TextEntry::make('manager.name')
-                    ->label('Manager')
+                    ->label(__('filament.manager'))
                     ->placeholder('Unassigned'),
                 TextEntry::make('description')
                     ->placeholder('-')

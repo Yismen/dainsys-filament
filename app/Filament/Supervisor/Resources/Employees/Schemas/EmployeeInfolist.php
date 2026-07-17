@@ -23,31 +23,31 @@ class EmployeeInfolist
                     ->circular()
                     ->columnSpanFull(),
                 TextEntry::make('full_name')
-                    ->label('Full Name'),
+                    ->label(__('filament.full_name')),
                 TextEntry::make('personal_id')
-                    ->label('Personal ID'),
+                    ->label(__('filament.personal_id')),
                 TextEntry::make('email')
-                    ->label('Email'),
+                    ->label(__('filament.email')),
                 TextEntry::make('cellphone')
-                    ->label('Phone'),
+                    ->label(__('filament.phone')),
                 TextEntry::make('date_of_birth')
                     ->date('M d, Y')
-                    ->label('Date of Birth'),
+                    ->label(__('filament.date_of_birth')),
                 TextEntry::make('status')
                     ->badge()
                     ->color(fn ($state) => $state->getColor()),
                 TextEntry::make('citizenship.name')
-                    ->label('Citizenship'),
+                    ->label(__('filament.citizenship')),
                 TextEntry::make('address')
                     ->columnSpanFull(),
                 TextEntry::make('created_at')
                     ->dateTime()
-                    ->label('Created'),
+                    ->label(__('filament.created_at')),
                 TextEntry::make('updated_at')
                     ->dateTime()
-                    ->label('Updated'),
-                Section::make('Employment Information')
-                    ->label('Employment Information')
+                    ->label(__('filament.updated_at')),
+                Section::make(__('filament.employment_information'))
+                    ->label(__('filament.employment_information'))
                     ->columnSpanFull()
                     ->schema([
                         Grid::make([
@@ -57,14 +57,14 @@ class EmployeeInfolist
                         ])
                             ->schema([
                                 TextEntry::make('position.name')
-                                    ->label('Position'),
+                                    ->label(__('filament.position')),
                                 TextEntry::make('position.department.name')
-                                    ->label('Department'),
+                                    ->label(__('filament.department')),
                                 TextEntry::make('hired_at')
                                     ->date('M d, Y')
-                                    ->label('Date Hired'),
+                                    ->label(__('filament.hired_at')),
                                 TextEntry::make('internal_id')
-                                    ->label('Punch ID'),
+                                    ->label(__('filament.punch_id')),
                             ]),
                     ])
                     ->collapsible(),

@@ -26,12 +26,12 @@ class TicketInfolist
                 ->label(__('Created at'))
                 ->dateTime(),
             TextEntry::make('subject')
-                ->label('Subject'),
+                ->label(__('filament.subject')),
             TextEntry::make('description')
-                ->label('Description')
+                ->label(__('filament.description'))
                 ->html(),
             TextEntry::make('agent.name')
-                ->label('Assigned to'),
+                ->label(__('filament.assigned_to')),
             TextEntry::make('assigned_at')
                 ->dateTime(),
             TextEntry::make('expected_at')
@@ -48,7 +48,7 @@ class TicketInfolist
                 // ->limit(3)
                 ->limitedRemainingText(),
 
-            Section::make('Replies')
+            Section::make(__('filament.replies'))
                 ->columnSpanFull()
                 ->schema([
                     TextEntry::make('id')

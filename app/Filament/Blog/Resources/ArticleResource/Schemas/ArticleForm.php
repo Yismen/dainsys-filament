@@ -28,75 +28,82 @@ class ArticleForm
 
         return $schema
             ->components([
-                Section::make('Article Details')
+                Section::make(__('filament.article_details'))
                     ->columnSpanFull()
                     ->columns(2)
                     ->schema([
                         TextInput::make('title')
+                            ->label(__('filament.title'))
                             ->required()
                             ->maxLength(255)
                             ->columnSpanFull(),
-                        // slug is auto-generated from title
                         Textarea::make('excerpt')
+                            ->label(__('filament.excerpt'))
                             ->rows(2)
                             ->columnSpanFull(),
                         RichEditor::make('content')
+                            ->label(__('filament.content'))
                             ->required()
                             ->columnSpanFull(),
                         Select::make('author_id')
-                            ->label('Author')
+                            ->label(__('filament.author'))
                             ->options(ModelListService::make(User::query()))
                             ->searchable()
                             ->default(fn () => $user?->id)
                             ->required()
                             ->visibleOn('create'),
                         TextInput::make('author_id')
-                            ->label('Author')
+                            ->label(__('filament.author'))
                             ->disabled()
                             ->helperText(fn (?Article $record) => $record?->author?->name)
                             ->visibleOn('edit'),
                     ]),
 
-                Section::make('Publishing')
+                Section::make(__('filament.publishing'))
                     ->columnSpanFull()
                     ->columns(2)
                     ->schema([
                         Select::make('status')
+                            ->label(__('filament.status'))
                             ->options(ArticleStatus::class)
                             ->required()
                             ->default(ArticleStatus::Draft),
                         Toggle::make('is_public')
-                            ->label(__('Public'))
+                            ->label(__('filament.is_public'))
                             ->helperText('Public articles are visible to all users without category restrictions.')
                             ->default(false),
                     ]),
 
-                Section::make('Categories')
+                Section::make(__('filament.categories'))
                     ->columnSpanFull()
                     ->visible($canAssignCategories)
                     ->schema([
                         CheckboxList::make('categories')
+                            ->label(__('filament.categories'))
                             ->relationship('categories', 'name')
                             ->options(ModelListService::make(Category::query()))
                             ->columns(2)
                             ->searchable(),
                     ]),
 
-                Section::make('SEO')
+                Section::make(__('filament.seo'))
                     ->columnSpanFull()
                     ->columns(2)
                     ->schema([
                         Textarea::make('meta_description')
+                            ->label(__('filament.meta_description'))
                             ->rows(2)
                             ->maxLength(160),
                         TextInput::make('meta_keywords')
+                            ->label(__('filament.meta_keywords'))
                             ->maxLength(255),
                     ]),
 
-                Section::make('Featured Image')
+                Section::make(__('filament.featured_image'))
                     ->columnSpanFull()
                     ->schema([
                         FileUpload::make('featured_image_path')
+                            ->label(__('filament.featured_image_path'))
                             ->image()
                             ->disk('public')
                             ->imageEditor()

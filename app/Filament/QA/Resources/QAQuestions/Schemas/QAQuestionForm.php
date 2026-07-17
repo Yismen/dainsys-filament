@@ -17,7 +17,7 @@ class QAQuestionForm
         return $schema
             ->components([
                 Select::make('qa_form_id')
-                    ->label('QA Form')
+                    ->label(__('filament.qa_form'))
                     ->options(ModelListService::make(QAForm::query()))
                     ->searchable()
                     ->required(),

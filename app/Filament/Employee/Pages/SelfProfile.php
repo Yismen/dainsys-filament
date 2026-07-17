@@ -60,7 +60,7 @@ class SelfProfile extends Page implements HasInfolists
         return $schema
             ->record($this->employee)
             ->components([
-                Section::make('Personal Information')
+                Section::make(__('filament.personal_information'))
                     ->schema([
                         SpatieMediaLibraryImageEntry::make('profile_photo')
                             ->hiddenLabel()
@@ -70,102 +70,102 @@ class SelfProfile extends Page implements HasInfolists
                             ->circular()
                             ->columnSpanFull(),
                         TextEntry::make('full_name')
-                            ->label('Full Name')
+                            ->label(__('filament.full_name'))
                             ->weight(FontWeight::Bold),
                         TextEntry::make('personal_id_type')
-                            ->label('ID Type')
+                            ->label(__('filament.id_type'))
                             ->badge(),
                         TextEntry::make('personal_id')
-                            ->label('Personal ID'),
+                            ->label(__('filament.personal_id')),
                         TextEntry::make('internal_id')
-                            ->label('Internal Employee ID'),
+                            ->label(__('filament.internal_employee_id')),
                         TextEntry::make('date_of_birth')
-                            ->label('Date of Birth')
+                            ->label(__('filament.date_of_birth'))
                             ->date(),
                         TextEntry::make('gender')
                             ->badge(),
                         TextEntry::make('citizenship.name')
-                            ->label('Citizenship'),
+                            ->label(__('filament.citizenship')),
                         TextEntry::make('has_kids')
-                            ->label('Has Kids')
+                            ->label(__('filament.has_kids'))
                             ->formatStateUsing(fn ($state) => $state ? 'Yes' : 'No'),
                     ])
                     ->columns(2),
 
-                Section::make('Contact Information')
+                Section::make(__('filament.contact_information'))
                     ->schema([
                         TextEntry::make('cellphone')
-                            ->label('Cellphone'),
+                            ->label(__('filament.cellphone')),
                         TextEntry::make('secondary_phone')
-                            ->label('Secondary Phone')
+                            ->label(__('filament.secondary_phone'))
                             ->placeholder('-'),
                         TextEntry::make('email')
-                            ->label('Email')
+                            ->label(__('filament.email'))
                             ->placeholder('-'),
                         TextEntry::make('address')
-                            ->label('Address')
+                            ->label(__('filament.address'))
                             ->placeholder('-')
                             ->columnSpanFull(),
                     ])
                     ->columns(2),
 
-                Section::make('Current Employment')
+                Section::make(__('filament.current_employment'))
                     ->schema([
                         TextEntry::make('status')
                             ->badge(),
                         TextEntry::make('site.name')
-                            ->label('Site')
+                            ->label(__('filament.site'))
                             ->placeholder('-'),
                         TextEntry::make('project.name')
-                            ->label('Project')
+                            ->label(__('filament.project'))
                             ->placeholder('-'),
                         TextEntry::make('position.name')
-                            ->label('Position')
+                            ->label(__('filament.position'))
                             ->placeholder('-'),
                         TextEntry::make('supervisor.name')
-                            ->label('Supervisor')
+                            ->label(__('filament.supervisor'))
                             ->placeholder('-'),
                         TextEntry::make('hired_at')
-                            ->label('Hired Date')
+                            ->label(__('filament.hired_date'))
                             ->dateTime()
                             ->placeholder('-'),
                     ])
                     ->columns(2),
 
-                Section::make('Social Security (TSS)')
+                Section::make(__('filament.social_security_tss'))
                     ->schema([
                         TextEntry::make('socialSecurity.number')
-                            ->label('TSS Number')
+                            ->label(__('filament.tss_number'))
                             ->placeholder('-'),
                         TextEntry::make('socialSecurity.ars.name')
-                            ->label('ARS')
+                            ->label(__('filament.ars'))
                             ->placeholder('-'),
                         TextEntry::make('socialSecurity.afp.name')
-                            ->label('AFP')
+                            ->label(__('filament.afp'))
                             ->placeholder('-'),
                     ])
                     ->columns(3)
                     ->visible(fn () => $this->employee->socialSecurity !== null),
 
-                Section::make('Employment History')
+                Section::make(__('filament.employment_history'))
                     ->schema([
                         RepeatableEntry::make('hires')
-                            ->label('Hires')
+                            ->label(__('filament.hires'))
                             ->schema([
                                 TextEntry::make('date')
-                                    ->label('Hire Date')
+                                    ->label(__('filament.hire_date'))
                                     ->dateTime(),
                                 TextEntry::make('site.name')
-                                    ->label('Site'),
+                                    ->label(__('filament.site')),
                                 TextEntry::make('project.name')
-                                    ->label('Project'),
+                                    ->label(__('filament.project')),
                                 TextEntry::make('position.name')
-                                    ->label('Position'),
+                                    ->label(__('filament.position')),
                                 TextEntry::make('position.salary')
-                                    ->label('Salary')
+                                    ->label(__('filament.salary'))
                                     ->money('DOP'),
                                 TextEntry::make('supervisor.name')
-                                    ->label('Supervisor'),
+                                    ->label(__('filament.supervisor')),
                             ])
                             ->columns(3)
                             ->contained(false),
@@ -173,16 +173,16 @@ class SelfProfile extends Page implements HasInfolists
                     ->collapsible()
                     ->visible(fn () => $this->employee->hires->count() > 0),
 
-                Section::make('Termination History')
+                Section::make(__('filament.termination_history'))
                     ->schema([
                         RepeatableEntry::make('terminations')
-                            ->label('Terminations')
+                            ->label(__('filament.terminations'))
                             ->schema([
                                 TextEntry::make('date')
-                                    ->label('Termination Date')
+                                    ->label(__('filament.termination_date'))
                                     ->dateTime(),
                                 TextEntry::make('termination_type')
-                                    ->label('Type')
+                                    ->label(__('filament.type'))
                                     ->placeholder('-'),
                             ])
                             ->columns(2)
@@ -191,18 +191,18 @@ class SelfProfile extends Page implements HasInfolists
                     ->collapsible()
                     ->visible(fn () => $this->employee->terminations->count() > 0),
 
-                Section::make('Suspension History')
+                Section::make(__('filament.suspension_history'))
                     ->schema([
                         RepeatableEntry::make('suspensions')
-                            ->label('Suspensions')
+                            ->label(__('filament.suspensions'))
                             ->schema([
                                 TextEntry::make('suspensionType.name')
-                                    ->label('Type'),
+                                    ->label(__('filament.type')),
                                 TextEntry::make('starts_at')
-                                    ->label('Start Date')
+                                    ->label(__('filament.start_date'))
                                     ->dateTime(),
                                 TextEntry::make('ends_at')
-                                    ->label('End Date')
+                                    ->label(__('filament.end_date'))
                                     ->dateTime()
                                     ->placeholder('-'),
                             ])

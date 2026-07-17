@@ -47,7 +47,7 @@ class HolidaysTable
             ->filters([
                 TrashedFilter::make(),
                 SelectFilter::make('year')
-                    ->label('Year')
+                    ->label(__('filament.year'))
                     ->options(function () {
                         return array_combine(range(date('Y') - 5, date('Y')), range(date('Y') - 5, date('Y')));
                     })

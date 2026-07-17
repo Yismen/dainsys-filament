@@ -16,18 +16,18 @@ class HireExporter extends Exporter
     {
         return [
             ExportColumn::make('id')
-                ->label('ID'),
+                ->label(__('filament.id')),
             ExportColumn::make('date'),
             ExportColumn::make('employee.full_name')
-                ->label('Employee Name'),
+                ->label(__('filament.employee_name')),
             ExportColumn::make('site.name')
-                ->label('Site Name'),
+                ->label(__('filament.site_name')),
             ExportColumn::make('project.name')
-                ->label('Project Name'),
+                ->label(__('filament.project_name')),
             ExportColumn::make('position.name')
-                ->label('Position Name'),
+                ->label(__('filament.position_name')),
             ExportColumn::make('supervisor.name')
-                ->label('Supervisor Name'),
+                ->label(__('filament.supervisor_name')),
         ];
     }
 

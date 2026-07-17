@@ -13,17 +13,17 @@ class QAQuestionInfolist
         return $schema
             ->components([
                 TextEntry::make('id')
-                    ->label('ID')
+                    ->label(__('filament.id'))
                     ->copyable(),
                 TextEntry::make('form.name')
-                    ->label('QA Form'),
+                    ->label(__('filament.qa_form')),
                 TextEntry::make('display_order'),
                 TextEntry::make('max_points'),
                 TextEntry::make('is_active')
                     ->badge()
                     ->formatStateUsing(fn (bool $state): string => $state ? 'Active' : 'Inactive'),
                 TextEntry::make('author.name')
-                    ->label('Author')
+                    ->label(__('filament.author'))
                     ->placeholder('-'),
                 TextEntry::make('text')
                     ->columnSpanFull(),

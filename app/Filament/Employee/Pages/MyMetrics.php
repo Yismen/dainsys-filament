@@ -50,26 +50,26 @@ class MyMetrics extends Page implements HasTable
             ->query($this->queryInstance())
             ->columns([
                 TextColumn::make('week_ending')
-                    ->label('Week Ending')
+                    ->label(__('filament.week_ending'))
                     ->date('M j, Y'),
                 TextColumn::make('total_time')
                     ->wrapHeader()
-                    ->label('Total Login Time')
+                    ->label(__('filament.total_login_time'))
                     ->numeric(decimalPlaces: 2),
                 TextColumn::make('total_production_time')
                     ->wrapHeader()
-                    ->label('Total Production Time')
+                    ->label(__('filament.total_production_time'))
                     ->numeric(decimalPlaces: 2),
                 TextColumn::make('total_conversions')
-                    ->label('Total Conversions')
+                    ->label(__('filament.total_conversions'))
                     ->wrapHeader()
                     ->numeric(decimalPlaces: 2),
                 TextColumn::make('conversions_goal')
-                    ->label('Conversions Goal')
+                    ->label(__('filament.conversions_goal'))
                     ->wrapHeader()
                     ->numeric(decimalPlaces: 2),
                 TextColumn::make('sph')
-                    ->label('SPH')
+                    ->label(__('filament.sph'))
                     ->wrapHeader()
                     ->state(function ($record) {
                         $conversions = $record->total_conversions;
@@ -79,7 +79,7 @@ class MyMetrics extends Page implements HasTable
                     })
                     ->numeric(decimalPlaces: 2),
                 TextColumn::make('sph_percentage')
-                    ->label('SPH % to Goal')
+                    ->label(__('filament.sph_percentage'))
                     ->wrapHeader()
                     ->state(function ($record) {
                         $conversions = $record->total_conversions;
@@ -99,7 +99,7 @@ class MyMetrics extends Page implements HasTable
                         }
                     }),
                 TextColumn::make('efficiency_rate')
-                    ->label('Efficiency Rate %')
+                    ->label(__('filament.efficiency_rate'))
                     ->wrapHeader()
                     ->state(function ($record) {
                         $totalHours = $record->total_time;

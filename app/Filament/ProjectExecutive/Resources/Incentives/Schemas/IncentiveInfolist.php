@@ -14,15 +14,15 @@ class IncentiveInfolist
             ->columns(2)
             ->components([
                 TextEntry::make('id')
-                    ->label('ID')
+                    ->label(__('filament.id'))
                     ->columnSpanFull(),
                 TextEntry::make('payable_date')
                     ->date(),
                 TextEntry::make('employee.full_name')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->placeholder('-'),
                 TextEntry::make('project.name')
-                    ->label('Project')
+                    ->label(__('filament.project'))
                     ->placeholder('-'),
                 TextEntry::make('total_production_hours')
                     ->numeric(),

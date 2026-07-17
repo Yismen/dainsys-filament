@@ -48,14 +48,14 @@ class MyMailingSubscriptions extends Component implements HasActions, HasForms, 
             ->recordActions([
                 DeleteAction::make('unsubscribe')
                     ->modalHeading(fn (MailableUser $record): string => "Unsubscribe from {$record->mailable->name}")
-                    ->label('Unsubscribe'),
+                    ->label(__('filament.unsubscribe')),
             ])
             ->toolbarActions([
                 DeleteBulkAction::make()
                     ->requiresConfirmation()
                     ->color('danger')
                     ->icon(Heroicon::OutlinedTrash)
-                    ->label('Unsubscribe Selected'),
+                    ->label(__('filament.unsubscribe_selected')),
             ]);
     }
 

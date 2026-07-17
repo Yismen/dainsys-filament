@@ -14,12 +14,12 @@ class PositionInfolist
         return $schema
             ->components([
                 TextEntry::make('id')
-                    ->label('ID'),
+                    ->label(__('filament.id')),
                 TextEntry::make('name'),
                 TextEntry::make('department.name')
-                    ->label('Department'),
+                    ->label(__('filament.department')),
                 TextEntry::make('salary_type')
-                    ->label('Salary Type'),
+                    ->label(__('filament.salary_type')),
                 TextEntry::make('salary')
                     ->numeric(),
                 TextEntry::make('details')

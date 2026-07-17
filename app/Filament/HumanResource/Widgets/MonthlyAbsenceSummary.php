@@ -25,11 +25,11 @@ class MonthlyAbsenceSummary extends TableWidget
             ->columns([
                 TextColumn::make('full_name')
                     ->wrap()
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('absences_count')
-                    ->label('Absences')
+                    ->label(__('filament.absences'))
                     ->counts('absences')
                     ->sortable()
                     ->badge()
@@ -39,7 +39,7 @@ class MonthlyAbsenceSummary extends TableWidget
                         default => Color::Taupe,
                     }),
                 TextColumn::make('absences.date')
-                    ->label('Absence Dates')
+                    ->label(__('filament.absence_dates'))
                     ->badge()
                     ->date('M d, Y')
                     ->wrap(),

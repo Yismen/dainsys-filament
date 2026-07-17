@@ -11,10 +11,12 @@ class SourceSchema
     {
         return [
             TextInput::make('name')
+                ->label(__('filament.name'))
                 ->unique(ignoreRecord: true)
                 ->autofocus()
                 ->required(),
             Textarea::make('description')
+                ->label(__('filament.description'))
                 ->columnSpanFull(),
         ];
     }

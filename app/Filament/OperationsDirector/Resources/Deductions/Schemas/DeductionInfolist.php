@@ -15,7 +15,7 @@ class DeductionInfolist
                 TextEntry::make('payable_date')
                     ->date(),
                 TextEntry::make('employee.full_name')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->placeholder('-'),
                 TextEntry::make('amount')
                     ->numeric(decimalPlaces: 2),

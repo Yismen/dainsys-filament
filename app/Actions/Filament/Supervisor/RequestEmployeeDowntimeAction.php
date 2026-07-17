@@ -20,10 +20,10 @@ class RequestEmployeeDowntimeAction
     public static function make(string $name = 'requestDowntime'): Action
     {
         return Action::make('requestDowntime')
-            ->label('Downtime')
+            ->label(__('filament.downtime'))
             ->icon('heroicon-o-clock')
             ->color('warning')
-            ->modalHeading('Request downtime')
+            ->modalHeading(__('filament.request_downtime'))
             ->schema([
                 Grid::make(2)
                     ->schema([
@@ -46,7 +46,7 @@ class RequestEmployeeDowntimeAction
                             ->maxValue(13)
                             ->numeric(),
                         Textarea::make('comment')
-                            ->label('Comment')
+                            ->label(__('filament.comment'))
                             ->nullable()
                             ->rows(3),
                     ]),

@@ -13,27 +13,27 @@ class DowntimeInfolist
         return $schema
             ->components([
                 TextEntry::make('id')
-                    ->label('ID'),
+                    ->label(__('filament.id')),
                 TextEntry::make('status')
                     ->badge(),
                 TextEntry::make('date')
                     ->date(),
                 TextEntry::make('employee.full_name')
-                    ->label('Employee'),
+                    ->label(__('filament.employee')),
                 TextEntry::make('campaign.name')
-                    ->label('Campaign'),
+                    ->label(__('filament.campaign')),
                 TextEntry::make('downtimeReason.name')
-                    ->label('Downtime reason'),
+                    ->label(__('filament.downtime_reason')),
                 TextEntry::make('total_time')
                     ->numeric(),
                 TextEntry::make('requester.name')
-                    ->label('Requester')
+                    ->label(__('filament.requester'))
                     ->placeholder('-'),
                 TextEntry::make('aprover.name')
-                    ->label('Aprover')
+                    ->label(__('filament.approver'))
                     ->placeholder('-'),
                 TextEntry::make('comments')
-                    ->label('Comments')
+                    ->label(__('filament.comments'))
                     ->columnSpanFull()
                     ->formatStateUsing(function (Downtime $record): string {
                         return $record->comments

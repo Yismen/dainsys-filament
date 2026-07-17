@@ -18,56 +18,71 @@ class EmployeeSchema
     {
         return [
             TextEntry::make('status')
+                ->label(__('filament.status'))
                 ->columnSpanFull()
                 ->badge()
                 ->hiddenLabel()
                 ->visibleOn('edit'),
             TextInput::make('first_name')
+                ->label(__('filament.first_name'))
                 ->autofocus()
                 ->maxLength(255)
                 ->required(),
             TextInput::make('second_first_name')
+                ->label(__('filament.second_first_name'))
                 ->maxLength(255),
             TextInput::make('last_name')
+                ->label(__('filament.last_name'))
                 ->maxLength(255)
                 ->required(),
             TextInput::make('second_last_name')
+                ->label(__('filament.second_last_name'))
                 ->maxLength(255),
             Select::make('personal_id_type')
+                ->label(__('filament.personal_id_type'))
                 ->options(PersonalIdTypes::class)
                 ->required(),
             TextInput::make('personal_id')
+                ->label(__('filament.personal_id'))
                 ->minLength(10)
                 ->maxLength(11)
                 ->unique(ignoreRecord: true)
                 ->required(),
             DatePicker::make('date_of_birth')
+                ->label(__('filament.date_of_birth'))
                 ->default(now()->subYears(18)->format('Y-m-d'))
                 ->maxDate(now()->subYears(16)->format('Y-m-d'))
                 ->required(),
             TextInput::make('cellphone')
+                ->label(__('filament.cellphone'))
                 ->unique(ignoreRecord: true)
                 ->minLength(10)
                 ->maxLength(14)
                 ->tel()
                 ->required(),
             TextInput::make('secondary_phone')
+                ->label(__('filament.secondary_phone'))
                 ->nullable()
                 ->maxLength(20)
                 ->tel(),
             TextInput::make('email')
+                ->label(__('filament.email'))
                 ->email()
                 ->required()
                 ->maxLength(200),
             TextInput::make('address')
+                ->label(__('filament.address'))
                 ->required()
                 ->maxLength(800),
             Select::make('gender')
+                ->label(__('filament.gender'))
                 ->options(Genders::class)
                 ->required(),
             Toggle::make('has_kids')
+                ->label(__('filament.has_kids'))
                 ->required(),
             Select::make('citizenship_id')
+                ->label(__('filament.citizenship'))
                 ->options(ModelListService::get(Citizenship::class))
                 ->searchable()
                 ->required(),

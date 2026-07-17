@@ -16,19 +16,19 @@ class SuspensionExporter extends Exporter
     {
         return [
             ExportColumn::make('id')
-                ->label('ID'),
+                ->label(__('filament.id')),
             ExportColumn::make('employee.full_name')
-                ->label('Employee Name'),
+                ->label(__('filament.employee_name')),
             ExportColumn::make('suspensionType.name')
-                ->label('Suspension Type'),
+                ->label(__('filament.suspension_type')),
             ExportColumn::make('starts_at')
-                ->label('Start Date'),
+                ->label(__('filament.start_date')),
             ExportColumn::make('ends_at')
-                ->label('End Date'),
+                ->label(__('filament.end_date')),
             ExportColumn::make('status')
-                ->label('Status'),
+                ->label(__('filament.status')),
             ExportColumn::make('comment')
-                ->label('Comment'),
+                ->label(__('filament.comment')),
         ];
     }
 

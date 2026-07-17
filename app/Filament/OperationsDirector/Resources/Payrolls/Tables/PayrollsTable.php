@@ -67,7 +67,7 @@ class PayrollsTable
                             );
                     }),
                 SelectFilter::make('employee_id')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->options(fn (): array => ModelListService::make(
                         model: Employee::query(),
                         value_field: 'full_name',

@@ -23,23 +23,28 @@ class DowntimeForm
         return $schema
             ->components([
                 TextEntry::make('status')
+                    ->label(__('filament.status'))
                     ->inlineLabel()
                     ->badge()
                     ->columnSpanFull(),
                 DatePicker::make('date')
+                    ->label(__('filament.date'))
                     ->default(now())
                     ->maxDate(now())
                     ->minDate(now()->subDays(20))
                     ->required(),
                 Select::make('campaign_id')
+                    ->label(__('filament.campaign'))
                     ->options(ModelListService::get(model: Campaign::query()->where('revenue_type', RevenueTypes::Downtime)))
                     ->searchable()
                     ->required(),
                 Select::make('downtime_reason_id')
+                    ->label(__('filament.downtime_reason'))
                     ->options(ModelListService::get(model: DowntimeReason::query()))
                     ->searchable()
                     ->required(),
                 Select::make('employee_id')
+                    ->label(__('filament.employee'))
                     ->options(
                         ModelListService::get(
                             model: Employee::query()
@@ -62,6 +67,7 @@ class DowntimeForm
                         ),
                     ]),
                 TextInput::make('total_time')
+                    ->label(__('filament.total_time'))
                     ->required()
                     ->numeric(),
             ]);

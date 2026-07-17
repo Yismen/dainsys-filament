@@ -12,14 +12,14 @@ class HRActivityRequestInfolist
     {
         return $schema
             ->components([
-                Section::make('Request Information')
+                Section::make(__('filament.request_information'))
                     ->schema([
                         TextEntry::make('id')
-                            ->label('ID'),
+                            ->label(__('filament.id')),
                         TextEntry::make('employee.full_name')
-                            ->label('Employee'),
+                            ->label(__('filament.employee')),
                         TextEntry::make('supervisor.name')
-                            ->label('Supervisor'),
+                            ->label(__('filament.supervisor')),
                         TextEntry::make('activity_type')
                             ->badge(),
                         TextEntry::make('status')
@@ -31,7 +31,7 @@ class HRActivityRequestInfolist
                             ->placeholder('Not completed yet'),
                     ])
                     ->columns(2),
-                Section::make('Details')
+                Section::make(__('filament.details'))
                     ->schema([
                         TextEntry::make('description')
                             ->placeholder('No description provided')

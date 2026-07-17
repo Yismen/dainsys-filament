@@ -50,11 +50,11 @@ class UpcomingBirthdaysTable extends BaseWidget
         return $table
             ->columns([
                 TextColumn::make('full_name')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->searchable(),
                 TextColumn::make('date_of_birth')
                     ->date()
-                    ->label('Birthday')
+                    ->label(__('filament.birthday'))
                     ->formatStateUsing(fn (string $state) => Carbon::parse($state)->format('m-d').' ('.Carbon::parse($state)->age.' years)')
                     ->sortable(),
                 TextColumn::make('status')

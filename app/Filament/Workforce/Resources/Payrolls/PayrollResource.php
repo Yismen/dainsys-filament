@@ -53,13 +53,13 @@ class PayrollResource extends Resource
             ->columns(2)
             ->components([
                 TextColumn::make('id')
-                    ->label('ID')
+                    ->label(__('filament.id'))
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextEntry::make('payable_date')
                     ->date(),
                 TextEntry::make('employee.full_name')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->placeholder('-'),
                 TextEntry::make('salary_rate')
                     ->numeric(),
@@ -76,7 +76,7 @@ class PayrollResource extends Resource
                 TextEntry::make('deduction_afp')
                     ->numeric(),
                 TextEntry::make('deductions_other')
-                    ->label('Deductions Other')
+                    ->label(__('filament.deductions_other'))
                     ->numeric(),
                 TextEntry::make('total_deductions')
                     ->numeric(),
@@ -122,7 +122,7 @@ class PayrollResource extends Resource
                     ->date()
                     ->sortable(),
                 TextColumn::make('employee.full_name')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('gross_income')
@@ -160,9 +160,9 @@ class PayrollResource extends Resource
                 Filter::make('payable_date_range')
                     ->schema([
                         DatePicker::make('payable_date_from')
-                            ->label('Payable date from'),
+                            ->label(__('filament.payable_date_from')),
                         DatePicker::make('payable_date_until')
-                            ->label('Payable date until'),
+                            ->label(__('filament.payable_date_until')),
                     ])
                     ->columns(2)
                     ->query(function (Builder $query, array $data): Builder {
@@ -177,7 +177,7 @@ class PayrollResource extends Resource
                             );
                     }),
                 SelectFilter::make('payable_date')
-                    ->label('Payable date')
+                    ->label(__('filament.payable_date'))
                     ->options(fn (): array => Payroll::query()
                         ->distinct()
                         ->orderBy('payable_date', 'desc')
@@ -186,7 +186,7 @@ class PayrollResource extends Resource
                     )
                     ->searchable(),
                 SelectFilter::make('employee_id')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->options(ModelListService::make(Employee::query(), value_field: 'full_name'))
                     ->searchable(),
                 TrashedFilter::make(),

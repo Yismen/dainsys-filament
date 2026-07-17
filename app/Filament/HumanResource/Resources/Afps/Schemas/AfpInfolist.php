@@ -14,7 +14,7 @@ class AfpInfolist
         return $schema
             ->components([
                 TextEntry::make('id')
-                    ->label('ID'),
+                    ->label(__('filament.id')),
                 TextEntry::make('name'),
                 TextEntry::make('person_of_contact')
                     ->placeholder('-'),

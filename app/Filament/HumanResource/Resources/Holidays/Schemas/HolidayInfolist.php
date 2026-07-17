@@ -13,7 +13,7 @@ class HolidayInfolist
         return $schema
             ->components([
                 TextEntry::make('id')
-                    ->label('ID')
+                    ->label(__('filament.id'))
                     ->columnSpanFull(),
                 TextEntry::make('name'),
                 TextEntry::make('date')

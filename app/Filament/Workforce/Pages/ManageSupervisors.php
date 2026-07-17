@@ -84,7 +84,7 @@ class ManageSupervisors extends Page
     public function deactivateSupervisorAction(): Action
     {
         return Action::make('deactivateSupervisor')
-            ->label('Deactivate')
+            ->label(__('filament.deactivate'))
             ->color('danger')
             ->link()
             ->icon(Heroicon::OutlinedArrowRight)
@@ -108,7 +108,7 @@ class ManageSupervisors extends Page
     public function reactivateSupervisorAction(): Action
     {
         return Action::make('reactivateSupervisor')
-            ->label('Reactivate')
+            ->label(__('filament.reactivate'))
             ->color('success')
             ->link()
             ->icon(Heroicon::OutlinedArrowRight)
@@ -132,14 +132,14 @@ class ManageSupervisors extends Page
     public function editSupervisorUserAction(): Action
     {
         return Action::make('editSupervisorUser')
-            ->label('Edit User')
+            ->label(__('filament.edit_user'))
             ->color('gray')
             ->link()
             ->icon(Heroicon::OutlinedPencilSquare)
             ->modalHeading('Edit Supervisor User')
             ->schema([
                 Select::make('user_id')
-                    ->label('Select User')
+                    ->label(__('filament.select_user'))
                     ->options(
                         fn ($livewire) => User::query()
                             ->where('is_active', true)
@@ -182,10 +182,10 @@ class ManageSupervisors extends Page
     public function reasignSelectedEmployeesAction(): Action
     {
         return Action::make('reasignSelectedEmployees')
-            ->label('Reasign Selected Employees')
+            ->label(__('filament.reasign_selected_employees'))
             ->schema([
                 Select::make('destination_supervisor_id')
-                    ->label('Select Destination Supervisor')
+                    ->label(__('filament.select_destination_supervisor'))
                     ->options(ModelListService::make(
                         Supervisor::query()->where('is_active', true))
                     )
@@ -248,7 +248,7 @@ class ManageSupervisors extends Page
     {
         return [
             Action::make('create_supervisor')
-                ->label('Create Supervisor')
+                ->label(__('filament.create_supervisor'))
                 ->icon(Heroicon::OutlinedUserPlus)
                 ->color('info')
                 ->schema([

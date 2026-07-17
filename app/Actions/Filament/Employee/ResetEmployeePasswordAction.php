@@ -21,8 +21,8 @@ class ResetEmployeePasswordAction
             ->after(function (Employee $employee): void {
                 Notification::make()
                     ->success()
-                    ->title('Password Reset')
-                    ->body('Password has been reset. Supervisor has been notified.')
+                    ->title(__('filament.password_reset'))
+                    ->body(__('filament.password_reset_body'))
                     ->sendToDatabase(auth()->user());
 
                 $supervisor = $employee->supervisor;

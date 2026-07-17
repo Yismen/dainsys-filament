@@ -15,13 +15,13 @@ class EmployeeInfolist
         return $schema
             ->components([
                 SpatieMediaLibraryImageEntry::make('profile_photo')
-                    ->label('Photo')
+                    ->label(__('filament.profile_photo'))
                     ->collection(Employee::PROFILE_PHOTO_COLLECTION)
                     ->conversion(Employee::PROFILE_PHOTO_THUMBNAIL_CONVERSION)
                     ->defaultImageUrl(fn (Employee $record): string => $record->getProfilePhotoPlaceholderUrl())
                     ->circular(),
                 TextEntry::make('id')
-                    ->label('ID')
+                    ->label(__('filament.id'))
                     ->columnSpanFull(),
                 TextEntry::make('full_name')
                     ->placeholder('-'),
@@ -32,29 +32,29 @@ class EmployeeInfolist
                     ->date(),
                 TextEntry::make('cellphone'),
                 TextEntry::make('email')
-                    ->label('Email address'),
+                    ->label(__('filament.email')),
                 TextEntry::make('status')
                     ->badge()
                     ->placeholder('-'),
                 TextEntry::make('gender')
                     ->badge(),
                 TextEntry::make('citizenship.name')
-                    ->label('Citizenship'),
+                    ->label(__('filament.citizenship')),
 
-                Section::make('Job Information')
+                Section::make(__('filament.job_information'))
                     ->columns(5)
                     ->columnSpanFull()
                     ->components([
                         TextEntry::make('hired_at')
                             ->date(),
                         TextEntry::make('site.name')
-                            ->label('Site'),
+                            ->label(__('filament.site')),
                         TextEntry::make('project.name')
-                            ->label('Project'),
+                            ->label(__('filament.project')),
                         TextEntry::make('position.details')
-                            ->label('Position'),
+                            ->label(__('filament.position')),
                         TextEntry::make('supervisor.name')
-                            ->label('Supervisor'),
+                            ->label(__('filament.supervisor')),
                     ]),
                 TextEntry::make('deleted_at')
                     ->dateTime()

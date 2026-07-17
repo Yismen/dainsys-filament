@@ -13,11 +13,11 @@ class SuspensionInfolist
         return $schema
             ->components([
                 TextEntry::make('id')
-                    ->label('ID'),
+                    ->label(__('filament.id')),
                 TextEntry::make('employee.full_name')
-                    ->label('Employee'),
+                    ->label(__('filament.employee')),
                 TextEntry::make('suspensionType.name')
-                    ->label('Suspension type'),
+                    ->label(__('filament.suspension_type')),
                 TextEntry::make('starts_at')
                     ->dateTime(),
                 TextEntry::make('ends_at')

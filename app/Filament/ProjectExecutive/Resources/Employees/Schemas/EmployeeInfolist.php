@@ -22,30 +22,30 @@ class EmployeeInfolist
                     ->circular()
                     ->columnSpanFull(),
                 TextEntry::make('full_name')
-                    ->label('Employee'),
+                    ->label(__('filament.employee')),
                 TextEntry::make('personal_id')
-                    ->label('Personal ID'),
+                    ->label(__('filament.personal_id')),
                 TextEntry::make('email')
                     ->placeholder('-'),
                 TextEntry::make('cellphone')
-                    ->label('Phone')
+                    ->label(__('filament.phone'))
                     ->placeholder('-'),
                 TextEntry::make('project.name')
-                    ->label('Project')
+                    ->label(__('filament.project'))
                     ->placeholder('-'),
                 TextEntry::make('position.details')
-                    ->label('Position')
+                    ->label(__('filament.position'))
                     ->placeholder('-'),
                 TextEntry::make('site.name')
-                    ->label('Site')
+                    ->label(__('filament.site'))
                     ->placeholder('-'),
                 TextEntry::make('supervisor.name')
-                    ->label('Supervisor')
+                    ->label(__('filament.supervisor'))
                     ->placeholder('-'),
                 TextEntry::make('status')
                     ->badge(),
                 TextEntry::make('hired_at')
-                    ->label('Hired Date')
+                    ->label(__('filament.hired_at'))
                     ->date()
                     ->placeholder('-'),
                 TextEntry::make('created_at')

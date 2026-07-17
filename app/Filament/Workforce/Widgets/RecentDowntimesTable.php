@@ -27,22 +27,22 @@ class RecentDowntimesTable extends TableWidget
                     ->date()
                     ->sortable(),
                 TextColumn::make('employee.full_name')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->wrap()
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('campaign.name')
-                    ->label('Campaign')
+                    ->label(__('filament.campaign'))
                     ->wrap()
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('downtimeReason.name')
-                    ->label('Reason')
+                    ->label(__('filament.reason'))
                     ->wrap()
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('total_time')
-                    ->label('Minutes')
+                    ->label(__('filament.minutes'))
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('status')
@@ -50,11 +50,11 @@ class RecentDowntimesTable extends TableWidget
                     ->color(fn (DowntimeStatuses|string|null $state): ?string => $state instanceof DowntimeStatuses ? $state->getColor() : null)
                     ->sortable(),
                 TextColumn::make('aprover.name')
-                    ->label('Approver')
+                    ->label(__('filament.approver'))
                     ->wrap()
                     ->sortable(),
                 TextColumn::make('created_at')
-                    ->label('Requested at')
+                    ->label(__('filament.requested_at'))
                     ->dateTime()
                     ->since()
                     ->sortable(),

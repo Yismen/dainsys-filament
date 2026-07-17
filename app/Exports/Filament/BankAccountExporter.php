@@ -16,13 +16,13 @@ class BankAccountExporter extends Exporter
     {
         return [
             ExportColumn::make('id')
-                ->label('ID'),
+                ->label(__('filament.id')),
             ExportColumn::make('employee.full_name')
-                ->label('Employee Name'),
+                ->label(__('filament.employee_name')),
             ExportColumn::make('bank.name')
-                ->label('Bank Name'),
+                ->label(__('filament.bank_name')),
             ExportColumn::make('account')
-                ->label('Account Number'),
+                ->label(__('filament.account_number')),
         ];
     }
 

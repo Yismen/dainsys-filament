@@ -13,16 +13,16 @@ class QAFormInfolist
         return $schema
             ->components([
                 TextEntry::make('id')
-                    ->label('ID')
+                    ->label(__('filament.id'))
                     ->copyable(),
                 TextEntry::make('name'),
                 TextEntry::make('project.name')
-                    ->label('Project'),
+                    ->label(__('filament.project')),
                 TextEntry::make('passing_threshold_percentage')
-                    ->label('Passing Threshold %')
+                    ->label(__('filament.passing_threshold_percentage'))
                     ->badge(),
                 TextEntry::make('author.name')
-                    ->label('Author')
+                    ->label(__('filament.author'))
                     ->placeholder('-'),
                 TextEntry::make('description')
                     ->placeholder('-')

@@ -34,30 +34,30 @@ class PendingDowntimesTable extends TableWidget
                     ->date()
                     ->sortable(),
                 TextColumn::make('employee.full_name')
-                    ->label('Employee')
+                    ->label(__('filament.employee'))
                     ->sortable()
                     ->wrap()
                     ->searchable(),
                 TextColumn::make('campaign.name')
-                    ->label('Campaign')
+                    ->label(__('filament.campaign'))
                     ->sortable()
                     ->wrap()
                     ->searchable(),
                 TextColumn::make('downtimeReason.name')
-                    ->label('Reason')
+                    ->label(__('filament.reason'))
                     ->sortable()
                     ->wrap()
                     ->searchable(),
                 TextColumn::make('total_time')
-                    ->label('Minutes')
+                    ->label(__('filament.minutes'))
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('requester.name')
-                    ->label('Requested by')
+                    ->label(__('filament.requested_by'))
                     ->wrap()
                     ->sortable(),
                 TextColumn::make('created_at')
-                    ->label('Requested at')
+                    ->label(__('filament.requested_at'))
                     ->dateTime()
                     ->since()
                     ->sortable(),
@@ -65,13 +65,13 @@ class PendingDowntimesTable extends TableWidget
             ->recordActions([
                 ActionGroup::make([
                     Action::make('approve')
-                        ->label('Approve')
+                        ->label(__('filament.approve'))
                         ->icon('heroicon-o-check-circle')
                         ->color('success')
                         ->visible(fn (Downtime $record): bool => $record->status === DowntimeStatuses::Pending)
                         ->schema([
                             Textarea::make('comment')
-                                ->label('Approval comment')
+                                ->label(__('filament.approval_comment'))
                                 ->required(),
                         ])
                         ->action(function (Downtime $record, array $data): void {
@@ -84,13 +84,13 @@ class PendingDowntimesTable extends TableWidget
                             ]);
                         }),
                     Action::make('reject')
-                        ->label('Reject')
+                        ->label(__('filament.reject'))
                         ->icon('heroicon-o-x-circle')
                         ->color('danger')
                         ->visible(fn (Downtime $record): bool => $record->status === DowntimeStatuses::Pending)
                         ->schema([
                             Textarea::make('comment')
-                                ->label('Rejection comment')
+                                ->label(__('filament.rejection_comment'))
                                 ->required(),
                         ])
                         ->action(function (Downtime $record, array $data): void {
@@ -113,13 +113,13 @@ class PendingDowntimesTable extends TableWidget
             ->toolbarActions([
                 BulkActionGroup::make([
                     BulkAction::make('approve_selected')
-                        ->label('Approve selected')
+                        ->label(__('filament.approve_selected'))
                         ->icon('heroicon-o-check-circle')
                         ->color('success')
                         ->accessSelectedRecords()
                         ->schema([
                             Textarea::make('comment')
-                                ->label('Approval comment')
+                                ->label(__('filament.approval_comment'))
                                 ->required(),
                         ])
                         ->action(function (Collection $records, array $data): void {
@@ -136,13 +136,13 @@ class PendingDowntimesTable extends TableWidget
                                 });
                         }),
                     BulkAction::make('reject_selected')
-                        ->label('Reject selected')
+                        ->label(__('filament.reject_selected'))
                         ->icon('heroicon-o-x-circle')
                         ->color('danger')
                         ->accessSelectedRecords()
                         ->schema([
                             Textarea::make('comment')
-                                ->label('Rejection comment')
+                                ->label(__('filament.rejection_comment'))
                                 ->required(),
                         ])
                         ->action(function (Collection $records, array $data): void {

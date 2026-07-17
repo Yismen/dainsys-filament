@@ -55,20 +55,20 @@ class MyNightlyHours extends Page implements HasTable
                     ->weight(FontWeight::Bold),
 
                 TextColumn::make('total_hours')
-                    ->label('Nightly Hours')
+                    ->label(__('filament.nightly_hours'))
                     ->numeric(decimalPlaces: 2)
                     ->formatStateUsing(fn (float $state): string => $state == 0 ? '-' : number_format($state, 2))
                     ->sortable()
-                    ->summarize(Sum::make()->label('Total')),
+                    ->summarize(Sum::make()->label(__('filament.total'))),
 
                 TextColumn::make('created_at')
-                    ->label('Recorded At')
+                    ->label(__('filament.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 TextColumn::make('updated_at')
-                    ->label('Last Updated')
+                    ->label(__('filament.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -93,12 +93,12 @@ class MyNightlyHours extends Page implements HasTable
                     })
                     ->schema([
                         DatePicker::make('date_from')
-                            ->label('Date from')
+                            ->label(__('filament.date_from'))
                             ->placeholder('Start date')
                             ->minDate(now()->subYear())
                             ->maxDate(now()),
                         DatePicker::make('date_until')
-                            ->label('Date until')
+                            ->label(__('filament.date_until'))
                             ->placeholder('End date')
                             ->minDate(now()->subYear())
                             ->maxDate(now()),

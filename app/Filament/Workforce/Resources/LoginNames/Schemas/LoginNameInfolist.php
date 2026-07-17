@@ -13,9 +13,9 @@ class LoginNameInfolist
         return $schema
             ->components([
                 TextEntry::make('id')
-                    ->label('ID'),
+                    ->label(__('filament.id')),
                 TextEntry::make('employee.full_name')
-                    ->label('Employee'),
+                    ->label(__('filament.employee')),
                 TextEntry::make('login_name'),
                 TextEntry::make('deleted_at')
                     ->dateTime()
