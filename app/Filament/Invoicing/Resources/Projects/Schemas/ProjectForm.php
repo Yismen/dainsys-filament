@@ -18,32 +18,32 @@ class ProjectForm
             ->columns(3)
             ->components([
                 TextInput::make('name')
-                    ->label(__('Name'))
+                    ->label(__('filament.name'))
                     ->required()
                     ->maxLength(500)
                     ->unique(ignoreRecord: true)
                     ->autofocus(),
                 Select::make('client_id')
-                    ->label(__('Client'))
+                    ->label(__('filament.client'))
                     ->options(ModelListService::make(Client::class))
                     ->searchable()
                     ->required(),
                 TextInput::make('invoice_net_days')
-                    ->label(__('Invoice net days'))
+                    ->label(__('filament.invoice_net_days'))
                     ->numeric()
                     ->minValue(1)
                     ->required(),
                 RichEditor::make('address')
-                    ->label(__('Address'))
+                    ->label(__('filament.address'))
                     ->maxLength(255)
                     ->columnSpanFull()
                     ->required(),
                 RichEditor::make('invoice_notes')
-                    ->label(__('Invoice Notes'))
+                    ->label(__('filament.invoice_notes'))
                     ->columnSpanFull()
                     ->required(),
                 Textarea::make('description')
-                    ->label(__('Description'))
+                    ->label(__('filament.description'))
                     ->columnSpanFull(),
             ]);
     }

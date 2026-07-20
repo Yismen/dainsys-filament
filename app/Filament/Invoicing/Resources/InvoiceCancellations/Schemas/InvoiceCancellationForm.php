@@ -20,13 +20,13 @@ class InvoiceCancellationForm
         return $schema
             ->components([
                 Select::make('invoice_id')
-                    ->label(__('Invoice'))
+                    ->label(__('filament.invoice'))
                     ->options(ModelListService::make(Invoice::query()->where('total_paid', 0), 'id', 'number'))
                     ->required()
                     ->searchable()
                     ->live(),
                 DatePicker::make('date')
-                    ->label(__('Cancellation date'))
+                    ->label(__('filament.cancellation_date'))
                     ->default(now())
                     ->minDate(static fn (Get $get): ?string => Invoice::query()->whereKey($get('invoice_id'))->value('date'))
                     ->maxDate(now())
@@ -43,18 +43,18 @@ class InvoiceCancellationForm
                             }
 
                             if (Carbon::parse((string) $value)->lt(Carbon::parse((string) $invoiceDate))) {
-                                $fail(__('Cancellation date must be equal to or after invoice date.'));
+                                $fail(__('filament.cancellation_date_validation'));
                             }
                         };
                     })
                     ->required(),
                 TextInput::make('reason')
-                    ->label(__('Reason'))
+                    ->label(__('filament.reason'))
                     ->required()
                     ->maxLength(255)
                     ->columnSpanFull(),
                 Textarea::make('notes')
-                    ->label(__('Notes'))
+                    ->label(__('filament.notes'))
                     ->rows(3)
                     ->columnSpanFull(),
             ]);

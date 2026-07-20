@@ -32,7 +32,7 @@ test('all method return associative array', function (): void {
         'Email' => 'Email',
         'Inbound' => 'Inbound',
         'Outbound' => 'Outbound',
-        'QA Review' => 'QAReview',
+        'QA Review' => 'QA Review',
         'Resubmissions' => 'Resubmissions',
         'Training' => 'Training',
     ]);

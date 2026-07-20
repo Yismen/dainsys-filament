@@ -297,7 +297,8 @@ class EmployeeInfolist
                             ->label(__('filament.date'))
                             ->date(),
                         TextEntry::make('termination_type')
-                            ->label(__('filament.termination_type')),
+                            ->label(__('filament.termination_type'))
+                            ->formatStateUsing(fn (string $state): string => __('enums.termination.'.$state)),
                         IconEntry::make('is_rehirable')
                             ->boolean()
                             ->label(__('filament.is_rehirable')),

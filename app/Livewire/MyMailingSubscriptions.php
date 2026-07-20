@@ -35,11 +35,11 @@ class MyMailingSubscriptions extends Component implements HasActions, HasForms, 
             )
             ->columns([
                 TextColumn::make('mailable.name')
-                    ->label(__('Name'))
+                    ->label(__('filament.name'))
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('mailable.description')
-                    ->label(__('Description'))
+                    ->label(__('filament.description'))
                     ->searchable(),
             ])
             ->filters([

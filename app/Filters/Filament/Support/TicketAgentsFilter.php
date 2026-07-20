@@ -11,7 +11,7 @@ class TicketAgentsFilter
     public static function make(): SelectFilter
     {
         return SelectFilter::make('assigned_to')
-            ->label(__('Agent'))
+            ->label(__('filament.agent'))
             ->options(
                 Cache::rememberForever('ticket_agents_compact_list', function () {
                     return Ticket::query()

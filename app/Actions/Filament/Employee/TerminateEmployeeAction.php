@@ -26,20 +26,20 @@ class TerminateEmployeeAction
                         ->columns(3)
                         ->schema([
                             DateTimePicker::make('date')
-                                ->label(label: __('Date'))
+                                ->label(__('filament.date'))
                                 ->required()
                                 ->default(now()),
                             Select::make('termination_type')
-                                ->label(__('Termination Type'))
+                                ->label(__('filament.termination_type'))
                                 ->options(TerminationTypes::toArray())
                                 ->searchable()
                                 ->required(),
                             Toggle::make('is_rehireable')
-                                ->label(__('Can Be Re-hired?'))
+                                ->label(__('filament.can_be_rehired'))
                                 ->inline(false)
                                 ->default(true),
                             Textarea::make('comment')
-                                ->label(__('Comment'))
+                                ->label(__('filament.comment'))
                                 ->columnSpanFull()
                                 ->required()
                                 ->minLength(5),
@@ -52,7 +52,7 @@ class TerminateEmployeeAction
 
                     Notification::make()
                         ->danger()
-                        ->body("Employee {$record->full_name} has been terminated")
+                        ->body(__('filament.employee_terminated_body', ['name' => $record->full_name]))
                         ->send();
                 });
     }

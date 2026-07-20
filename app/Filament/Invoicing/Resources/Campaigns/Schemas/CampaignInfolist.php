@@ -13,42 +13,42 @@ class CampaignInfolist
         return $schema
             ->components([
                 TextEntry::make('id')
-                    ->label(__('ID'))
+                    ->label(__('filament.id'))
                     ->columnSpanFull(),
                 TextEntry::make('name')
-                    ->label(__('Name')),
+                    ->label(__('filament.name')),
                 TextEntry::make('project.name')
-                    ->label(__('Project'))
+                    ->label(__('filament.project'))
                     ->placeholder('-'),
                 TextEntry::make('source.name')
-                    ->label(__('Source'))
+                    ->label(__('filament.source'))
                     ->placeholder('-'),
                 TextEntry::make('invoiceAgent.name')
-                    ->label(__('Agent'))
-                    ->placeholder(__('Unassigned')),
+                    ->label(__('filament.agent'))
+                    ->placeholder(__('filament.unassigned')),
                 TextEntry::make('revenue_type')
-                    ->label(__('Revenue type'))
+                    ->label(__('filament.revenue_type'))
                     ->badge(),
                 TextEntry::make('sph_goal')
-                    ->label(__('SPH goal'))
+                    ->label(__('filament.sph_goal'))
                     ->numeric(),
                 TextEntry::make('revenue_rate')
-                    ->label(__('Revenue rate'))
+                    ->label(__('filament.revenue_rate'))
                     ->numeric(),
                 TextEntry::make('description')
-                    ->label(__('Description'))
+                    ->label(__('filament.description'))
                     ->placeholder('-')
                     ->columnSpanFull(),
                 TextEntry::make('deleted_at')
-                    ->label(__('Deleted at'))
+                    ->label(__('filament.deleted_at'))
                     ->dateTime()
                     ->visible(fn (Campaign $record): bool => $record->trashed()),
                 TextEntry::make('created_at')
-                    ->label(__('Created at'))
+                    ->label(__('filament.created_at'))
                     ->dateTime()
                     ->placeholder('-'),
                 TextEntry::make('updated_at')
-                    ->label(__('Updated at'))
+                    ->label(__('filament.updated_at'))
                     ->dateTime()
                     ->placeholder('-'),
             ]);

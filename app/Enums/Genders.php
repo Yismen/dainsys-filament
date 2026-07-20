@@ -8,13 +8,22 @@ use App\Enums\Traits\EnumToArray;
 use App\Enums\Traits\EnumValues;
 use Filament\Support\Colors\Color;
 use Filament\Support\Contracts\HasIcon;
+use Filament\Support\Contracts\HasLabel;
 
-enum Genders: string implements EnumContract, HasIcon
+enum Genders: string implements EnumContract, HasIcon, HasLabel
 {
     use EnumNames, EnumToArray, EnumValues;
 
     case Male = 'Male';
     case Female = 'Female';
+
+    public function getLabel(): string
+    {
+        return match ($this) {
+            self::Male => __('enums.gender.male'),
+            self::Female => __('enums.gender.female'),
+        };
+    }
 
     public function getIcon(): string
     {

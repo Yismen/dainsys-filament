@@ -17,24 +17,24 @@ class InvoicePaymentForm
         return $schema
             ->components([
                 Select::make('invoice_id')
-                    ->label(__('Invoice'))
+                    ->label(__('filament.invoice'))
                     ->options(ModelListService::make(Invoice::query(), 'id', 'number'))
                     ->required()
                     ->searchable(),
                 TextInput::make('amount')
-                    ->label(__('Amount'))
+                    ->label(__('filament.amount'))
                     ->required()
                     ->numeric()
                     ->minValue(0.01)
                     ->prefix('$'),
                 DatePicker::make('date')
-                    ->label(__('Date'))
+                    ->label(__('filament.date'))
                     ->required(),
                 TextInput::make('reference')
-                    ->label(__('Reference'))
+                    ->label(__('filament.reference'))
                     ->maxLength(255),
                 Textarea::make('description')
-                    ->label(__('Description'))
+                    ->label(__('filament.description'))
                     ->rows(3)
                     ->columnSpanFull(),
             ]);

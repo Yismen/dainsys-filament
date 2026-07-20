@@ -14,6 +14,6 @@ test('all method return associative array', function (): void {
     expect(SalaryTypes::toArray())->toEqual([
         'salary' => 'Salary',
         'hourly' => 'Hourly',
-        'by sales' => 'BySales',
+        'by sales' => 'By Sales',
     ]);
 });

@@ -20,7 +20,7 @@ class GrabTicketAction
             ->color(Color::Lime)
             ->icon(Heroicon::OutlinedHandRaised)
             ->requiresConfirmation()
-            ->successNotificationTitle('You are now assigned to this record')
+            ->successNotificationTitle(__('filament.grab_ticket_notification'))
             ->action(function (Ticket $record): void {
                 $record->grab();
 

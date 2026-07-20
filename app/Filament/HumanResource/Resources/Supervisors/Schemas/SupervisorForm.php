@@ -38,7 +38,7 @@ class SupervisorForm
                     ->label(__('filament.description'))
                     ->columnSpanFull(),
                 RepeatableEntry::make('hiredEmployees')
-                    ->label(__('Hired Employees'))
+                    ->label(__('filament.hired_employees'))
                     ->grid(2)
                     ->columnSpanFull()
                     ->visibleOn('edit')

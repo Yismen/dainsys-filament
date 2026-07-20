@@ -13,49 +13,49 @@ class ClientInfolist
         return $schema
             ->components([
                 TextEntry::make('id')
-                    ->label(__('ID'))
+                    ->label(__('filament.id'))
                     ->columnSpanFull(),
                 TextEntry::make('name')
-                    ->label(__('Name')),
+                    ->label(__('filament.name')),
                 TextEntry::make('person_of_contact')
-                    ->label(__('Person of contact'))
+                    ->label(__('filament.person_of_contact'))
                     ->placeholder('-'),
                 TextEntry::make('phone')
-                    ->label(__('Phone'))
+                    ->label(__('filament.phone'))
                     ->placeholder('-'),
                 TextEntry::make('email')
-                    ->label(__('Email'))
+                    ->label(__('filament.email'))
                     ->placeholder('-'),
                 TextEntry::make('address')
-                    ->label(__('Address'))
+                    ->label(__('filament.address'))
                     ->placeholder('-')
                     ->columnSpanFull(),
                 TextEntry::make('website')
-                    ->label(__('Website'))
+                    ->label(__('filament.website'))
                     ->placeholder('-'),
                 TextEntry::make('invoice_template')
-                    ->label(__('Invoice template'))
+                    ->label(__('filament.invoice_template'))
                     ->placeholder('-'),
                 TextEntry::make('date_field_name')
-                    ->label(__('Date field name'))
+                    ->label(__('filament.date_field_name'))
                     ->placeholder('-'),
                 TextEntry::make('project_field_name')
-                    ->label(__('Project field name'))
+                    ->label(__('filament.project_field_name'))
                     ->placeholder('-'),
                 TextEntry::make('description')
-                    ->label(__('Description'))
+                    ->label(__('filament.description'))
                     ->placeholder('-')
                     ->columnSpanFull(),
                 TextEntry::make('deleted_at')
-                    ->label(__('Deleted at'))
+                    ->label(__('filament.deleted_at'))
                     ->dateTime()
                     ->visible(fn (Client $record): bool => $record->trashed()),
                 TextEntry::make('created_at')
-                    ->label(__('Created at'))
+                    ->label(__('filament.created_at'))
                     ->dateTime()
                     ->placeholder('-'),
                 TextEntry::make('updated_at')
-                    ->label(__('Updated at'))
+                    ->label(__('filament.updated_at'))
                     ->dateTime()
                     ->placeholder('-'),
             ]);

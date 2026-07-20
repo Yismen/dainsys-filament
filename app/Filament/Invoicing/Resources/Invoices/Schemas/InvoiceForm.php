@@ -26,13 +26,13 @@ class InvoiceForm
         return $schema
             ->components([
                 DatePicker::make('date')
-                    ->label(__('Date'))
+                    ->label(__('filament.date'))
                     ->required()
                     ->default(today())
                     ->maxDate(today()->addDays(5))
                     ->minDate(today()->subDays(25)),
                 Select::make('project_id')
-                    ->label(__('Project'))
+                    ->label(__('filament.project'))
                     ->options(ModelListService::make(Project::query()))
                     ->searchable()
                     ->live()
@@ -42,7 +42,7 @@ class InvoiceForm
                     })
                     ->required(),
                 Select::make('agent_id')
-                    ->label(__('Agent'))
+                    ->label(__('filament.agent'))
                     ->options(fn (Get $get) => ModelListService::make(
                         InvoiceAgent::query()
                             ->when(
@@ -56,9 +56,9 @@ class InvoiceForm
                         $set('campaign_id', null);
                     })
                     ->disabled(fn (Get $get): bool => blank($get('project_id')))
-                    ->placeholder(__('Unassigned')),
+                    ->placeholder(__('filament.unassigned')),
                 Select::make('campaign_id')
-                    ->label(__('Campaign'))
+                    ->label(__('filament.campaign'))
                     ->options(fn (Get $get) => ModelListService::make(
                         Campaign::query()
                             ->when(
@@ -73,9 +73,9 @@ class InvoiceForm
                         $set('items', []);
                     })
                     ->disabled(fn (Get $get): bool => blank($get('agent_id')))
-                    ->placeholder(__('Unassigned')),
+                    ->placeholder(__('filament.unassigned')),
                 Repeater::make('items')
-                    ->label(__('Items'))
+                    ->label(__('filament.items'))
                     ->defaultItems(1)
                     ->required()
                     ->reorderable()
@@ -83,7 +83,7 @@ class InvoiceForm
                     ->columnSpanFull()
                     ->schema([
                         Select::make('item_id')
-                            ->label(__('Item'))
+                            ->label(__('filament.item'))
                             ->options(function (Get $get): array {
                                 $campaignId = $get('../../campaign_id');
 
@@ -124,7 +124,7 @@ class InvoiceForm
                                 $set('price', (string) $item->price);
                             }),
                         TextInput::make('quantity')
-                            ->label(__('Quantity'))
+                            ->label(__('filament.quantity'))
                             ->numeric()
                             ->minValue(1)
                             ->default(1)
@@ -132,7 +132,7 @@ class InvoiceForm
                             ->required()
                             ->columnSpan(2),
                         TextEntry::make('unit_price')
-                            ->label(__('Unit price'))
+                            ->label(__('filament.unit_price'))
                             ->state(function (Get $get): string {
                                 $price = (float) ($get('price') ?? 0);
 
@@ -140,7 +140,7 @@ class InvoiceForm
                             })
                             ->columnSpan(2),
                         TextEntry::make('line_subtotal')
-                            ->label(__('Line subtotal'))
+                            ->label(__('filament.line_subtotal'))
                             ->state(function (Get $get): string {
                                 $price = (float) ($get('price') ?? 0);
                                 $quantity = (int) ($get('quantity') ?? 1);
@@ -155,7 +155,7 @@ class InvoiceForm
                 Grid::make(4)
                     ->schema([
                         TextEntry::make('general_client')
-                            ->label(__('Client'))
+                            ->label(__('filament.client'))
                             ->state(function (Get $get, ?Invoice $record): string {
                                 $projectId = $get('project_id') ?: $record?->project_id;
 
@@ -166,10 +166,10 @@ class InvoiceForm
                                 return Project::query()->find($projectId)?->client?->name ?? '-';
                             }),
                         TextEntry::make('general_invoice_number')
-                            ->label(__('Invoice number'))
-                            ->state(fn (?Invoice $record): string => $record?->number ?? __('Auto-generated on save')),
+                            ->label(__('filament.invoice_number'))
+                            ->state(fn (?Invoice $record): string => $record?->number ?? __('filament.auto_generated_on_save')),
                         TextEntry::make('general_subtotal')
-                            ->label(__('Subtotal'))
+                            ->label(__('filament.subtotal'))
                             ->state(function (Get $get, ?Invoice $record): string {
                                 $items = $get('items');
 
@@ -190,7 +190,7 @@ class InvoiceForm
                                 return number_format($subtotal, 2, '.', '');
                             }),
                         TextEntry::make('general_total')
-                            ->label(__('Total'))
+                            ->label(__('filament.total'))
                             ->state(function (Get $get, ?Invoice $record): string {
                                 $items = $get('items');
                                 $subtotal = 0.0;

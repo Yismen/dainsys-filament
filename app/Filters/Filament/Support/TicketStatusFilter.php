@@ -11,7 +11,7 @@ class TicketStatusFilter
     public static function make(): SelectFilter
     {
         return SelectFilter::make('status')
-            ->label(__('Status'))
+            ->label(__('filament.status'))
             ->options(
                 Cache::rememberForever('ticket_statuses_compact_list', function () {
                     return TicketStatuses::toArray();

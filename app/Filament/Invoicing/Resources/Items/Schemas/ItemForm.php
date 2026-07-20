@@ -17,23 +17,23 @@ class ItemForm
             ->columns(3)
             ->components([
                 TextInput::make('name')
-                    ->label(__('Name'))
+                    ->label(__('filament.name'))
                     ->required()
                     ->maxLength(255)
                     ->autofocus(),
                 Select::make('campaign_id')
-                    ->label(__('Campaign'))
+                    ->label(__('filament.campaign'))
                     ->options(ModelListService::make(Campaign::query()))
                     ->searchable()
                     ->required(),
                 TextInput::make('price')
-                    ->label(__('Price'))
+                    ->label(__('filament.price'))
                     ->inputMode('decimal')
                     ->step('any')
                     ->rule('decimal:0,13')
                     ->required(),
                 Textarea::make('description')
-                    ->label(__('Description'))
+                    ->label(__('filament.description'))
                     ->columnSpanFull(),
             ]);
     }

@@ -41,7 +41,7 @@ class RequestEmployeeActivityAction
                     ]);
                 }
             })
-            ->successNotificationTitle('HR Activity Request created successfully');
+            ->successNotificationTitle(__('filament.hr_activity_request_created'));
 
     }
 }

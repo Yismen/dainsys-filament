@@ -16,9 +16,9 @@ enum HRNavigationEnum: string implements HasLabel
     public function getLabel(): string
     {
         return match ($this) {
-            self::HUMAN_RESOURCE_DASHBOARD => __('Dashboard'),
-            self::EMPLOYEES_MANAGEMENT => __('Employees Management'),
-            self::HR_MANAGEMENT => __('HR Management'),
+            self::HUMAN_RESOURCE_DASHBOARD => __('filament.dashboard'),
+            self::EMPLOYEES_MANAGEMENT => __('filament.employees_management'),
+            self::HR_MANAGEMENT => __('filament.hr_management'),
         };
     }
 

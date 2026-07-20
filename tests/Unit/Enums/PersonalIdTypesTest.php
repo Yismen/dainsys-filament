@@ -12,7 +12,7 @@ test('values method return specific values', function (): void {
 
 test('all method return associative array', function (): void {
     expect(PersonalIdTypes::toArray())->toEqual([
-        'dominican id' => 'DominicanId',
+        'dominican id' => 'Dominican ID',
         'passport' => 'Passport',
         // 'Undefined' => 'Undefined',
     ]);

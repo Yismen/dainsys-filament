@@ -23,10 +23,11 @@ class ReopenTicketAction
                 })
                 ->schema([
                     Textarea::make('comment')
+                        ->label(__('filament.comment'))
                         ->minLength(5)
                         ->required(),
                 ])
-                ->successNotificationTitle(fn (Ticket $record) => "Ticket {$record->reference} has been reopened!")
+                ->successNotificationTitle(fn (Ticket $record) => __('filament.ticket_reopened_notification', ['reference' => $record->reference]))
                 ->action(function (Ticket $record, array $data, $livewire): void {
                     $record->reOpen($data['comment']);
 

@@ -13,29 +13,29 @@ class AgentInfolist
         return $schema
             ->components([
                 TextEntry::make('id')
-                    ->label(__('ID'))
+                    ->label(__('filament.id'))
                     ->columnSpanFull(),
                 TextEntry::make('name')
-                    ->label(__('Name')),
+                    ->label(__('filament.name')),
                 TextEntry::make('project.name')
-                    ->label(__('Project'))
+                    ->label(__('filament.project'))
                     ->placeholder('-'),
                 TextEntry::make('phone')
-                    ->label(__('Phone'))
+                    ->label(__('filament.phone'))
                     ->placeholder('-'),
                 TextEntry::make('email')
-                    ->label(__('Email'))
+                    ->label(__('filament.email'))
                     ->placeholder('-'),
                 TextEntry::make('deleted_at')
-                    ->label(__('Deleted at'))
+                    ->label(__('filament.deleted_at'))
                     ->dateTime()
                     ->visible(fn (InvoiceAgent $record): bool => $record->trashed()),
                 TextEntry::make('created_at')
-                    ->label(__('Created at'))
+                    ->label(__('filament.created_at'))
                     ->dateTime()
                     ->placeholder('-'),
                 TextEntry::make('updated_at')
-                    ->label(__('Updated at'))
+                    ->label(__('filament.updated_at'))
                     ->dateTime()
                     ->placeholder('-'),
             ]);

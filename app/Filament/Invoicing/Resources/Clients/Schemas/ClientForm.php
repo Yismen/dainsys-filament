@@ -15,35 +15,35 @@ class ClientForm
         return $schema
             ->components([
                 TextInput::make('name')
-                    ->label(__('Name'))
+                    ->label(__('filament.name'))
                     ->required()
                     ->maxLength(500)
                     ->unique(ignoreRecord: true)
                     ->autofocus(),
                 Select::make('invoice_template')
-                    ->label(__('Invoice template'))
+                    ->label(__('filament.invoice_template'))
                     ->options(InvoiceTemplatesService::make())
                     ->required()
                     ->searchable(),
                 TextInput::make('date_field_name')
-                    ->label(__('Date field name'))
+                    ->label(__('filament.date_field_name'))
                     ->required()
                     ->maxLength(255),
                 TextInput::make('project_field_name')
-                    ->label(__('Project field name'))
+                    ->label(__('filament.project_field_name'))
                     ->required()
                     ->maxLength(255),
                 TextInput::make('person_of_contact')
-                    ->label(__('Person of contact'))
+                    ->label(__('filament.person_of_contact'))
                     ->maxLength(500),
                 TextInput::make('phone')
-                    ->label(__('Phone'))
+                    ->label(__('filament.phone'))
                     ->tel(),
                 TextInput::make('email')
-                    ->label(__('Email'))
+                    ->label(__('filament.email'))
                     ->email(),
                 Textarea::make('address')
-                    ->label(__('Address'))
+                    ->label(__('filament.address'))
                     ->rows(4)
                     ->columnSpanFull(),
             ]);

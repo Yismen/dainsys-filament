@@ -12,30 +12,30 @@ class InvoicePaymentInfolist
         return $schema
             ->components([
                 TextEntry::make('invoice.number')
-                    ->label(__('Invoice')),
+                    ->label(__('filament.invoice')),
                 TextEntry::make('amount')
-                    ->label(__('Amount'))
+                    ->label(__('filament.amount'))
                     ->money('USD'),
                 TextEntry::make('date')
-                    ->label(__('Date'))
+                    ->label(__('filament.date'))
                     ->date(),
                 TextEntry::make('reference')
-                    ->label(__('Reference'))
+                    ->label(__('filament.reference'))
                     ->placeholder('-'),
                 TextEntry::make('description')
-                    ->label(__('Description'))
+                    ->label(__('filament.description'))
                     ->placeholder('-')
                     ->columnSpanFull(),
                 TextEntry::make('deleted_at')
-                    ->label(__('Deleted at'))
+                    ->label(__('filament.deleted_at'))
                     ->dateTime()
                     ->placeholder('-'),
                 TextEntry::make('created_at')
-                    ->label(__('Created at'))
+                    ->label(__('filament.created_at'))
                     ->dateTime()
                     ->placeholder('-'),
                 TextEntry::make('updated_at')
-                    ->label(__('Updated at'))
+                    ->label(__('filament.updated_at'))
                     ->dateTime()
                     ->placeholder('-'),
             ]);

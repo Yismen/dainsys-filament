@@ -48,7 +48,7 @@ class ArticlesTable
                     ->badge()
                     ->sortable(),
                 IconColumn::make('is_public')
-                    ->label(__('Public'))
+                    ->label(__('filament.public'))
                     ->boolean()
                     ->sortable(),
                 TextColumn::make('categories.name')
@@ -79,7 +79,7 @@ class ArticlesTable
                     ->label(__('filament.status'))
                     ->options(ArticleStatus::class),
                 SelectFilter::make('is_public')
-                    ->label(__('Public'))
+                    ->label(__('filament.public'))
                     ->options([
                         true => 'Yes',
                         false => 'No',

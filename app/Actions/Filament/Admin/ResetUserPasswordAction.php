@@ -13,7 +13,7 @@ class ResetUserPasswordAction
     public static function make(string $name = 'reset_user_password'): Action
     {
         return Action::make($name)
-            ->label(__('Reset Password'))
+            ->label(__('filament.reset_password'))
             ->icon('heroicon-o-key')
             ->requiresConfirmation()
             ->visible(fn (User $record): bool => filled($record->email))

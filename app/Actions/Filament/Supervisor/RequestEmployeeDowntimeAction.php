@@ -28,19 +28,23 @@ class RequestEmployeeDowntimeAction
                 Grid::make(2)
                     ->schema([
                         DatePicker::make('date')
+                            ->label(__('filament.date'))
                             ->default(now())
                             ->minDate(now()->subDays(20))
                             ->maxDate(now()->endOfDay())
                             ->required(),
                         Select::make('campaign_id')
+                            ->label(__('filament.campaign'))
                             ->options(ModelListService::get(model: Campaign::query()->where('revenue_type', RevenueTypes::Downtime)))
                             ->searchable()
                             ->required(),
                         Select::make('downtime_reason_id')
+                            ->label(__('filament.downtime_reason'))
                             ->options(ModelListService::get(model: DowntimeReason::query()))
                             ->searchable()
                             ->required(),
                         TextInput::make('total_time')
+                            ->label(__('filament.total_time'))
                             ->required()
                             ->minValue(0)
                             ->maxValue(13)

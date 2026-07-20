@@ -63,7 +63,7 @@ class IncomeByMonthChart extends ChartWidget
             'labels' => $months->map(fn (Carbon $month): string => $month->format('M Y'))->toArray(),
             'datasets' => [
                 $this->makeLineChartDataset(
-                    __('Invoiced'),
+                    __('filament.invoiced'),
                     $monthKeys
                         ->map(fn (string $monthKey): float => round((float) ($aggregated[$monthKey]['invoiced'] ?? 0), 2))
                         ->toArray(),
@@ -74,7 +74,7 @@ class IncomeByMonthChart extends ChartWidget
                     ],
                 ),
                 $this->makeLineChartDataset(
-                    __('Paid'),
+                    __('filament.paid'),
                     $monthKeys
                         ->map(fn (string $monthKey): float => round((float) ($aggregated[$monthKey]['paid'] ?? 0), 2))
                         ->toArray(),

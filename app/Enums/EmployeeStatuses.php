@@ -7,8 +7,9 @@ use App\Enums\Traits\EnumNames;
 use App\Enums\Traits\EnumToArray;
 use App\Enums\Traits\EnumValues;
 use Filament\Support\Contracts\HasColor;
+use Filament\Support\Contracts\HasLabel;
 
-enum EmployeeStatuses: string implements EnumContract, HasColor
+enum EmployeeStatuses: string implements EnumContract, HasColor, HasLabel
 {
     use EnumNames, EnumToArray, EnumValues;
 
@@ -16,6 +17,16 @@ enum EmployeeStatuses: string implements EnumContract, HasColor
     case Hired = 'Hired';
     case Suspended = 'Suspended';
     case Terminated = 'Terminated';
+
+    public function getLabel(): string
+    {
+        return match ($this) {
+            self::Created => __('enums.employee_status.created'),
+            self::Hired => __('enums.employee_status.hired'),
+            self::Suspended => __('enums.employee_status.suspended'),
+            self::Terminated => __('enums.employee_status.terminated'),
+        };
+    }
 
     public function getColor(): ?string
     {

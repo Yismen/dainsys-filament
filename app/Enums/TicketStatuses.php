@@ -6,8 +6,9 @@ use App\Enums\Contracts\EnumContract;
 use App\Enums\Traits\EnumNames;
 use App\Enums\Traits\EnumToArray;
 use App\Enums\Traits\EnumValues;
+use Filament\Support\Contracts\HasLabel;
 
-enum TicketStatuses: string implements EnumContract
+enum TicketStatuses: string implements EnumContract, HasLabel
 {
     use EnumNames;
     use EnumToArray;
@@ -31,6 +32,18 @@ enum TicketStatuses: string implements EnumContract
     //         self::CompletedExpired => 'badge badge-success',
     //     };
     // }
+
+    public function getLabel(): string
+    {
+        return match ($this) {
+            self::Pending => __('enums.ticket_status.pending'),
+            self::PendingExpired => __('enums.ticket_status.pending_expired'),
+            self::InProgress => __('enums.ticket_status.in_progress'),
+            self::InProgressExpired => __('enums.ticket_status.in_progress_expired'),
+            self::Completed => __('enums.ticket_status.completed'),
+            self::CompletedExpired => __('enums.ticket_status.completed_expired'),
+        };
+    }
 
     public function color(): string
     {

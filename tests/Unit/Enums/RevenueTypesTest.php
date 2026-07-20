@@ -15,9 +15,9 @@ test('values method return specific values', function (): void {
 test('all method return associative array', function (): void {
     expect(RevenueTypes::toArray())->toEqual([
         'downtime' => 'Downtime',
-        'login time' => 'LoginTime',
-        'production time' => 'ProductionTime',
-        'talk time' => 'TalkTime',
+        'login time' => 'Login Time',
+        'production time' => 'Production Time',
+        'talk time' => 'Talk Time',
         'conversions' => 'Conversions',
     ]);
 });

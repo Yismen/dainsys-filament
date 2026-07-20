@@ -60,7 +60,7 @@ class MyTicketsManagement extends Page implements HasActions, HasSchemas, HasTab
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('created_at')
-                    ->label(__('Created at'))
+                    ->label(__('filament.created_at'))
                     ->dateTime()
                     ->wrap()
                     ->sortable(),

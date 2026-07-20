@@ -13,40 +13,40 @@ class ProjectInfolist
         return $schema
             ->components([
                 TextEntry::make('id')
-                    ->label(__('ID'))
+                    ->label(__('filament.id'))
                     ->columnSpanFull(),
                 TextEntry::make('name')
-                    ->label(__('Name')),
+                    ->label(__('filament.name')),
                 TextEntry::make('client.name')
-                    ->label(__('Client'))
+                    ->label(__('filament.client'))
                     ->placeholder('-'),
                 TextEntry::make('invoice_net_days')
-                    ->label(__('Invoice net days'))
+                    ->label(__('filament.invoice_net_days'))
                     ->placeholder('-'),
                 TextEntry::make('address')
-                    ->label(__('Address'))
+                    ->label(__('filament.address'))
                     ->html()
                     ->placeholder('-')
                     ->columnSpanFull(),
                 TextEntry::make('invoice_notes')
-                    ->label(__('Invoice Notes'))
+                    ->label(__('filament.invoice_notes'))
                     ->html()
                     ->placeholder('-')
                     ->columnSpanFull(),
                 TextEntry::make('description')
-                    ->label(__('Description'))
+                    ->label(__('filament.description'))
                     ->placeholder('-')
                     ->columnSpanFull(),
                 TextEntry::make('deleted_at')
-                    ->label(__('Deleted at'))
+                    ->label(__('filament.deleted_at'))
                     ->dateTime()
                     ->visible(fn (Project $record): bool => $record->trashed()),
                 TextEntry::make('created_at')
-                    ->label(__('Created at'))
+                    ->label(__('filament.created_at'))
                     ->dateTime()
                     ->placeholder('-'),
                 TextEntry::make('updated_at')
-                    ->label(__('Updated at'))
+                    ->label(__('filament.updated_at'))
                     ->dateTime()
                     ->placeholder('-'),
             ]);

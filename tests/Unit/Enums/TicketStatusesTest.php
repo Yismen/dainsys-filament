@@ -26,11 +26,11 @@ test('values method return specific values', function (): void {
 
 test('all method return associative array', function (): void {
     expect(TicketStatuses::toArray())->toEqual([
-        'not assigned' => 'Pending',
-        'expired before assignment' => 'PendingExpired',
-        'assigned to user' => 'InProgress',
-        'expired and assigned' => 'InProgressExpired',
-        'completed in time' => 'Completed',
-        'completed after expiring' => 'CompletedExpired',
+        'not assigned' => 'Not Assigned',
+        'expired before assignment' => 'Expired Before Assignment',
+        'assigned to user' => 'Assigned to User',
+        'expired and assigned' => 'Expired and Assigned',
+        'completed in time' => 'Completed in Time',
+        'completed after expiring' => 'Completed After Expiring',
     ]);
 });

@@ -33,54 +33,54 @@ class OutstandingInvoicesTable extends TableWidget
             ->query($this->getTableQuery())
             ->columns([
                 TextColumn::make('number')
-                    ->label(__('Invoice'))
+                    ->label(__('filament.invoice'))
                     ->wrap()
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('project.client.name')
-                    ->label(__('Client'))
+                    ->label(__('filament.client'))
                     ->wrap()
                     ->sortable(),
                 TextColumn::make('project.name')
-                    ->label(__('Project'))
+                    ->label(__('filament.project'))
                     ->wrap()
                     ->sortable(),
                 TextColumn::make('date')
-                    ->label(__('Date'))
+                    ->label(__('filament.date'))
                     ->wrap()
                     ->date()
                     ->sortable(),
                 TextColumn::make('due_date')
-                    ->label(__('Due date'))
+                    ->label(__('filament.due_date'))
                     ->wrap()
                     ->date()
                     ->sortable(),
                 TextColumn::make('status')
-                    ->label(__('Status'))
+                    ->label(__('filament.status'))
                     ->wrap()
                     ->badge()
                     ->formatStateUsing(fn (InvoiceStatuses $state): string => $state->getLabel())
                     ->color(fn (InvoiceStatuses $state): string => $state->getColor()),
                 TextColumn::make('total_amount')
-                    ->label(__('Invoiced'))
+                    ->label(__('filament.invoiced'))
                     ->sortable()
                     ->formatStateUsing(fn (float $state): string => Number::currency($state)),
                 TextColumn::make('total_paid')
-                    ->label(__('Paid'))
+                    ->label(__('filament.paid'))
                     ->sortable()
                     ->formatStateUsing(fn (float $state): string => Number::currency($state)),
                 TextColumn::make('balance_pending')
-                    ->label(__('Pending'))
+                    ->label(__('filament.pending'))
                     ->sortable()
                     ->formatStateUsing(fn (float $state): string => Number::currency($state)),
             ])
             ->defaultSort('due_date')
             ->filters([
                 SelectFilter::make('client_id')
-                    ->label(__('Client'))
+                    ->label(__('filament.client'))
                     ->options(ModelListService::make(Client::query()))
                     ->searchable()
-                    ->placeholder(__('All clients'))
+                    ->placeholder(__('filament.all_clients'))
                     ->query(function (Builder $query, $value): Builder {
                         return $query->when(
                             filled($value),
@@ -88,23 +88,23 @@ class OutstandingInvoicesTable extends TableWidget
                         );
                     }),
                 SelectFilter::make('project_id')
-                    ->label(__('Project'))
+                    ->label(__('filament.project'))
                     ->options(ModelListService::make(Project::query()))
                     ->searchable()
-                    ->placeholder(__('All projects')),
+                    ->placeholder(__('filament.all_projects')),
                 SelectFilter::make('status')
-                    ->label(__('Status'))
+                    ->label(__('filament.status'))
                     ->options(collect(InvoiceStatuses::cases())->mapWithKeys(fn (InvoiceStatuses $status): array => [
                         $status->value => $status->getLabel(),
                     ])->toArray())
-                    ->placeholder(__('All statuses')),
+                    ->placeholder(__('filament.all_statuses')),
                 Filter::make('due_date_range')
-                    ->label(__('Due date range'))
+                    ->label(__('filament.due_date_range'))
                     ->schema([
                         DatePicker::make('due_from')
-                            ->label(__('Due from')),
+                            ->label(__('filament.due_from')),
                         DatePicker::make('due_until')
-                            ->label(__('Due until')),
+                            ->label(__('filament.due_until')),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query
@@ -122,8 +122,8 @@ class OutstandingInvoicesTable extends TableWidget
             ->paginated([10, 25, 50])
             ->recordActions([
                 ViewAction::make()
-                    ->label(__('View'))
-                    ->modalHeading(fn (Invoice $record): string => __('Invoice :number', ['number' => $record->number]))
+                    ->label(__('filament.view'))
+                    ->modalHeading(fn (Invoice $record): string => __('filament.invoice_number_display', ['number' => $record->number]))
                     ->schema(fn (Schema $schema): Schema => InvoiceInfolist::configure($schema))
                     ->modalWidth('3xl'),
             ]);

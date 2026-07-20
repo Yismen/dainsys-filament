@@ -13,9 +13,9 @@ enum RecruitmentNavigationEnum: string implements HasLabel
     public function getLabel(): string
     {
         return match ($this) {
-            self::RecruitmentDashboard => __('Dashboard'),
-            self::Recruitment => __('Recruitment'),
-            self::Configuration => __('Configuration'),
+            self::RecruitmentDashboard => __('filament.dashboard'),
+            self::Recruitment => __('filament.recruitment'),
+            self::Configuration => __('filament.configuration'),
         };
     }
 }

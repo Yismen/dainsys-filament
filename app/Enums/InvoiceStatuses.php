@@ -2,7 +2,9 @@
 
 namespace App\Enums;
 
-enum InvoiceStatuses: string
+use Filament\Support\Contracts\HasLabel;
+
+enum InvoiceStatuses: string implements HasLabel
 {
     case Pending = 'pending';
     case PartiallyPaid = 'partially_paid';
@@ -35,14 +37,14 @@ enum InvoiceStatuses: string
         };
     }
 
-    public function getLabel()
+    public function getLabel(): string
     {
         return match ($this) {
-            self::Pending => 'Pending',
-            self::PartiallyPaid => 'Partially Paid',
-            self::Paid => 'Paid',
-            self::Overdue => 'Overdue',
-            self::Cancelled => 'Cancelled',
+            self::Pending => __('enums.invoice_status.pending'),
+            self::PartiallyPaid => __('enums.invoice_status.partially_paid'),
+            self::Paid => __('enums.invoice_status.paid'),
+            self::Overdue => __('enums.invoice_status.overdue'),
+            self::Cancelled => __('enums.invoice_status.cancelled'),
         };
     }
 
@@ -67,7 +69,7 @@ enum InvoiceStatuses: string
         $array = [];
 
         foreach (self::cases() as $status) {
-            $array[$status->value] = $status->name;
+            $array[$status->value] = $status->getLabel();
         }
 
         return $array;
@@ -82,7 +84,7 @@ enum InvoiceStatuses: string
                 $status = self::from($status);
             }
             if ($status instanceof self) {
-                $statusesArray[$status->value] = $status->name;
+                $statusesArray[$status->value] = $status->getLabel();
             }
         }
 

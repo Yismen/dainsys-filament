@@ -7,16 +7,28 @@ use App\Enums\Traits\EnumNames;
 use App\Enums\Traits\EnumToArray;
 use App\Enums\Traits\EnumValues;
 use Filament\Support\Contracts\HasColor;
+use Filament\Support\Contracts\HasLabel;
 
-enum TerminationTypes: string implements EnumContract, HasColor
+enum TerminationTypes: string implements EnumContract, HasColor, HasLabel
 {
     use EnumNames, EnumToArray, EnumValues;
 
-    case Resignation = 'resignation'; // Renuncia
-    case Termination = 'termination'; // desahucio
-    case Firing = 'firing'; // despido
-    case Abandonment = 'abandonment'; // abandono
-    case Dismissing = 'dismissing'; // dimision
+    case Resignation = 'resignation';
+    case Termination = 'termination';
+    case Firing = 'firing';
+    case Abandonment = 'abandonment';
+    case Dismissing = 'dismissing';
+
+    public function getLabel(): string
+    {
+        return match ($this) {
+            self::Resignation => __('enums.termination.resignation'),
+            self::Termination => __('enums.termination.termination'),
+            self::Firing => __('enums.termination.firing'),
+            self::Abandonment => __('enums.termination.abandonment'),
+            self::Dismissing => __('enums.termination.dismissing'),
+        };
+    }
 
     public function getColor(): ?string
     {
@@ -32,11 +44,11 @@ enum TerminationTypes: string implements EnumContract, HasColor
     public function description(): ?string
     {
         return match ($this) {
-            self::Resignation => 'The employee communicated his desire to terminate the contract',
-            self::Termination => 'The company has excercised the termination of the contract without cause',
-            self::Firing => 'The employee commited a heavy fault, causing his termination. The company has cause to terminate this contract',
-            self::Abandonment => 'Multiple injustified absences',
-            self::Dismissing => 'The employee sued the company',
+            self::Resignation => __('enums.termination.resignation_description'),
+            self::Termination => __('enums.termination.termination_description'),
+            self::Firing => __('enums.termination.firing_description'),
+            self::Abandonment => __('enums.termination.abandonment_description'),
+            self::Dismissing => __('enums.termination.dismissing_description'),
         };
     }
 }

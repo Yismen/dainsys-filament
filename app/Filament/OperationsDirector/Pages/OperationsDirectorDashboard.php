@@ -66,7 +66,7 @@ class OperationsDirectorDashboard extends BaseDashboard
                     ->columns(2)
                     ->schema([
                         Select::make('project')
-                            ->label(__('Projects'))
+                            ->label(__('filament.projects'))
                             ->searchable()
                             ->multiple()
                             ->live()
@@ -74,7 +74,7 @@ class OperationsDirectorDashboard extends BaseDashboard
                                 Project::query()->orderBy('name')
                             )),
                         Select::make('client')
-                            ->label(__('Clients'))
+                            ->label(__('filament.clients'))
                             ->searchable()
                             ->multiple()
                             ->live()

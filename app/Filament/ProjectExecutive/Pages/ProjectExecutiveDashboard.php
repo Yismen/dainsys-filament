@@ -68,7 +68,7 @@ class ProjectExecutiveDashboard extends BaseDashboard
                     ->columns(1)
                     ->schema([
                         Select::make('project')
-                            ->label(__('Projects'))
+                            ->label(__('filament.projects'))
                             ->searchable()
                             ->multiple()
                             ->live()

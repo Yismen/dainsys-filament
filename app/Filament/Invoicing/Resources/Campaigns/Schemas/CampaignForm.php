@@ -19,41 +19,41 @@ class CampaignForm
         return $schema
             ->components([
                 TextInput::make('name')
-                    ->label(__('Name'))
+                    ->label(__('filament.name'))
                     ->required()
                     ->maxLength(150)
                     ->unique(ignoreRecord: true)
                     ->autofocus(),
                 Select::make('project_id')
-                    ->label(__('Project'))
+                    ->label(__('filament.project'))
                     ->options(ModelListService::make(Project::query()))
                     ->searchable()
                     ->required(),
                 Select::make('source_id')
-                    ->label(__('Source'))
+                    ->label(__('filament.source'))
                     ->options(ModelListService::make(Source::query()))
                     ->searchable()
                     ->required(),
                 Select::make('invoice_agent_id')
-                    ->label(__('Agent'))
+                    ->label(__('filament.agent'))
                     ->options(ModelListService::make(InvoiceAgent::query()))
                     ->searchable()
-                    ->placeholder(__('Unassigned')),
+                    ->placeholder(__('filament.unassigned')),
                 Select::make('revenue_type')
-                    ->label(__('Revenue type'))
+                    ->label(__('filament.revenue_type'))
                     ->options(RevenueTypes::class)
                     ->searchable()
                     ->required(),
                 TextInput::make('sph_goal')
-                    ->label(__('SPH goal'))
+                    ->label(__('filament.sph_goal'))
                     ->required()
                     ->numeric(),
                 TextInput::make('revenue_rate')
-                    ->label(__('Revenue rate'))
+                    ->label(__('filament.revenue_rate'))
                     ->required()
                     ->numeric(),
                 Textarea::make('description')
-                    ->label(__('Description'))
+                    ->label(__('filament.description'))
                     ->columnSpanFull(),
             ]);
     }

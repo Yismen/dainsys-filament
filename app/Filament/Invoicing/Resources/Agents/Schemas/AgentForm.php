@@ -15,21 +15,21 @@ class AgentForm
         return $schema
             ->components([
                 TextInput::make('name')
-                    ->label(__('Name'))
+                    ->label(__('filament.name'))
                     ->required()
                     ->maxLength(255)
                     ->autofocus(),
                 Select::make('project_id')
-                    ->label(__('Project'))
+                    ->label(__('filament.project'))
                     ->options(ModelListService::get(Project::class))
                     ->searchable()
                     ->required(),
                 TextInput::make('phone')
-                    ->label(__('Phone'))
+                    ->label(__('filament.phone'))
                     ->tel()
                     ->maxLength(20),
                 TextInput::make('email')
-                    ->label(__('Email'))
+                    ->label(__('filament.email'))
                     ->email()
                     ->maxLength(200),
             ]);

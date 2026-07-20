@@ -16,8 +16,8 @@ class AproveDowntimeAction
             ->color(Color::Yellow)
             ->icon(Heroicon::Key)
             ->requiresConfirmation()
-            ->modalHeading(__('Are you sure you want to aprove this downtime?'))
-            ->successNotificationTitle('Downtimes aproved!')
+            ->modalHeading(__('filament.aprove_downtime_confirmation'))
+            ->successNotificationTitle(__('filament.downtimes_approved_notification'))
             ->authorizeIndividualRecords('aprove')
             ->deselectRecordsAfterCompletion()
             ->action(function (Downtime $record): void {

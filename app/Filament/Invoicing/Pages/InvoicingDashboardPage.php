@@ -57,33 +57,33 @@ class InvoicingDashboardPage extends Dashboard
             ])
             ->components([
                 Section::make()
-                    ->heading(__('Dashboard filters'))
-                    ->description(__('These filters apply to the summary and chart widgets.'))
+                    ->heading(__('filament.dashboard_filters'))
+                    ->description(__('filament.dashboard_filters_description'))
                     ->columns([
                         'md' => 2,
                         'xl' => 4,
                     ])
                     ->schema([
                         DatePicker::make('start_date')
-                            ->label(__('Start date'))
+                            ->label(__('filament.start_date'))
                             ->default(now()->subMonths(6)->startOfMonth())
-                            ->placeholder(__('From'))
+                            ->placeholder(__('filament.from'))
                             ->live(),
                         DatePicker::make('end_date')
-                            ->label(__('End date'))
+                            ->label(__('filament.end_date'))
                             ->default(now()->endOfMonth())
-                            ->placeholder(__('To'))
+                            ->placeholder(__('filament.to'))
                             ->live(),
                         Select::make('client_id')
-                            ->label(__('Client'))
+                            ->label(__('filament.client'))
                             ->searchable()
-                            ->placeholder(__('All clients'))
+                            ->placeholder(__('filament.all_clients'))
                             ->live()
                             ->options(ModelListService::make(Client::query())),
                         Select::make('project_id')
-                            ->label(__('Project'))
+                            ->label(__('filament.project'))
                             ->searchable()
-                            ->placeholder(__('All projects'))
+                            ->placeholder(__('filament.all_projects'))
                             ->live()
                             ->options(fn (Get $get): array => ModelListService::make(
                                 Project::query()

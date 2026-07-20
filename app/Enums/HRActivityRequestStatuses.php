@@ -18,7 +18,12 @@ enum HRActivityRequestStatuses: string implements HasColor, HasIcon, HasLabel
 
     public function getLabel(): string
     {
-        return $this->value;
+        return match ($this) {
+            self::Requested => __('enums.hr_activity_request_status.requested'),
+            self::InProgress => __('enums.hr_activity_request_status.in_progress'),
+            self::Completed => __('enums.hr_activity_request_status.completed'),
+            self::Cancelled => __('enums.hr_activity_request_status.cancelled'),
+        };
     }
 
     public function getColor(): string|array|null

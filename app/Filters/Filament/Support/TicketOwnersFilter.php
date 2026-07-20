@@ -11,7 +11,7 @@ class TicketOwnersFilter
     public static function make(): SelectFilter
     {
         return SelectFilter::make('owner_id')
-            ->label(__('Owner'))
+            ->label(__('filament.owner'))
             ->options(
                 Cache::rememberForever('ticket_owners_compact_list', function () {
                     return Ticket::query()

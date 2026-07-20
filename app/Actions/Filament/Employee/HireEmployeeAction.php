@@ -18,6 +18,7 @@ class HireEmployeeAction
             Action::make($name)
                 ->visible(fn (Employee $record) => $record->canBeHired())
                 ->color(Color::Green)
+                ->modalHeading(__('filament.hire_employee'))
                 ->schema([
                     Grid::make()
                         ->columns(2)
@@ -34,7 +35,7 @@ class HireEmployeeAction
 
                     Notification::make()
                         ->success()
-                        ->body("Employee {$record->full_name} has been hired")
+                        ->body(__('filament.employee_hired_body', ['name' => $record->full_name]))
                         ->send();
 
                     $parentActionName = $livewire->getMountedAction(0)?->getName();

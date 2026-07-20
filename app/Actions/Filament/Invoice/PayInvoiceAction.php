@@ -26,24 +26,24 @@ class PayInvoiceAction
                     ->columns(2)
                     ->schema([
                         TextInput::make('amount')
-                            ->label(__('Amount'))
+                            ->label(__('filament.amount'))
                             ->numeric()
                             ->required()
                             ->default(fn ($record) => $record->balance_pending)
                             ->maxValue(fn ($record) => $record->balance_pending)
-                            ->helperText(fn ($record) => __('Max: :amount', ['amount' => number_format($record->balance_pending, 2)])),
+                            ->helperText(fn ($record) => __('filament.max_amount', ['amount' => number_format($record->balance_pending, 2)])),
                         DatePicker::make('date')
-                            ->label(__('Date'))
+                            ->label(__('filament.date'))
                             ->default(now())
                             // ->minDate(fn ($record) => $record->date)
                             // ->maxDate(now())
                             ->required(),
                         Textarea::make('reference')
-                            ->label(__('Reference'))
+                            ->label(__('filament.reference'))
                             ->columnSpanFull()
                             ->maxLength(255),
                         FileUpload::make('images')
-                            ->label(__('Payment proof images'))
+                            ->label(__('filament.payment_proof_images'))
                             ->image()
                             ->multiple()
                             ->columnSpanFull()

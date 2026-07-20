@@ -11,6 +11,6 @@ class RecruitmentDashboard extends Dashboard
 
     public static function getNavigationLabel(): string
     {
-        return __('Dashboard');
+        return __('filament.dashboard');
     }
 }

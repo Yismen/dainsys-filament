@@ -95,20 +95,20 @@ class RoleResource extends Resource
                 Grid::make()
                     ->schema([
                         Select::make('permission_panel')
-                            ->label(__('Panel'))
+                            ->label(__('filament.panel'))
                             ->options(static::getPermissionPanelOptions())
                             ->searchable()
-                            ->placeholder(__('All panels'))
+                            ->placeholder(__('filament.all_panels'))
                             ->live()
                             ->reactive()
                             ->dehydrated(false),
 
                         Select::make('permission_assignment')
-                            ->label(__('Permission assignment'))
+                            ->label(__('filament.permission_assignment'))
                             ->options([
-                                'all' => __('All permissions'),
-                                'assigned' => __('Assigned'),
-                                'unassigned' => __('Unassigned'),
+                                'all' => __('filament.all_permissions'),
+                                'assigned' => __('filament.assigned'),
+                                'unassigned' => __('filament.unassigned'),
                             ])
                             ->default('all')
                             ->live()

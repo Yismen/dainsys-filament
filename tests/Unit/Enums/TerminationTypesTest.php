@@ -15,7 +15,7 @@ test('values method return specific values', function (): void {
 test('all method return associative array', function (): void {
     expect(TerminationTypes::toArray())->toEqual([
         'resignation' => 'Resignation',
-        'termination' => 'Termination',
+        'termination' => 'Termination (without cause)',
         'firing' => 'Firing',
         'abandonment' => 'Abandonment',
         'dismissing' => 'Dismissing',

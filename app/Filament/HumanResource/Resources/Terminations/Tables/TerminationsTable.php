@@ -39,6 +39,11 @@ class TerminationsTable
                     ->label(__('filament.date'))
                     ->dateTime()
                     ->sortable(),
+                TextColumn::make('termination_type')
+                    ->label(__('filament.termination_type'))
+                    ->sortable()
+                    ->formatStateUsing(fn (string $state): string => __('enums.termination.'.$state))
+                    ->searchable(),
                 TextColumn::make('comment')
                     ->label(__('filament.comment'))
                     ->limit(45)

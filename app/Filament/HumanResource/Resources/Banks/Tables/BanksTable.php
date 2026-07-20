@@ -32,7 +32,7 @@ class BanksTable
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('employees_count')
-                    ->label(__('Hired Employees'))
+                    ->label(__('filament.hired_employees'))
                     ->counts(['employees' => fn ($query) => $query->where('status', EmployeeStatuses::Hired->value)])
                     ->badge(),
                 TextColumn::make('phone')

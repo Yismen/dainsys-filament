@@ -39,7 +39,7 @@ class IncomeByProjectChart extends ChartWidget
                 $first = $rows->first();
 
                 return [
-                    'label' => $first?->project?->name ?? __('Unknown'),
+                    'label' => $first?->project?->name ?? __('filament.unknown'),
                     'invoiced' => round((float) $rows->sum('total_amount'), 2),
                     'paid' => round((float) $rows->sum('total_paid'), 2),
                 ];
@@ -52,13 +52,13 @@ class IncomeByProjectChart extends ChartWidget
             'labels' => $grouped->pluck('label')->toArray(),
             'datasets' => [
                 [
-                    'label' => __('Invoiced'),
+                    'label' => __('filament.invoiced'),
                     'data' => $grouped->pluck('invoiced')->toArray(),
                     'backgroundColor' => '#f59e0b',
                     'borderColor' => '#f59e0b',
                 ],
                 [
-                    'label' => __('Paid'),
+                    'label' => __('filament.paid'),
                     'data' => $grouped->pluck('paid')->toArray(),
                     'backgroundColor' => '#22c55e',
                     'borderColor' => '#22c55e',

@@ -12,30 +12,30 @@ class InvoiceCancellationInfolist
         return $schema
             ->components([
                 TextEntry::make('invoice.number')
-                    ->label(__('Invoice')),
+                    ->label(__('filament.invoice')),
                 TextEntry::make('cancelledBy.name')
-                    ->label(__('Cancelled by'))
+                    ->label(__('filament.cancelled_by'))
                     ->placeholder('-'),
                 TextEntry::make('date')
-                    ->label(__('Cancellation date'))
+                    ->label(__('filament.cancellation_date'))
                     ->date(),
                 TextEntry::make('reason')
-                    ->label(__('Reason'))
+                    ->label(__('filament.reason'))
                     ->columnSpanFull(),
                 TextEntry::make('notes')
-                    ->label(__('Notes'))
+                    ->label(__('filament.notes'))
                     ->placeholder('-')
                     ->columnSpanFull(),
                 TextEntry::make('deleted_at')
-                    ->label(__('Deleted at'))
+                    ->label(__('filament.deleted_at'))
                     ->dateTime()
                     ->placeholder('-'),
                 TextEntry::make('created_at')
-                    ->label(__('Created at'))
+                    ->label(__('filament.created_at'))
                     ->dateTime()
                     ->placeholder('-'),
                 TextEntry::make('updated_at')
-                    ->label(__('Updated at'))
+                    ->label(__('filament.updated_at'))
                     ->dateTime()
                     ->placeholder('-'),
             ]);

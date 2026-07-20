@@ -22,10 +22,11 @@ class ReplyToTicketAction
             })
             ->schema([
                 Textarea::make('content')
+                    ->label(__('filament.content'))
                     ->minLength(5)
                     ->required(),
             ])
-            ->successNotificationTitle(fn (Ticket $record) => "Ticket {$record->reference} has been replied!")
+            ->successNotificationTitle(fn (Ticket $record) => __('filament.ticket_replied_notification', ['reference' => $record->reference]))
             ->action(function (Ticket $record, array $data, $livewire): void {
                 $record->replies()->create([
                     'user_id' => Auth::id(),

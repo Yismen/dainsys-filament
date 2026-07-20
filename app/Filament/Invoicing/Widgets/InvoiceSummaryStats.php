@@ -25,14 +25,14 @@ class InvoiceSummaryStats extends StatsOverviewWidget
         $balancePending = (float) (clone $query)->sum('balance_pending');
 
         return [
-            Stat::make(__('Total amount invoiced'), Number::currency($totalInvoiced))
-                ->description(__('Sum of invoice totals'))
+            Stat::make(__('filament.total_amount_invoiced'), Number::currency($totalInvoiced))
+                ->description(__('filament.sum_invoice_totals'))
                 ->color('primary'),
-            Stat::make(__('Total amount paid'), Number::currency($totalPaid))
-                ->description(__('Sum of paid totals'))
+            Stat::make(__('filament.total_amount_paid'), Number::currency($totalPaid))
+                ->description(__('filament.sum_paid_totals'))
                 ->color('success'),
-            Stat::make(__('Balance pending'), Number::currency($balancePending))
-                ->description(__('Outstanding balance'))
+            Stat::make(__('filament.balance_pending'), Number::currency($balancePending))
+                ->description(__('filament.outstanding_balance'))
                 ->color($balancePending > 0 ? 'danger' : 'success'),
         ];
     }

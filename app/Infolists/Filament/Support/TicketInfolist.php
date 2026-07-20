@@ -21,9 +21,9 @@ class TicketInfolist
             TextEntry::make('priority')
                 ->badge(),
             TextEntry::make('owner.name')
-                ->label(__('Created by')),
+                ->label(__('filament.created_by')),
             TextEntry::make('created_at')
-                ->label(__('Created at'))
+                ->label(__('filament.created_at'))
                 ->dateTime(),
             TextEntry::make('subject')
                 ->label(__('filament.subject')),

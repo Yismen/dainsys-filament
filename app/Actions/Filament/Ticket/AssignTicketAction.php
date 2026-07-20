@@ -24,9 +24,10 @@ class AssignTicketAction
             ->icon(Heroicon::OutlinedHandThumbUp)
             ->size('sm')
             ->color(Color::Indigo)
-            ->successNotificationTitle('Ticket has been assigned!')
+            ->successNotificationTitle(__('filament.ticket_assigned_notification'))
             ->schema([
                 Select::make('user_id')
+                    ->label(__('filament.agent'))
                     ->searchable()
                     ->required()
                     ->options(
