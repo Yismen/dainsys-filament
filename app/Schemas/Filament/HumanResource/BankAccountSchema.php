@@ -17,6 +17,7 @@ class BankAccountSchema
     {
         return [
             Select::make('employee_id')
+                ->label(__('filament.employee'))
                 ->options(
                     ModelListService::make(
                         model: Employee::query(),
@@ -27,6 +28,7 @@ class BankAccountSchema
                 ->searchable()
                 ->required(),
             Select::make('bank_id')
+                ->label(__('filament.bank'))
                 ->relationship('bank', 'name')
                 ->options(
                     ModelListService::make(Bank::query())
@@ -36,21 +38,27 @@ class BankAccountSchema
                     Grid::make(2)
                         ->schema([
                             TextInput::make('name')
+                                ->label(__('filament.name'))
                                 ->required()
                                 ->maxLength(255)
                                 ->unique(ignoreRecord: true, table: (new Bank)->getTable())
                                 ->autofocus(),
-                            TextInput::make('person_of_contact'),
+                            TextInput::make('person_of_contact')
+                                ->label(__('filament.person_of_contact')),
                             TextInput::make('phone')
+                                ->label(__('filament.phone'))
                                 ->tel(),
                             TextInput::make('email')
+                                ->label(__('filament.email'))
                                 ->email(),
                             Textarea::make('description')
+                                ->label(__('filament.description'))
                                 ->columnSpanFull(),
                         ]),
                 ])
                 ->required(),
             TextInput::make('account')
+                ->label(__('filament.account_number'))
                 ->required()
                 ->minLength(5)
                 ->maxLength(50)
