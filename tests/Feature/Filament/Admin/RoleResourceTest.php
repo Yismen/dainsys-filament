@@ -75,5 +75,5 @@ it('shows permission filters on the role edit page', function (): void {
 
     livewire(EditRole::class, ['record' => $role->getKey()])
         ->assertSee('Panel')
-        ->assertSee('Permission assignment');
+        ->assertSee('Permission Assignment');
 });
